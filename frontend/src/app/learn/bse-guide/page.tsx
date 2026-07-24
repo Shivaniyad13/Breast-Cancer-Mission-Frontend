@@ -221,6 +221,29 @@ export default function BSEGuidePage() {
 
           {/* RIGHT: Active Step Content */}
           <div className="md:col-span-2 space-y-6">
+            
+            {/* BSE Walkthrough Video Tutorial */}
+            <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-lg rounded-3xl overflow-hidden">
+              <CardHeader className="p-5 pb-2">
+                <CardTitle className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <Play className="h-4 w-4 text-primary fill-primary" /> BSE Video Guide
+                </CardTitle>
+                <CardDescription className="text-xs font-semibold text-slate-500">
+                  Watch this comprehensive video guide to learn proper Breast Self-Examination techniques.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-5 pt-0">
+                <div className="rounded-2xl overflow-hidden shadow-inner border border-slate-100 bg-slate-950 aspect-video w-full">
+                  <video
+                    src="/euhbbZb3sNXxgOi6g2MF+42G6uUncFHU.mp4"
+                    controls
+                    playsInline
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
             <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-xl rounded-3xl overflow-hidden min-h-[400px] flex flex-col justify-between">
               
               {/* Card Header */}
