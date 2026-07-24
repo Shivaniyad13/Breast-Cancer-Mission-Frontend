@@ -1383,7 +1383,7 @@ export default function EducationClient() {
               </Button>
             </Link>
             <Link href="/campaigns/breast-cancer">
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-pink-600 font-bold px-6 py-2.5 h-auto text-xs sm:text-sm rounded-full active:scale-95 transition-all">
+              <Button variant="outline" className="border-white text-pink-600 hover:bg-white hover:text-pink-600 font-bold px-6 py-2.5 h-auto text-xs sm:text-sm rounded-full active:scale-95 transition-all">
                 Join Awareness Campaign
               </Button>
             </Link>

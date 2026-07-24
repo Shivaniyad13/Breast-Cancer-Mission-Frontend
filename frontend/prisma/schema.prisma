@@ -1,0 +1,519 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                   String                @id @default(uuid())
+  name                 String?
+  email                String?               @unique
+  emailVerified        DateTime?
+  image                String?
+  passwordHash         String?
+  role                 Role                  @default(VOLUNTEER)
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  accounts             Account[]
+  attendance           Attendance[]
+  campaigns            Campaign[]
+  certificates         Certificate[]
+  donations            Donation[]
+  profile              Profile?
+  sessions             Session[]
+  webinarRegistrations WebinarRegistration[]
+}
+
+model Profile {
+  id                    String             @id @default(uuid())
+  userId                String             @unique
+  phoneNumber           String?
+  avatarUrl             String?
+  verificationStatus    VerificationStatus @default(UNVERIFIED)
+  rejectionReason       String?
+  medicalLicenseNumber  String?
+  hospitalAffiliation   String?
+  specialty             String?
+  ngoRegistrationNumber String?
+  taxExemptionStatus80G Boolean            @default(false)
+  websiteUrl            String?
+  nationalIdNumber      String?
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  documents             Document[]
+  user                  User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                String   @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Campaign {
+  id                  String         @id @default(uuid())
+  patientId           String
+  title               String
+  slug                String         @unique
+  description         String
+  medicalSummary      String
+  fundingGoal         Decimal        @db.Decimal(12, 2)
+  amountRaised        Decimal        @default(0) @db.Decimal(12, 2)
+  status              CampaignStatus @default(DRAFT)
+  ngoEndorserId       String?
+  hospitalName        String
+  hospitalBankAccount String
+  hospitalBankIFSC    String
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  patient             User           @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  documents           Document[]
+  donations           Donation[]
+  payouts             Payout[]
+}
+
+model Document {
+  id           String       @id @default(uuid())
+  campaignId   String?
+  profileId    String?
+  documentType DocumentType
+  fileUrl      String
+  isSecure     Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  campaign     Campaign?    @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  profile      Profile?     @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Donation {
+  id               String         @id @default(uuid())
+  campaignId       String
+  donorId          String?
+  amount           Decimal        @db.Decimal(12, 2)
+  currency         String         @default("INR")
+  paymentGatewayId String         @unique
+  status           DonationStatus @default(PENDING)
+  isAnonymous      Boolean        @default(false)
+  createdAt        DateTime       @default(now())
+  campaign         Campaign       @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  donor            User?          @relation(fields: [donorId], references: [id])
+}
+
+model Payout {
+  id                   String       @id @default(uuid())
+  campaignId           String
+  amountRequested      Decimal      @db.Decimal(12, 2)
+  hospitalInvoiceUrl   String
+  status               PayoutStatus @default(PENDING)
+  transactionReference String?
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+  campaign             Campaign     @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+}
+
+model Certificate {
+  id                  String                    @id @default(uuid())
+  recipientId         String
+  certificateType     CertificateType
+  eventName           String
+  certificateIdString String                    @unique
+  pdfStorageUrl       String
+  verificationHash    String                    @unique
+  createdAt           DateTime                  @default(now())
+  webinarId           String?
+  userName            String?
+  speakerName         String?
+  date                DateTime?
+  digitalSignature    String?
+  verificationUrl     String?
+  recipient           User                      @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+  webinar             Webinar?                  @relation(fields: [webinarId], references: [id], onDelete: Cascade)
+  verifications       CertificateVerification[]
+}
+
+model Webinar {
+  id                    String                @id @default(uuid())
+  title                 String
+  description           String
+  fullContent           String
+  bannerImage           String?
+  speakerName           String
+  speakerImage          String?
+  speakerBio            String?
+  speakerQualification  String?
+  speakerSpecialization String?
+  speakerHospital       String?
+  date                  DateTime
+  startTime             DateTime
+  endTime               DateTime
+  venue                 String?
+  city                  String?
+  state                 String?
+  country               String?
+  webinarMode           String
+  meetingLink           String
+  maxSeats              Int
+  category              String
+  status                String                @default("DRAFT")
+  recordingUrl          String?
+  materialsUrl          String?
+  objectives            String?
+  agenda                String?
+  faqs                  Json?
+  organizerDetails      String?
+  language              String?               @default("English")
+  meetingPlatform       String?               @default("Zoom")
+  learningOutcomes      String?
+  eligibility           String?
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  attendance            Attendance[]
+  certificates          Certificate[]
+  registrations         WebinarRegistration[]
+}
+
+model WebinarRegistration {
+  id               String   @id @default(uuid())
+  userId           String
+  webinarId        String
+  registeredAt     DateTime @default(now())
+  feedback         String?
+  rating           Int?
+  age              Int      @default(0)
+  city             String   @default("")
+  email            String   @default("")
+  emergencyContact String   @default("")
+  gender           String   @default("")
+  name             String   @default("")
+  occupation       String   @default("")
+  phone            String   @default("")
+  reason           String   @default("")
+  state            String   @default("")
+  status           String   @default("Registered")
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  webinar          Webinar  @relation(fields: [webinarId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, webinarId])
+}
+
+model Attendance {
+  id                   String    @id @default(uuid())
+  userId               String
+  webinarId            String
+  joinTime             DateTime?
+  leaveTime            DateTime?
+  durationMinutes      Float     @default(0)
+  attendancePercentage Float     @default(0)
+  status               String    @default("ABSENT")
+  certificateEligible  Boolean   @default(false)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  webinar              Webinar   @relation(fields: [webinarId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, webinarId])
+}
+
+model CertificateVerification {
+  id              String      @id @default(uuid())
+  certificateId   String
+  verificationUrl String
+  verifiedAt      DateTime    @default(now())
+  ipAddress       String?
+  userAgent       String?
+  status          String
+  certificate     Certificate @relation(fields: [certificateId], references: [id], onDelete: Cascade)
+
+  @@index([certificateId])
+}
+
+enum Role {
+  ADMIN
+  NGO_REP
+  DOCTOR
+  PATIENT
+  VOLUNTEER
+  DONOR
+  ORGANIZATION_MEMBER
+  CORPORATE_PARTNER
+}
+
+enum VerificationStatus {
+  UNVERIFIED
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum CampaignStatus {
+  DRAFT
+  PENDING_NGO
+  PENDING_ADMIN
+  ACTIVE
+  COMPLETED
+  SUSPENDED
+}
+
+enum DocumentType {
+  MEDICAL_BILL
+  DIAGNOSIS_REPORT
+  IDENTITY_PROOF
+  NGO_LICENSE
+  DOCTOR_CREDENTIAL
+}
+
+enum DonationStatus {
+  PENDING
+  SUCCESSFUL
+  FAILED
+  REFUNDED
+}
+
+enum PayoutStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  DISBURSED
+}
+
+enum CertificateType {
+  WEBINAR_ATTENDANCE
+  QUIZ_EXCELLENCE
+  VOLUNTEER_CAMPAIGN
+}
+
+model OrganizationMember {
+  id                     String             @id @default(uuid())
+  organizationName       String
+  organizationType       String
+  ngoRegistrationNumber  String
+  yearEstablished        Int
+  contactPersonName      String
+  designation            String
+  email                  String
+  mobileNumber           String
+  website                String?
+  completeAddress        String
+  state                  String
+  district               String
+  city                   String
+  pincode                String
+  numberOfVolunteers     Int
+  areasOfWork            String
+  previousExperience     String
+  expectedCollaboration  String
+  ngoCertificateUrl      String
+  organizationLogoUrl    String
+  supportingDocumentsUrl String
+  isDeclared             Boolean            @default(false)
+  status                 VerificationStatus @default(PENDING)
+  remarks                String?
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+}
+
+model CorporatePartner {
+  id                     String             @id @default(uuid())
+  companyName            String
+  industry               String
+  gstNumber              String
+  cinNumber              String?
+  contactPersonName      String
+  designation            String
+  email                  String
+  mobileNumber           String
+  website                String?
+  companyAddress         String
+  state                  String
+  city                   String
+  pincode                String
+  employeeStrength       Int
+  csrBudgetCategory      String
+  collaborationInterest  String
+  companyLogoUrl         String
+  csrPolicyUrl           String?
+  supportingDocumentsUrl String
+  isDeclared             Boolean            @default(false)
+  status                 VerificationStatus @default(PENDING)
+  remarks                String?
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+}
+
+model SuccessStory {
+  id                String             @id @default(uuid())
+  fullName          String
+  email             String
+  mobileNumber      String
+  city              String
+  state             String
+  age               Int?
+  roleType          String             // "Patient" or "Family Member"
+  storyTitle        String
+  completeStory     String
+  videoUrl          String?
+  imageUrls         String[]
+  treatmentHospital String?
+  consent           Boolean            @default(false)
+  status            VerificationStatus @default(PENDING)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+model HomePageUpdate {
+  id               String    @id @default(uuid())
+  category         String    // "Webinar", "Campaign", "News", "Event", "Announcement", "Tip", "Research"
+  imageUrl         String?
+  title            String
+  shortDescription String
+  detailedContent  String?
+  eventDate        DateTime?
+  destinationLink  String?
+  orderIndex       Int       @default(0)
+  isActive         Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model SponsorBanner {
+  id              String    @id @default(uuid())
+  logoUrl         String?
+  imageUrl        String?
+  title           String
+  description     String
+  destinationLink String?
+  orderIndex      Int       @default(0)
+  isActive        Boolean   @default(true)
+  startDate       DateTime?
+  endDate         DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model CelebrityTestimonial {
+  id           String   @id @default(uuid())
+  videoUrl     String
+  thumbnailUrl String?
+  name         String
+  profession   String
+  duration     String?
+  quote        String
+  description  String?
+  orderIndex   Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model LiveUpdate {
+  id               String    @id @default(uuid())
+  category         String    // "Webinar", "Campaign", "News", "Event", "Research"
+  imageUrl         String?
+  title            String
+  shortDescription String
+  fullDescription  String?
+  eventDate        DateTime?
+  eventTime        String?
+  venue            String?
+  speakerName      String?
+  registrationLink String?
+  externalLink     String?
+  isFeatured       Boolean   @default(false)
+  isActive         Boolean   @default(true)
+  publishDate      DateTime?
+  expiryDate       DateTime?
+  orderIndex       Int       @default(0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model DiagnosisTechnology {
+  id                         String   @id @default(uuid())
+  name                       String
+  category                   String
+  shortOverview              String
+  accuracy                   String?
+  purpose                    String
+  advantages                 String   // Stores newline-separated or comma-separated benefits
+  limitations                String   // Stores newline-separated or comma-separated limitations
+  recommendedGroup           String
+  imageUrl                   String?
+  introVideoUrl              String?
+  animationVideoUrl          String?
+  explainerVideoUrl          String?
+  workflow                   String?
+  stepByStep                 String?
+  preparation                String?
+  duration                   String?
+  benefits                   String?
+  risks                      String?
+  whoShouldTake              String?
+  faqs                       Json?    // [{ q: string, a: string }]
+  relatedArticles            Json?    // [{ title: string, link: string }]
+  brochureUrl                String?
+  manufacturerName           String
+  manufacturerLogoUrl        String?
+  manufacturerOverview       String?
+  manufacturerWebsite        String?
+  manufacturerCountry        String?
+  manufacturerSpecialization String?
+  collaborationStatus        String?  // e.g. "Active", "In Discussion", "None"
+  isActive                   Boolean  @default(true)
+  orderIndex                 Int      @default(0)
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+}
+
+model CollaborationRequest {
+  id                String   @id @default(uuid())
+  organizationName  String
+  companyName       String
+  contactPerson     String
+  designation       String
+  email             String
+  phone             String
+  country           String
+  website           String?
+  technologyName    String
+  collaborationType String
+  description       String
+  brochureUrl       String?
+  companyProfileUrl String?
+  consent           Boolean  @default(false)
+  status            String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}

@@ -33,7 +33,8 @@ import {
   FileText,
   Medal,
   Crown,
-  Gem
+  Gem,
+  Sprout
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -74,7 +75,7 @@ export default function DonatePage() {
   // States
   // ----------------------------------------------------
   const [giveOnce, setGiveOnce] = useState<boolean>(true);
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(2500);
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(5000);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [donorName, setDonorName] = useState<string>("");
   const [donorEmail, setDonorEmail] = useState<string>("");
@@ -101,126 +102,99 @@ export default function DonatePage() {
 
   const donationTiers = [
     {
-      amount: 500,
-      name: "Silver Supporter",
-      impact: "Awareness Kit for 1 Family",
-      icon: Medal,
-      bgClass: "from-slate-100/50 via-slate-50/30 to-slate-200/40 backdrop-blur-md",
-      borderClass: "border-slate-200 hover:border-slate-400 hover:shadow-slate-200/50",
-      iconColor: "text-slate-400 group-hover:text-slate-500",
-    },
-    {
       amount: 1000,
-      name: "Gold Supporter",
-      impact: "Breast Screening Support",
-      icon: Award,
-      bgClass: "from-amber-50/50 via-yellow-50/20 to-amber-100/30 backdrop-blur-md",
-      borderClass: "border-amber-100 hover:border-amber-400/60 hover:shadow-amber-100/80",
-      iconColor: "text-amber-500 group-hover:text-amber-600",
+      name: "Bronze",
+      emoji: "🥉",
+      icon: Medal,
+      selectedBg: "bg-orange-50/40 border-orange-500 text-orange-950",
+      borderClass: "border-slate-200 hover:border-slate-350 hover:shadow-sm",
+      iconColor: "text-orange-500"
     },
     {
-      amount: 2500,
-      name: "Premium Supporter",
-      impact: "Early Diagnosis Assistance",
-      icon: Sparkles,
-      bgClass: "from-rose-50/50 via-pink-50/20 to-rose-100/30 backdrop-blur-md",
-      borderClass: "border-rose-200 hover:border-rose-400/60 hover:shadow-rose-100/80",
-      iconColor: "text-pink-500 group-hover:text-pink-600",
+      amount: 2000,
+      name: "Silver",
+      emoji: "🥈",
+      icon: Medal,
+      selectedBg: "bg-slate-55/35 border-slate-500 text-slate-950",
+      borderClass: "border-slate-200 hover:border-slate-350 hover:shadow-sm",
+      iconColor: "text-slate-400"
     },
     {
       amount: 5000,
-      name: "Platinum Supporter",
-      impact: "Diagnostic Test Sponsorship",
-      icon: Crown,
-      bgClass: "from-zinc-100/50 via-slate-50/30 to-zinc-200/30 backdrop-blur-md",
-      borderClass: "border-zinc-200 hover:border-zinc-400 hover:shadow-zinc-150/80",
-      iconColor: "text-zinc-500 group-hover:text-zinc-600",
+      name: "Gold",
+      emoji: "🥇",
+      icon: Award,
+      selectedBg: "bg-amber-50/50 border-amber-500 text-amber-950",
+      borderClass: "border-slate-200 hover:border-slate-350 hover:shadow-sm",
+      iconColor: "text-amber-500"
     },
     {
       amount: 10000,
-      name: "Diamond Supporter",
-      impact: "Treatment Support for One Patient",
+      name: "Diamond",
+      emoji: "💎",
       icon: Gem,
-      bgClass: "from-cyan-50/50 via-blue-50/20 to-cyan-100/30 backdrop-blur-md",
-      borderClass: "border-cyan-100 hover:border-cyan-400/60 hover:shadow-cyan-100/80",
-      iconColor: "text-cyan-500 group-hover:text-cyan-600",
+      selectedBg: "bg-cyan-50/40 border-cyan-500 text-cyan-950",
+      borderClass: "border-slate-200 hover:border-slate-350 hover:shadow-sm",
+      iconColor: "text-cyan-500"
+    },
+    {
+      amount: 10000, // sentinel base
+      name: "More+",
+      emoji: "➕",
+      icon: Plus,
+      selectedBg: "bg-pink-50/40 border-pink-500 text-pink-950",
+      borderClass: "border-slate-200 hover:border-slate-350 hover:shadow-sm",
+      iconColor: "text-pink-500",
+      isPlatinum: true
     }
   ];
 
   const getActiveImpact = () => {
     const amt = selectedAmount || parseFloat(customAmount) || 0;
-    if (amt === 500) {
+    if (amt === 1000) {
       return {
-        title: "Awareness Kit for 1 Family",
-        desc: "Provides comprehensive breast cancer awareness materials and early-detection guidance booklets for one underprivileged rural family.",
+        title: "Bronze Supporter",
+        desc: "Provides crucial funds to organize local breast cancer awareness campaigns, educating women about early detection and symptoms.",
+        icon: Medal,
+        color: "text-orange-700 bg-orange-50 border border-orange-100",
+      };
+    } else if (amt === 2000) {
+      return {
+        title: "Silver Supporter",
+        desc: "Sponsors complete breast cancer self-exam guidance booklets, awareness kits, and educational resources for families.",
         icon: Medal,
         color: "text-slate-700 bg-slate-100/50 border border-slate-200/60",
       };
-    } else if (amt === 1000) {
+    } else if (amt === 5000) {
       return {
-        title: "Breast Screening Support",
-        desc: "Funds a clinical breast examination and primary screening referral for a woman at a community outreach camp.",
+        title: "Gold Supporter",
+        desc: "Sponsors professional breast screenings, mammograms, and clinical consultations to catch signs early.",
         icon: Award,
         color: "text-amber-700 bg-amber-50 border border-amber-100",
       };
-    } else if (amt === 2500) {
+    } else if (amt === 10000 && selectedAmount !== null) {
       return {
-        title: "Early Diagnosis Assistance",
-        desc: "Covers crucial diagnostics, pathology labs, and initial oncologist consulting fees for symptomatic patients.",
-        icon: Sparkles,
-        color: "text-pink-600 bg-pink-50 border border-pink-100",
-      };
-    } else if (amt === 5000) {
-      return {
-        title: "Diagnostic Test Sponsorship",
-        desc: "Sponsors advanced diagnostic tests, 3D mammograms, and specialist reviews for early confirmation.",
-        icon: Crown,
-        color: "text-zinc-700 bg-zinc-100/70 border border-zinc-200/60",
-      };
-    } else if (amt === 10000) {
-      return {
-        title: "Treatment Support for One Patient",
-        desc: "Directly funds chemotherapy sessions, surgical oncology support, and medicine packages to prevent treatment dropout.",
+        title: "Diamond Supporter",
+        desc: "Contributes directly to oncology treatments, surgical diagnostics, and essential chemotherapy packages for patients.",
         icon: Gem,
         color: "text-cyan-700 bg-cyan-50 border border-cyan-100",
       };
+    } else if (amt > 10000 || selectedAmount === null) {
+      return {
+        title: "Custom Support (More+)",
+        desc: amt >= 10001 
+          ? `Your custom donation of ₹${amt.toLocaleString()} provides elite funding for advanced cancer care, patient surgical treatment, and outreach programs.`
+          : "Please specify your custom donation amount above ₹10,000.",
+        icon: Plus,
+        color: "text-pink-705 bg-pink-50 border border-pink-100",
+      };
     } else if (amt > 0) {
-      if (amt >= 10000) {
-        return {
-          title: "Treatment Support for Patients",
-          desc: `Your custom donation of ₹${amt.toLocaleString()} provides critical chemotherapy, surgery support, and treatment packages.`,
-          icon: Gem,
-          color: "text-cyan-700 bg-cyan-50 border border-cyan-100",
-        };
-      } else if (amt >= 5000) {
-        return {
-          title: "Diagnostic Test Sponsorship",
-          desc: `Your custom donation of ₹${amt.toLocaleString()} funds diagnostic screening panels and primary oncologist consulting.`,
-          icon: Crown,
-          color: "text-zinc-700 bg-zinc-100/70 border border-zinc-200/60",
-        };
-      } else if (amt >= 2500) {
-        return {
-          title: "Early Diagnosis Assistance",
-          desc: `Your custom donation of ₹${amt.toLocaleString()} will fund critical oncologist consults and preliminary cancer screenings.`,
-          icon: Sparkles,
-          color: "text-pink-600 bg-pink-50 border border-pink-100",
-        };
-      } else if (amt >= 1000) {
-        return {
-          title: "Breast Screening Support",
-          desc: `Your custom donation of ₹${amt.toLocaleString()} sponsors mammograms and clinical exams for rural community camps.`,
-          icon: Award,
-          color: "text-amber-700 bg-amber-50 border border-amber-100",
-        };
-      } else {
-        return {
-          title: "Awareness & Education Outreach",
-          desc: `Your custom donation of ₹${amt.toLocaleString()} helps distribute early-detection booklets to rural and remote areas.`,
-          icon: Medal,
-          color: "text-slate-700 bg-slate-100/50 border border-slate-200/60",
-        };
-      }
+      return {
+        title: "Awareness & Education Outreach",
+        desc: `Your custom donation of ₹${amt.toLocaleString()} helps distribute early-detection booklets to rural and remote areas.`,
+        icon: Heart,
+        color: "text-slate-700 bg-slate-100/50 border border-slate-200/60",
+      };
     }
     return null;
   };
@@ -421,6 +395,15 @@ export default function DonatePage() {
   // ----------------------------------------------------
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (selectedAmount === null) {
+      const amt = parseFloat(customAmount);
+      if (isNaN(amt) || amt <= 10000) {
+        alert("Custom donation amount must be greater than ₹10,000.");
+        return;
+      }
+    }
+
     const finalAmount = selectedAmount || parseFloat(customAmount);
     if (!finalAmount || finalAmount <= 0) {
       alert("Please select or enter a valid donation amount.");
@@ -847,10 +830,68 @@ export default function DonatePage() {
       <section ref={formRef} className="py-20 bg-gradient-to-b from-white to-pink-50/20 relative">
         <div className="container mx-auto px-4 max-w-6xl">
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
+            <span className="text-pink-600 font-bold text-xs uppercase tracking-widest bg-pink-50/80 px-4 py-1.5 rounded-full border border-pink-100 inline-block shadow-sm">
+              🌱 Impact Tiers
+            </span>
+            <h2 className="text-3xl md:text-5xl font-black font-heading text-slate-800 tracking-tight">
+              Select Your Donation Tier
+            </h2>
+            <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-medium">
+              Every single donation supports mobile screening camps, free mammograms, medical expert support, patient surgery assistance, and hope for underprivileged families.
+            </p>
+          </div>
+
+          {/* Simplified Donation Tier Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-16 items-stretch">
+            {donationTiers.map((tier) => {
+              const isPlatinum = tier.isPlatinum === true;
+              const isSelected = isPlatinum 
+                ? selectedAmount === null 
+                : selectedAmount === tier.amount;
+              const displayAmt = isPlatinum ? "Custom Amount" : `₹${tier.amount.toLocaleString()}`;
+
+              return (
+                <button
+                  key={tier.name}
+                  type="button"
+                  onClick={() => {
+                    if (isPlatinum) {
+                      setSelectedAmount(null);
+                      const val = parseFloat(customAmount);
+                      if (isNaN(val) || val <= 10000) {
+                        setCustomAmount("15000");
+                      }
+                    } else {
+                      setSelectedAmount(tier.amount);
+                      setCustomAmount("");
+                    }
+                  }}
+                  className={`relative p-6 rounded-[20px] border text-center flex flex-col justify-center items-center gap-3.5 h-full min-h-[145px] cursor-pointer transition-all duration-250 ${
+                    isSelected
+                      ? `${tier.selectedBg} border-2 shadow-sm`
+                      : "bg-white border-slate-200 text-slate-800 hover:border-slate-350 hover:shadow-sm"
+                  }`}
+                >
+                  <div className="flex flex-col items-center gap-1.5">
+                    <span className="text-2xl leading-none">{tier.emoji}</span>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                      {tier.name}
+                    </span>
+                  </div>
+                  <span className="text-xl sm:text-2xl font-black text-slate-800 leading-none">
+                    {displayAmt}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
 
             {/* Left Column: Image with emotional quote */}
-            <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-6 sticky top-24">
               <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-2xl aspect-4/5">
                 <img
                   src="/images/support_group.png"
@@ -868,130 +909,51 @@ export default function DonatePage() {
                   </p>
                 </div>
               </div>
-
-              {/* Verified campaign stats
-              <div className="p-5 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-between">
-                <div>
-                  <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Total Funds Raised</p>
-                  <p className="text-2xl font-black text-slate-800 tracking-tight mt-0.5">
-                    ₹{animatedTotalRaised.toLocaleString()}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Verified Donors</p>
-                  <p className="text-2xl font-black text-pink-600 tracking-tight mt-0.5">
-                    {donorCount.toLocaleString()}
-                  </p>
-                </div>
-            </div> */}
             </div>
 
-              {/* Right Column: Premium Glassmorphism Donation Form */}
-              <div className="lg:col-span-7">
-                <div className="bg-white/80 backdrop-blur-xl border border-pink-100/50 rounded-3xl shadow-2xl p-6 sm:p-8 space-y-6">
+            {/* Right Column: Premium Glassmorphism Donation Form */}
+            <div className="lg:col-span-7">
+              <div className="bg-white/80 backdrop-blur-xl border border-pink-100/50 rounded-3xl shadow-2xl p-6 sm:p-8 space-y-6">
 
-                  {/* Header info */}
-                  <div className="flex justify-between items-center pb-4 border-b border-slate-100">
-                    <div className="space-y-1">
-                      <h3 className="text-xl font-extrabold text-slate-800 font-heading">Empower A Patient Today</h3>
-                      <p className="text-xs text-slate-500">100% secure, transparent hospital payout.</p>
-                    </div>
-                    <span className="flex items-center gap-1 text-[10px] font-bold bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-md border border-emerald-100">
-                      <ShieldCheck className="h-4 w-4" /> SECURE DONATION
-                    </span>
+                {/* Header info */}
+                <div className="flex justify-between items-center pb-4 border-b border-slate-100">
+                  <div className="space-y-1">
+                    <h3 className="text-xl font-extrabold text-slate-800 font-heading">Complete Your Donation</h3>
+                    <p className="text-xs text-slate-500">100% secure, transparent hospital payout.</p>
                   </div>
+                  <span className="flex items-center gap-1 text-[10px] font-bold bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-md border border-emerald-100">
+                    <ShieldCheck className="h-4 w-4" /> SECURE DONATION
+                  </span>
+                </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5">
 
-                    {/* Frequency Toggle */}
-                    <div className="space-y-2">
-                      <Label className="text-xs font-bold text-slate-600 uppercase tracking-wider block">Donation Type</Label>
-                      <div className="grid grid-cols-2 p-1 bg-slate-100 rounded-xl">
-                        <button
-                          type="button"
-                          onClick={() => setGiveOnce(true)}
-                          className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${giveOnce
-                            ? "bg-white text-pink-600 shadow-sm"
-                            : "text-slate-500 hover:text-slate-800"
-                            }`}
-                        >
-                          Give Once
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setGiveOnce(false)}
-                          className={`py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer ${!giveOnce
-                            ? "bg-white text-pink-600 shadow-sm"
-                            : "text-slate-500 hover:text-slate-800"
-                            }`}
-                        >
-                          <Heart className="h-3 w-3 fill-pink-600 text-pink-600" />
-                          Monthly Support
-                        </button>
-                      </div>
+                  {/* Frequency Toggle */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold text-slate-600 uppercase tracking-wider block">Donation Type</Label>
+                    <div className="grid grid-cols-2 p-1 bg-slate-100 rounded-xl">
+                      <button
+                        type="button"
+                        onClick={() => setGiveOnce(true)}
+                        className={`py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${giveOnce
+                          ? "bg-white text-pink-600 shadow-sm"
+                          : "text-slate-500 hover:text-slate-800"
+                          }`}
+                      >
+                        Give Once
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setGiveOnce(false)}
+                        className={`py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1 cursor-pointer ${!giveOnce
+                          ? "bg-white text-pink-600 shadow-sm"
+                          : "text-slate-500 hover:text-slate-800"
+                          }`}
+                      >
+                        <Heart className="h-3 w-3 fill-pink-600 text-pink-600" />
+                        Monthly Support
+                      </button>
                     </div>
-
-                    {/* Amount Selection Cards */}
-                    <div className="space-y-3">
-                      <Label className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
-                        Select Donation Tier
-                      </Label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                        {donationTiers.map((tier) => {
-                          const isSelected = selectedAmount === tier.amount;
-                          const IconComponent = tier.icon;
-                          return (
-                            <motion.button
-                              key={tier.amount}
-                              type="button"
-                              onClick={() => {
-                                setSelectedAmount(tier.amount);
-                                setCustomAmount("");
-                              }}
-                              whileHover={{ y: -4, scale: isSelected ? 1.03 : 1.01 }}
-                              whileTap={{ scale: 0.98 }}
-                              className={`relative p-5 rounded-2xl border text-left flex flex-col justify-between h-full min-h-[170px] cursor-pointer group transition-all duration-300 ${isSelected
-                                ? "bg-gradient-to-br from-pink-500 via-pink-600 to-rose-600 text-white border-pink-400 shadow-xl shadow-pink-500/25 ring-2 ring-pink-500/40 ring-offset-2"
-                                : `bg-gradient-to-br ${tier.bgClass} text-slate-800 ${tier.borderClass}`
-                                }`}
-                            >
-                              {/* Check indicator */}
-                              {isSelected && (
-                                <motion.div
-                                  initial={{ scale: 0, opacity: 0 }}
-                                  animate={{ scale: 1, opacity: 1 }}
-                                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                  className="absolute top-3 right-3 bg-white text-pink-600 rounded-full p-1 shadow-md border border-pink-100 flex items-center justify-center"
-                                >
-                                  <Check className="h-3 w-3 stroke-[3]" />
-                                </motion.div>
-                              )}
-
-                              <div className="space-y-3 w-full">
-                                <div className={`p-2.5 rounded-xl w-fit ${isSelected ? "bg-white/20 text-white" : `bg-white shadow-sm border border-slate-100 ${tier.iconColor}`
-                                  }`}>
-                                  <IconComponent className="h-5.5 w-5.5 transition-transform duration-300 group-hover:scale-110" />
-                                </div>
-                                <div className="space-y-0.5">
-                                  <p className={`text-[10px] font-black uppercase tracking-widest transition-colors ${isSelected ? "text-pink-100" : "text-slate-400 group-hover:text-slate-500"
-                                    }`}>
-                                    {tier.name}
-                                  </p>
-                                  <p className={`text-xl sm:text-2xl font-black font-heading tracking-tight ${isSelected ? "text-white" : "text-slate-800"
-                                    }`}>
-                                    ₹{tier.amount.toLocaleString()}
-                                  </p>
-                                </div>
-                              </div>
-
-                              <p className={`text-[11px] leading-snug font-medium mt-3 ${isSelected ? "text-pink-50" : "text-slate-500 group-hover:text-slate-600"
-                                }`}>
-                                {tier.impact}
-                              </p>
-                            </motion.button>
-                          );
-                        })}
-                      </div>
                     </div>
 
                     {/* Dynamic Impact Statement Section */}
@@ -1025,27 +987,40 @@ export default function DonatePage() {
                       </AnimatePresence>
                     </div>
 
-                    {/* Custom Amount Input */}
-                    <div className="space-y-1.5">
-                      <Label htmlFor="custom-amt" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
-                        Or Enter Custom Amount (₹)
-                      </Label>
-                      <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">₹</span>
-                        <Input
-                          id="custom-amt"
-                          type="number"
-                          placeholder="Enter other amount"
-                          value={customAmount}
-                          onChange={(e) => {
-                            setCustomAmount(e.target.value);
-                            setSelectedAmount(null);
-                          }}
-                          className="pl-8 py-6 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-semibold"
-                        />
-                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">INR</span>
-                      </div>
-                    </div>
+                    {/* Custom Amount Input - Revealed when More+ is selected */}
+                    <AnimatePresence>
+                      {selectedAmount === null && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="space-y-1.5 overflow-hidden"
+                        >
+                          <Label htmlFor="custom-amt" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
+                            Specify Custom Donation Amount (₹)
+                          </Label>
+                          <div className="relative">
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">₹</span>
+                            <Input
+                              id="custom-amt"
+                              type="number"
+                              placeholder="Enter custom amount (above ₹10,000)"
+                              value={customAmount}
+                              min={10001}
+                              onChange={(e) => {
+                                setCustomAmount(e.target.value);
+                              }}
+                              className="pl-8 py-6 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-semibold"
+                            />
+                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">INR</span>
+                          </div>
+                          <p className="text-[10px] font-semibold text-slate-400">
+                            Donation must be strictly greater than ₹10,000.
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
 
                     {/* Personal Fields */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
