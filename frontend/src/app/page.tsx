@@ -6,6 +6,7 @@ import { getLiveUpdates } from "@/app/actions/liveUpdates";
 import HeroLeftSidebar, { LiveUpdatesWidget, StoryPlayerWidget } from "@/components/layout/HeroLeftSidebar";
 import HeroRightSidebar from "@/components/layout/HeroRightSidebar";
 import AwarenessCarousel from "@/components/layout/AwarenessCarousel";
+import OurTeam from "@/components/layout/OurTeam";
 import {
   Ribbon,
   ShieldCheck,
@@ -252,6 +253,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* Our Team Section */}
+      <OurTeam />
 
       {/* Partner Organizations Section */}
       <section className="py-20 sm:py-28 bg-gradient-to-b from-slate-50 to-blue-50/40 dark:from-slate-900 dark:to-slate-800/40">
