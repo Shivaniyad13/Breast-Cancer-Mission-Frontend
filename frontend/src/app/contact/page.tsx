@@ -56,7 +56,7 @@ export default function ContactPage() {
                 <h2 className="text-sm font-bold uppercase tracking-widest text-pink-400">Contact Details</h2>
 
                 <a
-                  href="tel:+919350206124"
+                  href="tel:+9217396124"
                   className="flex items-start gap-4 group"
                 >
                   <div className="h-10 w-10 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center flex-shrink-0 group-hover:bg-pink-500/30 transition-colors">
@@ -64,7 +64,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-xs text-slate-500 uppercase tracking-widest mb-0.5">Phone</p>
-                    <p className="text-white font-medium group-hover:text-pink-300 transition-colors">+91 93502 06124</p>
+                    <p className="text-white font-medium group-hover:text-pink-300 transition-colors">+91 9217396124</p>
                   </div>
                 </a>
 
@@ -77,7 +77,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-xs text-slate-500 uppercase tracking-widest mb-0.5">Email</p>
-                    <p className="text-white font-medium group-hover:text-pink-300 transition-colors">grsindiacorp@gmail.com</p>
+                    <p className="text-white font-medium group-hover:text-pink-300 transition-colors">khushicentre@gmail.com</p>
                   </div>
                 </a>
 
@@ -100,8 +100,8 @@ export default function ContactPage() {
                 <div className="space-y-3 text-sm">
                   {[
                     { day: "Monday – Friday", time: "9:00 AM – 6:00 PM" },
-                    { day: "Saturday", time: "10:00 AM – 4:00 PM" },
-                    { day: "Sunday", time: "Closed" },
+                    // { day: "Saturday", time: "10:00 AM – 4:00 PM" },
+                    // { day: "Sunday", time: "Closed" },
                   ].map(({ day, time }) => (
                     <div key={day} className="flex justify-between items-center border-b border-slate-700/50 pb-2 last:border-0 last:pb-0">
                       <span className="text-slate-400">{day}</span>

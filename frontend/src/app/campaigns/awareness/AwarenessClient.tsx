@@ -218,6 +218,7 @@ export default function AwarenessClient() {
                   </div>
                 </div>
               </motion.div>
+            
             </div>
 
           </div>

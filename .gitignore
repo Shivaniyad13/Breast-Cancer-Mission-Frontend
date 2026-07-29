@@ -6,8 +6,7 @@ node_modules/
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
-!.yarn/versions
-
+!.yarn/versio
 # Testing and build outputs
 coverage/
 .next/

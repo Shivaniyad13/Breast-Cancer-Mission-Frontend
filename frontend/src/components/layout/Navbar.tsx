@@ -61,7 +61,7 @@ export default async function Navbar() {
                 <Link href="/campaigns/education" className="w-full block">Education</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href="/campaigns/awareness" className="w-full block">Awareness</Link>
+                <Link href="/campaigns/awareness" className="w-full block">Our Activities</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Link href="/campaigns/membership" className="w-full block">Membership</Link>

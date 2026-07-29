@@ -183,7 +183,7 @@ export default function AboutPage() {
                 <Button 
                   id="about-cta-learn-more"
                   variant="outline" 
-                  className="w-full border-slate-700 hover:bg-slate-800 text-slate-200 hover:text-white font-semibold h-11 px-6 rounded-xl hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                   className="w-full bg-primary hover:bg-primary/95 text-white font-bold h-11 px-6 rounded-xl shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
                 >
                   Explore Awareness Hub
                 </Button>
