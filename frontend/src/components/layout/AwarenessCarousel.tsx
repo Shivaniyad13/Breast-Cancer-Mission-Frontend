@@ -199,7 +199,7 @@ export default function AwarenessCarousel() {
 
         {/* Main Carousel Viewport */}
         <div 
-          className="relative group rounded-3xl overflow-hidden border border-border shadow-xl bg-card aspect-[16/9] md:aspect-[21/9] min-h-[350px] flex items-stretch"
+          className="relative group rounded-3xl overflow-hidden border border-border shadow-xl bg-card aspect-auto min-h-[260px] sm:aspect-[16/9] sm:min-h-[320px] md:aspect-[21/9] md:min-h-[350px] flex items-stretch"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >

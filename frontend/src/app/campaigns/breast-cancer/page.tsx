@@ -59,19 +59,7 @@ export default function BreastCancerCampaignPage() {
     fetchSession();
   }, []);
 
-  // 1. Navbar Scroll Shrink state
-  const [isScrolled, setIsScrolled] = useState(false);
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
 
   // 2. Hero Slider Autoplay state
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -238,66 +226,7 @@ export default function BreastCancerCampaignPage() {
   return (
     <div className="flex-1 w-full bg-background font-sans selection:bg-primary/20 text-foreground overflow-x-hidden">
       
-      {/* 1. STICKY SCROLL-SHRUNK NAVBAR */}
-      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled 
-          ? "bg-background/95 backdrop-blur-md shadow-md border-b border-border" 
-          : "bg-transparent border-b border-transparent"
-      }`}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative flex items-center justify-between h-20 sm:h-22">
-            
-            {/* Dual Logos Branding - Left aligned */}
-            <Link href="/" className="flex items-center gap-2 group z-10">
-              <div className="flex items-center gap-1.5 bg-card px-3 py-1.5 rounded-xl border border-primary/10 shadow-xs">
-                <Ribbon className="h-5 w-5 text-primary animate-pulse" />
-                <span className="font-heading text-sm font-extrabold tracking-tight text-foreground">
-                  Khushi <span className="text-primary">Centre</span>
-                </span>
-                <span className="text-muted-foreground text-xs font-semibold px-1 border-l border-border">
-                  Campaign
-                </span>
-              </div>
-              <span className="hidden xl:inline-block text-[10px] text-muted-foreground font-bold tracking-wider uppercase bg-muted/60 px-2 py-1 rounded-md">
-                An Initiative by Khushi Centre
-              </span>
-            </Link>
 
-            {/* Menu Links - Centered */}
-            <nav className="hidden lg:flex items-center gap-6 text-xs font-bold uppercase tracking-wider text-muted-foreground absolute left-1/2 -translate-x-1/2 z-0">
-              <a href="#hero" className="hover:text-primary transition-colors">Home</a>
-              <a href="#about" className="hover:text-primary transition-colors">About</a>
-              <a href="#breast-cancer-info" className="hover:text-primary transition-colors">Breast Cancer</a>
-              <a href="#doctors" className="hover:text-primary transition-colors">Doctors</a>
-              <a href="#research" className="hover:text-primary transition-colors">Research</a>
-              <a href="#events" className="hover:text-primary transition-colors">Events</a>
-              <a href="#volunteer" className="hover:text-primary transition-colors">Volunteer</a>
-              <Link href="/donate" className="hover:text-primary transition-colors">Donate</Link>
-              <a href="#contact" className="hover:text-primary transition-colors">Contact</a>
-            </nav>
-
-            {/* Right side CTA actions - Right aligned */}
-            <div className="flex items-center gap-2 z-10">
-              <Link href="/login" className="hidden sm:inline-block">
-                <Button variant="ghost" className="text-xs font-bold uppercase hover:bg-primary/10 hover:text-primary transition-colors">
-                  Login
-                </Button>
-              </Link>
-              <Link href="/register" className="hidden sm:inline-block">
-                <Button variant="outline" className="text-xs font-bold uppercase hover:bg-muted/80 transition-colors">
-                  Register
-                </Button>
-              </Link>
-              <Link href="/donate">
-                <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase px-4 py-2 shadow-md shadow-emerald-600/10">
-                  Donate Now
-                </Button>
-              </Link>
-            </div>
-
-          </div>
-        </div>
-      </header>
 
       {/* 2. HERO AUTOPLAY SLIDER */}
       <section className="relative h-[90vh] min-h-[600px] w-full overflow-hidden bg-slate-950 text-white" id="hero">
@@ -310,7 +239,7 @@ export default function BreastCancerCampaignPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
-            className={`absolute inset-0 bg-gradient-to-br ${slides[currentSlide].themeColor} flex items-center`}
+            className={`absolute inset-0 bg-gradient-to-br ${slides[currentSlide].themeColor} flex items-center pt-24 pb-8 sm:pt-28 md:pt-32`}
           >
             {/* Visual background pattern grids */}
             <div className="absolute inset-0 opacity-15 mix-blend-overlay bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]" />
@@ -322,7 +251,7 @@ export default function BreastCancerCampaignPage() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 
                 {/* Text Content */}
-                <div className="lg:col-span-7 space-y-6 text-left">
+                <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-left">
                   <motion.span 
                     initial={{ y: -15, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -337,7 +266,7 @@ export default function BreastCancerCampaignPage() {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.3 }}
-                    className="font-heading text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.15]"
+                    className="font-heading text-2xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15]"
                   >
                     {slides[currentSlide].title}
                   </motion.h2>
@@ -355,16 +284,16 @@ export default function BreastCancerCampaignPage() {
                     initial={{ y: 15, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="flex flex-wrap gap-3 pt-2"
+                    className="flex flex-col sm:flex-row gap-3 pt-2 w-full max-w-md"
                   >
-                    <a href={slides[currentSlide].primaryLink}>
-                      <Button size="lg" className="bg-primary hover:bg-primary/95 text-white font-bold tracking-wide shadow-lg shadow-primary/35">
+                    <a href={slides[currentSlide].primaryLink} className="w-full sm:w-auto">
+                      <Button size="lg" className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold tracking-wide shadow-lg shadow-pink-500/35 h-12">
                         {slides[currentSlide].primaryBtn}
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
                     </a>
-                    <a href={slides[currentSlide].secondaryLink}>
-                      <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-slate-900 font-bold bg-transparent">
+                    <a href={slides[currentSlide].secondaryLink} className="w-full sm:w-auto">
+                      <Button size="lg" variant="outline" className="w-full border-white text-white hover:bg-white hover:text-slate-900 font-bold bg-transparent h-12">
                         {slides[currentSlide].secondaryBtn}
                       </Button>
                     </a>

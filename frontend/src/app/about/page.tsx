@@ -87,15 +87,15 @@ export default function AboutPage() {
               <p className="text-3xl sm:text-4xl font-extrabold text-primary">100K+</p>
               <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Educational Target</p>
             </div>
-            <div className="space-y-2 border-l border-pink-100">
+            <div className="space-y-2 border-l border-pink-100/50">
               <p className="text-3xl sm:text-4xl font-extrabold text-primary">100%</p>
               <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">NGO-Verified Cases</p>
             </div>
-            <div className="space-y-2 border-l border-pink-100">
+            <div className="space-y-2 max-sm:border-t max-sm:pt-4 md:border-l border-pink-100/50">
               <p className="text-3xl sm:text-4xl font-extrabold text-primary">Secure</p>
               <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Razorpay Payments</p>
             </div>
-            <div className="space-y-2 border-l border-pink-100">
+            <div className="space-y-2 max-sm:border-t max-sm:pt-4 border-l border-pink-100/50">
               <p className="text-3xl sm:text-4xl font-extrabold text-primary">QR-Code</p>
               <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Verifiable Certificates</p>
             </div>
@@ -174,7 +174,7 @@ export default function AboutPage() {
               <Link href="/register" className="w-full">
                 <Button 
                   id="about-cta-get-started"
-                  className="w-full bg-primary hover:bg-primary/95 text-white font-bold h-11 px-6 rounded-xl shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                  className="w-full bg-primary hover:bg-primary/95 text-white font-bold h-11 px-6 rounded-xl shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer border-0"
                 >
                   Get Started <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -183,7 +183,7 @@ export default function AboutPage() {
                 <Button 
                   id="about-cta-learn-more"
                   variant="outline" 
-                   className="w-full bg-primary hover:bg-primary/95 text-white font-bold h-11 px-6 rounded-xl shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                  className="w-full border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white font-bold h-11 px-6 rounded-xl transition-all duration-200 cursor-pointer bg-transparent"
                 >
                   Explore Awareness Hub
                 </Button>

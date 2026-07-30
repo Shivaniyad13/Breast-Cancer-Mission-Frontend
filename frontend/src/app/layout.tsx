@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import FloatingWhatsApp from "@/components/layout/FloatingWhatsApp";
 
 export const metadata: Metadata = {
   title: "Breast Cancer Awareness Platform",
@@ -26,8 +27,10 @@ export default async function RootLayout({
         >
           {children}
         </LayoutWrapper>
+        <FloatingWhatsApp />
       </body>
     </html>
   );
 }
+
 

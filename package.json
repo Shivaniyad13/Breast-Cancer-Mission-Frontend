@@ -2,10 +2,7 @@
   "name": "grs-awareness-platform",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
+  
   "scripts": {
     "dev": "concurrently \"npm run dev -w frontend\" \"npm run dev -w backend\"",
     "install:all": "npm install",

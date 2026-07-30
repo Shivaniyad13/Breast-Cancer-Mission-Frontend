@@ -16,36 +16,51 @@ import {
 
 // Team categories definition
 const CATEGORIES = [
-  {
-    title: "Medical Experts",
-    description: "Experienced doctors dedicated to providing compassionate treatment, diagnosis, and continuous patient care.",
-    image: "/team1.jpg",
-    icon: Stethoscope,
-  },
-  {
-    title: "Research Scientists",
-    description: "Innovating evidence-based healthcare solutions and advancing breast cancer research for better patient outcomes.",
-    image: "/team2.jpg",
-    icon: Beaker,
-  },
-  {
-    title: "Healthcare Professionals",
-    description: "Qualified nurses and healthcare specialists supporting patients throughout every stage of their treatment journey.",
-    image: "/team3.jpg",
-    icon: Activity,
-  },
-  {
-    title: "Community Volunteers",
-    description: "Passionates volunteers spreading awareness, organizing campaigns, and supporting patients and families.",
-    image: "/team4.jpg",
-    icon: HeartHandshake,
-  },
-  {
-    title: "Support & Admin",
-    description: "Ensuring smooth coordination, patient assistance, and organizational excellence behind every initiative.",
-    image: "/team5.jpg",
-    icon: ShieldCheck,
-  },
+
+{
+  title: "President",
+  name: "Puja Kapil Mishra",
+  description:
+    "Provides strategic leadership, defines the organization's vision, and leads initiatives that strengthen breast cancer awareness, patient support, and community partnerships.",
+  image: "/images/President Khusi.png",
+  icon: HeartHandshake,
+},
+
+{
+  title: "CEO",
+  name: "Saket Mani Trivedi",
+  description:
+    "Oversees daily operations, implements organizational strategies, manages programs, and ensures the successful execution of healthcare and awareness initiatives.",
+  image: "/team3.jpg",
+  icon: Activity,
+},
+
+{
+  title: "Secretary General",
+  name: "Mandvi Kumari",
+  description:
+    "Coordinates organizational activities, manages official communications, maintains records, and supports the effective implementation of campaigns and partnerships.",
+  image: "/team2.jpg",
+  icon: Beaker,
+},
+
+{
+  title: "Executive Director",
+  name: "Renu Kulshestha",
+  description:
+    "Leads program development, supervises healthcare initiatives, collaborates with medical experts, and ensures quality patient care and community outreach services.",
+  image: "/team1.jpg",
+  icon: Stethoscope,
+},
+
+{
+  title: "Support & Admin",
+  name: "Kritika Singh",
+  description:
+    "Manages administrative operations, coordinates volunteers, assists beneficiaries, and ensures smooth execution of organizational activities and support services.",
+  image: "/images/Kritika mam.jpg",
+  icon: ShieldCheck,
+},
 ];
 
 // Gallery items
@@ -269,11 +284,17 @@ export default function OurTeam() {
                 <h3 className="font-heading text-base font-bold text-slate-800 dark:text-slate-100 mb-2">
                   {card.title}
                 </h3>
+                {/* Member Name */}
+<p className="text-pink-600 dark:text-pink-400 text-sm font-semibold mt-1">
+  {card.name}
+</p>
 
                 {/* Description */}
                 <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   {card.description}
                 </p>
+
+                
               </motion.div>
             );
           })}

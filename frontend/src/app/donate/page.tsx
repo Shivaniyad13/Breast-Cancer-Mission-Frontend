@@ -182,7 +182,7 @@ export default function DonatePage() {
     } else if (amt > 10000 || selectedAmount === null) {
       return {
         title: "Custom Support (More+)",
-        desc: amt >= 10001 
+        desc: amt >= 10001
           ? `Your custom donation of ₹${amt.toLocaleString()} provides elite funding for advanced cancer care, patient surgical treatment, and outreach programs.`
           : "Please specify your custom donation amount above ₹10,000.",
         icon: Plus,
@@ -239,14 +239,14 @@ export default function DonatePage() {
 
   const survivorStories: SurvivorStory[] = [
     {
-      name: "Priya Sharma",
+      name: "Shagufta Ali's Breast Cancer Journey",
       age: 36,
       city: "New Delhi",
       badge: "Stage II Breast Cancer Survivor",
-      story: "Diagnosed at 35, Priya was terrified she wouldn't see her two young daughters grow up. Her husband's modest salary couldn't cover the intensive chemotherapy cycles. Through the Breast Cancer Mission Platform, her treatment cost was funded, giving her a second chance.",
+      story: "Diagnosed at 35,Shagufta was terrified she wouldn't see her two young daughters grow up. Her husband's modest salary couldn't cover the intensive chemotherapy cycles. Through the Breast Cancer Mission Platform, her treatment cost was funded, giving her a second chance.",
       quote: "The Breast Cancer Mission Platform didn't just fund my medicines; they stood by me like a family when I had lost all hope of survival.",
       impact: "Mastectomy surgery & 6 chemo cycles fully funded.",
-      image: "/images/survivor_strength.png"
+      image: "/images/Cancer Patients.jpg"
     },
     {
       name: "Lakshmi Devi",
@@ -256,17 +256,17 @@ export default function DonatePage() {
       story: "Lakshmi felt a lump but delayed consulting due to financial constraints and stigma. The Breast Cancer Mission Platform's local awareness camp screened her, detected the tumor in Stage III, and immediately enrolled her in emergency radiation therapy.",
       quote: "If not for that free screening camp in our village, I wouldn't have been alive today. It saved my family.",
       impact: "Free mammography screening, biopsy, and emergency radiation therapy.",
-      image: "/images/support_group.png"
+      image: "/images/Cancer Patients1.jpg"
     },
     {
-      name: "Ritu Goel",
+      name: "Simran Sethi's Breast Cancer Journey",
       age: 42,
       city: "Noida",
       badge: "Early-stage Survivor",
-      story: "An active school teacher, Ritu was diagnosed early. The diagnostic expenses were cleared by donor contributions, allowing her to get immediate treatment before the cancer could spread.",
+      story: "An active school teacher, Simran was diagnosed early. The diagnostic expenses were cleared by donor contributions, allowing her to get immediate treatment before the cancer could spread.",
       quote: "Early detection is truly the biggest cure. Because donors funded my diagnostic tests, my recovery was quick and successful.",
       impact: "Fully funded advanced 3D mammogram and oncology consulting.",
-      image: "/images/preventive_wellness.png"
+      image: "https://corporate.webassets.siemens-healthineers.com/262160eaeebed9a5/098254bafbc6/v/252df6659aad/siemens-healthineers_breast_cancer_simran_sethi_wall.jpg",
     }
   ];
 
@@ -441,8 +441,7 @@ export default function DonatePage() {
   };
 
   return (
-    <div className="flex-1 w-full bg-slate-50 selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden">
-
+    <div className="flex-1 w-full bg-gradient-to-br from-[#FFF5F8] via-[#FCE7F3] to-[#FDF2F8] selection:bg-pink-200 selection:text-pink-800 overflow-x-hidden">
       {/* ----------------------------------------------------
           1. HERO SECTION
           ---------------------------------------------------- */}
@@ -526,7 +525,7 @@ export default function DonatePage() {
             </div>
 
             {/* Right Counter Panels (Animated Stats) */}
-            <div className="lg:col-span-5 grid grid-cols-2 gap-4">
+            <div className="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
               {[
                 { label: "Women Screened", value: "18,450+", desc: "Early checkups completed", delay: 0.2 },
                 { label: "Awareness Camps", value: "154+", desc: "Rural & school drives", delay: 0.3 },
@@ -538,12 +537,12 @@ export default function DonatePage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: stat.delay }}
-                  className="p-5 rounded-3xl bg-white/10 backdrop-blur-md border border-white/15 shadow-xl hover:bg-white/15 transition-all flex flex-col justify-between text-left"
+                  className="p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/10 backdrop-blur-md border border-white/15 shadow-xl hover:bg-white/15 transition-all flex flex-col justify-between text-left"
                 >
-                  <p className="text-xs text-pink-300 font-bold tracking-widest uppercase">{stat.label}</p>
-                  <div className="my-2">
-                    <p className="text-3xl font-black text-white tracking-tight">{stat.value}</p>
-                    <p className="text-[11px] text-slate-300 mt-1 font-medium leading-tight">{stat.desc}</p>
+                  <p className="text-[9px] sm:text-xs text-pink-300 font-bold tracking-widest uppercase">{stat.label}</p>
+                  <div className="my-1.5 sm:my-2">
+                    <p className="text-xl sm:text-3xl font-black text-white tracking-tight">{stat.value}</p>
+                    <p className="text-[10px] sm:text-[11px] text-slate-300 mt-0.5 sm:mt-1 font-medium leading-tight">{stat.desc}</p>
                   </div>
                   <div className="h-1.5 w-10 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full" />
                 </motion.div>
@@ -578,7 +577,7 @@ export default function DonatePage() {
           </div>
 
           {/* Carousel Body */}
-          <div className="relative bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 md:p-12 backdrop-blur-lg shadow-2xl overflow-hidden min-h-[480px] flex items-center">
+          <div className="relative bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 md:p-12 pb-16 sm:pb-8 md:pb-12 backdrop-blur-lg shadow-2xl overflow-hidden min-h-[480px] flex items-center">
 
             {/* Story Elements */}
             <AnimatePresence mode="wait">
@@ -689,7 +688,7 @@ export default function DonatePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
             {impactTiers.map((tier, idx) => (
               <motion.div
                 key={idx}
@@ -739,7 +738,7 @@ export default function DonatePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {trustCards.map((card, idx) => (
               <div
                 key={idx}
@@ -844,11 +843,11 @@ export default function DonatePage() {
           </div>
 
           {/* Simplified Donation Tier Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-16 items-stretch">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 mb-16 items-stretch">
             {donationTiers.map((tier) => {
               const isPlatinum = tier.isPlatinum === true;
-              const isSelected = isPlatinum 
-                ? selectedAmount === null 
+              const isSelected = isPlatinum
+                ? selectedAmount === null
                 : selectedAmount === tier.amount;
               const displayAmt = isPlatinum ? "Custom Amount" : `₹${tier.amount.toLocaleString()}`;
 
@@ -872,7 +871,7 @@ export default function DonatePage() {
                     isSelected
                       ? `${tier.selectedBg} border-2 shadow-sm`
                       : "bg-white border-slate-200 text-slate-800 hover:border-slate-350 hover:shadow-sm"
-                  }`}
+                  } ${isPlatinum ? "col-span-2 sm:col-span-1" : ""}`}
                 >
                   <div className="flex flex-col items-center gap-1.5">
                     <span className="text-2xl leading-none">{tier.emoji}</span>
@@ -954,223 +953,223 @@ export default function DonatePage() {
                         Monthly Support
                       </button>
                     </div>
-                    </div>
+                  </div>
 
-                    {/* Dynamic Impact Statement Section */}
-                    <div className="overflow-hidden">
-                      <AnimatePresence mode="wait">
-                        {activeImpact && (
-                          <motion.div
-                            key={selectedAmount || customAmount || "empty"}
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -15 }}
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="bg-gradient-to-r from-pink-50/30 via-rose-50/10 to-purple-50/30 backdrop-blur-sm border border-pink-100/40 rounded-2xl p-4 sm:p-5 flex items-start gap-4 shadow-sm"
-                          >
-                            <div className={`p-3 rounded-xl shrink-0 ${activeImpact.color}`}>
-                              <activeImpact.icon className="h-6 w-6" />
-                            </div>
-                            <div className="space-y-1">
-                              <h4 className="text-[10px] font-black text-pink-600 uppercase tracking-widest">
-                                Your Contribution Makes a Difference
-                              </h4>
-                              <p className="text-slate-800 text-sm font-extrabold">
-                                {activeImpact.title}
-                              </p>
-                              <p className="text-slate-500 text-xs leading-relaxed font-medium">
-                                {activeImpact.desc}
-                              </p>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-
-                    {/* Custom Amount Input - Revealed when More+ is selected */}
-                    <AnimatePresence>
-                      {selectedAmount === null && (
+                  {/* Dynamic Impact Statement Section */}
+                  <div className="overflow-hidden">
+                    <AnimatePresence mode="wait">
+                      {activeImpact && (
                         <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="space-y-1.5 overflow-hidden"
+                          key={selectedAmount || customAmount || "empty"}
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -15 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          className="bg-gradient-to-r from-pink-50/30 via-rose-50/10 to-purple-50/30 backdrop-blur-sm border border-pink-100/40 rounded-2xl p-4 sm:p-5 flex items-start gap-4 shadow-sm"
                         >
-                          <Label htmlFor="custom-amt" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
-                            Specify Custom Donation Amount (₹)
-                          </Label>
-                          <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">₹</span>
-                            <Input
-                              id="custom-amt"
-                              type="number"
-                              placeholder="Enter custom amount (above ₹10,000)"
-                              value={customAmount}
-                              min={10001}
-                              onChange={(e) => {
-                                setCustomAmount(e.target.value);
-                              }}
-                              className="pl-8 py-6 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-semibold"
-                            />
-                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">INR</span>
+                          <div className={`p-3 rounded-xl shrink-0 ${activeImpact.color}`}>
+                            <activeImpact.icon className="h-6 w-6" />
                           </div>
-                          <p className="text-[10px] font-semibold text-slate-400">
-                            Donation must be strictly greater than ₹10,000.
-                          </p>
+                          <div className="space-y-1">
+                            <h4 className="text-[10px] font-black text-pink-600 uppercase tracking-widest">
+                              Your Contribution Makes a Difference
+                            </h4>
+                            <p className="text-slate-800 text-sm font-extrabold">
+                              {activeImpact.title}
+                            </p>
+                            <p className="text-slate-500 text-xs leading-relaxed font-medium">
+                              {activeImpact.desc}
+                            </p>
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
-
-                    {/* Personal Fields */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <Label htmlFor="donor-name" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
-                          Full Name
-                        </Label>
-                        <Input
-                          id="donor-name"
-                          placeholder="e.g. Shalini Roy"
-                          value={donorName}
-                          onChange={(e) => setDonorName(e.target.value)}
-                          className="py-5 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-medium"
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <Label htmlFor="donor-email" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
-                          Email Address
-                        </Label>
-                        <Input
-                          id="donor-email"
-                          type="email"
-                          placeholder="e.g. shalini@example.com"
-                          value={donorEmail}
-                          onChange={(e) => setDonorEmail(e.target.value)}
-                          className="py-5 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-medium"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <Label htmlFor="donor-phone" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
-                          Phone Number
-                        </Label>
-                        <Input
-                          id="donor-phone"
-                          type="tel"
-                          placeholder="e.g. 9876543210"
-                          value={donorPhone}
-                          onChange={(e) => setDonorPhone(e.target.value)}
-                          className="py-5 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-medium"
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <Label htmlFor="organization" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
-                          Organization (Optional)
-                        </Label>
-                        <Input
-                          id="organization"
-                          placeholder="e.g. Private Ltd"
-                          value={organization}
-                          onChange={(e) => setOrganization(e.target.value)}
-                          className="py-5 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-medium"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Anonymous Donation Toggle */}
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        id="anonymous-chk"
-                        checked={isAnonymous}
-                        onChange={(e) => setIsAnonymous(e.target.checked)}
-                        className="rounded border-slate-300 text-pink-600 focus:ring-pink-500 h-4 w-4"
-                      />
-                      <Label htmlFor="anonymous-chk" className="text-xs font-bold text-slate-600 uppercase tracking-wider cursor-pointer">
-                        Make this donation anonymously
-                      </Label>
-                    </div>
-
-                    {/* Message */}
-                    <div className="space-y-1.5">
-                      <Label htmlFor="donor-msg" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
-                        Message / Prayer for the Patient (Optional)
-                      </Label>
-                      <Textarea
-                        id="donor-msg"
-                        placeholder="Send details of support, positive affirmations, or prayers..."
-                        rows={2}
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        className="rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-medium"
-                      />
-                    </div>
-
-                    {/* Payment Gateway Grid */}
-                    <div className="space-y-2">
-                      <Label className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
-                        Choose Payment Method
-                      </Label>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                        {[
-                          { id: "upi", label: "UPI (Scan QR)", desc: "GPay, PhonePe, Paytm" },
-                          { id: "card", label: "Credit/Debit Card", desc: "Visa, Master, RuPay" },
-                          { id: "netbanking", label: "Net Banking", desc: "SBI, HDFC, ICICI" },
-                          { id: "wallet", label: "Wallets", desc: "Paytm, Mobikwik" }
-                        ].map((item) => (
-                          <button
-                            key={item.id}
-                            type="button"
-                            onClick={() => setPaymentMethod(item.id)}
-                            className={`p-3 rounded-xl border flex flex-col justify-center items-center text-center cursor-pointer transition-all ${paymentMethod === item.id
-                              ? "border-pink-500 bg-pink-50/30 text-pink-600 ring-2 ring-pink-500/20"
-                              : "border-slate-200 hover:border-pink-200 bg-white"
-                              }`}
-                          >
-                            <span className="text-xs font-bold font-heading">{item.label}</span>
-                            <span className="text-[9px] text-slate-400 font-medium mt-0.5 leading-tight">{item.desc}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Large Pink Action Button */}
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold py-6 rounded-2xl flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-pink-600/20 hover:scale-[1.01] active:scale-[0.99] transition-all text-base font-bold"
-                    >
-                      {isSubmitting ? (
-                        <span className="flex items-center gap-2">
-                          <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
-                          Connecting to Secure Gateway...
-                        </span>
-                      ) : (
-                        <>
-                          <Heart className="h-5 w-5 fill-white text-white" />
-                          Donate Now (₹{(selectedAmount || parseFloat(customAmount) || 0).toLocaleString()})
-                        </>
-                      )}
-                    </Button>
-
-                  </form>
-
-                  {/* 80G Tax Exemption Note */}
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/50 flex gap-2 text-xs text-slate-500">
-                    <Info className="h-4.5 w-4.5 text-pink-600 shrink-0 mt-0.5" />
-                    <p>
-                      <strong>80G Tax Benefits:</strong> Indian residents receive 50% tax deduction under Section 80G. An automated certificate is emailed with your receipt.
-                    </p>
                   </div>
 
-                </div>
-              </div>
+                  {/* Custom Amount Input - Revealed when More+ is selected */}
+                  <AnimatePresence>
+                    {selectedAmount === null && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="space-y-1.5 overflow-hidden"
+                      >
+                        <Label htmlFor="custom-amt" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
+                          Specify Custom Donation Amount (₹)
+                        </Label>
+                        <div className="relative">
+                          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">₹</span>
+                          <Input
+                            id="custom-amt"
+                            type="number"
+                            placeholder="Enter custom amount (above ₹10,000)"
+                            value={customAmount}
+                            min={10001}
+                            onChange={(e) => {
+                              setCustomAmount(e.target.value);
+                            }}
+                            className="pl-8 py-6 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-semibold"
+                          />
+                          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400">INR</span>
+                        </div>
+                        <p className="text-[10px] font-semibold text-slate-400">
+                          Donation must be strictly greater than ₹10,000.
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
+                  {/* Personal Fields */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="donor-name" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
+                        Full Name
+                      </Label>
+                      <Input
+                        id="donor-name"
+                        placeholder="e.g. Shalini Roy"
+                        value={donorName}
+                        onChange={(e) => setDonorName(e.target.value)}
+                        className="py-5 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-medium"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="donor-email" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
+                        Email Address
+                      </Label>
+                      <Input
+                        id="donor-email"
+                        type="email"
+                        placeholder="e.g. shalini@example.com"
+                        value={donorEmail}
+                        onChange={(e) => setDonorEmail(e.target.value)}
+                        className="py-5 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-medium"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="donor-phone" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
+                        Phone Number
+                      </Label>
+                      <Input
+                        id="donor-phone"
+                        type="tel"
+                        placeholder="e.g. 9876543210"
+                        value={donorPhone}
+                        onChange={(e) => setDonorPhone(e.target.value)}
+                        className="py-5 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-medium"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label htmlFor="organization" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
+                        Organization (Optional)
+                      </Label>
+                      <Input
+                        id="organization"
+                        placeholder="e.g. Private Ltd"
+                        value={organization}
+                        onChange={(e) => setOrganization(e.target.value)}
+                        className="py-5 rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-medium"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Anonymous Donation Toggle */}
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="anonymous-chk"
+                      checked={isAnonymous}
+                      onChange={(e) => setIsAnonymous(e.target.checked)}
+                      className="rounded border-slate-300 text-pink-600 focus:ring-pink-500 h-4 w-4"
+                    />
+                    <Label htmlFor="anonymous-chk" className="text-xs font-bold text-slate-600 uppercase tracking-wider cursor-pointer">
+                      Make this donation anonymously
+                    </Label>
+                  </div>
+
+                  {/* Message */}
+                  <div className="space-y-1.5">
+                    <Label htmlFor="donor-msg" className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
+                      Message / Prayer for the Patient (Optional)
+                    </Label>
+                    <Textarea
+                      id="donor-msg"
+                      placeholder="Send details of support, positive affirmations, or prayers..."
+                      rows={2}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="rounded-xl border border-slate-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 font-medium"
+                    />
+                  </div>
+
+                  {/* Payment Gateway Grid */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold text-slate-600 uppercase tracking-wider block">
+                      Choose Payment Method
+                    </Label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                      {[
+                        { id: "upi", label: "UPI (Scan QR)", desc: "GPay, PhonePe, Paytm" },
+                        { id: "card", label: "Credit/Debit Card", desc: "Visa, Master, RuPay" },
+                        { id: "netbanking", label: "Net Banking", desc: "SBI, HDFC, ICICI" },
+                        { id: "wallet", label: "Wallets", desc: "Paytm, Mobikwik" }
+                      ].map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => setPaymentMethod(item.id)}
+                          className={`p-3 rounded-xl border flex flex-col justify-center items-center text-center cursor-pointer transition-all ${paymentMethod === item.id
+                            ? "border-pink-500 bg-pink-50/30 text-pink-600 ring-2 ring-pink-500/20"
+                            : "border-slate-200 hover:border-pink-200 bg-white"
+                            }`}
+                        >
+                          <span className="text-xs font-bold font-heading">{item.label}</span>
+                          <span className="text-[9px] text-slate-400 font-medium mt-0.5 leading-tight">{item.desc}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Large Pink Action Button */}
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold py-6 rounded-2xl flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-pink-600/20 hover:scale-[1.01] active:scale-[0.99] transition-all text-base font-bold"
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center gap-2">
+                        <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
+                        Connecting to Secure Gateway...
+                      </span>
+                    ) : (
+                      <>
+                        <Heart className="h-5 w-5 fill-white text-white" />
+                        Donate Now (₹{(selectedAmount || parseFloat(customAmount) || 0).toLocaleString()})
+                      </>
+                    )}
+                  </Button>
+
+                </form>
+
+                {/* 80G Tax Exemption Note */}
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/50 flex gap-2 text-xs text-slate-500">
+                  <Info className="h-4.5 w-4.5 text-pink-600 shrink-0 mt-0.5" />
+                  <p>
+                    <strong>80G Tax Benefits:</strong> Indian residents receive 50% tax deduction under Section 80G. An automated certificate is emailed with your receipt.
+                  </p>
+                </div>
+
+              </div>
             </div>
 
           </div>
+
+        </div>
       </section>
 
       {/* ----------------------------------------------------

@@ -40,7 +40,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col w-full min-h-screen">
 
-      {/* Hero Section */}
+      {/* Hero Section */}   
       <section className="relative overflow-hidden py-16 sm:py-24 md:py-32 min-h-[90vh] flex items-center justify-center">
         {/* Background Video */}
         <video
@@ -153,10 +153,8 @@ export default async function Home() {
           <h3 className="text-xs font-black text-pink-600 uppercase tracking-widest px-1 flex items-center gap-1">
             <Sparkles className="h-3.5 w-3.5 text-pink-600" /> Highlights & Testimonials
           </h3>
-          <div className="flex overflow-x-auto pb-2 gap-4 snap-x snap-mandatory scroll-smooth no-scrollbar">
-            <div className="w-[85vw] flex-shrink-0 snap-center">
-              <HeroRightSidebar banners={banners as any} testimonials={testimonials as any} />
-            </div>
+          <div className="w-full">
+            <HeroRightSidebar banners={banners as any} testimonials={testimonials as any} />
           </div>
         </div>
       </div>
@@ -256,75 +254,130 @@ export default async function Home() {
 
       {/* Our Team Section */}
       <OurTeam />
+{/* Partner Organizations Section */}
+<section className="py-20 sm:py-28 bg-gradient-to-b from-slate-50 to-blue-50/40 dark:from-slate-900 dark:to-slate-800/40">
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
-      {/* Partner Organizations Section */}
-      <section className="py-20 sm:py-28 bg-gradient-to-b from-slate-50 to-blue-50/40 dark:from-slate-900 dark:to-slate-800/40">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 mb-16">
-            <span className="inline-block px-4 py-1 rounded-full bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300 text-xs font-semibold uppercase tracking-widest">
-              Backed By
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-              Our Partner Organizations
-            </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Proudly supported by leading corporations committed to social responsibility and healthcare excellence.
-            </p>
-          </div>
+    {/* Section Heading */}
+    <div className="text-center space-y-4 mb-16">
+      <span className="inline-block px-4 py-1 rounded-full bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300 text-xs font-semibold uppercase tracking-widest">
+        Backed By
+      </span>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            {/* Card – GRS India Corporation */}
-            <div className="group relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col overflow-hidden">
-              <div className="flex items-center justify-center bg-slate-50 dark:bg-slate-700/50 h-40 px-6 py-5 border-b border-slate-100 dark:border-slate-700">
-                <img
-                  src="/grs-group-logo.jpg"
-                  alt="GRS India Corporation Logo"
-                  className="max-h-24 w-auto object-contain"
-                />
-              </div>
-              <div className="flex flex-col flex-1 p-5 space-y-2">
-                <h3 className="text-sm font-extrabold uppercase tracking-wide text-slate-800 dark:text-slate-100">
-                  GRS India Group.
-                </h3>
-                <a
-                  href="https://grsindiacorporation.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors mt-2"
-                >
-                  Visit website <span aria-hidden>→</span>
-                </a>
-              </div>
-              <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-            </div>
+      <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+        Our Partner Organizations
+      </h2>
 
-            {/* Card – Khushi Centre */}
-            <div className="group relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col overflow-hidden">
-              <div className="flex items-center justify-center bg-slate-50 dark:bg-slate-700/50 h-40 px-6 py-5 border-b border-slate-100 dark:border-slate-700">
-                <img
-                  src="/khushi-logo.jpg"
-                  alt="Khushi Centre for Rehabilitation & Research Logo"
-                  className="max-h-24 w-auto object-contain"
-                />
-              </div>
-              <div className="flex flex-col flex-1 p-5 space-y-2">
-                <h3 className="text-sm font-extrabold uppercase tracking-wide text-slate-800 dark:text-slate-100">
-                  Khushi Centre for Rehabilitation &amp; Research
-                </h3>
-                <a
-                  href="https://khushicentre.in/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors mt-2"
-                >
-                  Visit website <span aria-hidden>→</span>
-                </a>
-              </div>
-              <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-            </div>
-          </div>
+      <p className="text-muted-foreground max-w-2xl mx-auto">
+        Proudly supported by leading corporations committed to social
+        responsibility and healthcare excellence.
+      </p>
+    </div>
+
+    {/* Partner Cards */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+
+      {/* ================= GRS ================= */}
+      <div className="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
+
+        <div className="h-48 flex items-center justify-center bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700 p-8">
+          <img
+            src="/grs-group-logo.jpg"
+            alt="GRS India Group"
+            className="max-h-28 object-contain transition-transform duration-300 group-hover:scale-105"
+          />
         </div>
-      </section>
+
+        <div className="flex flex-col flex-1 p-6">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+            GRS India Group
+          </h3>
+
+          <p className="text-sm text-slate-600 dark:text-slate-300 flex-1">
+            Supporting healthcare innovation, breast cancer awareness,
+            community outreach, and medical initiatives across India.
+          </p>
+
+          <a
+            href="https://grsindiacorporation.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700"
+          >
+            Visit Website →
+          </a>
+        </div>
+      </div>
+
+      {/* ================= Mission Bharat ================= */}
+      <div className="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
+
+        <div className="h-48 flex items-center justify-center bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700 p-8">
+          <img
+            src="/mission bharat.jpeg"
+            alt="Mission Bharat"
+            className="max-h-28 object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+
+        <div className="flex flex-col flex-1 p-6">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+            Mission Bharat
+          </h3>
+
+          <p className="text-sm text-slate-600 dark:text-slate-300 flex-1">
+            Empowering communities through social development, healthcare,
+            education, and nationwide awareness initiatives.
+          </p>
+
+          <a
+            href="https://mission-bharat.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700"
+          >
+            Visit Website →
+          </a>
+        </div>
+      </div>
+
+      {/* ================= Khushi Centre ================= */}
+      <div className="group bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
+
+        <div className="h-48 flex items-center justify-center bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700 p-8">
+          <img
+            src="/khushi-logo.jpg"
+            alt="Khushi Centre"
+            className="max-h-28 object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+
+        <div className="flex flex-col flex-1 p-6">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+            Khushi Centre for Rehabilitation & Research
+          </h3>
+
+          <p className="text-sm text-slate-600 dark:text-slate-300 flex-1">
+            Dedicated to rehabilitation, patient care, research, and
+            improving the quality of life for individuals facing serious
+            health challenges.
+          </p>
+
+          <a
+            href="https://khushicentre.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700"
+          >
+            Visit Website →
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
 
       {/* Slideshow/Carousel Section */}
       <AwarenessCarousel />

@@ -44,8 +44,8 @@ export default async function DashboardPage() {
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 min-h-screen text-slate-800 bg-slate-50 font-sans">
         
         {/* Welcome Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-pink-100 pb-6 bg-white p-6 rounded-3xl shadow-xs">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-pink-100 pb-6 bg-white p-6 rounded-3xl shadow-xs w-full min-w-0">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full min-w-0">
             {institutionData?.organizationLogoUrl || institutionData?.companyLogoUrl ? (
               <div className="relative h-16 w-16 rounded-2xl overflow-hidden border border-slate-100 shrink-0 shadow-sm bg-slate-50 flex items-center justify-center p-1">
                 <img 
@@ -411,7 +411,7 @@ export default async function DashboardPage() {
 
       {/* Main Tab System */}
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="bg-pink-50/50 border border-pink-100/50 p-1 rounded-xl">
+        <TabsList className="bg-pink-50/50 border border-pink-100/50 p-1 rounded-xl flex overflow-x-auto whitespace-nowrap no-scrollbar justify-start w-full">
           <TabsTrigger value="overview" className="font-bold text-xs uppercase py-2">
             <ListTodo className="h-4 w-4" /> Activity Overview
           </TabsTrigger>

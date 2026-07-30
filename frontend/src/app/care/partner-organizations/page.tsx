@@ -235,8 +235,8 @@ const partnersData: PartnerOrg[] = [
 const successStoriesData: SuccessStory[] = [
   {
     id: "ss-1",
-    orgName: "Novartis Biotech & GRS Mobile Drive",
-    orgPhoto: "/images/12.png",
+    orgName: "Novartis Biotech",
+    orgPhoto: "/images/Novartis.jpg",
     eventImage: "/images/volunteers.png",
     beforeAfter: "Initially, village women in Alwar had no screening access. Through Novartis CSR funding and GRS mobile vans, we established local mammography screening stations, detecting 18 silent tumors in early stage-I.",
     screenedCount: "3,200+ Women",
@@ -248,7 +248,7 @@ const successStoriesData: SuccessStory[] = [
   {
     id: "ss-2",
     orgName: "Sangini NGO & GRS Support Alliance",
-    orgPhoto: "/images/support_group.png",
+    orgPhoto: "/images/12.png",
     eventImage: "/images/survivor_strength.png",
     beforeAfter: "Post-mastectomy patients in government hospitals lacked rehabilitation. We joined forces to distribute custom compression sleeves and run support groups, mitigating chronic lymphedema cases.",
     screenedCount: "1,500+ Counseling Sessions",

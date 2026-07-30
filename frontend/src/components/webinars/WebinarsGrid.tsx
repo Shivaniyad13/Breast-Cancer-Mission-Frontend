@@ -91,8 +91,8 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
   return (
     <div className="space-y-8">
       {/* Visual Header Tabs */}
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 border-b border-pink-100 pb-4">
-        <div className="flex gap-2 p-1 bg-pink-50/50 border border-pink-100/50 rounded-2xl shadow-sm">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 border-b border-pink-100 pb-4 w-full">
+        <div className="flex gap-2 p-1 bg-pink-50/50 border border-pink-100/50 rounded-2xl shadow-sm overflow-x-auto no-scrollbar whitespace-nowrap max-w-full">
           <button
             onClick={() => setActiveTab("live")}
             className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${

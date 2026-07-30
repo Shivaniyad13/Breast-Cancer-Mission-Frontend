@@ -18,8 +18,10 @@ export default function LayoutWrapper({
 
   return (
     <>
-      {!isCampaignPage && navbar}
-      <main className="flex-1 flex flex-col">{children}</main>
+      {navbar}
+      <main className={`flex-1 flex flex-col ${isCampaignPage ? "pt-0" : "pt-20"}`}>
+        {children}
+      </main>
       {!isCampaignPage && footer}
     </>
   );

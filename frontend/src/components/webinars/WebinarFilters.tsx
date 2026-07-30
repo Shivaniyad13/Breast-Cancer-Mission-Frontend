@@ -63,7 +63,7 @@ export default function WebinarFilters({ cities, categories }: WebinarFiltersPro
   return (
     <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-pink-100 p-6 shadow-md space-y-6">
       {/* Toggle View Mode */}
-      <div className="flex justify-between items-center border-b border-pink-50 pb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-pink-50 pb-4">
         <div className="flex gap-2 p-1 bg-pink-50/50 border border-pink-100/50 rounded-xl">
           <button
             onClick={() => handleModeToggle("upcoming")}

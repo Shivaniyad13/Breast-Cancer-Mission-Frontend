@@ -88,6 +88,74 @@ interface DiagnosisTechnology {
   isActive: boolean;
 }
 
+const diagnosisMethods = {
+  mammography: {
+    title: "Mammography (X-Ray Screening)",
+    description: "A Mammogram is a specialized, low-dose breast X-ray that creates highly detailed images of internal tissues. It is widely considered the gold standard for early-stage screening, capable of detecting abnormal growths, microcalcifications, or architectural distortions up to two years before they can be physically felt by a hand examination.",
+    recom: "Recommended annually for all women aged 40 and above, or earlier for individuals with a known familial history of breast oncology.",
+    imageUrl: "/images/mammography_screening.png",
+    benefits: [
+      "Finds early calcifications & micro-lumps",
+      "Most validated early-stage screening tool",
+      "Fast, outpatient clinical procedure"
+    ]
+  },
+  ultrasound: {
+    title: "Breast Ultrasound (Sonography)",
+    description: "Breast Ultrasound utilizes high-frequency sonic waves to generate live, detailed cross-sectional views of breast structure. This modality is extremely effective at distinguishing between solid masses (which require further investigation) and fluid-filled simple cysts (which are typically benign). It is also widely used as a supplementary tool for younger women who have dense breast tissue where mammograms might be less clear.",
+    recom: "Typically ordered by clinicians as a diagnostic follow-up to check specific lumps felt during self-exams or highlighted in mammograms.",
+    imageUrl: "/images/abus_system.png",
+    benefits: [
+      "Completely radiation-free technology",
+      "Differentiates fluid cysts from solid lumps",
+      "Ideal for dense breast profiles"
+    ]
+  },
+  mri: {
+    title: "Breast MRI (Magnetic Resonance)",
+    description: "Breast Magnetic Resonance Imaging (MRI) employs powerful magnetic fields and radio wave pulses to produce highly comprehensive, three-dimensional diagnostic records of the soft tissues. It provides exceptional contrast, making it crucial for detailed staging of confirmed cases, mapping out exact tumor dimensions before surgical lumpectomy, or checking the integrity of breast implants.",
+    recom: "Indicated primarily for high-risk patients with genetic predispositions (BRCA1/BRCA2) or for clinical staging post-biopsy.",
+    imageUrl: "/images/breast_mri.png",
+    benefits: [
+      "Extremely high-sensitivity soft-tissue contrast",
+      "Measures exact margins of tumor tissue",
+      "Evaluates treatment response post-chemo"
+    ]
+  },
+  biopsy: {
+    title: "Breast Biopsy (Pathology Confirmation)",
+    description: "A Biopsy is the definitive diagnostic procedure to confirm whether a lump contains malignant or benign cells. During a biopsy, a specialist uses a hollow core needle or fine needle aspiration (often guided by ultrasound or mammogram imaging) to extract minor tissue cylinders. These samples are sent directly to a pathology laboratory where cellular structure is examined under a microscope.",
+    recom: "Performed whenever non-invasive imaging scans show highly suspicious structural changes or indeterminate findings.",
+    imageUrl: "/images/diagonysis.jpg",
+    benefits: [
+      "The definitive confirmatory check",
+      "Identifies hormone receptors (ER, PR, HER2)",
+      "Determines the exact tumor grading"
+    ]
+  }
+};
+
+const diagnosisVideos = [
+  {
+    title: "Early Screening Guidance by Clinical Experts",
+    duration: "8:30",
+    description: "Oncologists explain standard diagnostic pathways, clinical screening protocols, mammography frequencies, and answer general early consultation inquiries.",
+    src: "/yPVvi64woY74YzOBqwhF+MmgUBXyBdEg.mp4"
+  },
+  {
+    title: "Breast Self-Examination (BSE) Guided Checkup",
+    duration: "3:45",
+    description: "Detailed medical walkthrough demonstrating correct examination motions, fingers pressure, and inspection zones.",
+    src: "/euhbbZb3sNXxgOi6g2MF+42G6uUncFHU.mp4"
+  },
+  {
+    title: "Khushi Tactile Care Kit Instructions",
+    duration: "5:12",
+    description: "Learn how to use the checkup cards, timeline trackers, and tactile exam aids included in the Khushi Care Kit.",
+    src: "/VID-20260715-WA0006.mp4"
+  }
+];
+
 interface DiagnosisClientProps {
   initialTechnologies: DiagnosisTechnology[];
 }
@@ -95,6 +163,17 @@ interface DiagnosisClientProps {
 export default function DiagnosisClient({ initialTechnologies }: DiagnosisClientProps) {
   const [technologies] = useState<DiagnosisTechnology[]>(initialTechnologies);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  
+  const [activeDiagTab, setActiveDiagTab] = useState<string>("mammography");
+  const [activeVideoIndex, setActiveVideoIndex] = useState<number>(0);
+  const diagVideoRef = useRef<HTMLVideoElement>(null);
+
+  const handleDiagVideoChange = (idx: number) => {
+    setActiveVideoIndex(idx);
+    if (diagVideoRef.current) {
+      diagVideoRef.current.load();
+    }
+  };
 
   // Interaction Modals
   const [selectedTech, setSelectedTech] = useState<DiagnosisTechnology | null>(null);
@@ -315,12 +394,271 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
             transition={{ delay: 0.3, duration: 0.6 }}
             className="pt-4"
           >
-            <a href="#showcase">
+            <a href="#diagnosis-modalities">
               <Button size="lg" className="bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-bold rounded-full px-8 py-6 text-base cursor-pointer shadow-lg shadow-pink-600/20 hover:scale-105 transition-all">
                 Explore Diagnosis Methods
               </Button>
             </a>
           </motion.div>
+        </div>
+      </section>
+
+<section id="overview-story" className="py-24 bg-gradient-to-b from-rose-50/20 via-white to-rose-50/10 relative">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+            {/* Left Column: Large Emotional Image */}
+            <div className="lg:col-span-6 relative">
+              <div className="absolute -inset-2 bg-gradient-to-br from-pink-400 to-purple-400 rounded-3xl opacity-20 blur-xl -z-10" />
+              <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden shadow-2xl border border-pink-100">
+                <Image
+                  src="/image.png"
+                  alt="Compassionate patient support care"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* Right Column: Narrative */}
+            <div className="lg:col-span-6 space-y-6">
+              <span className="text-xs font-bold text-pink-600 uppercase tracking-widest bg-pink-50 px-3 py-1 rounded-full inline-block">
+                Our Philosophy
+              </span>
+              <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
+                You Are Not Fighting <span className="text-pink-600">Alone.</span>
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                Facing a breast cancer diagnosis is a profound and emotional journey that impacts the entire family structure. We walk by your side at every step. We integrate advanced clinical research with deeply supportive, patient-first care pathways to maximize healing capacity.
+              </p>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                By nurturing emotional health, providing evidence-based wellness guidelines, and introducing holistic support mechanisms, we aim to build resilience, restore vitality, and keep the flame of hope burning brightly.
+              </p>
+
+              {/* Animated Quote Card */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="p-6 rounded-2xl border border-pink-100 bg-white/70 backdrop-blur-md shadow-lg shadow-pink-100/20 relative overflow-hidden"
+              >
+                <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-pink-500 to-purple-500" />
+                <p className="text-pink-700 italic font-semibold text-sm sm:text-base">
+                  &ldquo;Cancer may change your life, but it doesn&apos;t define your future.&rdquo;
+                </p>
+                <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider block mt-2">
+                  Supportive Care Core
+                </span>
+              </motion.div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      {/* ========================================================
+          DIAGNOSTIC MODALITIES TABBED LAYOUT & VIDEOS
+          ======================================================== */}
+      <section id="diagnosis-modalities" className="py-24 bg-white border-b border-slate-100">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
+          
+          {/* Header */}
+          <div className="text-center space-y-3 max-w-2xl mx-auto">
+            <span className="text-xs font-bold text-pink-600 uppercase tracking-widest bg-pink-50 px-3 py-1 rounded-full inline-block">
+              Clinical Standards
+            </span>
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900">
+              Breast Cancer Diagnosis Options
+            </h2>
+            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
+              Early and accurate diagnosis is critical. Learn about standard clinical pathways, when they are recommended, and explore patient video walkthroughs.
+            </p>
+          </div>
+
+          {/* Diagnostic Modalities Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            {/* Left Column: Vertical/Horizontal Tabs */}
+            <div className="lg:col-span-4 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible gap-2.5 pb-3 lg:pb-0 max-w-full no-scrollbar shrink-0">
+              <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 px-1 lg:block hidden">
+                Diagnostic Modalities
+              </h4>
+              {(Object.keys(diagnosisMethods) as Array<keyof typeof diagnosisMethods>).map((key) => (
+                <button
+                  key={key}
+                  onClick={() => setActiveDiagTab(key)}
+                  className={`p-3.5 sm:p-4 rounded-2xl border text-left cursor-pointer transition-all duration-300 flex items-center justify-between gap-4 shrink-0 lg:shrink ${
+                    activeDiagTab === key
+                      ? "bg-pink-50/60 border-pink-200 text-pink-700 shadow-xs"
+                      : "bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-200 text-slate-700"
+                  }`}
+                >
+                  <span className="font-bold text-xs sm:text-sm md:text-base tracking-tight whitespace-nowrap">
+                    {key === "mammography" && "Mammography"}
+                    {key === "ultrasound" && "Ultrasound"}
+                    {key === "mri" && "Breast MRI"}
+                    {key === "biopsy" && "Biopsy Confirmation"}
+                  </span>
+                  <ArrowRight className={`h-4 w-4 transition-transform lg:block hidden ${
+                    activeDiagTab === key 
+                      ? "translate-x-1 text-pink-600" 
+                      : "text-slate-300 group-hover:translate-x-1 group-hover:text-slate-400"
+                  }`} />
+                </button>
+              ))}
+            </div>
+
+            {/* Right Column: Tab Content */}
+            <Card className="lg:col-span-8 border-slate-100 bg-slate-50/20 p-6 sm:p-8 rounded-3xl flex flex-col justify-between space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                <div className="md:col-span-7 space-y-4">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-100/50 text-pink-700 text-[10px] font-bold uppercase tracking-wider">
+                    {activeDiagTab === "biopsy" ? "Invasive Diagnostic" : "Non-Invasive Imaging"}
+                  </span>
+                  <h3 className="font-heading text-2xl font-black text-slate-800 tracking-tight">
+                    {diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].title}
+                  </h3>
+                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    {diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].description}
+                  </p>
+                  
+                  <div className="p-4 rounded-xl bg-amber-500/[0.03] border border-amber-500/10 space-y-1">
+                    <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest flex items-center gap-1">
+                      <Info className="h-3.5 w-3.5" /> Clinical Recommendation Criteria
+                    </p>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      {diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].recom}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Modality Image */}
+                <div className="md:col-span-5 relative aspect-square w-full rounded-2xl overflow-hidden border border-pink-100/30 shadow-xs bg-white flex items-center justify-center">
+                  <Image
+                    src={diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].imageUrl}
+                    alt={diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].title}
+                    fill
+                    className="object-contain p-2"
+                  />
+                </div>
+              </div>
+
+              {/* Benefits Checklist */}
+              <div className="space-y-3 pt-2">
+                <h4 className="font-heading text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  Key Benefits & Clinical Value
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].benefits.map((benefit, i) => (
+                    <div key={i} className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                      <CheckCircle2 className="h-4.5 w-4.5 text-emerald-500 shrink-0" />
+                      <span>{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Card>
+
+          </div>
+        {/* Videos Subsection */}
+          <div className="space-y-8 pt-8 border-t border-slate-100">
+            <div className="space-y-2">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-bold uppercase tracking-wider">
+                <Video className="h-3.5 w-3.5" />
+                Clinical Video Walkthroughs
+              </span>
+              <h3 className="font-heading text-2xl font-bold text-slate-800">
+                Early Screening & Consultation Video Guides
+              </h3>
+              <p className="text-slate-500 text-sm max-w-2xl">
+                Explore the official patient screening walkthroughs and self-examination video instructions. Select any video below to load it into the player.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              
+              {/* Main Player Container */}
+              <div className="lg:col-span-8 bg-card border border-slate-100 rounded-3xl overflow-hidden shadow-sm flex flex-col bg-white">
+                <div className="relative aspect-video bg-black w-full overflow-hidden">
+                  {diagnosisVideos[activeVideoIndex].src ? (
+                    <video
+                      ref={diagVideoRef}
+                      key={diagnosisVideos[activeVideoIndex].src}
+                      className="w-full h-full object-cover"
+                      controls
+                      playsInline
+                      autoPlay={activeVideoIndex > 0}
+                      preload="metadata"
+                    >
+                      <source src={diagnosisVideos[activeVideoIndex].src} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 text-slate-400 space-y-4">
+                      <Video className="h-16 w-16 text-pink-500/80 animate-pulse" />
+                      <p className="text-white font-semibold">Video Not Available</p>
+                    </div>
+                  )}
+                </div>
+                <div className="p-6 space-y-3 bg-white">
+                  <div className="flex flex-wrap gap-2 items-center justify-between">
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-pink-600 uppercase tracking-widest bg-pink-50 px-2.5 py-1 rounded-md">
+                      Active Walkthrough
+                    </span>
+                    <span className="text-xs text-slate-400 flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      Duration: {diagnosisVideos[activeVideoIndex].duration}
+                    </span>
+                  </div>
+                  <h4 className="text-lg font-bold text-slate-800">
+                    {diagnosisVideos[activeVideoIndex].title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+                    {diagnosisVideos[activeVideoIndex].description}
+                  </p>
+                </div>
+              </div>
+
+              {/* Sidebar: Video Selectors */}
+              <div className="lg:col-span-4 space-y-4">
+                <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                  <Video className="h-4.5 w-4.5 text-pink-500" />
+                  Select Walkthrough Video
+                </h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+                  {diagnosisVideos.map((vid, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => handleDiagVideoChange(idx)}
+                      className={`flex gap-3.5 p-3 rounded-2xl border text-left cursor-pointer transition-all duration-300 ${
+                        activeVideoIndex === idx
+                          ? "bg-pink-50/50 border-pink-200 shadow-xs"
+                          : "bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-200"
+                      }`}
+                    >
+                      <div className="h-14 w-20 shrink-0 rounded-xl bg-slate-100 border border-slate-200/50 relative overflow-hidden flex items-center justify-center">
+                        <Play className="h-4.5 w-4.5 text-pink-500 fill-pink-500" />
+                        <div className="absolute bottom-1 right-1 bg-black/75 px-1 py-0.5 rounded text-[8px] text-white font-bold">
+                          {vid.duration}
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <h5 className="font-bold text-xs text-slate-800 line-clamp-1">
+                          {vid.title}
+                        </h5>
+                        <p className="text-[10px] text-slate-400 line-clamp-2 leading-relaxed">
+                          {vid.description}
+                        </p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </section>
 
