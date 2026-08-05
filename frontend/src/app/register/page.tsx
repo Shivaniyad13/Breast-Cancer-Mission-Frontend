@@ -97,11 +97,14 @@ export default function RegisterPage() {
                   <SelectValue placeholder="Select role" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="VOLUNTEER">Volunteer / Learner</SelectItem>
-                  <SelectItem value="DONOR">Donor</SelectItem>
                   <SelectItem value="PATIENT">Patient / Beneficiary</SelectItem>
-                  <SelectItem value="DOCTOR">Medical Professional / Doctor</SelectItem>
-                  <SelectItem value="NGO_REP">NGO Representative</SelectItem>
+                  <SelectItem value="DOCTOR">Healthcare Provider / Doctor</SelectItem>
+                   <SelectItem value="NGO_REP">NGO/Goverment Organization</SelectItem>
+                  <SelectItem value="VOLUNTEER">Volunteer / Schlors</SelectItem>
+                  <SelectItem value="DONOR">Donor/Supporter</SelectItem>
+                  
+                  
+                 
                 </SelectContent>
               </Select>
             </div>

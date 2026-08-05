@@ -59,6 +59,9 @@ export default async function AdminWebinarsPage() {
         <Link href="/admin/webinars" className="text-primary border-b-2 border-primary pb-4 -mb-[18px] transition-colors">
           Webinar Management
         </Link>
+        <Link href="/admin/donations" className="text-slate-500 hover:text-primary transition-colors">
+          Donation Management
+        </Link>
         <Link href="/admin/memberships" className="text-slate-500 hover:text-primary transition-colors">
           Institution Memberships
         </Link>

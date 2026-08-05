@@ -2,6 +2,12 @@
 
 import { usePathname } from "next/navigation";
 import React from "react";
+import dynamic from "next/dynamic";
+
+const SelfExamReminderModal = dynamic(
+  () => import("@/components/self-exam/SelfExamReminderModal"),
+  { ssr: false }
+);
 
 export default function LayoutWrapper({
   children,
@@ -23,6 +29,8 @@ export default function LayoutWrapper({
         {children}
       </main>
       {!isCampaignPage && footer}
+      <SelfExamReminderModal />
     </>
   );
 }
+

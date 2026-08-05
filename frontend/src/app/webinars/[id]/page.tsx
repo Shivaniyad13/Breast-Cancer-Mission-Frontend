@@ -150,9 +150,14 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
 
             {/* Doctor Profile Section */}
             <div className="bg-white rounded-3xl border border-pink-50 p-6 md:p-8 shadow-sm space-y-5">
-              <h2 className="font-heading text-lg font-bold text-slate-800 border-b border-pink-55/60 pb-3 flex items-center gap-2">
-                <Stethoscope className="h-5 w-5 text-primary" /> Instructing Doctor Profile
-              </h2>
+              <div className="flex flex-wrap items-center justify-between border-b border-pink-55/60 pb-3 gap-2">
+                <h2 className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
+                  <Stethoscope className="h-5 w-5 text-primary" /> Instructing Doctor Profile
+                </h2>
+                <span className="bg-emerald-50 text-emerald-600 border border-emerald-200 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                  <ShieldCheck className="h-3 w-3 text-emerald-600" /> Verified Doctor
+                </span>
+              </div>
               
               <div className="flex flex-col sm:flex-row gap-6 items-start">
                 <div className="h-28 w-28 rounded-3xl bg-pink-50 flex items-center justify-center font-black text-primary overflow-hidden shrink-0 border-2 border-pink-100 shadow-sm mx-auto sm:mx-0">
@@ -165,7 +170,8 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
 
                 <div className="space-y-4 flex-1 text-center sm:text-left">
                   <div className="space-y-1.5">
-                    <h3 className="text-xl font-black text-slate-800">{webinar.speakerName}</h3>
+                    <p className="text-[10px] font-black uppercase text-slate-400 tracking-wider">Hosted by:</p>
+                    <h3 className="text-xl font-black text-slate-800">Dr. {webinar.speakerName.replace(/^Dr\.\s*/i, "")}</h3>
                     <div className="flex flex-wrap justify-center sm:justify-start gap-2 text-xs font-bold">
                       <span className="bg-pink-50 border border-pink-100 text-primary px-2.5 py-0.5 rounded-full">
                         {webinar.speakerQualification || "MD / Oncologist"}

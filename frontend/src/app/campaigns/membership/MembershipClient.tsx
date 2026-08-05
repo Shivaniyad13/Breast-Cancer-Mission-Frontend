@@ -96,7 +96,7 @@ const membershipBenefits = [
 const faqsList = [
   {
     q: "Who can become a member?",
-    a: "Anyone passionate about women's health and breast cancer awareness is welcome to join. We have categories tailored for community supporters, active volunteers, and licensed healthcare professionals. Organizations can join as Institution Partners."
+    a: "Anyone passionate about  breast cancer awareness is welcome to join. We have categories tailored for community supporters,  volunteers, and licensed healthcare professionals. Organizations can join as Institution Partners."
   },
   {
     q: "Is membership free?",
@@ -104,15 +104,15 @@ const faqsList = [
   },
   {
     q: "How do I participate in campaigns?",
-    a: "Once registered, you'll receive regional emails detailing local drives. Volunteers can support camp layouts, distribute Care Kits, and coordinate patient fundraiser links."
+    a: "Once registered, you'll receive regional emails detailing local drives. Volunteers can support camp layouts, distribute Care Kits, and coordinate  with patient and Supporters. Healthcare professionals can join as advisors or webinar speakers."
   },
   {
     q: "Can I attend webinars after becoming a member?",
-    a: "Absolutely. Members receive automatic priority registration options and direct calendar links to all upcoming oncology live streams."
+    a: "Absolutely. Members receive automatic priority registration options and direct calendar links to all upcoming information sessions along with exclusive content."
   },
   {
-    q: "Will I receive a certificate?",
-    a: "Currently, certificates are automatically generated upon scoring 80% on our health quizzes or attending webinars. In the future, we plan to release dedicated digital membership certificates."
+    q: "Will I receive a certificate or any rewards?",
+a: "Yes. Participants who score 80% or above in our health awareness quizzes are eligible to receive a digital certificate of achievement. Additionally, individuals who actively contribute to our awareness initiatives through regular participation in webinars, campaigns, educational activities, and community engagement may be selected for special recognition. Top contributors can be honored with medals, appreciation certificates, commemorative gifts, and public recognition during our awareness seminars and community events."
   }
 ];
 
@@ -1077,7 +1077,7 @@ export default function MembershipClient() {
                           <Briefcase className="h-5 w-5" />
                         </div>
                         <h4 className="font-heading text-sm font-bold text-slate-800 group-hover:text-purple-600 transition-colors">Corporate Partner</h4>
-                        <p className="text-[10.5px] text-slate-500 leading-normal font-medium">For Companies, CSR Teams, Startups, and Healthcare Partnerships.</p>
+                        <p className="text-[10.5px] text-slate-500 leading-normal font-medium">For Corporate, CSR Provider to support and spread the cost for maximum outreach.</p>
                       </div>
                       <Button className={`w-full font-bold rounded-lg text-[10px] py-2 h-auto cursor-pointer ${selectedFlow === "CORPORATE" ? "bg-purple-600 text-white" : "bg-slate-50 text-slate-600 hover:bg-purple-50"
                         }`}>

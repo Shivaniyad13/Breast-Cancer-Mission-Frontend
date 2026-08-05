@@ -14,6 +14,9 @@ import {
   Building2, Briefcase, CheckCircle, Ribbon
 } from "lucide-react";
 
+import DoctorDashboard from "@/components/doctor/DoctorDashboard";
+import { getDoctorDashboardData } from "@/app/actions/doctor";
+
 export const revalidate = 0; // Fresh dashboard information on every visit
 
 export default async function DashboardPage() {
@@ -25,6 +28,16 @@ export default async function DashboardPage() {
 
   const user = session.user;
   const now = new Date();
+
+  // If user is a Doctor, return the dedicated Doctor Dashboard
+  if (user.role === "DOCTOR") {
+    const doctorData = await getDoctorDashboardData();
+    return (
+      <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 min-h-screen">
+        <DoctorDashboard initialData={doctorData} />
+      </div>
+    );
+  }
 
   // Fetch Institution Data if applicable
   let institutionData: any = null;
@@ -301,6 +314,17 @@ export default async function DashboardPage() {
     orderBy: { createdAt: "desc" },
   });
 
+  // Fetch User Donations
+  const userDonations = await db.donation.findMany({
+    where: { donorId: user.id },
+    orderBy: { createdAt: "desc" },
+    include: {
+      campaign: {
+        select: { id: true, title: true, slug: true },
+      },
+    },
+  });
+
   // Segregate webinars into Upcoming, Live, and Past
   const liveWebinars = registrations.filter(r => {
     const start = new Date(r.webinar.startTime);
@@ -421,6 +445,9 @@ export default async function DashboardPage() {
           <TabsTrigger value="certificates" className="font-bold text-xs uppercase py-2">
             <Award className="h-4 w-4" /> Certificates ({certificates.length})
           </TabsTrigger>
+          <TabsTrigger value="donations" className="font-bold text-xs uppercase py-2">
+            <Heart className="h-4 w-4" /> My Donations ({userDonations.length})
+          </TabsTrigger>
           <TabsTrigger value="attendance" className="font-bold text-xs uppercase py-2">
             <Activity className="h-4 w-4" /> Attendance Logs
           </TabsTrigger>
@@ -462,14 +489,6 @@ export default async function DashboardPage() {
                   <p className="font-semibold text-primary flex items-center gap-1.5"><Heart className="h-4 w-4" /> My Campaigns</p>
                   <p className="text-muted-foreground">No active crowdfunding campaigns found. Upload medical bills and request NGO endorsements to start fundraising.</p>
                   <Link href="/campaigns/create" className="block"><Button variant="outline" size="sm" className="rounded-xl border-pink-200">Create Campaign</Button></Link>
-                </div>
-              )}
-
-              {user.role === "DOCTOR" && (
-                <div className="space-y-2 text-sm pt-2">
-                  <p className="font-semibold text-primary flex items-center gap-1.5"><BookOpen className="h-4 w-4" /> Medical Publications</p>
-                  <p className="text-muted-foreground">Publish oncologist-verified guidelines and physical test schedules to raise public awareness.</p>
-                  <Link href="/learn/articles" className="block"><Button variant="outline" size="sm" className="rounded-xl border-pink-200">Write Article</Button></Link>
                 </div>
               )}
 
@@ -612,6 +631,84 @@ export default async function DashboardPage() {
                     ))}
                   </tbody>
                 </table>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Tab: My Donations */}
+        <TabsContent value="donations">
+          <Card className="rounded-3xl border border-pink-50 shadow-sm">
+            <CardHeader>
+              <CardTitle>My Donation History</CardTitle>
+              <CardDescription>View your past direct contributions to Breast Cancer Awareness &amp; campaigns.</CardDescription>
+            </CardHeader>
+            <CardContent className="p-6">
+              {userDonations.length === 0 ? (
+                <div className="text-center py-10 space-y-3">
+                  <Heart className="h-10 w-10 text-pink-300 mx-auto" />
+                  <p className="text-xs text-slate-500 font-medium">You haven't made any donations yet.</p>
+                  <Link href="/donate">
+                    <Button className="bg-primary text-white font-bold text-xs rounded-xl px-4 py-2">
+                      Make a Donation
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs text-left text-slate-600 border-collapse min-w-[600px]">
+                    <thead>
+                      <tr className="border-b border-slate-200 text-[10px] uppercase text-slate-400 font-bold">
+                        <th className="py-2.5">Donation Type</th>
+                        <th className="py-2.5">Campaign Name</th>
+                        <th className="py-2.5">Amount</th>
+                        <th className="py-2.5">Payment ID</th>
+                        <th className="py-2.5">Status</th>
+                        <th className="py-2.5 text-right">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 font-medium">
+                      {userDonations.map((d) => (
+                        <tr key={d.id} className="hover:bg-slate-50/50">
+                          <td className="py-3 font-bold text-slate-800">
+                            {d.campaignId ? (
+                              <span className="bg-cyan-50 text-cyan-700 border border-cyan-100 text-[9px] px-2 py-0.5 rounded-full font-bold">
+                                Campaign Donation
+                              </span>
+                            ) : (
+                              <span className="bg-purple-50 text-purple-700 border border-purple-100 text-[9px] px-2 py-0.5 rounded-full font-bold">
+                                General Donation
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-3 font-semibold text-slate-800">
+                            {d.campaignId ? d.campaign?.title : "General Donation"}
+                          </td>
+                          <td className="py-3 font-black text-slate-900">
+                            ₹{Number(d.amount).toLocaleString()}
+                          </td>
+                          <td className="py-3 font-mono text-[10px] text-slate-500">
+                            {d.paymentGatewayId}
+                          </td>
+                          <td className="py-3">
+                            <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                              d.status === "SUCCESSFUL" || d.status === "COMPLETED"
+                                ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
+                                : d.status === "PENDING"
+                                ? "bg-amber-50 text-amber-600 border border-amber-100"
+                                : "bg-red-50 text-red-600 border border-red-100"
+                            }`}>
+                              {d.status}
+                            </span>
+                          </td>
+                          <td className="py-3 text-right text-slate-400 text-[10px]">
+                            {new Date(d.createdAt).toLocaleDateString("en-US")}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </CardContent>
           </Card>

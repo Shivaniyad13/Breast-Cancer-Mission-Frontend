@@ -37,13 +37,23 @@ const SEED_BANNERS = [
 
 const SEED_TESTIMONIALS = [
   {
+    name: "Kareena Kapoor Khan",
+    profession: "Actress & Campaign Ambassador",
+    videoUrl: "/fCJDcVOcf4mwHu6auQwh+9LaEZi9UTik.mp4",
+    thumbnailUrl: "/images/awareness_ribbon.png",
+    duration: "0:47",
+    quote: "Your health is in your hands. A simple screening can detect breast cancer early and save your life.",
+    orderIndex: 0,
+    isActive: true
+  },
+  {
     name: "Dr. Jyoti Bajpai",
     profession: "Senior Oncologist, TMH",
     videoUrl: "/Breast Cancer Survivor Story _ A Journey of Hope, Strength & Healing _ Dr. Jyoti Bajpai.mp4",
     thumbnailUrl: "/images/awareness_ribbon.png",
     duration: "11:58",
     quote: "Early screening and genetic mapping are the ultimate defenses against breast cancer progression.",
-    orderIndex: 0,
+    orderIndex: 1,
     isActive: true
   },
   {
@@ -53,16 +63,6 @@ const SEED_TESTIMONIALS = [
     thumbnailUrl: "/images/survivor_strength.png",
     duration: "10:14",
     quote: "Strength is born in moments you think you can't go on. Early checkups saved my family.",
-    orderIndex: 1,
-    isActive: true
-  },
-  {
-    name: "Kareena Kapoor Khan",
-    profession: "Actress & Campaign Ambassador",
-    videoUrl: "/fCJDcVOcf4mwHu6auQwh+9LaEZi9UTik.mp4",
-    thumbnailUrl: "/images/awareness_ribbon.png",
-    duration: "0:47",
-    quote: "Your health is in your hands. A simple screening can detect breast cancer early and save your life.",
     orderIndex: 2,
     isActive: true
   },

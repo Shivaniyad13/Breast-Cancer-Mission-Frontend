@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { generateQuizCertificateAction } from "@/app/actions/quiz";
+import CertificateTemplate from "@/components/certificate/CertificateTemplate";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
@@ -410,7 +411,7 @@ export default function QuizClient({ user }: QuizClientProps) {
                         )}
                       </Button>
                     ) : certResult.success ? (
-                      <div className="space-y-3 p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100 text-left animate-fadeIn">
+                      <div className="space-y-4 p-5 rounded-2xl bg-emerald-50/50 border border-emerald-100 text-left animate-fadeIn">
                         <div className="flex gap-2">
                           <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
                           <div>
@@ -419,14 +420,23 @@ export default function QuizClient({ user }: QuizClientProps) {
                           </div>
                         </div>
 
+                        {/* Certificate Interactive Preview */}
+                        <div className="my-3 overflow-hidden rounded-xl border border-pink-200/80 shadow-md">
+                          <CertificateTemplate
+                            userName={user.name || user.email || "Participant"}
+                            certificateId={certResult.certificateNumber || "GRS-QUIZ-CERT"}
+                            date={new Date().toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" })}
+                          />
+                        </div>
+
                         <div className="flex flex-col sm:flex-row gap-2 pt-2">
                           <Link href={`/api/certificates/${certResult.certificateId}/download`} className="flex-1">
-                            <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg py-2 h-auto flex items-center justify-center gap-1 shadow-sm">
-                              <Download className="h-4 w-4" /> Download PDF
+                            <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg py-2.5 h-auto flex items-center justify-center gap-1 shadow-sm">
+                              <Download className="h-4 w-4" /> Download Official PDF
                             </Button>
                           </Link>
                           <Link href={`/verify/${certResult.certificateNumber}`} target="_blank" className="flex-1">
-                            <Button variant="outline" className="w-full border-emerald-200 text-slate-700 hover:bg-emerald-50 text-xs font-semibold rounded-lg py-2 h-auto flex items-center justify-center gap-1">
+                            <Button variant="outline" className="w-full border-emerald-200 text-slate-700 hover:bg-emerald-50 text-xs font-semibold rounded-lg py-2.5 h-auto flex items-center justify-center gap-1">
                               <ExternalLink className="h-4 w-4" /> Verify Online
                             </Button>
                           </Link>

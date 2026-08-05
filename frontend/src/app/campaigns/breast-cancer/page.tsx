@@ -374,7 +374,7 @@ export default function BreastCancerCampaignPage() {
                   <p className="text-xs text-muted-foreground">Certified Staging & Financial Clearing</p>
                 </div>
                 <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
-                  A direct partnership mapping patient diagnostics with active volunteers, providing certified webinars and transparent hospital payouts.
+                  A direct partnership mapping patient diagnostics with  volunteers, providing certified webinars and transparent hospital payouts.
                 </p>
               </div>
             </div>

@@ -86,7 +86,7 @@ export async function generateQuizCertificateAction(score: number) {
     const doc = new PDFDocument({
       size: "A4",
       layout: "landscape",
-      margins: { top: 40, bottom: 40, left: 40, right: 40 },
+      margins: { top: 20, bottom: 20, left: 20, right: 20 },
       font: fontRegular,
     });
 
@@ -99,122 +99,170 @@ export async function generateQuizCertificateAction(score: number) {
     const stream = fs.createWriteStream(absolutePath);
     doc.pipe(stream);
 
-    // Design background - Double Frame (Rose Pink theme)
-    const width = doc.page.width;
-    const height = doc.page.height;
+    const width = doc.page.width;   // 841.89
+    const height = doc.page.height; // 595.28
 
-    // Outer border
-    doc.lineWidth(15);
-    doc.strokeColor("#fda4af"); // Soft Pink Ribbon Rose Color
-    doc.rect(20, 20, width - 40, height - 40).stroke();
+    // 1. Background Fill & Side Pink Ribbons
+    doc.rect(0, 0, width, height).fill("#ffffff");
 
-    // Inner thin border
-    doc.lineWidth(2);
-    doc.strokeColor("#e11d48"); // Darker Rose
-    doc.rect(32, 32, width - 64, height - 64).stroke();
+    // Left and Right Pink Accent Bands
+    doc.rect(0, 0, 14, height).fill("#f472b6");
+    doc.rect(width - 14, 0, 14, height).fill("#f472b6");
 
-    // Corner decorative circles
-    const drawCorners = (x: number, y: number) => {
-      doc.circle(x, y, 6).fill("#e11d48");
+    // Outer & Inner Decorative Borders
+    doc.lineWidth(2).strokeColor("#f472b6").rect(22, 22, width - 44, height - 44).stroke();
+    doc.lineWidth(1).strokeColor("#c49a45").rect(28, 28, width - 56, height - 56).stroke();
+
+    // Corner Ornaments (Gold Dots/Circles & Lines)
+    const drawCornerOrnament = (cx: number, cy: number) => {
+      doc.circle(cx, cy, 5).fillColor("#c49a45").fill();
     };
+    drawCornerOrnament(28, 28);
+    drawCornerOrnament(width - 28, 28);
+    drawCornerOrnament(28, height - 28);
+    drawCornerOrnament(width - 28, height - 28);
 
-    drawCorners(32, 32);
-    drawCorners(width - 32, 32);
-    drawCorners(32, height - 32);
-    drawCorners(width - 32, height - 32);
+    // 2. TOP HEADER: LOGOS & SLOGAN
+    const headerY = 45;
 
-    // Title / Header
-    doc.fillColor("#1e293b"); // Slate
-    doc.font("Roboto-Bold").fontSize(34).text("CERTIFICATE OF QUIZ EXCELLENCE", {
-      align: "center",
-      underline: false,
-    });
-    doc.moveDown(0.2);
-
-    doc.fillColor("#e11d48"); // Primary pink accent
-    doc.font("Roboto-BoldItalic").fontSize(18).text("GRS Breast Cancer Awareness Mission", {
-      align: "center",
-    });
-    doc.moveDown(1.2);
-
-    doc.fillColor("#475569"); // Slate text
-    doc.font("Roboto").fontSize(14).text("This certificate is proudly awarded to", {
-      align: "center",
-    });
-    doc.moveDown(0.5);
-
-    // Participant Name (Big and Bold)
-    doc.fillColor("#0f172a"); // Charcoal
-    doc.font("Roboto-Bold").fontSize(28).text(userName, {
-      align: "center",
-    });
-    doc.moveDown(0.6);
-
-    // Quiz details text
-    doc.fillColor("#475569");
-    doc.font("Roboto").fontSize(13).text("for successfully passing the breast cancer clinical knowledge check", {
-      align: "center",
-    });
-    doc.moveDown(0.4);
-
-    // Quiz Title (Bold)
-    doc.fillColor("#1e293b");
-    doc.font("Roboto-Bold").fontSize(18).text(`"${eventName}"`, {
-      align: "center",
-    });
-    doc.moveDown(0.6);
-
-    // Date & Score info
-    doc.fillColor("#475569");
-    doc.font("Roboto").fontSize(12).text(
-      `Conducted on ${formattedDate} | Score Achieved: ${score}/10 (Distinction)`,
-      { align: "center" }
-    );
-
-    // Logos & Signatures section (bottom layout)
-    const bottomY = height - 160;
-
-    // QR Code generation
-    try {
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verificationUrl)}`;
-      const response = await fetch(qrUrl);
-      if (response.ok) {
-        const qrBuffer = Buffer.from(await response.arrayBuffer());
-        doc.image(qrBuffer, 80, bottomY - 10, { width: 80, height: 80 });
-      } else {
-        throw new Error();
-      }
-    } catch (e) {
-      doc.rect(80, bottomY - 10, 80, 80).stroke();
-      doc.fontSize(8).fillColor("#94a3b8").text("Scan to Verify", 85, bottomY + 25, { width: 70, align: 'center' });
-    }
-
-    doc.fillColor("#64748b").fontSize(8).text(`Verification ID: ${certificateNumber}`, 80, bottomY + 75, { width: 100 });
-
-    const sigX = width - 260;
-
-    doc.moveTo(sigX, bottomY + 45).lineTo(sigX + 180, bottomY + 45).strokeColor("#cbd5e1").lineWidth(1).stroke();
-    doc.fontSize(12).fillColor("#1e293b").font("Roboto-BoldItalic").text("Antigravity AI", sigX + 10, bottomY + 15, { width: 160, align: "center" });
-    doc.fontSize(9).fillColor("#64748b").font("Roboto").text("GRS Authorized Signature", sigX, bottomY + 50, { width: 180, align: "center" });
-
-    const logoX = width / 2 - 80;
+    // Top Left: GRS India Group Logo
     try {
       const grsLogoPath = path.join(process.cwd(), "public", "grs-group-logo.jpg");
-      doc.image(grsLogoPath, logoX, bottomY, { width: 50, height: 45 });
+      doc.image(grsLogoPath, 45, headerY, { width: 110, height: 45 });
     } catch (e) {
-      doc.rect(logoX, bottomY, 50, 45).fillColor("#fce7f3").fill();
-      doc.fillColor("#e11d48").fontSize(10).font("Roboto-Bold").text("GRS", logoX + 13, bottomY + 18);
+      doc.rect(45, headerY, 110, 45).fillColor("#fce7f3").fill();
+      doc.fillColor("#e11d48").fontSize(11).font("Roboto-Bold").text("GRS INDIA", 65, headerY + 15);
     }
 
+    // Top Right: Khushi Centre Logo
     try {
       const khushiLogoPath = path.join(process.cwd(), "public", "khushi-logo.jpg");
-      doc.image(khushiLogoPath, logoX + 70, bottomY, { width: 50, height: 45 });
+      doc.image(khushiLogoPath, width - 155, headerY, { width: 110, height: 45 });
     } catch (e) {
-      doc.rect(logoX + 70, bottomY, 50, 45).fillColor("#dbeafe").fill();
-      doc.fillColor("#1d4ed8").fontSize(9).font("Roboto-Bold").text("KHUSHI", logoX + 7, bottomY + 18);
+      doc.rect(width - 155, headerY, 110, 45).fillColor("#dbeafe").fill();
+      doc.fillColor("#1d4ed8").fontSize(10).font("Roboto-Bold").text("KHUSHI CENTRE", width - 145, headerY + 15);
     }
 
-    doc.fontSize(7).fillColor("#64748b").font("Roboto").text("Audit Seal & Strategic Partners", logoX, bottomY + 50, { width: 130, align: "center" });
+    // Top Center: Ribbon Slogan
+    doc.fillColor("#e11d48");
+    doc.circle(width / 2, headerY + 10, 6).fill();
+    doc.moveTo(width / 2 - 120, headerY + 28).lineTo(width / 2 + 120, headerY + 28).strokeColor("#f472b6").lineWidth(0.8).stroke();
+    doc.fillColor("#be185d").fontSize(9).font("Roboto-Bold").text("TOGETHER FOR AWARENESS • TOGETHER FOR A CURE", width / 2 - 160, headerY + 32, {
+      width: 320,
+      align: "center",
+    });
+
+    // 3. TITLE & SUBTITLE
+    let currentY = 110;
+
+    // CERTIFICATE
+    doc.fillColor("#8b1c43").font("Roboto-Bold").fontSize(36).text("CERTIFICATE", 0, currentY, {
+      align: "center",
+      width: width,
+    });
+    currentY += 42;
+
+    // OF APPRECIATION (Flanked by gold lines)
+    doc.moveTo(width / 2 - 140, currentY + 8).lineTo(width / 2 - 60, currentY + 8).strokeColor("#c49a45").lineWidth(1).stroke();
+    doc.moveTo(width / 2 + 60, currentY + 8).lineTo(width / 2 + 140, currentY + 8).strokeColor("#c49a45").lineWidth(1).stroke();
+
+    doc.fillColor("#b8860b").font("Roboto-Bold").fontSize(12).text("OF APPRECIATION", 0, currentY, {
+      align: "center",
+      width: width,
+    });
+    currentY += 28;
+
+    // 4. PINK RIBBON BANNER: PROUDLY PRESENTED TO
+    const bannerW = 260;
+    const bannerH = 24;
+    const bannerX = (width - bannerW) / 2;
+
+    doc.rect(bannerX, currentY, bannerW, bannerH).fill("#e0528e");
+    doc.fillColor("#ffffff").font("Roboto-Bold").fontSize(11).text("PROUDLY PRESENTED TO", 0, currentY + 6, {
+      align: "center",
+      width: width,
+    });
+    currentY += 36;
+
+    // 5. RECIPIENT NAME
+    doc.fillColor("#8a1c4a").font("Roboto-BoldItalic").fontSize(30).text(userName, 0, currentY, {
+      align: "center",
+      width: width,
+    });
+    currentY += 36;
+
+    // Gold Flourish Divider Line
+    doc.moveTo(width / 2 - 70, currentY).lineTo(width / 2 + 70, currentY).strokeColor("#c49a45").lineWidth(1.5).stroke();
+    doc.circle(width / 2, currentY, 3).fillColor("#c49a45").fill();
+    currentY += 14;
+
+    // 6. CERTIFICATE TEXT BODY
+    doc.fillColor("#4b5563").font("Roboto").fontSize(12).text("for successfully completing the", 0, currentY, {
+      align: "center",
+      width: width,
+    });
+    currentY += 20;
+
+    // Program Title
+    doc.fillColor("#8b1c43").font("Roboto-Bold").fontSize(18).text("Breast Cancer Awareness Quiz", 0, currentY, {
+      align: "center",
+      width: width,
+    });
+    currentY += 26;
+
+    // Paragraph 1
+    doc.fillColor("#374151").font("Roboto").fontSize(11).text(
+      "Your participation demonstrates your commitment to spreading awareness, promoting early detection, and supporting breast cancer education.",
+      width / 2 - 240,
+      currentY,
+      { width: 480, align: "center", lineGap: 3 }
+    );
+    currentY += 34;
+
+    // Paragraph 2
+    doc.fillColor("#be185d").font("Roboto-Bold").fontSize(10.5).text(
+      "Thank you for contributing to a healthier and more informed community.",
+      0,
+      currentY,
+      { align: "center", width: width }
+    );
+
+    // 7. SIGNATURES & CENTRAL GOLD SEAL BADGE
+    const sigY = height - 130;
+
+    // Left Signature: Santosh Aggarwal
+    doc.fillColor("#1e293b").font("Roboto-BoldItalic").fontSize(16).text("S. Aggarwal", 70, sigY, { width: 180, align: "center" });
+    doc.moveTo(70, sigY + 22).lineTo(250, sigY + 22).strokeColor("#94a3b8").lineWidth(1).stroke();
+    doc.fillColor("#1e293b").font("Roboto-Bold").fontSize(10).text("SANTOSH AGGARWAL", 70, sigY + 26, { width: 180, align: "center" });
+    doc.fillColor("#64748b").font("Roboto").fontSize(9).text("Chairman, GRS India Group", 70, sigY + 39, { width: 180, align: "center" });
+
+    // Center Gold Seal Badge
+    const sealX = width / 2;
+    const sealY = sigY + 15;
+    doc.circle(sealX, sealY, 28).fillColor("#ca8a04").fill();
+    doc.circle(sealX, sealY, 24).fillColor("#fef08a").fill();
+    doc.circle(sealX, sealY, 24).lineWidth(1.5).strokeColor("#854d0e").stroke();
+    doc.fillColor("#713f12").font("Roboto-Bold").fontSize(9).text("GRS", sealX - 20, sealY - 12, { width: 40, align: "center" });
+    doc.fillColor("#854d0e").font("Roboto-Bold").fontSize(6.5).text("INDIA GROUP", sealX - 25, sealY + 1, { width: 50, align: "center" });
+    doc.fillColor("#a16207").font("Roboto").fontSize(5.5).text("OFFICIAL SEAL", sealX - 25, sealY + 10, { width: 50, align: "center" });
+
+    // Right Signature: Khushi Centre
+    doc.fillColor("#1e293b").font("Roboto-BoldItalic").fontSize(16).text("Dr. Khushi", width - 250, sigY, { width: 180, align: "center" });
+    doc.moveTo(width - 250, sigY + 22).lineTo(width - 70, sigY + 22).strokeColor("#94a3b8").lineWidth(1).stroke();
+    doc.fillColor("#1e293b").font("Roboto-Bold").fontSize(10).text("KHUSHI CENTRE", width - 250, sigY + 26, { width: 180, align: "center" });
+    doc.fillColor("#64748b").font("Roboto").fontSize(9).text("For Rehabilitation & Research", width - 250, sigY + 39, { width: 180, align: "center" });
+
+    // 8. BOTTOM FOOTER: CERTIFICATE ID & DATE
+    const footerY = height - 42;
+    doc.moveTo(40, footerY - 8).lineTo(width - 40, footerY - 8).strokeColor("#fbcfe8").lineWidth(0.8).stroke();
+
+    doc.fillColor("#be185d").font("Roboto-Bold").fontSize(9.5).text(`Certificate ID: `, 45, footerY);
+    doc.fillColor("#1e293b").font("Roboto").fontSize(9.5).text(certificateNumber, 115, footerY);
+
+    doc.fillColor("#be185d").font("Roboto-Bold").fontSize(9.5).text("✦ • 🌸 • ✦", 0, footerY, { align: "center", width: width });
+
+    doc.fillColor("#be185d").font("Roboto-Bold").fontSize(9.5).text(`Date: `, width - 180, footerY);
+    doc.fillColor("#1e293b").font("Roboto").fontSize(9.5).text(formattedDate, width - 150, footerY);
 
     doc.end();
 

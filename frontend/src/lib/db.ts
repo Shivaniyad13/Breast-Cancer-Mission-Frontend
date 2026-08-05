@@ -4,6 +4,7 @@ import { Pool } from "pg";
 
 declare global {
   var prisma: PrismaClient | undefined;
+  var pool: Pool | undefined;
 }
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -17,17 +18,30 @@ if (!databaseUrl) {
   }
 }
 
-const pool = new Pool({
-  connectionString: databaseUrl,
-  ssl: isProduction ? { rejectUnauthorized: false } : undefined,
-});
+const pool =
+  globalThis.pool ||
+  new Pool({
+    connectionString: databaseUrl,
+    ssl:
+      databaseUrl?.includes("neon.tech") || isProduction
+        ? { rejectUnauthorized: false }
+        : undefined,
+    max: 10,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
+  });
+
 const adapter = new PrismaPg(pool);
 
-export const db = globalThis.prisma || new PrismaClient({
-  adapter,
-  log: isProduction ? ["error", "warn"] : ["query", "info", "warn", "error"],
-});
+export const db =
+  globalThis.prisma ||
+  new PrismaClient({
+    adapter,
+    log: isProduction ? ["error", "warn"] : ["query", "info", "warn", "error"],
+  });
 
 if (!isProduction) {
   globalThis.prisma = db;
+  globalThis.pool = pool;
 }
+

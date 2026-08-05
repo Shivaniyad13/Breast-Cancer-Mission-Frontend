@@ -277,3 +277,24 @@
     /* Hide tooltip on small mobile screens to prevent layout overlap */
   }
 }
+
+/* Infinite Marquee Animation for Partner Logos */
+@keyframes partner-marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-partner-marquee {
+  display: flex;
+  width: max-content;
+  animation: partner-marquee 45s linear infinite;
+}
+
+.animate-partner-marquee:hover,
+.animate-partner-marquee:focus-within {
+  animation-play-state: paused;
+}

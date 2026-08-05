@@ -109,11 +109,11 @@ export default function Footer() {
                 +91 9217396124
               </a>
               <a
-                href="mailto:grsindiacorp@gmail.com"
+                href="mailto: info@Khushicenter.in"
                 className="flex items-center gap-2.5 text-sm text-slate-400 hover:text-pink-400 transition-colors group"
               >
                 <Mail className="h-4 w-4 text-pink-500 group-hover:scale-110 transition-transform" />
-                grsindiacorp@gmail.com
+                info@Khushicenter.in
               </a>
             </div>
           </div>

@@ -7,6 +7,7 @@ import HeroLeftSidebar, { LiveUpdatesWidget, StoryPlayerWidget } from "@/compone
 import HeroRightSidebar from "@/components/layout/HeroRightSidebar";
 import AwarenessCarousel from "@/components/layout/AwarenessCarousel";
 import OurTeam from "@/components/layout/OurTeam";
+import TrustedPartnersCarousel from "@/components/layout/TrustedPartnersCarousel";
 import {
   Ribbon,
   ShieldCheck,
@@ -73,7 +74,7 @@ export default async function Home() {
             <div className="col-span-12 md:col-span-6 text-center space-y-6 max-w-xl mx-auto flex flex-col justify-center items-center">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/20 backdrop-blur-md border border-pink-300/20 text-pink-100 text-xs font-semibold tracking-wider uppercase">
                 <Ribbon className="h-4 w-4" />
-                Breast Cancer Awareness Mission
+                
               </div>
 
               <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
@@ -90,17 +91,17 @@ export default async function Home() {
               </p>
 
               <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2 w-full max-w-sm">
-                <Link href="/register" className="w-full sm:w-auto">
+                <Link href="/webinars" className="w-full sm:w-auto">
                   <Button
                     size="lg"
                     className="w-full bg-pink-600 hover:bg-pink-700 text-white shadow-xl cursor-pointer"
                   >
-                    Join Campaign
+                    Join Webinar
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
 
-                <Link href="/campaigns" className="w-full sm:w-auto">
+                <Link href="/donate" className="w-full sm:w-auto">
                   <Button
                     size="lg"
                     variant="outline"
@@ -268,10 +269,10 @@ export default async function Home() {
         Our Partner Organizations
       </h2>
 
-      <p className="text-muted-foreground max-w-2xl mx-auto">
+      {/* <p className="text-muted-foreground max-w-2xl mx-auto">
         Proudly supported by leading corporations committed to social
         responsibility and healthcare excellence.
-      </p>
+      </p> */}
     </div>
 
     {/* Partner Cards */}
@@ -379,8 +380,18 @@ export default async function Home() {
   </div>
 </section>
 
+{/* Trusted Healthcare & Support Organizations Auto-scrolling Carousel */}
+<TrustedPartnersCarousel />
+
       {/* Slideshow/Carousel Section */}
-      <AwarenessCarousel />
+      <AwarenessCarousel /> 
+
+       <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/50 flex gap-3 text-xs text-slate-500 max-w-4xl mx-auto leading-relaxed">
+        <ShieldCheck className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
+        <p>
+          <strong>Medical Disclaimer:</strong> The information provided on this platform is for educational and campaign purposes only. It should not be used as a substitute for professional clinical advice, diagnosis, or treatment. Always consult with a licensed physician or oncologist regarding health concerns.
+        </p>
+      </div>
 
     </div>
   );

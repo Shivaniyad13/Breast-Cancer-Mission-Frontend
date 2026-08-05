@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="240" height="80" rx="12" fill="#ffffff"/>
+  <g transform="translate(12, 16)">
+    <path d="M 12 36 C 5 24, 15 8, 26 18 C 37 8, 47 24, 40 36 L 26 48 Z" fill="#e11d48"/>
+    <path d="M 26 18 C 22 14, 16 18, 20 25 L 26 32 L 32 25 C 36 18, 30 14, 26 18 Z" fill="#f472b6"/>
+  </g>
+  <text x="68" y="30" font-family="Arial, sans-serif" font-weight="900" font-size="13" fill="#e11d48">SUSAN G. KOMEN</text>
+  <text x="68" y="46" font-family="Arial, sans-serif" font-weight="700" font-size="9" fill="#475569">GLOBAL BREAST CANCER NGO</text>
+  <text x="68" y="61" font-family="Arial, sans-serif" font-weight="600" font-size="8.5" fill="#f43f5e">End Breast Cancer Forever</text>
+</svg>

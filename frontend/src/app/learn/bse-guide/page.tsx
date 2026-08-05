@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  Ribbon, CheckCircle, Timer, Play, Pause, RotateCcw, 
-  ChevronLeft, ChevronRight, Eye, User, Sparkles, ShieldAlert 
+import {
+  Ribbon, CheckCircle, Timer, Play, Pause, RotateCcw,
+  ChevronLeft, ChevronRight, Eye, User, Sparkles, ShieldAlert
 } from "lucide-react";
 import Link from "next/link";
 
@@ -76,13 +76,13 @@ const STEPS: BSEStep[] = [
       "Keep a log of how your breasts feel. Most lumps turn out to be benign cysts, but early detection is vital.",
       "If you feel a hard nodule, deep lump, or notice retraction, contact a doctor immediately."
     ],
-    visualTip: "Tip: Do not panic if you feel a lump. Simply schedule a clinical checkup for professional imaging."
+    visualTip: "Tip: Do not panic if you feel a lump. Simply schedule a clinical checkup or consult with your physician."
   }
 ];
 
 export default function BSEGuidePage() {
   const [activeStep, setActiveStep] = useState(0);
-  
+
   // Timer States
   const [seconds, setSeconds] = useState(120); // 2-minute exam timer
   const [isTimerActive, setIsTimerActive] = useState(false);
@@ -136,7 +136,7 @@ export default function BSEGuidePage() {
       <div className="absolute bottom-20 left-10 w-72 h-72 bg-rose-200/25 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-4xl mx-auto space-y-10 relative">
-        
+
         {/* Header */}
         <div className="text-center space-y-3">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-700 text-xs font-bold uppercase tracking-wider">
@@ -152,7 +152,7 @@ export default function BSEGuidePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
+
           {/* LEFT: Step Navigator */}
           <div className="md:col-span-1 space-y-3">
             <div className="bg-white/80 backdrop-blur-md border border-pink-100 rounded-3xl p-5 shadow-sm space-y-4">
@@ -164,15 +164,13 @@ export default function BSEGuidePage() {
                     <button
                       key={step.id}
                       onClick={() => setActiveStep(idx)}
-                      className={`w-full text-left p-3.5 rounded-xl border text-xs font-semibold transition-all flex items-center gap-3 ${
-                        isActive 
-                          ? "border-primary bg-pink-50/20 text-primary" 
+                      className={`w-full text-left p-3.5 rounded-xl border text-xs font-semibold transition-all flex items-center gap-3 ${isActive
+                          ? "border-primary bg-pink-50/20 text-primary"
                           : "border-slate-100 hover:bg-pink-50/10 text-slate-600 bg-white/40"
-                      }`}
+                        }`}
                     >
-                      <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
-                        isActive ? "bg-primary text-white" : "bg-slate-100 text-slate-400"
-                      }`}>
+                      <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${isActive ? "bg-primary text-white" : "bg-slate-100 text-slate-400"
+                        }`}>
                         {step.id}
                       </span>
                       <span>{step.title}</span>
@@ -187,28 +185,27 @@ export default function BSEGuidePage() {
               <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider flex items-center justify-center gap-1.5">
                 <Timer className="h-4.5 w-4.5 text-primary" /> Exam Timer
               </h4>
-              
+
               <div className="text-3xl font-extrabold text-slate-800 font-heading tracking-tight">
                 {formatTime(seconds)}
               </div>
-              
+
               <p className="text-[10px] text-muted-foreground leading-relaxed px-2">
                 Use this timer to pace your palpation steps. Each side should be felt for at least 60 seconds.
               </p>
 
               <div className="flex gap-2 justify-center">
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   onClick={handleTimerToggle}
-                  className={`rounded-lg py-1.5 h-auto text-[10px] uppercase font-bold px-3 shadow-xs flex items-center gap-1 ${
-                    isTimerActive ? "bg-amber-600 hover:bg-amber-700" : "bg-primary hover:bg-primary/95"
-                  }`}
+                  className={`rounded-lg py-1.5 h-auto text-[10px] uppercase font-bold px-3 shadow-xs flex items-center gap-1 ${isTimerActive ? "bg-amber-600 hover:bg-amber-700" : "bg-primary hover:bg-primary/95"
+                    }`}
                 >
                   {isTimerActive ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
                   {isTimerActive ? "Pause" : "Start"}
                 </Button>
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   variant="outline"
                   onClick={handleTimerReset}
                   className="border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg py-1.5 h-auto text-[10px] uppercase font-bold px-3"
@@ -221,7 +218,7 @@ export default function BSEGuidePage() {
 
           {/* RIGHT: Active Step Content */}
           <div className="md:col-span-2 space-y-6">
-            
+
             {/* BSE Walkthrough Video Tutorial */}
             <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-lg rounded-3xl overflow-hidden">
               <CardHeader className="p-5 pb-2">
@@ -245,7 +242,7 @@ export default function BSEGuidePage() {
             </Card>
 
             <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-xl rounded-3xl overflow-hidden min-h-[400px] flex flex-col justify-between">
-              
+
               {/* Card Header */}
               <CardHeader className="p-6 pb-0 border-b border-pink-50/50 bg-white/40">
                 <div className="flex justify-between items-center">

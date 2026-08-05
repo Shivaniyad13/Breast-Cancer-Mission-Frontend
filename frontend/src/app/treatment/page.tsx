@@ -603,11 +603,11 @@ export default function TreatmentPage() {
           {[
             {
               q: "Who should consult before taking this product?",
-              a: "Any patient diagnosed with breast cancer or undergoing active clinical medical treatments (chemotherapy, radiation therapy, immunotherapy) must consult their primary oncology practitioner before integrating Apocan or Apocan Advance."
+              a: "Any patient diagnosed with breast cancer or undergoing active clinical medical treatments (chemotherapy, radiation therapy, immunotherapy) must consult their oncologist  before integrating   Advance Apocan. "
             },
             {
               q: "Can it be taken alongside conventional medical treatment?",
-              a: "Apocan is designed as a supportive wellness formulation. However, we advise patients to share our ingredient sheet with their licensed physician to structure appropriate dosage timing and avoid potential metabolic cross-reactions."
+              a: " Advanced Apocan is designed as a supportive wellness formulation. However, we advise patients to share our ingredient sheet with their licensed physician to structure appropriate dosage timing and avoid potential metabolic cross-reactions."
             },
             {
               q: "How should it be used?",

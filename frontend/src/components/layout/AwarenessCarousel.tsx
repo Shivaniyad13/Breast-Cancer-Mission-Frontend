@@ -186,9 +186,10 @@ export default function AwarenessCarousel() {
         
         {/* Section Header */}
         <div className="text-center space-y-3 mb-10">
-          <span className="text-xs font-bold text-primary tracking-widest uppercase bg-primary/10 px-3 py-1 rounded-full inline-flex items-center gap-1.5">
-            <Heart className="h-3 w-3 fill-primary text-primary" /> Visual Inspiration
-          </span>
+         <span className="text-xs font-bold text-white tracking-widest uppercase bg-primary px-3 py-1 rounded-full inline-flex items-center gap-1.5">
+  <Heart className="h-3 w-3 fill-white text-white" />
+  Visual Inspiration
+</span>
           <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
             Empowerment through Awareness & Action
           </h2>

@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  Ribbon, 
-  Heart, 
-  ShieldCheck, 
-  Users, 
-  Award, 
-  BookOpen, 
-  ChevronRight, 
-  Target, 
+import {
+  Ribbon,
+  Heart,
+  ShieldCheck,
+  Users,
+  Award,
+  BookOpen,
+  ChevronRight,
+  Target,
   ArrowRight,
   TrendingUp
 } from "lucide-react";
@@ -28,7 +28,7 @@ export default function AboutPage() {
       <div className="absolute top-[40%] left-5 w-60 h-60 bg-rose-200/25 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto space-y-20 relative z-10">
-        
+
         {/* Section 1: Hero Header */}
         <section className="text-center space-y-4 max-w-3xl mx-auto" aria-labelledby="about-hero-title">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-700 text-xs font-bold uppercase tracking-wider">
@@ -36,7 +36,7 @@ export default function AboutPage() {
             About Our Mission
           </div>
           <h1 id="about-hero-title" className="font-heading text-4xl sm:text-5xl font-black text-slate-800 leading-tight">
-            GRS Breast Cancer <span className="text-primary">Awareness Platform</span>
+            Breast Cancer <span className="text-primary">Mission </span>
           </h1>
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
             An enterprise-grade digital ecosystem designed to connect patients, healthcare professionals, donors, and non-profit organizations into a unified front against breast cancer.
@@ -57,7 +57,7 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="p-6 pt-2 space-y-4">
               <p className="text-sm text-slate-600 leading-relaxed">
-                Our purpose is twofold: first, to democratize breast health literacy by providing verified self-examination guides, oncology webinars, and health quizzes. Second, to break down financial barriers for underprivileged patients by enabling a secure, transparent crowdfunding gateway verified by NGOs and administrators.
+                Our purpose is twofold: first, to democratize breast health literacy by providing verified self-examination guides,  Breast cancer webinars, and health quizzes. Second, to provide trusted financial support for breast cancer patients through a secure, transparent crowdfunding platform verified by NGOs and administrators.
               </p>
             </CardContent>
           </Card>
@@ -91,10 +91,10 @@ export default function AboutPage() {
               <p className="text-3xl sm:text-4xl font-extrabold text-primary">100%</p>
               <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">NGO-Verified Cases</p>
             </div>
-            <div className="space-y-2 max-sm:border-t max-sm:pt-4 md:border-l border-pink-100/50">
+            {/* <div className="space-y-2 max-sm:border-t max-sm:pt-4 md:border-l border-pink-100/50">
               <p className="text-3xl sm:text-4xl font-extrabold text-primary">Secure</p>
               <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Razorpay Payments</p>
-            </div>
+            </div> */}
             <div className="space-y-2 max-sm:border-t max-sm:pt-4 border-l border-pink-100/50">
               <p className="text-3xl sm:text-4xl font-extrabold text-primary">QR-Code</p>
               <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Verifiable Certificates</p>
@@ -114,7 +114,7 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
+
             {/* Pillar 1 */}
             <div className="bg-white/80 border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="h-10 w-10 bg-pink-50 text-primary rounded-xl flex items-center justify-center mb-4">
@@ -122,7 +122,7 @@ export default function AboutPage() {
               </div>
               <h3 className="font-heading text-lg font-bold text-slate-800 mb-2">1. Spread Knowledge</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Access step-by-step Breast Self-Examination (BSE) guides with built-in timers. Attend webinars with oncologists and complete awareness quizzes to earn certified PDF credentials.
+                Access step-by-step Breast Self-Examination (BSE) guides with built-in timers. Attend webinars  and health care providers with oncologists and complete awareness quizzes to earn certified PDF credentials.
               </p>
             </div>
 
@@ -144,7 +144,7 @@ export default function AboutPage() {
               </div>
               <h3 className="font-heading text-lg font-bold text-slate-800 mb-2">3. Unify Stakeholders</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
-                Connect doctors, registered NGOs, survivors, active student volunteers, and sponsors into a cooperative ecosystem to coordinate support programs and educational webinar series.
+                Connect doctors ,Healthcare Providers,NGOs, survivors,  volunteers, and sponsors into a cooperative ecosystem to coordinate support programs and educational active  webinar series.
               </p>
             </div>
 
@@ -169,10 +169,10 @@ export default function AboutPage() {
                 Whether you want to learn, volunteer your time in local campaigns, organize clinical webinars, or donate to support verified oncology treatments, there is a place for you.
               </p>
             </div>
-            
+
             <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-4 justify-end w-full">
               <Link href="/register" className="w-full">
-                <Button 
+                <Button
                   id="about-cta-get-started"
                   className="w-full bg-primary hover:bg-primary/95 text-white font-bold h-11 px-6 rounded-xl shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer border-0"
                 >
@@ -180,9 +180,9 @@ export default function AboutPage() {
                 </Button>
               </Link>
               <Link href="/learn" className="w-full">
-                <Button 
+                <Button
                   id="about-cta-learn-more"
-                  variant="outline" 
+                  variant="outline"
                   className="w-full border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white font-bold h-11 px-6 rounded-xl transition-all duration-200 cursor-pointer bg-transparent"
                 >
                   Explore Awareness Hub
@@ -190,9 +190,22 @@ export default function AboutPage() {
               </Link>
             </div>
           </div>
+
+
         </section>
 
       </div>
+
+      {/* Clinical Disclaimer */}
+      <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/50 flex gap-3 text-xs text-slate-500 max-w-4xl mx-auto leading-relaxed">
+        <ShieldCheck className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
+        <p>
+          <strong>Medical Disclaimer:</strong> The information provided on this platform is for educational and campaign purposes only. It should not be used as a substitute for professional clinical advice, diagnosis, or treatment. Always consult with a licensed physician or oncologist regarding health concerns.
+        </p>
+      </div>
+
     </div>
+
+
   );
 }

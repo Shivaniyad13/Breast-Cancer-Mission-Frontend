@@ -101,6 +101,29 @@ interface FAQItem {
 // ----------------------------------------------------------------------
 // Mock Data
 // ----------------------------------------------------------------------
+
+const GALLERY_ITEMS = [
+  { name: "Dr.Anurag Srivastav", dept: "Medical Oncology", img: "/team8.jpg" },
+  { name: "Dr.Navneet Kaur", dept: "Genetics Lab", img: "/photo.jpg" },
+  { name: "Dr. Rahul Bhardavaj", dept: "Patient Support", img: "/photo.jpg" },
+  { name: "Dr. Ashok Sharma ", dept: "Community Outreach", img: "/photo.jpg" },
+  { name: "Dr. Nandani Bhojraj", dept: "Operations & HR", img: "/photo.jpg" },
+  { name: "Dr. U.P Sahi", dept: "Diagnostic Imaging", img: "/photo.jpg" },
+  { name: "Dr. Ashok Ved", dept: "Public Advocacy", img: "/photo.jpg" },
+  { name: "Dr. Ashutosh Pathankar", dept: "Family Counselling", img: "/photo.jpg" },
+  { name: "Dr. Sanjay Mahesawari", dept: "Molecular Research", img: "/photo.jpg" },
+  { name: "Dr. Shilpa Rao", dept: "Campaign Logistics", img: "/photo.jpg" },
+   { name: "Dr. Anita Shrotia", dept: "Patient Support", img: "/photo.jpg" },
+    { name: "Dr. Abhishek Sankar", dept: "Patient Support", img: "/photo.jpg" },
+     { name: "Dr. Sushil Jain", dept: "Patient Support", img: "/photo.jpg" },
+      { name: "Dr. Nikhil", dept: "Patient Support", img: "/photo.jpg" },
+       { name: "Dr. Neraj", dept: "Patient Support", img: "/photo.jpg" },
+        { name: "Dr. P.C Sharma", dept: "Patient Support", img: "/photo.jpg" },
+         { name: "Dr. Hari Shukla", dept: "Patient Support", img: "/photo.jpg" },
+];
+
+
+
 const specialistsData: Specialist[] = [
   {
     id: "breast-surgeon",
@@ -1040,8 +1063,69 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
+      {/* ======================================================================
+          4.  MEET OUR EXPERT TEAM (GALLERY SECTION)   <--- NEW SECTION
+          ====================================================================== */}
+      <section id="expert-team-gallery" className="py-24 bg-white relative">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100">
+              <Users2 className="h-4 w-4" />
+              Our Team
+            </span>
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+              Meet Our Expert Team
+            </h2>
+            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
+              Dedicated specialists committed to your care – from diagnosis to recovery and beyond.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {GALLERY_ITEMS.map((person, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-slate-50 border border-slate-100/50 hover:border-pink-200"
+              >
+                <div className="aspect-[4/5] w-full overflow-hidden bg-slate-100">
+                  <img
+                    src={person.img}
+                    alt={person.name}
+                    onError={(e) => {
+                      // Fallback if image fails to load
+                      (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x500?text=Team+Member";
+                    }}
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent backdrop-blur-[2px]">
+                  <h4 className="text-white font-heading text-base font-bold leading-tight">
+                    {person.name}
+                  </h4>
+                  <p className="text-pink-300 text-xs font-medium tracking-wide uppercase">
+                    {person.dept}
+                  </p>
+                </div>
+                {/* Optional hover overlay with more info */}
+                <div className="absolute inset-0 bg-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="text-xs text-slate-400 font-medium">
+              * Our team of experienced professionals works collaboratively to provide the best possible care.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ----------------------------------------------------------------------
-          4. FIND CARE SERVICES (DIRECTORY SECTION)
+          5. FIND CARE SERVICES (DIRECTORY SECTION)
           ---------------------------------------------------------------------- */}
       <section id="care-services-directory" className="py-24 bg-white relative">
         <div className="container mx-auto px-4 max-w-6xl">
@@ -1208,7 +1292,7 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ----------------------------------------------------------------------
-          5. BREAST CANCER TREATMENT JOURNEY TIMELINE
+          6. BREAST CANCER TREATMENT JOURNEY TIMELINE
           ---------------------------------------------------------------------- */}
       <section className="py-24 bg-gradient-to-b from-slate-900 to-purple-950 text-white overflow-hidden relative">
         <div className="container mx-auto px-4 max-w-6xl relative z-10">
@@ -1320,7 +1404,7 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ----------------------------------------------------------------------
-          6. SUPPORT SERVICES
+          7. SUPPORT SERVICES
           ---------------------------------------------------------------------- */}
       <section id="support-services-section" className="py-24 bg-white relative">
         <div className="container mx-auto px-4 max-w-6xl">
@@ -1372,7 +1456,7 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ----------------------------------------------------------------------
-          7. PATIENT RESOURCES
+          8. PATIENT RESOURCES
           ---------------------------------------------------------------------- */}
       <section className="py-24 bg-gradient-to-tr from-pink-50/40 via-purple-50/15 to-blue-50/30 border-y border-slate-200/55">
         <div className="container mx-auto px-4 max-w-6xl">
@@ -1438,7 +1522,7 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ----------------------------------------------------------------------
-          8. FREQUENTLY ASKED QUESTIONS
+          9. FREQUENTLY ASKED QUESTIONS
           ---------------------------------------------------------------------- */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 max-w-4xl">
@@ -1504,7 +1588,7 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ----------------------------------------------------------------------
-          9. EMERGENCY & HELPLINE SECTION
+          10. EMERGENCY & HELPLINE SECTION
           ---------------------------------------------------------------------- */}
       <section id="emergency-helpline-section" className="py-24 bg-gradient-to-r from-red-650 via-rose-600 to-pink-650 text-white relative overflow-hidden">
         {/* Abstract background shapes */}
@@ -1583,7 +1667,7 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ----------------------------------------------------------------------
-          10. FINAL CALL TO ACTION (CTA)
+          11. FINAL CALL TO ACTION (CTA)
           ---------------------------------------------------------------------- */}
       <section className="py-28 bg-slate-950 text-white relative overflow-hidden">
         {/* Background survivor image overlay */}

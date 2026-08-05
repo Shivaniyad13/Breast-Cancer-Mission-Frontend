@@ -22,6 +22,7 @@ model User {
   certificates         Certificate[]
   donations            Donation[]
   profile              Profile?
+  doctorProfile        Doctor?
   sessions             Session[]
   webinarRegistrations WebinarRegistration[]
 }
@@ -120,15 +121,19 @@ model Document {
 
 model Donation {
   id               String         @id @default(uuid())
-  campaignId       String
+  campaignId       String?
   donorId          String?
+  donorName        String?
+  donorEmail       String?
+  donorPhone       String?
+  message          String?
   amount           Decimal        @db.Decimal(12, 2)
   currency         String         @default("INR")
   paymentGatewayId String         @unique
   status           DonationStatus @default(PENDING)
   isAnonymous      Boolean        @default(false)
   createdAt        DateTime       @default(now())
-  campaign         Campaign       @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  campaign         Campaign?      @relation(fields: [campaignId], references: [id], onDelete: Cascade)
   donor            User?          @relation(fields: [donorId], references: [id])
 }
 
@@ -200,9 +205,47 @@ model Webinar {
   eligibility           String?
   createdAt             DateTime              @default(now())
   updatedAt             DateTime              @updatedAt
+  doctorId              String?
+  doctor                Doctor?               @relation(fields: [doctorId], references: [id], onDelete: SetNull)
   attendance            Attendance[]
   certificates          Certificate[]
   registrations         WebinarRegistration[]
+}
+
+model Doctor {
+  id                   String             @id @default(uuid())
+  doctorId             String             @unique
+  userId               String             @unique
+  user                 User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  medicalLicenseNumber String?
+  hospitalAffiliation  String?
+  specialty            String?
+  bio                  String?
+  avatarUrl            String?
+  verificationStatus   VerificationStatus @default(PENDING)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  articles             Article[]
+  webinars             Webinar[]
+}
+
+model Article {
+  id            String   @id @default(uuid())
+  title         String
+  slug          String   @unique
+  excerpt       String?
+  summary       String?
+  content       String
+  category      String
+  status        String   @default("PUBLISHED")
+  readTime      String   @default("5 min read")
+  featuredImage String?
+  views         Int      @default(0)
+  authorId      String?
+  doctorId      String?
+  doctor        Doctor?  @relation(fields: [doctorId], references: [id], onDelete: SetNull)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model WebinarRegistration {
@@ -298,6 +341,7 @@ enum DocumentType {
 enum DonationStatus {
   PENDING
   SUCCESSFUL
+  COMPLETED
   FAILED
   REFUNDED
 }

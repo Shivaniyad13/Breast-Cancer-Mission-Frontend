@@ -11,6 +11,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import WebinarRegisterButton from "./WebinarRegisterButton";
 
+import DoctorProfileModal from "@/components/doctor/DoctorProfileModal";
+
 interface Webinar {
   id: string;
   title: string;
@@ -46,6 +48,7 @@ interface WebinarsGridProps {
 
 export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProps) {
   const [activeTab, setActiveTab] = useState<"live" | "upcoming" | "completed">("upcoming");
+  const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
   const now = new Date();
 
   // Segregate webinars dynamically
@@ -90,6 +93,12 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
 
   return (
     <div className="space-y-8">
+      <DoctorProfileModal
+        doctorIdOrId={selectedDoctorId}
+        isOpen={!!selectedDoctorId}
+        onClose={() => setSelectedDoctorId(null)}
+      />
+
       {/* Visual Header Tabs */}
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 border-b border-pink-100 pb-4 w-full">
         <div className="flex gap-2 p-1 bg-pink-50/50 border border-pink-100/50 rounded-2xl shadow-sm overflow-x-auto no-scrollbar whitespace-nowrap max-w-full">
@@ -246,22 +255,31 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
 
                     {/* Card Content Details */}
                     <CardContent className="p-5 pt-0 flex-1 flex flex-col justify-between space-y-4">
-                      {/* Doctor Profile block */}
+                      {/* Hosted by Doctor Profile block */}
                       <div className="space-y-3.5 border-y border-pink-50/50 py-3.5 text-xs text-slate-655 font-semibold">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-full bg-pink-100 flex items-center justify-center font-black text-primary overflow-hidden shrink-0 border border-pink-200">
-                            {webinar.speakerImage ? (
-                              <img src={webinar.speakerImage} alt={webinar.speakerName} className="object-cover h-full w-full" />
-                            ) : (
-                              webinar.speakerName.charAt(0)
-                            )}
-                          </div>
-                          <div>
-                            <p className="font-extrabold text-slate-800 leading-tight">{webinar.speakerName}</p>
-                            <p className="text-[10px] text-primary mt-0.5 uppercase tracking-wide font-black">
-                              {webinar.speakerQualification || "MD / Oncologist"}
-                            </p>
-                          </div>
+                        <div className="space-y-1">
+                          <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Hosted by:</span>
+                          <button
+                            type="button"
+                            onClick={() => (webinar as any).doctor?.doctorId ? setSelectedDoctorId((webinar as any).doctor.doctorId) : (webinar as any).doctorId ? setSelectedDoctorId((webinar as any).doctorId) : null}
+                            className="flex items-center gap-2 font-extrabold text-slate-800 hover:text-primary transition-colors text-left cursor-pointer group/doc"
+                          >
+                            <div className="h-9 w-9 rounded-full bg-pink-100 flex items-center justify-center font-black text-primary overflow-hidden shrink-0 border border-pink-200">
+                              {webinar.speakerImage ? (
+                                <img src={webinar.speakerImage} alt={webinar.speakerName} className="object-cover h-full w-full" />
+                              ) : (
+                                webinar.speakerName.charAt(0)
+                              )}
+                            </div>
+                            <div>
+                              <p className="font-extrabold text-slate-800 leading-tight group-hover/doc:underline">
+                                Dr. {webinar.speakerName.replace(/^Dr\.\s*/i, "")}
+                              </p>
+                              <span className="text-[10px] text-emerald-600 font-bold inline-flex items-center gap-1">
+                                <ShieldCheck className="h-3 w-3" /> Verified Doctor
+                              </span>
+                            </div>
+                          </button>
                         </div>
 
                         {/* Specialization & Hospital */}

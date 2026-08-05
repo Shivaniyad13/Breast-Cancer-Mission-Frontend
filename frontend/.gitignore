@@ -32,8 +32,12 @@ public/fonts/*.ttf
 public/fonts/*.woff
 public/fonts/*.woff2
 
-# Large media files
-# *.mp4
-# *.webm
-# *.avi
+# Large media & temporary upload files
+public/uploads/*
+!public/uploads/.gitkeep
+public/certificates/*
+!public/certificates/.gitkeep
+*.mp4
+*.webm
+*.avi
 

@@ -30,6 +30,7 @@ import {
   editSuccessStory, 
   deleteSuccessStory 
 } from "@/app/actions/successStories";
+import VideoUpload from "@/components/ui/video-upload";
 
 interface SuccessStory {
   id: string;
@@ -568,11 +569,10 @@ export default function AdminSuccessStoriesDashboard({ stories: initialStories }
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="editVideoUrl">Video Testimonial URL</Label>
-              <Input
-                id="editVideoUrl"
+              <Label>Video Testimonial</Label>
+              <VideoUpload
                 value={editForm.videoUrl}
-                onChange={(e) => setEditForm(prev => ({ ...prev, videoUrl: e.target.value }))}
+                onChange={(url) => setEditForm(prev => ({ ...prev, videoUrl: url }))}
               />
             </div>
 

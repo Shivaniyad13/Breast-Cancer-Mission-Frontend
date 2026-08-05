@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { Role, CertificateType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { getOrCreateDoctorRecord } from "./doctor";
 import fs from "fs";
 import path from "path";
 import PDFDocument from "pdfkit";
@@ -91,6 +92,13 @@ export async function getWebinars(filters: {
     orderBy: { date: mode === "past" ? "desc" : "asc" },
     include: {
       registrations: true,
+      doctor: {
+        include: {
+          user: {
+            select: { name: true, email: true, image: true },
+          },
+        },
+      },
     },
   });
 }
@@ -130,6 +138,13 @@ export async function getWebinarById(id: string) {
         },
       },
       certificates: true,
+      doctor: {
+        include: {
+          user: {
+            select: { name: true, email: true, image: true },
+          },
+        },
+      },
     },
   });
 
@@ -238,6 +253,138 @@ export async function deleteWebinarAction(id: string) {
 
   revalidatePath("/webinars");
   revalidatePath("/admin/webinars");
+  return { success: true };
+}
+
+/**
+ * Creates a webinar automatically linked to the logged-in doctor.
+ */
+export async function createDoctorWebinarAction(data: any) {
+  const session = await auth();
+
+  if (!session?.user || (session.user.role !== Role.DOCTOR && session.user.role !== Role.ADMIN)) {
+    throw new Error("Unauthorized: Doctor privilege required.");
+  }
+
+  const doctor = await getOrCreateDoctorRecord(session.user.id);
+  const doctorName = doctor.user.name || "Dr. Medical Specialist";
+
+  const webinar = await db.webinar.create({
+    data: {
+      title: data.title,
+      description: data.description || "",
+      fullContent: data.fullContent || data.description || "",
+      bannerImage: data.bannerImage || null,
+      speakerName: data.speakerName || doctorName,
+      speakerImage: doctor.user.image || data.speakerImage || null,
+      speakerBio: data.speakerBio || `Dr. ${doctorName} - ${doctor.specialty}`,
+      speakerQualification: data.speakerQualification || "MD / MS",
+      speakerSpecialization: data.speakerSpecialization || doctor.specialty || "Oncology",
+      speakerHospital: data.speakerHospital || doctor.hospitalAffiliation || "Specialist Oncology Care",
+      date: new Date(data.date),
+      startTime: new Date(data.startTime),
+      endTime: new Date(data.endTime),
+      venue: data.venue || "Online",
+      city: data.city || null,
+      state: data.state || null,
+      country: data.country || null,
+      webinarMode: data.webinarMode || "Online",
+      meetingLink: data.meetingLink || "https://zoom.us/j/grs-webinar-session",
+      maxSeats: parseInt(data.maxSeats) || 100,
+      category: data.category || "Awareness",
+      status: data.status || "PUBLISHED",
+      objectives: data.objectives || "",
+      agenda: data.agenda || "",
+      organizerDetails: data.organizerDetails || `Dr. ${doctorName}`,
+      language: data.language || "English",
+      meetingPlatform: data.meetingPlatform || "Zoom",
+      doctorId: doctor.id,
+    },
+  });
+
+  revalidatePath("/webinars");
+  revalidatePath("/dashboard");
+  return { success: true, webinarId: webinar.id };
+}
+
+/**
+ * Updates a doctor's webinar with strict ownership check.
+ */
+export async function updateDoctorWebinarAction(id: string, data: any) {
+  const session = await auth();
+
+  if (!session?.user || (session.user.role !== Role.DOCTOR && session.user.role !== Role.ADMIN)) {
+    throw new Error("Unauthorized: Doctor privilege required.");
+  }
+
+  const webinar = await db.webinar.findUnique({
+    where: { id },
+  });
+
+  if (!webinar) {
+    return { error: "Webinar not found." };
+  }
+
+  const doctor = await getOrCreateDoctorRecord(session.user.id);
+
+  if (session.user.role !== Role.ADMIN && webinar.doctorId !== doctor.id) {
+    return { error: "Permission Denied: You can only edit your own webinars." };
+  }
+
+  await db.webinar.update({
+    where: { id },
+    data: {
+      ...(data.title && { title: data.title }),
+      ...(data.description && { description: data.description }),
+      ...(data.fullContent && { fullContent: data.fullContent }),
+      ...(data.date && { date: new Date(data.date) }),
+      ...(data.startTime && { startTime: new Date(data.startTime) }),
+      ...(data.endTime && { endTime: new Date(data.endTime) }),
+      ...(data.venue !== undefined && { venue: data.venue }),
+      ...(data.meetingLink && { meetingLink: data.meetingLink }),
+      ...(data.maxSeats && { maxSeats: parseInt(data.maxSeats) }),
+      ...(data.category && { category: data.category }),
+      ...(data.status && { status: data.status }),
+      ...(data.webinarMode && { webinarMode: data.webinarMode }),
+    },
+  });
+
+  revalidatePath("/webinars");
+  revalidatePath(`/webinars/${id}`);
+  revalidatePath("/dashboard");
+  return { success: true };
+}
+
+/**
+ * Deletes a doctor's webinar with strict ownership check.
+ */
+export async function deleteDoctorWebinarAction(id: string) {
+  const session = await auth();
+
+  if (!session?.user || (session.user.role !== Role.DOCTOR && session.user.role !== Role.ADMIN)) {
+    throw new Error("Unauthorized: Doctor privilege required.");
+  }
+
+  const webinar = await db.webinar.findUnique({
+    where: { id },
+  });
+
+  if (!webinar) {
+    return { error: "Webinar not found." };
+  }
+
+  const doctor = await getOrCreateDoctorRecord(session.user.id);
+
+  if (session.user.role !== Role.ADMIN && webinar.doctorId !== doctor.id) {
+    return { error: "Permission Denied: You can only delete your own webinars." };
+  }
+
+  await db.webinar.delete({
+    where: { id },
+  });
+
+  revalidatePath("/webinars");
+  revalidatePath("/dashboard");
   return { success: true };
 }
 

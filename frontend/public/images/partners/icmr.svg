@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="240" height="80" rx="12" fill="#ffffff"/>
+  <g transform="translate(14, 15)">
+    <circle cx="25" cy="25" r="23" fill="#0284c7"/>
+    <path d="M 25 10 L 25 40 M 10 25 L 40 25" stroke="#ffffff" stroke-width="4"/>
+    <circle cx="25" cy="25" r="7" fill="#ffffff"/>
+    <circle cx="25" cy="25" r="4" fill="#0284c7"/>
+  </g>
+  <text x="72" y="34" font-family="Arial, sans-serif" font-weight="900" font-size="22" fill="#0284c7" letter-spacing="1">ICMR</text>
+  <text x="72" y="50" font-family="Arial, sans-serif" font-weight="700" font-size="9" fill="#0f172a">INDIAN COUNCIL OF MEDICAL RES.</text>
+  <text x="72" y="63" font-family="Arial, sans-serif" font-weight="600" font-size="8.5" fill="#64748b">Apex Body Biomedical Research</text>
+</svg>

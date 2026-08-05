@@ -83,6 +83,21 @@ export async function registerUserAction(data: RegisterInput) {
       },
     });
 
+    // Create Doctor profile entry if role is DOCTOR
+    if (role === Role.DOCTOR) {
+      const doctorIdString = "DOC-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+      await db.doctor.create({
+        data: {
+          userId: user.id,
+          doctorId: doctorIdString,
+          medicalLicenseNumber: docLicense || null,
+          hospitalAffiliation: docAffiliation || null,
+          specialty: docSpecialty || "Oncology",
+          verificationStatus,
+        },
+      });
+    }
+
     return { success: true };
   } catch (error: unknown) {
     console.error("Registration error details:", error);

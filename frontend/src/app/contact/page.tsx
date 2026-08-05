@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Phone, Mail, MapPin, Send, CheckCircle, Ribbon } from "lucide-react";
+import { Phone, Mail, MapPin, Send, CheckCircle, Ribbon, ShieldCheck } from "lucide-react";
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
@@ -24,7 +24,7 @@ export default function ContactPage() {
   return (
     <>
       {/* ── SEO Meta ── */}
-      <title>Contact Us · Breast Cancer Awareness Mission</title>
+      <title>Contact Us · Breast Cancer  Mission</title>
 
       <div className="min-h-screen bg-gradient-to-b from-[#0d1b2a] via-slate-900 to-slate-950 text-white">
 
@@ -69,7 +69,7 @@ export default function ContactPage() {
                 </a>
 
                 <a
-                  href="mailto:grsindiacorp@gmail.com"
+                  href="mailto:info@khusicenter.in"
                   className="flex items-start gap-4 group"
                 >
                   <div className="h-10 w-10 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center flex-shrink-0 group-hover:bg-pink-500/30 transition-colors">
@@ -77,7 +77,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-xs text-slate-500 uppercase tracking-widest mb-0.5">Email</p>
-                    <p className="text-white font-medium group-hover:text-pink-300 transition-colors">khushicentre@gmail.com</p>
+                    <p className="text-white font-medium group-hover:text-pink-300 transition-colors">info@khusicenter.in</p>
                   </div>
                 </a>
 
@@ -255,6 +255,14 @@ export default function ContactPage() {
 
           </div>
         </div>
+      </div>
+
+      {/* Clinical Disclaimer */}
+      <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/50 flex gap-3 text-xs text-slate-500 max-w-4xl mx-auto leading-relaxed">
+        <ShieldCheck className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
+        <p>
+          <strong>Medical Disclaimer:</strong> The information provided on this platform is for educational and campaign purposes only. It should not be used as a substitute for professional clinical advice, diagnosis, or treatment. Always consult with a licensed physician or oncologist regarding health concerns.
+        </p>
       </div>
     </>
   );

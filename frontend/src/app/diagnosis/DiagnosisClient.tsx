@@ -7,11 +7,11 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
   DialogDescription,
   DialogFooter
 } from "@/components/ui/dialog";
@@ -88,6 +88,240 @@ interface DiagnosisTechnology {
   isActive: boolean;
 }
 
+// ----------------------------------------------------------------------------
+//  MOCK DATA – replace with real API data if available
+// ----------------------------------------------------------------------------
+const MOCK_TECHNOLOGIES: DiagnosisTechnology[] = [
+  {
+    id: "tech-1",
+    name: "Digital Mammography (2D)",
+    category: "Mammography",
+    shortOverview: "Standard low‑dose X‑ray imaging for early detection of microcalcifications and masses.",
+    accuracy: "92.3%",
+    purpose: "Primary screening tool for asymptomatic women; detects abnormalities years before palpation.",
+    advantages: "Fast, cost‑effective, widely available, and the most validated screening method.",
+    limitations: "May be less sensitive in dense breast tissue; requires compression.",
+    recommendedGroup: "Women aged 40+ annually; earlier if family history.",
+    imageUrl: "/images/mammography_screening.png",
+    introVideoUrl: "/videoplayback.mp4",
+    animationVideoUrl: null,
+    explainerVideoUrl: null,
+    workflow: "Patient stands in front of the machine; breast is compressed between two plates; two views per breast are taken.",
+    stepByStep: "1. Patient changes into gown.\n2. Technician positions breast on imaging plate.\n3. Compression applied for a few seconds.\n4. Image captured; repeated for other view and breast.",
+    preparation: "Avoid deodorant, powder, or lotion on day of exam. Wear a two‑piece outfit.",
+    duration: "~15 minutes",
+    benefits: "High sensitivity for calcifications; quick results; low radiation dose.",
+    risks: "Mild discomfort; false positives/negatives.",
+    whoShouldTake: "All women over 40; earlier if high‑risk (BRCA, strong family history).",
+    faqs: JSON.stringify([
+      { q: "Is mammography painful?", a: "Some women find the compression uncomfortable, but it only lasts a few seconds." },
+      { q: "How often should I get a mammogram?", a: "Annually from age 40; consult your doctor for personalized schedule." }
+    ]),
+    relatedArticles: JSON.stringify([
+      { title: "ACR Mammography Guidelines", link: "https://www.acr.org/Clinical-Resources/Mammography" }
+    ]),
+    brochureUrl: null,
+    manufacturerName: "Hologic",
+    manufacturerLogoUrl: null,
+    manufacturerOverview: "Global leader in women's health, providing innovative mammography systems.",
+    manufacturerWebsite: "https://www.hologic.com",
+    manufacturerCountry: "USA",
+    manufacturerSpecialization: "Breast imaging & diagnostics",
+    collaborationStatus: "Active",
+    isActive: true
+  },
+  {
+    id: "tech-2",
+    name: "Digital 3D Mammography (DBT)",
+    category: "3D Mammography",
+    shortOverview: "Advanced three‑dimensional breast imaging providing higher accuracy for dense tissue.",
+    accuracy: "96.4%",
+    purpose: "Improves cancer detection, especially in dense breasts, by reducing overlapping tissue.",
+    advantages: "Higher sensitivity; fewer call‑backs; better specificity.",
+    limitations: "Slightly higher radiation dose than 2D; more expensive.",
+    recommendedGroup: "Women with dense breast tissue; those at elevated risk.",
+    imageUrl: "/images/mammography_screening.png",
+    introVideoUrl: "/Breast Cancer_ What is it, Symptoms, Causes, Treatment _ Mass General Brigham.mp4",
+    animationVideoUrl: null,
+    explainerVideoUrl: null,
+    workflow: "Similar to 2D but the X‑ray tube moves in an arc, capturing multiple images from different angles.",
+    stepByStep: "1. Same preparation as 2D.\n2. Breast is compressed once.\n3. Machine sweeps over the breast, taking multiple low‑dose exposures.\n4. Images are reconstructed into 3D slices.",
+    preparation: "Same as 2D mammography.",
+    duration: "~15‑20 minutes",
+    benefits: "Detects cancers earlier; reduces false positives; especially valuable for dense tissue.",
+    risks: "Slightly higher radiation; may still miss subtle lesions.",
+    whoShouldTake: "Recommended for women with dense breasts or those who have had prior call‑backs.",
+    faqs: JSON.stringify([
+      { q: "Is 3D mammography better than 2D?", a: "It has been shown to detect more cancers and reduce false alarms." },
+      { q: "Is the radiation higher?", a: "It is slightly higher than 2D but still within safe limits." }
+    ]),
+    relatedArticles: JSON.stringify([
+      { title: "Tomosynthesis Benefits", link: "https://www.breastcancer.org/screening/tomosynthesis" }
+    ]),
+    brochureUrl: null,
+    manufacturerName: "Hologic",
+    manufacturerLogoUrl: null,
+    manufacturerOverview: "Pioneer of 3D mammography technology with Genius 3D Mammography™.",
+    manufacturerWebsite: "https://www.hologic.com",
+    manufacturerCountry: "USA",
+    manufacturerSpecialization: "Breast imaging & diagnostics",
+    collaborationStatus: "Active",
+    isActive: true
+  },
+  {
+    id: "tech-3",
+    name: "Breast Ultrasound (Sonography)",
+    category: "Ultrasound",
+    shortOverview: "Uses high‑frequency sound waves to produce real‑time images; radiation‑free.",
+    accuracy: "89.7%",
+    purpose: "Differentiates fluid‑filled cysts from solid masses; often used as follow‑up.",
+    advantages: "No radiation; good for dense breasts; can guide biopsies.",
+    limitations: "Operator‑dependent; may miss small calcifications.",
+    recommendedGroup: "Younger women (under 40) with palpable lumps; dense breasts.",
+    imageUrl: "/images/abus_system.png",
+    introVideoUrl: "/cancer video.webm",
+    animationVideoUrl: null,
+    explainerVideoUrl: null,
+    workflow: "A handheld transducer is moved over the breast after applying a gel; images are viewed in real‑time.",
+    stepByStep: "1. Patient lies on back with arm above head.\n2. Gel applied to breast.\n3. Transducer moved in systematic pattern.\n4. Images captured and recorded.",
+    preparation: "No special preparation needed.",
+    duration: "~15‑30 minutes",
+    benefits: "Non‑invasive; painless; can guide needle biopsies.",
+    risks: "No known risks.",
+    whoShouldTake: "Used as a diagnostic tool for suspicious findings on mammogram or physical exam.",
+    faqs: JSON.stringify([
+      { q: "Is ultrasound painful?", a: "No, it is painless and uses no radiation." },
+      { q: "Can ultrasound replace mammography?", a: "No, it is complementary, not a replacement." }
+    ]),
+    relatedArticles: JSON.stringify([
+      { title: "Breast Ultrasound Basics", link: "https://www.radiologyinfo.org/en/info/breastus" }
+    ]),
+    brochureUrl: null,
+    manufacturerName: "GE Healthcare",
+    manufacturerLogoUrl: null,
+    manufacturerOverview: "Leading provider of ultrasound systems for radiology and obstetrics.",
+    manufacturerWebsite: "https://www.gehealthcare.com",
+    manufacturerCountry: "USA",
+    manufacturerSpecialization: "Medical imaging and diagnostics",
+    collaborationStatus: "Active",
+    isActive: true
+  },
+  {
+    id: "tech-4",
+    name: "Breast MRI (Magnetic Resonance)",
+    category: "Breast MRI",
+    shortOverview: "Highly sensitive soft‑tissue imaging using magnetic fields; no ionizing radiation.",
+    accuracy: "95.2%",
+    purpose: "Staging known cancers, evaluating extent of disease, screening high‑risk patients.",
+    advantages: "Excellent soft‑tissue contrast; can detect contralateral cancers.",
+    limitations: "Expensive; requires IV contrast; false‑positive rate.",
+    recommendedGroup: "High‑risk women (BRCA carriers, strong family history); implant evaluation.",
+    imageUrl: "/images/breast_mri.png",
+    introVideoUrl: "/euhbbZb3sNXxgOi6g2MF+42G6uUncFHU.mp4",
+    animationVideoUrl: null,
+    explainerVideoUrl: null,
+    workflow: "Patient lies prone in the MRI scanner; contrast dye injected; multiple sequences acquired.",
+    stepByStep: "1. Patient changes into gown; removes metal.\n2. Prone position on MRI table.\n3. IV placed for contrast.\n4. Machine takes images before and after contrast.",
+    preparation: "Avoid caffeine; inform about kidney function; remove all metal.",
+    duration: "~30‑45 minutes",
+    benefits: "Very sensitive for invasive cancers; useful for evaluating response to neoadjuvant therapy.",
+    risks: "Claustrophobia; allergic reaction to contrast; false positives.",
+    whoShouldTake: "High‑risk screening; pre‑surgical planning; problematic mammograms.",
+    faqs: JSON.stringify([
+      { q: "Is MRI better than mammography?", a: "It is more sensitive but not used for routine screening due to cost and false positives." },
+      { q: "Can I have an MRI if I have metal implants?", a: "Only non‑ferromagnetic implants are safe; check with radiology." }
+    ]),
+    relatedArticles: JSON.stringify([
+      { title: "Breast MRI Guidelines", link: "https://www.cancer.gov/types/breast/mri-fact-sheet" }
+    ]),
+    brochureUrl: null,
+    manufacturerName: "Siemens Healthineers",
+    manufacturerLogoUrl: null,
+    manufacturerOverview: "Global leader in advanced MRI systems for precision medicine.",
+    manufacturerWebsite: "https://www.siemens-healthineers.com",
+    manufacturerCountry: "Germany",
+    manufacturerSpecialization: "MRI and diagnostic imaging",
+    collaborationStatus: "Active",
+    isActive: true
+  },
+  {
+    id: "tech-5",
+    name: "AI‑Powered Mammography Analysis",
+    category: "AI Screenings",
+    shortOverview: "Artificial intelligence algorithms assist radiologists by flagging suspicious regions.",
+    accuracy: "97.1% (CADe)",
+    purpose: "Reduce missed cancers and decrease reading time.",
+    advantages: "Can detect subtle patterns; reduces human error.",
+    limitations: "Requires large training datasets; may have biases.",
+    recommendedGroup: "Supplemental to radiologist interpretation in all screening programs.",
+    imageUrl: "/images/mammography_screening.png",
+    introVideoUrl: "/fCJDcVOcf4mwHu6auQwh+9LaEZi9UTik.mp4",
+    animationVideoUrl: null,
+    explainerVideoUrl: null,
+    workflow: "AI software analyzes mammography images and highlights regions of concern for radiologist review.",
+    stepByStep: "1. Mammogram acquired digitally.\n2. AI model processes images.\n3. Suspicious areas highlighted on viewer.\n4. Radiologist reviews with AI overlay.",
+    preparation: "Same as standard mammography.",
+    duration: "Processing in seconds; total time unchanged.",
+    benefits: "Improves detection rates; reduces recall rates.",
+    risks: "Over‑reliance on AI; false positives.",
+    whoShouldTake: "All women undergoing mammography; especially in high‑volume centers.",
+    faqs: JSON.stringify([
+      { q: "Does AI replace the radiologist?", a: "No, it acts as a second reader to aid decision‑making." },
+      { q: "Is AI accurate for all breast types?", a: "Performance can vary; ongoing improvements." }
+    ]),
+    relatedArticles: JSON.stringify([
+      { title: "AI in Breast Imaging", link: "https://www.rsna.org/ai" }
+    ]),
+    brochureUrl: null,
+    manufacturerName: "Google Health",
+    manufacturerLogoUrl: null,
+    manufacturerOverview: "Developing AI tools for breast cancer screening with high performance.",
+    manufacturerWebsite: "https://health.google",
+    manufacturerCountry: "USA",
+    manufacturerSpecialization: "Healthcare AI & imaging",
+    collaborationStatus: "Active",
+    isActive: true
+  },
+  {
+    id: "tech-6",
+    name: "Contrast‑Enhanced Mammography (CEM)",
+    category: "Other Scans",
+    shortOverview: "Combines mammography with contrast agent to highlight tumor vascularity.",
+    accuracy: "93.8%",
+    purpose: "Assess extent of disease and evaluate response to therapy.",
+    advantages: "Lower cost than MRI; better availability.",
+    limitations: "Radiation exposure (dual‑energy); contrast side effects.",
+    recommendedGroup: "Patients with dense breasts or equivocal MRI findings.",
+    imageUrl: "/images/mammography_screening.png",
+    introVideoUrl: "/cancer3.webm",
+    animationVideoUrl: null,
+    explainerVideoUrl: null,
+    workflow: "Iodinated contrast injected intravenously; dual‑energy images acquired.",
+    stepByStep: "1. IV contrast given.\n2. Dual‑energy mammograms taken.\n3. Recombined image shows contrast uptake.",
+    preparation: "Check renal function; similar prep to CT contrast.",
+    duration: "~20 minutes",
+    benefits: "Provides functional information; useful when MRI is unavailable.",
+    risks: "Contrast allergy; radiation exposure.",
+    whoShouldTake: "Patients needing staging or assessment of residual disease.",
+    faqs: JSON.stringify([
+      { q: "Is CEM similar to MRI?", a: "It provides comparable sensitivity to MRI but with less time and cost." },
+      { q: "Are there side effects?", a: "Rare allergic reactions to contrast; temporary taste changes." }
+    ]),
+    relatedArticles: JSON.stringify([
+      { title: "CEM in Practice", link: "https://www.ajronline.org/doi/full/10.2214/AJR.19.22565" }
+    ]),
+    brochureUrl: null,
+    manufacturerName: "General Electric",
+    manufacturerLogoUrl: null,
+    manufacturerOverview: "Offers CEM solutions integrated with mammography platforms.",
+    manufacturerWebsite: "https://www.gehealthcare.com",
+    manufacturerCountry: "USA",
+    manufacturerSpecialization: "Breast imaging technologies",
+    collaborationStatus: "Active",
+    isActive: true
+  }
+];
+
 const diagnosisMethods = {
   mammography: {
     title: "Mammography (X-Ray Screening)",
@@ -161,9 +395,12 @@ interface DiagnosisClientProps {
 }
 
 export default function DiagnosisClient({ initialTechnologies }: DiagnosisClientProps) {
-  const [technologies] = useState<DiagnosisTechnology[]>(initialTechnologies);
+  // Use mock data if no initial technologies passed from server
+  const [technologies] = useState<DiagnosisTechnology[]>(
+    initialTechnologies && initialTechnologies.length > 0 ? initialTechnologies : MOCK_TECHNOLOGIES
+  );
   const [selectedCategory, setSelectedCategory] = useState("All");
-  
+
   const [activeDiagTab, setActiveDiagTab] = useState<string>("mammography");
   const [activeVideoIndex, setActiveVideoIndex] = useState<number>(0);
   const diagVideoRef = useRef<HTMLVideoElement>(null);
@@ -179,7 +416,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
   const [selectedTech, setSelectedTech] = useState<DiagnosisTechnology | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isCollabOpen, setIsCollabOpen] = useState(false);
-  
+
   // Custom video players state
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [mutedVideoId, setMutedVideoId] = useState<string | null>(null);
@@ -200,7 +437,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
   const [brochureUrl, setBrochureUrl] = useState("");
   const [companyProfileUrl, setCompanyProfileUrl] = useState("");
   const [consent, setConsent] = useState(false);
-  
+
   // Form status helpers
   const [formPending, setFormPending] = useState(false);
   const [formMessage, setFormMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
@@ -224,7 +461,6 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
       el.pause();
       setPlayingVideoId(null);
     } else {
-      // Pause other playing videos
       if (playingVideoId && videoRefs.current[playingVideoId]) {
         videoRefs.current[playingVideoId]?.pause();
       }
@@ -304,9 +540,9 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
       });
 
       if (res.success) {
-        setFormMessage({ 
-          text: "Collaboration request submitted successfully! Our administrative panel will review your proposal and contact you via email shortly. Your request status is marked as PENDING.", 
-          type: "success" 
+        setFormMessage({
+          text: "Collaboration request submitted successfully! Our administrative panel will review your proposal and contact you via email shortly. Your request status is marked as PENDING.",
+          type: "success"
         });
         // Reset fields
         setOrgName("");
@@ -347,7 +583,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
 
   return (
     <div className="flex-1 w-full bg-slate-50 text-slate-800 font-sans selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden">
-      
+
       {/* ========================================================
           1. HERO SECTION
           ======================================================== */}
@@ -355,7 +591,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
         {/* Background Visual Grid / Circles */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(219,39,119,0.12),transparent_60%)] z-0" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-pink-500/20 to-transparent" />
-        
+
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl relative z-10 text-center space-y-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -403,7 +639,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
         </div>
       </section>
 
-<section id="overview-story" className="py-24 bg-gradient-to-b from-rose-50/20 via-white to-rose-50/10 relative">
+      <section id="overview-story" className="py-24 bg-gradient-to-b from-rose-50/20 via-white to-rose-50/10 relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
@@ -462,7 +698,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
           ======================================================== */}
       <section id="diagnosis-modalities" className="py-24 bg-white border-b border-slate-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
-          
+
           {/* Header */}
           <div className="text-center space-y-3 max-w-2xl mx-auto">
             <span className="text-xs font-bold text-pink-600 uppercase tracking-widest bg-pink-50 px-3 py-1 rounded-full inline-block">
@@ -478,7 +714,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
 
           {/* Diagnostic Modalities Section */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            
+
             {/* Left Column: Vertical/Horizontal Tabs */}
             <div className="lg:col-span-4 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible gap-2.5 pb-3 lg:pb-0 max-w-full no-scrollbar shrink-0">
               <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 px-1 lg:block hidden">
@@ -488,11 +724,10 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
                 <button
                   key={key}
                   onClick={() => setActiveDiagTab(key)}
-                  className={`p-3.5 sm:p-4 rounded-2xl border text-left cursor-pointer transition-all duration-300 flex items-center justify-between gap-4 shrink-0 lg:shrink ${
-                    activeDiagTab === key
+                  className={`p-3.5 sm:p-4 rounded-2xl border text-left cursor-pointer transition-all duration-300 flex items-center justify-between gap-4 shrink-0 lg:shrink ${activeDiagTab === key
                       ? "bg-pink-50/60 border-pink-200 text-pink-700 shadow-xs"
                       : "bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-200 text-slate-700"
-                  }`}
+                    }`}
                 >
                   <span className="font-bold text-xs sm:text-sm md:text-base tracking-tight whitespace-nowrap">
                     {key === "mammography" && "Mammography"}
@@ -500,11 +735,10 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
                     {key === "mri" && "Breast MRI"}
                     {key === "biopsy" && "Biopsy Confirmation"}
                   </span>
-                  <ArrowRight className={`h-4 w-4 transition-transform lg:block hidden ${
-                    activeDiagTab === key 
-                      ? "translate-x-1 text-pink-600" 
+                  <ArrowRight className={`h-4 w-4 transition-transform lg:block hidden ${activeDiagTab === key
+                      ? "translate-x-1 text-pink-600"
                       : "text-slate-300 group-hover:translate-x-1 group-hover:text-slate-400"
-                  }`} />
+                    }`} />
                 </button>
               ))}
             </div>
@@ -522,7 +756,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
                   <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                     {diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].description}
                   </p>
-                  
+
                   <div className="p-4 rounded-xl bg-amber-500/[0.03] border border-amber-500/10 space-y-1">
                     <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest flex items-center gap-1">
                       <Info className="h-3.5 w-3.5" /> Clinical Recommendation Criteria
@@ -561,7 +795,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
             </Card>
 
           </div>
-        {/* Videos Subsection */}
+          {/* Videos Subsection */}
           <div className="space-y-8 pt-8 border-t border-slate-100">
             <div className="space-y-2">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-bold uppercase tracking-wider">
@@ -577,7 +811,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              
+
               {/* Main Player Container */}
               <div className="lg:col-span-8 bg-card border border-slate-100 rounded-3xl overflow-hidden shadow-sm flex flex-col bg-white">
                 <div className="relative aspect-video bg-black w-full overflow-hidden">
@@ -631,11 +865,10 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
                     <button
                       key={idx}
                       onClick={() => handleDiagVideoChange(idx)}
-                      className={`flex gap-3.5 p-3 rounded-2xl border text-left cursor-pointer transition-all duration-300 ${
-                        activeVideoIndex === idx
+                      className={`flex gap-3.5 p-3 rounded-2xl border text-left cursor-pointer transition-all duration-300 ${activeVideoIndex === idx
                           ? "bg-pink-50/50 border-pink-200 shadow-xs"
                           : "bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-200"
-                      }`}
+                        }`}
                     >
                       <div className="h-14 w-20 shrink-0 rounded-xl bg-slate-100 border border-slate-200/50 relative overflow-hidden flex items-center justify-center">
                         <Play className="h-4.5 w-4.5 text-pink-500 fill-pink-500" />
@@ -662,662 +895,6 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
         </div>
       </section>
 
-      {/* ========================================================
-          2. SHOWCASE SECTION (FILTER & GRID)
-          ======================================================== */}
-      <section id="showcase" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        
-        {/* Aesthetic Category Tabs */}
-        <div className="flex flex-col items-center space-y-4">
-          <div className="text-center">
-            <span className="text-xs font-bold text-pink-600 uppercase tracking-widest bg-pink-50 px-3 py-1 rounded-full">
-              Technology Showcase
-            </span>
-            <h2 className="font-heading text-3xl font-black text-slate-900 mt-2">
-              Advanced Clinical Diagnostics
-            </h2>
-            <p className="text-slate-500 text-sm max-w-md mx-auto mt-1">
-              Select a diagnostic category below to view technical overviews, advantages, and specifications.
-            </p>
-          </div>
-
-          <div className="flex gap-2 p-1.5 bg-white border border-slate-100 rounded-2xl overflow-x-auto max-w-full no-scrollbar shadow-xs">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 text-xs font-bold rounded-xl transition-all whitespace-nowrap cursor-pointer ${
-                  selectedCategory === cat
-                    ? "bg-slate-950 text-white shadow-xs"
-                    : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Dynamic Technologies Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence mode="popLayout">
-            {filteredTechnologies.map(tech => (
-              <motion.div
-                layout
-                key={tech.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
-              >
-                <Card className="bg-white/80 backdrop-blur-md border border-white/40 shadow-xs hover:shadow-xl hover:border-pink-200 transition-all rounded-3xl overflow-hidden flex flex-col justify-between h-full group">
-                  
-                  {/* Visual Image / Video Header */}
-                  <div className="relative aspect-video w-full bg-slate-950 overflow-hidden group-hover:scale-[1.01] transition-transform duration-300">
-                    {tech.introVideoUrl && tech.introVideoUrl.trim() !== "" ? (
-                      <div className="relative w-full h-full">
-                        <video
-                          ref={el => { videoRefs.current[tech.id] = el; }}
-                          src={tech.introVideoUrl}
-                          className="w-full h-full object-cover"
-                          playsInline
-                          loop
-                          muted
-                        />
-                        {/* Video Controls overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="flex items-center justify-between text-white w-full">
-                            <div className="flex gap-2">
-                              <button 
-                                onClick={(e) => { e.stopPropagation(); togglePlayVideo(tech.id); }}
-                                className="h-8 w-8 rounded-full bg-white/20 hover:bg-pink-600 text-white flex items-center justify-center backdrop-blur-xs transition-colors cursor-pointer"
-                              >
-                                {playingVideoId === tech.id ? <Pause className="h-4 w-4 fill-white" /> : <Play className="h-4 w-4 fill-white translate-x-0.5" />}
-                              </button>
-                              <button 
-                                onClick={(e) => { e.stopPropagation(); toggleMuteVideo(tech.id); }}
-                                className="h-8 w-8 rounded-full bg-white/20 hover:bg-pink-600 text-white flex items-center justify-center backdrop-blur-xs transition-colors cursor-pointer"
-                              >
-                                {mutedVideoId === tech.id ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-                              </button>
-                            </div>
-                            <button 
-                              onClick={(e) => { e.stopPropagation(); handleFullscreen(tech.id); }}
-                              className="h-8 w-8 rounded-full bg-white/20 hover:bg-pink-600 text-white flex items-center justify-center backdrop-blur-xs transition-colors cursor-pointer"
-                            >
-                              <Maximize className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Floating Play Overlay Badge when not playing */}
-                        {playingVideoId !== tech.id && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/10 pointer-events-none">
-                            <div className="h-10 w-10 rounded-full bg-white/95 text-slate-800 flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
-                              <Video className="h-5 w-5 text-pink-600" />
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ) : tech.imageUrl ? (
-                      <img
-                        src={tech.imageUrl}
-                        alt={tech.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-slate-700 bg-slate-100">
-                        <Stethoscope className="h-12 w-12 text-slate-300 animate-pulse" />
-                      </div>
-                    )}
-
-                    {/* Category Label Overlay */}
-                    <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-slate-900 border border-white/20 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
-                      {tech.category}
-                    </span>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
-                    <div className="space-y-3">
-                      <div>
-                        <h3 className="font-heading text-lg font-bold text-slate-900 group-hover:text-pink-600 transition-colors">
-                          {tech.name}
-                        </h3>
-                        {tech.accuracy && (
-                          <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-md inline-block mt-1">
-                            Accuracy: {tech.accuracy}
-                          </span>
-                        )}
-                      </div>
-
-                      <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">
-                        {tech.shortOverview}
-                      </p>
-
-                      {/* Device & Mfg Info */}
-                      <div className="text-[11px] space-y-1.5 border-t border-slate-100 pt-3 text-slate-600">
-                        <div className="flex justify-between">
-                          <span className="text-slate-400">Developer:</span>
-                          <span className="font-semibold">{tech.manufacturerName}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-400">Country:</span>
-                          <span>{tech.manufacturerCountry || "Global"}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-slate-400">Indications:</span>
-                          <span className="text-pink-600 font-semibold">{tech.recommendedGroup}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Learn More & Collab CTAs */}
-                    <div className="pt-4 border-t border-slate-50 flex items-center gap-3">
-                      <Button
-                        onClick={() => openDetailsDialog(tech)}
-                        className="flex-1 bg-slate-950 hover:bg-slate-900 text-white rounded-xl text-xs font-bold gap-1 cursor-pointer h-10"
-                      >
-                        Learn More <ArrowRight className="h-3.5 w-3.5" />
-                      </Button>
-                      
-                      <Button
-                        variant="outline"
-                        onClick={() => openCollabDialog(tech.name)}
-                        className="border-pink-100 text-pink-600 hover:bg-pink-50 hover:border-pink-200 rounded-xl text-[10px] font-bold px-3 cursor-pointer h-10 shrink-0"
-                        title="Interested in collaborating?"
-                      >
-                        Partner
-                      </Button>
-                    </div>
-                  </div>
-
-                </Card>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
-      </section>
-
-      {/* ========================================================
-          3. DIALOG: DETAILED TECHNOLOGY PAGE / DRAWER
-          ======================================================== */}
-      <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-        <DialogContent className="w-full h-full max-w-full max-h-full sm:max-w-4xl sm:max-h-[90vh] sm:w-[calc(100%-2rem)] sm:h-auto overflow-y-auto rounded-none sm:rounded-3xl p-4 sm:p-6 md:p-8">
-          {selectedTech && (
-            <div className="space-y-8">
-              
-              {/* Header Showcase Banner */}
-              <div className="relative h-48 sm:h-64 md:h-80 w-full rounded-2xl overflow-hidden bg-slate-950 shadow-lg">
-                {selectedTech.imageUrl && (
-                  <img
-                    src={selectedTech.imageUrl}
-                    alt={selectedTech.name}
-                    className="w-full h-full object-cover opacity-80"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-4 sm:p-6 md:p-8 text-white">
-                  <span className="bg-pink-600 border border-pink-500/20 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-block w-fit mb-2">
-                    {selectedTech.category}
-                  </span>
-                  <h2 className="font-heading text-lg sm:text-2xl md:text-4xl font-extrabold leading-tight">{selectedTech.name}</h2>
-                  {selectedTech.accuracy && (
-                    <p className="text-emerald-400 text-xs font-bold mt-1">Diagnostic Accuracy: {selectedTech.accuracy}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Grid content columns */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                {/* Left: General Information */}
-                <div className="md:col-span-2 space-y-6 text-xs text-slate-600">
-                  <div className="space-y-2">
-                    <h3 className="font-heading text-lg font-bold text-slate-800 flex items-center gap-1.5">
-                      <Stethoscope className="h-5 w-5 text-pink-500" /> Examination Purpose
-                    </h3>
-                    <p className="leading-relaxed bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs">
-                      {selectedTech.purpose}
-                    </p>
-                  </div>
-
-                  {selectedTech.workflow && (
-                    <div className="space-y-2">
-                      <h3 className="font-heading text-base font-bold text-slate-800">Workflow Description</h3>
-                      <p className="leading-relaxed bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs">
-                        {selectedTech.workflow}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Timeline procedure steps */}
-                  {selectedTech.stepByStep && (
-                    <div className="space-y-4">
-                      <h3 className="font-heading text-base font-bold text-slate-800 flex items-center gap-1.5">
-                        <Clock className="h-4 w-4 text-pink-500" /> Step-by-Step Procedure
-                      </h3>
-                      <div className="relative border-l border-dashed border-pink-200 ml-3.5 pl-6 space-y-4">
-                        {selectedTech.stepByStep.split("\n").filter(Boolean).map((step, idx) => (
-                          <div key={idx} className="relative group">
-                            {/* Bullet indicator */}
-                            <div className="absolute -left-[30px] top-0 h-4 w-4 rounded-full bg-white border-2 border-pink-500 flex items-center justify-center text-[8px] font-bold text-pink-600 shadow-xs">
-                              {idx + 1}
-                            </div>
-                            <p className="leading-relaxed font-medium text-slate-600">{step.replace(/^\d+\.\s*/, "")}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Preparation Guidelines */}
-                  {selectedTech.preparation && (
-                    <div className="space-y-2">
-                      <h3 className="font-heading text-base font-bold text-slate-800">Patient Preparation</h3>
-                      <p className="leading-relaxed bg-amber-50/50 text-amber-900 border border-amber-100 p-4 rounded-2xl font-medium">
-                        {selectedTech.preparation}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Duration, Benefits & Risks */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {selectedTech.benefits && (
-                      <div className="bg-emerald-50/30 border border-emerald-100 p-4 rounded-2xl space-y-1">
-                        <strong className="text-emerald-800 block text-xs uppercase tracking-wider">Benefits</strong>
-                        <p className="text-[11px] text-slate-600 leading-relaxed">{selectedTech.benefits}</p>
-                      </div>
-                    )}
-                    {selectedTech.risks && (
-                      <div className="bg-rose-50/30 border border-rose-100 p-4 rounded-2xl space-y-1">
-                        <strong className="text-rose-800 block text-xs uppercase tracking-wider">Risks & Side Effects</strong>
-                        <p className="text-[11px] text-slate-600 leading-relaxed">{selectedTech.risks}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Right: Manufacturer Profile & Actions */}
-                <div className="space-y-6">
-                  
-                  {/* Specifications Card */}
-                  <div className="bg-white border border-slate-100 p-4 rounded-2xl shadow-2xs space-y-3 text-xs">
-                    <h4 className="font-bold text-slate-800 border-b border-slate-100 pb-2">Technical Summary</h4>
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">Exam Duration:</span>
-                        <strong className="text-slate-700">{selectedTech.duration || "N/A"}</strong>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">Target Group:</span>
-                        <strong className="text-slate-700">{selectedTech.recommendedGroup}</strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Developer / Organization Details */}
-                  <div className="bg-pink-50/30 border border-pink-100/50 p-5 rounded-2xl shadow-2xs space-y-4 text-xs">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 bg-white rounded-lg border border-pink-100 flex items-center justify-center text-pink-500 shrink-0 font-bold">
-                        {selectedTech.manufacturerLogoUrl ? (
-                          <img src={selectedTech.manufacturerLogoUrl} alt="" className="h-full w-full object-cover rounded-lg" />
-                        ) : (
-                          <Building className="h-5 w-5" />
-                        )}
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-slate-800 text-sm">{selectedTech.manufacturerName}</h4>
-                        <span className="text-[10px] text-slate-400 font-semibold">{selectedTech.manufacturerCountry || "Global HQ"}</span>
-                      </div>
-                    </div>
-
-                    {selectedTech.manufacturerOverview && (
-                      <p className="text-[11px] text-slate-500 leading-relaxed italic">
-                        "{selectedTech.manufacturerOverview}"
-                      </p>
-                    )}
-
-                    <div className="space-y-2 pt-2 border-t border-pink-100/50 text-[11px]">
-                      {selectedTech.manufacturerSpecialization && (
-                        <div>
-                          <span className="text-slate-400 block uppercase tracking-wider text-[9px]">Specialization</span>
-                          <strong className="text-slate-700">{selectedTech.manufacturerSpecialization}</strong>
-                        </div>
-                      )}
-                      {selectedTech.manufacturerWebsite && (
-                        <a
-                          href={selectedTech.manufacturerWebsite}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-pink-600 font-bold hover:underline flex items-center gap-1 mt-1.5"
-                        >
-                          <Globe className="h-3 w-3" /> Visit Developer Site <ExternalLink className="h-2.5 w-2.5" />
-                        </a>
-                      )}
-                    </div>
-
-                    {/* Partnership CTA Button */}
-                    <div className="pt-2">
-                      <Button
-                        onClick={() => {
-                          setIsDetailOpen(false);
-                          openCollabDialog(selectedTech.name);
-                        }}
-                        className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl text-xs gap-1.5 cursor-pointer"
-                      >
-                        <Building className="h-4 w-4" /> Interested in Collaborating?
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/* Brochure download link */}
-                  {selectedTech.brochureUrl && (
-                    <a href={selectedTech.brochureUrl} target="_blank" rel="noreferrer" className="block">
-                      <Button variant="outline" className="w-full border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl text-xs gap-1.5 cursor-pointer">
-                        <Download className="h-4 w-4 text-pink-500" /> Download Brochure
-                      </Button>
-                    </a>
-                  )}
-                </div>
-
-              </div>
-
-              {/* FAQs Accordion Section */}
-              {selectedTech.faqs && (
-                <div className="border-t border-slate-100 pt-6 space-y-4">
-                  <h3 className="font-heading text-lg font-bold text-slate-800 flex items-center gap-1.5">
-                    <HelpCircle className="h-5 w-5 text-pink-500" /> Frequently Asked Questions
-                  </h3>
-                  <div className="space-y-3">
-                    {(typeof selectedTech.faqs === "string" ? JSON.parse(selectedTech.faqs) : selectedTech.faqs).map((faq: FAQItem, fIdx: number) => {
-                      const isOpen = openFaqIndex === fIdx;
-                      return (
-                        <div key={fIdx} className="border border-slate-100 rounded-xl bg-white overflow-hidden transition-all">
-                          <button
-                            onClick={() => setOpenFaqIndex(isOpen ? null : fIdx)}
-                            className="w-full flex justify-between items-center p-4 text-left font-semibold text-slate-800 text-xs md:text-sm cursor-pointer hover:bg-slate-50/20"
-                          >
-                            <span>{faq.q}</span>
-                            {isOpen ? <Minus className="h-4 w-4 text-pink-500" /> : <Plus className="h-4 w-4 text-pink-500" />}
-                          </button>
-                          {isOpen && (
-                            <div className="border-t border-slate-50 bg-slate-50/20 p-4 text-xs text-slate-500 leading-relaxed">
-                              {faq.a}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* Related articles links */}
-              {selectedTech.relatedArticles && (
-                <div className="border-t border-slate-100 pt-6 space-y-3">
-                  <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider">References & Related Articles</h4>
-                  <div className="flex flex-col gap-2">
-                    {(typeof selectedTech.relatedArticles === "string" ? JSON.parse(selectedTech.relatedArticles) : selectedTech.relatedArticles).map((art: ArticleItem, aIdx: number) => (
-                      <a
-                        key={aIdx}
-                        href={art.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-xs text-pink-600 hover:text-pink-700 hover:underline flex items-center gap-1.5 font-semibold"
-                      >
-                        <ChevronRight className="h-3.5 w-3.5 text-slate-400" /> {art.title} <ExternalLink className="h-2.5 w-2.5 text-slate-400" />
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <DialogFooter className="border-t border-slate-100 pt-4">
-                <Button onClick={() => setIsDetailOpen(false)} className="rounded-xl bg-slate-900 text-white cursor-pointer">
-                  Close Specifications
-                </Button>
-              </DialogFooter>
-
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      {/* ========================================================
-          4. DIALOG: COLLABORATION REQUEST FORM
-          ======================================================== */}
-      <Dialog open={isCollabOpen} onOpenChange={setIsCollabOpen}>
-        <DialogContent className="w-full h-full max-w-full max-h-full sm:max-w-2xl sm:max-h-[85vh] sm:w-[calc(100%-2rem)] sm:h-auto overflow-y-auto rounded-none sm:rounded-3xl p-4 sm:p-6">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-heading font-extrabold text-slate-800 flex items-center gap-2">
-              <Building className="h-6 w-6 text-pink-600" />
-              Collaboration Proposal
-            </DialogTitle>
-            <DialogDescription className="text-xs">
-              Establish a diagnostic partnership with Breast Cancer Awareness Mission. Submit company profiles, brochures, and contact details to request administrative review.
-            </DialogDescription>
-          </DialogHeader>
-
-          {/* Form Message */}
-          {formMessage && (
-            <div className={`p-4 rounded-xl flex items-center gap-3 border ${
-              formMessage.type === "success" 
-                ? "bg-emerald-50 text-emerald-800 border-emerald-100" 
-                : "bg-rose-50 text-rose-800 border-rose-100"
-            }`}>
-              <AlertCircle className="h-5 w-5 shrink-0" />
-              <span className="text-xs font-semibold">{formMessage.text}</span>
-            </div>
-          )}
-
-          <form onSubmit={handleCollabSubmit} className="space-y-6 pt-4 text-xs">
-            {/* 1. Organization & Contact Info */}
-            <div className="space-y-4">
-              <h4 className="font-bold text-slate-800 uppercase tracking-wider text-[10px] text-pink-600 border-b border-slate-100 pb-1.5">
-                1. Institutional Details & Contact
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <Label htmlFor="collab-org">Organization Name *</Label>
-                  <Input 
-                    id="collab-org" 
-                    value={orgName} 
-                    onChange={e => setOrgName(e.target.value)} 
-                    placeholder="e.g. Apollo Diagnostics Group" 
-                    required 
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="collab-comp">Company / Division Name *</Label>
-                  <Input 
-                    id="collab-comp" 
-                    value={companyName} 
-                    onChange={e => setCompanyName(e.target.value)} 
-                    placeholder="e.g. Imaging Systems Division" 
-                    required 
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="collab-person">Contact Person Name *</Label>
-                  <Input 
-                    id="collab-person" 
-                    value={contactPerson} 
-                    onChange={e => setContactPerson(e.target.value)} 
-                    placeholder="e.g. Dr. Rajesh Kumar" 
-                    required 
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="collab-designation">Designation *</Label>
-                  <Input 
-                    id="collab-designation" 
-                    value={designation} 
-                    onChange={e => setDesignation(e.target.value)} 
-                    placeholder="e.g. Medical Director" 
-                    required 
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="collab-email">Work Email Address *</Label>
-                  <Input 
-                    id="collab-email" 
-                    type="email"
-                    value={email} 
-                    onChange={e => setEmail(e.target.value)} 
-                    placeholder="e.g. contact@org.com" 
-                    required 
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="collab-phone">Phone Number *</Label>
-                  <Input 
-                    id="collab-phone" 
-                    value={phone} 
-                    onChange={e => setPhone(e.target.value)} 
-                    placeholder="e.g. +91 98765 43210" 
-                    required 
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="collab-country">Country *</Label>
-                  <Input 
-                    id="collab-country" 
-                    value={country} 
-                    onChange={e => setCountry(e.target.value)} 
-                    placeholder="e.g. India" 
-                    required 
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="collab-website">Official Website URL</Label>
-                  <Input 
-                    id="collab-website" 
-                    value={website} 
-                    onChange={e => setWebsite(e.target.value)} 
-                    placeholder="https://example.com" 
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* 2. Collaboration Scope */}
-            <div className="space-y-4 pt-2">
-              <h4 className="font-bold text-slate-800 uppercase tracking-wider text-[10px] text-pink-600 border-b border-slate-100 pb-1.5">
-                2. Technology & Partnership Scope
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <Label htmlFor="collab-tech-name">Machine / Technology Name *</Label>
-                  <Input 
-                    id="collab-tech-name" 
-                    value={collabTechName} 
-                    onChange={e => setCollabTechName(e.target.value)} 
-                    placeholder="e.g. Philips Elition 3.0T MRI" 
-                    required 
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="collab-type">Collaboration Type *</Label>
-                  <select 
-                    id="collab-type"
-                    value={collabType} 
-                    onChange={e => setCollabType(e.target.value)} 
-                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-xs shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <option value="Equipment Supply">Equipment Supply / Donation</option>
-                    <option value="Clinical Trials">Clinical Trials & Validation</option>
-                    <option value="Awareness Campaign">Awareness & Screening Campaign Sponsorship</option>
-                    <option value="Research & Training">Research & Radiology Staff Training</option>
-                    <option value="Other">Other Integration Programs</option>
-                  </select>
-                </div>
-                <div className="space-y-1 md:col-span-2">
-                  <Label htmlFor="collab-description">Project Collaboration Proposal / Comments *</Label>
-                  <Textarea 
-                    id="collab-description" 
-                    value={description} 
-                    onChange={e => setDescription(e.target.value)} 
-                    placeholder="Describe how your technology can benefit early screening programs or propose integrated activities..." 
-                    className="h-24"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* 3. Document Attachments */}
-            <div className="space-y-4 pt-2">
-              <h4 className="font-bold text-slate-800 uppercase tracking-wider text-[10px] text-pink-600 border-b border-slate-100 pb-1.5">
-                3. Upload Credentials & Specifications
-              </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                
-                <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-2 relative">
-                  <Label className="font-bold block">Upload Technology Brochure (PDF)</Label>
-                  <div className="flex gap-2">
-                    <Input 
-                      type="file" 
-                      accept="application/pdf"
-                      disabled={uploadingDoc !== null}
-                      onChange={e => handleCollabDocUpload(e, "brochure")}
-                      className="text-xs bg-white h-9"
-                    />
-                  </div>
-                  {brochureUrl && (
-                    <span className="text-[10px] text-emerald-700 font-semibold block flex items-center gap-1">
-                      <CheckCircle2 className="h-3 w-3" /> Brochure attached.
-                    </span>
-                  )}
-                </div>
-
-                <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-2 relative">
-                  <Label className="font-bold block">Upload Company Profile (PDF)</Label>
-                  <div className="flex gap-2">
-                    <Input 
-                      type="file" 
-                      accept="application/pdf"
-                      disabled={uploadingDoc !== null}
-                      onChange={e => handleCollabDocUpload(e, "profile")}
-                      className="text-xs bg-white h-9"
-                    />
-                  </div>
-                  {companyProfileUrl && (
-                    <span className="text-[10px] text-emerald-700 font-semibold block flex items-center gap-1">
-                      <CheckCircle2 className="h-3 w-3" /> Profile attached.
-                    </span>
-                  )}
-                </div>
-
-              </div>
-            </div>
-
-            {/* Consent checkbox */}
-            <div className="flex items-start gap-2 pt-2">
-              <input 
-                type="checkbox" 
-                id="collab-consent" 
-                checked={consent} 
-                onChange={e => setConsent(e.target.checked)} 
-                className="h-4 w-4 mt-0.5 rounded border-slate-300 accent-pink-600 shrink-0"
-                required
-              />
-              <Label htmlFor="collab-consent" className="cursor-pointer font-medium text-slate-500 leading-tight">
-                I represent that the information, logo, and brochures uploaded are authorized by our organization and comply with campaign privacy standards. *
-              </Label>
-            </div>
-
-            <DialogFooter className="border-t border-slate-100 pt-4">
-              <Button type="button" variant="outline" onClick={() => setIsCollabOpen(false)} className="rounded-xl cursor-pointer">
-                Cancel
-              </Button>
-              <Button type="submit" disabled={formPending || uploadingDoc !== null} className="bg-pink-600 hover:bg-pink-700 text-white rounded-xl gap-2 font-bold cursor-pointer">
-                {formPending && <Loader2 className="h-4 w-4 animate-spin" />}
-                Submit Collaboration Request
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
 
     </div>
   );
