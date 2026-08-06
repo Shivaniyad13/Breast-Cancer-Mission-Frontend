@@ -32,7 +32,20 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# Downloaded font assets
+# Downloaded font asse
 **/public/fonts/*.ttf
 **/public/fonts/*.woff
 **/public/fonts/*.woff2
+public/fonts/*.ttf
+public/fonts/*.woff
+public/fonts/*.woff2
+
+# Large media & temporary upload files
+public/uploads/*
+!public/uploads/.gitkeep
+public/certificates/*
+!public/certificates/.gitkeep
+*.mp4
+*.webm
+*.avi
+
