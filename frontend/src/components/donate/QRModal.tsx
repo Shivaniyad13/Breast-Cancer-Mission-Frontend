@@ -59,14 +59,20 @@ export const QRModal: React.FC<QRModalProps> = ({
   const cleanTxnId = (transactionId || `TXNBC${Date.now()}`).replace(/[^a-zA-Z0-9]/g, '')
   const cleanNote = purpose ? `Donation ${purpose.replace(/[^a-zA-Z0-9 ]/g, '')}`.substring(0, 30).trim() : 'Donation'
 
-  // Build NPCI Compliant UPI URI (Mandatory: raw '@' for pa parameter, '%20' for spaces)
-  let upiUrl = `upi://pay?pa=${cleanUpiId}&pn=${encodeURIComponent(cleanPayeeName)}`
+  // Build NPCI Compliant UPI URI
+  // Use '+' instead of '%20' for spaces to avoid PhonePe/Paytm intent parsing issues causing Risk Policy blocks
+  const encodeUpiParam = (str: string) => encodeURIComponent(str).replace(/%20/g, '+')
+
+  let upiUrl = `upi://pay?pa=${cleanUpiId}&pn=${encodeUpiParam(cleanPayeeName)}`
   if (formattedAmount) {
     upiUrl += `&am=${formattedAmount}`
   }
   upiUrl += `&cu=INR`
   if (cleanNote) {
-    upiUrl += `&tn=${encodeURIComponent(cleanNote)}`
+    upiUrl += `&tn=${encodeUpiParam(cleanNote)}`
+  }
+  if (cleanTxnId) {
+    upiUrl += `&tr=${cleanTxnId}`
   }
 
   // Log complete debug info whenever modal opens or values update
