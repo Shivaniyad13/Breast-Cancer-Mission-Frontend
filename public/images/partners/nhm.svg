@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="240" height="80" rx="12" fill="#ffffff"/>
+  <g transform="translate(14, 15)">
+    <path d="M 5 35 C 15 10, 35 10, 45 35" fill="none" stroke="#ff9933" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 10 40 C 20 20, 30 20, 40 40" fill="none" stroke="#138808" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="25" cy="22" r="6" fill="#000080"/>
+  </g>
+  <text x="70" y="32" font-family="Arial, sans-serif" font-weight="900" font-size="22" fill="#000080">NHM</text>
+  <text x="70" y="48" font-family="Arial, sans-serif" font-weight="700" font-size="9.5" fill="#138808">NATIONAL HEALTH MISSION</text>
+  <text x="70" y="62" font-family="Arial, sans-serif" font-weight="600" font-size="8.5" fill="#64748b">Ministry of Health &amp; FW</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="240" height="80" rx="12" fill="#ffffff"/>
+  <g transform="translate(14, 15)">
+    <circle cx="25" cy="25" r="23" fill="#15803d"/>
+    <path d="M 15 25 C 15 18, 25 15, 25 22 C 25 15, 35 18, 35 25 C 35 32, 25 38, 25 38 C 25 38, 15 32, 15 25 Z" fill="#f43f5e"/>
+  </g>
+  <text x="70" y="32" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#15803d">CPAA</text>
+  <text x="70" y="48" font-family="Arial, sans-serif" font-weight="700" font-size="9" fill="#166534">CANCER PATIENTS AID ASSN</text>
+  <text x="70" y="62" font-family="Arial, sans-serif" font-weight="600" font-size="8.5" fill="#e11d48">Total Management of Cancer</text>
+</svg>

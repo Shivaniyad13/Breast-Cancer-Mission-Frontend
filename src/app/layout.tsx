@@ -1,0 +1,39 @@
+import type { Metadata } from "next";
+import "./globals.css";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import FloatingWhatsApp from "@/components/layout/FloatingWhatsApp";
+
+export const metadata: Metadata = {
+  title: "Breast Cancer Awareness Platform",
+  description: "A centralized campaign ecosystem connecting patients, doctors, NGOs, and donors. Supporting early diagnosis guides and verified crowdfunding.",
+};
+
+import LayoutWrapper from "@/components/layout/LayoutWrapper";
+import PageViewTracker from "@/components/PageViewTracker";
+
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className="min-h-full">
+      <body
+        className="font-sans antialiased min-h-screen flex flex-col bg-background text-foreground"
+      >
+        <PageViewTracker />
+        <LayoutWrapper
+          navbar={<Navbar />}
+          footer={<Footer />}
+        >
+          {children}
+        </LayoutWrapper>
+        <FloatingWhatsApp />
+      </body>
+    </html>
+  );
+}
+
+
+

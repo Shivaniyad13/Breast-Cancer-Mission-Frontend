@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="240" height="80" rx="12" fill="#ffffff"/>
+  <g transform="translate(14, 15)">
+    <rect width="48" height="48" rx="10" fill="#0f766e"/>
+    <path d="M 24 10 C 18 10, 14 18, 20 28 L 24 38 L 28 28 C 34 18, 30 10, 24 10 Z" fill="#db2777"/>
+  </g>
+  <text x="72" y="32" font-family="Arial, sans-serif" font-weight="900" font-size="18" fill="#0f766e">NICPR</text>
+  <text x="72" y="47" font-family="Arial, sans-serif" font-weight="700" font-size="9" fill="#db2777">CANCER PREVENTION &amp; RESEARCH</text>
+  <text x="72" y="62" font-family="Arial, sans-serif" font-weight="600" font-size="8.5" fill="#64748b">ICMR Institute (Noida)</text>
+</svg>
