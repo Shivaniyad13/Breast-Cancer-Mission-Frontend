@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="240" height="80" rx="12" fill="#ffffff"/>
+  <g transform="translate(14, 15)">
+    <rect width="48" height="48" rx="12" fill="#0284c7"/>
+    <path d="M 12 12 L 24 36 L 36 12" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="72" y="30" font-family="Arial, sans-serif" font-weight="900" font-size="18" fill="#0284c7">MAX</text>
+  <text x="72" y="46" font-family="Arial, sans-serif" font-weight="700" font-size="9" fill="#1e293b">INSTITUTE OF CANCER CARE</text>
+  <text x="72" y="61" font-family="Arial, sans-serif" font-weight="600" font-size="8.5" fill="#64748b">Comprehensive Oncology</text>
+</svg>

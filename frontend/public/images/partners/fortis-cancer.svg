@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <rect width="240" height="80" rx="12" fill="#ffffff"/>
+  <g transform="translate(14, 15)">
+    <circle cx="24" cy="24" r="23" fill="#16a34a"/>
+    <path d="M 16 14 L 32 14 M 24 14 L 24 34 M 18 24 L 30 24" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="32" cy="14" r="4" fill="#dc2626"/>
+  </g>
+  <text x="70" y="32" font-family="Arial, sans-serif" font-weight="900" font-size="20" fill="#16a34a">Fortis</text>
+  <text x="70" y="48" font-family="Arial, sans-serif" font-weight="700" font-size="9" fill="#dc2626">CANCER INSTITUTE</text>
+  <text x="70" y="62" font-family="Arial, sans-serif" font-weight="600" font-size="8.5" fill="#475569">Saving &amp; Enriching Lives</text>
+</svg>
