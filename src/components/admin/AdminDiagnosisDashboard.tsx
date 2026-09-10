@@ -943,7 +943,7 @@ export default function AdminDiagnosisDashboard({
                     <span className="text-[10px] text-slate-400 font-normal">Or upload MP4</span>
                   </Label>
                   <div className="flex gap-2">
-                    <Input value={introVideoUrl} onChange={e => setIntroVideoUrl(e.target.value)} placeholder="/videoplayback.mp4" />
+                    <Input value={introVideoUrl} onChange={e => setIntroVideoUrl(e.target.value)} placeholder="/videos/videoplayback.mp4" />
                     <div className="relative">
                       <Input type="file" accept="video/mp4" onChange={e => handleFileUpload(e, "introVideoUrl")} className="absolute inset-0 opacity-0 w-8 h-8 cursor-pointer" />
                       <Button type="button" variant="outline" size="icon" className="h-9 w-9" disabled={uploadingField === "introVideoUrl"}>

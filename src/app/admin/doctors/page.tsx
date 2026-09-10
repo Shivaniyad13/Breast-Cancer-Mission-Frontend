@@ -1,48 +1,21 @@
 import { auth } from "@/auth";
-import { db } from "@/lib/db";
 import { Role } from "@prisma/client";
 import { redirect } from "next/navigation";
-import AdminWebinarDashboard from "@/components/admin/AdminWebinarDashboard";
-import { Video, ShieldCheck } from "lucide-react";
+import { getAdminDoctorVerificationRequests } from "@/app/actions/doctor";
+import AdminDoctorsDashboard from "@/components/admin/AdminDoctorsDashboard";
+import { Stethoscope, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 export const revalidate = 0; // Fresh database reads on every admin access
 
-export default async function AdminWebinarsPage() {
+export default async function AdminDoctorsPage() {
   const session = await auth();
 
   if (!session?.user || session.user.role !== Role.ADMIN) {
     redirect("/");
   }
 
-  // Fetch all webinars with doctor info, registrations, attendance, and certificates
-  const webinars = await db.webinar.findMany({
-    orderBy: { date: "desc" },
-    include: {
-      doctor: {
-        include: {
-          user: {
-            select: { id: true, name: true, email: true, image: true }
-          }
-        }
-      },
-      registrations: {
-        include: {
-          user: {
-            select: { id: true, name: true, email: true, role: true }
-          }
-        }
-      },
-      attendance: {
-        include: {
-          user: {
-            select: { id: true, name: true, email: true }
-          }
-        }
-      },
-      certificates: true
-    }
-  });
+  const doctors = await getAdminDoctorVerificationRequests();
 
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 min-h-screen">
@@ -53,10 +26,10 @@ export default async function AdminWebinarsPage() {
             <ShieldCheck className="h-2.5 w-2.5" /> Command Center
           </span>
           <h1 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
-            <Video className="h-8 w-8 text-primary" /> Webinar Management
+            <Stethoscope className="h-8 w-8 text-primary" /> Doctor Verification Management
           </h1>
           <p className="text-muted-foreground text-sm">
-            Schedule events, audit registrations list, download CSV logs, upload materials, and publish live meeting coordinates.
+            Inspect medical licenses, verify healthcare practitioner credentials, audit professional affiliations, and review verification requests.
           </p>
         </div>
       </div>
@@ -66,13 +39,12 @@ export default async function AdminWebinarsPage() {
         <Link href="/admin/analytics" className="text-slate-500 hover:text-primary transition-colors">
           Analytics Overview
         </Link>
-        <Link href="/admin/doctors" className="text-slate-500 hover:text-primary transition-colors">
+        <Link href="/admin/doctors" className="text-primary border-b-2 border-primary pb-4 -mb-[18px] transition-colors">
           Doctor Verification
         </Link>
-        <Link href="/admin/webinars" className="text-primary border-b-2 border-primary pb-4 -mb-[18px] transition-colors">
+        <Link href="/admin/webinars" className="text-slate-500 hover:text-primary transition-colors">
           Webinar Management
         </Link>
-
         <Link href="/admin/donations" className="text-slate-500 hover:text-primary transition-colors">
           Donation Management
         </Link>
@@ -94,7 +66,7 @@ export default async function AdminWebinarsPage() {
       </div>
 
       {/* Main Admin Controller */}
-      <AdminWebinarDashboard webinars={webinars} />
+      <AdminDoctorsDashboard doctors={doctors} />
     </div>
   );
 }

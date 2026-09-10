@@ -16,98 +16,146 @@ interface Slide {
 
 export default function AwarenessCarousel() {
   const slides: Slide[] = [
+    // ─────────────────────────────────────────
+    // SLIDE 1: Hope & Unity → ✅ ORIGINAL
+    // ─────────────────────────────────────────
     {
       src: "/images/awareness_ribbon.png",
       tag: "Hope & Unity",
       title: "The Pink Ribbon Symbol",
       subtitle: "A Beacon of Awareness & Solidarity",
-      description: "The universal symbol of hope, courage, and collective support for breast cancer patients, survivors, and their families around the globe.",
-      icon: <Heart className="h-4 w-4 text-primary" />
+      description:
+        "The universal symbol of hope, courage, and collective support for breast cancer patients, survivors, and their families around the globe.",
+      icon: <Heart className="h-4 w-4 text-primary" />,
     },
+
+    // ─────────────────────────────────────────
+    // SLIDE 2: Advocacy → 🆕 NEW URL 1
+    // ─────────────────────────────────────────
     {
-      src: "/images/community_walk.png",
+      src: "/images/imagesC2.jpg",
       tag: "Advocacy",
       title: "Community Walk for a Cure",
       subtitle: "Uniting Voices, Spreading Knowledge",
-      description: "Every step counts. Raising awareness, removing societal taboos, and organizing physical walkathons to promote early breast screening guidelines.",
-      icon: <Users className="h-4 w-4 text-primary" />
+      description:
+        "Every step counts. Raising awareness, removing societal taboos, and organizing physical walkathons to promote early breast screening guidelines.",
+      icon: <Users className="h-4 w-4 text-primary" />,
     },
+
+    // ─────────────────────────────────────────
+    // SLIDE 3: Early Detection → 🆕 NEW URL 2
+    // ─────────────────────────────────────────
     {
-      src: "/images/awareness3.png",
+      src: "/images/imagesC1.jpg",
       tag: "Early Detection",
       title: "Compassionate Consultations",
       subtitle: "Personalized Support & Expert Guidance",
-      description: "Oncologists recommend monthly self-exams and annual clinical check-ups. Our platform connects users to experts for immediate guidance.",
-      icon: <ShieldCheck className="h-4 w-4 text-primary" />
+      description:
+        "Oncologists recommend monthly self-exams and annual clinical check-ups. Our platform connects users to experts for immediate guidance.",
+      icon: <ShieldCheck className="h-4 w-4 text-primary" />,
     },
+
+    // ─────────────────────────────────────────
+    // SLIDE 4: Mental Wellness → 🆕 NEW URL 3
+    // ─────────────────────────────────────────
     {
-      src: "/images/support_group.png",
+      src: "/images/imagesC3.jpg",
       tag: "Mental Wellness",
       title: "Empathetic Support Groups",
       subtitle: "No One Walks this Journey Alone",
-      description: "Fostering safe spaces where patients, survivors, and advocates share experiences, emotional support, and recovery milestones.",
-      icon: <Users className="h-4 w-4 text-primary" />
+      description:
+        "Fostering safe spaces where patients, survivors, and advocates share experiences, emotional support, and recovery milestones.",
+      icon: <Users className="h-4 w-4 text-primary" />,
     },
+
+    // ─────────────────────────────────────────
+    // SLIDE 5: Diagnostics → ✅ ORIGINAL
+    // ─────────────────────────────────────────
     {
       src: "/images/mammography_screening.png",
       tag: "Diagnostics",
       title: "Modern Screening Equipment",
       subtitle: "Comfortable, Non-Intimidating Care",
-      description: "High-tech mammograms detect anomalies years before symptoms appear. Modern clinics ensure comfortable, supportive diagnostic workflows.",
-      icon: <ShieldCheck className="h-4 w-4 text-primary" />
+      description:
+        "High-tech mammograms detect anomalies years before symptoms appear. Modern clinics ensure comfortable, supportive diagnostic workflows.",
+      icon: <ShieldCheck className="h-4 w-4 text-primary" />,
     },
+
+    // ─────────────────────────────────────────
+    // SLIDE 6: Scientific Innovation → ✅ ORIGINAL
+    // ─────────────────────────────────────────
     {
       src: "/images/cancer_research.png",
       tag: "Scientific Innovation",
       title: "Advanced Cancer Research",
       subtitle: "Pioneering the Next Generation of Cures",
-      description: "Dedicated oncologists and research scientists analyze genetic patterns to develop highly precise, targeted treatments for individuals.",
-      icon: <Heart className="h-4 w-4 text-primary" />
+      description:
+        "Dedicated oncologists and research scientists analyze genetic patterns to develop highly precise, targeted treatments for individuals.",
+      icon: <Heart className="h-4 w-4 text-primary" />,
     },
+
+    // ─────────────────────────────────────────
+    // SLIDE 7: Hope & Recovery → 🆕 NEW URL 4
+    // ─────────────────────────────────────────
     {
-      src: "/images/survivor_strength.png",
+      src: "/images/imagesC4.jpeg",
       tag: "Hope & Recovery",
       title: "Survivor Stories of Strength",
       subtitle: "Overcoming Adversity with Courage",
-      description: "Real-life testaments of resilience and recovery, proving that early diagnosis, timely treatment, and robust support systems can beat cancer.",
-      icon: <Heart className="h-4 w-4 text-primary" />
+      description:
+        "Real-life testaments of resilience and recovery, proving that early diagnosis, timely treatment, and robust support systems can beat cancer.",
+      icon: <Heart className="h-4 w-4 text-primary" />,
     },
+
+    // ─────────────────────────────────────────
+    // SLIDE 8: Education → ✅ ORIGINAL
+    // ─────────────────────────────────────────
     {
       src: "/images/awareness4.png",
       tag: "Education",
       title: "Medical Webinars & Seminars",
       subtitle: "Spreading Life-Saving Knowledge",
-      description: "Listen directly to registered oncologists and doctors outline diagnosis methods, lifestyle shifts, and preventative strategies.",
-      icon: <Calendar className="h-4 w-4 text-primary" />
+      description:
+        "Listen directly to registered oncologists and doctors outline diagnosis methods, lifestyle shifts, and preventative strategies.",
+      icon: <Calendar className="h-4 w-4 text-primary" />,
     },
+
+    // ─────────────────────────────────────────
+    // SLIDE 9: FundLife Campaign → ✅ ORIGINAL
+    // ─────────────────────────────────────────
     {
       src: "/images/awareness2.png",
       tag: "FundLife Campaign",
       title: "Verified Crowdfunding Channels",
       subtitle: "Direct Support for Cancer Patient Care",
-      description: "Ensuring 100% financial transparency. Donations flow directly to partner hospitals to support active chemotherapy and surgery bills.",
-      icon: <Heart className="h-4 w-4 text-primary" />
+      description:
+        "Ensuring 100% financial transparency. Donations flow directly to partner hospitals to support active chemotherapy and surgery bills.",
+      icon: <Heart className="h-4 w-4 text-primary" />,
     },
+
+    // ─────────────────────────────────────────
+    // SLIDE 10: Healthy Living → ✅ ORIGINAL
+    // ─────────────────────────────────────────
     {
       src: "/images/preventive_wellness.png",
       tag: "Healthy Living",
       title: "Preventive Care & Wellness",
       subtitle: "Nurturing Your Body and Mind",
-      description: "Maintaining healthy diets, physical exercise, and mental peace helps lower breast cancer risk and boosts recovery index.",
-      icon: <Heart className="h-4 w-4 text-primary" />
-    }
+      description:
+        "Maintaining healthy diets, physical exercise, and mental peace helps lower breast cancer risk and boosts recovery index.",
+      icon: <Heart className="h-4 w-4 text-primary" />,
+    },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [direction, setDirection] = useState(0); // -1 for left, 1 for right
+  const [direction, setDirection] = useState(0);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const SLIDE_DURATION = 5000; // 5 seconds
-  const PROGRESS_STEP = 50; // Update progress every 50ms
+  const SLIDE_DURATION = 5000;
+  const PROGRESS_STEP = 50;
 
-  // Handle slide changing
   const nextSlide = useCallback(() => {
     setDirection(1);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
@@ -120,16 +168,17 @@ export default function AwarenessCarousel() {
     setProgress(0);
   }, [slides.length]);
 
-  const selectSlide = useCallback((index: number) => {
-    setDirection(index > currentIndex ? 1 : -1);
-    setCurrentIndex(index);
-    setProgress(0);
-  }, [currentIndex]);
+  const selectSlide = useCallback(
+    (index: number) => {
+      setDirection(index > currentIndex ? 1 : -1);
+      setCurrentIndex(index);
+      setProgress(0);
+    },
+    [currentIndex]
+  );
 
-  // Timer logic for progress bar and slide switching
   useEffect(() => {
     if (isPlaying) {
-      // Setup interval to increment progress bar
       progressIntervalRef.current = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
@@ -148,16 +197,14 @@ export default function AwarenessCarousel() {
     };
   }, [isPlaying, nextSlide]);
 
-  // Pause on hover handlers
   const handleMouseEnter = () => setIsPlaying(false);
   const handleMouseLeave = () => setIsPlaying(true);
 
-  // Animation variants
   const slideVariants = {
     enter: (dir: number) => ({
       x: dir > 0 ? "100%" : "-100%",
       opacity: 0,
-      scale: 1.05
+      scale: 1.05,
     }),
     center: {
       x: 0,
@@ -166,8 +213,8 @@ export default function AwarenessCarousel() {
       transition: {
         x: { type: "spring" as const, stiffness: 300, damping: 30 },
         opacity: { duration: 0.4 },
-        scale: { duration: 0.5 }
-      }
+        scale: { duration: 0.5 },
+      },
     },
     exit: (dir: number) => ({
       x: dir < 0 ? "100%" : "-100%",
@@ -175,21 +222,21 @@ export default function AwarenessCarousel() {
       scale: 0.95,
       transition: {
         x: { type: "spring" as const, stiffness: 300, damping: 30 },
-        opacity: { duration: 0.3 }
-      }
-    })
+        opacity: { duration: 0.3 },
+      },
+    }),
   };
 
   return (
     <section className="py-12 bg-gradient-to-b from-background to-muted/10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-        
+
         {/* Section Header */}
         <div className="text-center space-y-3 mb-10">
-         <span className="text-xs font-bold text-white tracking-widest uppercase bg-primary px-3 py-1 rounded-full inline-flex items-center gap-1.5">
-  <Heart className="h-3 w-3 fill-white text-white" />
-  Visual Inspiration
-</span>
+          <span className="text-xs font-bold text-white tracking-widest uppercase bg-primary px-3 py-1 rounded-full inline-flex items-center gap-1.5">
+            <Heart className="h-3 w-3 fill-white text-white" />
+            Visual Inspiration
+          </span>
           <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
             Empowerment through Awareness & Action
           </h2>
@@ -199,12 +246,11 @@ export default function AwarenessCarousel() {
         </div>
 
         {/* Main Carousel Viewport */}
-        <div 
-          className="relative group rounded-3xl overflow-hidden border border-border shadow-xl bg-card aspect-auto min-h-[260px] sm:aspect-[16/9] sm:min-h-[320px] md:aspect-[21/9] md:min-h-[350px] flex items-stretch"
+        <div
+          className="relative group rounded-3xl overflow-hidden border border-border shadow-xl bg-card aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] min-h-[280px] sm:min-h-[340px] md:min-h-[380px] flex items-stretch"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          {/* Slides display */}
           <div className="relative flex-1 w-full h-full overflow-hidden">
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
@@ -216,7 +262,6 @@ export default function AwarenessCarousel() {
                 exit="exit"
                 className="absolute inset-0 w-full h-full"
               >
-                {/* Background Image */}
                 <Image
                   src={slides[currentIndex].src}
                   alt={slides[currentIndex].title}
@@ -226,12 +271,10 @@ export default function AwarenessCarousel() {
                   className="object-cover object-center select-none"
                 />
 
-                {/* Dark Vignette/Overlay for Text Legibility */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent md:bg-gradient-to-r md:from-black/90 md:via-black/50 md:to-transparent" />
-                
-                {/* Slide Text Content Overlay */}
+
                 <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 md:top-0 md:bottom-auto md:h-full md:w-3/5 md:flex md:flex-col md:justify-center md:items-start text-white space-y-2 sm:space-y-4">
-                  <motion.span 
+                  <motion.span
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
@@ -240,9 +283,9 @@ export default function AwarenessCarousel() {
                     {slides[currentIndex].icon}
                     {slides[currentIndex].tag}
                   </motion.span>
-                  
+
                   <div className="space-y-1 sm:space-y-2">
-                    <motion.h3 
+                    <motion.h3
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
@@ -250,7 +293,7 @@ export default function AwarenessCarousel() {
                     >
                       {slides[currentIndex].title}
                     </motion.h3>
-                    <motion.p 
+                    <motion.p
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 }}
@@ -260,7 +303,7 @@ export default function AwarenessCarousel() {
                     </motion.p>
                   </div>
 
-                  <motion.p 
+                  <motion.p
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
@@ -273,7 +316,6 @@ export default function AwarenessCarousel() {
             </AnimatePresence>
           </div>
 
-          {/* Autoplay play/pause toggle indicator */}
           <div className="absolute top-4 right-4 z-20 flex gap-2">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
@@ -284,7 +326,6 @@ export default function AwarenessCarousel() {
             </button>
           </div>
 
-          {/* Navigation Arrows (Large Screen Layout Only) */}
           <div className="absolute inset-y-0 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
             <button
               onClick={prevSlide}
@@ -302,9 +343,7 @@ export default function AwarenessCarousel() {
             </button>
           </div>
 
-          {/* Bottom Progress Bar & Dot indicators */}
           <div className="absolute bottom-0 left-0 right-0 z-20 flex flex-col pointer-events-none">
-            {/* Dots + Slide count for Mobile/General */}
             <div className="flex items-center justify-between p-4 bg-gradient-to-t from-black/80 to-transparent sm:hidden pointer-events-auto">
               <span className="text-white/80 text-xs font-semibold">
                 {String(currentIndex + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
@@ -314,18 +353,16 @@ export default function AwarenessCarousel() {
                   <button
                     key={index}
                     onClick={() => selectSlide(index)}
-                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                      index === currentIndex ? "w-6 bg-primary" : "w-2 bg-white/40"
-                    }`}
+                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${index === currentIndex ? "w-6 bg-primary" : "w-2 bg-white/40"
+                      }`}
                     aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
               </div>
             </div>
 
-            {/* Slider Progress Bar */}
             <div className="w-full h-1 bg-white/10">
-              <motion.div 
+              <motion.div
                 className="h-full bg-gradient-to-r from-primary to-pink-400"
                 style={{ width: `${progress}%` }}
                 layoutId="progressBar"
@@ -335,7 +372,7 @@ export default function AwarenessCarousel() {
           </div>
         </div>
 
-        {/* Thumbnail Gallery (Bottom) */}
+        {/* Thumbnail Gallery */}
         <div className="mt-6 flex flex-col space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
@@ -346,9 +383,10 @@ export default function AwarenessCarousel() {
                 <button
                   key={index}
                   onClick={() => selectSlide(index)}
-                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    index === currentIndex ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-muted-foreground/45"
-                  }`}
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${index === currentIndex
+                      ? "w-6 bg-primary"
+                      : "w-1.5 bg-border hover:bg-muted-foreground/45"
+                    }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
@@ -360,11 +398,10 @@ export default function AwarenessCarousel() {
               <button
                 key={index}
                 onClick={() => selectSlide(index)}
-                className={`relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer transition-all duration-300 border-2 hover:scale-[1.03] shadow-sm ${
-                  index === currentIndex 
-                    ? "border-primary ring-2 ring-primary/20 scale-[1.03] opacity-100 shadow-md" 
+                className={`relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer transition-all duration-300 border-2 hover:scale-[1.03] shadow-sm ${index === currentIndex
+                    ? "border-primary ring-2 ring-primary/20 scale-[1.03] opacity-100 shadow-md"
                     : "border-transparent opacity-55 hover:opacity-90"
-                }`}
+                  }`}
                 title={slide.title}
               >
                 <Image

@@ -10,7 +10,7 @@ import {
   Heart,
 } from "lucide-react";
 
-// Inline SVG brand icons (lucide-react removed social brand icons in v0.400+)
+// Inline SVG brand icons
 const FacebookIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
@@ -19,7 +19,7 @@ const FacebookIcon = ({ className }: { className?: string }) => (
 
 const TwitterXIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 );
 
@@ -33,7 +33,10 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
 const YoutubeIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
-    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0d1b2a" />
+    <polygon
+      points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"
+      fill="#0d1b2a"
+    />
   </svg>
 );
 
@@ -64,15 +67,18 @@ export default function Footer() {
 
   return (
     <footer
-      style={{ backgroundColor: "#280a1c" }}
-      className="relative text-pink-100 overflow-hidden"
+      style={{
+        background:
+          "radial-gradient(circle at 50% 35%, #9d174d 0%, #fb549f 50%, #f65a9b 100%)",
+      }}
+      className="relative text-white overflow-hidden"
     >
       {/* Top pink accent line */}
       <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-pink-600 via-pink-400 to-rose-500" />
 
       {/* Watermark ribbon */}
-      <div className="absolute right-10 top-10 opacity-[0.05] pointer-events-none select-none">
-        <Ribbon className="w-64 h-64 text-pink-400" />
+      <div className="absolute right-10 top-10 opacity-[0.06] pointer-events-none select-none">
+        <Ribbon className="w-64 h-64 text-white" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -81,20 +87,22 @@ export default function Footer() {
           {/* ── Col 1 · Brand ── */}
           <div className="space-y-5 lg:col-span-1">
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-pink-500/20 border border-pink-500/40">
-                <Ribbon className="h-5 w-5 text-pink-400" />
+              <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-white/15 border border-white/30">
+                <Ribbon className="h-5 w-5 text-white" />
               </div>
+
               <div>
-                <p className="font-heading text-[10px] font-bold tracking-[0.2em] uppercase text-pink-400">
+                <p className="font-heading text-[10px] font-bold tracking-[0.2em] uppercase text-white">
                   Breast Cancer
                 </p>
-                <p className="font-heading text-[10px] font-bold tracking-[0.15em] uppercase text-pink-100">
+
+                <p className="font-heading text-[10px] font-bold tracking-[0.15em] uppercase text-white/90">
                   Mission
                 </p>
               </div>
             </div>
 
-            <p className="text-sm text-pink-200/90 leading-relaxed">
+            <p className="text-sm text-white/90 leading-relaxed">
               A trusted unified healthcare portal spreading early detection
               knowledge, hosting expert webinars, and coordinating verified
               crowdfunding support for breast cancer patients.
@@ -103,16 +111,17 @@ export default function Footer() {
             <div className="space-y-2.5">
               <a
                 href="tel:+919217396124"
-                className="flex items-center gap-2.5 text-sm text-pink-200 hover:text-pink-400 transition-colors group"
+                className="flex items-center gap-2.5 text-sm text-white/90 hover:text-white transition-colors group"
               >
-                <Phone className="h-4 w-4 text-pink-400 group-hover:scale-110 transition-transform" />
+                <Phone className="h-4 w-4 text-white group-hover:scale-110 transition-transform" />
                 +91 9217396124
               </a>
+
               <a
                 href="mailto: info@Khushicenter.in"
-                className="flex items-center gap-2.5 text-sm text-pink-200 hover:text-pink-400 transition-colors group"
+                className="flex items-center gap-2.5 text-sm text-white/90 hover:text-white transition-colors group"
               >
-                <Mail className="h-4 w-4 text-pink-400 group-hover:scale-110 transition-transform" />
+                <Mail className="h-4 w-4 text-white group-hover:scale-110 transition-transform" />
                 info@Khushicenter.in
               </a>
             </div>
@@ -120,15 +129,16 @@ export default function Footer() {
 
           {/* ── Col 2 · Quick Links ── */}
           <div className="space-y-5">
-            <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-pink-400">
+            <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-white">
               Quick Links
             </h3>
+
             <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-pink-200/90 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
+                    className="text-sm text-white/90 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
                   >
                     {link.label}
                   </Link>
@@ -139,24 +149,26 @@ export default function Footer() {
 
           {/* ── Col 3 · Contact ── */}
           <div className="space-y-5">
-            <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-pink-400">
+            <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-white">
               Contact
             </h3>
+
             <ul className="space-y-2.5">
               {contactLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-pink-200/90 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
+                    className="text-sm text-white/90 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
+
               <li>
                 <button
                   onClick={scrollToTop}
-                  className="text-sm text-pink-200/90 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
+                  className="text-sm text-white/90 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
                 >
                   Back to Top
                 </button>
@@ -165,20 +177,25 @@ export default function Footer() {
 
             {/* Head office */}
             <div className="pt-3">
-              <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-pink-400 mb-2">
+              <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-white mb-2">
                 Head Office
               </p>
-              <div className="flex items-start gap-2 text-sm text-pink-200/90">
-                <MapPin className="h-4 w-4 text-pink-400 mt-0.5 flex-shrink-0" />
-                <span> B-14 Sector 64, Noida, Uttar Pradesh, India – 201301</span>
+
+              <div className="flex items-start gap-2 text-sm text-white/90">
+                <MapPin className="h-4 w-4 text-white mt-0.5 flex-shrink-0" />
+
+                <span>
+                  B-14 Sector 64, Noida, Uttar Pradesh, India – 201301
+                </span>
               </div>
             </div>
           </div>
 
           {/* ── Col 4 · Collaboration ── */}
           <div className="space-y-5">
-            <h3 className="text-[10px] font-bold tracking-[0.15em] uppercase text-pink-400 leading-relaxed">
-              Developed by Khushi Centre for Rehabilitation &amp; Research and GRS India Pvt Ltd
+            <h3 className="text-[10px] font-bold tracking-[0.15em] uppercase text-white leading-relaxed">
+              Developed by Khushi Centre for Rehabilitation &amp; Research and
+              GRS India Pvt Ltd
             </h3>
 
             {/* Khushi Research */}
@@ -186,56 +203,62 @@ export default function Footer() {
               href="https://khushicentre.in/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group block rounded-xl border border-pink-900/60 hover:border-pink-500/50 bg-[#3b0e2a] hover:bg-[#481234] p-4 transition-all duration-300 hover:shadow-lg hover:shadow-pink-950/40"
+              className="group block rounded-xl border border-white/30 hover:border-white/60 bg-[#9D174D] hover:bg-[#831843] p-4 transition-all duration-300 hover:shadow-lg hover:shadow-pink-950/30"
             >
               <div className="flex items-center justify-center h-14 mb-3 rounded-lg bg-white/10 overflow-hidden px-3">
                 <img
-                  src="/khushi-logo.jpg"
+                  src="/images/khushi-logo.jpg"
                   alt="Khushi Centre for Rehabilitation & Research"
                   className="max-h-10 w-auto object-contain brightness-110"
                 />
               </div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-pink-100 group-hover:text-pink-300 transition-colors leading-snug">
+
+              <p className="text-xs font-semibold uppercase tracking-wide text-white group-hover:text-white transition-colors leading-snug">
                 Khushi Centre for Rehabilitation &amp; Research
               </p>
-              <p className="text-[11px] text-pink-300/70 mt-1 group-hover:text-pink-200 transition-colors">
+
+              <p className="text-[11px] text-white/75 mt-1 group-hover:text-white/90 transition-colors">
                 Research Partner · khushicentre.in
               </p>
             </a>
 
             {/* GRS India Group */}
             <a
-              href="https://grsindiacorporation.com/"
+              href="https://grsgroup.in/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group block rounded-xl border border-pink-900/60 hover:border-pink-500/50 bg-[#3b0e2a] hover:bg-[#481234] p-4 transition-all duration-300 hover:shadow-lg hover:shadow-pink-950/40"
+              className="group block rounded-xl border border-white/30 hover:border-white/60 bg-[#9D174D] hover:bg-[#831843] p-4 transition-all duration-300 hover:shadow-lg hover:shadow-pink-950/30"
             >
               <div className="flex items-center justify-center h-14 mb-3 rounded-lg bg-white/10 overflow-hidden px-3">
                 <img
-                  src="/grs-group-logo.jpg"
+                  src="/images/grs-group-logo.jpg"
                   alt="GRS India Group"
                   className="max-h-10 w-auto object-contain brightness-110"
                 />
               </div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-pink-100 group-hover:text-pink-300 transition-colors leading-snug">
+
+              <p className="text-xs font-semibold uppercase tracking-wide text-white group-hover:text-white transition-colors leading-snug">
                 GRS India Group
               </p>
-              <p className="text-[11px] text-pink-300/70 mt-1 group-hover:text-pink-200 transition-colors">
+
+              <p className="text-[11px] text-white/75 mt-1 group-hover:text-white/90 transition-colors">
                 Principal Partner · grsindiacorporation.com
               </p>
             </a>
           </div>
-
         </div>
 
         {/* Divider */}
-        <div className="mt-12 border-t border-pink-900/40" />
+        <div className="mt-12 border-t border-white/25" />
 
         {/* Bottom bar */}
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-pink-300/80 text-center sm:text-left">
+
+          <p className="text-xs text-white/80 text-center sm:text-left">
             © {new Date().getFullYear()}{" "}
-            <span className="text-pink-100 font-medium">Breast Cancer Awareness Mission.</span>{" "}
+            <span className="text-white font-medium">
+              Breast Cancer Awareness Mission.
+            </span>{" "}
             All rights reserved.
           </p>
 
@@ -248,7 +271,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="flex items-center justify-center h-8 w-8 rounded-full border border-pink-800 text-pink-300 hover:border-pink-400 hover:text-white hover:bg-pink-500/20 transition-all duration-200"
+                className="flex items-center justify-center h-8 w-8 rounded-full border border-white/40 text-white/90 hover:border-white hover:text-white hover:bg-white/15 transition-all duration-200"
               >
                 <Icon className="h-3.5 w-3.5" />
               </a>
@@ -256,17 +279,25 @@ export default function Footer() {
           </div>
 
           {/* Right links + back-to-top */}
-          <div className="flex items-center gap-4 text-xs text-pink-300/80">
-            <Link href="/privacy" className="hover:text-white transition-colors">
+          <div className="flex items-center gap-4 text-xs text-white/80">
+            <Link
+              href="/privacy"
+              className="hover:text-white transition-colors"
+            >
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
+
+            <Link
+              href="/terms"
+              className="hover:text-white transition-colors"
+            >
               Terms of Use
             </Link>
+
             <button
               onClick={scrollToTop}
               aria-label="Back to top"
-              className="flex items-center justify-center h-8 w-8 rounded-full bg-pink-500/20 border border-pink-500/40 hover:bg-pink-500/40 hover:border-pink-300 text-pink-200 transition-all duration-200 ml-2"
+              className="flex items-center justify-center h-8 w-8 rounded-full bg-white/15 border border-white/40 hover:bg-white/25 hover:border-white text-white transition-all duration-200 ml-2"
             >
               <ArrowUp className="h-3.5 w-3.5" />
             </button>
@@ -274,8 +305,10 @@ export default function Footer() {
         </div>
 
         {/* Made-with-love tag */}
-        <p className="mt-5 text-center text-[11px] text-pink-300/60 flex items-center justify-center gap-1">
-          Made with <Heart className="h-3 w-3 text-pink-400 fill-pink-400" /> for breast cancer awareness in India
+        <p className="mt-5 text-center text-[11px] text-white/70 flex items-center justify-center gap-1">
+          Made with{" "}
+          <Heart className="h-3 w-3 text-white fill-white" /> for breast cancer
+          awareness in India
         </p>
       </div>
     </footer>

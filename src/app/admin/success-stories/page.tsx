@@ -24,7 +24,7 @@ export default async function AdminSuccessStoriesPage() {
       {/* Header section */}
       <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 border-b border-pink-100 pb-6">
         <div className="space-y-1">
-          <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+          <span className="group block rounded-xl border border-pink-200/60 hover:border-pink-100/80 bg-[#9D174D] hover:bg-[#831843] p-4 transition-all duration-300 hover:shadow-lg hover:shadow-pink-950/30">
             <ShieldCheck className="h-2.5 w-2.5" /> Command Center
           </span>
           <h1 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">

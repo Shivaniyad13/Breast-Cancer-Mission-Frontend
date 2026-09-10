@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { ProtectedRoute } from '@/components/ProtectedRoute'
+import { ProtectedRoute } from '@/components/ProtectedRoute/ProtectedRoute'
 import { useAuth } from '@/hooks/useAuth'
 import {
   createDonationAction,

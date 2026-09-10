@@ -38,21 +38,21 @@ const educationalVideos = [
     title: "Breast Self-Examination (BSE) Walkthrough",
     duration: "3:45",
     description: "Detailed medical walkthrough demonstrating correct examination motions, finger pressure, and inspection zones.",
-    src: "/euhbbZb3sNXxgOi6g2MF+42G6uUncFHU.mp4",
+    src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789020972/euhbbZb3sNXxgOi6g2MF_42G6uUncFHU.mp4",
     thumbnail: "/images/preventive_wellness.png"
   },
   {
     title: "Khushi Tactile Care Kit Instructions",
     duration: "5:12",
     description: "Learn how to use the checkup cards, timeline planners, and tactile exam aids included in the Khushi Care Kit.",
-    src: "/VID-20260715-WA0006.mp4",
+    src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789022133/vid-20260715-wa0006-qir1ytvw_lQPH3Tjn.mp4",
     thumbnail: "/images/mammography_screening.png"
   },
   {
     title: "Understanding Early Breast Cancer Screening",
     duration: "4:15",
     description: "A patient-centric guide to understanding what to expect during a mammogram, clinical breast exam, or ultrasound.",
-    src: "/yPVvi64woY74YzOBqwhF+MmgUBXyBdEg.mp4",
+    src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789021760/yPVvi64woY74YzOBqwhF_MmgUBXyBdEg.mp4",
     thumbnail: "/images/survivor_strength.png"
   }
 ];

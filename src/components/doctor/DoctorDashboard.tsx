@@ -8,10 +8,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { 
   Stethoscope, BookOpen, Video, Plus, Calendar, Clock, 
   MapPin, Users, Edit3, Trash2, Eye, CheckCircle, ShieldCheck, 
-  FileText, Activity, AlertCircle, Sparkles, Building2, Check, X, ExternalLink
+  FileText, Activity, AlertCircle, Sparkles, Building2, Check, X, ExternalLink,
+  Tag, Info
 } from "lucide-react";
 import { createDoctorArticleAction, updateDoctorArticleAction, deleteDoctorArticleAction } from "@/app/actions/articles";
 import { createDoctorWebinarAction, updateDoctorWebinarAction, deleteDoctorWebinarAction } from "@/app/actions/webinars";
+import { resubmitDoctorVerificationAction } from "@/app/actions/doctor";
+import { calculateWebinarDurationMinutes, calculateMinimumAllowedPrice, formatDurationHumanReadable } from "@/lib/webinarPricing";
 import Link from "next/link";
 import DoctorProfileModal from "./DoctorProfileModal";
 
@@ -26,6 +29,8 @@ interface DoctorDashboardProps {
       hospitalAffiliation: string;
       medicalLicenseNumber: string;
       verificationStatus: any;
+      rejectionReason?: string | null;
+      verificationDocument?: string | null;
     };
     stats: {
       totalArticlesPublished: number;
@@ -71,10 +76,55 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
     meetingLink: "https://zoom.us/j/grs-oncology-stream",
     maxSeats: 100,
     status: "PUBLISHED",
+    webinarType: "FREE" as "FREE" | "PAID",
+    registrationPrice: 49,
   });
+
+  // Dynamic live pricing & duration calculation
+  const startDateTimeStr = `${webinarForm.date}T${webinarForm.startTime || "10:00"}:00`;
+  const endDateTimeStr = `${webinarForm.date}T${webinarForm.endTime || "11:00"}:00`;
+  const calculatedDuration = calculateWebinarDurationMinutes(startDateTimeStr, endDateTimeStr);
+  const platformMinimumPrice = calculateMinimumAllowedPrice(calculatedDuration);
+  const humanDurationStr = formatDurationHumanReadable(calculatedDuration);
+  const isTimeInvalid = calculatedDuration <= 0;
+  const isPriceInvalid =
+    webinarForm.webinarType === "PAID" &&
+    (Number(webinarForm.registrationPrice) < platformMinimumPrice || isNaN(Number(webinarForm.registrationPrice)));
 
   // Doctor Profile View Modal State
   const [isSelfProfileModalOpen, setIsSelfProfileModalOpen] = useState(false);
+
+  // Doctor Verification Resubmit Modal State
+  const [isResubmitModalOpen, setIsResubmitModalOpen] = useState(false);
+  const [resubmitForm, setResubmitForm] = useState({
+    medicalLicenseNumber: data.doctor.medicalLicenseNumber || "",
+    hospitalAffiliation: data.doctor.hospitalAffiliation || "",
+    specialty: data.doctor.specialty || "",
+    verificationDocument: data.doctor.verificationDocument || "",
+  });
+  const [resubmitLoading, setResubmitLoading] = useState(false);
+  const [resubmitError, setResubmitError] = useState<string | null>(null);
+
+  const handleResubmitVerification = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setResubmitLoading(true);
+    setResubmitError(null);
+
+    try {
+      const res = await resubmitDoctorVerificationAction(resubmitForm);
+      if (res.error) {
+        setResubmitError(res.error);
+      } else {
+        setIsResubmitModalOpen(false);
+        alert("Your professional credentials have been resubmitted for administration verification.");
+        window.location.reload();
+      }
+    } catch (err: any) {
+      setResubmitError(err.message || "Failed to resubmit verification.");
+    } finally {
+      setResubmitLoading(false);
+    }
+  };
 
   // Form submitting indicator
   const [submitting, setSubmitting] = useState(false);
@@ -183,6 +233,8 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
       meetingLink: "https://zoom.us/j/grs-doctor-room",
       maxSeats: 100,
       status: "PUBLISHED",
+      webinarType: "FREE",
+      registrationPrice: 49,
     });
     setIsWebinarModalOpen(true);
   };
@@ -202,6 +254,8 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
       meetingLink: webinar.meetingLink || "",
       maxSeats: webinar.maxSeats || 100,
       status: webinar.status || "PUBLISHED",
+      webinarType: webinar.webinarType || "FREE",
+      registrationPrice: webinar.registrationPrice || 49,
     });
     setIsWebinarModalOpen(true);
   };
@@ -212,23 +266,32 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
       return;
     }
 
+    if (isTimeInvalid) {
+      alert("Invalid schedule: End time must be later than start time.");
+      return;
+    }
+
+    if (webinarForm.webinarType === "PAID" && isPriceInvalid) {
+      alert(`Registration price (₹${webinarForm.registrationPrice}) cannot be lower than the platform minimum of ₹${platformMinimumPrice} for a ${calculatedDuration}-minute webinar.`);
+      return;
+    }
+
     setSubmitting(true);
     try {
-      const startDateTime = `${webinarForm.date}T${webinarForm.startTime || "10:00"}:00`;
-      const endDateTime = `${webinarForm.date}T${webinarForm.endTime || "11:00"}:00`;
-
       const payload = {
         title: webinarForm.title,
         description: webinarForm.description,
         category: webinarForm.category,
         date: webinarForm.date,
-        startTime: startDateTime,
-        endTime: endDateTime,
+        startTime: startDateTimeStr,
+        endTime: endDateTimeStr,
         webinarMode: webinarForm.webinarMode,
         venue: webinarForm.venue,
         meetingLink: webinarForm.meetingLink,
         maxSeats: webinarForm.maxSeats,
         status: webinarForm.status,
+        webinarType: webinarForm.webinarType,
+        registrationPrice: webinarForm.webinarType === "PAID" ? Number(webinarForm.registrationPrice) : 0,
       };
 
       if (editingWebinar) {
@@ -293,9 +356,19 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                 <h1 className="font-heading text-2xl sm:text-3xl font-black tracking-tight text-white">
                   Dr. {data.doctor.name}
                 </h1>
-                <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
-                  <ShieldCheck className="h-3 w-3" /> Verified Doctor
-                </span>
+                {data.doctor.verificationStatus === "VERIFIED" ? (
+                  <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                    <ShieldCheck className="h-3 w-3" /> VERIFIED DOCTOR
+                  </span>
+                ) : data.doctor.verificationStatus === "PENDING" ? (
+                  <span className="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                    <Clock className="h-3 w-3" /> PENDING VERIFICATION
+                  </span>
+                ) : (
+                  <span className="bg-red-500/20 text-red-300 border border-red-500/40 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" /> VERIFICATION REJECTED
+                  </span>
+                )}
               </div>
 
               <p className="text-pink-200 text-xs sm:text-sm font-semibold flex items-center gap-2">
@@ -322,22 +395,98 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
               <Plus className="h-4 w-4" /> Write Article
             </Button>
             <Button 
-              onClick={openNewWebinarModal}
+              onClick={() => {
+                if (data.doctor.verificationStatus !== "VERIFIED") {
+                  alert(`Doctor Verification Required: Your account is currently ${data.doctor.verificationStatus}. Only verified healthcare professionals can create or manage webinars.`);
+                  return;
+                }
+                openNewWebinarModal();
+              }}
+              disabled={data.doctor.verificationStatus !== "VERIFIED"}
               variant="outline"
-              className="flex-1 sm:flex-initial bg-white/10 hover:bg-white/20 text-white border-white/20 font-bold rounded-xl px-5 py-2.5 text-xs flex items-center justify-center gap-2 cursor-pointer transition-all"
+              className={`flex-1 sm:flex-initial border-white/20 font-bold rounded-xl px-5 py-2.5 text-xs flex items-center justify-center gap-2 transition-all ${
+                data.doctor.verificationStatus === "VERIFIED"
+                  ? "bg-white/10 hover:bg-white/20 text-white cursor-pointer"
+                  : "bg-slate-800/80 text-slate-400 cursor-not-allowed opacity-60"
+              }`}
+              title={data.doctor.verificationStatus !== "VERIFIED" ? "Doctor verification required to create webinars" : "Create New Live Webinar"}
             >
-              <Video className="h-4 w-4 text-pink-300" /> Create Webinar
+              <Video className="h-4 w-4" /> Create Webinar
             </Button>
             <Button
               onClick={() => setIsSelfProfileModalOpen(true)}
               variant="ghost"
-              className="text-pink-200 hover:text-white hover:bg-white/10 font-semibold rounded-xl text-xs px-3"
+              className="px-3 text-pink-300 hover:text-white hover:bg-white/10 rounded-xl"
+              title="Preview Doctor Card"
             >
-              View Public Card
+              <Eye className="h-4 w-4" />
             </Button>
           </div>
         </div>
       </div>
+
+      {/* ----------------DOCTOR IDENTITY VERIFICATION NOTICE CARD---------------- */}
+      {data.doctor.verificationStatus === "PENDING" && (
+        <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-amber-900 shadow-sm">
+          <div className="flex items-start gap-3">
+            <div className="p-2.5 bg-amber-500 text-white rounded-xl shrink-0 mt-0.5">
+              <Clock className="h-5 w-5" />
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="font-extrabold text-sm text-amber-800 uppercase tracking-wider">Verification Pending</span>
+                <span className="bg-amber-200 text-amber-900 text-[10px] font-black px-2 py-0.5 rounded-full">UNDER REVIEW</span>
+              </div>
+              <p className="text-xs sm:text-sm font-medium text-slate-700 leading-relaxed">
+                Your professional credentials are under review. Webinar creation will become available once your account is verified by our administration team.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {data.doctor.verificationStatus === "REJECTED" && (
+        <div className="bg-red-50 border border-red-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-red-900 shadow-sm">
+          <div className="flex items-start gap-3">
+            <div className="p-2.5 bg-red-600 text-white rounded-xl shrink-0 mt-0.5">
+              <AlertCircle className="h-5 w-5" />
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="font-extrabold text-sm text-red-700 uppercase tracking-wider">Verification Rejected</span>
+                <span className="bg-red-200 text-red-900 text-[10px] font-black px-2 py-0.5 rounded-full">ACTION REQUIRED</span>
+              </div>
+              <p className="text-xs text-red-800 font-medium">
+                <strong>Reason for Rejection:</strong> "{data.doctor.rejectionReason || "Please review and correct your professional license details."}"
+              </p>
+              <p className="text-xs text-slate-600">
+                Your verification request was not approved. Please update your professional information below and resubmit for admin review.
+              </p>
+            </div>
+          </div>
+
+          <Button
+            onClick={() => setIsResubmitModalOpen(true)}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl px-4 py-2.5 shrink-0 shadow-sm cursor-pointer"
+          >
+            Update &amp; Resubmit Credentials
+          </Button>
+        </div>
+      )}
+
+      {data.doctor.verificationStatus === "VERIFIED" && (
+        <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-4 sm:p-5 flex items-center gap-3 text-emerald-900 shadow-sm">
+          <div className="p-2.5 bg-emerald-600 text-white rounded-xl shrink-0">
+            <ShieldCheck className="h-5 w-5" />
+          </div>
+          <div className="space-y-0.5">
+            <p className="font-extrabold text-xs text-emerald-800 uppercase tracking-wider">Account Verified</p>
+            <p className="text-xs sm:text-sm font-medium text-slate-700">
+              Your professional credentials have been verified. You can now create and manage webinars.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* 2. STATS COUNTERS GRID (REQUIREMENT 2 & 8) */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -538,10 +687,11 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                   <thead>
                     <tr className="border-b border-slate-100 text-[10px] uppercase text-slate-400 font-black bg-slate-50/80">
                       <th className="p-4">Webinar Title</th>
+                      <th className="p-4">Access Type</th>
                       <th className="p-4">Date &amp; Time</th>
                       <th className="p-4">Meeting Room / Link</th>
                       <th className="p-4 text-center">Attendees</th>
-                      <th className="p-4 text-center">Status</th>
+                      <th className="p-4 text-center">Approval Status</th>
                       <th className="p-4 text-right">Actions</th>
                     </tr>
                   </thead>
@@ -551,6 +701,17 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                         <td className="p-4 font-bold text-slate-800 max-w-xs">
                           <p className="line-clamp-1">{web.title}</p>
                           <span className="text-[9px] text-slate-400 uppercase font-semibold">{web.category}</span>
+                        </td>
+                        <td className="p-4">
+                          {web.webinarType === "PAID" ? (
+                            <span className="bg-purple-50 text-purple-700 border border-purple-200 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1 shadow-xs">
+                              <Tag className="h-3 w-3" /> PAID • ₹{web.registrationPrice}
+                            </span>
+                          ) : (
+                            <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                              FREE
+                            </span>
+                          )}
                         </td>
                         <td className="p-4 text-slate-600 font-medium">
                           <div className="flex items-center gap-1 text-slate-700 font-semibold">
@@ -575,15 +736,19 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                           </span>
                         </td>
                         <td className="p-4 text-center">
-                          <span className={`inline-block px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider ${
-                            web.status === "PUBLISHED" 
-                              ? "bg-emerald-50 text-emerald-600 border border-emerald-200" 
-                              : web.status === "COMPLETED"
-                              ? "bg-blue-50 text-blue-600 border border-blue-200"
-                              : "bg-slate-100 text-slate-500 border border-slate-200"
-                          }`}>
-                            {web.status}
-                          </span>
+                          {web.approvalStatus === "APPROVED" ? (
+                            <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                              <CheckCircle className="h-3 w-3 text-emerald-600" /> APPROVED
+                            </span>
+                          ) : web.approvalStatus === "PENDING_APPROVAL" ? (
+                            <span className="bg-amber-50 text-amber-700 border border-amber-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1" title="Awaiting platform approval">
+                              <Clock className="h-3 w-3 text-amber-500" /> PENDING APPROVAL
+                            </span>
+                          ) : (
+                            <span className="bg-red-50 text-red-700 border border-red-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                              <AlertCircle className="h-3 w-3 text-red-500" /> REJECTED
+                            </span>
+                          )}
                         </td>
                         <td className="p-4 text-right">
                           <div className="flex items-center justify-end gap-1.5">
@@ -752,67 +917,200 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
       {/* ----------------MODAL 2: CREATE / EDIT WEBINAR---------------- */}
       <Dialog open={isWebinarModalOpen} onOpenChange={setIsWebinarModalOpen}>
-        <DialogContent className="max-w-2xl bg-white rounded-3xl p-6 border border-pink-100 shadow-2xl space-y-4">
-          <DialogHeader>
-            <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
-              <Video className="h-5 w-5 text-primary" /> {editingWebinar ? "Edit Webinar" : "Create New Live Webinar"}
+        <DialogContent className="w-[95vw] sm:w-full max-w-2xl max-h-[92vh] sm:max-h-[85vh] bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-pink-100 shadow-2xl flex flex-col gap-0 overflow-hidden">
+          <DialogHeader className="pb-3 sm:pb-4 border-b border-pink-50 shrink-0">
+            <DialogTitle className="font-heading text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
+              <Video className="h-4 sm:h-5 w-4 sm:w-5 text-primary shrink-0" />
+              <span className="truncate">{editingWebinar ? "Edit Webinar" : "Create New Live Webinar"}</span>
             </DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-4 text-xs">
+          <div className="flex-1 overflow-y-auto py-3 sm:py-4 pr-1 sm:pr-2 space-y-4 text-xs sm:text-sm custom-scrollbar">
+            {editingWebinar?.approvalStatus === "REJECTED" && editingWebinar?.approvalRejectionReason && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded-2xl text-xs space-y-1 text-red-800">
+                <p className="font-bold uppercase text-[10px] text-red-600 flex items-center gap-1">
+                  <AlertCircle className="h-3.5 w-3.5" /> Resubmission Notice
+                </p>
+                <p className="font-medium">Previous Rejection Reason: "{editingWebinar.approvalRejectionReason}"</p>
+                <p className="text-[10.5px] text-slate-600">Once updated and saved, this webinar will be automatically resubmitted for platform admin approval.</p>
+              </div>
+            )}
+
+            {/* 1. WEBINAR ACCESS TYPE */}
+            <div className="space-y-2 p-3 sm:p-4 bg-pink-50/40 rounded-2xl border border-pink-100">
+              <div className="flex flex-wrap items-center justify-between gap-1">
+                <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Webinar Access Type *</label>
+                <span className="text-pink-600 font-bold tracking-normal text-[11px] sm:text-xs font-mono">
+                  {webinarForm.webinarType === "FREE" ? "Free Access" : `Paid Access (Min ₹${platformMinimumPrice})`}
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                <button
+                  type="button"
+                  onClick={() => setWebinarForm({ ...webinarForm, webinarType: "FREE" })}
+                  className={`p-3 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer min-h-[44px] ${
+                    webinarForm.webinarType === "FREE"
+                      ? "bg-white border-primary shadow-xs ring-1 ring-primary/20 text-slate-800"
+                      : "bg-white/50 border-slate-200 text-slate-500 hover:bg-white"
+                  }`}
+                >
+                  <div className="pr-2">
+                    <p className="font-bold text-xs sm:text-sm">FREE Webinar</p>
+                    <p className="text-[10px] sm:text-[11px] text-slate-400 leading-tight">Open to all users with instant approval</p>
+                  </div>
+                  <div className={`h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${webinarForm.webinarType === "FREE" ? "border-primary bg-primary text-white" : "border-slate-300"}`}>
+                    {webinarForm.webinarType === "FREE" && <Check className="h-3 w-3 stroke-[3]" />}
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setWebinarForm({
+                      ...webinarForm,
+                      webinarType: "PAID",
+                      registrationPrice: Math.max(webinarForm.registrationPrice, platformMinimumPrice || 49),
+                    });
+                  }}
+                  className={`p-3 rounded-xl border text-left transition-all flex items-center justify-between cursor-pointer min-h-[44px] ${
+                    webinarForm.webinarType === "PAID"
+                      ? "bg-white border-purple-600 shadow-xs ring-1 ring-purple-600/20 text-slate-800"
+                      : "bg-white/50 border-slate-200 text-slate-500 hover:bg-white"
+                  }`}
+                >
+                  <div className="pr-2">
+                    <p className="font-bold text-xs sm:text-sm text-purple-700">PAID Webinar</p>
+                    <p className="text-[10px] sm:text-[11px] text-slate-400 leading-tight">Paid entry, requires platform approval</p>
+                  </div>
+                  <div className={`h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${webinarForm.webinarType === "PAID" ? "border-purple-600 bg-purple-600 text-white" : "border-slate-300"}`}>
+                    {webinarForm.webinarType === "PAID" && <Check className="h-3 w-3 stroke-[3]" />}
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* 2. PRICING & DURATION SECTION (FOR PAID WEBINARS) */}
+            {webinarForm.webinarType === "PAID" && (
+              <div className="p-3 sm:p-4 bg-purple-50/50 border border-purple-100 rounded-2xl space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-1.5">
+                  <span className="font-bold text-xs sm:text-sm text-purple-900 flex items-center gap-1.5">
+                    <Sparkles className="h-3.5 w-3.5 text-purple-600 shrink-0" /> Pricing &amp; Duration Policy
+                  </span>
+                  <span className={`text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full ${isTimeInvalid ? "bg-red-100 text-red-600" : "bg-purple-100 text-purple-700"}`}>
+                    {isTimeInvalid ? "Invalid Time Selection" : `Duration: ${humanDurationStr}`}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-1">
+                  <div className="space-y-1">
+                    <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">
+                      Platform Minimum Price
+                    </label>
+                    <div className="px-3 py-2 bg-purple-100/70 border border-purple-200 rounded-xl text-xs sm:text-sm font-black text-purple-900 flex items-center justify-between min-h-[42px]">
+                      <span>Policy Minimum</span>
+                      <span className="text-sm sm:text-base font-extrabold">₹{platformMinimumPrice}</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">
+                      Registration Price (₹) *
+                    </label>
+                    <input
+                      type="number"
+                      min={platformMinimumPrice}
+                      step="1"
+                      placeholder={`Min ₹${platformMinimumPrice}`}
+                      value={webinarForm.registrationPrice}
+                      onChange={(e) => setWebinarForm({ ...webinarForm, registrationPrice: parseFloat(e.target.value) || 0 })}
+                      className={`w-full px-3 py-2 border rounded-xl text-xs sm:text-sm font-bold bg-white focus:outline-none min-h-[42px] ${
+                        isPriceInvalid ? "border-red-500 text-red-600 focus:ring-1 focus:ring-red-500" : "border-purple-200 text-slate-800 focus:border-purple-600"
+                      }`}
+                    />
+                  </div>
+                </div>
+
+                {isPriceInvalid && (
+                  <p className="text-[11px] sm:text-xs text-red-600 font-bold flex items-start gap-1.5 break-words">
+                    <AlertCircle className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                    <span>Price must be at least ₹{platformMinimumPrice} for a {calculatedDuration}-minute webinar.</span>
+                  </p>
+                )}
+
+                {isTimeInvalid && (
+                  <p className="text-[11px] sm:text-xs text-red-600 font-bold flex items-start gap-1.5 break-words">
+                    <AlertCircle className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                    <span>End time must be later than start time.</span>
+                  </p>
+                )}
+
+                <div className="p-2.5 sm:p-3 bg-white/80 rounded-xl border border-purple-100 text-[10.5px] sm:text-xs text-slate-600 leading-relaxed flex items-start gap-2">
+                  <Info className="h-4 w-4 text-purple-600 shrink-0 mt-0.5" />
+                  <span>
+                    <strong>Note:</strong> Paid webinars require platform approval before becoming publicly available. Payment and payout functionality will be added in a future phase.
+                  </span>
+                </div>
+              </div>
+            )}
+
             {/* Title */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Webinar Title *</label>
+              <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Webinar Title *</label>
               <input
                 type="text"
                 placeholder="e.g. Modern Surgical Advances in Breast Reconstruction"
                 value={webinarForm.title}
                 onChange={(e) => setWebinarForm({ ...webinarForm, title: e.target.value })}
-                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none"
+                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none min-h-[42px]"
               />
             </div>
 
             {/* Date & Time */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div className="space-y-1">
-                <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Scheduled Date *</label>
-                <input
-                  type="date"
-                  value={webinarForm.date}
-                  onChange={(e) => setWebinarForm({ ...webinarForm, date: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs bg-slate-50/50 focus:border-primary focus:outline-none"
-                />
+            <div className="space-y-1">
+              <div className="flex flex-wrap items-center justify-between gap-1">
+                <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Scheduled Date &amp; Time *</label>
+                <span className={`text-[10px] sm:text-xs font-bold ${isTimeInvalid ? "text-red-500" : "text-slate-500"}`}>
+                  {humanDurationStr}
+                </span>
               </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                <div className="space-y-1">
+                  <input
+                    type="date"
+                    value={webinarForm.date}
+                    onChange={(e) => setWebinarForm({ ...webinarForm, date: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none min-h-[40px]"
+                  />
+                </div>
 
-              <div className="space-y-1">
-                <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Start Time</label>
-                <input
-                  type="time"
-                  value={webinarForm.startTime}
-                  onChange={(e) => setWebinarForm({ ...webinarForm, startTime: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs bg-slate-50/50 focus:border-primary focus:outline-none"
-                />
-              </div>
+                <div className="space-y-1">
+                  <input
+                    type="time"
+                    value={webinarForm.startTime}
+                    onChange={(e) => setWebinarForm({ ...webinarForm, startTime: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none min-h-[40px]"
+                  />
+                </div>
 
-              <div className="space-y-1">
-                <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">End Time</label>
-                <input
-                  type="time"
-                  value={webinarForm.endTime}
-                  onChange={(e) => setWebinarForm({ ...webinarForm, endTime: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs bg-slate-50/50 focus:border-primary focus:outline-none"
-                />
+                <div className="space-y-1">
+                  <input
+                    type="time"
+                    value={webinarForm.endTime}
+                    onChange={(e) => setWebinarForm({ ...webinarForm, endTime: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none min-h-[40px]"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Category & Max Seats */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-1">
-                <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Category</label>
+                <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Category</label>
                 <select
                   value={webinarForm.category}
                   onChange={(e) => setWebinarForm({ ...webinarForm, category: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-200 rounded-xl text-xs bg-slate-50/50 focus:border-primary focus:outline-none"
+                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none min-h-[40px]"
                 >
                   <option>Clinical Awareness</option>
                   <option>Screening Drive</option>
@@ -822,53 +1120,53 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
               </div>
 
               <div className="space-y-1">
-                <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Max Attendees</label>
+                <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Max Attendees</label>
                 <input
                   type="number"
                   value={webinarForm.maxSeats}
                   onChange={(e) => setWebinarForm({ ...webinarForm, maxSeats: parseInt(e.target.value) || 100 })}
-                  className="w-full px-4 py-2 border border-slate-200 rounded-xl text-xs bg-slate-50/50 focus:border-primary focus:outline-none"
+                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none min-h-[40px]"
                 />
               </div>
             </div>
 
             {/* Meeting Link */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Meeting Room / Link</label>
+              <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Meeting Room / Link</label>
               <input
                 type="text"
                 placeholder="https://zoom.us/j/123456789"
                 value={webinarForm.meetingLink}
                 onChange={(e) => setWebinarForm({ ...webinarForm, meetingLink: e.target.value })}
-                className="w-full px-4 py-2 border border-slate-200 rounded-xl text-xs bg-slate-50/50 focus:border-primary focus:outline-none font-mono"
+                className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none font-mono min-h-[40px]"
               />
             </div>
 
             {/* Description */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Webinar Overview</label>
+              <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Webinar Overview</label>
               <textarea
-                rows={4}
+                rows={3}
                 placeholder="Describe key learning outcomes and agenda for attendees..."
                 value={webinarForm.description}
                 onChange={(e) => setWebinarForm({ ...webinarForm, description: e.target.value })}
-                className="w-full px-4 py-2 border border-slate-200 rounded-xl text-xs bg-slate-50/50 focus:border-primary focus:outline-none resize-none"
+                className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none resize-none"
               />
             </div>
           </div>
 
-          <DialogFooter className="flex justify-end gap-2 pt-2 border-t border-slate-100">
+          <DialogFooter className="pt-3 border-t border-slate-100 shrink-0 flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3">
             <Button 
               variant="outline" 
               onClick={() => setIsWebinarModalOpen(false)}
-              className="border-slate-200 text-slate-700 font-bold text-xs rounded-xl px-4"
+              className="w-full sm:w-auto border-slate-200 text-slate-700 font-bold text-xs sm:text-sm rounded-xl px-4 py-2.5 min-h-[42px]"
             >
               Cancel
             </Button>
             <Button 
               onClick={handleSaveWebinar}
               disabled={submitting}
-              className="bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-xl px-5"
+              className="w-full sm:w-auto bg-primary hover:bg-primary/95 text-white font-bold text-xs sm:text-sm rounded-xl px-6 py-2.5 min-h-[42px] shadow-xs"
             >
               {submitting ? "Saving..." : editingWebinar ? "Update Webinar" : "Create Webinar"}
             </Button>
@@ -935,6 +1233,39 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                     <span>{viewingWebinar.date} ({viewingWebinar.startTime} - {viewingWebinar.endTime})</span>
                   </div>
                   <div className="flex items-center justify-between">
+                    <span className="font-bold text-slate-800">Access Type:</span>
+                    <span className="font-bold text-slate-900">
+                      {viewingWebinar.webinarType === "PAID" ? `PAID (₹${viewingWebinar.registrationPrice})` : "FREE"}
+                    </span>
+                  </div>
+                  {viewingWebinar.webinarType === "PAID" && (
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-slate-800">Platform Policy Min:</span>
+                      <span className="text-purple-700 font-bold">₹{viewingWebinar.minimumAllowedPrice}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-slate-800">Duration:</span>
+                    <span>{formatDurationHumanReadable(viewingWebinar.durationMinutes)}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-slate-800">Approval Status:</span>
+                    <span className={`font-bold uppercase ${viewingWebinar.approvalStatus === "APPROVED" ? "text-emerald-600" : viewingWebinar.approvalStatus === "PENDING_APPROVAL" ? "text-amber-600" : "text-red-600"}`}>
+                      {viewingWebinar.approvalStatus}
+                    </span>
+                  </div>
+
+                  {viewingWebinar.approvalStatus === "REJECTED" && viewingWebinar.approvalRejectionReason && (
+                    <div className="p-3 bg-red-50 border border-red-100 rounded-xl space-y-1 text-xs text-red-700">
+                      <p className="font-bold uppercase text-[10px] text-red-600 flex items-center gap-1">
+                        <AlertCircle className="h-3.5 w-3.5" /> Rejection Reason from Platform Admin:
+                      </p>
+                      <p className="font-medium bg-white/70 p-2 rounded-lg border border-red-100">{viewingWebinar.approvalRejectionReason}</p>
+                      <p className="text-[10.5px] text-slate-500 italic pt-0.5">Tip: Edit this webinar to fix the required details and resubmit for admin approval.</p>
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between">
                     <span className="font-bold text-slate-800">Registered Users:</span>
                     <span className="font-bold text-primary">{viewingWebinar.registeredUsersCount} / {viewingWebinar.maxSeats}</span>
                   </div>
@@ -973,6 +1304,88 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
         isOpen={isSelfProfileModalOpen}
         onClose={() => setIsSelfProfileModalOpen(false)}
       />
+
+      {/* ----------------MODAL 5: RESUBMIT VERIFICATION DETAILS---------------- */}
+      <Dialog open={isResubmitModalOpen} onOpenChange={setIsResubmitModalOpen}>
+        <DialogContent className="max-w-lg bg-white rounded-3xl p-6 border border-pink-100 shadow-2xl space-y-4">
+          <DialogHeader>
+            <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
+              <ShieldCheck className="h-5 w-5 text-primary" /> Update &amp; Resubmit Verification Credentials
+            </DialogTitle>
+          </DialogHeader>
+
+          {resubmitError && (
+            <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl font-medium">
+              {resubmitError}
+            </div>
+          )}
+
+          <form onSubmit={handleResubmitVerification} className="space-y-4 text-xs">
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">Medical License / Registration Number *</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g. MCI-98765 / State Registration ID"
+                value={resubmitForm.medicalLicenseNumber}
+                onChange={(e) => setResubmitForm({ ...resubmitForm, medicalLicenseNumber: e.target.value })}
+                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary text-slate-800 font-medium"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">Hospital / Clinic Affiliation *</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g. AIIMS Delhi / Apollo Specialty Hospital"
+                value={resubmitForm.hospitalAffiliation}
+                onChange={(e) => setResubmitForm({ ...resubmitForm, hospitalAffiliation: e.target.value })}
+                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary text-slate-800 font-medium"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">Medical Specialty *</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g. Surgical Oncology / Radiation Oncologist"
+                value={resubmitForm.specialty}
+                onChange={(e) => setResubmitForm({ ...resubmitForm, specialty: e.target.value })}
+                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary text-slate-800 font-medium"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700">Verification Document Link (Optional)</label>
+              <input
+                type="text"
+                placeholder="Public PDF or Cloudinary certificate URL (Optional)"
+                value={resubmitForm.verificationDocument}
+                onChange={(e) => setResubmitForm({ ...resubmitForm, verificationDocument: e.target.value })}
+                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary text-slate-800 font-medium"
+              />
+              <p className="text-[10.5px] text-slate-500 italic">
+                Upload your medical registration certificate or license document URL for faster verification. Accepted formats: PDF, JPG, PNG.
+              </p>
+            </div>
+
+            <DialogFooter className="flex justify-end gap-2 pt-2">
+              <Button type="button" variant="outline" onClick={() => setIsResubmitModalOpen(false)} disabled={resubmitLoading} className="rounded-xl text-xs font-bold">
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={resubmitLoading}
+                className="bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-xl px-5 shadow-md cursor-pointer"
+              >
+                {resubmitLoading ? "Submitting..." : "Resubmit Credentials"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
 
     </div>
   );

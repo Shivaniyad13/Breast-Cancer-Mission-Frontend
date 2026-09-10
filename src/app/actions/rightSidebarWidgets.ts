@@ -16,7 +16,7 @@ async function requireAdmin() {
 
 const SEED_BANNERS = [
   {
-    logoUrl: "/grs-group-logo.jpg",
+    logoUrl: "/images/grs-group-logo.jpg",
     imageUrl: "/images/mammography_screening.png",
     title: "Cancer Diagnostics",
     description: "Providing high-tech mammography screenings and patient care guidance in coordination with regional medical centers.",
@@ -25,7 +25,7 @@ const SEED_BANNERS = [
     isActive: true
   },
   {
-    logoUrl: "/khushi-logo.jpg",
+    logoUrl: "/images/khushi-logo.jpg",
     imageUrl: "/images/support_group.png",
     title: "Khushi Rehab & Research",
     description: "Rehabilitation therapies, mental wellness programs, and survivorship advocacy platforms for cancer patients.",

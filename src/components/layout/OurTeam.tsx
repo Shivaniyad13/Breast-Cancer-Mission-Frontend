@@ -27,7 +27,7 @@ const CATEGORIES = [
     name: "Saket Mani Trivedi",
     description:
       "Oversees daily operations, implements organizational strategies, manages programs, and ensures the successful execution of healthcare and awareness initiatives.",
-    image: "/team3.jpg",
+    image: "/images/team3.jpg",
     icon: Activity,
   },
   {
@@ -35,7 +35,7 @@ const CATEGORIES = [
     name: "Mandvi Kumari",
     description:
       "Coordinates organizational activities, manages official communications, maintains records, and supports the effective implementation of campaigns and partnerships.",
-    image: "/team2.jpg",
+    image: "/images/team2.jpg",
     icon: Beaker,
   },
   {
@@ -43,7 +43,7 @@ const CATEGORIES = [
     name: "Dr. Renu Kulshrestha (Ph.D)",
     description:
       "Leads program development, supervises healthcare initiatives, collaborates with medical experts, and ensures quality patient care and community outreach services.",
-    image: "/team1.jpg",
+    image: "/images/team1.jpg",
     icon: Stethoscope,
   },
   {
@@ -51,7 +51,7 @@ const CATEGORIES = [
   name: "Kritika Singh",
   description:
     "Manages administrative operations, coordinates volunteers, assists beneficiaries, and ensures smooth execution of organizational activities and support services.",
-  image: "/head.jpg",
+  image: "/images/head.jpg",
   icon: ShieldCheck,
 },
 ];

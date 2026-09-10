@@ -9,6 +9,7 @@ import fs from "fs";
 import path from "path";
 import PDFDocument from "pdfkit";
 import crypto from "crypto";
+import { calculateWebinarDurationMinutes, calculateMinimumAllowedPrice } from "@/lib/webinarPricing";
 
 // Helper for admin auth
 async function requireAdmin() {
@@ -71,7 +72,8 @@ export async function getWebinars(filters: {
     };
   }
 
-  // Upcoming vs Past toggle
+  // Public webinars must be APPROVED (FREE webinars default to APPROVED, PAID webinars require admin approval)
+  where.approvalStatus = "APPROVED";
   if (mode === "upcoming") {
     where.endTime = { gte: now };
     // Draft webinars shouldn't show to regular users, unless they are admin
@@ -269,6 +271,38 @@ export async function createDoctorWebinarAction(data: any) {
   const doctor = await getOrCreateDoctorRecord(session.user.id);
   const doctorName = doctor.user.name || "Dr. Medical Specialist";
 
+  if (session.user.role === Role.DOCTOR && doctor.verificationStatus !== "VERIFIED") {
+    return {
+      error: `Doctor Verification Required: Only verified healthcare professionals can create webinars. Your verification status is currently ${doctor.verificationStatus}.`,
+    };
+  }
+
+  const startTimeDate = new Date(data.startTime);
+  const endTimeDate = new Date(data.endTime);
+
+  if (isNaN(startTimeDate.getTime()) || isNaN(endTimeDate.getTime()) || endTimeDate <= startTimeDate) {
+    return { error: "Invalid schedule: End time must be later than start time." };
+  }
+
+  const durationMinutes = calculateWebinarDurationMinutes(startTimeDate, endTimeDate);
+  const isPaid = data.webinarType === "PAID";
+  const minimumAllowedPrice = isPaid ? calculateMinimumAllowedPrice(durationMinutes) : 0;
+  const registrationPrice = isPaid ? parseFloat(data.registrationPrice) || 0 : 0;
+
+  if (isPaid) {
+    if (registrationPrice < minimumAllowedPrice) {
+      return {
+        error: `Registration price (₹${registrationPrice}) cannot be lower than the platform minimum of ₹${minimumAllowedPrice} for a ${durationMinutes}-minute webinar.`,
+      };
+    }
+  }
+
+  // Preserve existing lifecycle status semantics (e.g. PUBLISHED)
+  const lifecycleStatus = data.status || "PUBLISHED";
+
+  // Platform approval status: PAID requires platform approval, FREE is automatically approved
+  const approvalStatus = isPaid ? "PENDING_APPROVAL" : "APPROVED";
+
   const webinar = await db.webinar.create({
     data: {
       title: data.title,
@@ -282,8 +316,8 @@ export async function createDoctorWebinarAction(data: any) {
       speakerSpecialization: data.speakerSpecialization || doctor.specialty || "Oncology",
       speakerHospital: data.speakerHospital || doctor.hospitalAffiliation || "Specialist Oncology Care",
       date: new Date(data.date),
-      startTime: new Date(data.startTime),
-      endTime: new Date(data.endTime),
+      startTime: startTimeDate,
+      endTime: endTimeDate,
       venue: data.venue || "Online",
       city: data.city || null,
       state: data.state || null,
@@ -292,7 +326,12 @@ export async function createDoctorWebinarAction(data: any) {
       meetingLink: data.meetingLink || "https://zoom.us/j/grs-webinar-session",
       maxSeats: parseInt(data.maxSeats) || 100,
       category: data.category || "Awareness",
-      status: data.status || "PUBLISHED",
+      status: lifecycleStatus,
+      webinarType: isPaid ? "PAID" : "FREE",
+      registrationPrice,
+      minimumAllowedPrice,
+      durationMinutes,
+      approvalStatus,
       objectives: data.objectives || "",
       agenda: data.agenda || "",
       organizerDetails: data.organizerDetails || `Dr. ${doctorName}`,
@@ -308,7 +347,7 @@ export async function createDoctorWebinarAction(data: any) {
 }
 
 /**
- * Updates a doctor's webinar with strict ownership check.
+ * Updates a doctor's webinar with strict ownership check and price/duration validation.
  */
 export async function updateDoctorWebinarAction(id: string, data: any) {
   const session = await auth();
@@ -327,8 +366,48 @@ export async function updateDoctorWebinarAction(id: string, data: any) {
 
   const doctor = await getOrCreateDoctorRecord(session.user.id);
 
+  if (session.user.role === Role.DOCTOR && doctor.verificationStatus !== "VERIFIED") {
+    return {
+      error: `Doctor Verification Required: Only verified healthcare professionals can edit webinars. Your verification status is currently ${doctor.verificationStatus}.`,
+    };
+  }
+
   if (session.user.role !== Role.ADMIN && webinar.doctorId !== doctor.id) {
     return { error: "Permission Denied: You can only edit your own webinars." };
+  }
+
+  const startTimeDate = data.startTime ? new Date(data.startTime) : webinar.startTime;
+  const endTimeDate = data.endTime ? new Date(data.endTime) : webinar.endTime;
+
+  if (data.startTime || data.endTime) {
+    if (isNaN(startTimeDate.getTime()) || isNaN(endTimeDate.getTime()) || endTimeDate <= startTimeDate) {
+      return { error: "Invalid schedule: End time must be later than start time." };
+    }
+  }
+
+  const durationMinutes = calculateWebinarDurationMinutes(startTimeDate, endTimeDate);
+  const targetWebinarType = data.webinarType !== undefined ? data.webinarType : webinar.webinarType;
+  const isPaid = targetWebinarType === "PAID";
+  const minimumAllowedPrice = isPaid ? calculateMinimumAllowedPrice(durationMinutes) : 0;
+  const registrationPrice = isPaid
+    ? data.registrationPrice !== undefined
+      ? parseFloat(data.registrationPrice) || 0
+      : webinar.registrationPrice
+    : 0;
+
+  if (isPaid) {
+    if (registrationPrice < minimumAllowedPrice) {
+      return {
+        error: `Registration price (₹${registrationPrice}) cannot be lower than the platform minimum of ₹${minimumAllowedPrice} for a ${durationMinutes}-minute webinar.`,
+      };
+    }
+  }
+
+  let approvalStatus = webinar.approvalStatus;
+  let approvalRejectionReason = webinar.approvalRejectionReason;
+  if (isPaid && (webinar.webinarType === "FREE" || webinar.approvalStatus === "REJECTED")) {
+    approvalStatus = "PENDING_APPROVAL";
+    approvalRejectionReason = null;
   }
 
   await db.webinar.update({
@@ -338,14 +417,20 @@ export async function updateDoctorWebinarAction(id: string, data: any) {
       ...(data.description && { description: data.description }),
       ...(data.fullContent && { fullContent: data.fullContent }),
       ...(data.date && { date: new Date(data.date) }),
-      ...(data.startTime && { startTime: new Date(data.startTime) }),
-      ...(data.endTime && { endTime: new Date(data.endTime) }),
+      ...(data.startTime && { startTime: startTimeDate }),
+      ...(data.endTime && { endTime: endTimeDate }),
       ...(data.venue !== undefined && { venue: data.venue }),
       ...(data.meetingLink && { meetingLink: data.meetingLink }),
       ...(data.maxSeats && { maxSeats: parseInt(data.maxSeats) }),
       ...(data.category && { category: data.category }),
       ...(data.status && { status: data.status }),
       ...(data.webinarMode && { webinarMode: data.webinarMode }),
+      webinarType: isPaid ? "PAID" : "FREE",
+      registrationPrice,
+      minimumAllowedPrice,
+      durationMinutes,
+      approvalStatus,
+      approvalRejectionReason,
     },
   });
 
@@ -894,7 +979,7 @@ export async function generateCertificateForUser(userId: string, webinarId: stri
 
       const logoX = width / 2 - 80;
       try {
-        const grsLogoPath = path.join(process.cwd(), "public", "grs-group-logo.jpg");
+        const grsLogoPath = path.join(process.cwd(), "public", "images", "grs-group-logo.jpg");
         doc.image(grsLogoPath, logoX, bottomY, { width: 50, height: 45 });
       } catch (e) {
         doc.rect(logoX, bottomY, 50, 45).fillColor("#fce7f3").fill();
@@ -902,7 +987,7 @@ export async function generateCertificateForUser(userId: string, webinarId: stri
       }
 
       try {
-        const khushiLogoPath = path.join(process.cwd(), "public", "khushi-logo.jpg");
+        const khushiLogoPath = path.join(process.cwd(), "public", "images", "khushi-logo.jpg");
         doc.image(khushiLogoPath, logoX + 70, bottomY, { width: 50, height: 45 });
       } catch (e) {
         doc.rect(logoX + 70, bottomY, 50, 45).fillColor("#dbeafe").fill();
@@ -981,4 +1066,88 @@ export async function adjustAttendanceAction(userId: string, webinarId: string, 
 
   revalidatePath("/admin/webinars");
   return { success: true, attendance };
+}
+
+/**
+ * Approves a pending paid webinar (Admin only).
+ */
+export async function approveWebinarAction(id: string) {
+  await requireAdmin();
+
+  const webinar = await db.webinar.findUnique({
+    where: { id },
+  });
+
+  if (!webinar) {
+    return { error: "Webinar not found." };
+  }
+
+  await db.webinar.update({
+    where: { id },
+    data: {
+      approvalStatus: "APPROVED",
+      approvalRejectionReason: null,
+    },
+  });
+
+  revalidatePath("/admin/webinars");
+  revalidatePath("/webinars");
+  revalidatePath(`/webinars/${id}`);
+  revalidatePath("/dashboard");
+  return { success: true };
+}
+
+/**
+ * Rejects a pending paid webinar with a required rejection reason (Admin only).
+ */
+export async function rejectWebinarAction(id: string, rejectionReason: string) {
+  await requireAdmin();
+
+  if (!rejectionReason || !rejectionReason.trim()) {
+    return { error: "A reason for rejection is required." };
+  }
+
+  const webinar = await db.webinar.findUnique({
+    where: { id },
+  });
+
+  if (!webinar) {
+    return { error: "Webinar not found." };
+  }
+
+  await db.webinar.update({
+    where: { id },
+    data: {
+      approvalStatus: "REJECTED",
+      approvalRejectionReason: rejectionReason.trim(),
+    },
+  });
+
+  revalidatePath("/admin/webinars");
+  revalidatePath("/webinars");
+  revalidatePath(`/webinars/${id}`);
+  revalidatePath("/dashboard");
+  return { success: true };
+}
+
+/**
+ * Fetches all pending approval webinars for admin review (Admin only).
+ */
+export async function getPendingWebinarsForAdmin() {
+  await requireAdmin();
+
+  return await db.webinar.findMany({
+    where: {
+      approvalStatus: "PENDING_APPROVAL",
+    },
+    orderBy: { createdAt: "desc" },
+    include: {
+      doctor: {
+        include: {
+          user: true,
+        },
+      },
+      registrations: true,
+    },
+  });
 }

@@ -68,12 +68,11 @@ export function StoryPlayerWidget({ stories }: { stories: SuccessStory[] }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const activeStory = stories[activeIndex];
-
   useEffect(() => {
     if (stories.length <= 1) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % stories.length);
-    }, 7000);
+    }, 60000); // 👈 Ab ye 1 minute (60 seconds) ho gaya
     return () => clearInterval(interval);
   }, [stories.length]);
 

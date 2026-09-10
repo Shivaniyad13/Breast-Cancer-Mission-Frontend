@@ -193,6 +193,12 @@ model Webinar {
   maxSeats              Int
   category              String
   status                String                @default("DRAFT")
+  webinarType           WebinarType           @default(FREE)
+  registrationPrice     Float                 @default(0)
+  minimumAllowedPrice   Float                 @default(0)
+  durationMinutes       Int                   @default(60)
+  approvalStatus        ApprovalStatus        @default(APPROVED)
+  approvalRejectionReason String?
   recordingUrl          String?
   materialsUrl          String?
   objectives            String?
@@ -223,6 +229,8 @@ model Doctor {
   bio                  String?
   avatarUrl            String?
   verificationStatus   VerificationStatus @default(PENDING)
+  rejectionReason      String?
+  verificationDocument String?
   createdAt            DateTime           @default(now())
   updatedAt            DateTime           @updatedAt
   articles             Article[]
@@ -357,6 +365,17 @@ enum CertificateType {
   WEBINAR_ATTENDANCE
   QUIZ_EXCELLENCE
   VOLUNTEER_CAMPAIGN
+}
+
+enum WebinarType {
+  FREE
+  PAID
+}
+
+enum ApprovalStatus {
+  APPROVED
+  PENDING_APPROVAL
+  REJECTED
 }
 
 model OrganizationMember {

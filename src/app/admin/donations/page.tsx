@@ -54,7 +54,7 @@ import {
   BadgeCheck,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { ProtectedRoute } from '@/components/ProtectedRoute'
+import { ProtectedRoute } from '@/components/ProtectedRoute/ProtectedRoute'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 

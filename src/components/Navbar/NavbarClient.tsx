@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import MobileMenu from "./MobileMenu";
+import MobileMenu from "@/components/layout/MobileMenu";
 
 interface NavbarClientProps {
   user?: {

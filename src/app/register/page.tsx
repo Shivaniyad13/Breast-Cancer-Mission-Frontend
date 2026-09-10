@@ -17,6 +17,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string>("Registration successful! Redirecting to login page...");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,16 +31,42 @@ export default function RegisterPage() {
     data.tax80g = formData.get("tax80g") === "on";
     data.role = role;
 
+    // Frontend validation for DOCTOR
+    if (role === "DOCTOR") {
+      const docLic = (data.docLicense || "").trim();
+      const docAff = (data.docAffiliation || "").trim();
+      const docSpec = (data.docSpecialty || "").trim();
+
+      if (!docLic || docLic.length < 3) {
+        setError("Please enter a valid Medical License / Registration Number (minimum 3 characters).");
+        setLoading(false);
+        return;
+      }
+      if (!docAff) {
+        setError("Hospital Affiliation / Clinic Name is required.");
+        setLoading(false);
+        return;
+      }
+      if (!docSpec) {
+        setError("Medical Specialty is required.");
+        setLoading(false);
+        return;
+      }
+    }
+
     const res = await registerUserAction(data);
 
     setLoading(false);
     if (res.error) {
       setError(res.error);
     } else {
+      if (res.message) {
+        setSuccessMessage(res.message);
+      }
       setSuccess(true);
       setTimeout(() => {
         router.push("/login");
-      }, 2000);
+      }, 3500);
     }
   };
 
@@ -62,8 +89,8 @@ export default function RegisterPage() {
             </div>
           )}
           {success && (
-            <div className="mb-4 p-3 rounded-md bg-emerald-500/10 text-emerald-600 text-sm font-medium border border-emerald-500/20">
-              Registration successful! Redirecting to login page...
+            <div className="mb-4 p-3 rounded-md bg-emerald-500/10 text-emerald-600 text-sm font-medium border border-emerald-500/20 leading-relaxed">
+              {successMessage}
             </div>
           )}
 

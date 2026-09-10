@@ -127,7 +127,7 @@ export async function generateQuizCertificateAction(score: number) {
 
     // Top Left: GRS India Group Logo
     try {
-      const grsLogoPath = path.join(process.cwd(), "public", "grs-group-logo.jpg");
+      const grsLogoPath = path.join(process.cwd(), "public", "images", "grs-group-logo.jpg");
       doc.image(grsLogoPath, 45, headerY, { width: 110, height: 45 });
     } catch (e) {
       doc.rect(45, headerY, 110, 45).fillColor("#fce7f3").fill();
@@ -136,7 +136,7 @@ export async function generateQuizCertificateAction(score: number) {
 
     // Top Right: Khushi Centre Logo
     try {
-      const khushiLogoPath = path.join(process.cwd(), "public", "khushi-logo.jpg");
+      const khushiLogoPath = path.join(process.cwd(), "public", "images", "khushi-logo.jpg");
       doc.image(khushiLogoPath, width - 155, headerY, { width: 110, height: 45 });
     } catch (e) {
       doc.rect(width - 155, headerY, 110, 45).fillColor("#dbeafe").fill();

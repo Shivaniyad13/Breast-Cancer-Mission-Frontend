@@ -79,7 +79,7 @@ export const QRModal: React.FC<QRModalProps> = ({
   useEffect(() => {
     if (!isOpen) return
     console.log('=============== 🎀 NPCI COMPLIANT UPI PAYLOAD LOGS ===============')
-    console.log('1. NEXT_PUBLIC_UPI_ID (env):', process.env.NEXT_PUBLIC_UPI_ID)
+    console.log('1. UPI_ID (env):', process.env.NEXT_PUBLIC_UPI_ID)
     console.log('2. NEXT_PUBLIC_UPI_PAYEE_NAME (env):', process.env.NEXT_PUBLIC_UPI_PAYEE_NAME)
     console.log('3. Payee VPA (pa - raw @):', cleanUpiId)
     console.log('4. Payee Name (pn - %20 space):', cleanPayeeName)

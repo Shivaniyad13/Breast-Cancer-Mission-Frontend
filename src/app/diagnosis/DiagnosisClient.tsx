@@ -103,7 +103,7 @@ const MOCK_TECHNOLOGIES: DiagnosisTechnology[] = [
     limitations: "May be less sensitive in dense breast tissue; requires compression.",
     recommendedGroup: "Women aged 40+ annually; earlier if family history.",
     imageUrl: "/images/mammography_screening.png",
-    introVideoUrl: "/videoplayback.mp4",
+    introVideoUrl: "/videos/videoplayback.mp4",
     animationVideoUrl: null,
     explainerVideoUrl: null,
     workflow: "Patient stands in front of the machine; breast is compressed between two plates; two views per breast are taken.",
@@ -370,24 +370,26 @@ const diagnosisMethods = {
 };
 
 const diagnosisVideos = [
+
+    {
+    title: "Khushi Tactile Care Kit Instructions",
+    duration: "5:12",
+    description: "Learn how to use the checkup cards, timeline trackers, and tactile exam aids included in the Khushi Care Kit.",
+    src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789022133/vid-20260715-wa0006-qir1ytvw_lQPH3Tjn.mp4"
+  },
   {
     title: "Early Screening Guidance by Clinical Experts",
     duration: "8:30",
     description: "Oncologists explain standard diagnostic pathways, clinical screening protocols, mammography frequencies, and answer general early consultation inquiries.",
-    src: "/yPVvi64woY74YzOBqwhF+MmgUBXyBdEg.mp4"
+    src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789021760/yPVvi64woY74YzOBqwhF_MmgUBXyBdEg.mp4"
   },
   {
     title: "Breast Self-Examination (BSE) Guided Checkup",
     duration: "3:45",
     description: "Detailed medical walkthrough demonstrating correct examination motions, fingers pressure, and inspection zones.",
-    src: "/euhbbZb3sNXxgOi6g2MF+42G6uUncFHU.mp4"
+    src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789020972/euhbbZb3sNXxgOi6g2MF_42G6uUncFHU.mp4"
   },
-  {
-    title: "Khushi Tactile Care Kit Instructions",
-    duration: "5:12",
-    description: "Learn how to use the checkup cards, timeline trackers, and tactile exam aids included in the Khushi Care Kit.",
-    src: "/VID-20260715-WA0006.mp4"
-  }
+
 ];
 
 interface DiagnosisClientProps {
@@ -648,7 +650,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
               <div className="absolute -inset-2 bg-gradient-to-br from-pink-400 to-purple-400 rounded-3xl opacity-20 blur-xl -z-10" />
               <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden shadow-2xl border border-pink-100">
                 <Image
-                  src="/image.png"
+                  src="/images/image.png"
                   alt="Compassionate patient support care"
                   fill
                   className="object-cover"

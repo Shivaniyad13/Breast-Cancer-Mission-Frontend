@@ -298,3 +298,258 @@
 .animate-partner-marquee:focus-within {
   animation-play-state: paused;
 }
+
+/* ==========================================
+   Home Page Premium Pink + White Card Styling
+   ========================================== */
+
+/* 1. Dark Maroon Cards Overrides ([class*="2d0a20"]) */
+/* Target Patient Story, Live Updates Hub, and Celebrity Testimonial cards */
+div[class*="2d0a20"] {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border-color: rgba(244, 114, 182, 0.35) !important; /* soft pink border */
+  box-shadow: 0 10px 30px -5px rgba(219, 39, 119, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.03) !important;
+  color: #0f172a !important; /* dark navy base text */
+}
+
+/* Card top accent lines */
+div[class*="2d0a20"] > div[class*="h-0.5"] {
+  background: linear-gradient(to right, #db2777, #f43f5e) !important;
+}
+
+/* Card Header Dividers */
+div[class*="2d0a20"] div[class*="border-b"] {
+  border-color: rgba(244, 114, 182, 0.25) !important;
+}
+
+/* Card Header Section Titles (PATIENT STORY, LIVE UPDATES HUB, CELEBRITY TESTIMONIAL) */
+div[class*="2d0a20"] span[class*="text-pink-400"] {
+  color: #be185d !important;
+  font-weight: 800 !important;
+}
+
+/* Card Badges (Survivor/Family, Timer, Status) */
+div[class*="2d0a20"] span[class*="bg-pink-500/20"] {
+  background-color: #fce7f3 !important;
+  color: #9d174d !important;
+  border-color: #fbcfe8 !important;
+  font-weight: 700 !important;
+}
+
+/* Completed Status badge */
+div[class*="2d0a20"] span[class*="bg-slate-800"] {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Video Frame Container in Story & Testimonial */
+div[class*="2d0a20"] div[class*="aspect-video"] {
+  background-color: #0f172a !important;
+  border-color: #fbcfe8 !important;
+}
+
+/* Navigation Arrow Buttons in Live Updates Hub (ChevronLeft / ChevronRight) */
+div[class*="2d0a20"] button[class*="bg-slate-800"] {
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
+  border: 1px solid #e2e8f0 !important;
+}
+div[class*="2d0a20"] button[class*="bg-slate-800"]:hover {
+  background-color: #fce7f3 !important;
+  color: #be185d !important;
+  border-color: #fbcfe8 !important;
+}
+
+/* Headings (h4) inside cards */
+div[class*="2d0a20"] h4,
+div[class*="2d0a20"] .text-white {
+  color: #0f172a !important; /* Dark Navy for patient name, news title, celebrity name */
+}
+
+/* Subtitles, Locations, Descriptions, Quotes */
+div[class*="2d0a20"] p[class*="text-pink-100"],
+div[class*="2d0a20"] p[class*="text-slate-300"],
+div[class*="2d0a20"] p[class*="text-pink-100/90"],
+div[class*="2d0a20"] div[class*="text-pink-300"],
+div[class*="2d0a20"] span[class*="text-pink-300"] {
+  color: #334155 !important; /* Slate 700 for descriptions and quotes */
+}
+
+/* Specific location/profession text colors */
+div[class*="2d0a20"] div[class*="text-[9px]"],
+div[class*="2d0a20"] span[class*="text-[9px]"] {
+  color: #475569 !important;
+}
+
+/* Quote and dividers inside card body */
+div[class*="2d0a20"] p[class*="border-t"],
+div[class*="2d0a20"] p[class*="border-l"],
+div[class*="2d0a20"] div[class*="border-l"],
+div[class*="2d0a20"] div[class*="border-t"] {
+  border-color: rgba(244, 114, 182, 0.25) !important;
+}
+
+/* Category Badges inside Live Updates Hub */
+div[class*="2d0a20"] span[class*="bg-emerald-500/20"] {
+  background-color: #dcfce7 !important;
+  color: #15803d !important;
+  border-color: #bbf7d0 !important;
+}
+div[class*="2d0a20"] span[class*="bg-rose-500/20"] {
+  background-color: #ffe4e6 !important;
+  color: #be123c !important;
+  border-color: #fecdd3 !important;
+}
+div[class*="2d0a20"] span[class*="bg-sky-500/20"] {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+  border-color: #bae6fd !important;
+}
+div[class*="2d0a20"] span[class*="bg-amber-500/20"] {
+  background-color: #fef3c7 !important;
+  color: #b45309 !important;
+  border-color: #fde68a !important;
+}
+div[class*="2d0a20"] span[class*="bg-purple-500/20"] {
+  background-color: #f3e8ff !important;
+  color: #7e22ce !important;
+  border-color: #e9d5ff !important;
+}
+
+/* Pagination indicator dots */
+div[class*="2d0a20"] button[class*="bg-slate-700"] {
+  background-color: #cbd5e1 !important;
+}
+
+/* Playlist title / duration text in Celebrity Testimonial */
+div[class*="2d0a20"] span[class*="text-slate-400"] {
+  color: #64748b !important;
+}
+
+/* Playlist thumbnail buttons in Celebrity Testimonial */
+div[class*="2d0a20"] button[class*="border-slate-700"] {
+  border-color: #cbd5e1 !important;
+  background-color: #f8fafc !important;
+}
+
+/* Buttons inside Cards ("View Story", "Register Now", "Explore More") */
+div[class*="2d0a20"] button[class*="bg-pink-600"] {
+  background-color: #db2777 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.25) !important;
+}
+div[class*="2d0a20"] button[class*="bg-pink-600"]:hover {
+  background-color: #be185d !important;
+}
+
+
+/* 2. Live Breast Cancer Updates Feed Overrides (Card 3) */
+
+/* Live Header Title */
+h3[class*="text-pink-300"] {
+  color: #9d174d !important; /* deep rich pink text for high contrast */
+  font-weight: 800 !important;
+}
+
+/* Header Up/Down Arrow Buttons */
+button[aria-label="Previous item"],
+button[aria-label="Next item"] {
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
+  border: 1px solid #e2e8f0 !important;
+}
+button[aria-label="Previous item"]:hover,
+button[aria-label="Next item"]:hover {
+  background-color: #fce7f3 !important;
+  color: #be185d !important;
+  border-color: #fbcfe8 !important;
+}
+
+/* Breaking News Ticker Container */
+div[class*="bg-pink-950/50"] {
+  background-color: #fff0f5 !important; /* soft blush background */
+  border-color: #fbcfe8 !important;
+  box-shadow: inset 0 2px 4px rgba(219, 39, 119, 0.04) !important;
+}
+/* Ticker text color override */
+div[class*="bg-pink-950/50"] div,
+div[class*="bg-pink-950/50"] span:not([class*="bg-pink-600"]) {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+/* Feed Main Item Card */
+a[class*="from-slate-900"] {
+  background: #ffffff !important;
+  border-color: rgba(244, 114, 182, 0.35) !important;
+  box-shadow: 0 10px 25px -5px rgba(219, 39, 119, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03) !important;
+}
+a[class*="from-slate-900"]:hover {
+  background: #fff5f8 !important; /* soft light blush on hover */
+  border-color: #f472b6 !important;
+}
+
+/* Source text & Published time */
+a[class*="from-slate-900"] span[class*="text-pink-400"] {
+  color: #be185d !important;
+}
+a[class*="from-slate-900"] span[class*="text-slate-400"] {
+  color: #64748b !important;
+}
+
+/* Feed Title text */
+a[class*="from-slate-900"] h4 {
+  color: #0f172a !important; /* Dark Navy for title */
+}
+a[class*="from-slate-900"]:hover h4 {
+  color: #be185d !important;
+}
+
+/* Action text ("Read Article" / "Watch Video") */
+a[class*="from-slate-900"] div[class*="text-pink-400"] {
+  color: #be185d !important;
+}
+
+/* Bottom Feed Indicator Dots */
+button[aria-label^="Go to slide"] {
+  background-color: #cbd5e1 !important;
+}
+button[aria-label^="Go to slide"][class*="bg-pink-500"] {
+  background-color: #db2777 !important;
+}
+span[class*="text-slate-400"] {
+  color: #64748b !important;
+}
+
+/* 3. Mobile Panels Slider Container & Sections Styling */
+div[class*="bg-pink-50/50"] {
+  background-color: #fff5f8 !important;
+  border-color: #fbcfe8 !important;
+}
+
+/* 4. Home Page Container Responsive Guard */
+body {
+  overflow-x: hidden;
+}
+
+/* ==========================================
+   Hero Section Deep Pink Container Gradient
+   (Matching Reference Blue Container in Premium Pink)
+   ========================================== */
+section.relative.overflow-hidden.py-16,
+section.relative.overflow-hidden {
+  background: radial-gradient(circle at 50% 35%, #9d174d 0%, #fb549f 50%, #f65a9b 100%) !important;
+}
+
+/* Override dull black & transparent overlays with rich deep magenta/pink glows */
+section.relative.overflow-hidden > div.bg-black\/45 {
+  background: radial-gradient(circle at 50% 30%, rgba(244, 63, 94, 0.15) 0%, rgba(157, 23, 77, 0.25) 50%, rgba(63, 7, 30, 0.6) 100%) !important;
+}
+
+section.relative.overflow-hidden > div[class*="from-pink-900"] {
+  background: linear-gradient(to bottom, rgba(112, 26, 64, 0.2) 0%, rgba(63, 7, 30, 0.4) 75%, rgba(255, 245, 248, 0.1) 100%) !important;
+}
+
+

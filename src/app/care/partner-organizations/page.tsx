@@ -269,10 +269,10 @@ const galleryItemsData: GalleryItem[] = [
 ];
 
 const videoStoriesData: VideoStory[] = [
-  { id: "vid-1", title: "GRS Rural Mobile Screening Documentary", category: "Community Programs", src: "/videoplayback.mp4", thumbnail: "/images/volunteers.png" },
-  { id: "vid-2", title: "Dr. Aurag on Staging & Collaboration Impact", category: "Partner Interviews", src: "/euhbbZb3sNXxgOi6g2MF+42G6uUncFHU.mp4", thumbnail: "/images/13.png" },
-  { id: "vid-3", title: "Novartis CSR Impact & Corporate Networking", category: "CSR Activities", src: "/videoplayback.mp4", thumbnail: "/images/12.png" },
-  { id: "vid-4", title: "Sangini NGO Support Circles & Healing Journeys", category: "Survivor Stories", src: "/videoplayback.mp4", thumbnail: "/images/support_group.png" }
+  { id: "vid-1", title: "GRS Rural Mobile Screening Documentary", category: "Community Programs", src: "/videos/videoplayback.mp4", thumbnail: "/images/volunteers.png" },
+  { id: "vid-2", title: "Dr. Aurag on Staging & Collaboration Impact", category: "Partner Interviews", src: "/videos/euhbbZb3sNXxgOi6g2MF+42G6uUncFHU.mp4", thumbnail: "/images/13.png" },
+  { id: "vid-3", title: "Novartis CSR Impact & Corporate Networking", category: "CSR Activities", src: "/videos/videoplayback.mp4", thumbnail: "/images/12.png" },
+  { id: "vid-4", title: "Sangini NGO Support Circles & Healing Journeys", category: "Survivor Stories", src: "/videos/videoplayback.mp4", thumbnail: "/images/support_group.png" }
 ];
 
 const testimonialsData: Testimonial[] = [
@@ -469,7 +469,7 @@ export default function PartnerOrganizationsPage() {
             className="w-full h-full object-cover pointer-events-none filter brightness-[0.3] contrast-105"
             poster="/images/community_walk.png"
           >
-            <source src="/videoplayback.mp4" type="video/mp4" />
+            <source src="/videos/videoplayback.mp4" type="video/mp4" />
           </video>
           {/* Deep premium overlay with pink/purple/dark shades */}
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-900/65 to-pink-955/45 mix-blend-multiply" />
@@ -1532,7 +1532,7 @@ export default function PartnerOrganizationsPage() {
             className="w-full h-full object-cover pointer-events-none filter brightness-[0.25]"
             poster="/images/volunteers.png"
           >
-            <source src="/videoplayback.mp4" type="video/mp4" />
+            <source src="/videos/videoplayback.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-955/60 to-transparent" />
         </div>

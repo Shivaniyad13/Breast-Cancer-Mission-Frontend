@@ -26,7 +26,7 @@ const SEED_TECHNOLOGIES = [
     limitations: "Less effective in dense breast tissue; involves small radiation dose; physical compression required.",
     recommendedGroup: "Women aged 40-74 at average risk for breast cancer.",
     imageUrl: "/images/mammography_screening.png",
-    introVideoUrl: "/videoplayback.mp4",
+    introVideoUrl: "/videos/videoplayback.mp4",
     animationVideoUrl: "",
     explainerVideoUrl: "",
     workflow: "Mammograms compress breast tissue to minimize X-ray scattering and optimize image resolution. The technician takes two standard views of each breast.",

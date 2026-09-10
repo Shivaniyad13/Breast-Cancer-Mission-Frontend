@@ -252,7 +252,7 @@ const staticPartners = [
     category: "Medical Partner",
     description: "A globally accredited tertiary oncology facility partnering on state-of-the-art targeted radiation and proton treatments.",
     website: "https://apollo-proton.com",
-    logoUrl: "/grs-group-logo.jpg"
+    logoUrl: "/images/grs-group-logo.jpg"
   },
   {
     id: "part-2",
@@ -276,7 +276,7 @@ const staticPartners = [
     category: "NGO Partner",
     description: "Survivor-led NGO providing postoperative emotional counseling, clinical prosthetics distribution, and patient lodging.",
     website: "https://sangini-breastsupport.org",
-    logoUrl: "/khushi-logo.jpg"
+    logoUrl: "/images/khushi-logo.jpg"
   },
   {
     id: "part-5",

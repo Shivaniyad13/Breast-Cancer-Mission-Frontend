@@ -2,7 +2,16 @@
 
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
-import { Role } from "@prisma/client";
+import { Role, VerificationStatus } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+
+async function requireAdmin() {
+  const session = await auth();
+  if (!session?.user || session.user.role !== Role.ADMIN) {
+    throw new Error("Unauthorized: Admin privilege required.");
+  }
+  return session.user;
+}
 
 /**
  * Ensures the logged-in doctor user has a Doctor model record.
@@ -125,6 +134,8 @@ export async function getDoctorDashboardData() {
       hospitalAffiliation: doctor.hospitalAffiliation || "General Hospital",
       medicalLicenseNumber: doctor.medicalLicenseNumber || "N/A",
       verificationStatus: doctor.verificationStatus,
+      rejectionReason: doctor.rejectionReason || null,
+      verificationDocument: doctor.verificationDocument || null,
     },
     stats: {
       totalArticlesPublished,
@@ -161,12 +172,20 @@ export async function getDoctorDashboardData() {
         year: "numeric"
       }),
       rawDate: w.date,
-      startTime: w.startTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
-      endTime: w.endTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
+      startTime: w.startTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
+      endTime: w.endTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
+      rawStartTime: w.startTime,
+      rawEndTime: w.endTime,
       meetingLink: w.meetingLink,
       venue: w.venue,
       webinarMode: w.webinarMode,
       status: w.status,
+      webinarType: w.webinarType || "FREE",
+      registrationPrice: w.registrationPrice || 0,
+      minimumAllowedPrice: w.minimumAllowedPrice || 0,
+      durationMinutes: w.durationMinutes || 60,
+      approvalStatus: w.approvalStatus || "APPROVED",
+      approvalRejectionReason: w.approvalRejectionReason || null,
       maxSeats: w.maxSeats,
       registeredUsersCount: w.registrations.length,
       createdAt: w.createdAt,
@@ -220,4 +239,196 @@ export async function getDoctorPublicProfile(idOrDoctorId: string) {
     articles: doctor.articles,
     webinars: doctor.webinars,
   };
+}
+
+/**
+ * Admin Action: Fetches all doctor verification requests with full details (Admin only).
+ */
+export async function getAdminDoctorVerificationRequests() {
+  await requireAdmin();
+
+  const doctors = await db.doctor.findMany({
+    orderBy: { createdAt: "desc" },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          role: true,
+          createdAt: true,
+          profile: true,
+        },
+      },
+      articles: {
+        select: { id: true },
+      },
+      webinars: {
+        select: { id: true },
+      },
+    },
+  });
+
+  return doctors.map((d) => ({
+    id: d.id,
+    doctorId: d.doctorId,
+    userId: d.userId,
+    name: d.user?.name || "Dr. Medical Specialist",
+    email: d.user?.email || "N/A",
+    image: d.user?.image || null,
+    medicalLicenseNumber: d.medicalLicenseNumber || d.user?.profile?.medicalLicenseNumber || "N/A",
+    hospitalAffiliation: d.hospitalAffiliation || d.user?.profile?.hospitalAffiliation || "N/A",
+    specialty: d.specialty || d.user?.profile?.specialty || "N/A",
+    verificationStatus: d.verificationStatus,
+    rejectionReason: d.rejectionReason || d.user?.profile?.rejectionReason || null,
+    verificationDocument: d.verificationDocument || null,
+    createdAt: d.createdAt,
+    articlesCount: d.articles.length,
+    webinarsCount: d.webinars.length,
+  }));
+}
+
+/**
+ * Admin Action: Verifies a doctor's professional identity (Admin only).
+ */
+export async function approveDoctorVerificationAction(doctorId: string) {
+  await requireAdmin();
+
+  const doctor = await db.doctor.findFirst({
+    where: {
+      OR: [{ id: doctorId }, { doctorId: doctorId }],
+    },
+  });
+
+  if (!doctor) {
+    return { error: "Doctor record not found." };
+  }
+
+  // Update Doctor model
+  await db.doctor.update({
+    where: { id: doctor.id },
+    data: {
+      verificationStatus: VerificationStatus.VERIFIED,
+      rejectionReason: null,
+    },
+  });
+
+  // Update corresponding Profile model
+  await db.profile.updateMany({
+    where: { userId: doctor.userId },
+    data: {
+      verificationStatus: VerificationStatus.VERIFIED,
+      rejectionReason: null,
+    },
+  });
+
+  revalidatePath("/admin/doctors");
+  revalidatePath("/dashboard");
+  return { success: true };
+}
+
+/**
+ * Admin Action: Rejects a doctor's verification request with mandatory reason (Admin only).
+ */
+export async function rejectDoctorVerificationAction(doctorId: string, rejectionReason: string) {
+  await requireAdmin();
+
+  if (!rejectionReason || !rejectionReason.trim()) {
+    return { error: "A reason for rejection is required." };
+  }
+
+  const doctor = await db.doctor.findFirst({
+    where: {
+      OR: [{ id: doctorId }, { doctorId: doctorId }],
+    },
+  });
+
+  if (!doctor) {
+    return { error: "Doctor record not found." };
+  }
+
+  const trimmedReason = rejectionReason.trim();
+
+  // Update Doctor model
+  await db.doctor.update({
+    where: { id: doctor.id },
+    data: {
+      verificationStatus: VerificationStatus.REJECTED,
+      rejectionReason: trimmedReason,
+    },
+  });
+
+  // Update corresponding Profile model
+  await db.profile.updateMany({
+    where: { userId: doctor.userId },
+    data: {
+      verificationStatus: VerificationStatus.REJECTED,
+      rejectionReason: trimmedReason,
+    },
+  });
+
+  revalidatePath("/admin/doctors");
+  revalidatePath("/dashboard");
+  return { success: true };
+}
+
+/**
+ * Doctor Action: Resubmits updated professional credentials for verification (Doctor only).
+ */
+export async function resubmitDoctorVerificationAction(data: {
+  medicalLicenseNumber: string;
+  hospitalAffiliation: string;
+  specialty: string;
+  verificationDocument?: string;
+}) {
+  const session = await auth();
+  if (!session?.user || (session.user.role !== Role.DOCTOR && session.user.role !== Role.ADMIN)) {
+    return { error: "Unauthorized: Only doctor accounts can submit verification details." };
+  }
+
+  const licenseTrimmed = data.medicalLicenseNumber?.trim();
+  const affiliationTrimmed = data.hospitalAffiliation?.trim();
+  const specialtyTrimmed = data.specialty?.trim();
+
+  if (!licenseTrimmed || licenseTrimmed.length < 3) {
+    return { error: "Please enter a valid Medical License / Registration Number (minimum 3 characters)." };
+  }
+  if (!affiliationTrimmed) {
+    return { error: "Hospital / Clinic Affiliation is required." };
+  }
+  if (!specialtyTrimmed) {
+    return { error: "Medical Specialty is required." };
+  }
+
+  const doctor = await getOrCreateDoctorRecord(session.user.id);
+
+  // Update Doctor model: resets verificationStatus = PENDING, clears rejectionReason
+  await db.doctor.update({
+    where: { id: doctor.id },
+    data: {
+      medicalLicenseNumber: licenseTrimmed,
+      hospitalAffiliation: affiliationTrimmed,
+      specialty: specialtyTrimmed,
+      ...(data.verificationDocument !== undefined && { verificationDocument: data.verificationDocument?.trim() || null }),
+      verificationStatus: VerificationStatus.PENDING,
+      rejectionReason: null,
+    },
+  });
+
+  // Update Profile model
+  await db.profile.updateMany({
+    where: { userId: session.user.id },
+    data: {
+      medicalLicenseNumber: licenseTrimmed,
+      hospitalAffiliation: affiliationTrimmed,
+      specialty: specialtyTrimmed,
+      verificationStatus: VerificationStatus.PENDING,
+      rejectionReason: null,
+    },
+  });
+
+  revalidatePath("/dashboard");
+  revalidatePath("/admin/doctors");
+  return { success: true };
 }

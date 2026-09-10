@@ -104,7 +104,7 @@ export default function CertificateTemplate({
             <div className="flex items-center gap-2">
               <div className="relative w-28 sm:w-36 h-10 sm:h-12">
                 <Image
-                  src="/grs-group-logo.jpg"
+                  src="/images/grs-group-logo.jpg"
                   alt="GRS India Group"
                   fill
                   className="object-contain object-left"
@@ -132,7 +132,7 @@ export default function CertificateTemplate({
             <div className="flex items-center gap-2">
               <div className="relative w-28 sm:w-36 h-10 sm:h-12">
                 <Image
-                  src="/khushi-logo.jpg"
+                  src="/images/khushi-logo.jpg"
                   alt="Khushi Centre for Rehabilitation & Research"
                   fill
                   className="object-contain object-right"

@@ -278,7 +278,7 @@ export default async function Home() {
 
         <div className="h-48 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-8">
           <img
-            src="/grs-group-logo.jpg"
+            src="/images/grs-group-logo.jpg"
             alt="GRS India Group"
             className="max-h-28 object-contain transition-transform duration-300 group-hover:scale-105"
           />
@@ -310,7 +310,7 @@ export default async function Home() {
 
         <div className="h-48 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-8">
           <img
-            src="/mission bharat.jpeg"
+            src="/images/mission bharat.jpeg"
             alt="Mission Bharat"
             className="max-h-28 object-contain transition-transform duration-300 group-hover:scale-105"
           />
@@ -342,7 +342,7 @@ export default async function Home() {
 
         <div className="h-48 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-8">
           <img
-            src="/khushi-logo.jpg"
+            src="/images/khushi-logo.jpg"
             alt="Khushi Centre"
             className="max-h-28 object-contain transition-transform duration-300 group-hover:scale-105"
           />

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/Navbar/Navbar";
+import Footer from "@/components/Footer/Footer";
 import FloatingWhatsApp from "@/components/layout/FloatingWhatsApp";
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 import LayoutWrapper from "@/components/layout/LayoutWrapper";
-import PageViewTracker from "@/components/PageViewTracker";
+import PageViewTracker from "@/components/PageViewTracker/PageViewTracker";
 
 export default async function RootLayout({
   children,

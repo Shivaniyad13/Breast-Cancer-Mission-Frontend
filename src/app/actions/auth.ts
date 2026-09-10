@@ -51,6 +51,22 @@ export async function registerUserAction(data: RegisterInput) {
       return { error: "A user with this email address already exists." };
     }
 
+    if (role === Role.DOCTOR || role === "DOCTOR") {
+      const licenseTrimmed = docLicense?.trim();
+      const affiliationTrimmed = docAffiliation?.trim();
+      const specialtyTrimmed = docSpecialty?.trim();
+
+      if (!licenseTrimmed || licenseTrimmed.length < 3) {
+        return { error: "A valid Medical License / Registration Number (minimum 3 characters) is required for Doctor registration." };
+      }
+      if (!affiliationTrimmed) {
+        return { error: "Hospital / Clinic Affiliation is required for Doctor registration." };
+      }
+      if (!specialtyTrimmed) {
+        return { error: "Medical Specialty is required for Doctor registration." };
+      }
+    }
+
     const passwordHash = await bcrypt.hash(password, 10);
 
     const user = await db.user.create({
@@ -64,7 +80,7 @@ export async function registerUserAction(data: RegisterInput) {
 
     // Handle role verification queues
     let verificationStatus: VerificationStatus = VerificationStatus.UNVERIFIED;
-    if (role === Role.DOCTOR || role === Role.NGO_REP) {
+    if (role === Role.DOCTOR || role === Role.NGO_REP || role === "DOCTOR" || role === "NGO_REP") {
       verificationStatus = VerificationStatus.PENDING;
     }
 
@@ -75,32 +91,38 @@ export async function registerUserAction(data: RegisterInput) {
         verificationStatus,
         
         // Doctor details
-        medicalLicenseNumber: role === Role.DOCTOR ? docLicense : null,
-        hospitalAffiliation: role === Role.DOCTOR ? docAffiliation : null,
-        specialty: role === Role.DOCTOR ? docSpecialty : null,
+        medicalLicenseNumber: (role === Role.DOCTOR || role === "DOCTOR") ? docLicense?.trim() || null : null,
+        hospitalAffiliation: (role === Role.DOCTOR || role === "DOCTOR") ? docAffiliation?.trim() || null : null,
+        specialty: (role === Role.DOCTOR || role === "DOCTOR") ? docSpecialty?.trim() || null : null,
         
         // NGO details
-        ngoRegistrationNumber: role === Role.NGO_REP ? ngoRegNum : null,
-        taxExemptionStatus80G: role === Role.NGO_REP ? !!tax80g : false,
+        ngoRegistrationNumber: (role === Role.NGO_REP || role === "NGO_REP") ? ngoRegNum?.trim() || null : null,
+        taxExemptionStatus80G: (role === Role.NGO_REP || role === "NGO_REP") ? !!tax80g : false,
         
         // Patient details
-        nationalIdNumber: role === Role.PATIENT ? nationalId : null,
+        nationalIdNumber: (role === Role.PATIENT || role === "PATIENT") ? nationalId?.trim() || null : null,
       },
     });
 
     // Create Doctor profile entry if role is DOCTOR
-    if (role === Role.DOCTOR) {
+    if (role === Role.DOCTOR || role === "DOCTOR") {
       const doctorIdString = "DOC-" + Math.random().toString(36).substring(2, 8).toUpperCase();
       await db.doctor.create({
         data: {
           userId: user.id,
           doctorId: doctorIdString,
-          medicalLicenseNumber: docLicense || null,
-          hospitalAffiliation: docAffiliation || null,
-          specialty: docSpecialty || "Oncology",
-          verificationStatus,
+          medicalLicenseNumber: docLicense?.trim() || null,
+          hospitalAffiliation: docAffiliation?.trim() || null,
+          specialty: docSpecialty?.trim() || "Oncology",
+          verificationStatus: VerificationStatus.PENDING,
         },
       });
+
+      return { 
+        success: true, 
+        isDoctor: true,
+        message: "Your doctor account has been created successfully. Your professional credentials are pending verification by our administration team." 
+      };
     }
 
     return { success: true };

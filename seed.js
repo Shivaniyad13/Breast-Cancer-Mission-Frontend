@@ -97,7 +97,7 @@ async function main() {
     await prisma.celebrityTestimonial.createMany({
       data: [
         {
-          videoUrl: "/videoplayback.mp4",
+          videoUrl: "/videos/videoplayback.mp4",
           thumbnailUrl: "/images/volunteers.png",
           name: "Vidya Balan",
           profession: "Actress & Women's Health Advocate",
@@ -152,7 +152,7 @@ async function main() {
           roleType: "Patient",
           storyTitle: "From Stage II Diagnosis to Full Recovery",
           completeStory: "Diagnosed at 35, Shagufta was terrified she wouldn't see her two young daughters grow up. Through the Breast Cancer Mission Platform, her surgery and chemotherapy cost was fully funded.",
-          videoUrl: "/videoplayback.mp4",
+          videoUrl: "/videos/videoplayback.mp4",
           imageUrls: ["/images/Cancer Patients.jpg"],
           treatmentHospital: "AIIMS Delhi",
           consent: true,
@@ -168,7 +168,7 @@ async function main() {
           roleType: "Patient",
           storyTitle: "Saved by a Free Rural Screening Camp",
           completeStory: "Lakshmi felt a lump but delayed consulting due to financial constraints. A mobile screening camp detected her tumor in Stage III and immediately enrolled her in emergency radiation therapy.",
-          videoUrl: "/videoplayback.mp4",
+          videoUrl: "/videos/videoplayback.mp4",
           imageUrls: ["/images/Cancer Patients1.jpg"],
           treatmentHospital: "Medanta Gurugram",
           consent: true,
@@ -194,7 +194,7 @@ async function main() {
           limitations: "Higher initial equipment cost\nRequires specialized radiologist review",
           recommendedGroup: "Women aged 40+ or high risk family history",
           imageUrl: "/images/cancer_research.png",
-          introVideoUrl: "/videoplayback.mp4",
+          introVideoUrl: "/videos/videoplayback.mp4",
           workflow: "Patient Positioning -> 3D Low-Dose Scan -> AI Analysis -> Radiologist Verification",
           duration: "15-20 Minutes",
           benefits: "Detects tumors 2-3 years before physical palpation.",
