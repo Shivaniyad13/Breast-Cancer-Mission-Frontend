@@ -8,6 +8,7 @@ import {
   MapPin,
   ArrowUp,
   Heart,
+  ChevronDown,
 } from "lucide-react";
 
 // Inline SVG brand icons
@@ -71,7 +72,7 @@ export default function Footer() {
         background:
           "radial-gradient(circle at 50% 35%, #9d174d 0%, #fb549f 50%, #f65a9b 100%)",
       }}
-      className="relative text-white overflow-hidden"
+      className="relative text-white"
     >
       {/* Top pink accent line */}
       <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-pink-600 via-pink-400 to-rose-500" />
@@ -83,7 +84,6 @@ export default function Footer() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-
           {/* ── Col 1 · Brand ── */}
           <div className="space-y-5 lg:col-span-1">
             <div className="flex items-center gap-3">
@@ -118,7 +118,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="mailto: info@Khushicenter.in"
+                href="mailto:info@Khushicenter.in"
                 className="flex items-center gap-2.5 text-sm text-white/90 hover:text-white transition-colors group"
               >
                 <Mail className="h-4 w-4 text-white group-hover:scale-110 transition-transform" />
@@ -127,53 +127,86 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* ── Col 2 · Quick Links ── */}
+          {/* ── Col 2 · Quick Links (Hover Dropdown) ── */}
           <div className="space-y-5">
-            <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-white">
-              Quick Links
-            </h3>
+            <div className="relative inline-block group">
+              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-white flex items-center gap-1.5 cursor-pointer select-none">
+                Quick Links
+                <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" />
+              </h3>
 
-            <ul className="space-y-2.5">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/90 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+              {/* Dropdown panel */}
+              <ul
+                className="
+                  absolute top-full left-0 mt-3 w-60 z-30
+                  rounded-xl bg-[#831843] border border-white/20
+                  shadow-2xl shadow-pink-950/40 p-2
+                  opacity-0 invisible translate-y-1
+                  group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                  group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0
+                  transition-all duration-200 ease-out
+                "
+              >
+                {quickLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="block px-3 py-2 rounded-lg text-sm text-white/90 hover:text-white hover:bg-white/10 transition-colors duration-150"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Small helper text below dropdown trigger */}
+            <p className="text-xs text-white/70 leading-relaxed max-w-[14rem]">
+              Hover to explore all quick links to campaigns, webinars and
+              awareness resources.
+            </p>
           </div>
 
-          {/* ── Col 3 · Contact ── */}
+          {/* ── Col 3 · Contact (Hover Dropdown) ── */}
           <div className="space-y-5">
-            <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-white">
-              Contact
-            </h3>
+            <div className="relative inline-block group">
+              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-white flex items-center gap-1.5 cursor-pointer select-none">
+                Contact
+                <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" />
+              </h3>
 
-            <ul className="space-y-2.5">
-              {contactLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/90 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
+              {/* Dropdown panel */}
+              <ul
+                className="
+                  absolute top-full left-0 mt-3 w-60 z-30
+                  rounded-xl bg-[#831843] border border-white/20
+                  shadow-2xl shadow-pink-950/40 p-2
+                  opacity-0 invisible translate-y-1
+                  group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                  group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0
+                  transition-all duration-200 ease-out
+                "
+              >
+                {contactLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="block px-3 py-2 rounded-lg text-sm text-white/90 hover:text-white hover:bg-white/10 transition-colors duration-150"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <button
+                    onClick={scrollToTop}
+                    className="w-full text-left px-3 py-2 rounded-lg text-sm text-white/90 hover:text-white hover:bg-white/10 transition-colors duration-150"
                   >
-                    {link.label}
-                  </Link>
+                    Back to Top
+                  </button>
                 </li>
-              ))}
-
-              <li>
-                <button
-                  onClick={scrollToTop}
-                  className="text-sm text-white/90 hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
-                >
-                  Back to Top
-                </button>
-              </li>
-            </ul>
+              </ul>
+            </div>
 
             {/* Head office */}
             <div className="pt-3">
@@ -183,7 +216,6 @@ export default function Footer() {
 
               <div className="flex items-start gap-2 text-sm text-white/90">
                 <MapPin className="h-4 w-4 text-white mt-0.5 flex-shrink-0" />
-
                 <span>
                   B-14 Sector 64, Noida, Uttar Pradesh, India – 201301
                 </span>
@@ -253,7 +285,6 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-
           <p className="text-xs text-white/80 text-center sm:text-left">
             © {new Date().getFullYear()}{" "}
             <span className="text-white font-medium">
@@ -287,10 +318,7 @@ export default function Footer() {
               Privacy Policy
             </Link>
 
-            <Link
-              href="/terms"
-              className="hover:text-white transition-colors"
-            >
+            <Link href="/terms" className="hover:text-white transition-colors">
               Terms of Use
             </Link>
 
@@ -306,9 +334,8 @@ export default function Footer() {
 
         {/* Made-with-love tag */}
         <p className="mt-5 text-center text-[11px] text-white/70 flex items-center justify-center gap-1">
-          Made with{" "}
-          <Heart className="h-3 w-3 text-white fill-white" /> for breast cancer
-          awareness in India
+          Made with <Heart className="h-3 w-3 text-white fill-white" /> for
+          breast cancer awareness in India
         </p>
       </div>
     </footer>

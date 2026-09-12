@@ -244,74 +244,6 @@ const timelineSteps = [
   }
 ];
 
-// Static fallback partners (existing items)
-const staticPartners = [
-  {
-    id: "part-1",
-    name: "Apollo Proton & Oncology Research Hospital",
-    category: "Medical Partner",
-    description: "A globally accredited tertiary oncology facility partnering on state-of-the-art targeted radiation and proton treatments.",
-    website: "https://apollo-proton.com",
-    logoUrl: "/images/grs-group-logo.jpg"
-  },
-  {
-    id: "part-2",
-    name: "Apex Comprehensive Diagnostics & Breast Clinic",
-    category: "Medical Partner",
-    description: "Provides complimentary automated breast ultrasound screening kits and digital tomosynthesis scans in collaborative outreach drives.",
-    website: "https://apex-breastclinic.org",
-    logoUrl: ""
-  },
-  {
-    id: "part-3",
-    name: "Tata Cancer Care Affiliate Center",
-    category: "Medical Partner",
-    description: "Subsidizes neoadjuvant chemotherapy cycles and complex double mastectomies for GRS program referrals.",
-    website: "https://tata-affiliate.in",
-    logoUrl: ""
-  },
-  {
-    id: "part-4",
-    name: "Sangini Breast Cancer Support Group",
-    category: "NGO Partner",
-    description: "Survivor-led NGO providing postoperative emotional counseling, clinical prosthetics distribution, and patient lodging.",
-    website: "https://sangini-breastsupport.org",
-    logoUrl: "/images/khushi-logo.jpg"
-  },
-  {
-    id: "part-5",
-    name: "Stree Shakti Women Empowerment League",
-    category: "NGO Partner",
-    description: "Conducts monthly grassroots awareness programs and breast self-examination workshops in rural communities.",
-    website: "https://stree-shakti.org",
-    logoUrl: ""
-  },
-  {
-    id: "part-6",
-    name: "National Institute of Cancer Genomics",
-    category: "Research Partner",
-    description: "Collaborates on sequencing hereditary BRCA1 & BRCA2 mutations across low-income patient cohorts.",
-    website: "https://nicg-research.org",
-    logoUrl: ""
-  },
-  {
-    id: "part-7",
-    name: "Novartis Biotech CSR Division",
-    category: "CSR Partner",
-    description: "Sponsors target hormone therapeutics and funds local patient navigation programs through annual CSR grants.",
-    website: "https://novartis-csr.com",
-    logoUrl: ""
-  },
-  {
-    id: "part-8",
-    name: "Microsoft Health Technology Partners",
-    category: "Technology Partner",
-    description: "Provides cloud database clusters for mobile screening diagnostics and funds AI diagnostic staging projects.",
-    website: "https://microsoft.com/health-csr",
-    logoUrl: ""
-  }
-];
-
 export default function AwarenessClient() {
   const [lightboxImage, setLightboxImage] = useState<typeof galleryImages[0] | null>(null);
 
@@ -355,18 +287,15 @@ export default function AwarenessClient() {
     loadPartners();
   }, []);
 
-  // Merge static partners with DB approved partners
-  const combinedPartners = [
-    ...staticPartners,
-    ...dbPartners.map((p) => ({
-      id: p.id,
-      name: p.organizationName,
-      category: p.category,
-      description: p.description || "",
-      website: p.website || "",
-      logoUrl: p.logoUrl || ""
-    }))
-  ];
+  // ✅ Only DB approved partners (staticPartners removed)
+  const combinedPartners = dbPartners.map((p) => ({
+    id: p.id,
+    name: p.organizationName,
+    category: p.category,
+    description: p.description || "",
+    website: p.website || "",
+    logoUrl: p.logoUrl || ""
+  }));
 
   // File upload logic
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, isLogo: boolean) => {
@@ -679,39 +608,7 @@ export default function AwarenessClient() {
       </section>
 
       {/* ================= 4. OUR IMPACT ================= */}
-      <section className="py-20 md:py-28 bg-white border-y border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
-              <TrendingUp className="h-3.5 w-3.5" /> Metrics of Change
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
-              Our Community Impact
-            </h2>
-            <p className="text-slate-500 text-sm sm:text-base font-medium">
-              We monitor diagnostic and support analytics to verify and optimize the reach of our mobile camps and seminars.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
-            {impactStats.map((stat, idx) => (
-              <div
-                key={idx}
-                className="bg-gradient-to-br from-white to-pink-50/[0.04] border border-pink-100/40 rounded-3xl p-6 text-center space-y-2 shadow-xs hover:shadow-md hover:border-pink-200 transition-all duration-300 relative group"
-              >
-                <div className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
-                  <AnimatedCounter value={stat.value} />
-                  {stat.suffix}
-                </div>
-                <div className="text-xs font-bold text-slate-700 uppercase tracking-wider leading-snug">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      
       {/* ================= 5. CAMPAIGN GALLERY ================= */}
       <section id="awareness-gallery" className="py-20 md:py-28 bg-white scroll-mt-6">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
@@ -927,65 +824,77 @@ export default function AwarenessClient() {
             </div>
           </div>
 
-          {/* Grid Displaying Static and Approved Partners */}
+          {/* Grid Displaying Approved Partners (DB only) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
-            {combinedPartners.map((partner, idx) => {
-              const initials = getInitials(partner.name);
+            {combinedPartners.length === 0 ? (
+              <div className="col-span-full text-center py-16 bg-white/60 backdrop-blur-sm rounded-3xl border-2 border-dashed border-pink-200">
+                <Building2 className="h-12 w-12 text-pink-300 mx-auto mb-4" />
+                <h3 className="font-heading text-xl font-bold text-slate-700 mb-2">
+                  No Partners Yet
+                </h3>
+                <p className="text-sm text-slate-500 max-w-md mx-auto font-medium">
+                  We're currently onboarding our institutional partners. Be the first to join our mission and expand early detection access across India.
+                </p>
+              </div>
+            ) : (
+              combinedPartners.map((partner, idx) => {
+                const initials = getInitials(partner.name);
 
-              return (
-                <div
-                  key={partner.id || idx}
-                  className="bg-white/80 backdrop-blur-sm border border-pink-100/40 hover:border-pink-300 rounded-3xl p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:shadow-pink-50/40 transition-all duration-300 group cursor-default relative overflow-hidden"
-                >
-                  <div className="flex flex-col items-center text-center space-y-4">
-                    {/* Logo Image or Initials Fallback */}
-                    {partner.logoUrl ? (
-                      <div className="relative h-16 w-16 rounded-2xl overflow-hidden border border-pink-100/80 shadow-xs flex items-center justify-center bg-white shrink-0">
-                        <Image
-                          src={partner.logoUrl}
-                          alt={partner.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-400 text-white flex items-center justify-center font-heading font-black text-xl shadow-md shrink-0 group-hover:scale-105 transition-transform duration-200">
-                        {initials}
-                      </div>
-                    )}
+                return (
+                  <div
+                    key={partner.id || idx}
+                    className="bg-white/80 backdrop-blur-sm border border-pink-100/40 hover:border-pink-300 rounded-3xl p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:shadow-pink-50/40 transition-all duration-300 group cursor-default relative overflow-hidden"
+                  >
+                    <div className="flex flex-col items-center text-center space-y-4">
+                      {/* Logo Image or Initials Fallback */}
+                      {partner.logoUrl ? (
+                        <div className="relative h-16 w-16 rounded-2xl overflow-hidden border border-pink-100/80 shadow-xs flex items-center justify-center bg-white shrink-0">
+                          <Image
+                            src={partner.logoUrl}
+                            alt={partner.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-400 text-white flex items-center justify-center font-heading font-black text-xl shadow-md shrink-0 group-hover:scale-105 transition-transform duration-200">
+                          {initials}
+                        </div>
+                      )}
 
-                    <div className="space-y-1">
-                      <span className="text-[9px] font-black text-primary uppercase tracking-widest bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100/50">
-                        {partner.category}
+                      <div className="space-y-1">
+                        <span className="text-[9px] font-black text-primary uppercase tracking-widest bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100/50">
+                          {partner.category}
+                        </span>
+                        <h4 className="font-heading font-black text-slate-800 text-sm leading-tight group-hover:text-primary transition-colors pt-2.5">
+                          {partner.name}
+                        </h4>
+                        <p className="text-xs text-slate-500 leading-relaxed font-medium line-clamp-3 pt-1">
+                          {partner.description}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Badge & Official Action Footer */}
+                    <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                      <span className="bg-emerald-50 text-emerald-700 text-[9px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
+                        <Check className="h-2.5 w-2.5" /> Official Partner
                       </span>
-                      <h4 className="font-heading font-black text-slate-800 text-sm leading-tight group-hover:text-primary transition-colors pt-2.5">
-                        {partner.name}
-                      </h4>
-                      <p className="text-xs text-slate-500 leading-relaxed font-medium line-clamp-3 pt-1">
-                        {partner.description}
-                      </p>
+                      {partner.website && (
+                        <a
+                          href={partner.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[10px] font-bold text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
+                        >
+                          Visit <Globe className="h-3 w-3" />
+                        </a>
+                      )}
                     </div>
                   </div>
-
-                  {/* Badge & Official Action Footer */}
-                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
-                    <span className="bg-emerald-50 text-emerald-700 text-[9px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
-                      <Check className="h-2.5 w-2.5" /> Official Partner
-                    </span>
-                    {partner.website && (
-                      <a
-                        href={partner.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[10px] font-bold text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
-                      >
-                        Visit <Globe className="h-3 w-3" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </div>
       </section>

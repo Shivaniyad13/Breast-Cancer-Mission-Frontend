@@ -1,21 +1,21 @@
 import { auth } from "@/auth";
 import { Role } from "@prisma/client";
 import { redirect } from "next/navigation";
-import { getAdminDoctorVerificationRequests } from "@/app/actions/doctor";
-import AdminDoctorsDashboard from "@/components/admin/AdminDoctorsDashboard";
-import { Stethoscope, ShieldCheck } from "lucide-react";
+import { getAdminArticlesAction } from "@/app/actions/articles";
+import AdminArticlesDashboard from "@/components/admin/AdminArticlesDashboard";
+import { BookOpen, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 export const revalidate = 0; // Fresh database reads on every admin access
 
-export default async function AdminDoctorsPage() {
+export default async function AdminArticlesPage() {
   const session = await auth();
 
   if (!session?.user || session.user.role !== Role.ADMIN) {
     redirect("/");
   }
 
-  const doctors = await getAdminDoctorVerificationRequests();
+  const articles = await getAdminArticlesAction();
 
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 min-h-screen">
@@ -26,10 +26,10 @@ export default async function AdminDoctorsPage() {
             <ShieldCheck className="h-2.5 w-2.5" /> Command Center
           </span>
           <h1 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
-            <Stethoscope className="h-8 w-8 text-primary" /> Doctor Verification Management
+            <BookOpen className="h-8 w-8 text-primary" /> Doctor Articles &amp; Resources Moderation
           </h1>
           <p className="text-muted-foreground text-sm">
-            Inspect medical licenses, verify healthcare practitioner credentials, audit professional affiliations, and review verification requests.
+            Review submitted medical handbooks, clinical guides, and educational resources from registered doctors before publishing them to the public site.
           </p>
         </div>
       </div>
@@ -39,10 +39,10 @@ export default async function AdminDoctorsPage() {
         <Link href="/admin/analytics" className="text-slate-500 hover:text-primary transition-colors">
           Analytics Overview
         </Link>
-        <Link href="/admin/doctors" className="text-primary border-b-2 border-primary pb-4 -mb-[18px] transition-colors">
+        <Link href="/admin/doctors" className="text-slate-500 hover:text-primary transition-colors">
           Doctor Verification
         </Link>
-        <Link href="/admin/articles" className="text-slate-500 hover:text-primary transition-colors">
+        <Link href="/admin/articles" className="text-primary border-b-2 border-primary pb-4 -mb-[18px] transition-colors">
           Doctor Articles
         </Link>
         <Link href="/admin/webinars" className="text-slate-500 hover:text-primary transition-colors">
@@ -64,12 +64,12 @@ export default async function AdminDoctorsPage() {
           Home Page Live Updates
         </Link>
         <Link href="/admin/diagnosis" className="text-slate-500 hover:text-primary transition-colors">
-          Diagnosis & Collaboration
+          Diagnosis &amp; Collaboration
         </Link>
       </div>
 
       {/* Main Admin Controller */}
-      <AdminDoctorsDashboard doctors={doctors} />
+      <AdminArticlesDashboard articles={articles} />
     </div>
   );
 }

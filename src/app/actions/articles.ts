@@ -6,26 +6,38 @@ import { Role } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { getOrCreateDoctorRecord } from "./doctor";
 
+async function requireAdmin() {
+  const session = await auth();
+  if (!session?.user || session.user.role !== Role.ADMIN) {
+    throw new Error("Unauthorized: Admin privilege required.");
+  }
+  return session.user;
+}
+
 /**
  * Creates a new article automatically linked to the logged-in doctor.
+ * Default status is PENDING awaiting admin approval.
  */
 export async function createDoctorArticleAction(data: {
   title: string;
-  category: string;
+  category?: string;
   excerpt?: string;
   content: string;
-  status?: "PUBLISHED" | "DRAFT";
+  fileUrl?: string;
+  featuredImage?: string;
+  specialty?: string;
+  status?: "PENDING" | "DRAFT" | "PUBLISHED" | "APPROVED";
 }) {
   const session = await auth();
 
   if (!session?.user || (session.user.role !== Role.DOCTOR && session.user.role !== Role.ADMIN)) {
-    throw new Error("Unauthorized: Only verified Doctors or Administrators can publish articles.");
+    throw new Error("Unauthorized: Only verified Doctors or Administrators can upload articles.");
   }
 
   const doctor = await getOrCreateDoctorRecord(session.user.id);
 
-  if (!data.title || !data.content) {
-    return { error: "Title and full content are required." };
+  if (!data.title || (!data.content && !data.fileUrl)) {
+    return { error: "Title and either content or PDF document upload are required." };
   }
 
   // Generate unique slug from title
@@ -40,27 +52,40 @@ export async function createDoctorArticleAction(data: {
   const slug = `${baseSlug}-${uniqueSuffix}`;
 
   // Estimate read time
-  const wordCount = data.content.trim().split(/\s+/).length;
+  const wordCount = (data.content || "").trim().split(/\s+/).filter(Boolean).length;
   const readTimeMins = Math.max(1, Math.ceil(wordCount / 200));
   const readTime = `${readTimeMins} min read`;
+
+  // Doctors upload articles in PENDING state (Admins can directly approve)
+  const initialStatus = session.user.role === Role.ADMIN
+    ? (data.status || "APPROVED")
+    : "PENDING";
 
   const article = await db.article.create({
     data: {
       title: data.title,
       slug,
-      excerpt: data.excerpt || data.content.substring(0, 160) + "...",
-      summary: data.excerpt || data.content.substring(0, 160) + "...",
-      content: data.content,
-      category: data.category || "Clinical Guidance",
-      status: data.status || "PUBLISHED",
+      excerpt: data.excerpt || (data.content ? data.content.substring(0, 160) + "..." : "Doctor Resource Document"),
+      summary: data.excerpt || (data.content ? data.content.substring(0, 160) + "..." : "Doctor Resource Document"),
+      content: data.content || "Uploaded PDF Document",
+      category: data.category || "Clinical Resources",
+      fileUrl: data.fileUrl || null,
+      featuredImage: data.featuredImage || null,
+      specialty: data.specialty || doctor.specialty || "Oncology Specialist",
+      status: initialStatus,
       readTime,
       doctorId: doctor.id,
       authorId: session.user.id,
+      ...(initialStatus === "APPROVED" && {
+        approvedBy: session.user.id,
+        approvedAt: new Date(),
+      }),
     },
   });
 
-  revalidatePath("/learn/articles");
+  revalidatePath("/care/care-providers");
   revalidatePath("/dashboard");
+  revalidatePath("/admin/articles");
 
   return { success: true, articleId: article.id, slug: article.slug };
 }
@@ -75,7 +100,10 @@ export async function updateDoctorArticleAction(
     category?: string;
     excerpt?: string;
     content?: string;
-    status?: "PUBLISHED" | "DRAFT";
+    fileUrl?: string;
+    featuredImage?: string;
+    specialty?: string;
+    status?: "PENDING" | "DRAFT" | "APPROVED" | "PUBLISHED";
   }
 ) {
   const session = await auth();
@@ -100,6 +128,14 @@ export async function updateDoctorArticleAction(
     return { error: "Permission Denied: You can only edit your own articles." };
   }
 
+  // If doctor edits an article, reset status to PENDING (unless keeping as DRAFT)
+  let updatedStatus = data.status;
+  if (session.user.role !== Role.ADMIN) {
+    if (data.status !== "DRAFT") {
+      updatedStatus = "PENDING";
+    }
+  }
+
   await db.article.update({
     where: { id: articleId },
     data: {
@@ -107,13 +143,16 @@ export async function updateDoctorArticleAction(
       ...(data.category && { category: data.category }),
       ...(data.excerpt !== undefined && { excerpt: data.excerpt, summary: data.excerpt }),
       ...(data.content && { content: data.content }),
-      ...(data.status && { status: data.status }),
+      ...(data.fileUrl !== undefined && { fileUrl: data.fileUrl }),
+      ...(data.featuredImage !== undefined && { featuredImage: data.featuredImage }),
+      ...(data.specialty && { specialty: data.specialty }),
+      ...(updatedStatus && { status: updatedStatus }),
     },
   });
 
-  revalidatePath("/learn/articles");
-  revalidatePath(`/learn/articles/${article.slug}`);
+  revalidatePath("/care/care-providers");
   revalidatePath("/dashboard");
+  revalidatePath("/admin/articles");
 
   return { success: true };
 }
@@ -147,18 +186,25 @@ export async function deleteDoctorArticleAction(articleId: string) {
     where: { id: articleId },
   });
 
-  revalidatePath("/learn/articles");
+  revalidatePath("/care/care-providers");
   revalidatePath("/dashboard");
+  revalidatePath("/admin/articles");
 
   return { success: true };
 }
 
 /**
- * Gets all published articles for the public website.
+ * Gets ONLY APPROVED articles for the public Care Provider page.
+ * Strictly filters out PENDING and REJECTED articles.
  */
-export async function getPublicArticlesAction() {
+export async function getPublicApprovedArticlesAction() {
   const articles = await db.article.findMany({
-    where: { status: "PUBLISHED" },
+    where: {
+      OR: [
+        { status: "APPROVED" },
+        { status: "PUBLISHED" },
+      ],
+    },
     include: {
       doctor: {
         include: {
@@ -178,17 +224,132 @@ export async function getPublicArticlesAction() {
     excerpt: art.excerpt || art.summary || "",
     category: art.category,
     content: art.content,
+    fileUrl: art.fileUrl || null,
+    featuredImage: art.featuredImage || null,
     readTime: art.readTime,
-    publishDate: art.createdAt.toLocaleDateString("en-US", {
+    status: art.status,
+    publishDate: (art.approvedAt || art.createdAt).toLocaleDateString("en-US", {
       day: "numeric",
       month: "short",
       year: "numeric"
     }),
     doctorId: art.doctorId,
-    doctorName: art.doctor?.user?.name || "Dr. Medical Specialist",
-    doctorSpecialty: art.doctor?.specialty || "Oncology",
+    doctorName: art.doctor?.user?.name || "Dr. Verified Specialist",
+    doctorSpecialty: art.specialty || art.doctor?.specialty || "Oncology Specialist",
     doctorVerificationStatus: art.doctor?.verificationStatus || "VERIFIED",
   }));
+}
+
+/**
+ * Backward compatibility alias for public articles retrieval.
+ */
+export async function getPublicArticlesAction() {
+  return getPublicApprovedArticlesAction();
+}
+
+/**
+ * Admin Action: Gets all submitted doctor articles for admin moderation.
+ */
+export async function getAdminArticlesAction() {
+  await requireAdmin();
+
+  const articles = await db.article.findMany({
+    include: {
+      doctor: {
+        include: {
+          user: {
+            select: { name: true, email: true, image: true },
+          },
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return articles.map(art => ({
+    id: art.id,
+    title: art.title,
+    slug: art.slug,
+    excerpt: art.excerpt || art.summary || "",
+    content: art.content,
+    category: art.category,
+    fileUrl: art.fileUrl || null,
+    featuredImage: art.featuredImage || null,
+    specialty: art.specialty || art.doctor?.specialty || "Oncology Specialist",
+    status: art.status,
+    rejectionReason: art.rejectionReason || null,
+    approvedBy: art.approvedBy || null,
+    approvedAt: art.approvedAt ? art.approvedAt.toISOString() : null,
+    createdAt: art.createdAt.toISOString(),
+    doctorId: art.doctorId,
+    doctorName: art.doctor?.user?.name || "Dr. Medical Specialist",
+    doctorEmail: art.doctor?.user?.email || "",
+    doctorLicense: art.doctor?.medicalLicenseNumber || "",
+  }));
+}
+
+/**
+ * Admin Action: Approves a doctor article (Admin only).
+ */
+export async function approveDoctorArticleAction(articleId: string) {
+  const adminUser = await requireAdmin();
+
+  const article = await db.article.findUnique({
+    where: { id: articleId },
+  });
+
+  if (!article) {
+    return { error: "Article not found." };
+  }
+
+  await db.article.update({
+    where: { id: articleId },
+    data: {
+      status: "APPROVED",
+      approvedBy: adminUser.id,
+      approvedAt: new Date(),
+      rejectionReason: null,
+    },
+  });
+
+  revalidatePath("/care/care-providers");
+  revalidatePath("/admin/articles");
+  revalidatePath("/dashboard");
+
+  return { success: true };
+}
+
+/**
+ * Admin Action: Rejects a doctor article with reason (Admin only).
+ */
+export async function rejectDoctorArticleAction(articleId: string, rejectionReason: string) {
+  await requireAdmin();
+
+  if (!rejectionReason || !rejectionReason.trim()) {
+    return { error: "Rejection reason is required." };
+  }
+
+  const article = await db.article.findUnique({
+    where: { id: articleId },
+  });
+
+  if (!article) {
+    return { error: "Article not found." };
+  }
+
+  await db.article.update({
+    where: { id: articleId },
+    data: {
+      status: "REJECTED",
+      rejectionReason: rejectionReason.trim(),
+    },
+  });
+
+  revalidatePath("/care/care-providers");
+  revalidatePath("/admin/articles");
+  revalidatePath("/dashboard");
+
+  return { success: true };
 }
 
 /**
@@ -219,6 +380,8 @@ export async function getArticleBySlugAction(slug: string) {
     excerpt: article.excerpt || article.summary || "",
     content: article.content,
     category: article.category,
+    fileUrl: article.fileUrl || null,
+    featuredImage: article.featuredImage || null,
     readTime: article.readTime,
     status: article.status,
     publishDate: article.createdAt.toLocaleDateString("en-US", {
@@ -231,7 +394,7 @@ export async function getArticleBySlugAction(slug: string) {
       id: article.doctor.id,
       doctorId: article.doctor.doctorId,
       name: article.doctor.user.name || "Dr. Medical Specialist",
-      specialty: article.doctor.specialty || "Oncology Specialist",
+      specialty: article.specialty || article.doctor.specialty || "Oncology Specialist",
       hospitalAffiliation: article.doctor.hospitalAffiliation || "Cancer Research Institute",
       verificationStatus: article.doctor.verificationStatus,
     } : null,

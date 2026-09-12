@@ -1,4 +1,4 @@
-process.env.DATABASE_URL = "postgresql://postgres:Post%40321@localhost:5432/grs_awareness?schema=public";
+DATABASE_URL = process.env.DATABASE_URL
 const { PrismaClient } = require("@prisma/client");
 const { PrismaPg } = require("@prisma/adapter-pg");
 const { Pool } = require("pg");

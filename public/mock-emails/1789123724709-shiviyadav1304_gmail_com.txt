@@ -1,0 +1,22 @@
+To: shiviyadav1304@gmail.com
+Subject: Partnership Approved: Sahara 
+
+Dear Shivani Yadav,
+
+We are pleased to inform you that your application for Organization Membership with Breast Cancer Awareness Mission has been APPROVED!
+
+Details:
+Organization Name: Sahara 
+NGO Registration: NGO/2023
+Status: Approved
+Remarks: None
+
+Your login details for the Institution Dashboard are:
+Portal Link: http://localhost:3000/login
+Email: shiviyadav1304@gmail.com
+Password: Use your existing account password.
+
+Thank you for partnering with us to spread breast cancer awareness.
+
+Warm regards,
+Command Center Team

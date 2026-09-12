@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getPublicApprovedArticlesAction } from "@/app/actions/articles";
 import {
   Search,
   Calendar,
@@ -38,7 +39,8 @@ import {
   Check,
   ChevronDown,
   X,
-  HeartPulse
+  HeartPulse,
+  BookOpen
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -113,16 +115,14 @@ const GALLERY_ITEMS = [
   { name: "Dr. Ashutosh Pathankar", dept: "Family Counselling", img: "/photo.jpg" },
   { name: "Dr. Sanjay Mahesawari", dept: "Molecular Research", img: "/photo.jpg" },
   { name: "Dr. Shilpa Rao", dept: "Campaign Logistics", img: "/photo.jpg" },
-   { name: "Dr. Anita Shrotia", dept: "Patient Support", img: "/photo.jpg" },
-    { name: "Dr. Abhishek Sankar", dept: "Patient Support", img: "/photo.jpg" },
-     { name: "Dr. Sushil Jain", dept: "Patient Support", img: "/photo.jpg" },
-      { name: "Dr. Nikhil", dept: "Patient Support", img: "/photo.jpg" },
-       { name: "Dr. Neraj", dept: "Patient Support", img: "/photo.jpg" },
-        { name: "Dr. P.C Sharma", dept: "Patient Support", img: "/photo.jpg" },
-         { name: "Dr. Hari Shukla", dept: "Patient Support", img: "/photo.jpg" },
+  { name: "Dr. Anita Shrotia", dept: "Patient Support", img: "/photo.jpg" },
+  { name: "Dr. Abhishek Sankar", dept: "Patient Support", img: "/photo.jpg" },
+  { name: "Dr. Sushil Jain", dept: "Patient Support", img: "/photo.jpg" },
+  { name: "Dr. Nikhil", dept: "Patient Support", img: "/photo.jpg" },
+  { name: "Dr. Neraj", dept: "Patient Support", img: "/photo.jpg" },
+  { name: "Dr. P.C Sharma", dept: "Patient Support", img: "/photo.jpg" },
+  { name: "Dr. Hari Shukla", dept: "Patient Support", img: "/photo.jpg" },
 ];
-
-
 
 const specialistsData: Specialist[] = [
   {
@@ -632,6 +632,35 @@ export default function CareProvidersPage() {
   // ----------------------------------------------------------------------
   // State variables
   // ----------------------------------------------------------------------
+  // Doctor Articles state
+  const [doctorArticles, setDoctorArticles] = useState<any[]>([]);
+  const [articlesLoading, setArticlesLoading] = useState<boolean>(true);
+  const [articlesError, setArticlesError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadApprovedArticles() {
+      try {
+        setArticlesLoading(true);
+        const data = await getPublicApprovedArticlesAction();
+        if (isMounted) {
+          setDoctorArticles(data || []);
+          setArticlesError(null);
+        }
+      } catch (err: any) {
+        if (isMounted) {
+          setArticlesError("Unable to load doctor articles at this time.");
+        }
+      } finally {
+        if (isMounted) {
+          setArticlesLoading(false);
+        }
+      }
+    }
+    loadApprovedArticles();
+    return () => { isMounted = false; };
+  }, []);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedCity, setSelectedCity] = useState("all");
@@ -643,17 +672,8 @@ export default function CareProvidersPage() {
   // Journey step detail view
   const [activeJourneyStep, setActiveJourneyStep] = useState<number>(0);
 
-  // Modals state
+  // Details modal state
   const [detailsModal, setDetailsModal] = useState<CareService | null>(null);
-  const [bookingModal, setBookingModal] = useState<CareService | null>(null);
-
-  // Booking Form State
-  const [bookingName, setBookingName] = useState("");
-  const [bookingPhone, setBookingPhone] = useState("");
-  const [bookingDate, setBookingDate] = useState("");
-  const [bookingTime, setBookingTime] = useState("09:00 AM");
-  const [bookingSuccess, setBookingSuccess] = useState(false);
-  const [bookingLoading, setBookingLoading] = useState(false);
 
   // Help Request Modal State
   const [helpRequestOpen, setHelpRequestOpen] = useState(false);
@@ -681,19 +701,6 @@ export default function CareProvidersPage() {
     }, 1500);
   };
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!bookingName || !bookingPhone || !bookingDate) {
-      alert("Please fill in all details to submit.");
-      return;
-    }
-    setBookingLoading(true);
-    setTimeout(() => {
-      setBookingLoading(false);
-      setBookingSuccess(true);
-    }, 1200);
-  };
-
   const handleHelpSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!helpName || !helpPhone) {
@@ -705,15 +712,6 @@ export default function CareProvidersPage() {
       setHelpLoading(false);
       setHelpSuccess(true);
     }, 1200);
-  };
-
-  const resetBookingForm = () => {
-    setBookingModal(null);
-    setBookingName("");
-    setBookingPhone("");
-    setBookingDate("");
-    setBookingTime("09:00 AM");
-    setBookingSuccess(false);
   };
 
   const resetHelpForm = () => {
@@ -1064,7 +1062,7 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ======================================================================
-          4.  MEET OUR EXPERT TEAM (GALLERY SECTION)   <--- NEW SECTION
+          4.  MEET OUR EXPERT TEAM (GALLERY SECTION)
           ====================================================================== */}
       <section id="expert-team-gallery" className="py-24 bg-white relative">
         <div className="container mx-auto px-4 max-w-6xl">
@@ -1139,6 +1137,14 @@ export default function CareProvidersPage() {
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
               Find hospitals, diagnostics labs, home care nursing services, and mental health counseling support near you. Filter by category or search by city.
+            </p>
+          </div>
+
+          {/* Disclaimer Banner */}
+          <div className="mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 flex gap-3 items-start max-w-3xl mx-auto">
+            <Info className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+            <p className="text-xs sm:text-sm text-amber-900 leading-relaxed font-sans">
+              <strong>Informational Directory Only:</strong> This directory is provided purely for awareness and educational purposes. We do not facilitate bookings or appointments. Please contact the respective provider directly using the phone or email details listed.
             </p>
           </div>
 
@@ -1247,22 +1253,15 @@ export default function CareProvidersPage() {
                       </div>
                     </div>
 
-                    {/* CTA Buttons */}
-                    <div className="grid grid-cols-2 gap-3 mt-6 pt-4 border-t border-slate-200/50">
+                    {/* CTA Button - Only View Details */}
+                    <div className="mt-6 pt-4 border-t border-slate-200/50">
                       <Button
                         variant="outline"
-                        size="sm"
                         onClick={() => setDetailsModal(service)}
-                        className="rounded-xl border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold cursor-pointer h-9"
+                        className="w-full rounded-xl border-slate-200 text-slate-700 hover:bg-pink-50 hover:border-pink-300 hover:text-pink-600 font-semibold cursor-pointer h-10"
                       >
+                        <Info className="h-4 w-4 mr-2" />
                         View Details
-                      </Button>
-                      <Button
-                        size="sm"
-                        onClick={() => setBookingModal(service)}
-                        className="rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-bold cursor-pointer h-9"
-                      >
-                        Book Visit
                       </Button>
                     </div>
                   </motion.div>
@@ -1456,68 +1455,146 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ----------------------------------------------------------------------
-          8. PATIENT RESOURCES
+          8. DOCTOR ARTICLES & RESOURCES
           ---------------------------------------------------------------------- */}
-      <section className="py-24 bg-gradient-to-tr from-pink-50/40 via-purple-50/15 to-blue-50/30 border-y border-slate-200/55">
+      <section id="doctor-articles-section" className="py-24 bg-gradient-to-tr from-pink-50/40 via-purple-50/15 to-blue-50/30 border-y border-slate-200/55">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider border border-blue-100">
-              <FileText className="h-4 w-4" />
-              Download Guides
+          <div className="text-center space-y-4 max-w-3xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100 font-heading">
+              <FileText className="h-4 w-4 text-pink-600" />
+              Verified Expert Advice
             </span>
             <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-              Downloadable Patient Guides &amp; Handbooks
+              Doctor Articles &amp; Resources
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-sans">
-              Equip yourself with comprehensive health checklists, question catalogs, diagnostic guidelines, and recovery books compiled by top medical specialists.
+              Explore trusted articles and educational resources shared by verified healthcare professionals to help you make informed decisions about breast cancer care.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {patientResourcesData.map((res, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow group"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="inline-block px-2.5 py-0.5 rounded bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider font-heading">
-                      {res.format}
-                    </span>
-                    <span className="text-[10px] text-slate-400 font-semibold font-sans">{res.size}</span>
+          {/* Loading State */}
+          {articlesLoading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs animate-pulse space-y-4">
+                  <div className="flex justify-between items-center">
+                    <div className="h-4 w-20 bg-slate-200 rounded" />
+                    <div className="h-3 w-16 bg-slate-100 rounded" />
                   </div>
-                  <h4 className="font-heading text-base font-extrabold text-slate-800 leading-snug group-hover:text-pink-600 transition-colors">
-                    {res.title}
-                  </h4>
-                  <p className="text-slate-500 text-xs leading-relaxed font-sans">{res.desc}</p>
+                  <div className="h-6 w-3/4 bg-slate-200 rounded" />
+                  <div className="h-12 w-full bg-slate-100 rounded" />
+                  <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
+                    <div className="h-9 w-9 bg-slate-200 rounded-full" />
+                    <div className="space-y-1 flex-1">
+                      <div className="h-3 w-24 bg-slate-200 rounded" />
+                      <div className="h-2.5 w-16 bg-slate-100 rounded" />
+                    </div>
+                  </div>
+                  <div className="h-10 w-full bg-slate-200 rounded-xl" />
                 </div>
+              ))}
+            </div>
+          )}
 
-                <div className="mt-6 pt-4 border-t border-slate-100">
-                  <Button
-                    onClick={() => handleDownload(res.title)}
-                    className="w-full bg-slate-50 hover:bg-pink-600 text-slate-700 hover:text-white border border-slate-100 text-xs font-bold py-2.5 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-2xs"
-                  >
-                    {downloadingResource === res.title ? (
-                      <>
-                        <span className="h-3 w-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                        Downloading...
-                      </>
-                    ) : downloadedResources[res.title] ? (
-                      <>
-                        <Check className="h-4 w-4 text-emerald-500 shrink-0" />
-                        Downloaded!
-                      </>
-                    ) : (
-                      <>
-                        <Download className="h-4 w-4 shrink-0" />
-                        Download Resource
-                      </>
-                    )}
-                  </Button>
-                </div>
+          {/* Error State */}
+          {!articlesLoading && articlesError && (
+            <div className="bg-white rounded-3xl p-8 border border-red-100 text-center space-y-3 max-w-md mx-auto shadow-xs">
+              <AlertCircle className="h-10 w-10 text-red-500 mx-auto" />
+              <h3 className="font-heading text-base font-bold text-slate-800">Notice</h3>
+              <p className="text-xs text-slate-500">{articlesError}</p>
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!articlesLoading && !articlesError && doctorArticles.length === 0 && (
+            <div className="bg-white rounded-3xl p-12 border border-slate-100 text-center space-y-4 max-w-xl mx-auto shadow-xs">
+              <div className="h-16 w-16 rounded-full bg-pink-50 border border-pink-100 text-pink-600 flex items-center justify-center mx-auto">
+                <Stethoscope className="h-8 w-8" />
               </div>
-            ))}
-          </div>
+              <h3 className="font-heading text-lg sm:text-xl font-extrabold text-slate-800">
+                No doctor articles are available yet.
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-sans">
+                New educational resources from our registered healthcare professionals will appear here once reviewed and approved by our medical administration team.
+              </p>
+            </div>
+          )}
+
+          {/* Cards Grid */}
+          {!articlesLoading && !articlesError && doctorArticles.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {doctorArticles.map((art) => (
+                <div
+                  key={art.id}
+                  className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow group relative"
+                >
+                  <div className="space-y-4">
+                    
+                    {/* Badge & Date */}
+                    <div className="flex items-center justify-between">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-pink-50 text-pink-600 text-[10px] font-bold uppercase tracking-wider font-heading border border-pink-100">
+                        {art.fileUrl ? <FileText className="h-3 w-3" /> : <BookOpen className="h-3 w-3" />}
+                        {art.fileUrl ? "PDF ARTICLE" : "DOCTOR ARTICLE"}
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-semibold font-sans">{art.publishDate}</span>
+                    </div>
+
+                    {/* Article Title */}
+                    <h4 className="font-heading text-lg font-extrabold text-slate-800 leading-snug group-hover:text-pink-600 transition-colors line-clamp-2">
+                      {art.title}
+                    </h4>
+
+                    {/* Excerpt */}
+                    <p className="text-slate-500 text-xs leading-relaxed font-sans line-clamp-3">
+                      {art.excerpt}
+                    </p>
+
+                    {/* Doctor Info */}
+                    <div className="pt-3 border-t border-slate-100 flex items-center gap-3">
+                      <div className="h-9 w-9 rounded-full bg-pink-50 text-pink-600 border border-pink-100 flex items-center justify-center font-bold text-xs shrink-0 font-heading">
+                        <Stethoscope className="h-4.5 w-4.5" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-extrabold text-slate-800 truncate font-heading">{art.doctorName}</p>
+                        <p className="text-[10px] text-slate-400 font-medium truncate font-sans">{art.doctorSpecialty}</p>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  {/* Download / View Button */}
+                  <div className="mt-6 pt-4 border-t border-slate-100">
+                    {art.fileUrl ? (
+                      <a
+                        href={art.fileUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-full inline-block"
+                      >
+                        <Button
+                          className="w-full bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold text-xs py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-xs"
+                        >
+                          <Download className="h-4 w-4 shrink-0" />
+                          Download Doctor Article
+                        </Button>
+                      </a>
+                    ) : (
+                      <Button
+                        onClick={() => {
+                          alert(`Title: ${art.title}\nAuthor: ${art.doctorName} (${art.doctorSpecialty})\n\n${art.content}`);
+                        }}
+                        className="w-full bg-slate-50 hover:bg-pink-600 text-slate-700 hover:text-white border border-slate-100 text-xs font-bold py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-2xs"
+                      >
+                        <BookOpen className="h-4 w-4 shrink-0" />
+                        Download Doctor Article
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
         </div>
       </section>
 
@@ -1719,7 +1796,7 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ----------------------------------------------------------------------
-          MODALS / POP-UPS (BOOKING AND DETAILS VISUAL SIMULATORS)
+          MODALS / POP-UPS
           ---------------------------------------------------------------------- */}
 
       {/* 1. Care Provider Details Modal */}
@@ -1771,6 +1848,14 @@ export default function CareProvidersPage() {
                   </p>
                 </div>
 
+                {/* Informational Disclaimer */}
+                <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 flex gap-2 items-start">
+                  <Info className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+                  <p className="text-[11px] text-amber-800 leading-relaxed font-sans">
+                    This directory is for <strong>informational purposes only</strong>. We do not facilitate bookings or appointments. Please contact the provider directly using the details below.
+                  </p>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
                   <div className="space-y-1">
                     <h5 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Operational Hours</h5>
@@ -1810,15 +1895,12 @@ export default function CareProvidersPage() {
                       Call Provider
                     </Button>
                   </a>
-                  <Button
-                    onClick={() => {
-                      setDetailsModal(null);
-                      setBookingModal(detailsModal);
-                    }}
-                    className="w-full rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-bold h-11 cursor-pointer"
-                  >
-                    Book Appointment
-                  </Button>
+                  <a href={`mailto:${detailsModal.email}`} className="w-full">
+                    <Button variant="outline" className="w-full rounded-xl border-slate-200 text-slate-700 font-bold h-11 cursor-pointer">
+                      <Mail className="h-4 w-4 mr-2" />
+                      Email Provider
+                    </Button>
+                  </a>
                 </div>
               </div>
             </motion.div>
@@ -1826,134 +1908,7 @@ export default function CareProvidersPage() {
         )}
       </AnimatePresence>
 
-      {/* 2. Book Appointment Modal */}
-      <AnimatePresence>
-        {bookingModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={resetBookingForm}
-              className="fixed inset-0 bg-black/60 backdrop-blur-xs"
-            />
-
-            {/* Modal Body */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              transition={{ duration: 0.3 }}
-              className="relative bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 border border-slate-200 shadow-2xl z-10"
-            >
-              {/* Close Button */}
-              <button
-                onClick={resetBookingForm}
-                className="absolute top-5 right-5 p-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors cursor-pointer"
-              >
-                <X className="h-5 w-5" />
-              </button>
-
-              {!bookingSuccess ? (
-                <>
-                  <h3 className="font-heading text-xl font-extrabold text-slate-800 leading-tight">
-                    Book Appointment
-                  </h3>
-                  <p className="text-xs text-slate-550 mt-1 font-sans">
-                    Request a consult at <span className="font-bold text-pink-655">{bookingModal.name}</span>.
-                  </p>
-
-                  <form onSubmit={handleBookingSubmit} className="space-y-4 mt-6 font-sans">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Patient Name</label>
-                      <Input
-                        type="text"
-                        required
-                        placeholder="Enter full name"
-                        value={bookingName}
-                        onChange={(e) => setBookingName(e.target.value)}
-                        className="bg-slate-55 border-slate-200 h-10 rounded-xl"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Phone Number</label>
-                      <Input
-                        type="tel"
-                        required
-                        placeholder="e.g. +91 98765 43210"
-                        value={bookingPhone}
-                        onChange={(e) => setBookingPhone(e.target.value)}
-                        className="bg-slate-55 border-slate-200 h-10 rounded-xl"
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Preferred Date</label>
-                        <Input
-                          type="date"
-                          required
-                          value={bookingDate}
-                          onChange={(e) => setBookingDate(e.target.value)}
-                          className="bg-slate-55 border-slate-200 h-10 rounded-xl cursor-pointer"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Preferred Slot</label>
-                        <select
-                          value={bookingTime}
-                          onChange={(e) => setBookingTime(e.target.value)}
-                          className="w-full h-10 px-3 bg-slate-55 border border-slate-200 rounded-xl outline-none focus:border-pink-500 transition-colors text-xs font-semibold text-slate-705 cursor-pointer appearance-none"
-                        >
-                          <option value="09:00 AM">09:00 AM - 11:00 AM</option>
-                          <option value="11:00 AM">11:00 AM - 01:00 PM</option>
-                          <option value="02:00 PM">02:00 PM - 04:00 PM</option>
-                          <option value="04:00 PM">04:00 PM - 06:00 PM</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <Button
-                      type="submit"
-                      disabled={bookingLoading}
-                      className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold h-11 rounded-xl cursor-pointer mt-2"
-                    >
-                      {bookingLoading ? (
-                        <>
-                          <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                          Submitting...
-                        </>
-                      ) : (
-                        "Confirm Appointment Request"
-                      )}
-                    </Button>
-                  </form>
-                </>
-              ) : (
-                <div className="text-center py-6 space-y-4">
-                  <div className="h-14 w-14 rounded-full bg-emerald-50 border-2 border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
-                    <Check className="h-7 w-7 animate-pulse" />
-                  </div>
-                  <h3 className="font-heading text-lg font-bold text-slate-800">Booking Request Sent</h3>
-                  <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed font-sans">
-                    Thank you, <span className="font-bold">{bookingName}</span>. Your consultation request for <span className="font-bold">{bookingDate}</span> at {bookingTime} has been transmitted to the provider. The care coordinator will call you back shortly.
-                  </p>
-                  <Button
-                    onClick={resetBookingForm}
-                    className="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-6 py-2 rounded-xl cursor-pointer mt-4"
-                  >
-                    Done
-                  </Button>
-                </div>
-              )}
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* 3. Request Assistance Modal */}
+      {/* 2. Request Assistance Modal */}
       <AnimatePresence>
         {helpRequestOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">

@@ -57,8 +57,13 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
     category: "Clinical Guidance",
     excerpt: "",
     content: "",
-    status: "PUBLISHED" as "PUBLISHED" | "DRAFT",
+    fileUrl: "",
+    featuredImage: "",
+    specialty: data.doctor.specialty || "Oncology Specialist",
+    status: "PENDING" as "PENDING" | "DRAFT" | "APPROVED",
   });
+  const [uploadingPdf, setUploadingPdf] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Webinar Modal States
   const [isWebinarModalOpen, setIsWebinarModalOpen] = useState(false);
@@ -130,6 +135,48 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
   const [submitting, setSubmitting] = useState(false);
 
   // ----------------ARTICLE HANDLERS----------------
+  const handlePdfFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingPdf(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const resData = await res.json();
+      if (resData.url) {
+        setArticleForm((prev) => ({ ...prev, fileUrl: resData.url }));
+      } else {
+        alert(resData.error || "File upload failed");
+      }
+    } catch (err: any) {
+      alert("Error uploading file: " + err.message);
+    } finally {
+      setUploadingPdf(false);
+    }
+  };
+
+  const handleCoverImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const resData = await res.json();
+      if (resData.url) {
+        setArticleForm((prev) => ({ ...prev, featuredImage: resData.url }));
+      } else {
+        alert(resData.error || "Image upload failed");
+      }
+    } catch (err: any) {
+      alert("Error uploading image: " + err.message);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const openNewArticleModal = () => {
     setEditingArticle(null);
     setArticleForm({
@@ -137,7 +184,10 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
       category: "Clinical Guidance",
       excerpt: "",
       content: "",
-      status: "PUBLISHED",
+      fileUrl: "",
+      featuredImage: "",
+      specialty: data.doctor.specialty || "Oncology Specialist",
+      status: "PENDING",
     });
     setIsArticleModalOpen(true);
   };
@@ -146,17 +196,20 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
     setEditingArticle(article);
     setArticleForm({
       title: article.title,
-      category: article.category,
+      category: article.category || "Clinical Guidance",
       excerpt: article.excerpt || "",
-      content: article.content,
-      status: article.status === "DRAFT" ? "DRAFT" : "PUBLISHED",
+      content: article.content || "",
+      fileUrl: article.fileUrl || "",
+      featuredImage: article.featuredImage || "",
+      specialty: article.specialty || data.doctor.specialty || "Oncology Specialist",
+      status: article.status === "DRAFT" ? "DRAFT" : (article.status || "PENDING"),
     });
     setIsArticleModalOpen(true);
   };
 
-  const handleSaveArticle = async (statusOverride?: "PUBLISHED" | "DRAFT") => {
-    if (!articleForm.title || !articleForm.content) {
-      alert("Please enter article title and full content.");
+  const handleSaveArticle = async (statusOverride?: "PENDING" | "DRAFT") => {
+    if (!articleForm.title || (!articleForm.content && !articleForm.fileUrl)) {
+      alert("Please enter article title and either full content or upload a PDF document.");
       return;
     }
 
@@ -170,6 +223,9 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
           category: articleForm.category,
           excerpt: articleForm.excerpt,
           content: articleForm.content,
+          fileUrl: articleForm.fileUrl,
+          featuredImage: articleForm.featuredImage,
+          specialty: articleForm.specialty,
           status: targetStatus,
         });
 
@@ -185,6 +241,9 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
           category: articleForm.category,
           excerpt: articleForm.excerpt,
           content: articleForm.content,
+          fileUrl: articleForm.fileUrl,
+          featuredImage: articleForm.featuredImage,
+          specialty: articleForm.specialty,
           status: targetStatus,
         });
 
@@ -614,12 +673,21 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                         <td className="p-4 text-slate-500 font-medium">{art.publishDate}</td>
                         <td className="p-4 text-center">
                           <span className={`inline-block px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider ${
-                            art.status === "PUBLISHED" 
-                              ? "bg-emerald-50 text-emerald-600 border border-emerald-200" 
-                              : "bg-slate-100 text-slate-500 border border-slate-200"
+                            art.status === "APPROVED" || art.status === "PUBLISHED"
+                              ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
+                              : art.status === "REJECTED"
+                              ? "bg-red-50 text-red-600 border border-red-200"
+                              : art.status === "DRAFT"
+                              ? "bg-slate-100 text-slate-500 border border-slate-200"
+                              : "bg-amber-50 text-amber-600 border border-amber-200"
                           }`}>
-                            {art.status}
+                            {art.status === "PENDING" ? "PENDING REVIEW" : art.status}
                           </span>
+                          {art.status === "REJECTED" && art.rejectionReason && (
+                            <p className="text-[9px] text-red-500 italic mt-0.5 line-clamp-1" title={art.rejectionReason}>
+                              {art.rejectionReason}
+                            </p>
+                          )}
                         </td>
                         <td className="p-4 text-right">
                           <div className="flex items-center justify-end gap-1.5">
@@ -822,10 +890,10 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
       {/* ----------------MODAL 1: WRITE / EDIT ARTICLE---------------- */}
       <Dialog open={isArticleModalOpen} onOpenChange={setIsArticleModalOpen}>
-        <DialogContent className="max-w-2xl bg-white rounded-3xl p-6 border border-pink-100 shadow-2xl space-y-4">
+        <DialogContent className="max-w-2xl bg-white rounded-3xl p-6 border border-pink-100 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
-              <BookOpen className="h-5 w-5 text-primary" /> {editingArticle ? "Edit Article" : "Write New Clinical Article"}
+              <BookOpen className="h-5 w-5 text-primary" /> {editingArticle ? "Edit Article / Resource" : "Upload Article / Educational Resource"}
             </DialogTitle>
           </DialogHeader>
 
@@ -835,14 +903,14 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
               <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Article Title *</label>
               <input
                 type="text"
-                placeholder="e.g. Early Mammography Protocols for High-Risk Patients"
+                placeholder="e.g. Breast Self-Examination Guide & Early Detection"
                 value={articleForm.title}
                 onChange={(e) => setArticleForm({ ...articleForm, title: e.target.value })}
                 className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none"
               />
             </div>
 
-            {/* Category & Status */}
+            {/* Specialty & Category */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1">
                 <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Category</label>
@@ -856,42 +924,130 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                   <option>Prevention &amp; Diet</option>
                   <option>Patient Support</option>
                   <option>Surgical Innovations</option>
+                  <option>Educational Resource</option>
                 </select>
               </div>
 
               <div className="space-y-1">
-                <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Author (Auto-linked)</label>
+                <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Doctor Specialty</label>
                 <input
                   type="text"
-                  disabled
-                  value={`Dr. ${data.doctor.name} (Verified Doctor)`}
-                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-100 text-slate-400 font-semibold cursor-not-allowed"
+                  placeholder="e.g. Surgical Oncology Specialist"
+                  value={articleForm.specialty}
+                  onChange={(e) => setArticleForm({ ...articleForm, specialty: e.target.value })}
+                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none"
                 />
               </div>
             </div>
 
-            {/* Excerpt */}
+            {/* Author Name Display */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Short Summary / Excerpt</label>
+              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Author Name (Verified Doctor)</label>
               <input
                 type="text"
-                placeholder="Brief 1-2 sentence overview for the listing card."
+                disabled
+                value={`Dr. ${data.doctor.name || "Medical Specialist"}`}
+                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-100 text-slate-500 font-semibold cursor-not-allowed"
+              />
+            </div>
+
+            {/* PDF / Document Upload */}
+            <div className="space-y-2 p-3 bg-pink-50/30 border border-pink-100 rounded-2xl">
+              <label className="font-black uppercase text-[10px] text-pink-700 tracking-wider flex items-center justify-between">
+                <span>PDF / Document Attachment</span>
+                {articleForm.fileUrl && <span className="text-emerald-600 flex items-center gap-1 font-bold"><CheckCircle className="h-3 w-3" /> Attached</span>}
+              </label>
+              <div className="flex flex-col sm:flex-row items-center gap-2">
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+                  id="pdf-upload-input"
+                  className="hidden"
+                  onChange={handlePdfFileUpload}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => document.getElementById("pdf-upload-input")?.click()}
+                  disabled={uploadingPdf}
+                  className="w-full sm:w-auto border-pink-200 text-pink-700 hover:bg-pink-100 font-bold text-xs rounded-xl flex items-center justify-center gap-2"
+                >
+                  <FileText className="h-4 w-4" />
+                  {uploadingPdf ? "Uploading PDF..." : articleForm.fileUrl ? "Change PDF File" : "Upload PDF / Document"}
+                </Button>
+                {articleForm.fileUrl && (
+                  <a
+                    href={articleForm.fileUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-xs text-primary font-bold hover:underline truncate max-w-xs"
+                  >
+                    View Uploaded File
+                  </a>
+                )}
+              </div>
+              <p className="text-[10.5px] text-slate-500">Attach a PDF handbook, patient checklist, or resource guide for patients to download.</p>
+            </div>
+
+            {/* Short Summary / Excerpt */}
+            <div className="space-y-1">
+              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Short Description / Summary *</label>
+              <input
+                type="text"
+                placeholder="Brief 1-2 sentence overview shown on the resource card."
                 value={articleForm.excerpt}
                 onChange={(e) => setArticleForm({ ...articleForm, excerpt: e.target.value })}
                 className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none"
               />
             </div>
 
+            {/* Optional Cover Image */}
+            <div className="space-y-1">
+              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Optional Cover Image URL</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="https://... or upload image"
+                  value={articleForm.featuredImage}
+                  onChange={(e) => setArticleForm({ ...articleForm, featuredImage: e.target.value })}
+                  className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none"
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="cover-img-input"
+                  className="hidden"
+                  onChange={handleCoverImageUpload}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => document.getElementById("cover-img-input")?.click()}
+                  disabled={uploadingImage}
+                  className="border-slate-200 text-slate-600 text-xs rounded-xl"
+                >
+                  {uploadingImage ? "Uploading..." : "Upload Image"}
+                </Button>
+              </div>
+            </div>
+
             {/* Content */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Full Content (Markdown Supported) *</label>
+              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Full Article Content / Notes</label>
               <textarea
-                rows={8}
+                rows={5}
                 placeholder="Type detailed medical guidelines, research findings, or clinical advice here..."
                 value={articleForm.content}
                 onChange={(e) => setArticleForm({ ...articleForm, content: e.target.value })}
                 className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none resize-none"
               />
+            </div>
+
+            <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-800 flex items-start gap-2">
+              <Info className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+              <span>
+                <strong>Approval Notice:</strong> Articles submitted by doctors are assigned a status of <strong>PENDING</strong> and must be reviewed and approved by an administrator before appearing on the public Care Provider page.
+              </span>
             </div>
           </div>
 
@@ -899,17 +1055,17 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
             <Button 
               variant="outline" 
               onClick={() => handleSaveArticle("DRAFT")}
-              disabled={submitting}
+              disabled={submitting || uploadingPdf || uploadingImage}
               className="border-slate-200 text-slate-700 font-bold text-xs rounded-xl px-4"
             >
               Save as Draft
             </Button>
             <Button 
-              onClick={() => handleSaveArticle("PUBLISHED")}
-              disabled={submitting}
+              onClick={() => handleSaveArticle("PENDING")}
+              disabled={submitting || uploadingPdf || uploadingImage}
               className="bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-xl px-5"
             >
-              {submitting ? "Publishing..." : "Publish Article"}
+              {submitting ? "Submitting..." : "Submit for Admin Approval"}
             </Button>
           </DialogFooter>
         </DialogContent>

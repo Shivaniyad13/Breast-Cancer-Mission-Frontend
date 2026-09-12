@@ -238,22 +238,27 @@ model Doctor {
 }
 
 model Article {
-  id            String   @id @default(uuid())
-  title         String
-  slug          String   @unique
-  excerpt       String?
-  summary       String?
-  content       String
-  category      String
-  status        String   @default("PUBLISHED")
-  readTime      String   @default("5 min read")
-  featuredImage String?
-  views         Int      @default(0)
-  authorId      String?
-  doctorId      String?
-  doctor        Doctor?  @relation(fields: [doctorId], references: [id], onDelete: SetNull)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id              String    @id @default(uuid())
+  title           String
+  slug            String    @unique
+  excerpt         String?
+  summary         String?
+  content         String
+  category        String
+  status          String    @default("PENDING")
+  readTime        String    @default("5 min read")
+  featuredImage   String?
+  fileUrl         String?
+  specialty       String?
+  rejectionReason String?
+  approvedBy      String?
+  approvedAt      DateTime?
+  views           Int       @default(0)
+  authorId        String?
+  doctorId        String?
+  doctor          Doctor?   @relation(fields: [doctorId], references: [id], onDelete: SetNull)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
 
 model WebinarRegistration {
