@@ -165,8 +165,8 @@ export default function BSEGuidePage() {
                       key={step.id}
                       onClick={() => setActiveStep(idx)}
                       className={`w-full text-left p-3.5 rounded-xl border text-xs font-semibold transition-all flex items-center gap-3 ${isActive
-                          ? "border-primary bg-pink-50/20 text-primary"
-                          : "border-slate-100 hover:bg-pink-50/10 text-slate-600 bg-white/40"
+                        ? "border-primary bg-pink-50/20 text-primary"
+                        : "border-slate-100 hover:bg-pink-50/10 text-slate-600 bg-white/40"
                         }`}
                     >
                       <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${isActive ? "bg-primary text-white" : "bg-slate-100 text-slate-400"
@@ -232,7 +232,7 @@ export default function BSEGuidePage() {
               <CardContent className="p-5 pt-0">
                 <div className="rounded-2xl overflow-hidden shadow-inner border border-slate-100 bg-slate-950 aspect-video w-full">
                   <video
-                    src="/euhbbZb3sNXxgOi6g2MF+42G6uUncFHU.mp4"
+                    src="https://res.cloudinary.com/cmqbtzgw/video/upload/v1789020972/euhbbZb3sNXxgOi6g2MF_42G6uUncFHU.mp4"
                     controls
                     playsInline
                     className="w-full h-full object-contain"

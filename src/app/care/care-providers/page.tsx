@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getPublicApprovedArticlesAction } from "@/app/actions/articles";
+import { getPublicCareProviders } from "@/app/actions/careProviders";
 import {
   Search,
   Calendar,
@@ -40,7 +41,9 @@ import {
   ChevronDown,
   X,
   HeartPulse,
-  BookOpen
+  BookOpen,
+  Building2,
+  Globe
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,14 +66,18 @@ interface CareService {
   category: string;
   specialization: string;
   city: string;
+  state?: string | null;
   phone: string;
   email: string;
   address: string;
+  website?: string | null;
+  hours?: string | null;
+  about: string;
+  facilities: string[];
   rating: number;
   reviews: number;
-  about: string;
-  hours: string;
-  facilities: string[];
+  isVerified: boolean;
+  isPublished: boolean;
 }
 
 interface JourneyStep {
@@ -228,189 +235,6 @@ const specialistsData: Specialist[] = [
     desc: "Guides patients through treatment scheduling, healthcare system navigation, and financial assistance schemes.",
     role: "Helps verify NGO grants, manages hospital insurance claims, and arranges support group logistics.",
     colorClass: "bg-sky-50 border-sky-100 text-sky-600 dark:bg-sky-950/20 dark:border-sky-900/40"
-  }
-];
-
-const careServicesData: CareService[] = [
-  {
-    id: "cs-1",
-    name: "Apex Comprehensive Cancer Research Institute",
-    category: "hospitals",
-    specialization: "Surgical, Medical & Radiation Oncology",
-    city: "New Delhi",
-    phone: "+91 11 4055 9999",
-    email: "care@apex-cancer.org",
-    address: "Okhla Phase III, Near Main Metro Station, New Delhi",
-    rating: 4.9,
-    reviews: 248,
-    about: "Apex is a state-of-the-art cancer institute equipped with cutting-edge surgical units, advanced linear accelerators, and a highly experienced multidisciplinary tumor board specifically for breast cancers.",
-    hours: "Mon - Sat: 08:00 AM - 08:00 PM (Emergency 24/7)",
-    facilities: ["Advanced Linear Accelerator (LINAC)", "Dedicated Breast Care Wing", "Chemotherapy Daycare Unit", "Onco-Emergency Care Room", "International Tumor Board Collaboration"]
-  },
-  {
-    id: "cs-2",
-    name: "Tata Cancer Care Affiliate Center",
-    category: "hospitals",
-    specialization: "Multi-Disciplinary Breast Oncology Services",
-    city: "Mumbai",
-    phone: "+91 22 2417 7000",
-    email: "contact@tata-affiliate.in",
-    address: "Dr. Ernest Borges Road, Parel, Mumbai",
-    rating: 4.8,
-    reviews: 512,
-    about: "This premier oncology healthcare center collaborates on standardized breast protocols, offering highly subsidized diagnostic packages, genetic risk profiling, and complex reconstructive surgeries.",
-    hours: "Mon - Fri: 09:00 AM - 06:00 PM",
-    facilities: ["Subsidized Patient Support Scheme", "Comprehensive Breast Mastectomy Wing", "Surgical Navigation Suite", "In-house Clinical Pathology"]
-  },
-  {
-    id: "cs-3",
-    name: "Metropolis Breast Diagnostics & Imaging Hub",
-    category: "diagnostics",
-    specialization: "High-Resolution Mammography & Ultrasounds",
-    city: "Gurugram",
-    phone: "+91 124 671 2000",
-    email: "gurugram@metropolis.com",
-    address: "Sector 45, DLF Phase IV Road, Gurugram",
-    rating: 4.7,
-    reviews: 189,
-    about: "Equipped with FDA-approved digital 3D breast mammography and automated breast ultrasound (ABUS) systems, offering precise screening and early-stage nodule analysis.",
-    hours: "Daily: 07:00 AM - 09:00 PM",
-    facilities: ["3D Digital Mammogram (Tomosynthesis)", "Automated Breast Ultrasound", "Fine Needle Aspiration Biopsy (FNAB)", "Instant Digital Report Portals"]
-  },
-  {
-    id: "cs-4",
-    name: "Hindustan Diagnostics & Imaging Center",
-    category: "diagnostics",
-    specialization: "Hereditary Biomarker & Imaging Services",
-    city: "Noida",
-    phone: "+91 120 488 1234",
-    email: "info@hindustandiagnostics.com",
-    address: "Sector 62, Noida",
-    rating: 4.6,
-    reviews: 132,
-    about: "A trusted pathology lab providing swift liquid biopsies, breast tissue markers, and standard diagnostic imaging with highly trained radiologists.",
-    hours: "Mon - Sat: 08:00 AM - 07:00 PM",
-    facilities: ["Standard Digital Mammography", "Breast Ultrasound (Sonography)", "Pathology Lab Testing", "Ambulance Transfer Support"]
-  },
-  {
-    id: "cs-5",
-    name: "Sanjeevani Specialty Breast Care Clinic",
-    category: "clinics",
-    specialization: "Preventive Care & Primary Consultations",
-    city: "Bangalore",
-    phone: "+91 80 4911 8888",
-    email: "clinic@sanjeevanibreast.org",
-    address: "100 Feet Road, Indiranagar, Bangalore",
-    rating: 4.9,
-    reviews: 320,
-    about: "A specialized outpatient clinic focusing strictly on preventative breast health, routine checkups, breast pain consultations, and early lump diagnostic reviews.",
-    hours: "Mon - Sat: 10:00 AM - 07:00 PM",
-    facilities: ["Clinical Breast Examinations (CBE)", "Symptom & Pain Management Consults", "Second Opinion Consultations", "Breast Health Educational Seminars"]
-  },
-  {
-    id: "cs-6",
-    name: "Medanta Chemotherapy Daycare",
-    category: "chemotherapy",
-    specialization: "Outpatient Infusions & Targeted Therapeutics",
-    city: "Gurugram",
-    phone: "+91 124 414 1414",
-    email: "chemotherapy@medanta.org",
-    address: "Sector 38, Gurugram",
-    rating: 4.8,
-    reviews: 195,
-    about: "A patient-centric outpatient daycare facility providing comfortable private infusion suites, scalp cooling therapies to prevent hair loss, and intensive nurse care.",
-    hours: "Mon - Sat: 07:30 AM - 08:30 PM",
-    facilities: ["Private Infusion Suites", "Scalp Cooling System (Hair Preservation)", "Emergency Intensive Care Support", "Oncology Nutrition Bar"]
-  },
-  {
-    id: "cs-7",
-    name: "Apollo Proton & Radiation Center",
-    category: "radiation",
-    specialization: "Proton Therapy & Stereotactic Radiosurgery",
-    city: "Chennai",
-    phone: "+91 44 3333 4444",
-    email: "radiation@apollo-proton.com",
-    address: "Taramani, Chennai",
-    rating: 4.9,
-    reviews: 147,
-    about: "The leading proton therapy center in South Asia, delivering highly targeted radiation that spares healthy tissues near the heart and lungs during left-breast treatments.",
-    hours: "Mon - Fri: 08:00 AM - 06:00 PM",
-    facilities: ["Proton Beam Radiotherapy", "Stereotactic Body Radiotherapy (SBRT)", "Image-Guided Radiation (IGRT)", "On-site Cardiac Monitoring"]
-  },
-  {
-    id: "cs-8",
-    name: "Strand Life Sciences Genetic Lab",
-    category: "genetics",
-    specialization: "Hereditary Gene Profiling & BRCA1/2 Tests",
-    city: "Bangalore",
-    phone: "+91 80 4078 9999",
-    email: "genetics@strandls.com",
-    address: "Hebbal, Bangalore",
-    rating: 4.7,
-    reviews: 98,
-    about: "Leading laboratory for Next-Generation Sequencing (NGS) of BRCA1, BRCA2, and multi-gene panels to evaluate hereditary breast cancer risks.",
-    hours: "Mon - Sat: 09:00 AM - 06:00 PM",
-    facilities: ["BRCA 1 & BRCA 2 Mutational Analysis", "Multi-Gene Panel Risk Screening", "Post-Test Genetic Counseling Sessions", "Confidential Gene Mapping Registries"]
-  },
-  {
-    id: "cs-9",
-    name: "Pink Ribbon Rehab & Lymphedema Clinic",
-    category: "rehab",
-    specialization: "Post-Surgical Mobilization & Lymphedema Rehab",
-    city: "Mumbai",
-    phone: "+91 22 6123 4567",
-    email: "recovery@pinkribbonrehab.org",
-    address: "Bandra West, Mumbai",
-    rating: 4.8,
-    reviews: 115,
-    about: "A specialty rehabilitation center dedicated to restoring arm range-of-motion, treating postsurgical scars, and administering complete decongestive therapy for lymphedema.",
-    hours: "Mon - Sat: 09:00 AM - 05:00 PM",
-    facilities: ["Complete Decongestive Therapy (CDT)", "Custom Lymphatic Compression Garments", "Shoulder Mobilization Exercises", "Scar Tissue Release Therapies"]
-  },
-  {
-    id: "cs-10",
-    name: "Portea Oncology Home Care",
-    category: "homecare",
-    specialization: "In-Home Nursing & Palliative Comfort Care",
-    city: "Hyderabad",
-    phone: "+91 40 6000 6000",
-    email: "homecare@portea.com",
-    address: "Jubilee Hills, Hyderabad",
-    rating: 4.6,
-    reviews: 142,
-    about: "Brings experienced oncology nurses directly to your home for chemo-port flushes, dressing changes, palliative symptom management, and nutritional support.",
-    hours: "24/7 Service Coverage",
-    facilities: ["In-home Chemo Port Care & Flushes", "Post-Surgical Wound Dressing", "Geriatric Palliative Management", "Home Oxygen & Medical Bed Support"]
-  },
-  {
-    id: "cs-11",
-    name: "MindSpace Support & Counseling",
-    category: "counseling",
-    specialization: "Trauma Coping & Caregiver Psychological Support",
-    city: "Kolkata",
-    phone: "+91 33 4004 5678",
-    email: "support@mindspacekolkata.com",
-    address: "Salt Lake, Kolkata",
-    rating: 4.9,
-    reviews: 167,
-    about: "A peaceful therapeutic center offering cognitive behavioral therapy (CBT), cancer acceptance coaching, and support circles for survivors and direct family caregivers.",
-    hours: "Mon - Sat: 11:00 AM - 08:00 PM",
-    facilities: ["One-on-One Psychological Counseling", "Family & Caregiver Support Circles", "Art & Music Expressive Therapies", "Stress Reduction Workshops"]
-  },
-  {
-    id: "cs-12",
-    name: "Karunashraya Palliative Hospice",
-    category: "palliative",
-    specialization: "Advanced Pain Control & Symptom Management",
-    city: "Bangalore",
-    phone: "+91 80 2847 6133",
-    email: "info@karunashraya.org",
-    address: "Marathahalli, Bangalore",
-    rating: 4.9,
-    reviews: 215,
-    about: "India's premier palliative hospice, providing free, compassionate care for advanced-stage cancer patients focusing strictly on pain eradication, dignity, and peace.",
-    hours: "24/7 Operations",
-    facilities: ["Free In-Patient Comfort Wards", "Home Care Outpatient Units", "Advanced Pharmacological Pain Control", "Spiritual Support and Guidance"]
   }
 ];
 
@@ -661,6 +485,29 @@ export default function CareProvidersPage() {
     return () => { isMounted = false; };
   }, []);
 
+  // Care Providers state
+  const [careProviders, setCareProviders] = useState<CareService[]>([]);
+  const [providersLoading, setProvidersLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadProviders() {
+      try {
+        setProvidersLoading(true);
+        const res = await getPublicCareProviders();
+        if (isMounted && res.success) {
+          setCareProviders(res.data || []);
+        }
+      } catch (err) {
+        console.error("Providers load error", err);
+      } finally {
+        if (isMounted) setProvidersLoading(false);
+      }
+    }
+    loadProviders();
+    return () => { isMounted = false; };
+  }, []);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedCity, setSelectedCity] = useState("all");
@@ -723,7 +570,7 @@ export default function CareProvidersPage() {
   };
 
   // Filter logic for care services
-  const filteredServices = careServicesData.filter(service => {
+  const filteredServices = careProviders.filter(service => {
     const matchesSearch =
       service.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       service.specialization.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -852,17 +699,19 @@ export default function CareProvidersPage() {
 
         <div className="container mx-auto px-4 max-w-6xl relative z-10">
           <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100">
-              <ShieldCheck className="h-4 w-4" />
-              Why Choice Matters
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
-              Coordinated Care Improves Survival Outcomes
-            </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
-              Breast cancer treatment is highly specialized. A coordinated, multidisciplinary medical team ensures custom chemotherapy, precise radiation, and surgical accuracy.
-            </p>
-          </div>
+  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider border border-white/20">
+    <ShieldCheck className="h-4 w-4 text-white" />
+    Why Choice Matters
+  </span>
+
+  <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+    Coordinated Care Improves Survival Outcomes
+  </h2>
+
+  <p className="text-white/90 text-sm sm:text-base leading-relaxed">
+    Breast cancer treatment is highly specialized. A coordinated, multidisciplinary medical team ensures custom chemotherapy, precise radiation, and surgical accuracy.
+  </p>
+</div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Graphics/Stats */}
@@ -937,9 +786,9 @@ export default function CareProvidersPage() {
               <h3 className="font-heading text-2xl sm:text-3xl font-extrabold text-slate-800">
                 A Unified Front Against Breast Cancer
               </h3>
-              <p className="text-slate-600 leading-relaxed text-sm sm:text-base font-sans">
-                Fighting cancer requires more than just a single physician. It calls for an integrated alliance of medical, surgical, and supportive care providers. In modern breast oncology, the key to successful treatment lies in the custom synergy of these specialists.
-              </p>
+              <p className="text-white/90 leading-relaxed text-sm sm:text-base font-sans">
+  Fighting cancer requires more than just a single physician. It calls for an integrated alliance of medical, surgical, and supportive care providers. In modern breast oncology, the key to successful treatment lies in the custom synergy of these specialists.
+</p>
 
               <div className="space-y-4 pt-2">
                 {[
@@ -1203,89 +1052,109 @@ export default function CareProvidersPage() {
 
           {/* Directory Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <AnimatePresence mode="popLayout">
-              {filteredServices.length > 0 ? (
-                filteredServices.map((service) => (
-                  <motion.div
-                    key={service.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.3 }}
-                    className="group bg-slate-50 hover:bg-white rounded-3xl p-6 border border-slate-200/40 shadow-xs hover:shadow-xl hover:border-pink-300 transition-all duration-300 flex flex-col justify-between"
-                  >
-                    <div>
-                      {/* Rating and Badge */}
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="px-3 py-1 rounded-full bg-slate-200/50 text-slate-600 text-[10px] font-bold uppercase tracking-wider group-hover:bg-pink-50 group-hover:text-pink-600 group-hover:border-pink-100 border border-transparent font-heading">
-                          {service.category.toUpperCase()}
-                        </span>
-                        <div className="flex items-center gap-1">
-                          <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
-                          <span className="text-xs font-bold text-slate-800">{service.rating}</span>
-                          <span className="text-[10px] text-slate-400 font-medium">({service.reviews})</span>
+            {providersLoading ? (
+              <div className="col-span-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="bg-white rounded-3xl p-6 border border-slate-200/40 animate-pulse space-y-4">
+                    <div className="h-4 w-20 bg-slate-200 rounded" />
+                    <div className="h-6 w-3/4 bg-slate-200 rounded" />
+                    <div className="h-12 w-full bg-slate-100 rounded" />
+                  </div>
+                ))}
+              </div>
+            ) : careProviders.length === 0 ? (
+              <div className="col-span-full py-16 text-center bg-gradient-to-br from-pink-50 to-white rounded-3xl border-2 border-dashed border-pink-200 space-y-3 p-8">
+                <Building2 className="h-12 w-12 text-pink-400 mx-auto mb-2" />
+                <h3 className="font-heading text-xl font-extrabold text-slate-800">Directory Coming Soon</h3>
+                <p className="text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+                  We are building a verified list of breast cancer care centers across India. Real hospitals, diagnostics, and support services will appear here soon.
+                </p>
+              </div>
+            ) : (
+              <AnimatePresence mode="popLayout">
+                {filteredServices.length > 0 ? (
+                  filteredServices.map((service) => (
+                    <motion.div
+                      key={service.id}
+                      layout
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.3 }}
+                      className="group bg-slate-50 hover:bg-white rounded-3xl p-6 border border-slate-200/40 shadow-xs hover:shadow-xl hover:border-pink-300 transition-all duration-300 flex flex-col justify-between"
+                    >
+                      <div>
+                        {/* Rating and Badge */}
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="px-3 py-1 rounded-full bg-slate-200/50 text-slate-600 text-[10px] font-bold uppercase tracking-wider group-hover:bg-pink-50 group-hover:text-pink-600 group-hover:border-pink-100 border border-transparent font-heading">
+                            {service.category.toUpperCase()}
+                          </span>
+                          <div className="flex items-center gap-1">
+                            <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
+                            <span className="text-xs font-bold text-slate-800">{service.rating}</span>
+                            <span className="text-[10px] text-slate-400 font-medium">({service.reviews})</span>
+                          </div>
+                        </div>
+
+                        {/* Header Info */}
+                        <h4 className="font-heading text-lg font-extrabold text-slate-800 group-hover:text-pink-600 transition-colors leading-snug line-clamp-2">
+                          {service.name}
+                        </h4>
+                        <p className="text-xs font-semibold text-slate-500 mt-1 flex items-center gap-1.5 font-sans">
+                          <Stethoscope className="h-3.5 w-3.5 text-pink-500 shrink-0" />
+                          {service.specialization}
+                        </p>
+
+                        <div className="space-y-2 mt-4 pt-4 border-t border-slate-200/50 text-xs text-slate-500 font-sans">
+                          <p className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4 text-slate-400 shrink-0" />
+                            <span className="line-clamp-1">{service.city} &bull; {service.address}</span>
+                          </p>
+                          <p className="flex items-center gap-2">
+                            <Phone className="h-4 w-4 text-slate-400 shrink-0" />
+                            <span>{service.phone}</span>
+                          </p>
+                          <p className="flex items-center gap-2">
+                            <Mail className="h-4 w-4 text-slate-400 shrink-0" />
+                            <span className="line-clamp-1">{service.email}</span>
+                          </p>
                         </div>
                       </div>
 
-                      {/* Header Info */}
-                      <h4 className="font-heading text-lg font-extrabold text-slate-800 group-hover:text-pink-600 transition-colors leading-snug line-clamp-2">
-                        {service.name}
-                      </h4>
-                      <p className="text-xs font-semibold text-slate-500 mt-1 flex items-center gap-1.5 font-sans">
-                        <Stethoscope className="h-3.5 w-3.5 text-pink-500 shrink-0" />
-                        {service.specialization}
-                      </p>
-
-                      <div className="space-y-2 mt-4 pt-4 border-t border-slate-200/50 text-xs text-slate-500 font-sans">
-                        <p className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-slate-400 shrink-0" />
-                          <span className="line-clamp-1">{service.city} &bull; {service.address}</span>
-                        </p>
-                        <p className="flex items-center gap-2">
-                          <Phone className="h-4 w-4 text-slate-400 shrink-0" />
-                          <span>{service.phone}</span>
-                        </p>
-                        <p className="flex items-center gap-2">
-                          <Mail className="h-4 w-4 text-slate-400 shrink-0" />
-                          <span className="line-clamp-1">{service.email}</span>
-                        </p>
+                      {/* CTA Button - Only View Details */}
+                      <div className="mt-6 pt-4 border-t border-slate-200/50">
+                        <Button
+                          variant="outline"
+                          onClick={() => setDetailsModal(service)}
+                          className="w-full rounded-xl border-slate-200 text-slate-700 hover:bg-pink-50 hover:border-pink-300 hover:text-pink-600 font-semibold cursor-pointer h-10"
+                        >
+                          <Info className="h-4 w-4 mr-2" />
+                          View Details
+                        </Button>
                       </div>
-                    </div>
-
-                    {/* CTA Button - Only View Details */}
-                    <div className="mt-6 pt-4 border-t border-slate-200/50">
-                      <Button
-                        variant="outline"
-                        onClick={() => setDetailsModal(service)}
-                        className="w-full rounded-xl border-slate-200 text-slate-700 hover:bg-pink-50 hover:border-pink-300 hover:text-pink-600 font-semibold cursor-pointer h-10"
-                      >
-                        <Info className="h-4 w-4 mr-2" />
-                        View Details
-                      </Button>
-                    </div>
-                  </motion.div>
-                ))
-              ) : (
-                <div className="col-span-full py-16 text-center space-y-4">
-                  <AlertCircle className="h-12 w-12 text-slate-350 mx-auto" />
-                  <h3 className="font-heading text-lg font-bold text-slate-700">No Providers Found</h3>
-                  <p className="text-slate-400 text-sm max-w-md mx-auto">
-                    We couldn&apos;t find any clinics or diagnostic centers matching &ldquo;{searchQuery}&rdquo;. Try widening your filters or selecting &apos;All Cities&apos;.
-                  </p>
-                  <Button
-                    onClick={() => {
-                      setSearchQuery("");
-                      setSelectedCategory("all");
-                      setSelectedCity("all");
-                    }}
-                    className="bg-slate-200 hover:bg-slate-350 text-slate-750 font-bold px-5 py-2.5 rounded-xl cursor-pointer"
-                  >
-                    Reset Filters
-                  </Button>
-                </div>
-              )}
-            </AnimatePresence>
+                    </motion.div>
+                  ))
+                ) : (
+                  <div className="col-span-full py-16 text-center space-y-4">
+                    <AlertCircle className="h-12 w-12 text-slate-350 mx-auto" />
+                    <h3 className="font-heading text-lg font-bold text-slate-700">No Providers Found</h3>
+                    <p className="text-slate-400 text-sm max-w-md mx-auto">
+                      We couldn&apos;t find any clinics or diagnostic centers matching &ldquo;{searchQuery}&rdquo;. Try widening your filters or selecting &apos;All Cities&apos;.
+                    </p>
+                    <Button
+                      onClick={() => {
+                        setSearchQuery("");
+                        setSelectedCategory("all");
+                        setSelectedCity("all");
+                      }}
+                      className="bg-slate-200 hover:bg-slate-350 text-slate-750 font-bold px-5 py-2.5 rounded-xl cursor-pointer"
+                    >
+                      Reset Filters
+                    </Button>
+                  </div>
+                )}
+              </AnimatePresence>
+            )}
           </div>
         </div>
       </section>
@@ -1667,6 +1536,9 @@ export default function CareProvidersPage() {
       {/* ----------------------------------------------------------------------
           10. EMERGENCY & HELPLINE SECTION
           ---------------------------------------------------------------------- */}
+            {/* ----------------------------------------------------------------------
+          10. EMERGENCY & HELPLINE SECTION
+          ---------------------------------------------------------------------- */}
       <section id="emergency-helpline-section" className="py-24 bg-gradient-to-r from-red-650 via-rose-600 to-pink-650 text-white relative overflow-hidden">
         {/* Abstract background shapes */}
         <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
@@ -1685,39 +1557,74 @@ export default function CareProvidersPage() {
                 Need Immediate Care Assistance?
               </h2>
               <p className="text-rose-100 text-sm sm:text-base leading-relaxed font-sans">
-                If you are facing immediate postsurgical complications, severe oncology side-effects, or require diagnostic scheduling help, connect with our support desk instantly.
+                If you are facing immediate postsurgical complications, severe oncology side-effects, or require diagnostic scheduling help, connect with the support desk instantly.
               </p>
 
-              {/* Direct Info Rows */}
+              {/* Primary Helplines */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
-                <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <div className="p-3 rounded-xl bg-white/10 text-white">
+                {/* Apollo Cancer Care */}
+                <a
+                  href="tel:18002031066"
+                  className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors cursor-pointer"
+                >
+                  <div className="p-3 rounded-xl bg-white/10 text-white shrink-0">
                     <Phone className="h-6 w-6" />
                   </div>
-                  <div>
-                    <p className="text-[10px] text-rose-250 uppercase tracking-widest font-bold font-heading">Call Free Helpline</p>
-                    <p className="text-lg font-black text-white tracking-tight font-heading">+91 1800-419-5433</p>
+                  <div className="min-w-0">
+                    <p className="text-[10px] text-rose-200 uppercase tracking-widest font-bold font-heading">Cancer Care Helpline</p>
+                    <p className="text-lg font-black text-white tracking-tight font-heading">1800-203-1066</p>
+                    <p className="text-[10px] text-rose-200 font-medium">Apollo Cancer Centres • 24×7</p>
                   </div>
-                </div>
+                </a>
 
-                <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4">
-                  <div className="p-3 rounded-xl bg-white/10 text-white">
-                    <Mail className="h-6 w-6" />
+                {/* Pink Breast Cancer Helpline */}
+                <a
+                  href="tel:9599687085"
+                  className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors cursor-pointer"
+                >
+                  <div className="p-3 rounded-xl bg-white/10 text-white shrink-0">
+                    <HeartPulse className="h-6 w-6" />
                   </div>
-                  <div>
-                    <p className="text-[10px] text-rose-250 uppercase tracking-widest font-bold font-heading">Support Email</p>
-                    <p className="text-base font-bold text-white font-heading">caredesk@breastcancer.org</p>
+                  <div className="min-w-0">
+                    <p className="text-[10px] text-rose-200 uppercase tracking-widest font-bold font-heading">Breast Cancer Helpline</p>
+                    <p className="text-lg font-black text-white tracking-tight font-heading">95996 87085</p>
+                    <p className="text-[10px] text-rose-200 font-medium">Cancer Mukt Bharat • 24×7</p>
                   </div>
+                </a>
+              </div>
+
+              {/* Additional Support Helplines */}
+              <div className="pt-4 border-t border-white/10">
+                <p className="text-[11px] text-rose-200 uppercase tracking-widest font-bold font-heading mb-3">
+                  Additional Support
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="tel:9355520202"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-xs text-white hover:bg-white/10 transition-colors"
+                  >
+                    <Phone className="h-3.5 w-3.5 shrink-0" />
+                    <span className="font-semibold">93555 20202</span>
+                    <span className="text-[10px] text-rose-200">• National Cancer</span>
+                  </a>
+                  <a
+                    href="tel:14416"
+                    className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-xs text-white hover:bg-white/10 transition-colors"
+                  >
+                    <Brain className="h-3.5 w-3.5 shrink-0" />
+                    <span className="font-semibold">14416</span>
+                    <span className="text-[10px] text-rose-200">• Tele MANAS (Mental Health)</span>
+                  </a>
                 </div>
               </div>
             </div>
 
             {/* Right Buttons Container */}
             <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-4">
-              <a href="tel:+9118004195433" className="w-full">
+              <a href="tel:18002031066" className="w-full">
                 <Button className="w-full bg-white hover:bg-slate-100 text-red-600 font-bold py-6 px-6 rounded-2xl shadow-xl transition-all cursor-pointer text-base">
                   <Phone className="h-5 w-5 mr-2 shrink-0" />
-                  Call Support Now
+                  Call Helpline Now
                 </Button>
               </a>
 
@@ -1727,7 +1634,8 @@ export default function CareProvidersPage() {
                   setSelectedCategory("hospitals");
                   scrollToId("care-services-directory");
                 }}
-                className="w-full bg-white hover:bg-slate-100 text-red-600 font-bold py-6 px-6 rounded-2xl shadow-xl transition-all cursor-pointer text-base">
+                className="w-full bg-white hover:bg-slate-100 text-red-600 font-bold py-6 px-6 rounded-2xl shadow-xl transition-all cursor-pointer text-base"
+              >
                 Find Nearest Hospital
               </Button>
 

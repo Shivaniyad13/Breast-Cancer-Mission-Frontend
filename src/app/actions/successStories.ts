@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { Role, VerificationStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { autoCreateVideoFromSuccessStory } from "./videoStories";
 
 // Helper for admin auth
 async function requireAdmin() {
@@ -135,6 +136,21 @@ export async function getApprovedSuccessStories() {
   }
 }
 
+// 2b. Fetch public success stories for Partner Organizations page
+export async function getPublicSuccessStories() {
+  try {
+    await ensureSeedStories();
+    const stories = await db.successStory.findMany({
+      where: { status: VerificationStatus.VERIFIED },
+      orderBy: { createdAt: "desc" }
+    });
+    return { success: true, stories };
+  } catch (error: any) {
+    console.error("Error fetching public success stories:", error);
+    return { success: false, error: error.message || "Failed to fetch stories", stories: [] };
+  }
+}
+
 // 3. Fetch single story by ID (Public detail page)
 export async function getSuccessStoryById(id: string) {
   try {
@@ -174,7 +190,25 @@ export async function updateSuccessStoryStatus(id: string, status: VerificationS
       where: { id },
       data: { status }
     });
+
+    if (status === VerificationStatus.VERIFIED && updated.videoUrl) {
+      await autoCreateVideoFromSuccessStory({
+        id: updated.id,
+        storyTitle: updated.storyTitle,
+        videoUrl: updated.videoUrl,
+        imageUrls: updated.imageUrls,
+        completeStory: updated.completeStory,
+      });
+    } else if (status === VerificationStatus.REJECTED) {
+      await db.videoStory.updateMany({
+        where: { successStoryId: id },
+        data: { isActive: false },
+      });
+    }
+
     revalidatePath("/");
+    revalidatePath("/care/partner-organizations");
+    revalidatePath("/admin/video-stories");
     return { success: true, story: updated };
   } catch (error: any) {
     console.error("Error updating story status:", error);

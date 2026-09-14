@@ -80,7 +80,13 @@ export async function submitPartnershipRequest(data: {
       }
     });
 
-    revalidatePath("/campaigns/awareness");
+    try {
+      revalidatePath("/campaigns/awareness");
+      revalidatePath("/admin/partnerships");
+      revalidatePath("/care/partner-organizations");
+    } catch (e) {
+      // Ignore revalidatePath errors outside Next.js request context
+    }
     return { success: true, requestId: request.id };
   } catch (error: any) {
     console.error("Error submitting partnership request:", error);

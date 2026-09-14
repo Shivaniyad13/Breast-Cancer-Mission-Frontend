@@ -459,6 +459,7 @@ model SuccessStory {
   status            VerificationStatus @default(PENDING)
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
+  videoStories      VideoStory[]
 }
 
 model HomePageUpdate {
@@ -936,6 +937,67 @@ model HealthcarePortalCta {
   createdAt           DateTime      @default(now())
   updatedAt           DateTime      @updatedAt
 }
+
+model CareProvider {
+  id             String   @id @default(uuid())
+  name           String
+  category       String
+  specialization String
+  city           String
+  state          String?
+  phone          String
+  email          String
+  address        String
+  website        String?
+  hours          String?
+  about          String
+  facilities     String[]
+  rating         Float    @default(0)
+  reviews        Int      @default(0)
+  isVerified     Boolean  @default(false)
+  isPublished    Boolean  @default(false)
+  sortOrder      Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([isPublished, category])
+  @@index([isPublished, city])
+}
+
+model GalleryItem {
+  id         String    @id @default(uuid())
+  imageUrl   String
+  caption    String
+  category   String    // "Walks", "Camps", "Medical", "Outreach", "Research", "Workshops"
+  eventDate  DateTime?
+  orderIndex Int       @default(0)
+  isActive   Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([isActive, orderIndex])
+}
+
+model VideoStory {
+  id             String        @id @default(uuid())
+  title          String
+  category       String        // "Community Programs", "Partner Interviews", "CSR Activities", "Survivor Stories"
+  videoUrl       String
+  thumbnailUrl   String?
+  description    String?
+  sourceType     String        @default("ADMIN")   // "ADMIN" | "SUCCESS_STORY"
+  successStoryId String?
+  orderIndex     Int           @default(0)
+  isActive       Boolean       @default(true)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  successStory   SuccessStory? @relation(fields: [successStoryId], references: [id], onDelete: SetNull)
+
+  @@index([isActive, orderIndex])
+  @@index([successStoryId])
+}
+
+
 
 
 

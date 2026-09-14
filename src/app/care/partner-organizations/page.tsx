@@ -44,10 +44,17 @@ import {
   Dna,
   Compass,
   User,
-  MessageSquare
+  MessageSquare,
+  Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getActiveGalleryItems } from "@/app/actions/gallery";
+import { getActiveVideoStories } from "@/app/actions/videoStories";
+import { getPartnerDirectory } from "@/app/actions/partnersDirectory";
+import { getImpactStats } from "@/app/actions/impactStats";
+import { getPublicSuccessStories } from "@/app/actions/successStories";
+import { submitPartnershipRequest } from "@/app/actions/partnerships";
 
 // ----------------------------------------------------------------------
 // Interfaces
@@ -79,17 +86,19 @@ interface SuccessStory {
 
 interface GalleryItem {
   id: string;
-  src: string;
+  imageUrl: string;
   caption: string;
   category: string;
+  eventDate?: Date | string | null;
 }
 
 interface VideoStory {
   id: string;
   title: string;
   category: string;
-  src: string;
-  thumbnail: string;
+  videoUrl: string;
+  thumbnailUrl?: string | null;
+  description?: string | null;
 }
 
 interface Testimonial {
@@ -110,170 +119,7 @@ interface FAQItem {
 // ----------------------------------------------------------------------
 // Mock Data
 // ----------------------------------------------------------------------
-const partnersData: PartnerOrg[] = [
-  // Hospitals
-  {
-    id: "part-1",
-    name: "Apollo Proton & Oncology Research Hospital",
-    category: "hospital",
-    subcategory: "Cancer Hospitals",
-    desc: "A globally accredited tertiary oncology facility partnering on state-of-the-art targeted radiation and proton treatments.",
-    city: "Chennai",
-    website: "https://apollo-proton.com",
-    coverImage: "/images/13.png",
-    logoIcon: Stethoscope
-  },
-  {
-    id: "part-2",
-    name: "Apex Comprehensive Diagnostics & Breast Clinic",
-    category: "hospital",
-    subcategory: "Diagnostic Centers",
-    desc: "Provides complimentary automated breast ultrasound screening kits and digital tomosynthesis scans in collaborative outreach drives.",
-    city: "New Delhi",
-    website: "https://apex-breastclinic.org",
-    coverImage: "/images/3d_tomosynthesis.png",
-    logoIcon: Activity
-  },
-  {
-    id: "part-3",
-    name: "Tata Cancer Care Affiliate Center",
-    category: "hospital",
-    subcategory: "Cancer Hospitals",
-    desc: "Subsidizes neoadjuvant chemotherapy cycles and complex double mastectomies for GRS program referrals.",
-    city: "Mumbai",
-    website: "https://tata-affiliate.in",
-    coverImage: "/images/14.png",
-    logoIcon: Building2
-  },
 
-  // NGOs
-  {
-    id: "part-4",
-    name: "Sangini Breast Cancer Support Group",
-    category: "ngo",
-    subcategory: "Cancer Support Groups",
-    desc: "Survivor-led NGO providing postoperative emotional counseling, clinical prosthetics distribution, and patient lodging.",
-    city: "Noida",
-    website: "https://sangini-breastsupport.org",
-    coverImage: "/images/support_group.png",
-    logoIcon: Heart
-  },
-  {
-    id: "part-5",
-    name: "Stree Shakti Women Empowerment League",
-    category: "ngo",
-    subcategory: "Women Empowerment NGOs",
-    desc: "Conducts monthly grassroots awareness programs and breast self-examination workshops in rural communities.",
-    city: "Gurugram",
-    website: "https://stree-shakti.org",
-    coverImage: "/images/volunteers.png",
-    logoIcon: Users2
-  },
-
-  // Research
-  {
-    id: "part-6",
-    name: "National Institute of Cancer Genomics",
-    category: "research",
-    subcategory: "Cancer Research Institutes",
-    desc: "Collaborates on sequencing hereditary BRCA1 & BRCA2 mutations across low-income patient cohorts.",
-    city: "Bangalore",
-    website: "https://nicg-research.org",
-    coverImage: "/images/cancer_research.png",
-    logoIcon: Microscope
-  },
-  {
-    id: "part-7",
-    name: "Apex Medical College Clinical Trials Wing",
-    category: "research",
-    subcategory: "Clinical Trial Centers",
-    desc: "Enrolls eligible metastatic breast cancer patients into immunotherapy checkpoint clinical trials.",
-    city: "Kolkata",
-    website: "https://apexmed-clinicaltrials.in",
-    coverImage: "/images/15.png",
-    logoIcon: GraduationCap
-  },
-
-  // Corporate
-  {
-    id: "part-8",
-    name: "Novartis Biotech CSR Division",
-    category: "corporate",
-    subcategory: "Pharmaceutical Companies",
-    desc: "Sponsors target hormone therapeutics and funds local patient navigation programs through annual CSR grants.",
-    city: "Hyderabad",
-    website: "https://novartis-csr.com",
-    coverImage: "/images/12.png",
-    logoIcon: Award
-  },
-  {
-    id: "part-9",
-    name: "Microsoft Health Technology Partners",
-    category: "corporate",
-    subcategory: "Technology Partners",
-    desc: "Provides cloud database clusters for mobile screening diagnostics and funds AI diagnostic staging projects.",
-    city: "Bangalore",
-    website: "https://microsoft.com/health-csr",
-    coverImage: "/images/ai_screening.png",
-    logoIcon: Zap
-  },
-
-  // Government
-  {
-    id: "part-10",
-    name: "National Public Health Staging Council",
-    category: "government",
-    subcategory: "Public Health Programs",
-    desc: "Directs state-level integration of cancer registries and supports GRS rural mobile health testing vehicles.",
-    city: "New Delhi",
-    website: "https://nhp-staging.gov.in",
-    coverImage: "/images/community_walk.png",
-    logoIcon: Shield
-  }
-];
-
-const successStoriesData: SuccessStory[] = [
-  {
-    id: "ss-1",
-    orgName: "Novartis Biotech",
-    orgPhoto: "/images/Novartis.jpg",
-    eventImage: "/images/volunteers.png",
-    beforeAfter: "Initially, village women in Alwar had no screening access. Through Novartis CSR funding and GRS mobile vans, we established local mammography screening stations, detecting 18 silent tumors in early stage-I.",
-    screenedCount: "3,200+ Women",
-    patientsHelped: "18 Patients Treated",
-    eventsCount: "12 Mobile Camps",
-    quote: "Sponsoring GRS mobile diagnostics has been our most high-impact CSR decision. We witnessed breast cancer awareness translate to survival in real-time.",
-    directorName: "Ms. Ananya Sen, CSR Director"
-  },
-  {
-    id: "ss-2",
-    orgName: "Sangini NGO & GRS Support Alliance",
-    orgPhoto: "/images/12.png",
-    eventImage: "/images/survivor_strength.png",
-    beforeAfter: "Post-mastectomy patients in government hospitals lacked rehabilitation. We joined forces to distribute custom compression sleeves and run support groups, mitigating chronic lymphedema cases.",
-    screenedCount: "1,500+ Counseling Sessions",
-    patientsHelped: "450+ Sleeve Kits Distributed",
-    eventsCount: "24 Recovery Circles",
-    quote: "Our alliance with GRS Breast Cancer Mission bridged the gap between post-surgical discharge and true survivorship rehabilitation.",
-    directorName: "Dr. Meera Krishnan, Founder"
-  }
-];
-
-const galleryItemsData: GalleryItem[] = [
-  { id: "gal-1", src: "/images/community_walk.png", caption: "Pink Ribbon Awareness Walk 2025", category: "Walks" },
-  { id: "gal-2", src: "/images/volunteers.png", caption: "Mobile Screening Camp in Rajasthan", category: "Camps" },
-  { id: "gal-3", src: "/images/14.png", caption: "Oncology Specialists Consult at Clinic", category: "Medical" },
-  { id: "gal-4", src: "/images/support_group.png", caption: "Survivor Recovery Support Session", category: "Outreach" },
-  { id: "gal-5", src: "/images/cancer_research.png", caption: "Oncological Staging Research Lab", category: "Research" },
-  { id: "gal-6", src: "/images/preventive_wellness.png", caption: "Patient Rehabilitation Workshop", category: "Workshops" }
-];
-
-const videoStoriesData: VideoStory[] = [
-  { id: "vid-1", title: "GRS Rural Mobile Screening Documentary", category: "Community Programs", src: "/videos/videoplayback.mp4", thumbnail: "/images/volunteers.png" },
-  { id: "vid-2", title: "Dr. Aurag on Staging & Collaboration Impact", category: "Partner Interviews", src: "/videos/euhbbZb3sNXxgOi6g2MF+42G6uUncFHU.mp4", thumbnail: "/images/13.png" },
-  { id: "vid-3", title: "Novartis CSR Impact & Corporate Networking", category: "CSR Activities", src: "/videos/videoplayback.mp4", thumbnail: "/images/12.png" },
-  { id: "vid-4", title: "Sangini NGO Support Circles & Healing Journeys", category: "Survivor Stories", src: "/videos/videoplayback.mp4", thumbnail: "/images/support_group.png" }
-];
 
 const testimonialsData: Testimonial[] = [
   {
@@ -332,6 +178,12 @@ const faqsData: FAQItem[] = [
   }
 ];
 
+function formatMetric(num: number): string {
+  if (num === undefined || num === null || num === 0) return "0";
+  if (num >= 1000) return `${(num / 1000).toFixed(1).replace(/\.0$/, "")}k+`;
+  return `${num}+`;
+}
+
 export default function PartnerOrganizationsPage() {
   // ----------------------------------------------------------------------
   // State variables
@@ -342,6 +194,44 @@ export default function PartnerOrganizationsPage() {
 
   // Success story slider index
   const [activeStoryIdx, setActiveStoryIdx] = useState(0);
+
+  // DB Fetched Data & Loading States
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
+  const [videoStories, setVideoStories] = useState<VideoStory[]>([]);
+  const [galleryLoading, setGalleryLoading] = useState(true);
+  const [videoLoading, setVideoLoading] = useState(true);
+
+  const [directory, setDirectory] = useState<any[]>([]);
+  const [stories, setStories] = useState<any[]>([]);
+  const [stats, setStats] = useState<any>({
+    totalPartners: 0,
+    doctors: 0,
+    hospitals: 0,
+    campaigns: 0,
+    stories: 0,
+    webinars: 0,
+    ngo: 0,
+  });
+
+  useEffect(() => {
+    getActiveGalleryItems().then((res) => {
+      if (res.success && res.items) setGalleryItems(res.items as any);
+      setGalleryLoading(false);
+    });
+    getActiveVideoStories().then((res) => {
+      if (res.success && res.stories) setVideoStories(res.stories as any);
+      setVideoLoading(false);
+    });
+    getPartnerDirectory().then((res) => {
+      if (res.success) setDirectory(res.all || []);
+    });
+    getImpactStats().then((res) => {
+      if (res.success && res.stats) setStats(res.stats);
+    });
+    getPublicSuccessStories().then((res) => {
+      if (res.success) setStories(res.stories || []);
+    });
+  }, []);
 
   // Modals state
   const [detailsModal, setDetailsModal] = useState<PartnerOrg | null>(null);
@@ -371,27 +261,30 @@ export default function PartnerOrganizationsPage() {
   // Autoplay intervals
   // ----------------------------------------------------------------------
   useEffect(() => {
-    const storyInterval = setInterval(() => {
-      setActiveStoryIdx(prev => (prev + 1) % successStoriesData.length);
-    }, 9000);
+    let storyInterval: any;
+    if (stories.length > 0) {
+      storyInterval = setInterval(() => {
+        setActiveStoryIdx((prev) => (prev + 1) % stories.length);
+      }, 9000);
+    }
 
     const testimonialInterval = setInterval(() => {
-      setActiveTestimonialIdx(prev => (prev + 1) % testimonialsData.length);
+      setActiveTestimonialIdx((prev) => (prev + 1) % testimonialsData.length);
     }, 7000);
 
     return () => {
-      clearInterval(storyInterval);
+      if (storyInterval) clearInterval(storyInterval);
       clearInterval(testimonialInterval);
     };
-  }, []);
+  }, [stories.length]);
 
   // Filter partners
-  const filteredPartners = partnersData.filter(partner => {
+  const filteredPartners = directory.filter((partner) => {
     const matchesSearch =
-      partner.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      partner.subcategory.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      partner.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      partner.desc.toLowerCase().includes(searchQuery.toLowerCase());
+      (partner.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (partner.subcategory || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (partner.city || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (partner.desc || "").toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesCategory =
       selectedCategory === "all" || partner.category === selectedCategory;
@@ -416,17 +309,62 @@ export default function PartnerOrganizationsPage() {
     }
   };
 
-  const handleAppSubmit = (e: React.FormEvent) => {
+  const [uploadedDocUrl, setUploadedDocUrl] = useState("");
+  const [uploadingDoc, setUploadingDoc] = useState(false);
+
+  const handleDocUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingDoc(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      if (res.ok && data.url) setUploadedDocUrl(data.url);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setUploadingDoc(false);
+    }
+  };
+
+  const handleAppSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!orgName || !orgContact || !orgEmail || !orgPhone) {
-      alert("Please fill in organization name, contact representative, email, and phone.");
+      alert("Please fill organization name, contact representative, email, and phone.");
       return;
     }
     setFormLoading(true);
-    setTimeout(() => {
+    try {
+      const res = await submitPartnershipRequest({
+        organizationName: orgName,
+        organizationType: orgType,
+        contactPersonName: orgContact,
+        designation: orgDesignation,
+        email: orgEmail,
+        phone: orgPhone,
+        website: orgWeb,
+        city: orgCity,
+        state: orgState,
+        country: "India",
+        category: orgCollabAreas.join(", ") || "General",
+        description: orgMessage,
+        reason: orgCollabAreas.join(", "),
+        termsAccepted: true,
+        logoUrl: "",
+        documentUrl: uploadedDocUrl,
+      });
+      if (res.success) {
+        setFormSuccess(true);
+      } else {
+        alert(res.error || "Submission failed. Please try again.");
+      }
+    } catch (err: any) {
+      alert(err.message || "Unexpected error occurred.");
+    } finally {
       setFormLoading(false);
-      setFormSuccess(true);
-    }, 1500);
+    }
   };
 
   const resetAppForm = () => {
@@ -443,6 +381,8 @@ export default function PartnerOrganizationsPage() {
     setOrgCollabAreas([]);
     setOrgMessage("");
     setFormSuccess(false);
+    setUploadedDocUrl("");
+    setUploadingDoc(false);
   };
 
   const scrollToId = (id: string) => {
@@ -538,10 +478,10 @@ export default function PartnerOrganizationsPage() {
             {/* Right Side Stats Panel */}
             <div className="lg:col-span-4 grid grid-cols-2 gap-4">
               {[
-                { label: "NGOs & Partners", value: "120+", delay: 0.2 },
-                { label: "Hospitals Connected", value: "50+", delay: 0.3 },
-                { label: "Awareness Drives", value: "300+", delay: 0.4 },
-                { label: "Women Screened", value: "25k+", delay: 0.5 }
+                { label: "NGOs & Partners", value: formatMetric(stats.ngo), delay: 0.2 },
+                { label: "Hospitals Connected", value: formatMetric(stats.hospitals), delay: 0.3 },
+                { label: "Awareness Drives", value: formatMetric(stats.campaigns), delay: 0.4 },
+                { label: "Verified Doctors", value: formatMetric(stats.doctors), delay: 0.5 }
               ].map((stat, idx) => (
                 <motion.div
                   key={idx}
@@ -701,7 +641,19 @@ export default function PartnerOrganizationsPage() {
           {/* Partner Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
-              {filteredPartners.length > 0 ? (
+              {directory.length === 0 ? (
+                <div className="bg-white rounded-3xl border-2 border-dashed border-pink-200 p-12 text-center max-w-xl mx-auto space-y-4 shadow-sm col-span-full">
+                  <div className="h-16 w-16 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto text-pink-500">
+                    <Building2 className="h-12 w-12 text-pink-300" />
+                  </div>
+                  <h3 className="font-heading text-xl font-extrabold text-slate-800">
+                    Partner Directory Coming Soon
+                  </h3>
+                  <p className="text-slate-500 text-sm leading-relaxed font-sans max-w-md mx-auto">
+                    Our partner network is growing. Verified hospitals, NGOs, research institutes, and CSR partners will appear here.
+                  </p>
+                </div>
+              ) : filteredPartners.length > 0 ? (
                 filteredPartners.map((partner) => (
                   <motion.div
                     key={partner.id}
@@ -716,20 +668,30 @@ export default function PartnerOrganizationsPage() {
                       {/* Logo and Badge */}
                       <div className="flex items-center justify-between mb-4">
                         <div className="p-2.5 rounded-xl bg-pink-50 border border-pink-100 text-pink-600 shrink-0">
-                          {React.createElement(partner.logoIcon, { className: "h-5.5 w-5.5" })}
+                          {partner.logoIcon ? (
+                            React.createElement(partner.logoIcon, { className: "h-5.5 w-5.5" })
+                          ) : (
+                            <Building2 className="h-5.5 w-5.5" />
+                          )}
                         </div>
                         <span className="px-2.5 py-0.5 rounded bg-slate-100 text-slate-500 text-[9px] font-bold uppercase tracking-wider font-heading">
-                          {partner.subcategory}
+                          {partner.subcategory || partner.category}
                         </span>
                       </div>
 
                       {/* Cover Photo */}
                       <div className="relative h-40 w-full rounded-2xl overflow-hidden mb-4 bg-slate-100 border border-slate-200/50">
-                        <img
-                          src={partner.coverImage}
-                          alt={partner.name}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
+                        {partner.coverImage ? (
+                          <img
+                            src={partner.coverImage}
+                            alt={partner.name}
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center text-slate-400">
+                            <Building2 className="h-12 w-12 text-slate-300" />
+                          </div>
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                       </div>
 
@@ -747,12 +709,16 @@ export default function PartnerOrganizationsPage() {
                       <div className="flex justify-between items-center text-xs text-slate-400 font-sans">
                         <span className="flex items-center gap-1">
                           <MapPin className="h-3.5 w-3.5 text-slate-400" />
-                          {partner.city}
+                          {partner.city || "India"}
                         </span>
-                        <a href={partner.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:text-blue-700 font-bold">
-                          <Globe className="h-3.5 w-3.5" />
-                          Website
-                        </a>
+                        {partner.website ? (
+                          <a href={partner.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:text-blue-700 font-bold">
+                            <Globe className="h-3.5 w-3.5" />
+                            Website
+                          </a>
+                        ) : (
+                          <span className="text-[10px] text-slate-300 font-semibold">Verified Network</span>
+                        )}
                       </div>
                       <Button
                         variant="outline"
@@ -790,99 +756,89 @@ export default function PartnerOrganizationsPage() {
       {/* ----------------------------------------------------------------------
           4. SUCCESS STORIES (Slider)
           ---------------------------------------------------------------------- */}
-      <section className="py-24 bg-gradient-to-b from-slate-900 to-purple-950 text-white relative">
-        <div className="container mx-auto px-4 max-w-5xl relative z-10">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider border border-pink-500/20">
-              <Award className="h-4 w-4 animate-pulse" />
-              Impact Milestones
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-              Partnership Success Stories
-            </h2>
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-sans">
-              Real outcomes from neoadjuvant chemotherapy sponsorships and diagnostic outreach events.
-            </p>
-          </div>
+      {stories.length > 0 && (
+        <section className="py-24 bg-gradient-to-b from-slate-900 to-purple-950 text-white relative">
+          <div className="container mx-auto px-4 max-w-5xl relative z-10">
+            <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider border border-pink-500/20">
+                <Award className="h-4 w-4 animate-pulse" />
+                Impact Milestones
+              </span>
+              <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+                Partnership Success Stories
+              </h2>
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-sans">
+                Real outcomes from neoadjuvant chemotherapy sponsorships and diagnostic outreach events.
+              </p>
+            </div>
 
-          {/* Autoplay Slider */}
-          <div className="relative bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 md:p-12 backdrop-blur-lg shadow-2xl overflow-hidden min-h-[480px] flex items-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeStoryIdx}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.5 }}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full"
-              >
-                {/* Event Image */}
-                <div className="lg:col-span-5 flex justify-center">
-                  <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden border-3 border-pink-500/30 shadow-2xl group">
-                    <img
-                      src={successStoriesData[activeStoryIdx].eventImage}
-                      alt={successStoriesData[activeStoryIdx].orgName}
-                      className="w-full h-full object-cover transition-transform duration-705 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                    <span className="absolute bottom-4 left-4 bg-pink-600 text-white font-bold text-xs uppercase px-3 py-1 rounded-md tracking-wider shadow-md font-heading">
-                      Featured Impact
-                    </span>
-                  </div>
-                </div>
-
-                {/* Info & Quote */}
-                <div className="lg:col-span-7 space-y-6 text-left">
-                  <div className="space-y-1">
-                    <p className="text-xs font-bold text-pink-400 uppercase tracking-widest font-heading">Alliance Success</p>
-                    <h3 className="font-heading text-2xl font-extrabold text-white">
-                      {successStoriesData[activeStoryIdx].orgName}
-                    </h3>
+            {/* Autoplay Slider */}
+            <div className="relative bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 md:p-12 backdrop-blur-lg shadow-2xl overflow-hidden min-h-[440px] flex items-center">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeStoryIdx}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -30 }}
+                  transition={{ duration: 0.5 }}
+                  className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full"
+                >
+                  {/* Event Image */}
+                  <div className="lg:col-span-5 flex justify-center">
+                    <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden border-3 border-pink-500/30 shadow-2xl group">
+                      <img
+                        src={stories[activeStoryIdx % stories.length]?.imageUrls?.[0] || "/images/survivor_strength.png"}
+                        alt={stories[activeStoryIdx % stories.length]?.fullName || "Success Story"}
+                        className="w-full h-full object-cover transition-transform duration-705 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                      <span className="absolute bottom-4 left-4 bg-pink-600 text-white font-bold text-xs uppercase px-3 py-1 rounded-md tracking-wider shadow-md font-heading">
+                        Featured Story
+                      </span>
+                    </div>
                   </div>
 
-                  <p className="text-slate-300 text-sm leading-relaxed font-sans">
-                    {successStoriesData[activeStoryIdx].beforeAfter}
-                  </p>
+                  {/* Info & Quote */}
+                  <div className="lg:col-span-7 space-y-6 text-left">
+                    <div className="space-y-1">
+                      <p className="text-xs font-bold text-pink-400 uppercase tracking-widest font-heading">Alliance Success</p>
+                      <h3 className="font-heading text-2xl font-extrabold text-white">
+                        {stories[activeStoryIdx % stories.length]?.storyTitle || stories[activeStoryIdx % stories.length]?.fullName}
+                      </h3>
+                    </div>
 
-                  {/* Impact Badges */}
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-lg">
-                      {successStoriesData[activeStoryIdx].screenedCount}
-                    </span>
-                    <span className="text-[10px] font-bold text-blue-450 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-lg">
-                      {successStoriesData[activeStoryIdx].patientsHelped}
-                    </span>
-                    <span className="text-[10px] font-bold text-purple-405 bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-lg">
-                      {successStoriesData[activeStoryIdx].eventsCount}
-                    </span>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-pink-500/10 border-l-4 border-pink-500 italic">
-                    <p className="text-pink-300 font-serif text-sm leading-relaxed">
-                      &ldquo;{successStoriesData[activeStoryIdx].quote}&rdquo;
+                    <p className="text-slate-300 text-sm leading-relaxed font-sans line-clamp-4">
+                      {stories[activeStoryIdx % stories.length]?.completeStory}
                     </p>
-                    <p className="text-slate-400 text-xs font-bold font-heading mt-2 uppercase tracking-wide">
-                      — {successStoriesData[activeStoryIdx].directorName}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
 
-            {/* Selector dots */}
-            <div className="absolute bottom-6 right-6 md:right-12 flex items-center gap-2 z-20">
-              {successStoriesData.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveStoryIdx(idx)}
-                  className={`h-2 rounded-full transition-all duration-300 ${activeStoryIdx === idx ? "w-6 bg-pink-500" : "w-2 bg-white/30 hover:bg-white/50"
+                    <div className="p-4 rounded-xl bg-pink-500/10 border-l-4 border-pink-500 italic">
+                      <p className="text-pink-300 font-serif text-sm leading-relaxed line-clamp-3">
+                        &ldquo;{stories[activeStoryIdx % stories.length]?.completeStory?.slice(0, 180)}...&rdquo;
+                      </p>
+                      <p className="text-slate-400 text-xs font-bold font-heading mt-2 uppercase tracking-wide">
+                        — {stories[activeStoryIdx % stories.length]?.fullName} ({stories[activeStoryIdx % stories.length]?.roleType || "Survivor"})
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Selector dots */}
+              <div className="absolute bottom-6 right-6 md:right-12 flex items-center gap-2 z-20">
+                {stories.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveStoryIdx(idx)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      activeStoryIdx % stories.length === idx ? "w-6 bg-pink-500" : "w-2 bg-white/30 hover:bg-white/50"
                     }`}
-                />
-              ))}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ----------------------------------------------------------------------
           5. IMPACT DASHBOARD
@@ -898,23 +854,22 @@ export default function PartnerOrganizationsPage() {
               GRS Alliance Impact Dashboard
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
-              Consolidated statistics validating early diagnostics screenings, medical camps, and patient treatment clearings.
+              Consolidated statistics validating early diagnostics screenings, medical drives, and patient treatment clearings.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { value: "120+", label: "Partners", sub: "NGOs/Corporates" },
-              { value: "500+", label: "Doctors", sub: "Verified Specialists" },
-              { value: "50+", label: "Hospitals", sub: "Treatment Units" },
-              { value: "300+", label: "Programs", sub: "Awareness events" },
-              { value: "25k+", label: "Screened", sub: "Mammographies/US" },
-              { value: "5,000+", label: "Supported", sub: "Patient Journeys" },
-              { value: "100+", label: "Camps", sub: "Rural mobile units" }
+              { value: formatMetric(stats.totalPartners), label: "Partners", sub: "Verified Alliances" },
+              { value: formatMetric(stats.doctors), label: "Doctors", sub: "Verified Specialists" },
+              { value: formatMetric(stats.hospitals), label: "Hospitals", sub: "Treatment Units" },
+              { value: formatMetric(stats.campaigns), label: "Programs", sub: "Awareness Events" },
+              { value: formatMetric(stats.webinars), label: "Webinars", sub: "Published Seminars" },
+              { value: formatMetric(stats.stories), label: "Stories", sub: "Patient Journeys" }
             ].map((dash, idx) => (
               <div
                 key={idx}
-                className="bg-slate-50 border border-slate-205/50 rounded-2xl p-5 flex flex-col justify-between hover:bg-white hover:shadow-md hover:border-pink-300 transition-all duration-300"
+                className="bg-slate-50 border border-slate-200/50 rounded-2xl p-5 flex flex-col justify-between hover:bg-white hover:shadow-md hover:border-pink-300 transition-all duration-300"
               >
                 <div className="h-1 w-6 bg-pink-500 rounded-full" />
                 <div className="my-5">
@@ -998,29 +953,49 @@ export default function PartnerOrganizationsPage() {
             </p>
           </div>
 
-          {/* Masonry-like Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {galleryItemsData.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => setLightboxImage(item)}
-                className="relative rounded-3xl overflow-hidden border border-slate-200/50 bg-slate-100 aspect-4/3 shadow-2xs hover:shadow-md cursor-pointer group transition-shadow"
-              >
-                <img
-                  src={item.src}
-                  alt={item.caption}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                {/* Overlay details */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-white">
-                  <span className="px-2 py-0.5 rounded bg-pink-600 text-[8px] font-bold uppercase tracking-wider self-start mb-2 font-heading">
-                    {item.category}
-                  </span>
-                  <p className="text-xs font-bold font-sans line-clamp-2">{item.caption}</p>
-                </div>
+          {/* Gallery Content */}
+          {galleryLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="rounded-3xl border border-slate-100 bg-slate-100 aspect-4/3 animate-pulse" />
+              ))}
+            </div>
+          ) : galleryItems.length === 0 ? (
+            <div className="bg-white rounded-3xl border-2 border-dashed border-pink-200 p-12 text-center max-w-xl mx-auto space-y-4 shadow-sm">
+              <div className="h-16 w-16 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto text-pink-500">
+                <ImageIcon className="h-12 w-12 text-pink-300" />
               </div>
-            ))}
-          </div>
+              <h3 className="font-heading text-xl font-extrabold text-slate-800">
+                Event Gallery Coming Soon
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed font-sans max-w-md mx-auto">
+                We&apos;re capturing moments from upcoming awareness drives, screening camps, and research events. Check back soon.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {galleryItems.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => setLightboxImage(item)}
+                  className="relative rounded-3xl overflow-hidden border border-slate-200/50 bg-slate-100 aspect-4/3 shadow-2xs hover:shadow-md cursor-pointer group transition-shadow"
+                >
+                  <img
+                    src={item.imageUrl}
+                    alt={item.caption}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  {/* Overlay details */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-white">
+                    <span className="px-2 py-0.5 rounded bg-pink-600 text-[8px] font-bold uppercase tracking-wider self-start mb-2 font-heading">
+                      {item.category}
+                    </span>
+                    <p className="text-xs font-bold font-sans line-clamp-2">{item.caption}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -1042,38 +1017,70 @@ export default function PartnerOrganizationsPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {videoStoriesData.map((vid) => (
-              <div
-                key={vid.id}
-                className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-shadow group"
-              >
-                {/* Thumbnail with overlay play */}
-                <div className="relative h-44 bg-slate-950">
-                  <img
-                    src={vid.thumbnail}
-                    alt={vid.title}
-                    className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <button
-                      onClick={() => setActivePlayVideo(vid)}
-                      className="p-3.5 rounded-full bg-white/90 text-pink-600 hover:scale-110 active:scale-95 transition-all shadow-md cursor-pointer flex items-center justify-center"
-                    >
-                      <Play className="h-5 w-5 fill-current ml-0.5" />
-                    </button>
+          {/* Video Stories Content */}
+          {videoLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="bg-white rounded-3xl overflow-hidden border border-slate-100 p-4 animate-pulse space-y-3">
+                  <div className="h-44 bg-slate-200 rounded-2xl w-full" />
+                  <div className="h-4 bg-slate-200 rounded w-1/3" />
+                  <div className="h-4 bg-slate-200 rounded w-3/4" />
+                </div>
+              ))}
+            </div>
+          ) : videoStories.length === 0 ? (
+            <div className="bg-white rounded-3xl border-2 border-dashed border-pink-200 p-12 text-center max-w-xl mx-auto space-y-4 shadow-sm">
+              <div className="h-16 w-16 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto text-pink-500">
+                <Video className="h-12 w-12 text-pink-300" />
+              </div>
+              <h3 className="font-heading text-xl font-extrabold text-slate-800">
+                Video Stories Coming Soon
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed font-sans max-w-md mx-auto">
+                We&apos;re documenting awareness drives, survivor journeys, and partner interviews. Check back soon.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {videoStories.map((vid) => (
+                <div
+                  key={vid.id}
+                  className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-shadow group"
+                >
+                  {/* Thumbnail with overlay play */}
+                  <div className="relative h-44 bg-slate-950">
+                    {vid.thumbnailUrl ? (
+                      <img
+                        src={vid.thumbnailUrl}
+                        alt={vid.title}
+                        className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 flex flex-col items-center justify-center text-slate-400 gap-2">
+                        <Video className="h-10 w-10 text-slate-500" />
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Video Broadcast</span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                      <button
+                        onClick={() => setActivePlayVideo(vid)}
+                        className="p-3.5 rounded-full bg-white/90 text-pink-600 hover:scale-110 active:scale-95 transition-all shadow-md cursor-pointer flex items-center justify-center"
+                      >
+                        <Play className="h-5 w-5 fill-current ml-0.5" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="p-4 font-sans space-y-1">
+                    <span className="text-[9px] font-bold text-pink-650 uppercase tracking-wider font-heading">{vid.category}</span>
+                    <h4 className="font-heading text-xs sm:text-sm font-extrabold text-slate-800 line-clamp-2 leading-snug group-hover:text-pink-600 transition-colors">
+                      {vid.title}
+                    </h4>
                   </div>
                 </div>
-
-                <div className="p-4 font-sans space-y-1">
-                  <span className="text-[9px] font-bold text-pink-650 uppercase tracking-wider font-heading">{vid.category}</span>
-                  <h4 className="font-heading text-xs sm:text-sm font-extrabold text-slate-800 line-clamp-2 leading-snug group-hover:text-pink-600 transition-colors">
-                    {vid.title}
-                  </h4>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -1395,13 +1402,32 @@ export default function PartnerOrganizationsPage() {
                   </div>
                 </div>
 
-                {/* Simulated file upload */}
+                {/* Real file upload */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block font-heading">Upload Organization Profile (PDF)</label>
-                  <div className="border border-dashed border-slate-300 rounded-xl p-4 bg-white text-center cursor-pointer hover:bg-slate-50 transition-colors">
-                    <Upload className="h-5 w-5 text-slate-450 mx-auto mb-2" />
-                    <p className="text-[10px] font-bold text-slate-500 font-heading">Choose File or Drag &amp; Drop</p>
-                    <p className="text-[8px] text-slate-400 mt-1 font-sans">Max size: 5MB &bull; Format: PDF, DOCX</p>
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block font-heading">
+                    Upload Organization Profile (PDF)
+                  </label>
+                  <div className="border border-dashed border-slate-300 rounded-xl p-4 bg-white text-center">
+                    <input
+                      type="file"
+                      id="partner-doc-upload"
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleDocUpload}
+                      className="hidden"
+                    />
+                    <label htmlFor="partner-doc-upload" className="cursor-pointer block">
+                      {uploadingDoc ? (
+                        <Loader2 className="h-5 w-5 text-pink-500 mx-auto mb-2 animate-spin" />
+                      ) : (
+                        <Upload className="h-5 w-5 text-slate-400 mx-auto mb-2" />
+                      )}
+                      <p className="text-[10px] font-bold text-slate-500 font-heading">
+                        {uploadedDocUrl ? "Uploaded ✔" : "Choose File or Drag & Drop"}
+                      </p>
+                      <p className="text-[8px] text-slate-400 mt-1 font-sans">
+                        Max 5MB · PDF, DOCX
+                      </p>
+                    </label>
                   </div>
                 </div>
 
@@ -1684,7 +1710,7 @@ export default function PartnerOrganizationsPage() {
                 <X className="h-5 w-5" />
               </button>
               <div className="rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-black max-h-[75vh] w-full">
-                <img src={lightboxImage.src} alt={lightboxImage.caption} className="w-full h-full object-contain" />
+                <img src={lightboxImage.imageUrl} alt={lightboxImage.caption} className="w-full h-full object-contain" />
               </div>
               <p className="text-white text-xs font-bold text-center bg-black/60 px-4 py-2 rounded-xl backdrop-blur-xs font-sans">
                 {lightboxImage.caption}
@@ -1722,9 +1748,9 @@ export default function PartnerOrganizationsPage() {
                 <video
                   controls
                   autoPlay
+                  src={activePlayVideo.videoUrl}
                   className="w-full h-full object-cover"
                 >
-                  <source src={activePlayVideo.src} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>

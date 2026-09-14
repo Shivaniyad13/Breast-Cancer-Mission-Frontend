@@ -66,6 +66,9 @@ export default async function AdminDiagnosisPage() {
         <Link href="/admin/healthcare-professionals" className="text-slate-500 hover:text-primary transition-colors">
           Healthcare Professionals
         </Link>
+        <Link href="/admin/care-providers" className="text-slate-500 hover:text-primary transition-colors">
+          Care Directory
+        </Link>
       </div>
 
       {/* Main Admin Controller */}
