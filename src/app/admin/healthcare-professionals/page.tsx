@@ -1,26 +1,22 @@
 import { auth } from "@/auth";
 import { Role } from "@prisma/client";
 import { redirect } from "next/navigation";
-import { getDiagnosisTechnologies, getCollaborationRequests } from "@/app/actions/diagnosis";
-import AdminDiagnosisDashboard from "@/components/admin/AdminDiagnosisDashboard";
+import { getAllHealthcareAdminData } from "@/app/actions/healthcareProfessionals";
+import AdminHealthcareDashboard from "@/components/admin/AdminHealthcareDashboard";
 import { Stethoscope, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 export const revalidate = 0; // Fresh database reads on every access
 
-export default async function AdminDiagnosisPage() {
+export default async function AdminHealthcareProfessionalsPage() {
   const session = await auth();
 
   if (!session?.user || session.user.role !== Role.ADMIN) {
     redirect("/");
   }
 
-  // Fetch technologies and collaboration requests
-  const techRes = await getDiagnosisTechnologies(false);
-  const requestsRes = await getCollaborationRequests();
-
-  const technologies = techRes.success && techRes.technologies ? techRes.technologies : [];
-  const requests = requestsRes.success && requestsRes.requests ? requestsRes.requests : [];
+  const res = await getAllHealthcareAdminData();
+  const adminData = res.success && res.data ? res.data : null;
 
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 min-h-screen">
@@ -31,10 +27,10 @@ export default async function AdminDiagnosisPage() {
             <ShieldCheck className="h-2.5 w-2.5" /> Command Center
           </span>
           <h1 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
-            <Stethoscope className="h-8 w-8 text-primary" /> Diagnosis & Collaboration Management
+            <Stethoscope className="h-8 w-8 text-primary" /> Healthcare Professionals Management
           </h1>
           <p className="text-muted-foreground text-sm">
-            Add diagnostic technologies, configure manufacturer partnerships, and review or moderate collaboration requests from external healthcare organizations.
+            Manage evidence-based clinical guidelines, research articles, CME courses, decision algorithms, resources, research partner requests, and accreditation FAQs.
           </p>
         </div>
       </div>
@@ -47,7 +43,6 @@ export default async function AdminDiagnosisPage() {
         <Link href="/admin/webinars" className="text-slate-500 hover:text-primary transition-colors">
           Webinar Management
         </Link>
-
         <Link href="/admin/memberships" className="text-slate-500 hover:text-primary transition-colors">
           Institution Memberships
         </Link>
@@ -60,16 +55,16 @@ export default async function AdminDiagnosisPage() {
         <Link href="/admin/live-updates" className="text-slate-500 hover:text-primary transition-colors">
           Home Page Live Updates
         </Link>
-        <Link href="/admin/diagnosis" className="text-primary border-b-2 border-primary pb-4 -mb-[18px] transition-colors">
+        <Link href="/admin/diagnosis" className="text-slate-500 hover:text-primary transition-colors">
           Diagnosis & Collaboration
         </Link>
-        <Link href="/admin/healthcare-professionals" className="text-slate-500 hover:text-primary transition-colors">
+        <Link href="/admin/healthcare-professionals" className="text-primary border-b-2 border-primary pb-4 -mb-[18px] transition-colors">
           Healthcare Professionals
         </Link>
       </div>
 
       {/* Main Admin Controller */}
-      <AdminDiagnosisDashboard initialTechnologies={technologies as any} initialRequests={requests as any} />
+      <AdminHealthcareDashboard initialData={adminData} />
     </div>
   );
 }

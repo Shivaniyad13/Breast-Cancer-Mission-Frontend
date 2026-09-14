@@ -630,4 +630,312 @@ model VideoPlay {
   @@index([category])
 }
 
+enum ContentStatus {
+  DRAFT
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model HealthcarePortalHero {
+  id          String        @id @default(uuid())
+  badge       String        @default("EVIDENCE-BASED CLINICAL PORTAL")
+  title       String
+  description String
+  imageUrl    String?
+  videoUrl    String?
+  ctaText     String        @default("Join Healthcare Network")
+  ctaLink     String        @default("#join-network")
+  status      ContentStatus @default(APPROVED)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model HealthcarePortalStat {
+  id          String        @id @default(uuid())
+  label       String
+  value       String
+  description String?
+  icon        String
+  sortOrder   Int           @default(0)
+  status      ContentStatus @default(APPROVED)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model ClinicalGuideline {
+  id            String        @id @default(uuid())
+  title         String
+  summary       String
+  protocols     Json          // Array of protocol strings
+  evidenceLevel String
+  references    String
+  sourceUrl     String?
+  documentUrl   String?
+  version       String        @default("v1.0")
+  publishedDate DateTime?
+  reviewDate    DateTime?
+  reviewedBy    String?
+  status        ContentStatus @default(APPROVED)
+  isPublished   Boolean       @default(true)
+  sortOrder     Int           @default(0)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([isPublished, status, sortOrder])
+}
+
+model HealthcareResearchArticle {
+  id            String        @id @default(uuid())
+  title         String
+  category      String
+  publishDate   String
+  journal       String
+  summary       String
+  conclusions   String
+  authors       String
+  institution   String?
+  email         String?
+  imageUrl      String?
+  documentUrl   String?
+  externalUrl   String?
+  status        ContentStatus @default(APPROVED)
+  isPublished   Boolean       @default(true)
+  sortOrder     Int           @default(0)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([isPublished, status, category])
+}
+
+model CmeCourse {
+  id               String          @id @default(uuid())
+  title            String
+  format           String
+  credits          String
+  duration         String
+  instructor       String
+  syllabus         Json            // Array of strings
+  documentUrl      String?
+  enrollmentStatus String          @default("Open")
+  status           ContentStatus   @default(APPROVED)
+  isPublished      Boolean         @default(true)
+  sortOrder        Int             @default(0)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  enrollments      CmeEnrollment[]
+
+  @@index([isPublished, status])
+}
+
+model CmeEnrollment {
+  id            String    @id @default(uuid())
+  courseId      String
+  name          String
+  email         String
+  licenseNumber String
+  status        String    @default("ENROLLED")
+  createdAt     DateTime  @default(now())
+  course        CmeCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model SpecialistRole {
+  id               String        @id @default(uuid())
+  name             String
+  responsibilities Json          // Array of responsibility strings
+  patientRole      String
+  collaboration    String
+  icon             String
+  sortOrder        Int           @default(0)
+  status           ContentStatus @default(APPROVED)
+  isPublished      Boolean       @default(true)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([isPublished, status, sortOrder])
+}
+
+model DecisionAlgorithm {
+  id          String                  @id @default(uuid())
+  title       String
+  description String
+  sortOrder   Int                     @default(0)
+  status      ContentStatus           @default(APPROVED)
+  isPublished Boolean                 @default(true)
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+  steps       DecisionAlgorithmStep[]
+}
+
+model DecisionAlgorithmStep {
+  id                String            @id @default(uuid())
+  algorithmId       String
+  stepNumber        String
+  title             String
+  desc              String
+  clinicalChecklist Json              // Array of strings
+  guidelinesLink    String?
+  source            String?
+  documentUrl       String?
+  sortOrder         Int               @default(0)
+  status            ContentStatus     @default(APPROVED)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  algorithm         DecisionAlgorithm @relation(fields: [algorithmId], references: [id], onDelete: Cascade)
+
+  @@index([algorithmId, sortOrder])
+}
+
+model ProfessionalResource {
+  id          String        @id @default(uuid())
+  title       String
+  size        String
+  format      String
+  desc        String
+  fileUrl     String
+  category    String?
+  author      String?
+  email       String?
+  sortOrder   Int           @default(0)
+  status      ContentStatus @default(APPROVED)
+  isPublished Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([isPublished, status, sortOrder])
+}
+
+model MedicalEvent {
+  id            String                     @id @default(uuid())
+  title         String
+  date          String
+  speaker       String
+  format        String
+  location      String
+  credits       String
+  meetingUrl    String?
+  maxSeats      Int                        @default(100)
+  bannerUrl     String?
+  status        ContentStatus              @default(APPROVED)
+  isPublished   Boolean                    @default(true)
+  sortOrder     Int                        @default(0)
+  createdAt     DateTime                   @default(now())
+  updatedAt     DateTime                   @updatedAt
+  registrations MedicalEventRegistration[]
+
+  @@index([isPublished, status])
+}
+
+model MedicalEventRegistration {
+  id            String       @id @default(uuid())
+  eventId       String
+  name          String
+  email         String
+  licenseNumber String
+  status        String       @default("REGISTERED")
+  createdAt     DateTime     @default(now())
+  event         MedicalEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+model ResearchPartnerRequest {
+  id               String        @id @default(uuid())
+  applicantName    String
+  email            String
+  phone            String
+  institution      String
+  organizationType String
+  researchArea     String
+  proposal         String
+  website          String?
+  documentUrl      String?
+  status           ContentStatus @default(PENDING)
+  reviewedAt       DateTime?
+  reviewedBy       String?
+  rejectionReason  String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([status, createdAt])
+}
+
+model ResearchPartner {
+  id           String   @id @default(uuid())
+  requestId    String?  @unique
+  name         String
+  institution  String
+  logoUrl      String?
+  website      String?
+  researchArea String
+  description  String?
+  sortOrder    Int      @default(0)
+  isPublished  Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isPublished, sortOrder])
+}
+
+model ExpertCommunityItem {
+  id           String        @id @default(uuid())
+  title        String
+  description  String
+  icon         String
+  buttonText   String
+  buttonAction String
+  sortOrder    Int           @default(0)
+  status       ContentStatus @default(APPROVED)
+  isPublished  Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([isPublished, status, sortOrder])
+}
+
+model VolunteerDoctorRequest {
+  id              String        @id @default(uuid())
+  name            String
+  email           String
+  phone           String
+  specialty       String
+  licenseNumber   String?
+  hospital        String?
+  message         String?
+  status          ContentStatus @default(PENDING)
+  reviewedAt      DateTime?
+  reviewedBy      String?
+  rejectionReason String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([status, createdAt])
+}
+
+model HealthcareFaq {
+  id          String        @id @default(uuid())
+  question    String
+  answer      String
+  category    String        @default("General")
+  sortOrder   Int           @default(0)
+  status      ContentStatus @default(APPROVED)
+  isPublished Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([isPublished, status, sortOrder])
+}
+
+model HealthcarePortalCta {
+  id                  String        @id @default(uuid())
+  heading             String
+  description         String
+  primaryButtonText   String
+  primaryButtonUrl    String
+  secondaryButtonText String?
+  secondaryButtonUrl  String?
+  status              ContentStatus @default(APPROVED)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+}
+
+
 

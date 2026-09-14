@@ -60,6 +60,9 @@ export default async function AdminAnalyticsPage() {
         <Link href="/admin/diagnosis" className="text-slate-500 hover:text-primary transition-colors">
           Diagnosis &amp; Collaboration
         </Link>
+        <Link href="/admin/healthcare-professionals" className="text-slate-500 hover:text-primary transition-colors">
+          Healthcare Professionals
+        </Link>
       </div>
 
       {/* Main Analytics Dashboard */}

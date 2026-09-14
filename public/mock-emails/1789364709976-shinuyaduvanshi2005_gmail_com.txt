@@ -1,0 +1,22 @@
+To: shinuyaduvanshi2005@gmail.com
+Subject: Partnership Approved: Zamia Technology 
+
+Dear Vandana ,
+
+We are pleased to inform you that your application for Corporate Partnership with Breast Cancer Awareness Mission has been APPROVED!
+
+Details:
+Company Name: Zamia Technology 
+GST Number: 27AAAAA
+Status: Approved
+Remarks: None
+
+Your login details for the Institution Dashboard are:
+Portal Link: http://localhost:3000/login
+Email: shinuyaduvanshi2005@gmail.com
+Password: Use your existing account password.
+
+Thank you for partnering with us to spread breast cancer awareness through corporate initiatives.
+
+Warm regards,
+Command Center Team

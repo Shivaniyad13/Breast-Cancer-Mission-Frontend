@@ -56,6 +56,9 @@ export default async function AdminLiveUpdatesPage() {
         <Link href="/admin/diagnosis" className="text-slate-500 hover:text-primary transition-colors">
           Diagnosis & Collaboration
         </Link>
+        <Link href="/admin/healthcare-professionals" className="text-slate-500 hover:text-primary transition-colors">
+          Healthcare Professionals
+        </Link>
       </div>
 
       {/* Main Admin Controller */}

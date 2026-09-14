@@ -50,6 +50,9 @@ export default async function AdminHomePageUpdatesPage() {
         <Link href="/admin/homepage-updates" className="text-primary border-b-2 border-primary pb-4 -mb-[18px] transition-colors">
           Home Page Updates
         </Link>
+        <Link href="/admin/healthcare-professionals" className="text-slate-500 hover:text-primary transition-colors">
+          Healthcare Professionals
+        </Link>
       </div>
 
       {/* Main Admin Controller */}
