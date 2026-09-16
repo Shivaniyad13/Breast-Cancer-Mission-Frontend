@@ -1,0 +1,22 @@
+To: akashyadav983991@gmail.com
+Subject: Partnership Approved: grs india pvt ltd
+
+Dear Shivani Yadav,
+
+We are pleased to inform you that your application for Corporate Partnership with Breast Cancer Awareness Mission has been APPROVED!
+
+Details:
+Company Name: grs india pvt ltd
+GST Number: 1522151
+Status: Approved
+Remarks: I am happy to join you as a partner let's help patients by using tools and technology 
+
+Your login details for the Institution Dashboard are:
+Portal Link: http://localhost:3000/login
+Email: akashyadav983991@gmail.com
+Password: Use your existing account password.
+
+Thank you for partnering with us to spread breast cancer awareness through corporate initiatives.
+
+Warm regards,
+Command Center Team

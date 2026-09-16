@@ -818,7 +818,7 @@ export async function generateCertificateForUser(userId: string, webinarId: stri
     const absolutePath = path.join(publicCertificatesDir, filename);
 
     // Dynamic Verification URL
-    const verificationUrl = `http://localhost:3000/verify/${certificateNumber}`;
+    const verificationUrl = `http://localhost:3000/verify/webinar/${certificateNumber}`;
 
     // Font paths – using local Roboto TTF files to avoid Helvetica.afm ENOENT in Next.js
     const fontsDir = path.join(process.cwd(), "public", "fonts");

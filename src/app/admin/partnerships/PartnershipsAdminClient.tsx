@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { AdminNavTabs } from "@/components/admin/AdminNavTabs";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -191,29 +192,7 @@ export default function PartnershipsAdminClient({
       </div>
 
       {/* Admin tabs navigation */}
-      <div className="flex gap-4 border-b border-slate-100 pb-4 text-sm font-semibold overflow-x-auto no-scrollbar whitespace-nowrap">
-        <Link href="/admin/webinars" className="text-slate-500 hover:text-primary transition-colors pb-4 -mb-[18px]">
-          Webinar Management
-        </Link>
-        <Link href="/admin/memberships" className="text-slate-500 hover:text-primary transition-colors pb-4 -mb-[18px]">
-          Institution Memberships
-        </Link>
-        <Link href="/admin/success-stories" className="text-slate-500 hover:text-primary transition-colors pb-4 -mb-[18px]">
-          Patient Success Stories
-        </Link>
-        <Link href="/admin/homepage-widgets" className="text-slate-500 hover:text-primary transition-colors pb-4 -mb-[18px]">
-          Homepage Widgets
-        </Link>
-        <Link href="/admin/live-updates" className="text-slate-500 hover:text-primary transition-colors pb-4 -mb-[18px]">
-          Home Page Live Updates
-        </Link>
-        <Link href="/admin/diagnosis" className="text-slate-500 hover:text-primary transition-colors pb-4 -mb-[18px]">
-          Diagnosis & Collaboration
-        </Link>
-        <Link href="/admin/partnerships" className="text-primary border-b-2 border-primary pb-4 -mb-[18px] transition-colors font-extrabold">
-          Partnership Requests
-        </Link>
-      </div>
+      <AdminNavTabs />
 
       {/* Control Panel: Filters & Actions */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center bg-slate-50 border rounded-2xl p-4">

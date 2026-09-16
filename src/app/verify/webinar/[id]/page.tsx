@@ -10,7 +10,7 @@ interface VerifyPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function VerifyCertificatePage({ params }: VerifyPageProps) {
+export default async function VerifyWebinarCertificatePage({ params }: VerifyPageProps) {
   const { id } = await params;
   const headerList = await headers();
   const ipAddress = headerList.get("x-forwarded-for") || headerList.get("x-real-ip") || "127.0.0.1";
@@ -37,7 +37,7 @@ export default async function VerifyCertificatePage({ params }: VerifyPageProps)
     await db.certificateVerification.create({
       data: {
         certificateId: cert.id,
-        verificationUrl: `http://localhost:3000/verify/${id}`,
+        verificationUrl: `http://localhost:3000/verify/webinar/${id}`,
         ipAddress,
         userAgent,
         status: "SUCCESS",
@@ -136,7 +136,7 @@ export default async function VerifyCertificatePage({ params }: VerifyPageProps)
                 <div className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded font-bold text-xs">KHUSHI CENTRE</div>
               </div>
               <div className="flex gap-3">
-                <Link href={`/api/certificates/${cert.id}/download`}>
+                <Link href={`/api/certificates/webinar/${cert.id}/download`}>
                   <Button className="bg-pink-600 hover:bg-pink-700 text-white font-medium shadow-sm transition-all rounded-full px-6 text-sm">
                     Download Official PDF
                   </Button>

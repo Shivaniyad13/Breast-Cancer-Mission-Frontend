@@ -7,24 +7,28 @@ datasource db {
 }
 
 model User {
-  id                   String                @id @default(uuid())
-  name                 String?
-  email                String?               @unique
-  emailVerified        DateTime?
-  image                String?
-  passwordHash         String?
-  role                 Role                  @default(VOLUNTEER)
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
-  accounts             Account[]
-  attendance           Attendance[]
-  campaigns            Campaign[]
-  certificates         Certificate[]
-  donations            Donation[]
-  profile              Profile?
-  doctorProfile        Doctor?
-  sessions             Session[]
-  webinarRegistrations WebinarRegistration[]
+  id                         String                      @id @default(uuid())
+  name                       String?
+  email                      String?                     @unique
+  emailVerified              DateTime?
+  image                      String?
+  passwordHash               String?
+  role                       Role                        @default(USER)
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @updatedAt
+  accounts                   Account[]
+  attendance                 Attendance[]
+  campaigns                  Campaign[]
+  certificates               Certificate[]
+  donations                  Donation[]
+  profile                    Profile?
+  doctorProfile              Doctor?
+  sessions                   Session[]
+  webinarRegistrations       WebinarRegistration[]
+  volunteerApplications      VolunteerApplication[]
+  verifiedVolunteers         VolunteerApplication[]      @relation("VerifiedVolunteers")
+  createdVolunteerEvents     VolunteerEvent[]            @relation("CreatedVolunteerEvents")
+  reviewedGallerySubmissions GallerySubmission[]         @relation("ReviewedGallerySubmissions")
 }
 
 model Profile {
@@ -317,6 +321,7 @@ model CertificateVerification {
 }
 
 enum Role {
+  USER
   ADMIN
   NGO_REP
   DOCTOR
@@ -997,7 +1002,160 @@ model VideoStory {
   @@index([successStoryId])
 }
 
+model Feedback {
+  id          String             @id @default(uuid())
+  name        String
+  email       String
+  role        String
+  city        String?
+  rating      Int                // 1-5
+  message     String             // max 500 chars
+  consent     Boolean            @default(false)
+  status      VerificationStatus @default(PENDING)
+  remarks     String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
 
+  @@index([status])
+  @@index([createdAt])
+}
 
+model IndividualMember {
+  id         String             @id @default(uuid())
+  fullName   String
+  email      String
+  mobile     String
+  city       String
+  state      String
+  category   String             // "volunteer" | "professional"
+  whyJoin    String
+  status     VerificationStatus @default(PENDING)
+  remarks    String?
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
 
+  @@index([status])
+  @@index([email])
+}
 
+model VolunteerApplication {
+  id              String                    @id @default(uuid())
+  userId          String?
+  fullName        String
+  email           String
+  phone           String
+  city            String
+  age             Int
+  occupation      String
+  interest        String
+  availability    String
+  motivation      String                    @db.Text
+  status          VerificationStatus        @default(PENDING)
+  verifiedAt      DateTime?
+  verifiedBy      String?
+  rejectionReason String?
+  createdAt       DateTime                  @default(now())
+  updatedAt       DateTime                  @updatedAt
+
+  user                  User?                       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  verifiedByAdmin       User?                       @relation("VerifiedVolunteers", fields: [verifiedBy], references: [id], onDelete: SetNull)
+  eventApplications     VolunteerEventApplication[]
+  feedbacks             VolunteerFeedback[]
+  gallerySubmissions    GallerySubmission[]
+  certificates          VolunteerCertificate[]
+
+  @@index([status])
+  @@index([email])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model VolunteerEvent {
+  id            String                      @id @default(uuid())
+  title         String
+  description   String                      @db.Text
+  location      String
+  eventDate     DateTime
+  slots         Int
+  filledSlots   Int                         @default(0)
+  peopleReached Int                         @default(0)
+  interestKey   String                      // matches form interest values like "outreach", "camps"
+  isOpen        Boolean                     @default(true)
+  createdBy     String
+  createdAt     DateTime                    @default(now())
+  updatedAt     DateTime                    @updatedAt
+
+  createdAdmin User?                       @relation("CreatedVolunteerEvents", fields: [createdBy], references: [id], onDelete: SetNull)
+  applications VolunteerEventApplication[]
+  certificates VolunteerCertificate[]
+
+  @@index([isOpen, eventDate])
+  @@index([interestKey])
+  @@index([createdBy])
+  @@index([createdAt])
+}
+
+model VolunteerEventApplication {
+  id          String               @id @default(uuid())
+  eventId     String
+  volunteerId String
+  status      VerificationStatus   @default(PENDING)
+  createdAt   DateTime             @default(now())
+
+  event     VolunteerEvent       @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  volunteer VolunteerApplication @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, volunteerId])
+  @@index([status])
+  @@index([volunteerId])
+  @@index([eventId])
+}
+
+model VolunteerFeedback {
+  id          String               @id @default(uuid())
+  volunteerId String
+  rating      Int                  // 1-5
+  message     String               @db.Text
+  status      VerificationStatus   @default(PENDING)
+  createdAt   DateTime             @default(now())
+
+  volunteer VolunteerApplication @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([volunteerId])
+  @@index([createdAt])
+}
+
+model GallerySubmission {
+  id          String               @id @default(uuid())
+  volunteerId String
+  imageUrl    String
+  title       String
+  caption     String?
+  status      VerificationStatus   @default(PENDING)
+  reviewedBy  String?
+  createdAt   DateTime             @default(now())
+
+  volunteer VolunteerApplication @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+  reviewer  User?                @relation("ReviewedGallerySubmissions", fields: [reviewedBy], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([volunteerId])
+  @@index([createdAt])
+}
+
+model VolunteerCertificate {
+  id              String               @id @default(uuid())
+  certificateCode String               @unique
+  volunteerId     String
+  issuedAt        DateTime             @default(now())
+  eventId         String?
+  revokedAt       DateTime?
+
+  volunteer VolunteerApplication @relation(fields: [volunteerId], references: [id], onDelete: Cascade)
+  event     VolunteerEvent?      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([volunteerId])
+  @@index([eventId])
+  @@index([certificateCode])
+}

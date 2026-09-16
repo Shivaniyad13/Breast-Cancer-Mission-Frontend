@@ -69,7 +69,7 @@ export default function ContactPage() {
                 </a>
 
                 <a
-                  href="mailto:info@khusicenter.in"
+                  href="mailto:breastcancermission3@gmail.com"
                   className="flex items-start gap-4 group"
                 >
                   <div className="h-10 w-10 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center flex-shrink-0 group-hover:bg-pink-100 transition-colors">
@@ -77,7 +77,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-xs text-slate-500 uppercase tracking-widest mb-0.5">Email</p>
-                    <p className="text-slate-900 font-semibold group-hover:text-pink-600 transition-colors">info@khusicenter.in</p>
+                    <p className="text-slate-900 font-semibold group-hover:text-pink-600 transition-colors">breastcancermission3@gmail.com  admin@cmba.in</p>
                   </div>
                 </a>
 

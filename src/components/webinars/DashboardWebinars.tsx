@@ -214,7 +214,7 @@ export default function DashboardWebinars({
                     {status === "completed" && (
                       <div className="space-y-2 pt-2 border-t border-dashed border-slate-100">
                         {certificate ? (
-                          <Link href={`/api/certificates/${certificate.id}/download`} className="block w-full">
+                          <Link href={`/api/certificates/webinar/${certificate.id}/download`} className="block w-full">
                             <Button 
                               className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl text-[10px] py-2 h-8 flex items-center justify-center gap-1 cursor-pointer"
                             >

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -30,9 +30,25 @@ import {
   ShieldAlert,
   ArrowRight,
   ChevronRight,
-  Stethoscope
+  Stethoscope,
+  MapPin,
+  CheckCircle2
 } from "lucide-react";
 import { applyOrganizationMemberAction, applyCorporatePartnerAction } from "@/app/actions/institution";
+import { getApprovedFeedback, submitFeedback } from "@/app/actions/feedback";
+import { applyIndividualMemberAction } from "@/app/actions/individualMembers";
+import { getVerifiedMembers } from "@/app/actions/verifiedMembers";
+
+function getInitials(name: string) {
+  if (!name) return "??";
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
+
 
 // Why Become a Member Cards
 const whyBecomeMember = [
@@ -100,7 +116,7 @@ const faqsList = [
   },
   {
     q: "Is membership free?",
-    a: "Yes, community membership for individuals is completely free. Our goal is to educate the public and lower diagnostic friction, so we encourage open participation."
+    a: "Yes, community membership for individuals and institutions is completely free. We aim to make breast cancer awareness accessible to everyone."
   },
   {
     q: "How do I participate in campaigns?",
@@ -112,29 +128,7 @@ const faqsList = [
   },
   {
     q: "Will I receive a certificate or any rewards?",
-a: "Yes. Participants who score 80% or above in our health awareness quizzes are eligible to receive a digital certificate of achievement. Additionally, individuals who actively contribute to our awareness initiatives through regular participation in webinars, campaigns, educational activities, and community engagement may be selected for special recognition. Top contributors can be honored with medals, appreciation certificates, commemorative gifts, and public recognition during our awareness seminars and community events."
-  }
-];
-
-// Testimonials Placeholders
-const testimonialsList = [
-  {
-    name: "Dr. Shalini Sharma",
-    role: "Oncology Specialist",
-    review: "Our community connects medical practitioners directly to patients who need early diagnostic counselling. It is a brilliant initiative that bridges crucial gaps in public awareness.",
-    initials: "SS"
-  },
-  {
-    name: "Aarav Mehta",
-    role: "Lead Volunteer",
-    review: "Hosting support walks and health camps is incredibly rewarding. The platform makes volunteering streamlined and keeps our goals completely transparent.",
-    initials: "AM"
-  },
-  {
-    name: "Priya Nair",
-    role: "Community Member",
-    review: "The monthly BSE timers and doctor webinars helped me build body awareness. Being part of this network makes me feel supported and informed.",
-    initials: "PN"
+    a: "Yes. Participants who score 80% or above in our health awareness quizzes are eligible to receive a digital certificate of achievement. Additionally, individuals who actively contribute to our awareness initiatives through regular participation in webinars, campaigns, educational activities, and community engagement may be selected for special recognition. Top contributors can be honored with medals, appreciation certificates, commemorative gifts, and public recognition during our awareness seminars and community events."
   }
 ];
 
@@ -224,6 +218,95 @@ export default function MembershipClient() {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isPending, setIsPending] = useState(false);
 
+  // Community Feedback States
+  const [approvedFeedback, setApprovedFeedback] = useState<any[]>([]);
+  const [feedbackLoading, setFeedbackLoading] = useState(true);
+  const [feedbackForm, setFeedbackForm] = useState({
+    name: "",
+    email: "",
+    role: "Member",
+    city: "",
+    rating: 5,
+    message: "",
+    consent: false
+  });
+  const [feedbackSubmitting, setFeedbackSubmitting] = useState(false);
+  const [feedbackFormSubmitted, setFeedbackFormSubmitted] = useState(false);
+  const [feedbackSubmitError, setFeedbackSubmitError] = useState<string | null>(null);
+
+  // Unified Verified Members State
+  const [verifiedMembers, setVerifiedMembers] = useState<any[]>([]);
+  const [verifiedLoading, setVerifiedLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await getVerifiedMembers();
+        if (res.success && res.members) setVerifiedMembers(res.members);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setVerifiedLoading(false);
+      }
+    }
+    load();
+  }, []);
+
+  useEffect(() => {
+    async function fetchFeedback() {
+      setFeedbackLoading(true);
+      try {
+        const res = await getApprovedFeedback();
+        if (res.success && res.feedback) {
+          setApprovedFeedback(res.feedback);
+        }
+      } catch (e) {
+        console.error("Error fetching approved feedback:", e);
+      } finally {
+        setFeedbackLoading(false);
+      }
+    }
+    fetchFeedback();
+  }, []);
+
+  const handleFeedbackSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFeedbackSubmitError(null);
+
+    if (!feedbackForm.name.trim() || !feedbackForm.email.trim() || !feedbackForm.message.trim()) {
+      setFeedbackSubmitError("Please fill out all required fields.");
+      return;
+    }
+
+    if (feedbackForm.message.trim().length > 500) {
+      setFeedbackSubmitError("Feedback message must be 500 characters or less.");
+      return;
+    }
+
+    setFeedbackSubmitting(true);
+    try {
+      const res = await submitFeedback({
+        name: feedbackForm.name,
+        email: feedbackForm.email,
+        role: feedbackForm.role,
+        city: feedbackForm.city || undefined,
+        rating: feedbackForm.rating,
+        message: feedbackForm.message,
+        consent: feedbackForm.consent
+      });
+
+      if (res.success) {
+        setFeedbackFormSubmitted(true);
+      } else {
+        setFeedbackSubmitError(res.error || "Failed to submit feedback. Please try again.");
+      }
+    } catch (err: any) {
+      setFeedbackSubmitError(err.message || "An unexpected error occurred.");
+    } finally {
+      setFeedbackSubmitting(false);
+    }
+  };
+
   // File upload logic
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, setUploadState: any) => {
     const file = e.target.files?.[0];
@@ -289,8 +372,12 @@ export default function MembershipClient() {
 
   const scrollToForm = (workflow: "individual" | "institution", category?: string) => {
     setActiveWorkflow(workflow);
-    if (workflow === "individual" && category) {
-      setIndividualFormData(prev => ({ ...prev, category }));
+    if (workflow === "individual") {
+      setIndividualSubmitted(false);
+      setIndividualErrors({});
+      if (category) {
+        setIndividualFormData(prev => ({ ...prev, category }));
+      }
     }
     setTimeout(() => {
       formSectionRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -331,11 +418,32 @@ export default function MembershipClient() {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleIndividualSubmit = (e: React.FormEvent) => {
+  const handleIndividualSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateIndividualForm()) {
-      console.log("Submitting Membership Application:", individualFormData);
-      setIndividualSubmitted(true);
+    if (!validateIndividualForm()) return;
+
+    setIsPending(true);
+    setIndividualErrors({});
+    try {
+      const res = await applyIndividualMemberAction({
+        fullName: individualFormData.fullName,
+        email: individualFormData.email,
+        mobile: individualFormData.mobile,
+        city: individualFormData.city,
+        state: individualFormData.state,
+        category: individualFormData.category,
+        whyJoin: individualFormData.whyJoin
+      });
+
+      if (res.success) {
+        setIndividualSubmitted(true);
+      } else {
+        setIndividualErrors({ submit: res.error || "Submission failed" });
+      }
+    } catch (err) {
+      setIndividualErrors({ submit: "Unexpected error occurred" });
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -495,7 +603,7 @@ export default function MembershipClient() {
                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-100/75 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider"
               >
                 <Users className="h-4 w-4 text-primary animate-pulse" />
-                Community & Institutions
+                Membership & Partnership
               </motion.div>
 
               <motion.h1
@@ -658,9 +766,9 @@ export default function MembershipClient() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
 
-            {/* Card 1: Institution Member (NEW) */}
+            {/* Card 1: Institution Partner */}
             <Card className="border-pink-100/40 bg-gradient-to-br from-white to-pink-50/[0.02] shadow-sm hover:shadow-lg transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between space-y-6 group hover:border-pink-300 text-center relative overflow-hidden">
               <div className="absolute top-0 right-0 bg-gradient-to-l from-pink-500 to-purple-600 text-white text-[9px] font-bold uppercase tracking-wider px-3.5 py-1 rounded-bl-xl shadow-xs">
                 Partner Hub
@@ -684,48 +792,24 @@ export default function MembershipClient() {
               </Button>
             </Card>
 
-            {/* Card 2: Volunteer Member (Restored design) */}
+            {/* Card 2: Individual Member */}
             <Card className="border-pink-100/40 bg-gradient-to-br from-white to-pink-50/[0.02] shadow-sm hover:shadow-lg transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between space-y-6 group hover:border-pink-300 text-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-pink-500 text-white text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-xl shadow-xs">
-                Popular Choice
-              </div>
               <div className="space-y-4">
                 <div className="h-14 w-14 rounded-full bg-pink-50 text-primary flex items-center justify-center border border-pink-100/20 mx-auto group-hover:scale-105 transition-transform">
-                  <Activity className="h-7 w-7 animate-pulse" />
+                  <Heart className="h-7 w-7 text-primary fill-pink-500/20" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="font-heading text-xl font-bold text-slate-800 group-hover:text-primary transition-colors">Volunteer Member</h3>
+                  <h3 className="font-heading text-xl font-bold text-slate-800 group-hover:text-primary transition-colors">Individual Member</h3>
                   <p className="text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
-                    For individuals who wish to actively participate in campaigns, coordinate checkup camp logistics, and lead community outreach.
+                    For community supporters, volunteers, and healthcare professionals who want to join our mission and contribute to breast cancer awareness.
                   </p>
                 </div>
               </div>
               <Button
                 onClick={() => scrollToForm("individual", "volunteer")}
-                className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-full py-5 active:scale-95 transition-all cursor-pointer"
-              >
-                Join Now
-              </Button>
-            </Card>
-
-            {/* Card 3: Healthcare Expert (Restored design) */}
-            <Card className="border-pink-100/40 bg-gradient-to-br from-white to-pink-50/[0.02] shadow-sm hover:shadow-lg transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between space-y-6 group hover:border-pink-300 text-center">
-              <div className="space-y-4">
-                <div className="h-14 w-14 rounded-full bg-pink-50 text-primary flex items-center justify-center border border-pink-100/20 mx-auto group-hover:scale-105 transition-transform">
-                  <Stethoscope className="h-7 w-7" />
-                </div>
-                <div className="space-y-2">
-                  <h3 className="font-heading text-xl font-bold text-slate-800 group-hover:text-primary transition-colors">Healthcare Expert</h3>
-                  <p className="text-slate-500 text-xs sm:text-sm leading-relaxed font-medium">
-                    For doctors, nurses, counsellors, and healthcare specialists who want to contribute their expertise and verify content.
-                  </p>
-                </div>
-              </div>
-              <Button
-                onClick={() => scrollToForm("individual", "professional")}
                 className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-5 active:scale-95 transition-all cursor-pointer"
               >
-                Join Now
+                Join as Individual
               </Button>
             </Card>
 
@@ -733,46 +817,376 @@ export default function MembershipClient() {
         </div>
       </section>
 
-      {/* ================= TESTIMONIALS ================= */}
+      {/* ================= COMMUNITY FEEDBACK ================= */}
       <section className="py-20 bg-gradient-to-b from-white to-pink-50/20 border-b border-pink-100/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
+
+          {/* Public Feedback Display */}
+          <div className="space-y-8">
+            <div className="text-center space-y-3 max-w-2xl mx-auto">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/50 text-primary text-xs font-bold uppercase tracking-wider">
+                <MessageSquare className="h-3.5 w-3.5" /> Community Feedback
+              </span>
+              <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
+                What Our Members Say
+              </h2>
+              <p className="text-sm text-slate-500 font-medium">
+                Read feedback from community members, volunteers, and healthcare partners.
+              </p>
+            </div>
+
+            {feedbackLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="rounded-2xl border border-pink-100/40 bg-white p-6 shadow-sm animate-pulse space-y-3">
+                    <div className="h-4 w-1/2 bg-slate-200 rounded" />
+                    <div className="h-3 w-1/3 bg-slate-100 rounded" />
+                    <div className="h-12 w-full bg-slate-100 rounded" />
+                  </div>
+                ))}
+              </div>
+            ) : approvedFeedback.length === 0 ? (
+              <Card className="rounded-2xl border border-pink-100/40 bg-white p-8 shadow-sm text-center max-w-xl mx-auto space-y-3">
+                <MessageSquare className="h-10 w-10 text-pink-300 mx-auto" />
+                <p className="text-sm text-slate-600 font-semibold">
+                  No feedback yet. Be the first to share your experience!
+                </p>
+              </Card>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {approvedFeedback.map((item) => (
+                  <Card key={item.id} className="rounded-2xl border border-pink-100/40 bg-white p-6 shadow-sm hover:shadow-md transition-shadow space-y-4 flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <div>
+                          <h4 className="font-bold text-slate-800 text-sm leading-tight">{item.name}</h4>
+                          <span className="text-[10px] text-pink-700 font-semibold bg-pink-50 px-2 py-0.5 rounded border border-pink-100 inline-block mt-0.5">
+                            {item.role}
+                          </span>
+                        </div>
+                        {item.city && (
+                          <span className="text-[10px] text-slate-400 font-medium">
+                            {item.city}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Rating Stars */}
+                      <div className="flex gap-0.5 text-amber-400">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={`h-4 w-4 ${
+                              star <= item.rating
+                                ? "text-amber-400 fill-amber-400"
+                                : "text-slate-200"
+                            }`}
+                          />
+                        ))}
+                      </div>
+
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed italic font-medium font-sans">
+                        &ldquo;{item.message}&rdquo;
+                      </p>
+                    </div>
+
+                    <div className="text-[10px] text-slate-400 font-medium pt-2 border-t border-pink-50">
+                      {new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Feedback Submission Form */}
+          <div className="max-w-2xl mx-auto pt-8 border-t border-pink-100/40">
+            <Card className="rounded-3xl border border-pink-100 bg-white p-6 sm:p-10 shadow-lg space-y-6">
+              <div className="text-center space-y-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider">
+                  <Sparkles className="h-3.5 w-3.5 text-primary" /> Share Your Experience
+                </span>
+                <h3 className="font-heading text-2xl font-black text-slate-900">Submit Your Feedback</h3>
+                <p className="text-slate-500 text-xs sm:text-sm font-medium">
+                  Your feedback helps us improve and inspire others. Submissions appear after admin approval.
+                </p>
+              </div>
+
+              {feedbackFormSubmitted ? (
+                <div className="text-center py-8 space-y-4">
+                  <div className="h-14 w-14 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto border border-emerald-200">
+                    <Check className="h-7 w-7" />
+                  </div>
+                  <h4 className="font-heading text-xl font-bold text-slate-800">Thank You!</h4>
+                  <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-md mx-auto">
+                    Thank you! Your feedback will appear after admin approval.
+                  </p>
+                  <Button
+                    onClick={() => {
+                      setFeedbackFormSubmitted(false);
+                      setFeedbackForm({
+                        name: "",
+                        email: "",
+                        role: "Member",
+                        city: "",
+                        rating: 5,
+                        message: "",
+                        consent: false
+                      });
+                    }}
+                    className="bg-primary hover:bg-primary/95 text-white rounded-xl text-xs py-2.5 px-5 font-bold cursor-pointer"
+                  >
+                    Submit Another Feedback
+                  </Button>
+                </div>
+              ) : (
+                <form onSubmit={handleFeedbackSubmit} className="space-y-5 text-left">
+                  {feedbackSubmitError && (
+                    <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-semibold">
+                      {feedbackSubmitError}
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Full Name */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase text-slate-600 tracking-wider">
+                        Full Name <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={feedbackForm.name}
+                        onChange={(e) => setFeedbackForm(prev => ({ ...prev, name: e.target.value }))}
+                        placeholder="e.g. Ananya Sen"
+                        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-pink-100"
+                      />
+                    </div>
+
+                    {/* Email */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase text-slate-600 tracking-wider">
+                        Email Address <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={feedbackForm.email}
+                        onChange={(e) => setFeedbackForm(prev => ({ ...prev, email: e.target.value }))}
+                        placeholder="email@example.com (Not shown publicly)"
+                        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-pink-100"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Role Dropdown */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase text-slate-600 tracking-wider">
+                        Your Role <span className="text-rose-500">*</span>
+                      </label>
+                      <select
+                        value={feedbackForm.role}
+                        onChange={(e) => setFeedbackForm(prev => ({ ...prev, role: e.target.value }))}
+                        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-pink-100 bg-white"
+                      >
+                        <option value="Member">Member</option>
+                        <option value="Volunteer">Volunteer</option>
+                        <option value="Healthcare Expert">Healthcare Expert</option>
+                        <option value="Institution Partner">Institution Partner</option>
+                        <option value="Donor">Donor</option>
+                        <option value="Patient Family">Patient Family</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+
+                    {/* City */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold uppercase text-slate-600 tracking-wider">
+                        City (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        value={feedbackForm.city}
+                        onChange={(e) => setFeedbackForm(prev => ({ ...prev, city: e.target.value }))}
+                        placeholder="e.g. Mumbai"
+                        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-pink-100"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Rating 1-5 Stars */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold uppercase text-slate-600 tracking-wider block">
+                      Rating <span className="text-rose-500">*</span>
+                    </label>
+                    <div className="flex items-center gap-1.5 cursor-pointer">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setFeedbackForm(prev => ({ ...prev, rating: star }))}
+                          className="p-1 hover:scale-110 transition-transform focus:outline-none"
+                        >
+                          <Star
+                            className={`h-6 w-6 ${
+                              star <= feedbackForm.rating
+                                ? "text-amber-400 fill-amber-400"
+                                : "text-slate-300"
+                            }`}
+                          />
+                        </button>
+                      ))}
+                      <span className="text-xs font-bold text-slate-500 ml-2">
+                        {feedbackForm.rating} / 5 Stars
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Feedback Message */}
+                  <div className="space-y-1.5">
+                    <div className="flex justify-between items-center">
+                      <label className="text-xs font-bold uppercase text-slate-600 tracking-wider">
+                        Feedback Text <span className="text-rose-500">*</span>
+                      </label>
+                      <span className="text-[10px] font-semibold text-slate-400">
+                        {feedbackForm.message.length} / 500 chars
+                      </span>
+                    </div>
+                    <textarea
+                      required
+                      maxLength={500}
+                      rows={4}
+                      value={feedbackForm.message}
+                      onChange={(e) => setFeedbackForm(prev => ({ ...prev, message: e.target.value }))}
+                      placeholder="Share your experience with our awareness campaigns, resources, or webinars..."
+                      className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-pink-100 font-sans"
+                    />
+                  </div>
+
+                  {/* Consent Checkbox */}
+                  <div className="flex items-start gap-2 pt-1">
+                    <input
+                      type="checkbox"
+                      id="feedbackConsent"
+                      checked={feedbackForm.consent}
+                      onChange={(e) => setFeedbackForm(prev => ({ ...prev, consent: e.target.checked }))}
+                      className="mt-1 h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary cursor-pointer"
+                    />
+                    <label htmlFor="feedbackConsent" className="text-xs text-slate-600 font-medium cursor-pointer">
+                      I agree to display my feedback publicly with my name.
+                    </label>
+                  </div>
+
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    disabled={feedbackSubmitting}
+                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-xl py-3.5 text-sm shadow-md active:scale-95 transition-all cursor-pointer"
+                  >
+                    {feedbackSubmitting ? "Submitting..." : "Submit Feedback"}
+                  </Button>
+                </form>
+              )}
+            </Card>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ================= VERIFIED MEMBERS SECTION ================= */}
+      <section className="py-20 bg-gradient-to-b from-white to-pink-50/20 border-y border-pink-100/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
 
+          {/* Heading */}
           <div className="text-center space-y-3 max-w-2xl mx-auto">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/50 text-primary text-xs font-bold uppercase tracking-wider">
-              <MessageSquare className="h-3.5 w-3.5" /> Community Feedback
+              <CheckCircle2 className="h-3.5 w-3.5" />
+              Verified Members
             </span>
-            <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
-              What Our Members Say
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">
+              Our Growing Community
             </h2>
             <p className="text-sm text-slate-500 font-medium">
-              Read feedback from individuals and doctors actively using the campaign network.
+              Meet the verified individuals, organizations, and corporate partners who have joined our mission.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonialsList.map((test, idx) => (
-              <Card key={idx} className="border-pink-100/40 bg-white p-6 rounded-2xl shadow-xs space-y-4 hover:shadow-md transition-shadow relative">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-pink-100 text-primary flex items-center justify-center text-xs font-bold font-heading border border-pink-200/50">
-                    {test.initials}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-800 text-sm">{test.name}</h4>
-                    <p className="text-[10px] text-slate-400 font-semibold">{test.role}</p>
-                  </div>
+          {/* Content */}
+          {verifiedLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="rounded-2xl border border-pink-100/40 bg-white p-6 shadow-sm animate-pulse space-y-3">
+                  <div className="h-12 w-12 rounded-full bg-slate-200" />
+                  <div className="h-4 w-1/2 bg-slate-200 rounded" />
+                  <div className="h-3 w-3/4 bg-slate-100 rounded" />
                 </div>
-                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed italic font-medium">
-                  &ldquo;{test.review}&rdquo;
-                </p>
-                <div className="flex gap-0.5 text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-3.5 w-3.5 fill-amber-400" />
-                  ))}
-                </div>
-              </Card>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : verifiedMembers.length === 0 ? (
+            <Card className="rounded-2xl border-2 border-dashed border-pink-200 bg-white p-12 shadow-sm text-center max-w-xl mx-auto space-y-3">
+              <Users className="h-10 w-10 text-pink-300 mx-auto" />
+              <p className="text-sm text-slate-600 font-semibold">
+                No verified members yet.
+              </p>
+              <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                Approved members will appear here as our community grows.
+              </p>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {verifiedMembers.map((member) => (
+                <Card key={member.id} className="rounded-2xl border border-pink-100/40 bg-white p-6 shadow-sm hover:shadow-md transition-shadow space-y-4 flex flex-col justify-between">
 
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      {member.logoUrl ? (
+                        <div className="h-12 w-12 rounded-full overflow-hidden border border-pink-100 shrink-0">
+                          <img src={member.logoUrl} alt={member.displayName} className="w-full h-full object-cover" />
+                        </div>
+                      ) : (
+                        <div className="h-12 w-12 rounded-full bg-pink-100 text-pink-700 flex items-center justify-center font-bold text-sm shrink-0">
+                          {getInitials(member.displayName)}
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-slate-800 text-sm leading-tight truncate">
+                          {member.displayName}
+                        </h4>
+                        <span className={
+                          member.type === "individual"
+                            ? "text-[10px] font-semibold px-2 py-0.5 rounded border border-pink-100 bg-pink-50 text-pink-700 inline-block mt-1"
+                            : member.type === "ngo"
+                            ? "text-[10px] font-semibold px-2 py-0.5 rounded border border-purple-100 bg-purple-50 text-purple-700 inline-block mt-1"
+                            : "text-[10px] font-semibold px-2 py-0.5 rounded border border-blue-100 bg-blue-50 text-blue-700 inline-block mt-1"
+                        }>
+                          {member.category}
+                        </span>
+                      </div>
+                    </div>
+
+                    {member.city && (
+                      <p className="text-xs text-slate-500 flex items-center gap-1">
+                        <MapPin className="h-3 w-3" />
+                        {member.city}{member.state ? `, ${member.state}` : ""}
+                      </p>
+                    )}
+
+                    {member.description && (
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
+                        {member.description}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="pt-3 border-t border-pink-50 text-[10px] text-slate-400 font-medium flex items-center gap-1">
+                    <CheckCircle2 className="h-3 w-3 text-emerald-500" />
+                    Verified Member
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -948,12 +1362,24 @@ export default function MembershipClient() {
                           </p>
                         </div>
 
+                        {individualErrors.submit && (
+                          <p className="text-xs text-rose-500 font-bold text-center">{individualErrors.submit}</p>
+                        )}
+
                         {/* Submit Button */}
                         <Button
                           type="submit"
-                          className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-xl py-4 active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer"
+                          disabled={isPending}
+                          className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-xl py-4 active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2"
                         >
-                          Become a Member
+                          {isPending ? (
+                            <>
+                              <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              <span>Submitting...</span>
+                            </>
+                          ) : (
+                            "Become a Member"
+                          )}
                         </Button>
                       </motion.form>
                     ) : (
@@ -1775,7 +2201,7 @@ export default function MembershipClient() {
               Frequently Asked Questions
             </h2>
             <p className="text-sm text-slate-500 font-medium">
-              Quick answers concerning registration timelines, costs, and partnership guidelines.
+              Quick answers about membership, partnership, and community involvement.
             </p>
           </div>
 

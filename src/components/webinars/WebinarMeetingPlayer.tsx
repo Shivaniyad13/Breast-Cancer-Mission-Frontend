@@ -409,7 +409,7 @@ export default function WebinarMeetingPlayer({
 
             <div className="flex gap-2.5">
               <button
-                onClick={() => router.push(`/api/certificates/${certReadyModal.id}/download`)}
+                onClick={() => router.push(`/api/certificates/webinar/${certReadyModal.id}/download`)}
                 className="flex-1 bg-primary hover:bg-primary/95 text-white font-bold text-sm py-3 rounded-2xl shadow-md transition-all active:scale-95 cursor-pointer"
               >
                 Download PDF

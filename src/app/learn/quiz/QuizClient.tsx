@@ -430,12 +430,12 @@ export default function QuizClient({ user }: QuizClientProps) {
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-2 pt-2">
-                          <Link href={`/api/certificates/${certResult.certificateId}/download`} className="flex-1">
+                          <Link href={`/api/certificates/webinar/${certResult.certificateId}/download`} className="flex-1">
                             <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg py-2.5 h-auto flex items-center justify-center gap-1 shadow-sm">
                               <Download className="h-4 w-4" /> Download Official PDF
                             </Button>
                           </Link>
-                          <Link href={`/verify/${certResult.certificateNumber}`} target="_blank" className="flex-1">
+                          <Link href={`/verify/webinar/${certResult.certificateNumber}`} target="_blank" className="flex-1">
                             <Button variant="outline" className="w-full border-emerald-200 text-slate-700 hover:bg-emerald-50 text-xs font-semibold rounded-lg py-2.5 h-auto flex items-center justify-center gap-1">
                               <ExternalLink className="h-4 w-4" /> Verify Online
                             </Button>

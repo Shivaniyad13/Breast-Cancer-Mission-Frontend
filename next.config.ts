@@ -17,6 +17,12 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "www.1mg.com",
       },
+      // ⬇️ YE ADD KARO — Cloudinary ke liye
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
     ],
   },
 };

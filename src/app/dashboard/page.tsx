@@ -7,9 +7,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import WebinarFeedbackForm from "@/components/webinars/WebinarFeedbackForm";
 import WebinarCountdown from "@/components/webinars/WebinarCountdown";
 import DashboardWebinars from "@/components/webinars/DashboardWebinars";
+import ActionCard from "@/components/dashboard/ActionCard";
 import Link from "next/link";
-import { 
-  Heart, BookOpen, Award, Users, Video, Calendar, Clock, 
+import {
+  Heart, BookOpen, Award, Users, Video, Calendar, Clock,
   MapPin, ShieldCheck, Download, ExternalLink, Activity, Bell, ListTodo,
   Building2, Briefcase, CheckCircle, Ribbon
 } from "lucide-react";
@@ -21,7 +22,7 @@ export const revalidate = 0; // Fresh dashboard information on every visit
 
 export default async function DashboardPage() {
   const session = await auth();
-  
+
   if (!session?.user) {
     redirect("/login");
   }
@@ -55,15 +56,15 @@ export default async function DashboardPage() {
   if (user.role === "ORGANIZATION_MEMBER" || user.role === "CORPORATE_PARTNER") {
     return (
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 min-h-screen text-slate-800 bg-slate-50 font-sans">
-        
+
         {/* Welcome Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-pink-100 pb-6 bg-white p-6 rounded-3xl shadow-xs w-full min-w-0">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full min-w-0">
             {institutionData?.organizationLogoUrl || institutionData?.companyLogoUrl ? (
               <div className="relative h-16 w-16 rounded-2xl overflow-hidden border border-slate-100 shrink-0 shadow-sm bg-slate-50 flex items-center justify-center p-1">
-                <img 
-                  src={user.role === "ORGANIZATION_MEMBER" ? institutionData.organizationLogoUrl : institutionData.companyLogoUrl} 
-                  alt="Logo" 
+                <img
+                  src={user.role === "ORGANIZATION_MEMBER" ? institutionData.organizationLogoUrl : institutionData.companyLogoUrl}
+                  alt="Logo"
                   className="max-h-full max-w-full object-contain rounded-xl"
                 />
               </div>
@@ -93,24 +94,21 @@ export default async function DashboardPage() {
                 View Membership Info
               </Button>
             </Link>
-            <a href="mailto:partnerships@grsawareness.org">
-              <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-xl shadow-sm transition-all cursor-pointer">
-                Contact Strategic Desk
-              </Button>
-            </a>
+
+
           </div>
         </div>
 
         {/* Grid: Partnership Certificate & Profile Data */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
+
           {/* Partnership Certificate Card (Left 2 columns) */}
           <div className="lg:col-span-2">
             <Card className="border-pink-100 bg-white shadow-lg rounded-3xl p-6 sm:p-10 relative overflow-hidden flex flex-col justify-between h-full group hover:shadow-xl transition-all duration-300">
-              
+
               {/* Certificate Outer Border */}
               <div className="absolute inset-4 border-2 border-dashed border-pink-200 rounded-2xl pointer-events-none" />
-              
+
               {/* Corner graphics decoration */}
               <div className="absolute top-8 right-8 opacity-5">
                 <Ribbon className="h-32 w-32 text-rose-500" />
@@ -120,11 +118,11 @@ export default async function DashboardPage() {
                 <div className="flex justify-center mb-2">
                   <Ribbon className="h-10 w-10 text-primary animate-pulse" />
                 </div>
-                
+
                 <h2 className="font-heading text-2xl font-black text-slate-800 tracking-wider">
                   CERTIFICATE OF STRATEGIC PARTNERSHIP
                 </h2>
-                
+
                 <p className="text-slate-500 font-semibold italic text-xs uppercase tracking-widest border-y border-pink-100 py-2 max-w-sm mx-auto">
                   GRS Breast Cancer Awareness Mission
                 </p>
@@ -155,11 +153,19 @@ export default async function DashboardPage() {
                     GRS SEAL
                   </div>
                 </div>
-                <div>
-                  <span className="block border-b border-slate-200 pb-1 mb-1 font-bold font-heading text-slate-700 italic">
-                    Antigravity AI
+                <div className="flex flex-col items-center gap-1">
+                  {/* Signature image */}
+                  <img
+                    src="/images/signature.png"
+                    alt="Saket Mani Trivedi Signature"
+                    className="h-10 w-auto object-contain opacity-80"
+                  />
+                  <span className="block border-b border-slate-200 pb-1 mb-1 font-bold font-heading text-slate-700">
+                    Saket Mani Trivedi
                   </span>
-                  GRS COORDINATOR
+                  <span className="text-[9px] tracking-wider">
+                    GRS COORDINATOR
+                  </span>
                 </div>
               </div>
             </Card>
@@ -167,7 +173,7 @@ export default async function DashboardPage() {
 
           {/* Profile metadata Card (Right 1 column) */}
           <div className="col-span-1 space-y-6">
-            
+
             {/* Institution Profile Info */}
             <Card className="border-slate-100 rounded-3xl bg-white shadow-sm p-6 space-y-4">
               <div className="border-b border-slate-100 pb-3">
@@ -175,7 +181,7 @@ export default async function DashboardPage() {
                   <Activity className="h-5 w-5 text-primary" /> Institution Data
                 </h3>
               </div>
-              
+
               <div className="space-y-3.5 text-xs">
                 {user.role === "ORGANIZATION_MEMBER" ? (
                   <>
@@ -227,60 +233,19 @@ export default async function DashboardPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            {/* Card 1 */}
-            <Card className="border-slate-100 hover:border-pink-300 hover:shadow-md transition-all duration-300 rounded-2xl bg-white p-5 flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <h4 className="font-heading font-bold text-slate-800 text-base">Request Awareness Camp</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Request doctors and oncology panels to host localized screening and self-examination camps at your facility.
-                </p>
-              </div>
-              <Button onClick={() => alert("Awareness camp scheduling portal is opening soon. Contact partnerships@grsawareness.org.")} className="bg-slate-100 hover:bg-pink-50 hover:text-primary text-slate-700 font-bold text-xs py-2 w-full rounded-xl cursor-pointer">
-                Request Camp Setup
-              </Button>
-            </Card>
-
-            {/* Card 2 */}
-            <Card className="border-slate-100 hover:border-pink-300 hover:shadow-md transition-all duration-300 rounded-2xl bg-white p-5 flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <h4 className="font-heading font-bold text-slate-800 text-base">Download Kits & Flyers</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Get high-resolution Breast Self-Examination (BSE) graphics, posters, training guides, and regional flyers.
-                </p>
-              </div>
-              <Button onClick={() => alert("Downloading media kit... (Flyers, infographics, checkup guides)")} className="bg-slate-100 hover:bg-pink-50 hover:text-primary text-slate-700 font-bold text-xs py-2 w-full rounded-xl cursor-pointer">
-                Download Media Kit
-              </Button>
-            </Card>
-
-            {/* Card 3 */}
-            <Card className="border-slate-100 hover:border-pink-300 hover:shadow-md transition-all duration-300 rounded-2xl bg-white p-5 flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <h4 className="font-heading font-bold text-slate-800 text-base">Schedule Wellness Webinar</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Setup an online webinar stream exclusively for your volunteers, employees, or local community, featuring clinical specialists.
-                </p>
-              </div>
-              <Button onClick={() => alert("Webinar schedule requests form will be unlocked. Please contact support.")} className="bg-slate-100 hover:bg-pink-50 hover:text-primary text-slate-700 font-bold text-xs py-2 w-full rounded-xl cursor-pointer">
-                Request Webinar
-              </Button>
-            </Card>
-
-            {/* Card 4 */}
-            <Card className="border-slate-100 hover:border-pink-300 hover:shadow-md transition-all duration-300 rounded-2xl bg-white p-5 flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <h4 className="font-heading font-bold text-slate-800 text-base">Fundraising Campaigns</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">
-                  Co-sponsor local diagnostic checkups and treatments. Set up matching corporate donor channels or direct fundraising drives.
-                </p>
-              </div>
-              <Button onClick={() => alert("Sponsorship allocation and CSR donation channels are active at /donate. Direct fundraisers can be registered through patient profiles.")} className="bg-slate-100 hover:bg-pink-50 hover:text-primary text-slate-700 font-bold text-xs py-2 w-full rounded-xl cursor-pointer">
-                Open Donation Portal
-              </Button>
-            </Card>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <ActionCard
+              title="Request Awareness Camp"
+              description="Request doctors and oncology panels to host localized screening and self-examination camps at your facility."
+              buttonText="Request Camp Setup"
+              actionType="camp"
+            />
+            <ActionCard
+              title="Fundraising Campaigns"
+              description="Co-sponsor local diagnostic checkups and treatments. Set up matching corporate donor channels or direct fundraising drives."
+              buttonText="Open Donation Portal"
+              actionType="donate"
+            />
           </div>
         </div>
 
@@ -344,7 +309,7 @@ export default async function DashboardPage() {
 
   // Dynamic notifications list
   const notifications: { title: string; message: string; date: Date; type: string }[] = [];
-  
+
   registrations.forEach(r => {
     const start = new Date(r.webinar.startTime);
     const end = new Date(r.webinar.endTime);
@@ -363,7 +328,7 @@ export default async function DashboardPage() {
     if (timeDiffMs > 0 && timeDiffMs < oneDayMs) {
       notifications.push({
         title: "Reminder: 24 Hours Left",
-        message: `"${r.webinar.title}" will start in less than 24 hours at ${start.toLocaleTimeString("en-US", {hour: '2-digit', minute:'2-digit'})}.`,
+        message: `"${r.webinar.title}" will start in less than 24 hours at ${start.toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' })}.`,
         date: new Date(start.getTime() - oneDayMs),
         type: "WARNING"
       });
@@ -406,7 +371,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-6 min-h-screen">
-      
+
       {/* Welcome Banner */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-pink-100 pb-6">
         <div>
@@ -475,7 +440,7 @@ export default async function DashboardPage() {
                   Your account is verified. You can access all features configured for your role on the network.
                 </p>
               </div>
-              
+
               {user.role === "VOLUNTEER" && (
                 <div className="space-y-2 text-sm pt-2">
                   <p className="font-semibold text-primary flex items-center gap-1.5"><Award className="h-4 w-4" /> Earned Certificates</p>
@@ -553,7 +518,7 @@ export default async function DashboardPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {certificates.map(cert => (
                     <div key={cert.id} className="border border-pink-100 rounded-2xl p-5 bg-white/70 backdrop-blur-sm relative overflow-hidden flex flex-col justify-between space-y-4">
-                      
+
                       {/* Small graphics decoration */}
                       <div className="absolute top-4 right-4 opacity-5">
                         <Award className="h-16 w-16 text-rose-500" />
@@ -569,12 +534,12 @@ export default async function DashboardPage() {
                       </div>
 
                       <div className="flex gap-2 border-t border-slate-100 pt-3">
-                        <Link href={`/api/certificates/${cert.id}/download`}>
+                        <Link href={`/api/certificates/webinar/${cert.id}/download`}>
                           <Button size="sm" className="bg-primary hover:bg-primary/95 text-white rounded-xl text-[10px] uppercase font-bold py-1.5 h-auto px-4 shadow-sm flex items-center gap-1">
                             <Download className="h-3 w-3" /> Download PDF
                           </Button>
                         </Link>
-                        <Link href={`/verify/${cert.certificateIdString}`} target="_blank">
+                        <Link href={`/verify/webinar/${cert.certificateIdString}`} target="_blank">
                           <Button size="sm" variant="outline" className="border-pink-200 text-slate-700 hover:bg-pink-50 rounded-xl text-[10px] uppercase font-semibold py-1.5 h-auto px-3 flex items-center gap-1">
                             <ExternalLink className="h-3 w-3" /> Verify QR
                           </Button>
@@ -619,11 +584,10 @@ export default async function DashboardPage() {
                         <td className="py-3 text-center">{log.durationMinutes.toFixed(1)} mins</td>
                         <td className="py-3 text-center font-mono font-bold text-slate-700">{log.attendancePercentage.toFixed(0)}%</td>
                         <td className="py-3 text-right">
-                          <span className={`inline-block px-2.5 py-0.5 rounded font-bold text-[9px] uppercase tracking-wider ${
-                            log.status === "PRESENT" || log.status === "Completed"
-                              ? "bg-emerald-50 text-emerald-600 border border-emerald-100" 
+                          <span className={`inline-block px-2.5 py-0.5 rounded font-bold text-[9px] uppercase tracking-wider ${log.status === "PRESENT" || log.status === "Completed"
+                              ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
                               : "bg-red-50 text-red-500 border border-red-100"
-                          }`}>
+                            }`}>
                             {log.status}
                           </span>
                         </td>
@@ -691,13 +655,12 @@ export default async function DashboardPage() {
                             {d.paymentGatewayId}
                           </td>
                           <td className="py-3">
-                            <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
-                              d.status === "SUCCESSFUL" || d.status === "COMPLETED"
+                            <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase ${d.status === "SUCCESSFUL" || d.status === "COMPLETED"
                                 ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
                                 : d.status === "PENDING"
-                                ? "bg-amber-50 text-amber-600 border border-amber-100"
-                                : "bg-red-50 text-red-600 border border-red-100"
-                            }`}>
+                                  ? "bg-amber-50 text-amber-600 border border-amber-100"
+                                  : "bg-red-50 text-red-600 border border-red-100"
+                              }`}>
                               {d.status}
                             </span>
                           </td>
@@ -730,9 +693,8 @@ export default async function DashboardPage() {
                     <div key={i} className="border border-slate-100 rounded-2xl p-4 bg-slate-50/50 flex justify-between items-start gap-4">
                       <div className="space-y-1 text-xs">
                         <div className="flex items-center gap-2">
-                          <span className={`inline-block h-2 w-2 rounded-full ${
-                            notif.type === "SUCCESS" ? "bg-blue-500" : notif.type === "WARNING" ? "bg-amber-500" : "bg-primary"
-                          }`} />
+                          <span className={`inline-block h-2 w-2 rounded-full ${notif.type === "SUCCESS" ? "bg-blue-500" : notif.type === "WARNING" ? "bg-amber-500" : "bg-primary"
+                            }`} />
                           <h4 className="font-bold text-slate-800">{notif.title}</h4>
                         </div>
                         <p className="text-slate-500 pl-4">{notif.message}</p>

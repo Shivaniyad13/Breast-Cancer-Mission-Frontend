@@ -946,7 +946,7 @@ export default function PartnerOrganizationsPage() {
               Event Gallery
             </span>
             <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-              GRS Alliance Event Gallery
+              Breast Cancer  Alliance Event Gallery
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
               Browse realistic imagery documenting awareness walks, medical workshops, diagnostics camps, and lab research. Click to expand.

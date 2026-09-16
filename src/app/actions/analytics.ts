@@ -32,6 +32,15 @@ export async function getAnalyticsOverviewAction() {
     successfulDonationsCount,
     totalDonationAmountAggregate,
     campaignsList,
+    individualTotal,
+    individualPending,
+    individualVerified,
+    individualRejected,
+    // 👇 NAYE 4 VARIABLES (volunteers)
+    volunteerTotal,
+    volunteerPending,
+    volunteerVerified,
+    volunteerRejected,
   ] = await Promise.all([
     // 1. Website Visits
     db.pageView.count(),
@@ -139,6 +148,18 @@ export async function getAnalyticsOverviewAction() {
       orderBy: { createdAt: "desc" },
       take: 10,
     }),
+
+    // 7. Individual Members Analytics
+    db.individualMember.count(),
+    db.individualMember.count({ where: { status: "PENDING" } }),
+    db.individualMember.count({ where: { status: "VERIFIED" } }),
+    db.individualMember.count({ where: { status: "REJECTED" } }),
+
+    // 👇 8. Volunteers Analytics (NAYA SECTION)
+    db.volunteerApplication.count(),
+    db.volunteerApplication.count({ where: { status: "PENDING" } }),
+    db.volunteerApplication.count({ where: { status: "VERIFIED" } }),
+    db.volunteerApplication.count({ where: { status: "REJECTED" } }),
   ]);
 
   // Format top pages
@@ -216,6 +237,19 @@ export async function getAnalyticsOverviewAction() {
         amountRaised: Number(c.amountRaised),
         donationsCount: c._count.donations,
       })),
+    },
+    individualMembers: {
+      total: individualTotal,
+      pending: individualPending,
+      verified: individualVerified,
+      rejected: individualRejected,
+    },
+    // 👇 NAYA SECTION — volunteers
+    volunteers: {
+      total: volunteerTotal,
+      pending: volunteerPending,
+      verified: volunteerVerified,
+      rejected: volunteerRejected,
     },
   };
 }

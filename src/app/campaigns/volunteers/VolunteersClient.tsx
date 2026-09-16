@@ -3,6 +3,8 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,8 +32,68 @@ import {
   MapPin,
   Clock,
   TrendingUp,
-  X
+  X,
+  ShieldCheck,
+  Upload,
+  Download,
+  LogOut,
+  AlertTriangle,
+  FileText,
+  Loader2
 } from "lucide-react";
+
+export type VolunteerSession = {
+  userId: string;
+  role: "USER" | "VOLUNTEER" | "ADMIN";
+  volunteerStatus: "NOT_APPLIED" | "PENDING" | "VERIFIED" | "REJECTED" | "UNVERIFIED";
+  volunteerId?: string;
+  certificateCode?: string | null;
+  fullName?: string;
+} | null;
+
+export type VolunteerFeedback = {
+  id: string;
+  name: string;
+  interest: string;
+  city: string;
+  rating: number;
+  review: string;
+  initials: string;
+};
+
+export type VolunteerStats = {
+  volunteers: number;
+  campaigns: number;
+  events: number;
+  reached: number;
+};
+
+export type VolunteerEvent = {
+  id: string;
+  title: string;
+  description: string;
+  location: string;
+  eventDate: string;
+  slots: number;
+  filledSlots: number;
+  interestKey: string;
+  alreadyApplied: boolean;
+};
+
+export type GalleryItem = {
+  id?: string;
+  src: string;
+  title: string;
+  submittedBy?: string;
+};
+
+interface VolunteersClientProps {
+  initialSession?: VolunteerSession;
+  initialFeedback?: VolunteerFeedback[];
+  initialStats?: VolunteerStats;
+  initialEvents?: VolunteerEvent[];
+  initialGallery?: GalleryItem[];
+}
 
 // Why Volunteer Cards
 const whyVolunteerList = [
@@ -103,51 +165,23 @@ const opportunitiesList = [
   }
 ];
 
-// Volunteer Activities
-const volunteerActivities = [
-  {
-    title: "Awareness Walkathons",
-    description: "Mobilizing youth groups and survivors in cities to walk for breast cancer awareness and gather treatment funds.",
-    src: "/images/community_walk.png"
-  },
-  {
-    title: "Mobile Screening Camps",
-    description: "Setting up regional camps where partners provide free mammograms and clinical exams to families in need.",
-    src: "/images/mammography_screening.png"
-  },
-  {
-    title: "Interactive Training Seminars",
-    description: "Conducting classroom sessions instructing local leaders how to use tactile visual check planners.",
-    src: "/images/15.png"
-  },
-  {
-    title: "Support Circles Coordination",
-    description: "Organizing weekend survivor meetups to share stories and restore mental peace in a caring environment.",
-    src: "/images/support_group.png"
-  }
-];
+const interestToRole: Record<string, string> = {
+  outreach: "Community Outreach Volunteer",
+  camps: "Health Camp Volunteer",
+  events: "Campaign Coordinator",
+  media: "Media Advocate",
+  fundraising: "Fundraising Volunteer",
+  workshops: "Workshop Presenter",
+};
 
-// Testimonials Placeholders
-const testimonialsList = [
-  {
-    name: "Sanya Roy",
-    role: "Campus Ambassador",
-    review: "Volunteering with the campaign enabled us to train 200+ college students on Breast Self-Examination. The cert validation is highly appreciated by students.",
-    initials: "SR"
-  },
-  {
-    name: "Rohan Deshmukh",
-    role: "Camp Coordinator",
-    review: "Coordinating the mobile screening camps in Pune was life-changing. We helped 50 underprivileged women access free diagnostic mammograms.",
-    initials: "RD"
-  },
-  {
-    name: "Dr. Anjali Sen",
-    role: "Oncology Counsellor",
-    review: "As a professional counsellor, contributing time to host support meetups is a wonderful path to give back to patients and families.",
-    initials: "AS"
-  }
-];
+const getRoleLabel = (interest: string) =>
+  interestToRole[interest] || "Volunteer";
+
+const formatStat = (n: number): string => {
+  if (n >= 1000000) return `${(n / 1000000).toFixed(1).replace(/\.0$/, "")}M+`;
+  if (n >= 1000) return `${(n / 1000).toFixed(1).replace(/\.0$/, "")}K+`;
+  return n.toString();
+};
 
 // FAQs List
 const faqsList = [
@@ -173,8 +207,8 @@ const faqsList = [
   }
 ];
 
-// Volunteer Gallery Grid (11.png to 17.png)
-const galleryImages = [
+// TODO: Remove FALLBACK_GALLERY once enough real submissions exist
+const FALLBACK_GALLERY: GalleryItem[] = [
   { src: "/images/11.png", title: "Global Ribbons Drive" },
   { src: "/images/12.png", title: "Clinic Diagnostics Camp" },
   { src: "/images/13.png", title: "Support Group Circle" },
@@ -184,12 +218,79 @@ const galleryImages = [
   { src: "/images/17.png", title: "Wellness Daily Advocacy" }
 ];
 
-export default function VolunteersClient() {
+export default function VolunteersClient({
+  initialSession = null,
+  initialFeedback = [],
+  initialStats = { volunteers: 0, campaigns: 0, events: 0, reached: 0 },
+  initialEvents = [],
+  initialGallery = [],
+}: VolunteersClientProps) {
+  const router = useRouter();
   const formRef = useRef<HTMLDivElement>(null);
+  const [session, setSession] = useState<VolunteerSession>(initialSession);
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
-  const [lightboxImage, setLightboxImage] = useState<typeof galleryImages[0] | null>(null);
 
-  // Form States
+  const galleryItems = initialGallery.length > 0 ? initialGallery : FALLBACK_GALLERY;
+  const [lightboxImage, setLightboxImage] = useState<GalleryItem | null>(null);
+  const [applyingEventId, setApplyingEventId] = useState<string | null>(null);
+
+  // Modals state
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [showGalleryModal, setShowGalleryModal] = useState(false);
+
+  // Feedback form state inside modal
+  const [feedbackRating, setFeedbackRating] = useState(5);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [feedbackSubmitting, setFeedbackSubmitting] = useState(false);
+  const [feedbackError, setFeedbackError] = useState<string | null>(null);
+  const [feedbackSuccess, setFeedbackSuccess] = useState(false);
+
+  // Gallery upload form state inside modal
+  const [galleryTitle, setGalleryTitle] = useState("");
+  const [galleryFile, setGalleryFile] = useState<File | null>(null);
+  const [galleryPreview, setGalleryPreview] = useState<string | null>(null);
+  const [gallerySubmitting, setGallerySubmitting] = useState(false);
+  const [galleryError, setGalleryError] = useState<string | null>(null);
+  const [gallerySuccess, setGallerySuccess] = useState(false);
+
+  const handleGalleryFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setGalleryError(null);
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setGalleryError("File size exceeds 5MB limit.");
+        setGalleryFile(null);
+        setGalleryPreview(null);
+        return;
+      }
+      setGalleryFile(file);
+      setGalleryPreview(URL.createObjectURL(file));
+    } else {
+      setGalleryFile(null);
+      setGalleryPreview(null);
+    }
+  };
+
+  const handleEventApply = async (eventId: string) => {
+    setApplyingEventId(eventId);
+    try {
+      const res = await fetch(`/api/volunteers/events/${eventId}/apply`, {
+        method: "POST",
+      });
+      const json = await res.json();
+      if (json.success) {
+        router.refresh();
+      } else {
+        alert(json.error || "Failed to apply for event.");
+      }
+    } catch (err: any) {
+      alert(err.message || "Failed to apply for event.");
+    } finally {
+      setApplyingEventId(null);
+    }
+  };
+
+  // Application Form States
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -202,10 +303,9 @@ export default function VolunteersClient() {
     motivation: ""
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-
-  // Prepared for future DB integration:
-  // const [volunteerStats, setVolunteerStats] = useState({ volunteers: 500, campaigns: 100, reached: 10000, events: 50 });
+  const [submitApiError, setSubmitApiError] = useState<string | null>(null);
 
   const scrollToForm = (interest?: string) => {
     if (interest) {
@@ -237,7 +337,7 @@ export default function VolunteersClient() {
     if (!formData.phone.trim()) {
       nextErrors.phone = "Phone number is required";
     } else if (!/^\+?[1-9]\d{1,14}$/.test(formData.phone.replace(/[\s-]/g, ""))) {
-      nextErrors.phone = "Please enter a valid phone number";
+      nextErrors.phone = "Please enter a valid phone number (e.g. +91 9876543210)";
     }
     if (!formData.city.trim()) nextErrors.city = "City is required";
     if (!formData.age.trim()) {
@@ -255,12 +355,32 @@ export default function VolunteersClient() {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitApiError(null);
+
     if (validateForm()) {
-      // Prepared for future PostgreSQL and Prisma integration:
-      console.log("Submitting Volunteer Application:", formData);
-      setFormSubmitted(true);
+      setFormSubmitting(true);
+      try {
+        const res = await fetch("/api/volunteers/apply", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...formData,
+            age: parseInt(formData.age, 10),
+          }),
+        });
+        const result = await res.json();
+        if (result.success) {
+          setFormSubmitted(true);
+        } else {
+          setSubmitApiError(result.error || "Application submission failed.");
+        }
+      } catch (err: any) {
+        setSubmitApiError(err.message || "Failed to submit application.");
+      } finally {
+        setFormSubmitting(false);
+      }
     }
   };
 
@@ -277,6 +397,81 @@ export default function VolunteersClient() {
       motivation: ""
     });
     setFormSubmitted(false);
+    setSubmitApiError(null);
+  };
+
+  const handleFeedbackSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFeedbackError(null);
+    if (!feedbackMessage.trim()) {
+      setFeedbackError("Please write a message before submitting.");
+      return;
+    }
+
+    setFeedbackSubmitting(true);
+    try {
+      const res = await fetch("/api/volunteers/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          rating: feedbackRating,
+          message: feedbackMessage.trim(),
+        }),
+      });
+      const result = await res.json();
+      if (result.success) {
+        setFeedbackSuccess(true);
+        setFeedbackMessage("");
+      } else {
+        setFeedbackError(result.error || "Failed to submit feedback.");
+      }
+    } catch (err: any) {
+      setFeedbackError(err.message || "Something went wrong.");
+    } finally {
+      setFeedbackSubmitting(false);
+    }
+  };
+
+  const handleGallerySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setGalleryError(null);
+    if (!galleryTitle.trim()) {
+      setGalleryError("Photo title is required.");
+      return;
+    }
+    if (!galleryFile) {
+      setGalleryError("Please select an image file.");
+      return;
+    }
+
+    const payload = new FormData();
+    payload.append("title", galleryTitle.trim());
+    payload.append("image", galleryFile);
+
+    setGallerySubmitting(true);
+    try {
+      const res = await fetch("/api/volunteers/gallery", {
+        method: "POST",
+        body: payload,
+      });
+      const result = await res.json();
+      if (result.success) {
+        setGallerySuccess(true);
+        setGalleryTitle("");
+        setGalleryFile(null);
+        if (galleryPreview) {
+          URL.revokeObjectURL(galleryPreview);
+          setGalleryPreview(null);
+        }
+        router.refresh();
+      } else {
+        setGalleryError(result.error || "Failed to upload photo.");
+      }
+    } catch (err: any) {
+      setGalleryError(err.message || "Failed to upload photo.");
+    } finally {
+      setGallerySubmitting(false);
+    }
   };
 
   const toggleFaq = (idx: number) => {
@@ -323,15 +518,74 @@ export default function VolunteersClient() {
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-20 text-center lg:text-left space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-500/20 backdrop-blur-md border border-pink-300/25 text-pink-100 text-xs font-semibold uppercase tracking-wider"
-          >
-            <Activity className="h-4 w-4 text-primary animate-pulse" />
-            Join the Movement
-          </motion.div>
+
+          {/* Session Header / Banner Bar */}
+          <div className="flex flex-wrap items-center gap-3">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-500/20 backdrop-blur-md border border-pink-300/25 text-pink-100 text-xs font-semibold uppercase tracking-wider"
+            >
+              <Activity className="h-4 w-4 text-primary animate-pulse" />
+              Join the Movement
+            </motion.div>
+
+            {/* Session State Badge & Actions */}
+            {!session ? (
+              <Link href="/volunteer/login">
+                <Button
+                  variant="ghost"
+                  className="text-xs font-bold uppercase tracking-wider text-pink-200 hover:text-white border border-pink-200/30 hover:border-pink-300 bg-white/5 hover:bg-white/10 rounded-full px-4 py-1.5 transition-all"
+                >
+                  Login as Volunteer
+                </Button>
+              </Link>
+            ) : session.volunteerStatus === "PENDING" ? (
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 backdrop-blur-md border border-amber-300/30 text-amber-200 text-xs font-bold uppercase tracking-wider">
+                <AlertTriangle className="h-4 w-4 text-amber-300 animate-bounce" />
+                Your volunteer application is under review
+              </div>
+            ) : session.volunteerStatus === "VERIFIED" ? (
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/20 backdrop-blur-md border border-emerald-300/30 text-emerald-200 text-xs font-bold uppercase tracking-wider">
+                  <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                  Verified Volunteer
+                </div>
+                <Button
+                  onClick={() => setShowFeedbackModal(true)}
+                  className="bg-pink-500/30 hover:bg-pink-500/50 text-white text-xs font-bold uppercase tracking-wider border border-pink-300/40 rounded-full px-3.5 py-1.5"
+                >
+                  <MessageSquare className="h-3.5 w-3.5 mr-1.5" />
+                  Submit Feedback
+                </Button>
+                <Button
+                  onClick={() => setShowGalleryModal(true)}
+                  className="bg-pink-500/30 hover:bg-pink-500/50 text-white text-xs font-bold uppercase tracking-wider border border-pink-300/40 rounded-full px-3.5 py-1.5"
+                >
+                  <Upload className="h-3.5 w-3.5 mr-1.5" />
+                  Upload to Gallery
+                </Button>
+                {session.certificateCode && (
+                  <Link
+                    href="/campaigns/volunteers/certificate"
+                    className="inline-flex items-center bg-emerald-600/80 hover:bg-emerald-600 text-white text-xs font-bold uppercase tracking-wider border border-emerald-300/40 rounded-full px-3.5 py-1.5 transition-all"
+                  >
+                    <Download className="h-3.5 w-3.5 mr-1.5" />
+                    Download Certificate
+                  </Link>
+                )}
+                <Button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  variant="ghost"
+                  className="text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white border border-white/20 rounded-full px-3 py-1.5"
+                >
+                  <LogOut className="h-3.5 w-3.5 mr-1" />
+                  Logout
+                </Button>
+              </div>
+            ) : null}
+          </div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -468,43 +722,7 @@ export default function VolunteersClient() {
         </div>
       </section>
 
-      {/* ================= VOLUNTEER ACTIVITIES ================= */}
-      <section className="py-20 md:py-28 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
 
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
-              <Activity className="h-3.5 w-3.5" /> Operations Logs
-            </span>
-            <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
-              Featured Activities In Action
-            </h2>
-            <p className="text-sm text-slate-500 font-medium">
-              A glimpse into the daily campaigns managed and executed by our dedicated volunteer teams.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {volunteerActivities.map((act, idx) => (
-              <Card key={idx} className="border-pink-100/30 bg-white hover:shadow-md transition-shadow rounded-2xl overflow-hidden group hover:border-pink-300">
-                <div className="relative h-44 w-full bg-slate-100">
-                  <Image
-                    src={act.src}
-                    alt={act.title}
-                    fill
-                    className="object-cover group-hover:scale-103 transition-transform duration-500"
-                    sizes="(max-width: 640px) 100vw, 250px"
-                  />
-                </div>
-                <div className="p-4 space-y-2">
-                  <h4 className="font-heading font-bold text-slate-800 text-sm leading-tight group-hover:text-primary transition-colors">{act.title}</h4>
-                  <p className="text-[11px] text-slate-500 leading-normal font-medium">{act.description}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ================= VOLUNTEER IMPACT ================= */}
       <section className="py-20 bg-gradient-to-br from-pink-500 to-rose-600 text-white relative overflow-hidden">
@@ -525,309 +743,206 @@ export default function VolunteersClient() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-
-            {/* Stat 1 */}
             <div className="text-center space-y-2">
-              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">500+</div>
+              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">{formatStat(initialStats.volunteers)}</div>
               <h4 className="text-xs sm:text-sm font-bold text-pink-100 uppercase tracking-widest">Volunteers</h4>
             </div>
-
-            {/* Stat 2 */}
             <div className="text-center space-y-2">
-              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">100+</div>
+              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">{formatStat(initialStats.campaigns)}</div>
               <h4 className="text-xs sm:text-sm font-bold text-pink-100 uppercase tracking-widest">Campaigns</h4>
             </div>
-
-            {/* Stat 3 */}
             <div className="text-center space-y-2">
-              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">10K+</div>
+              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">{formatStat(initialStats.reached)}</div>
               <h4 className="text-xs sm:text-sm font-bold text-pink-100 uppercase tracking-widest">People Reached</h4>
             </div>
-
-            {/* Stat 4 */}
             <div className="text-center space-y-2">
-              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">50+</div>
+              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">{formatStat(initialStats.events)}</div>
               <h4 className="text-xs sm:text-sm font-bold text-pink-100 uppercase tracking-widest">Events Organized</h4>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* ================= VOLUNTEER JOURNEY ================= */}
+      {/* ================= OPEN VOLUNTEER CALLS (UPCOMING EVENTS) ================= */}
+      {initialEvents.length > 0 && (
+        <section className="py-20 md:py-28 bg-gradient-to-b from-pink-50/30 to-white border-b border-pink-100/30">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
+            <div className="text-center space-y-3 max-w-2xl mx-auto">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
+                <Calendar className="h-3.5 w-3.5" /> Upcoming Events
+              </span>
+              <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
+                Open Volunteer Calls
+              </h2>
+              <p className="text-sm text-slate-500 font-medium">
+                Join our upcoming drives and camps — sign up for a slot before they fill.
+              </p>
+            </div>
+
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {initialEvents.map((event) => {
+                const isFull = event.filledSlots >= event.slots;
+
+                return (
+                  <motion.div key={event.id} variants={fadeInUp}>
+                    <Card className="border-pink-100/40 bg-white shadow-sm hover:shadow-md rounded-2xl p-6 flex flex-col justify-between h-full group hover:border-pink-300 transition-all">
+                      <div className="space-y-3">
+                        <h3 className="font-heading font-bold text-lg text-slate-800 group-hover:text-primary transition-colors leading-snug">
+                          {event.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
+                          {event.description}
+                        </p>
+                        <div className="flex flex-wrap gap-3 text-[10px] text-slate-400 font-semibold pt-2">
+                          <span className="flex items-center gap-1">
+                            <MapPin className="h-3 w-3 text-pink-500" /> {event.location}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Calendar className="h-3 w-3 text-pink-500" />{" "}
+                            {new Date(event.eventDate).toLocaleDateString("en-IN", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                            })}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Users className="h-3 w-3 text-pink-500" /> {event.filledSlots}/{event.slots} slots
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="pt-6 mt-4 border-t border-slate-100">
+                        {!session ? (
+                          <Link href="/volunteer/login">
+                            <Button
+                              variant="outline"
+                              className="w-full border-pink-200 text-pink-600 hover:bg-pink-50 font-bold text-xs rounded-xl py-2.5"
+                            >
+                              Login to Apply
+                            </Button>
+                          </Link>
+                        ) : session.volunteerStatus === "PENDING" ? (
+                          <Button
+                            disabled
+                            className="w-full bg-slate-100 text-slate-400 font-bold text-xs rounded-xl py-2.5 cursor-not-allowed border border-slate-200"
+                          >
+                            Awaiting Verification
+                          </Button>
+                        ) : event.alreadyApplied ? (
+                          <div className="w-full text-center py-2.5 bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-xs rounded-xl">
+                            Applied ✓
+                          </div>
+                        ) : isFull ? (
+                          <div className="w-full text-center py-2.5 bg-rose-50 text-rose-700 border border-rose-200 font-bold text-xs rounded-xl">
+                            Slots Full
+                          </div>
+                        ) : (
+                          <Button
+                            onClick={() => handleEventApply(event.id)}
+                            disabled={applyingEventId === event.id}
+                            className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs rounded-xl py-2.5 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                          >
+                            {applyingEventId === event.id ? (
+                              <>
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                Applying...
+                              </>
+                            ) : (
+                              "Apply for Slot"
+                            )}
+                          </Button>
+                        )}
+                      </div>
+                    </Card>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* ================= VOLUNTEER TESTIMONIALS / FEEDBACK ================= */}
       <section className="py-20 md:py-28 bg-white border-b border-pink-100/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-16">
-
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
-              <Activity className="h-3.5 w-3.5" /> Journey Roadmap
-            </span>
-            <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
-              Your Onboarding Journey
-            </h2>
-            <p className="text-sm text-slate-500 font-medium">
-              We guide each applicant through a structured timeline to verify compliance and prepare safety checks.
-            </p>
-          </div>
-
-          {/* Timeline Process */}
-          <div className="relative border-l border-pink-200 ml-4 md:ml-32 space-y-10">
-
-            {/* Step 1 */}
-            <div className="relative pl-8 md:pl-10">
-              <div className="absolute -left-3 top-1.5 h-6 w-6 rounded-full bg-primary border-4 border-white shadow-sm flex items-center justify-center" />
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold text-primary uppercase tracking-widest block">Step 01</span>
-                <h4 className="font-heading text-base font-bold text-slate-800">Register Online</h4>
-                <p className="text-slate-500 text-xs sm:text-sm max-w-md font-medium leading-relaxed">
-                  Fill out our modern registration form specifying your area of interest and weekly availability.
-                </p>
-              </div>
-            </div>
-
-            {/* Step 2 */}
-            <div className="relative pl-8 md:pl-10">
-              <div className="absolute -left-3 top-1.5 h-6 w-6 rounded-full bg-primary border-4 border-white shadow-sm flex items-center justify-center" />
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold text-primary uppercase tracking-widest block">Step 02</span>
-                <h4 className="font-heading text-base font-bold text-slate-800">Application Review</h4>
-                <p className="text-slate-500 text-xs sm:text-sm max-w-md font-medium leading-relaxed">
-                  Our regional campaign coordination team reviews your submission parameters to map you to openings.
-                </p>
-              </div>
-            </div>
-
-            {/* Step 3 */}
-            <div className="relative pl-8 md:pl-10">
-              <div className="absolute -left-3 top-1.5 h-6 w-6 rounded-full bg-primary border-4 border-white shadow-sm flex items-center justify-center" />
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold text-primary uppercase tracking-widest block">Step 03</span>
-                <h4 className="font-heading text-base font-bold text-slate-800">Mission Orientation</h4>
-                <p className="text-slate-500 text-xs sm:text-sm max-w-md font-medium leading-relaxed">
-                  Attend a short, interactive welcome webinar introducing campaign history, NGO guidelines, and core objectives.
-                </p>
-              </div>
-            </div>
-
-            {/* Step 4 */}
-            <div className="relative pl-8 md:pl-10">
-              <div className="absolute -left-3 top-1.5 h-6 w-6 rounded-full bg-primary border-4 border-white shadow-sm flex items-center justify-center" />
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold text-primary uppercase tracking-widest block">Step 04</span>
-                <h4 className="font-heading text-base font-bold text-slate-800">Instructional Training</h4>
-                <p className="text-slate-500 text-xs sm:text-sm max-w-md font-medium leading-relaxed">
-                  Familiarize yourself with self-exam timups and training guidelines included with the Khushi Care Kit.
-                </p>
-              </div>
-            </div>
-
-            {/* Step 5 */}
-            <div className="relative pl-8 md:pl-10">
-              <div className="absolute -left-3 top-1.5 h-6 w-6 rounded-full bg-primary border-4 border-white shadow-sm flex items-center justify-center" />
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold text-primary uppercase tracking-widest block">Step 05</span>
-                <h4 className="font-heading text-base font-bold text-slate-800">Join Active Campaigns</h4>
-                <p className="text-slate-500 text-xs sm:text-sm max-w-md font-medium leading-relaxed">
-                  Get deployed to field checkup camp registrations, walkathon operations, or write online media articles.
-                </p>
-              </div>
-            </div>
-
-            {/* Step 6 */}
-            <div className="relative pl-8 md:pl-10">
-              <div className="absolute -left-3 top-1.5 h-6 w-6 rounded-full bg-primary border-4 border-white shadow-sm flex items-center justify-center" />
-              <div className="space-y-1">
-                <span className="text-[10px] font-bold text-primary uppercase tracking-widest block">Step 06</span>
-                <h4 className="font-heading text-base font-bold text-slate-800">Receive Volunteer Certificate</h4>
-                <p className="text-slate-500 text-xs sm:text-sm max-w-md font-medium leading-relaxed">
-                  Earn your secure, verifiably signed QR-coded PDF volunteer certificate after complete camp modules.
-                </p>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* ================= TESTIMONIALS ================= */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-pink-50/20 border-b border-pink-100/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
-
           <div className="text-center space-y-3 max-w-2xl mx-auto">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/50 text-primary text-xs font-bold uppercase tracking-wider">
-              <MessageSquare className="h-3.5 w-3.5" /> Advocacy Stories
+              <MessageSquare className="h-3.5 w-3.5" /> Community Feedback
             </span>
             <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
-              Volunteer Testimonials
+              Voices of Our Volunteers
             </h2>
             <p className="text-sm text-slate-500 font-medium">
-              Read direct testimonials from volunteers explaining their active campaign experiences.
+              Real experiences shared by our verified volunteer champions across India.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonialsList.map((test, idx) => (
-              <Card key={idx} className="border-pink-100/40 bg-white p-6 rounded-2xl shadow-xs space-y-4 hover:shadow-md transition-all duration-300 relative group hover:border-pink-300">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-pink-100 text-primary flex items-center justify-center text-xs font-bold font-heading border border-pink-200/50 group-hover:scale-105 transition-transform">
-                    {test.initials}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-800 text-sm group-hover:text-primary transition-colors">{test.name}</h4>
-                    <p className="text-[10px] text-slate-400 font-semibold">{test.role}</p>
-                  </div>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed italic font-medium">
-                  &ldquo;{test.review}&rdquo;
-                </p>
-                <div className="flex gap-0.5 text-amber-400 pt-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-3.5 w-3.5 fill-amber-400" />
-                  ))}
-                </div>
-              </Card>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* ================= VOLUNTEER GALLERY ================= */}
-      <section className="py-20 md:py-28 bg-white scroll-mt-6">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
-
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
-              <Award className="h-3.5 w-3.5" /> Media Archive
-            </span>
-            <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
-              Volunteer Gallery
-            </h2>
-            <p className="text-sm text-slate-500 font-medium">
-              Explore capturing moments from diagnostic camps, student assemblies, and regional public campaigns.
-            </p>
-          </div>
-
-          {/* Grid Layout for Gallery */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {galleryImages.map((img, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ y: -6 }}
-                transition={{ duration: 0.3 }}
-                onClick={() => setLightboxImage(img)}
-                className="group cursor-pointer bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 relative aspect-square"
-              >
-                <Image
-                  src={img.src}
-                  alt={img.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-white">
-                  <h4 className="font-heading font-bold text-base leading-tight translate-y-2 group-hover:translate-y-0 transition-transform duration-300">{img.title}</h4>
-                  <p className="text-[10px] text-pink-100 mt-1 translate-y-3 group-hover:translate-y-0 transition-transform duration-300 delay-75">Click to view details</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {lightboxImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setLightboxImage(null)}
-            className="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 cursor-zoom-out"
-          >
+          {initialFeedback.length > 0 ? (
             <motion.div
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.95 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-white dark:bg-slate-900 max-w-3xl w-full rounded-2xl overflow-hidden shadow-2xl relative border border-slate-200/10 cursor-default"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              <button
-                onClick={() => setLightboxImage(null)}
-                className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 hover:bg-black/80 text-white border border-white/10 hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                title="Close"
-              >
-                <X className="h-5 w-5" />
-              </button>
-
-              <div className="relative aspect-[4/3] w-full bg-slate-900">
-                <Image
-                  src={lightboxImage.src}
-                  alt={lightboxImage.title}
-                  fill
-                  className="object-contain"
-                  sizes="100vw"
-                />
-              </div>
-              <div className="p-6 space-y-2">
-                <h3 className="font-heading text-xl font-extrabold text-slate-800 dark:text-slate-100">{lightboxImage.title}</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Campaign Outreach Event Visual</p>
-              </div>
+              {initialFeedback.map((fb) => (
+                <motion.div key={fb.id} variants={fadeInUp}>
+                  <Card className="border-pink-100/50 bg-white shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between h-full border hover:border-pink-300 group">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`h-4 w-4 ${
+                              i < fb.rating
+                                ? "text-amber-400 fill-amber-400"
+                                : "text-slate-200"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <p className="text-slate-600 text-xs sm:text-sm italic font-medium leading-relaxed">
+                        “{fb.review}”
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3 pt-6 border-t border-slate-100 mt-6">
+                      <div className="h-10 w-10 rounded-full bg-pink-100 text-pink-700 font-bold flex items-center justify-center text-xs shrink-0">
+                        {fb.initials}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h4 className="font-heading font-bold text-slate-800 text-sm truncate">{fb.name}</h4>
+                        <p className="text-[11px] text-slate-400 font-medium truncate">
+                          {getRoleLabel(fb.interest)}{fb.city ? ` · ${fb.city}` : ""}
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ================= FREQUENTLY ASKED QUESTIONS ================= */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-pink-50/20 border-t border-pink-100/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl space-y-12">
-
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
-              <HelpCircle className="h-3.5 w-3.5" /> FAQ
-            </span>
-            <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-sm text-slate-500 font-medium">
-              Quick answers concerning volunteer eligibility, travel support, and certificate queries.
-            </p>
-          </div>
-
-          {/* Accordion Component */}
-          <div className="space-y-4">
-            {faqsList.map((faq, idx) => {
-              const isOpen = openFaqIdx === idx;
-              return (
-                <div key={idx} className="border border-pink-100/50 rounded-2xl bg-white overflow-hidden shadow-xs">
-                  <button
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full flex items-center justify-between p-5 text-left font-heading font-bold text-sm sm:text-base text-slate-800 hover:text-primary transition-colors cursor-pointer select-none"
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown className={`h-5 w-5 text-slate-400 transition-transform duration-300 ${isOpen ? "rotate-180 text-primary" : ""}`} />
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <div className="px-5 pb-5 pt-1 border-t border-pink-50 text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
-                          {faq.a}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-          </div>
-
+          ) : (
+            <div className="border-2 border-dashed border-pink-200 bg-pink-50/30 rounded-2xl p-10 flex flex-col items-center justify-center text-center gap-3 max-w-xl mx-auto">
+              <MessageSquare className="h-8 w-8 text-pink-400" />
+              <h3 className="font-heading font-bold text-lg text-slate-700">No stories yet</h3>
+              <p className="text-xs text-slate-500 max-w-sm font-medium">
+                Be the first to share your volunteer experience.
+              </p>
+              {initialSession?.volunteerStatus === "VERIFIED" && (
+                <Button
+                  onClick={() => setShowFeedbackModal(true)}
+                  className="mt-2 bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs rounded-full px-5 py-2.5 active:scale-95 transition-all cursor-pointer"
+                >
+                  Share Your Story
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
@@ -858,6 +973,12 @@ export default function VolunteersClient() {
                   onSubmit={handleSubmit}
                   className="space-y-6"
                 >
+                  {submitApiError && (
+                    <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm font-medium">
+                      {submitApiError}
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {/* Full Name */}
                     <div className="space-y-2">
@@ -993,7 +1114,7 @@ export default function VolunteersClient() {
                     </div>
                   </div>
 
-                  {/* Why Volunteer */}
+                  {/* Motivation */}
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Why do you want to volunteer?</label>
                     <textarea
@@ -1019,9 +1140,17 @@ export default function VolunteersClient() {
                   {/* Submit Button */}
                   <Button
                     type="submit"
-                    className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl py-4 active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer"
+                    disabled={formSubmitting}
+                    className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl py-4 active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2"
                   >
-                    Become a Volunteer
+                    {formSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Submitting Application...
+                      </>
+                    ) : (
+                      "Become a Volunteer"
+                    )}
                   </Button>
                 </motion.form>
               ) : (
@@ -1047,7 +1176,7 @@ export default function VolunteersClient() {
                   <div className="pt-4 flex gap-3 justify-center">
                     <Button
                       onClick={resetForm}
-                      className="bg-pink-600 hover:bg-pink-755 text-white font-bold rounded-full py-4 px-6 active:scale-95 transition-all text-xs uppercase cursor-pointer"
+                      className="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-full py-4 px-6 active:scale-95 transition-all text-xs uppercase cursor-pointer"
                     >
                       Submit Another
                     </Button>
@@ -1068,43 +1197,339 @@ export default function VolunteersClient() {
         </div>
       </section>
 
-      {/* ================= CALL TO ACTION ================= */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-pink-500 to-rose-600 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none" />
-        <div className="absolute bottom-[-10%] left-[5%] w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center space-y-8 relative z-10">
-
-          <div className="space-y-4">
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-              Your Time Can Help Save Lives
-            </h2>
-            <p className="text-pink-100 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">
-              Become part of a structured framework providing diagnostic access, wellness workshops, and verified funding support to breast cancer patients.
-            </p>
+      {/* ================= VOLUNTEER GALLERY / MEDIA ARCHIVE ================= */}
+      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-pink-50/20 border-b border-pink-100/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="space-y-3 max-w-2xl">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/50 text-primary text-xs font-bold uppercase tracking-wider">
+                <Video className="h-3.5 w-3.5" /> Media Archive
+              </span>
+              <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
+                Volunteer Gallery
+              </h2>
+              <p className="text-sm text-slate-500 font-medium">
+                Highlights from our nationwide awareness drives, screening camps, and community events.
+              </p>
+            </div>
+            {initialSession?.volunteerStatus === "VERIFIED" && (
+              <Button
+                onClick={() => setShowGalleryModal(true)}
+                className="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-full px-6 py-3 text-xs uppercase tracking-wider flex items-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer active:scale-95 transition-all"
+              >
+                <Upload className="h-4 w-4" />
+                Upload Photo
+              </Button>
+            )}
           </div>
 
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <Button
-              onClick={() => scrollToForm()}
-              className="w-full sm:w-auto bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-8 shadow-lg active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer"
-            >
-              Become a Volunteer
-            </Button>
-            <Link href="/campaigns/awareness" className="w-full sm:w-auto">
-              <Button variant="outline" className="w-full sm:w-auto border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full py-6 px-8 active:scale-95 transition-all text-sm uppercase tracking-wider">
-                Join Awareness Campaign
-              </Button>
-            </Link>
-            <Link href="/webinars" className="w-full sm:w-auto">
-              <Button variant="outline" className="w-full sm:w-auto border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full py-6 px-8 active:scale-95 transition-all text-sm uppercase tracking-wider">
-                Register for Webinar
-              </Button>
-            </Link>
-          </div>
-
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+          >
+            {galleryItems.map((item, idx) => (
+              <motion.div
+                key={item.id || idx}
+                variants={fadeInUp}
+                onClick={() => setLightboxImage(item)}
+                className="relative aspect-square rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group cursor-pointer border border-pink-100/50 bg-slate-100"
+              >
+                <Image
+                  src={item.src}
+                  alt={item.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end">
+                  <h4 className="text-white font-heading font-bold text-sm leading-snug">
+                    {item.title}
+                  </h4>
+                  {item.submittedBy && (
+                    <p className="text-[11px] text-pink-200 mt-1 font-medium">
+                      Submitted by {item.submittedBy}
+                    </p>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
+
+      {/* ================= FEEDBACK SUBMIT MODAL ================= */}
+      <AnimatePresence>
+        {showFeedbackModal && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative border border-pink-100"
+            >
+              <button
+                onClick={() => {
+                  setShowFeedbackModal(false);
+                  setFeedbackSuccess(false);
+                  setFeedbackError(null);
+                }}
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-10 w-10 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center">
+                  <MessageSquare className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-heading font-bold text-lg text-slate-900">Volunteer Feedback</h3>
+                  <p className="text-xs text-slate-500">Share your campaign experience with the community</p>
+                </div>
+              </div>
+
+              {feedbackSuccess ? (
+                <div className="text-center py-6 space-y-4">
+                  <div className="h-12 w-12 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto border border-emerald-100">
+                    <Check className="h-6 w-6" />
+                  </div>
+                  <h4 className="font-bold text-slate-800 text-base">Feedback Submitted!</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    Thank you! Your feedback has been sent for admin review and will appear on the public board once approved.
+                  </p>
+                  <Button
+                    onClick={() => {
+                      setShowFeedbackModal(false);
+                      setFeedbackSuccess(false);
+                    }}
+                    className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl"
+                  >
+                    Done
+                  </Button>
+                </div>
+              ) : (
+                <form onSubmit={handleFeedbackSubmit} className="space-y-5">
+                  {feedbackError && (
+                    <div className="p-3 rounded-xl bg-red-50 text-red-700 text-xs font-medium border border-red-200">
+                      {feedbackError}
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                      Star Rating
+                    </label>
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setFeedbackRating(star)}
+                          className="p-1.5 focus:outline-none transition-transform hover:scale-110"
+                        >
+                          <Star
+                            className={`h-7 w-7 ${
+                              star <= feedbackRating
+                                ? "text-amber-400 fill-amber-400"
+                                : "text-slate-200"
+                            }`}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                      Your Experience Message
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={feedbackMessage}
+                      onChange={(e) => setFeedbackMessage(e.target.value)}
+                      placeholder="Share highlights from your volunteer drive or campaign work..."
+                      className="w-full border border-slate-200 rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all resize-none"
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={feedbackSubmitting}
+                    className="w-full py-5 bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-700 hover:to-rose-600 text-white font-bold rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+                  >
+                    {feedbackSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      "Submit Feedback"
+                    )}
+                  </Button>
+                </form>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ================= GALLERY UPLOAD MODAL ================= */}
+      <AnimatePresence>
+        {showGalleryModal && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative border border-pink-100"
+            >
+              <button
+                onClick={() => {
+                  setShowGalleryModal(false);
+                  setGallerySuccess(false);
+                  setGalleryError(null);
+                }}
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-10 w-10 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center">
+                  <Upload className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-heading font-bold text-lg text-slate-900">Upload to Gallery</h3>
+                  <p className="text-xs text-slate-500">Share drive photos with campaign supporters</p>
+                </div>
+              </div>
+
+              {gallerySuccess ? (
+                <div className="text-center py-6 space-y-4">
+                  <div className="h-12 w-12 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto border border-emerald-100">
+                    <Check className="h-6 w-6" />
+                  </div>
+                  <h4 className="font-bold text-slate-800 text-base">Photo Uploaded!</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    Your photo has been uploaded and sent for admin review. It will be published to the gallery upon approval.
+                  </p>
+                  <Button
+                    onClick={() => {
+                      setShowGalleryModal(false);
+                      setGallerySuccess(false);
+                    }}
+                    className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl"
+                  >
+                    Done
+                  </Button>
+                </div>
+              ) : (
+                <form onSubmit={handleGallerySubmit} className="space-y-5">
+                  {galleryError && (
+                    <div className="p-3 rounded-xl bg-red-50 text-red-700 text-xs font-medium border border-red-200">
+                      {galleryError}
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                      Photo Title
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={galleryTitle}
+                      onChange={(e) => setGalleryTitle(e.target.value)}
+                      placeholder="e.g. Pune Health Camp Awareness Drive"
+                      className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                      Select Image (Max 5MB, JPG/PNG/WEBP)
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      required
+                      onChange={handleGalleryFileSelect}
+                      className="block w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100 transition-all cursor-pointer border border-slate-200 rounded-xl p-2"
+                    />
+                  </div>
+
+                  {galleryPreview && (
+                    <div className="rounded-xl overflow-hidden max-h-48 border border-slate-200 relative aspect-video">
+                      <Image
+                        src={galleryPreview}
+                        alt="Upload Preview"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
+
+                  <Button
+                    type="submit"
+                    disabled={gallerySubmitting}
+                    className="w-full py-5 bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-700 hover:to-rose-600 text-white font-bold rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+                  >
+                    {gallerySubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Uploading Photo...
+                      </>
+                    ) : (
+                      "Submit for Review"
+                    )}
+                  </Button>
+                </form>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {lightboxImage && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative max-w-3xl w-full bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-white/10"
+            >
+              <button
+                onClick={() => setLightboxImage(null)}
+                className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+              <div className="relative aspect-video w-full bg-black">
+                <Image
+                  src={lightboxImage.src}
+                  alt={lightboxImage.title}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div className="p-6 bg-slate-900 text-white space-y-1">
+                <h3 className="font-heading font-bold text-lg text-white">
+                  {lightboxImage.title}
+                </h3>
+                {lightboxImage.submittedBy && (
+                  <p className="text-xs text-slate-400">
+                    Submitted by {lightboxImage.submittedBy}
+                  </p>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

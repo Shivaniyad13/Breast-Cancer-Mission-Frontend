@@ -19,6 +19,7 @@ import {
   AlertCircle,
   RefreshCw,
 } from "lucide-react";
+import { AdminNavTabs } from "@/components/admin/AdminNavTabs";
 import {
   getAllGalleryItems,
   createGalleryItem,
@@ -270,41 +271,7 @@ export default function AdminGalleryPage() {
       </div>
 
       {/* Admin tabs navigation */}
-      <div className="flex gap-4 border-b border-slate-100 pb-4 text-sm font-semibold overflow-x-auto no-scrollbar whitespace-nowrap">
-        <Link href="/admin/analytics" className="text-slate-500 hover:text-primary transition-colors">
-          Analytics Overview
-        </Link>
-        <Link href="/admin/webinars" className="text-slate-500 hover:text-primary transition-colors">
-          Webinar Management
-        </Link>
-        <Link href="/admin/memberships" className="text-slate-500 hover:text-primary transition-colors">
-          Institution Memberships
-        </Link>
-        <Link href="/admin/success-stories" className="text-slate-500 hover:text-primary transition-colors">
-          Patient Success Stories
-        </Link>
-        <Link href="/admin/homepage-widgets" className="text-slate-500 hover:text-primary transition-colors">
-          Homepage Widgets
-        </Link>
-        <Link href="/admin/live-updates" className="text-slate-500 hover:text-primary transition-colors">
-          Home Page Live Updates
-        </Link>
-        <Link href="/admin/diagnosis" className="text-slate-500 hover:text-primary transition-colors">
-          Diagnosis & Collaboration
-        </Link>
-        <Link href="/admin/healthcare-professionals" className="text-slate-500 hover:text-primary transition-colors">
-          Healthcare Professionals
-        </Link>
-        <Link href="/admin/care-providers" className="text-slate-500 hover:text-primary transition-colors">
-          Care Directory
-        </Link>
-        <Link href="/admin/gallery" className="text-primary border-b-2 border-primary pb-4 -mb-[18px] transition-colors">
-          Event Gallery
-        </Link>
-        <Link href="/admin/video-stories" className="text-slate-500 hover:text-primary transition-colors">
-          Video Stories
-        </Link>
-      </div>
+      <AdminNavTabs />
 
       {/* Controls Bar */}
       <div className="bg-white p-4 sm:p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">

@@ -20,6 +20,7 @@ import {
   ArrowUpRight,
   ShieldCheck,
 } from "lucide-react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -83,18 +84,24 @@ interface AnalyticsDashboardProps {
         donationsCount: number;
       }>;
     };
+    individualMembers?: {
+      total: number;
+      pending: number;
+      verified: number;
+      rejected: number;
+    };
   };
 }
 
 export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProps) {
-  const { visits, users, webinars, videos, articles, donations } = data;
+  const { visits, users, webinars, videos, articles, donations, individualMembers } = data;
 
   const maxPageViews = visits.topPages.length > 0 ? visits.topPages[0].views : 1;
 
   return (
     <div className="space-y-8">
       {/* ==================== TOP SUMMARY CARDS ==================== */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
         
         {/* Card 1: Website Visits */}
         <Card className="rounded-2xl border-slate-100 bg-gradient-to-br from-white to-blue-50/40 p-5 shadow-xs relative overflow-hidden">
@@ -183,6 +190,42 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
             </p>
           </div>
         </Card>
+
+        {/* Card 5: Individual Members */}
+        {individualMembers && (
+          <Card className="rounded-2xl border-slate-100 bg-gradient-to-br from-white to-rose-50/40 p-5 shadow-xs relative overflow-hidden flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100">
+                  Individual Members
+                </span>
+                <div className="h-10 w-10 rounded-xl bg-rose-600/10 flex items-center justify-center text-rose-600">
+                  <Users className="h-5 w-5" />
+                </div>
+              </div>
+              <div className="mt-4 space-y-1">
+                <p className="text-3xl font-extrabold text-slate-900 font-heading">
+                  {individualMembers.total.toLocaleString()}
+                </p>
+                <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-medium text-slate-500 pt-1">
+                  <span className="text-amber-600 font-bold">{individualMembers.pending} Pending</span>
+                  <span>•</span>
+                  <span className="text-emerald-600 font-bold">{individualMembers.verified} Verified</span>
+                  <span>•</span>
+                  <span className="text-rose-600 font-bold">{individualMembers.rejected} Rejected</span>
+                </div>
+              </div>
+            </div>
+            <div className="pt-3 border-t border-slate-100/60 mt-3">
+              <Link
+                href="/admin/individual-members"
+                className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1 transition-colors"
+              >
+                Manage Members &rarr;
+              </Link>
+            </div>
+          </Card>
+        )}
 
       </div>
 

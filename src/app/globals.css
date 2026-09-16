@@ -552,4 +552,19 @@ section.relative.overflow-hidden > div[class*="from-pink-900"] {
   background: linear-gradient(to bottom, rgba(112, 26, 64, 0.2) 0%, rgba(63, 7, 30, 0.4) 75%, rgba(255, 245, 248, 0.1) 100%) !important;
 }
 
+/* Print Styles for Certificates */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+  }
+  .cert-print-clean {
+    box-shadow: none !important;
+    border-color: #fbcfe8 !important;
+  }
+}
+
+
 

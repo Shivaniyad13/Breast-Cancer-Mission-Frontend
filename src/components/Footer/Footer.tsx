@@ -118,11 +118,12 @@ export default function Footer() {
               </a>
 
               <a
-                href="mailto:info@Khushicenter.in"
+                href="mailto:breastcancermission3@gmail.com , admin@cmba.in"
                 className="flex items-center gap-2.5 text-sm text-white/90 hover:text-white transition-colors group"
               >
                 <Mail className="h-4 w-4 text-white group-hover:scale-110 transition-transform" />
-                info@Khushicenter.in
+                breastcancermission3@gmail.com
+                admin@cmba.in
               </a>
             </div>
           </div>
