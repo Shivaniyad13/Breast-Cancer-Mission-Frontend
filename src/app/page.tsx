@@ -8,6 +8,8 @@ import HeroRightSidebar from "@/components/layout/HeroRightSidebar";
 import AwarenessCarousel from "@/components/layout/AwarenessCarousel";
 import OurTeam from "@/components/layout/OurTeam";
 import TrustedPartnersCarousel from "@/components/layout/TrustedPartnersCarousel";
+import ApocanTeaser from "@/components/apocan-teaser";
+import ApocanPopup from "@/components/apocan-popup";
 import {
   Ribbon,
   ShieldCheck,
@@ -159,6 +161,9 @@ export default async function Home() {
           </div>
         </div>
       </div>
+
+      {/* APOCAN Advance Capsules Teaser Highlight */}
+      <ApocanTeaser />
 
       {/* SHARE YOUR SUCCESS STORY CTA SECTION */}
       <section className="py-12 bg-white border-b border-pink-100">
@@ -387,6 +392,9 @@ export default async function Home() {
           <strong>Medical Disclaimer:</strong> The information provided on this platform is for educational and campaign purposes only. It should not be used as a substitute for professional clinical advice, diagnosis, or treatment. Always consult with a licensed physician or oncologist regarding health concerns.
         </p>
       </div>
+
+      {/* One-Time Session Reminder Popup */}
+      <ApocanPopup />
 
     </div>
   );

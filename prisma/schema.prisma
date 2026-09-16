@@ -29,6 +29,7 @@ model User {
   verifiedVolunteers         VolunteerApplication[]      @relation("VerifiedVolunteers")
   createdVolunteerEvents     VolunteerEvent[]            @relation("CreatedVolunteerEvents")
   reviewedGallerySubmissions GallerySubmission[]         @relation("ReviewedGallerySubmissions")
+  passwordResetTokens PasswordResetToken[]
 }
 
 model Profile {
@@ -1158,4 +1159,14 @@ model VolunteerCertificate {
   @@index([volunteerId])
   @@index([eventId])
   @@index([certificateCode])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

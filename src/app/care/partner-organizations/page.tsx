@@ -5,22 +5,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Building2,
   Search,
-  Mail,
-  Phone,
   Globe,
   MapPin,
   Activity,
   Check,
-  CheckCircle2,
   X,
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   Heart,
-  Info,
   Shield,
   Award,
-  BookOpen,
   Users2,
   GraduationCap,
   Microscope,
@@ -31,10 +24,8 @@ import {
   ArrowRight,
   Upload,
   Play,
-  Star,
   Ribbon,
   Clock,
-  HeartPulse,
   Handshake,
   Share2,
   Stethoscope,
@@ -45,7 +36,7 @@ import {
   Compass,
   User,
   MessageSquare,
-  Loader2
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -101,82 +92,60 @@ interface VideoStory {
   description?: string | null;
 }
 
-interface Testimonial {
-  id: string;
-  name: string;
-  designation: string;
-  organization: string;
-  rating: number;
-  quote: string;
-  colorClass: string;
-}
-
 interface FAQItem {
   question: string;
   answer: string;
 }
 
 // ----------------------------------------------------------------------
-// Mock Data
+// Constants & Static Data
 // ----------------------------------------------------------------------
-
-
-const testimonialsData: Testimonial[] = [
-  {
-    id: "test-1",
-    name: "Dr. Sudheer Kumar",
-    designation: "Medical Director",
-    organization: "Apex Comprehensive Cancer Center",
-    rating: 5,
-    quote: "Collaborating with GRS has allowed us to coordinate complex surgical cases efficiently. The patient navigation program is outstanding.",
-    colorClass: "from-blue-500/10 to-indigo-500/10 text-blue-600 border-blue-200/50"
-  },
-  {
-    id: "test-2",
-    name: "Ms. Shalini Gupta",
-    designation: "Head of CSR",
-    organization: "Microsoft Health Initiatives",
-    rating: 5,
-    quote: "Our technology partnership with GRS has enabled safe diagnostic data hubs, helping mobile screening vans target high-risk areas.",
-    colorClass: "from-pink-500/10 to-rose-500/10 text-pink-600 border-pink-200/50"
-  },
-  {
-    id: "test-3",
-    name: "Prof. Rajesh Dev",
-    designation: "Head of Genomics Research",
-    organization: "National Institute of Cancer Genomics",
-    rating: 5,
-    quote: "GRS patient registries have provided vital genomic markers data, enabling us to publish breakthrough BRCA1/2 penetrance studies.",
-    colorClass: "from-purple-500/10 to-indigo-500/10 text-purple-600 border-purple-200/50"
-  }
-];
 
 const faqsData: FAQItem[] = [
   {
     question: "How can my organization become a partner?",
-    answer: "You can submit an application form in the 'Partnership Application' section. Provide your organization's type, license, website, and area of interest (e.g. mobile camps, CSR funding). Our administrative panel will contact you to schedule an initial review."
+    answer:
+      "You can submit an application form in the 'Partnership Application' section. Provide your organization's type, license, website, and area of interest (e.g. mobile camps, CSR funding). Our administrative panel will contact you to schedule an initial review.",
   },
   {
     question: "Who can apply to join the partner network?",
-    answer: "We accept partnership requests from cancer specialty hospitals, diagnostic screening laboratories, women empowerment NGOs, survivor groups, academic research universities, corporate CSR divisions, and government public health programs."
+    answer:
+      "We accept partnership requests from cancer specialty hospitals, diagnostic screening laboratories, women empowerment NGOs, survivor groups, academic research universities, corporate CSR divisions, and government public health programs.",
   },
   {
     question: "Is there any fee required to join?",
-    answer: "No, GRS Breast Cancer Mission charges no registration or membership fees to join the Partner Network. Our alliances are built on shared clinical resources, community screening drives, and voluntary collaborations."
+    answer:
+      "No, GRS Breast Cancer Mission charges no registration or membership fees to join the Partner Network. Our alliances are built on shared clinical resources, community screening drives, and voluntary collaborations.",
   },
   {
     question: "Can international organizations collaborate?",
-    answer: "Yes. GRS actively collaborates with international oncology groups, universities, and pharmaceutical companies for research, clinical trial enrollment, and educational webinars."
+    answer:
+      "Yes. GRS actively collaborates with international oncology groups, universities, and pharmaceutical companies for research, clinical trial enrollment, and educational webinars.",
   },
   {
     question: "Can universities join research projects?",
-    answer: "Yes. Academic medical colleges and biotechnology labs can integrate GRS tumor board staging data to execute clinical trials, tissue studies, and survivorship research."
+    answer:
+      "Yes. Academic medical colleges and biotechnology labs can integrate GRS tumor board staging data to execute clinical trials, tissue studies, and survivorship research.",
   },
   {
     question: "How long does the approval process take?",
-    answer: "The onboarding cycle takes approximately 2-3 weeks. This includes initial credential checks, tumor board alignment reviews, and drafting standard operational plans for regional screening camp logistics."
-  }
+    answer:
+      "The onboarding cycle takes approximately 2-3 weeks. This includes initial credential checks, tumor board alignment reviews, and drafting standard operational plans for regional screening camp logistics.",
+  },
 ];
+
+// Collaboration areas shown as checkboxes in the Partnership Application form
+const COLLABORATION_AREA_OPTIONS = [
+  "Awareness Campaigns",
+  "Mobile Screening Camps",
+  "Academic Research Collaboration",
+  "Genetic BRCA Screening",
+  "Rural Outpatient Care Support",
+  "Patient Navigation Program",
+  "Financial Mastectomy Assistance",
+  "Rehabilitation & Lymphedema",
+  "Corporate CSR Funding",
+] as const;
 
 function formatMetric(num: number): string {
   if (num === undefined || num === null || num === 0) return "0";
@@ -239,9 +208,6 @@ export default function PartnerOrganizationsPage() {
   const [activePlayVideo, setActivePlayVideo] = useState<VideoStory | null>(null);
   const [partnerFormOpen, setPartnerFormOpen] = useState(false);
 
-  // Testimonial slider state
-  const [activeTestimonialIdx, setActiveTestimonialIdx] = useState(0);
-
   // Application Form State
   const [orgName, setOrgName] = useState("");
   const [orgType, setOrgType] = useState("Hospital");
@@ -258,24 +224,14 @@ export default function PartnerOrganizationsPage() {
   const [formLoading, setFormLoading] = useState(false);
 
   // ----------------------------------------------------------------------
-  // Autoplay intervals
+  // Autoplay interval for success stories
   // ----------------------------------------------------------------------
   useEffect(() => {
-    let storyInterval: any;
-    if (stories.length > 0) {
-      storyInterval = setInterval(() => {
-        setActiveStoryIdx((prev) => (prev + 1) % stories.length);
-      }, 9000);
-    }
-
-    const testimonialInterval = setInterval(() => {
-      setActiveTestimonialIdx((prev) => (prev + 1) % testimonialsData.length);
-    }, 7000);
-
-    return () => {
-      if (storyInterval) clearInterval(storyInterval);
-      clearInterval(testimonialInterval);
-    };
+    if (stories.length === 0) return;
+    const storyInterval = setInterval(() => {
+      setActiveStoryIdx((prev) => (prev + 1) % stories.length);
+    }, 9000);
+    return () => clearInterval(storyInterval);
   }, [stories.length]);
 
   // Filter partners
@@ -298,14 +254,14 @@ export default function PartnerOrganizationsPage() {
     { value: "ngo", label: "NGOs & Support Groups" },
     { value: "research", label: "Research & Medical Colleges" },
     { value: "corporate", label: "Corporate CSR Partners" },
-    { value: "government", label: "Government Agencies" }
+    { value: "government", label: "Government Agencies" },
   ];
 
   const handleCollabToggle = (area: string) => {
     if (orgCollabAreas.includes(area)) {
-      setOrgCollabAreas(prev => prev.filter(a => a !== area));
+      setOrgCollabAreas((prev) => prev.filter((a) => a !== area));
     } else {
-      setOrgCollabAreas(prev => [...prev, area]);
+      setOrgCollabAreas((prev) => [...prev, area]);
     }
   };
 
@@ -332,7 +288,9 @@ export default function PartnerOrganizationsPage() {
   const handleAppSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!orgName || !orgContact || !orgEmail || !orgPhone) {
-      alert("Please fill organization name, contact representative, email, and phone.");
+      alert(
+        "Please fill organization name, contact representative, email, and phone."
+      );
       return;
     }
     setFormLoading(true);
@@ -481,7 +439,7 @@ export default function PartnerOrganizationsPage() {
                 { label: "NGOs & Partners", value: formatMetric(stats.ngo), delay: 0.2 },
                 { label: "Hospitals Connected", value: formatMetric(stats.hospitals), delay: 0.3 },
                 { label: "Awareness Drives", value: formatMetric(stats.campaigns), delay: 0.4 },
-                { label: "Verified Doctors", value: formatMetric(stats.doctors), delay: 0.5 }
+                { label: "Verified Doctors", value: formatMetric(stats.doctors), delay: 0.5 },
               ].map((stat, idx) => (
                 <motion.div
                   key={idx}
@@ -490,13 +448,16 @@ export default function PartnerOrganizationsPage() {
                   transition={{ duration: 0.5, delay: stat.delay }}
                   className="p-5 rounded-3xl bg-white/10 backdrop-blur-md border border-white/15 shadow-xl hover:bg-white/15 transition-all flex flex-col justify-between text-left"
                 >
-                  <p className="text-[10px] text-pink-300 font-bold tracking-widest uppercase font-heading">{stat.label}</p>
-                  <p className="text-3xl font-black text-white tracking-tight font-heading mt-3">{stat.value}</p>
+                  <p className="text-[10px] text-pink-300 font-bold tracking-widest uppercase font-heading">
+                    {stat.label}
+                  </p>
+                  <p className="text-3xl font-black text-white tracking-tight font-heading mt-3">
+                    {stat.value}
+                  </p>
                   <div className="h-1.5 w-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mt-3" />
                 </motion.div>
               ))}
             </div>
-
           </div>
         </div>
       </section>
@@ -528,50 +489,50 @@ export default function PartnerOrganizationsPage() {
                 title: "Early Screening Diagnostics",
                 desc: "Hospitals and diagnostic centers join forces to subsidize screening packages and 3D tomosynthesis reviews.",
                 icon: Activity,
-                color: "bg-blue-50 border-blue-200 text-blue-600"
+                color: "bg-blue-50 border-blue-200 text-blue-600",
               },
               {
                 title: "Academic Genetics Research",
                 desc: "Universities and biotech labs analyze GRS patient databases to map regional BRCA1/2 penetrance indexes.",
                 icon: Microscope,
-                color: "bg-purple-50 border-purple-200 text-purple-600"
+                color: "bg-purple-50 border-purple-200 text-purple-600",
               },
               {
                 title: "Grassroots Awareness Outreach",
                 desc: "Local women empowerment NGOs manage community walks, school seminars, and screening camp coordinates.",
                 icon: Users2,
-                color: "bg-pink-50 border-pink-200 text-pink-600"
+                color: "bg-pink-50 border-pink-200 text-pink-600",
               },
               {
                 title: "CSR Funding & Therapeutics",
                 desc: "Corporate pharmaceuticals sponsor chemotherapy drug reserves, ensuring patient treatment never drop out.",
                 icon: Award,
-                color: "bg-emerald-50 border-emerald-200 text-emerald-600"
+                color: "bg-emerald-50 border-emerald-200 text-emerald-600",
               },
               {
                 title: "Affordable Treatment",
                 desc: "Subsidy alliances directly clear surgical oncology and radiotherapy bills at partner hospitals.",
                 icon: Pill,
-                color: "bg-cyan-50 border-cyan-200 text-cyan-600"
+                color: "bg-cyan-50 border-cyan-200 text-cyan-600",
               },
               {
                 title: "Rehabilitation Care",
                 desc: "Specialty physical therapists guide post-operative mobilization and lymphedema compression clinics.",
                 icon: Sparkles,
-                color: "bg-rose-50 border-rose-200 text-rose-600"
+                color: "bg-rose-50 border-rose-200 text-rose-600",
               },
               {
                 title: "Mental Health Support",
                 desc: "Clinical psychologists host weekly therapy circles, helping survivors cope with chemotherapy trauma.",
                 icon: Brain,
-                color: "bg-teal-50 border-teal-200 text-teal-600"
+                color: "bg-teal-50 border-teal-200 text-teal-600",
               },
               {
                 title: "Rural Outreach Camps",
                 desc: "Public health agencies support mobile vans delivering diagnostics to remote, low-income areas.",
                 icon: MapPin,
-                color: "bg-sky-50 border-sky-200 text-sky-600"
-              }
+                color: "bg-sky-50 border-sky-200 text-sky-600",
+              },
             ].map((item, idx) => (
               <motion.div
                 key={idx}
@@ -582,8 +543,12 @@ export default function PartnerOrganizationsPage() {
                   <div className={`h-11 w-11 rounded-xl flex items-center justify-center ${item.color} border shadow-2xs`}>
                     {React.createElement(item.icon, { className: "h-5.5 w-5.5" })}
                   </div>
-                  <h4 className="font-heading text-sm font-extrabold text-slate-800 mt-6 leading-tight">{item.title}</h4>
-                  <p className="text-slate-500 text-xs mt-2.5 leading-relaxed font-sans">{item.desc}</p>
+                  <h4 className="font-heading text-sm font-extrabold text-slate-800 mt-6 leading-tight">
+                    {item.title}
+                  </h4>
+                  <p className="text-slate-500 text-xs mt-2.5 leading-relaxed font-sans">
+                    {item.desc}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -712,12 +677,19 @@ export default function PartnerOrganizationsPage() {
                           {partner.city || "India"}
                         </span>
                         {partner.website ? (
-                          <a href={partner.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:text-blue-700 font-bold">
+                          <a
+                            href={partner.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1 text-blue-600 hover:text-blue-700 font-bold"
+                          >
                             <Globe className="h-3.5 w-3.5" />
                             Website
                           </a>
                         ) : (
-                          <span className="text-[10px] text-slate-300 font-semibold">Verified Network</span>
+                          <span className="text-[10px] text-slate-300 font-semibold">
+                            Verified Network
+                          </span>
                         )}
                       </div>
                       <Button
@@ -733,7 +705,9 @@ export default function PartnerOrganizationsPage() {
               ) : (
                 <div className="col-span-full py-16 text-center space-y-4">
                   <AlertCircle className="h-12 w-12 text-slate-350 mx-auto" />
-                  <h3 className="font-heading text-lg font-bold text-slate-700">No Partners Found</h3>
+                  <h3 className="font-heading text-lg font-bold text-slate-700">
+                    No Partners Found
+                  </h3>
                   <p className="text-slate-400 text-sm max-w-md mx-auto font-sans">
                     We couldn&apos;t find any organizations matching &ldquo;{searchQuery}&rdquo;. Try widening your filters.
                   </p>
@@ -753,187 +727,11 @@ export default function PartnerOrganizationsPage() {
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------------
-          4. SUCCESS STORIES (Slider)
-          ---------------------------------------------------------------------- */}
-      {stories.length > 0 && (
-        <section className="py-24 bg-gradient-to-b from-slate-900 to-purple-950 text-white relative">
-          <div className="container mx-auto px-4 max-w-5xl relative z-10">
-            <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider border border-pink-500/20">
-                <Award className="h-4 w-4 animate-pulse" />
-                Impact Milestones
-              </span>
-              <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-                Partnership Success Stories
-              </h2>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-sans">
-                Real outcomes from neoadjuvant chemotherapy sponsorships and diagnostic outreach events.
-              </p>
-            </div>
-
-            {/* Autoplay Slider */}
-            <div className="relative bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 md:p-12 backdrop-blur-lg shadow-2xl overflow-hidden min-h-[440px] flex items-center">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeStoryIdx}
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -30 }}
-                  transition={{ duration: 0.5 }}
-                  className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full"
-                >
-                  {/* Event Image */}
-                  <div className="lg:col-span-5 flex justify-center">
-                    <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden border-3 border-pink-500/30 shadow-2xl group">
-                      <img
-                        src={stories[activeStoryIdx % stories.length]?.imageUrls?.[0] || "/images/survivor_strength.png"}
-                        alt={stories[activeStoryIdx % stories.length]?.fullName || "Success Story"}
-                        className="w-full h-full object-cover transition-transform duration-705 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                      <span className="absolute bottom-4 left-4 bg-pink-600 text-white font-bold text-xs uppercase px-3 py-1 rounded-md tracking-wider shadow-md font-heading">
-                        Featured Story
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Info & Quote */}
-                  <div className="lg:col-span-7 space-y-6 text-left">
-                    <div className="space-y-1">
-                      <p className="text-xs font-bold text-pink-400 uppercase tracking-widest font-heading">Alliance Success</p>
-                      <h3 className="font-heading text-2xl font-extrabold text-white">
-                        {stories[activeStoryIdx % stories.length]?.storyTitle || stories[activeStoryIdx % stories.length]?.fullName}
-                      </h3>
-                    </div>
-
-                    <p className="text-slate-300 text-sm leading-relaxed font-sans line-clamp-4">
-                      {stories[activeStoryIdx % stories.length]?.completeStory}
-                    </p>
-
-                    <div className="p-4 rounded-xl bg-pink-500/10 border-l-4 border-pink-500 italic">
-                      <p className="text-pink-300 font-serif text-sm leading-relaxed line-clamp-3">
-                        &ldquo;{stories[activeStoryIdx % stories.length]?.completeStory?.slice(0, 180)}...&rdquo;
-                      </p>
-                      <p className="text-slate-400 text-xs font-bold font-heading mt-2 uppercase tracking-wide">
-                        — {stories[activeStoryIdx % stories.length]?.fullName} ({stories[activeStoryIdx % stories.length]?.roleType || "Survivor"})
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Selector dots */}
-              <div className="absolute bottom-6 right-6 md:right-12 flex items-center gap-2 z-20">
-                {stories.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveStoryIdx(idx)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      activeStoryIdx % stories.length === idx ? "w-6 bg-pink-500" : "w-2 bg-white/30 hover:bg-white/50"
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ----------------------------------------------------------------------
+      {/* 
+----------------------------------------------------------------------
           5. IMPACT DASHBOARD
           ---------------------------------------------------------------------- */}
-      <section className="py-24 bg-white relative">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider border border-blue-100">
-              <Activity className="h-4 w-4" />
-              Accumulated Metrics
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-              GRS Alliance Impact Dashboard
-            </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
-              Consolidated statistics validating early diagnostics screenings, medical drives, and patient treatment clearings.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {[
-              { value: formatMetric(stats.totalPartners), label: "Partners", sub: "Verified Alliances" },
-              { value: formatMetric(stats.doctors), label: "Doctors", sub: "Verified Specialists" },
-              { value: formatMetric(stats.hospitals), label: "Hospitals", sub: "Treatment Units" },
-              { value: formatMetric(stats.campaigns), label: "Programs", sub: "Awareness Events" },
-              { value: formatMetric(stats.webinars), label: "Webinars", sub: "Published Seminars" },
-              { value: formatMetric(stats.stories), label: "Stories", sub: "Patient Journeys" }
-            ].map((dash, idx) => (
-              <div
-                key={idx}
-                className="bg-slate-50 border border-slate-200/50 rounded-2xl p-5 flex flex-col justify-between hover:bg-white hover:shadow-md hover:border-pink-300 transition-all duration-300"
-              >
-                <div className="h-1 w-6 bg-pink-500 rounded-full" />
-                <div className="my-5">
-                  <h4 className="text-2xl font-black text-slate-800 tracking-tight font-heading">{dash.value}</h4>
-                  <p className="text-xs font-bold text-slate-700 mt-2 font-heading">{dash.label}</p>
-                </div>
-                <p className="text-[10px] text-slate-400 font-sans leading-tight">{dash.sub}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ----------------------------------------------------------------------
-          6. COLLABORATION AREAS
-          ---------------------------------------------------------------------- */}
-      <section className="py-24 bg-gradient-to-b from-slate-50 to-blue-50/20">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wider border border-purple-100">
-              <Share2 className="h-4 w-4" />
-              Opportunities
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-              Active Collaboration Fields
-            </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
-              We invite partners to plug their medical databases or administrative networks into these 13 fields.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { title: "Awareness Campaigns", icon: Ribbon, desc: "Pink Ribbon conferences, college drives, and village physical counseling." },
-              { title: "Mobile Screening Camps", icon: Activity, desc: "Sponsor vans carrying automated breast ultrasounds (ABUS) to high-risk hubs." },
-              { title: "Research Collaboration", icon: Microscope, desc: "Evaluate breast pathology cell counting and clinical neoadjuvant treatment response." },
-              { title: "Genetic Screening Programs", icon: Dna, desc: "Fund sequencing tests for BRCA1/BRCA2 mutation carriers." },
-              { title: "Rural Healthcare", icon: MapPin, desc: "Deliver diagnostics tools and consulting doctors directly to remote districts." },
-              { title: "Patient Navigation", icon: Compass, desc: "Guide patients through clinical staging charts, biopsies, and scheduling." },
-              { title: "Financial Assistance", icon: Handshake, desc: "Route corporate CSR funds or NGO grants to cover patient surgical mastectomy bills." },
-              { title: "Rehabilitation Programs", icon: Sparkles, desc: "Coordinate arm mobilization and postoperative lymphedema compression." },
-              { title: "Community Outreach", icon: Users2, desc: "Enlist community leaders to eliminate social breast cancer screening stigmas." },
-              { title: "Volunteer Programs", icon: User, desc: "Join campaigns as tele-consulting specialists, diagnostic nurses, or walk marshals." },
-              { title: "Digital Health Innovation", icon: Zap, desc: "Develop digital reporting portal and AI diagnostic triage models." },
-              { title: "AI Research Integration", icon: Brain, desc: "Unify digital pathology counting algorithms with clinical registries." },
-              { title: "Medical Education", icon: GraduationCap, desc: "Fund continuing medical education (CME) seminars for rural physicians." }
-            ].map((collab, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ scale: 1.02 }}
-                className="bg-white rounded-3xl p-6 border border-slate-200/50 shadow-2xs hover:shadow-md hover:border-pink-300 transition-all duration-300 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="h-10 w-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-pink-600 transition-colors">
-                    {React.createElement(collab.icon, { className: "h-5 w-5" })}
-                  </div>
-                  <h4 className="font-heading text-sm font-extrabold text-slate-800 mt-6 leading-tight">{collab.title}</h4>
-                  <p className="text-slate-500 text-xs mt-2.5 leading-relaxed font-sans">{collab.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* ----------------------------------------------------------------------
           7. GALLERY (Masonry Grid with Lightbox)
@@ -946,7 +744,7 @@ export default function PartnerOrganizationsPage() {
               Event Gallery
             </span>
             <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-              Breast Cancer  Alliance Event Gallery
+              Breast Cancer Alliance Event Gallery
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
               Browse realistic imagery documenting awareness walks, medical workshops, diagnostics camps, and lab research. Click to expand.
@@ -957,7 +755,10 @@ export default function PartnerOrganizationsPage() {
           {galleryLoading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="rounded-3xl border border-slate-100 bg-slate-100 aspect-4/3 animate-pulse" />
+                <div
+                  key={i}
+                  className="rounded-3xl border border-slate-100 bg-slate-100 aspect-4/3 animate-pulse"
+                />
               ))}
             </div>
           ) : galleryItems.length === 0 ? (
@@ -990,7 +791,9 @@ export default function PartnerOrganizationsPage() {
                     <span className="px-2 py-0.5 rounded bg-pink-600 text-[8px] font-bold uppercase tracking-wider self-start mb-2 font-heading">
                       {item.category}
                     </span>
-                    <p className="text-xs font-bold font-sans line-clamp-2">{item.caption}</p>
+                    <p className="text-xs font-bold font-sans line-clamp-2">
+                      {item.caption}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -1021,7 +824,10 @@ export default function PartnerOrganizationsPage() {
           {videoLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="bg-white rounded-3xl overflow-hidden border border-slate-100 p-4 animate-pulse space-y-3">
+                <div
+                  key={i}
+                  className="bg-white rounded-3xl overflow-hidden border border-slate-100 p-4 animate-pulse space-y-3"
+                >
                   <div className="h-44 bg-slate-200 rounded-2xl w-full" />
                   <div className="h-4 bg-slate-200 rounded w-1/3" />
                   <div className="h-4 bg-slate-200 rounded w-3/4" />
@@ -1058,7 +864,9 @@ export default function PartnerOrganizationsPage() {
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 flex flex-col items-center justify-center text-slate-400 gap-2">
                         <Video className="h-10 w-10 text-slate-500" />
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Video Broadcast</span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                          Video Broadcast
+                        </span>
                       </div>
                     )}
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -1072,7 +880,9 @@ export default function PartnerOrganizationsPage() {
                   </div>
 
                   <div className="p-4 font-sans space-y-1">
-                    <span className="text-[9px] font-bold text-pink-650 uppercase tracking-wider font-heading">{vid.category}</span>
+                    <span className="text-[9px] font-bold text-pink-650 uppercase tracking-wider font-heading">
+                      {vid.category}
+                    </span>
                     <h4 className="font-heading text-xs sm:text-sm font-extrabold text-slate-800 line-clamp-2 leading-snug group-hover:text-pink-600 transition-colors">
                       {vid.title}
                     </h4>
@@ -1087,44 +897,7 @@ export default function PartnerOrganizationsPage() {
       {/* ----------------------------------------------------------------------
           9. HOW TO BECOME A PARTNER (Timeline)
           ---------------------------------------------------------------------- */}
-      <section className="py-24 bg-gradient-to-b from-slate-900 to-purple-950 text-white overflow-hidden relative">
-        <div className="container mx-auto px-4 max-w-6xl relative z-10">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-20">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider border border-pink-500/20">
-              <Clock className="h-4 w-4" />
-              Onboarding Path
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
-              Partnership Onboarding Path
-            </h2>
-            <p className="text-slate-350 text-sm sm:text-base leading-relaxed font-sans">
-              We review credentials and align timelines to execute community drives. Here is our 6-step integration roadmap.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-6 gap-6 relative">
-            {/* Desktop timeline connecting line */}
-            <div className="hidden md:block absolute top-7 left-10 right-10 h-1 bg-white/10 z-0" />
-
-            {[
-              { step: "01", title: "Submit Request", desc: "File an application detailing your organization's focus and collaboration interest." },
-              { step: "02", title: "Initial Review", desc: "Our administrative team schedules a consultation call to discuss parameters." },
-              { step: "03", title: "Approval Gate", desc: "The GRS medical/NGO advisory board evaluates credential qualifications." },
-              { step: "04", title: "Project Planning", desc: "Draft regional logistics plans for mobile screening camps or research registry schemas." },
-              { step: "05", title: "Implementation", desc: "Establish clinic lines, sponsor chemotherapy supplies, or publish genomic abstracts." },
-              { step: "06", title: "Impact Registry", desc: "Compile treatment outcomes and screen numbers into our transparent logs." }
-            ].map((item, idx) => (
-              <div key={idx} className="relative z-10 flex flex-col items-center text-center space-y-3">
-                <div className="h-14 w-14 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center font-heading text-base font-black text-pink-400 shadow-md">
-                  {item.step}
-                </div>
-                <h4 className="font-heading text-sm font-extrabold text-white">{item.title}</h4>
-                <p className="text-slate-400 text-xs leading-relaxed font-sans max-w-[150px] mx-auto md:max-w-none">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ----------------------------------------------------------------------
           10. PARTNERSHIP BENEFITS
@@ -1155,7 +928,7 @@ export default function PartnerOrganizationsPage() {
               { title: "Volunteer Projects", icon: Users2, desc: "Offer your clinical staff direct mobile camp volunteering routes." },
               { title: "Expert Networking", icon: Share2, desc: "Connect with global researchers and hospital directors." },
               { title: "Digital Innovation", icon: Zap, desc: "Utilize health technology interfaces and AI diagnostic triage." },
-              { title: "Shared Resources", icon: Handshake, desc: "Access screening devices, checklists, and templates." }
+              { title: "Shared Resources", icon: Handshake, desc: "Access screening devices, checklists, and templates." },
             ].map((benefit, idx) => (
               <div
                 key={idx}
@@ -1165,71 +938,15 @@ export default function PartnerOrganizationsPage() {
                   {React.createElement(benefit.icon, { className: "h-4.5 w-4.5" })}
                 </div>
                 <div>
-                  <h4 className="font-heading text-xs sm:text-sm font-extrabold text-slate-800 leading-tight">{benefit.title}</h4>
-                  <p className="text-slate-500 text-[11px] mt-2 leading-relaxed font-sans">{benefit.desc}</p>
+                  <h4 className="font-heading text-xs sm:text-sm font-extrabold text-slate-800 leading-tight">
+                    {benefit.title}
+                  </h4>
+                  <p className="text-slate-500 text-[11px] mt-2 leading-relaxed font-sans">
+                    {benefit.desc}
+                  </p>
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ----------------------------------------------------------------------
-          11. PARTNER TESTIMONIALS
-          ---------------------------------------------------------------------- */}
-      <section className="py-24 bg-slate-900 text-white relative">
-        <div className="container mx-auto px-4 max-w-4xl text-center">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-bold text-pink-400 uppercase tracking-widest font-heading">Feedback</span>
-            <h2 className="font-heading text-3xl font-extrabold text-white">Words of Collaborative Trust</h2>
-          </div>
-
-          <div className="relative bg-white/5 border border-white/10 p-8 sm:p-12 rounded-3xl backdrop-blur-md shadow-xl text-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTestimonialIdx}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.4 }}
-                className="space-y-6"
-              >
-                <div className="flex justify-center gap-1.5">
-                  {[...Array(testimonialsData[activeTestimonialIdx].rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-amber-400 fill-amber-400" />
-                  ))}
-                </div>
-
-                <p className="text-slate-200 text-base sm:text-lg leading-relaxed italic font-serif">
-                  &ldquo;{testimonialsData[activeTestimonialIdx].quote}&rdquo;
-                </p>
-
-                <div className="border-t border-white/10 pt-6 mt-6">
-                  <h4 className="text-white font-bold font-heading text-base leading-tight">
-                    {testimonialsData[activeTestimonialIdx].name}
-                  </h4>
-                  <p className="text-pink-300 text-xs font-semibold mt-1 font-sans">
-                    {testimonialsData[activeTestimonialIdx].designation} &bull; {testimonialsData[activeTestimonialIdx].organization}
-                  </p>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Slider arrows */}
-            <div className="absolute bottom-6 right-6 md:right-12 flex gap-2">
-              <button
-                onClick={() => setActiveTestimonialIdx((prev) => (prev - 1 + testimonialsData.length) % testimonialsData.length)}
-                className="p-1.5 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 transition-colors cursor-pointer"
-              >
-                <ChevronLeft className="h-4 w-4 text-white" />
-              </button>
-              <button
-                onClick={() => setActiveTestimonialIdx((prev) => (prev + 1) % testimonialsData.length)}
-                className="p-1.5 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 transition-colors cursor-pointer"
-              >
-                <ChevronRight className="h-4 w-4 text-white" />
-              </button>
-            </div>
           </div>
         </div>
       </section>
@@ -1258,7 +975,9 @@ export default function PartnerOrganizationsPage() {
                 {/* Organization details */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Organization Name</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                      Organization Name
+                    </label>
                     <Input
                       type="text"
                       required
@@ -1269,7 +988,9 @@ export default function PartnerOrganizationsPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Organization Type</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                      Organization Type
+                    </label>
                     <select
                       value={orgType}
                       onChange={(e) => setOrgType(e.target.value)}
@@ -1286,7 +1007,9 @@ export default function PartnerOrganizationsPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Official Website URL</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                      Official Website URL
+                    </label>
                     <Input
                       type="url"
                       placeholder="e.g. https://apex-labs.org"
@@ -1296,7 +1019,9 @@ export default function PartnerOrganizationsPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Contact Representative</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                      Contact Representative
+                    </label>
                     <Input
                       type="text"
                       required
@@ -1310,7 +1035,9 @@ export default function PartnerOrganizationsPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Representative Title</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                      Representative Title
+                    </label>
                     <Input
                       type="text"
                       placeholder="e.g. CSR Director"
@@ -1320,7 +1047,9 @@ export default function PartnerOrganizationsPage() {
                     />
                   </div>
                   <div className="space-y-1 col-span-2">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Official Email ID</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                      Official Email ID
+                    </label>
                     <Input
                       type="email"
                       required
@@ -1334,7 +1063,9 @@ export default function PartnerOrganizationsPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Phone Number</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                      Phone Number
+                    </label>
                     <Input
                       type="tel"
                       required
@@ -1345,7 +1076,9 @@ export default function PartnerOrganizationsPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">City</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                      City
+                    </label>
                     <Input
                       type="text"
                       placeholder="e.g. Mumbai"
@@ -1355,7 +1088,9 @@ export default function PartnerOrganizationsPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">State</label>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                      State
+                    </label>
                     <Input
                       type="text"
                       placeholder="e.g. Maharashtra"
@@ -1368,19 +1103,11 @@ export default function PartnerOrganizationsPage() {
 
                 {/* Checklist of areas */}
                 <div className="space-y-3 pt-2">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block font-heading">Areas of Collaboration</label>
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block font-heading">
+                    Areas of Collaboration
+                  </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                    {[
-                      "Awareness Campaigns",
-                      "Mobile Screening Camps",
-                      "Academic Research Collaboration",
-                      "Genetic BRCA Screening",
-                      "Rural Outpatient Care Support",
-                      "Patient Navigation Program",
-                      "Financial Mastectomy Assistance",
-                      "Rehabilitation & Lymphedema",
-                      "Corporate CSR Funding"
-                    ].map((area) => {
+                    {COLLABORATION_AREA_OPTIONS.map((area) => {
                       const checked = orgCollabAreas.includes(area);
                       return (
                         <button
@@ -1392,10 +1119,17 @@ export default function PartnerOrganizationsPage() {
                             : "bg-white border-slate-200 text-slate-500 text-xs"
                             }`}
                         >
-                          <div className={`h-4 w-4 rounded flex items-center justify-center border shrink-0 ${checked ? "bg-pink-600 border-pink-600 text-white" : "border-slate-300"}`}>
+                          <div
+                            className={`h-4 w-4 rounded flex items-center justify-center border shrink-0 ${checked
+                              ? "bg-pink-600 border-pink-600 text-white"
+                              : "border-slate-300"
+                              }`}
+                          >
                             {checked && <Check className="h-3 w-3" />}
                           </div>
-                          <span className="text-[11px] leading-tight select-none">{area}</span>
+                          <span className="text-[11px] leading-tight select-none">
+                            {area}
+                          </span>
                         </button>
                       );
                     })}
@@ -1415,14 +1149,19 @@ export default function PartnerOrganizationsPage() {
                       onChange={handleDocUpload}
                       className="hidden"
                     />
-                    <label htmlFor="partner-doc-upload" className="cursor-pointer block">
+                    <label
+                      htmlFor="partner-doc-upload"
+                      className="cursor-pointer block"
+                    >
                       {uploadingDoc ? (
                         <Loader2 className="h-5 w-5 text-pink-500 mx-auto mb-2 animate-spin" />
                       ) : (
                         <Upload className="h-5 w-5 text-slate-400 mx-auto mb-2" />
                       )}
                       <p className="text-[10px] font-bold text-slate-500 font-heading">
-                        {uploadedDocUrl ? "Uploaded ✔" : "Choose File or Drag & Drop"}
+                        {uploadedDocUrl
+                          ? "Uploaded ✔"
+                          : "Choose File or Drag & Drop"}
                       </p>
                       <p className="text-[8px] text-slate-400 mt-1 font-sans">
                         Max 5MB · PDF, DOCX
@@ -1433,7 +1172,9 @@ export default function PartnerOrganizationsPage() {
 
                 {/* Message */}
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Collaboration Intent / Message</label>
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                    Collaboration Intent / Message
+                  </label>
                   <textarea
                     placeholder="Briefly state your partnership goals and resources details"
                     value={orgMessage}
@@ -1462,9 +1203,15 @@ export default function PartnerOrganizationsPage() {
                 <div className="h-14 w-14 rounded-full bg-emerald-50 border-2 border-emerald-250 text-emerald-600 flex items-center justify-center mx-auto">
                   <Check className="h-7 w-7 animate-pulse" />
                 </div>
-                <h3 className="font-heading text-lg font-bold text-slate-800">Proposal Transmitted</h3>
+                <h3 className="font-heading text-lg font-bold text-slate-800">
+                  Proposal Transmitted
+                </h3>
                 <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed font-sans">
-                  Thank you, <span className="font-bold">{orgContact}</span>. Your collaborative proposal for <span className="font-bold">{orgName}</span> has been securely logged. The GRS administrative board will reach out to you within 3 business days.
+                  Thank you, <span className="font-bold">{orgContact}</span>. Your
+                  collaborative proposal for{" "}
+                  <span className="font-bold">{orgName}</span> has been securely
+                  logged. The GRS administrative board will reach out to you
+                  within 3 business days.
                 </p>
                 <Button
                   onClick={resetAppForm}
@@ -1508,7 +1255,9 @@ export default function PartnerOrganizationsPage() {
                     onClick={() => setActiveFaq(isOpen ? null : idx)}
                     className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer font-bold text-slate-805 hover:text-pink-600 transition-colors font-heading"
                   >
-                    <span className="text-sm sm:text-base tracking-tight leading-tight">{faq.question}</span>
+                    <span className="text-sm sm:text-base tracking-tight leading-tight">
+                      {faq.question}
+                    </span>
                     <div className="shrink-0 ml-4 font-sans">
                       {isOpen ? (
                         <div className="p-1 rounded-full bg-pink-100 text-pink-600">
@@ -1651,17 +1400,26 @@ export default function PartnerOrganizationsPage() {
               </h3>
 
               <div className="mt-4 space-y-4 font-sans text-slate-650">
-                <p className="text-xs sm:text-sm leading-relaxed">{detailsModal.desc}</p>
+                <p className="text-xs sm:text-sm leading-relaxed">
+                  {detailsModal.desc}
+                </p>
 
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-2">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Onboarding Target Areas</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                    Onboarding Target Areas
+                  </p>
                   <p className="text-xs leading-relaxed text-slate-600">
                     Collaborating on diagnostic imaging checks, genetic staging indexes, and subsidies clearings.
                   </p>
                 </div>
 
                 <div className="pt-4 flex gap-3 border-t border-slate-100">
-                  <a href={detailsModal.website} target="_blank" rel="noopener noreferrer" className="w-full">
+                  <a
+                    href={detailsModal.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full"
+                  >
                     <Button className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold h-10 rounded-xl cursor-pointer">
                       <Globe className="h-4 w-4 mr-2" />
                       Visit Web Link
@@ -1710,7 +1468,11 @@ export default function PartnerOrganizationsPage() {
                 <X className="h-5 w-5" />
               </button>
               <div className="rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-black max-h-[75vh] w-full">
-                <img src={lightboxImage.imageUrl} alt={lightboxImage.caption} className="w-full h-full object-contain" />
+                <img
+                  src={lightboxImage.imageUrl}
+                  alt={lightboxImage.caption}
+                  className="w-full h-full object-contain"
+                />
               </div>
               <p className="text-white text-xs font-bold text-center bg-black/60 px-4 py-2 rounded-xl backdrop-blur-xs font-sans">
                 {lightboxImage.caption}
@@ -1755,8 +1517,12 @@ export default function PartnerOrganizationsPage() {
                 </video>
               </div>
               <div className="p-4 bg-slate-900 text-white font-sans space-y-1">
-                <span className="text-[10px] text-pink-400 font-bold uppercase tracking-wider font-heading">{activePlayVideo.category}</span>
-                <h4 className="text-sm font-bold font-heading">{activePlayVideo.title}</h4>
+                <span className="text-[10px] text-pink-400 font-bold uppercase tracking-wider font-heading">
+                  {activePlayVideo.category}
+                </span>
+                <h4 className="text-sm font-bold font-heading">
+                  {activePlayVideo.title}
+                </h4>
               </div>
             </motion.div>
           </div>

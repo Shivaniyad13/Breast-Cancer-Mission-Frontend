@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Ribbon, Loader2 } from "lucide-react";
+import { Ribbon, Loader2, Eye, EyeOff } from "lucide-react";
 
 function LoginForm() {
   const router = useRouter();
@@ -16,6 +16,7 @@ function LoginForm() {
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,30 +55,75 @@ function LoginForm() {
           <div className="flex justify-center mb-2">
             <Ribbon className="h-10 w-10 text-primary animate-pulse" />
           </div>
-          <CardTitle className="font-heading text-3xl font-bold tracking-tight">Welcome Back</CardTitle>
+          <CardTitle className="font-heading text-3xl font-bold tracking-tight">
+            Welcome Back
+          </CardTitle>
           <CardDescription>
             Log in to manage your campaigns, donations, or certificates
           </CardDescription>
         </CardHeader>
+
         <CardContent>
           {error && (
             <div className="mb-4 p-3 rounded-md bg-destructive/10 text-destructive text-sm font-medium border border-destructive/20">
               {error}
             </div>
           )}
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1">
               <Label htmlFor="email">Email Address</Label>
-              <Input id="email" name="email" type="email" placeholder="jane@example.com" required className="bg-background/80" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="jane@example.com"
+                required
+                className="bg-background/80"
+              />
             </div>
+
             <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
-                <Link href="#" className="text-xs text-primary hover:underline">Forgot password?</Link>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs text-primary hover:underline"
+                >
+                  Forgot password?
+                </Link>
               </div>
-              <Input id="password" name="password" type="password" placeholder="••••••••" required className="bg-background/80" />
+
+              <div className="relative">
+                <Input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  required
+                  className="bg-background/80 pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  tabIndex={-1}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
             </div>
-            <Button type="submit" disabled={loading} className="w-full bg-primary hover:bg-primary/95 text-white py-6 text-base font-semibold shadow-md transition-all active:scale-98">
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-primary hover:bg-primary/95 text-white py-6 text-base font-semibold shadow-md transition-all active:scale-98"
+            >
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -89,10 +135,14 @@ function LoginForm() {
             </Button>
           </form>
         </CardContent>
+
         <CardFooter className="flex justify-center border-t border-border/50 py-4">
           <p className="text-sm text-muted-foreground">
             New to the platform?{" "}
-            <Link href="/register" className="text-primary font-semibold hover:underline">
+            <Link
+              href="/register"
+              className="text-primary font-semibold hover:underline"
+            >
               Create an account
             </Link>
           </p>
@@ -104,11 +154,13 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={
-      <div className="flex-1 flex items-center justify-center min-h-[calc(100vh-8rem)]">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex-1 flex items-center justify-center min-h-[calc(100vh-8rem)]">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      }
+    >
       <LoginForm />
     </Suspense>
   );
