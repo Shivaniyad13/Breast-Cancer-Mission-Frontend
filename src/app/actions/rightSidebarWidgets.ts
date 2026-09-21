@@ -37,7 +37,7 @@ const SEED_BANNERS = [
 
 const SEED_TESTIMONIALS = [
   {
-    name: "Kareena Kapoor Khan",
+    name: "Sonali Bendre",
     profession: "Actress & Campaign Ambassador",
     videoUrl: "/fCJDcVOcf4mwHu6auQwh+9LaEZi9UTik.mp4",
     thumbnailUrl: "/images/awareness_ribbon.png",

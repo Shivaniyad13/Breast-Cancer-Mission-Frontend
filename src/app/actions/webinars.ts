@@ -10,6 +10,13 @@ import path from "path";
 import PDFDocument from "pdfkit";
 import crypto from "crypto";
 import { calculateWebinarDurationMinutes, calculateMinimumAllowedPrice } from "@/lib/webinarPricing";
+import {
+  sendAdminRegistrationAlert,
+  sendWebinarApprovalStatusEmail,
+  sendWebinarRegistrationConfirmationEmail,
+  sendWebinarReminderEmail,
+  sendWebinarScheduleUpdateEmail,
+} from "@/lib/email";
 
 // Helper for admin auth
 async function requireAdmin() {
@@ -201,7 +208,16 @@ export async function createWebinarAction(data: any) {
 export async function editWebinarAction(id: string, data: any) {
   await requireAdmin();
 
-  await db.webinar.update({
+  const existing = await db.webinar.findUnique({
+    where: { id },
+    include: { registrations: { include: { user: true } } },
+  });
+
+  const newDate = new Date(data.date);
+  const newStartTime = new Date(data.startTime);
+  const newEndTime = new Date(data.endTime);
+
+  const updatedWebinar = await db.webinar.update({
     where: { id },
     data: {
       title: data.title,
@@ -214,9 +230,9 @@ export async function editWebinarAction(id: string, data: any) {
       speakerQualification: data.speakerQualification || null,
       speakerSpecialization: data.speakerSpecialization || null,
       speakerHospital: data.speakerHospital || null,
-      date: new Date(data.date),
-      startTime: new Date(data.startTime),
-      endTime: new Date(data.endTime),
+      date: newDate,
+      startTime: newStartTime,
+      endTime: newEndTime,
       venue: data.venue || "Online",
       city: data.city || null,
       state: data.state || null,
@@ -238,6 +254,43 @@ export async function editWebinarAction(id: string, data: any) {
       eligibility: data.eligibility || "",
     },
   });
+
+  // Check if schedule or status changed and notify attendees
+  if (existing && existing.registrations.length > 0) {
+    const isScheduleChanged =
+      existing.date.getTime() !== newDate.getTime() ||
+      existing.startTime.getTime() !== newStartTime.getTime() ||
+      existing.meetingLink !== (data.meetingLink || "");
+    const isCancelled = data.status === "CANCELLED" && existing.status !== "CANCELLED";
+
+    if (isScheduleChanged || isCancelled) {
+      const formattedDate = newDate.toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" });
+      const formattedTime = `${newStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${newEndTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      const summary = isCancelled
+        ? "This webinar session has been CANCELLED by the host."
+        : "The date, time schedule, or meeting link for this webinar has been updated.";
+
+      for (const reg of existing.registrations) {
+        const toEmail = reg.email || reg.user?.email;
+        if (toEmail) {
+          try {
+            await sendWebinarScheduleUpdateEmail({
+              to: toEmail,
+              userName: reg.name || reg.user?.name || "Participant",
+              webinarTitle: updatedWebinar.title,
+              date: formattedDate,
+              time: formattedTime,
+              meetingLink: updatedWebinar.meetingLink || undefined,
+              changeSummary: summary,
+              webinarId: updatedWebinar.id,
+            });
+          } catch (e) {
+            console.error(`[SMTP] Failed to send schedule update email to ${toEmail}:`, e);
+          }
+        }
+      }
+    }
+  }
 
   revalidatePath("/webinars");
   revalidatePath(`/webinars/${id}`);
@@ -340,6 +393,20 @@ export async function createDoctorWebinarAction(data: any) {
       doctorId: doctor.id,
     },
   });
+
+  if (approvalStatus === "PENDING_APPROVAL") {
+    try {
+      await sendAdminRegistrationAlert({
+        type: "Doctor Paid Webinar Submission",
+        applicantName: doctorName,
+        applicantEmail: session.user.email || "",
+        role: "DOCTOR",
+        details: `Webinar Title: "${webinar.title}", Registration Fee: ₹${registrationPrice}`,
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send admin alert for paid webinar creation:", e);
+    }
+  }
 
   revalidatePath("/webinars");
   revalidatePath("/dashboard");
@@ -559,7 +626,7 @@ export async function registerForWebinarAction(
   }
 
   // Create registration
-  await db.webinarRegistration.create({
+  const reg = await db.webinarRegistration.create({
     data: {
       userId: user.id,
       webinarId,
@@ -577,12 +644,35 @@ export async function registerForWebinarAction(
     },
   });
 
-  // Mock Notification
-  console.log(`[NOTIFICATION SENT] Registration Successful: User ${user.email} registered for Webinar "${webinar.title}"`);
+  const recipientEmail = reg.email || user.email;
+  if (recipientEmail) {
+    try {
+      const formattedDate = webinar.date.toLocaleDateString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+      const formattedTime = `${webinar.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${webinar.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      const durationStr = webinar.durationMinutes ? `${webinar.durationMinutes} minutes` : "60 minutes";
+
+      await sendWebinarRegistrationConfirmationEmail({
+        to: recipientEmail,
+        userName: reg.name || user.name || "Participant",
+        webinarTitle: webinar.title,
+        date: formattedDate,
+        time: formattedTime,
+        duration: durationStr,
+        meetingLink: webinar.meetingLink || undefined,
+        webinarId: webinar.id,
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send webinar registration confirmation email:", e);
+    }
+  }
 
   revalidatePath(`/webinars/${webinarId}`);
   revalidatePath("/dashboard");
-  return { success: true, message: "Successfully registered! A confirmation has been logged." };
+  return { success: true, message: "Successfully registered! A confirmation email has been sent." };
 }
 
 // Get or Create Webinar by Title (to handle static campaigns page registrations)
@@ -629,14 +719,48 @@ export async function sendReminderAction(webinarId: string) {
 
   const webinar = await db.webinar.findUnique({
     where: { id: webinarId },
+    include: {
+      registrations: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
 
   if (!webinar) {
     throw new Error("Webinar not found.");
   }
 
-  console.log(`[REMINDER SENT] Admin sent a manual reminder for Webinar: "${webinar.title}"`);
-  return { success: true, message: `Successfully sent reminders to all registered attendees for "${webinar.title}".` };
+  const formattedDate = webinar.date.toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  const formattedTime = `${webinar.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${webinar.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+  let emailsSent = 0;
+  for (const reg of webinar.registrations) {
+    const toEmail = reg.email || reg.user?.email;
+    if (toEmail) {
+      try {
+        await sendWebinarReminderEmail({
+          to: toEmail,
+          userName: reg.name || reg.user?.name || "Participant",
+          webinarTitle: webinar.title,
+          date: formattedDate,
+          time: formattedTime,
+          meetingLink: webinar.meetingLink || undefined,
+          webinarId: webinar.id,
+        });
+        emailsSent++;
+      } catch (e) {
+        console.error(`[SMTP] Failed to send reminder email to ${toEmail}:`, e);
+      }
+    }
+  }
+
+  return { success: true, message: `Successfully sent ${emailsSent} reminder email(s) for "${webinar.title}".` };
 }
 
 // User Joins Meeting Room - Attendance Start
@@ -1076,11 +1200,20 @@ export async function approveWebinarAction(id: string) {
 
   const webinar = await db.webinar.findUnique({
     where: { id },
+    include: {
+      doctor: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
 
   if (!webinar) {
     return { error: "Webinar not found." };
   }
+
+  const oldStatus = webinar.approvalStatus;
 
   await db.webinar.update({
     where: { id },
@@ -1089,6 +1222,21 @@ export async function approveWebinarAction(id: string) {
       approvalRejectionReason: null,
     },
   });
+
+  // Duplicate email protection: send only if status transitioned to APPROVED
+  if (oldStatus !== "APPROVED" && webinar.doctor?.user?.email) {
+    try {
+      await sendWebinarApprovalStatusEmail({
+        to: webinar.doctor.user.email,
+        doctorName: webinar.doctor.user.name || "Doctor",
+        webinarTitle: webinar.title,
+        status: "APPROVED",
+        webinarId: webinar.id,
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send webinar approval email:", e);
+    }
+  }
 
   revalidatePath("/admin/webinars");
   revalidatePath("/webinars");
@@ -1109,19 +1257,46 @@ export async function rejectWebinarAction(id: string, rejectionReason: string) {
 
   const webinar = await db.webinar.findUnique({
     where: { id },
+    include: {
+      doctor: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
 
   if (!webinar) {
     return { error: "Webinar not found." };
   }
 
+  const oldStatus = webinar.approvalStatus;
+  const oldReason = webinar.approvalRejectionReason;
+  const trimmedReason = rejectionReason.trim();
+
   await db.webinar.update({
     where: { id },
     data: {
       approvalStatus: "REJECTED",
-      approvalRejectionReason: rejectionReason.trim(),
+      approvalRejectionReason: trimmedReason,
     },
   });
+
+  // Duplicate email protection: send only if status or reason changed
+  if ((oldStatus !== "REJECTED" || oldReason !== trimmedReason) && webinar.doctor?.user?.email) {
+    try {
+      await sendWebinarApprovalStatusEmail({
+        to: webinar.doctor.user.email,
+        doctorName: webinar.doctor.user.name || "Doctor",
+        webinarTitle: webinar.title,
+        status: "REJECTED",
+        rejectionReason: trimmedReason,
+        webinarId: webinar.id,
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send webinar rejection email:", e);
+    }
+  }
 
   revalidatePath("/admin/webinars");
   revalidatePath("/webinars");

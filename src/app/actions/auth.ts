@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { Role, VerificationStatus } from "@prisma/client";
+import { sendUserRegistrationEmail, sendAdminRegistrationAlert } from "@/lib/email";
 
 export interface RegisterInput {
   name?: string;
@@ -42,9 +43,10 @@ export async function registerUserAction(data: RegisterInput) {
       return { error: "Registration as an Administrator is not allowed." };
     }
 
-    const existingUser = await db.user.findUnique({
+    const normalizedEmail = email.trim().toLowerCase();
 
-      where: { email },
+    const existingUser = await db.user.findUnique({
+      where: { email: normalizedEmail },
     });
 
     if (existingUser) {
@@ -72,7 +74,7 @@ export async function registerUserAction(data: RegisterInput) {
     const user = await db.user.create({
       data: {
         name,
-        email,
+        email: normalizedEmail,
         passwordHash,
         role: role as Role,
       },
@@ -105,7 +107,9 @@ export async function registerUserAction(data: RegisterInput) {
     });
 
     // Create Doctor profile entry if role is DOCTOR
+    let isDoctorRole = false;
     if (role === Role.DOCTOR || role === "DOCTOR") {
+      isDoctorRole = true;
       const doctorIdString = "DOC-" + Math.random().toString(36).substring(2, 8).toUpperCase();
       await db.doctor.create({
         data: {
@@ -117,7 +121,53 @@ export async function registerUserAction(data: RegisterInput) {
           verificationStatus: VerificationStatus.PENDING,
         },
       });
+    }
 
+    // Trigger SMTP email notifications safely
+    try {
+      if (isDoctorRole) {
+        await sendUserRegistrationEmail({
+          to: email,
+          userName: name,
+          role: "Medical Doctor",
+          verificationStatus: "PENDING",
+        });
+
+        await sendAdminRegistrationAlert({
+          type: "Doctor Registration",
+          applicantName: name,
+          applicantEmail: email,
+          role: "Doctor",
+          details: `License: ${docLicense?.trim() || "N/A"} | Specialty: ${docSpecialty?.trim() || "Oncology"} | Hospital: ${docAffiliation?.trim() || "N/A"}`,
+        });
+      } else if (role === Role.NGO_REP || role === "NGO_REP") {
+        await sendUserRegistrationEmail({
+          to: email,
+          userName: name,
+          role: "NGO Representative",
+          verificationStatus: "PENDING",
+        });
+
+        await sendAdminRegistrationAlert({
+          type: "NGO Representative Registration",
+          applicantName: name,
+          applicantEmail: email,
+          role: "NGO Representative",
+          details: `NGO Reg Num: ${ngoRegNum?.trim() || "N/A"} | 80G Status: ${tax80g ? "Yes" : "No"}`,
+        });
+      } else {
+        await sendUserRegistrationEmail({
+          to: email,
+          userName: name,
+          role: String(role),
+          verificationStatus: "UNVERIFIED",
+        });
+      }
+    } catch (emailErr) {
+      console.error("Non-fatal registration email error:", emailErr);
+    }
+
+    if (isDoctorRole) {
       return { 
         success: true, 
         isDoctor: true,
@@ -131,3 +181,4 @@ export async function registerUserAction(data: RegisterInput) {
     return { error: "An unexpected error occurred during registration. Please try again later." };
   }
 }
+

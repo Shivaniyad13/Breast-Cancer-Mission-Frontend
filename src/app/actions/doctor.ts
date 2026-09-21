@@ -2,8 +2,10 @@
 
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
+
 import { Role, VerificationStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { sendDoctorVerificationStatusEmail, sendDoctorResubmissionAlert } from "@/lib/email";
 
 async function requireAdmin() {
   const session = await auth();
@@ -299,11 +301,16 @@ export async function approveDoctorVerificationAction(doctorId: string) {
     where: {
       OR: [{ id: doctorId }, { doctorId: doctorId }],
     },
+    include: {
+      user: { select: { name: true, email: true } },
+    },
   });
 
   if (!doctor) {
     return { error: "Doctor record not found." };
   }
+
+  const statusChanged = doctor.verificationStatus !== VerificationStatus.VERIFIED;
 
   // Update Doctor model
   await db.doctor.update({
@@ -322,6 +329,19 @@ export async function approveDoctorVerificationAction(doctorId: string) {
       rejectionReason: null,
     },
   });
+
+  // Trigger SMTP notification strictly when status changes
+  if (statusChanged && doctor.user?.email) {
+    try {
+      await sendDoctorVerificationStatusEmail({
+        to: doctor.user.email,
+        doctorName: doctor.user.name || "Doctor",
+        status: "VERIFIED",
+      });
+    } catch (emailErr) {
+      console.error("Non-fatal doctor approval email error:", emailErr);
+    }
+  }
 
   revalidatePath("/admin/doctors");
   revalidatePath("/dashboard");
@@ -342,6 +362,9 @@ export async function rejectDoctorVerificationAction(doctorId: string, rejection
     where: {
       OR: [{ id: doctorId }, { doctorId: doctorId }],
     },
+    include: {
+      user: { select: { name: true, email: true } },
+    },
   });
 
   if (!doctor) {
@@ -349,6 +372,7 @@ export async function rejectDoctorVerificationAction(doctorId: string, rejection
   }
 
   const trimmedReason = rejectionReason.trim();
+  const statusChanged = doctor.verificationStatus !== VerificationStatus.REJECTED;
 
   // Update Doctor model
   await db.doctor.update({
@@ -367,6 +391,20 @@ export async function rejectDoctorVerificationAction(doctorId: string, rejection
       rejectionReason: trimmedReason,
     },
   });
+
+  // Trigger SMTP notification strictly when status changes
+  if (statusChanged && doctor.user?.email) {
+    try {
+      await sendDoctorVerificationStatusEmail({
+        to: doctor.user.email,
+        doctorName: doctor.user.name || "Doctor",
+        status: "REJECTED",
+        rejectionReason: trimmedReason,
+      });
+    } catch (emailErr) {
+      console.error("Non-fatal doctor rejection email error:", emailErr);
+    }
+  }
 
   revalidatePath("/admin/doctors");
   revalidatePath("/dashboard");
@@ -428,7 +466,22 @@ export async function resubmitDoctorVerificationAction(data: {
     },
   });
 
+  // Trigger SMTP alert for resubmission
+  try {
+    const doctorUser = await db.user.findUnique({ where: { id: session.user.id } });
+    if (doctorUser?.email) {
+      await sendDoctorResubmissionAlert({
+        doctorName: doctorUser.name || "Doctor",
+        doctorEmail: doctorUser.email,
+        specialty: specialtyTrimmed,
+      });
+    }
+  } catch (emailErr) {
+    console.error("Non-fatal doctor resubmission email error:", emailErr);
+  }
+
   revalidatePath("/dashboard");
   revalidatePath("/admin/doctors");
   return { success: true };
 }
+

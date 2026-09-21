@@ -97,10 +97,10 @@ export default function ApocanPopup() {
 
                 <div className="flex items-baseline justify-center sm:justify-start gap-2 pt-1">
                   <span className="text-xl font-black text-emerald-700 font-heading">
-                    ₹5,999.00
+                  
                   </span>
                   <span className="text-xs text-slate-400 line-through font-bold">
-                    MRP ₹14,999.00
+                  
                   </span>
                 </div>
 

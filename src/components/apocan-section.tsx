@@ -141,10 +141,10 @@ export default function ApocanSection() {
                 {/* Price Display */}
                 <div className="flex flex-wrap items-baseline gap-3 pt-2">
                   <span className="text-3xl sm:text-4xl font-black text-emerald-700 font-heading">
-                    ₹5,999.00
+                    
                   </span>
                   <span className="text-sm sm:text-base text-slate-400 line-through font-bold">
-                    MRP ₹14,999.00
+                
                   </span>
                   <span className="bg-emerald-600 text-white text-xs font-black px-2.5 py-1 rounded-lg uppercase tracking-wider animate-pulse">
                     60% OFF

@@ -5,6 +5,8 @@ import { auth } from "@/auth";
 import { Role } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
+import { sendAdminRegistrationAlert, sendPartnershipStatusEmail } from "@/lib/email";
+
 // Admin check helper
 async function requireAdmin() {
   const session = await auth();
@@ -12,22 +14,6 @@ async function requireAdmin() {
     throw new Error("Unauthorized: Admin privileges required.");
   }
   return session.user;
-}
-
-// Mock email helper
-async function simulateEmail(email: string, orgName: string, status: string, remarks?: string) {
-  console.log("--------------------------------------------------");
-  console.log(`[MOCK EMAIL SENT]`);
-  console.log(`To: ${email}`);
-  console.log(`Subject: Breast Cancer Mission - Partnership Application status updated`);
-  console.log(`Body:`);
-  console.log(`Dear ${orgName} representative,`);
-  console.log(`Your partnership application with Breast Cancer Mission has been marked as: ${status}.`);
-  if (remarks) {
-    console.log(`Notes from Administration: ${remarks}`);
-  }
-  console.log(`Thank you for your dedication to early detection and cancer support campaigns.`);
-  console.log("--------------------------------------------------");
 }
 
 // 1. Submit Partnership Request
@@ -79,6 +65,18 @@ export async function submitPartnershipRequest(data: {
         isPublished: false
       }
     });
+
+    try {
+      await sendAdminRegistrationAlert({
+        type: "Awareness Partnership Request",
+        applicantName: data.contactPersonName,
+        applicantEmail: data.email,
+        role: `Partnership (${data.organizationName})`,
+        details: `Category: ${data.category} | City: ${data.city || "N/A"}`
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send admin alert for partnership request:", e);
+    }
 
     try {
       revalidatePath("/campaigns/awareness");
@@ -168,6 +166,8 @@ export async function updatePartnershipStatus(
       throw new Error("Application request not found.");
     }
 
+    const oldStatus = request.status;
+
     // Auto publish if approved (optionally publish automatically)
     const isPublishedVal = status === "APPROVED" ? true : request.isPublished;
 
@@ -179,7 +179,20 @@ export async function updatePartnershipStatus(
       }
     });
 
-    await simulateEmail(updated.email, updated.organizationName, status, remarks);
+    // Send SMTP status update strictly if status transitioned
+    if (oldStatus !== status && updated.email) {
+      try {
+        await sendPartnershipStatusEmail({
+          to: updated.email,
+          contactPersonName: updated.contactPersonName,
+          organizationName: updated.organizationName,
+          status,
+          remarks,
+        });
+      } catch (e) {
+        console.error("[SMTP] Failed to send partnership status email:", e);
+      }
+    }
 
     revalidatePath("/campaigns/awareness");
     revalidatePath("/admin/partnerships");

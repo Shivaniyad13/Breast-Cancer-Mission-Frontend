@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { Role } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { sendAdminRegistrationAlert, sendCollaborationStatusEmail } from "@/lib/email";
 
 // Helper for admin auth validation
 async function requireAdmin() {
@@ -473,10 +474,24 @@ export async function submitCollaborationRequest(data: {
       }
     });
 
-    // Simulate sending email to administration and to submitter
-    console.log(`[Email Simulation] Collaboration request saved. Status: PENDING.`);
-    console.log(`To: ${data.email} | Subject: Collaboration Request Confirmation`);
-    console.log(`To: grsindiacorp@gmail.com | Subject: New Collaboration Request from ${data.organizationName}`);
+    try {
+      await sendCollaborationStatusEmail({
+        to: data.email,
+        contactPerson: data.contactPerson,
+        companyName: data.companyName,
+        technologyName: data.technologyName,
+        status: "PENDING",
+      });
+      await sendAdminRegistrationAlert({
+        type: "MedTech Collaboration Proposal",
+        applicantName: data.contactPerson,
+        applicantEmail: data.email,
+        role: `MedTech Partner (${data.companyName})`,
+        details: `Technology: ${data.technologyName} | Type: ${data.collaborationType}`,
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send collaboration request emails:", e);
+    }
 
     revalidatePath("/admin/diagnosis");
     return { success: true, requestId: newRequest.id };
@@ -504,14 +519,32 @@ export async function getCollaborationRequests() {
 export async function updateCollaborationRequestStatus(id: string, status: "PENDING" | "APPROVED" | "REJECTED") {
   try {
     await requireAdmin();
+
+    const existingReq = await db.collaborationRequest.findUnique({
+      where: { id },
+    });
+
+    const oldStatus = existingReq?.status;
+
     const updated = await db.collaborationRequest.update({
       where: { id },
       data: { status }
     });
     
-    // Simulate status update email notification
-    console.log(`[Email Simulation] Collaboration request status updated to ${status}.`);
-    console.log(`To: ${updated.email} | Subject: Collaboration Request Status Update`);
+    // Duplicate email protection: send status email strictly if status changed
+    if (oldStatus !== status && updated.email) {
+      try {
+        await sendCollaborationStatusEmail({
+          to: updated.email,
+          contactPerson: updated.contactPerson,
+          companyName: updated.companyName,
+          technologyName: updated.technologyName,
+          status,
+        });
+      } catch (e) {
+        console.error("[SMTP] Failed to send collaboration status email:", e);
+      }
+    }
 
     revalidatePath("/admin/diagnosis");
     return { success: true, request: updated };

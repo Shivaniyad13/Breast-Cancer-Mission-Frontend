@@ -7,6 +7,11 @@ import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import fs from "fs";
 import path from "path";
+import { 
+  sendInstitutionalApplicationStatusEmail, 
+  sendUserRegistrationEmail, 
+  sendAdminRegistrationAlert 
+} from "@/lib/email";
 
 // Helper for admin auth check
 async function requireAdmin() {
@@ -15,25 +20,6 @@ async function requireAdmin() {
     throw new Error("Unauthorized: Admin privilege required.");
   }
   return session.user;
-}
-
-// Mock email helper that writes files to public/mock-emails
-async function sendMockEmail(to: string, subject: string, body: string) {
-  console.log(`[MOCK EMAIL SENT to ${to}]`);
-  console.log(`Subject: ${subject}`);
-  console.log(`Body:\n${body}`);
-
-  try {
-    const logDir = path.join(process.cwd(), "public", "mock-emails");
-    if (!fs.existsSync(logDir)) {
-      fs.mkdirSync(logDir, { recursive: true });
-    }
-    const cleanEmail = to.replace(/[^a-zA-Z0-9]/g, "_");
-    const filepath = path.join(logDir, `${Date.now()}-${cleanEmail}.txt`);
-    fs.writeFileSync(filepath, `To: ${to}\nSubject: ${subject}\n\n${body}`);
-  } catch (error) {
-    console.error("Failed to write mock email file:", error);
-  }
 }
 
 // 1. Submit Organization Member Application
@@ -118,6 +104,26 @@ export async function applyOrganizationMemberAction(data: any) {
       }
     });
 
+    // Send SMTP email notifications safely
+    try {
+      await sendUserRegistrationEmail({
+        to: email,
+        userName: contactPersonName,
+        role: `Organization Member (${organizationName})`,
+        verificationStatus: "PENDING",
+      });
+
+      await sendAdminRegistrationAlert({
+        type: "Organization Membership Application",
+        applicantName: `${contactPersonName} (${organizationName})`,
+        applicantEmail: email,
+        role: "Organization Member",
+        details: `NGO Reg: ${ngoRegistrationNumber} | City: ${city}, ${state} | Volunteers: ${numberOfVolunteers}`
+      });
+    } catch (emailErr) {
+      console.error("Non-fatal organization application email error:", emailErr);
+    }
+
     return { success: true, applicationId: application.id };
   } catch (error: any) {
     console.error("applyOrganizationMemberAction error:", error);
@@ -199,6 +205,26 @@ export async function applyCorporatePartnerAction(data: any) {
       }
     });
 
+    // Send SMTP email notifications safely
+    try {
+      await sendUserRegistrationEmail({
+        to: email,
+        userName: contactPersonName,
+        role: `Corporate Partner (${companyName})`,
+        verificationStatus: "PENDING",
+      });
+
+      await sendAdminRegistrationAlert({
+        type: "Corporate Partner Application",
+        applicantName: `${contactPersonName} (${companyName})`,
+        applicantEmail: email,
+        role: "Corporate Partner",
+        details: `GST: ${gstNumber} | Industry: ${industry} | CSR Category: ${csrBudgetCategory}`
+      });
+    } catch (emailErr) {
+      console.error("Non-fatal corporate partner application email error:", emailErr);
+    }
+
     return { success: true, applicationId: application.id };
   } catch (error: any) {
     console.error("applyCorporatePartnerAction error:", error);
@@ -236,15 +262,18 @@ export async function updateOrganizationApplicationStatusAction(
       return { error: "Application not found." };
     }
 
+    const statusChanged = app.status !== status;
+
     await db.organizationMember.update({
       where: { id },
       data: { status, remarks }
     });
 
+    let generatedPassword = "";
+
     if (status === "VERIFIED") {
       // Find or create User
       let user = await db.user.findUnique({ where: { email: app.email } });
-      let generatedPassword = "";
       
       if (!user) {
         generatedPassword = Math.random().toString(36).slice(-8) + "GRS!";
@@ -267,48 +296,24 @@ export async function updateOrganizationApplicationStatusAction(
           });
         }
       }
+    }
 
-      // Send approved email
-      const emailBody = `
-Dear ${app.contactPersonName},
-
-We are pleased to inform you that your application for Organization Membership with Breast Cancer Awareness Mission has been APPROVED!
-
-Details:
-Organization Name: ${app.organizationName}
-NGO Registration: ${app.ngoRegistrationNumber}
-Status: Approved
-Remarks: ${remarks || "None"}
-
-Your login details for the Institution Dashboard are:
-Portal Link: http://localhost:3000/login
-Email: ${app.email}
-${generatedPassword ? `Password: ${generatedPassword}\n(Note: Please change your password after logging in.)` : "Password: Use your existing account password."}
-
-Thank you for partnering with us to spread breast cancer awareness.
-
-Warm regards,
-Command Center Team
-      `.trim();
-      await sendMockEmail(app.email, `Partnership Approved: ${app.organizationName}`, emailBody);
-    } else {
-      // Send rejected email
-      const emailBody = `
-Dear ${app.contactPersonName},
-
-Thank you for your interest in collaborating with the Breast Cancer Awareness Mission. 
-
-After reviewing your application for ${app.organizationName}, we regret to inform you that we cannot approve your Organization Membership at this time.
-
-Remarks / Reasons for Rejection:
-${remarks || "Verification requirements not met."}
-
-If you believe this was an error or would like to submit additional information, please contact us at support@grsawareness.org.
-
-Warm regards,
-Command Center Team
-      `.trim();
-      await sendMockEmail(app.email, `Partnership Application Status Updates`, emailBody);
+    // Send SMTP status email strictly when status changes
+    if (statusChanged) {
+      try {
+        await sendInstitutionalApplicationStatusEmail({
+          to: app.email,
+          recipientName: app.contactPersonName,
+          entityName: app.organizationName,
+          entityType: "Organization Member",
+          status,
+          remarks,
+          loginEmail: app.email,
+          loginPassword: generatedPassword || undefined,
+        });
+      } catch (emailErr) {
+        console.error("Non-fatal organization status email error:", emailErr);
+      }
     }
 
     revalidatePath("/admin/memberships");
@@ -333,15 +338,18 @@ export async function updateCorporateApplicationStatusAction(
       return { error: "Application not found." };
     }
 
+    const statusChanged = app.status !== status;
+
     await db.corporatePartner.update({
       where: { id },
       data: { status, remarks }
     });
 
+    let generatedPassword = "";
+
     if (status === "VERIFIED") {
       // Find or create User
       let user = await db.user.findUnique({ where: { email: app.email } });
-      let generatedPassword = "";
       
       if (!user) {
         generatedPassword = Math.random().toString(36).slice(-8) + "GRS!";
@@ -364,48 +372,24 @@ export async function updateCorporateApplicationStatusAction(
           });
         }
       }
+    }
 
-      // Send approved email
-      const emailBody = `
-Dear ${app.contactPersonName},
-
-We are pleased to inform you that your application for Corporate Partnership with Breast Cancer Awareness Mission has been APPROVED!
-
-Details:
-Company Name: ${app.companyName}
-GST Number: ${app.gstNumber}
-Status: Approved
-Remarks: ${remarks || "None"}
-
-Your login details for the Institution Dashboard are:
-Portal Link: http://localhost:3000/login
-Email: ${app.email}
-${generatedPassword ? `Password: ${generatedPassword}\n(Note: Please change your password after logging in.)` : "Password: Use your existing account password."}
-
-Thank you for partnering with us to spread breast cancer awareness through corporate initiatives.
-
-Warm regards,
-Command Center Team
-      `.trim();
-      await sendMockEmail(app.email, `Partnership Approved: ${app.companyName}`, emailBody);
-    } else {
-      // Send rejected email
-      const emailBody = `
-Dear ${app.contactPersonName},
-
-Thank you for your interest in collaborating with the Breast Cancer Awareness Mission. 
-
-After reviewing your application for ${app.companyName}, we regret to inform you that we cannot approve your Corporate Partnership at this time.
-
-Remarks / Reasons for Rejection:
-${remarks || "Verification requirements not met."}
-
-If you believe this was an error or would like to submit additional information, please contact us at support@grsawareness.org.
-
-Warm regards,
-Command Center Team
-      `.trim();
-      await sendMockEmail(app.email, `Partnership Application Status Updates`, emailBody);
+    // Send SMTP status email strictly when status changes
+    if (statusChanged) {
+      try {
+        await sendInstitutionalApplicationStatusEmail({
+          to: app.email,
+          recipientName: app.contactPersonName,
+          entityName: app.companyName,
+          entityType: "Corporate Partner",
+          status,
+          remarks,
+          loginEmail: app.email,
+          loginPassword: generatedPassword || undefined,
+        });
+      } catch (emailErr) {
+        console.error("Non-fatal corporate status email error:", emailErr);
+      }
     }
 
     revalidatePath("/admin/memberships");
@@ -415,3 +399,4 @@ Command Center Team
     return { error: error.message || "Failed to update application status." };
   }
 }
+

@@ -69,6 +69,24 @@ export async function registerVolunteerAction(input: z.infer<typeof registerSche
       },
     });
 
+    try {
+      const { sendUserRegistrationEmail, sendAdminRegistrationAlert } = await import("@/lib/email");
+      await sendUserRegistrationEmail({
+        to: normalizedEmail,
+        userName: fullName.trim(),
+        role: "VOLUNTEER",
+        verificationStatus: "PENDING",
+      });
+      await sendAdminRegistrationAlert({
+        type: "Volunteer Registration",
+        applicantName: fullName.trim(),
+        applicantEmail: normalizedEmail,
+        role: "VOLUNTEER",
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send volunteer registration emails:", e);
+    }
+
     return {
       success: true,
       userId: newUser.id,

@@ -61,6 +61,9 @@ export async function POST(
       );
     }
 
+    const oldStatus = volunteer.status;
+    const oldReason = volunteer.rejectionReason;
+
     // Update volunteer application
     const updatedVolunteer = await db.volunteerApplication.update({
       where: { id: volunteerId },
@@ -90,6 +93,22 @@ export async function POST(
         });
       } else {
         certificate = existingCert;
+      }
+    }
+
+    // Duplicate email protection: send only if status or rejection reason transitioned
+    if ((oldStatus !== status || (status === "REJECTED" && oldReason !== updatedVolunteer.rejectionReason)) && updatedVolunteer.email) {
+      try {
+        const { sendVolunteerStatusEmail } = await import("@/lib/email");
+        await sendVolunteerStatusEmail({
+          to: updatedVolunteer.email,
+          volunteerName: updatedVolunteer.fullName,
+          status: status as "VERIFIED" | "REJECTED",
+          rejectionReason: updatedVolunteer.rejectionReason || undefined,
+          certificateCode: certificate?.certificateCode,
+        });
+      } catch (e) {
+        console.error("[SMTP] Failed to send volunteer status/certificate email:", e);
       }
     }
 

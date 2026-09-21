@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { Role, VerificationStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { autoCreateVideoFromSuccessStory } from "./videoStories";
+import { sendAdminRegistrationAlert, sendSuccessStoryStatusEmail } from "@/lib/email";
 
 // Helper for admin auth
 async function requireAdmin() {
@@ -113,6 +114,18 @@ export async function submitSuccessStory(data: {
       }
     });
 
+    try {
+      await sendAdminRegistrationAlert({
+        type: "Patient Success Story Submission",
+        applicantName: data.fullName,
+        applicantEmail: data.email,
+        role: `Survivor / Patient (${data.roleType})`,
+        details: `Story Title: "${data.storyTitle}" | City: ${data.city}`,
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send admin alert for success story submission:", e);
+    }
+
     revalidatePath("/");
     return { success: true, storyId: newStory.id };
   } catch (error: any) {
@@ -186,6 +199,13 @@ export async function getAdminSuccessStories() {
 export async function updateSuccessStoryStatus(id: string, status: VerificationStatus) {
   try {
     await requireAdmin();
+
+    const existingStory = await db.successStory.findUnique({
+      where: { id },
+    });
+
+    const oldStatus = existingStory?.status;
+
     const updated = await db.successStory.update({
       where: { id },
       data: { status }
@@ -204,6 +224,20 @@ export async function updateSuccessStoryStatus(id: string, status: VerificationS
         where: { successStoryId: id },
         data: { isActive: false },
       });
+    }
+
+    // Duplicate email protection: send email strictly when status changed
+    if (oldStatus !== status && (status === VerificationStatus.VERIFIED || status === VerificationStatus.REJECTED) && updated.email) {
+      try {
+        await sendSuccessStoryStatusEmail({
+          to: updated.email,
+          fullName: updated.fullName,
+          storyTitle: updated.storyTitle,
+          status: status === VerificationStatus.VERIFIED ? "VERIFIED" : "REJECTED",
+        });
+      } catch (e) {
+        console.error("[SMTP] Failed to send success story status email:", e);
+      }
     }
 
     revalidatePath("/");

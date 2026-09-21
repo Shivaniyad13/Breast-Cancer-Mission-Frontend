@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { Role } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { sendAdminRegistrationAlert, sendResearchPartnerStatusEmail } from "@/lib/email";
 
 // ----------------------------------------------------------------------
 // Helper for Admin authorization
@@ -124,6 +125,18 @@ export async function submitPartnerRequest(data: {
         status: "PENDING" as any,
       },
     });
+
+    try {
+      await sendAdminRegistrationAlert({
+        type: "Research Partner Request",
+        applicantName: data.applicantName,
+        applicantEmail: data.email,
+        role: `Research Partner (${data.institution})`,
+        details: `Research Area: ${data.researchArea}`,
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send admin alert for research partner request:", e);
+    }
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
@@ -308,6 +321,12 @@ export async function approveResearchPartnerRequest(id: string) {
   try {
     const admin = await requireAdmin();
 
+    const existingReq = await db.researchPartnerRequest.findUnique({
+      where: { id },
+    });
+
+    const oldStatus = existingReq?.status;
+
     const req = await db.researchPartnerRequest.update({
       where: { id },
       data: {
@@ -330,6 +349,20 @@ export async function approveResearchPartnerRequest(id: string) {
       },
     });
 
+    // Duplicate email protection: send only if status transitioned to APPROVED
+    if (oldStatus !== "APPROVED" && req.email) {
+      try {
+        await sendResearchPartnerStatusEmail({
+          to: req.email,
+          applicantName: req.applicantName,
+          institution: req.institution,
+          status: "APPROVED",
+        });
+      } catch (e) {
+        console.error("[SMTP] Failed to send research partner approval email:", e);
+      }
+    }
+
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
 
@@ -344,15 +377,38 @@ export async function rejectResearchPartnerRequest(id: string, reason?: string) 
   try {
     const admin = await requireAdmin();
 
+    const existingReq = await db.researchPartnerRequest.findUnique({
+      where: { id },
+    });
+
+    const oldStatus = existingReq?.status;
+    const oldReason = existingReq?.rejectionReason;
+    const trimmedReason = reason?.trim();
+
     const req = await db.researchPartnerRequest.update({
       where: { id },
       data: {
         status: "REJECTED" as any,
         reviewedAt: new Date(),
         reviewedBy: admin.email || admin.id,
-        rejectionReason: reason || null,
+        rejectionReason: trimmedReason || null,
       },
     });
+
+    // Duplicate email protection: send only if status or reason changed
+    if ((oldStatus !== "REJECTED" || oldReason !== trimmedReason) && req.email) {
+      try {
+        await sendResearchPartnerStatusEmail({
+          to: req.email,
+          applicantName: req.applicantName,
+          institution: req.institution,
+          status: "REJECTED",
+          rejectionReason: trimmedReason,
+        });
+      } catch (e) {
+        console.error("[SMTP] Failed to send research partner rejection email:", e);
+      }
+    }
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");

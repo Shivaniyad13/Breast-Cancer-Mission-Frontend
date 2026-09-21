@@ -4,6 +4,12 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { Role, DonationStatus, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import {
+  sendDonationReceiptEmail,
+  sendDonationPendingEmail,
+  sendDonationStatusEmail,
+  sendAdminRegistrationAlert,
+} from "@/lib/email";
 
 export async function getAvailableCampaignsAction() {
   try {
@@ -79,6 +85,9 @@ export async function createDonationAction(data: {
             campaign: {
               select: { id: true, title: true, slug: true },
             },
+            donor: {
+              select: { id: true, name: true, email: true },
+            },
           },
         });
 
@@ -104,6 +113,9 @@ export async function createDonationAction(data: {
             campaign: {
               select: { id: true, title: true, slug: true },
             },
+            donor: {
+              select: { id: true, name: true, email: true },
+            },
           },
         });
 
@@ -126,6 +138,47 @@ export async function createDonationAction(data: {
         timeout: 20000,
       }
     );
+
+    // Send SMTP email notifications safely
+    try {
+      const donorEmail = donation.donorEmail || donation.donor?.email;
+      const donorName = donation.donorName || donation.donor?.name || "Anonymous Donor";
+      const isCompleted = donation.status === DonationStatus.SUCCESSFUL || donation.status === DonationStatus.COMPLETED;
+
+      if (donorEmail) {
+        if (isCompleted) {
+          await sendDonationReceiptEmail({
+            to: donorEmail,
+            donorName,
+            amount: Number(donation.amount),
+            currency: donation.currency,
+            transactionId: donation.paymentGatewayId,
+            campaignTitle: donation.campaign?.title,
+            donationDate: donation.createdAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" }),
+            isAnonymous: donation.isAnonymous,
+          });
+        } else {
+          await sendDonationPendingEmail({
+            to: donorEmail,
+            donorName,
+            amount: Number(donation.amount),
+            currency: donation.currency,
+            transactionId: donation.paymentGatewayId,
+            campaignTitle: donation.campaign?.title,
+          });
+        }
+      }
+
+      await sendAdminRegistrationAlert({
+        type: isCompleted ? "Donation Confirmed" : "Donation Submitted (Pending Review)",
+        applicantName: donorName,
+        applicantEmail: donorEmail || "N/A",
+        role: "DONOR",
+        details: `Amount: ₹${Number(donation.amount).toLocaleString("en-IN")} | Ref ID: ${donation.paymentGatewayId} | Campaign: ${donation.campaign?.title || "General"}`,
+      });
+    } catch (e) {
+      console.error("[SMTP] Non-fatal donation creation email error:", e);
+    }
 
     revalidatePath("/donate");
     revalidatePath("/dashboard");
@@ -382,6 +435,8 @@ export async function updateDonationStatusAction(id: string, status: DonationSta
       return { success: false, error: "Donation not found" };
     }
 
+    const oldStatus = donation.status;
+
     const updated = await db.$transaction(async (tx) => {
       const updatedDonation = await tx.donation.update({
         where: { id },
@@ -414,6 +469,40 @@ export async function updateDonationStatusAction(id: string, status: DonationSta
 
       return updatedDonation;
     });
+
+    // Send SMTP status email strictly when status transitioned
+    if (oldStatus !== status) {
+      const recipientEmail = updated.donorEmail || updated.donor?.email;
+      const recipientName = updated.donorName || updated.donor?.name || "Donor";
+
+      if (recipientEmail) {
+        try {
+          if (status === DonationStatus.SUCCESSFUL || status === DonationStatus.COMPLETED) {
+            await sendDonationReceiptEmail({
+              to: recipientEmail,
+              donorName: recipientName,
+              amount: Number(updated.amount),
+              currency: updated.currency,
+              transactionId: updated.paymentGatewayId,
+              campaignTitle: updated.campaign?.title,
+              donationDate: updated.createdAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" }),
+              isAnonymous: updated.isAnonymous,
+            });
+          } else if (status === DonationStatus.FAILED || status === DonationStatus.REFUNDED) {
+            await sendDonationStatusEmail({
+              to: recipientEmail,
+              donorName: recipientName,
+              amount: Number(updated.amount),
+              currency: updated.currency,
+              transactionId: updated.paymentGatewayId,
+              status: status as "FAILED" | "REFUNDED",
+            });
+          }
+        } catch (e) {
+          console.error("[SMTP] Non-fatal donation status update email error:", e);
+        }
+      }
+    }
 
     revalidatePath("/admin/donations");
     revalidatePath("/donate");

@@ -51,6 +51,24 @@ export async function POST(request: Request) {
       },
     });
 
+    try {
+      const { sendVolunteerStatusEmail, sendAdminRegistrationAlert } = await import("@/lib/email");
+      await sendVolunteerStatusEmail({
+        to: data.email,
+        volunteerName: data.fullName,
+        status: "PENDING",
+      });
+      await sendAdminRegistrationAlert({
+        type: "Volunteer Application",
+        applicantName: data.fullName,
+        applicantEmail: data.email,
+        role: "VOLUNTEER",
+        details: `City: ${data.city}, Interest: ${data.interest}`,
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send volunteer application emails:", e);
+    }
+
     return NextResponse.json(
       {
         success: true,

@@ -82,6 +82,19 @@ export async function POST(
       },
     });
 
+    if (volunteer.email) {
+      try {
+        const { sendVolunteerEventApplicationEmail } = await import("@/lib/email");
+        await sendVolunteerEventApplicationEmail({
+          to: volunteer.email,
+          volunteerName: volunteer.fullName,
+          eventTitle: event.title,
+        });
+      } catch (e) {
+        console.error("[SMTP] Failed to send volunteer event application email:", e);
+      }
+    }
+
     return NextResponse.json(
       {
         success: true,

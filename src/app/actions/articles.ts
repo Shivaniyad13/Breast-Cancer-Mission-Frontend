@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { Role } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { getOrCreateDoctorRecord } from "./doctor";
+import { sendAdminRegistrationAlert, sendArticleStatusEmail } from "@/lib/email";
 
 async function requireAdmin() {
   const session = await auth();
@@ -82,6 +83,20 @@ export async function createDoctorArticleAction(data: {
       }),
     },
   });
+
+  if (initialStatus === "PENDING") {
+    try {
+      await sendAdminRegistrationAlert({
+        type: "Doctor Article Submission",
+        applicantName: session.user.name || "Doctor",
+        applicantEmail: session.user.email || "",
+        role: "DOCTOR",
+        details: `Article Title: "${article.title}"`,
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send admin alert for article creation:", e);
+    }
+  }
 
   revalidatePath("/care/care-providers");
   revalidatePath("/dashboard");
@@ -296,11 +311,20 @@ export async function approveDoctorArticleAction(articleId: string) {
 
   const article = await db.article.findUnique({
     where: { id: articleId },
+    include: {
+      doctor: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
 
   if (!article) {
     return { error: "Article not found." };
   }
+
+  const oldStatus = article.status;
 
   await db.article.update({
     where: { id: articleId },
@@ -311,6 +335,21 @@ export async function approveDoctorArticleAction(articleId: string) {
       rejectionReason: null,
     },
   });
+
+  // Duplicate email protection: send only if status transitioned to APPROVED
+  if (oldStatus !== "APPROVED" && article.doctor?.user?.email) {
+    try {
+      await sendArticleStatusEmail({
+        to: article.doctor.user.email,
+        doctorName: article.doctor.user.name || "Doctor",
+        articleTitle: article.title,
+        status: "APPROVED",
+        articleSlug: article.slug,
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send article approval email:", e);
+    }
+  }
 
   revalidatePath("/care/care-providers");
   revalidatePath("/admin/articles");
@@ -331,19 +370,45 @@ export async function rejectDoctorArticleAction(articleId: string, rejectionReas
 
   const article = await db.article.findUnique({
     where: { id: articleId },
+    include: {
+      doctor: {
+        include: {
+          user: true,
+        },
+      },
+    },
   });
 
   if (!article) {
     return { error: "Article not found." };
   }
 
+  const oldStatus = article.status;
+  const oldReason = article.rejectionReason;
+  const trimmedReason = rejectionReason.trim();
+
   await db.article.update({
     where: { id: articleId },
     data: {
       status: "REJECTED",
-      rejectionReason: rejectionReason.trim(),
+      rejectionReason: trimmedReason,
     },
   });
+
+  // Duplicate email protection: send only if status or reason changed
+  if ((oldStatus !== "REJECTED" || oldReason !== trimmedReason) && article.doctor?.user?.email) {
+    try {
+      await sendArticleStatusEmail({
+        to: article.doctor.user.email,
+        doctorName: article.doctor.user.name || "Doctor",
+        articleTitle: article.title,
+        status: "REJECTED",
+        rejectionReason: trimmedReason,
+      });
+    } catch (e) {
+      console.error("[SMTP] Failed to send article rejection email:", e);
+    }
+  }
 
   revalidatePath("/care/care-providers");
   revalidatePath("/admin/articles");

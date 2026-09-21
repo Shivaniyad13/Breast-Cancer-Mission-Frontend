@@ -4,6 +4,11 @@ import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { Role, VerificationStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { 
+  sendUserRegistrationEmail, 
+  sendAdminRegistrationAlert, 
+  sendIndividualMemberStatusEmail 
+} from "@/lib/email";
 
 // Admin check helper
 async function requireAdmin() {
@@ -53,6 +58,26 @@ export async function applyIndividualMemberAction(data: {
         status: VerificationStatus.PENDING,
       },
     });
+
+    // Trigger SMTP email notifications safely
+    try {
+      await sendUserRegistrationEmail({
+        to: data.email.trim(),
+        userName: data.fullName.trim(),
+        role: `Individual Member (${data.category.trim()})`,
+        verificationStatus: "PENDING",
+      });
+
+      await sendAdminRegistrationAlert({
+        type: "Individual Membership Application",
+        applicantName: data.fullName.trim(),
+        applicantEmail: data.email.trim(),
+        role: `Individual Member (${data.category.trim()})`,
+        details: `City: ${data.city.trim()}, ${data.state.trim()} | Category: ${data.category.trim()}`
+      });
+    } catch (emailErr) {
+      console.error("Non-fatal individual member email error:", emailErr);
+    }
 
     try {
       revalidatePath("/campaigns/membership");
@@ -151,6 +176,8 @@ export async function updateIndividualMemberStatus(
       throw new Error("Individual member record not found.");
     }
 
+    const statusChanged = existing.status !== status;
+
     const updated = await db.individualMember.update({
       where: { id },
       data: {
@@ -158,6 +185,20 @@ export async function updateIndividualMemberStatus(
         remarks: remarks !== undefined ? remarks : existing.remarks,
       },
     });
+
+    // Send SMTP status email strictly when status changes
+    if (statusChanged && (status === "VERIFIED" || status === "REJECTED")) {
+      try {
+        await sendIndividualMemberStatusEmail({
+          to: existing.email,
+          memberName: existing.fullName,
+          status: status as "VERIFIED" | "REJECTED",
+          remarks: remarks !== undefined ? remarks : (existing.remarks || undefined),
+        });
+      } catch (emailErr) {
+        console.error("Non-fatal individual member status email error:", emailErr);
+      }
+    }
 
     try {
       revalidatePath("/campaigns/membership");
@@ -195,3 +236,4 @@ export async function deleteIndividualMember(id: string) {
     return { success: false, error: error.message || "Failed to delete record." };
   }
 }
+
