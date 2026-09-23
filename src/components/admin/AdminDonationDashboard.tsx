@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   Heart,
   Search,
@@ -12,28 +13,31 @@ import {
   CheckCircle,
   Clock,
   XCircle,
-  AlertCircle,
   Tag,
-  Calendar,
+  Eye,
+  X,
+  ExternalLink,
   User,
-  Mail,
-  Phone,
-  ArrowUpDown,
+  CreditCard,
+  MessageSquare,
+  FileText,
+  ImageOff,
 } from "lucide-react";
 import { updateDonationStatusAction } from "@/app/actions/donations";
 import { DonationStatus } from "@prisma/client";
 
 interface AdminDonationDashboardProps {
-  initialDonations: any[];
+  initialDonations?: any[];
 }
 
-export default function AdminDonationDashboard({ initialDonations }: AdminDonationDashboardProps) {
-  const [donations, setDonations] = useState<any[]>(initialDonations);
+export default function AdminDonationDashboard({ initialDonations = [] }: AdminDonationDashboardProps) {
+  const [donations, setDonations] = useState<any[]>(Array.isArray(initialDonations) ? initialDonations : []);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [typeFilter, setTypeFilter] = useState<string>("ALL");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [selectedDonation, setSelectedDonation] = useState<any | null>(null);
 
   // Filter donations dynamically
   const filteredDonations = donations.filter((donation) => {
@@ -90,6 +94,9 @@ export default function AdminDonationDashboard({ initialDonations }: AdminDonati
       setDonations((prev) =>
         prev.map((d) => (d.id === id ? { ...d, status: res.donation.status } : d))
       );
+      if (selectedDonation && selectedDonation.id === id) {
+        setSelectedDonation((prev: any) => (prev ? { ...prev, status: res.donation.status } : null));
+      }
       setMessage({ type: "success", text: `Donation status updated to ${newStatus}` });
     } else {
       setMessage({ type: "error", text: res.error || "Failed to update donation status" });
@@ -377,19 +384,31 @@ export default function AdminDonationDashboard({ initialDonations }: AdminDonati
                         })}
                       </td>
 
-                      {/* Actions: Update Status */}
+                      {/* Actions: View & Update Status */}
                       <td className="py-3.5 px-4 text-right">
-                        <select
-                          disabled={updatingId === donation.id}
-                          value={donation.status}
-                          onChange={(e) => handleStatusChange(donation.id, e.target.value)}
-                          className="bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] font-bold text-slate-700 cursor-pointer focus:border-pink-500"
-                        >
-                          <option value="PENDING">Set PENDING</option>
-                          <option value="SUCCESSFUL">Set SUCCESSFUL</option>
-                          <option value="COMPLETED">Set COMPLETED</option>
-                          <option value="FAILED">Set FAILED</option>
-                        </select>
+                        <div className="flex items-center justify-end gap-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setSelectedDonation(donation)}
+                            className="h-8 border-pink-200 text-pink-700 hover:bg-pink-50 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer"
+                          >
+                            <Eye className="h-3.5 w-3.5" /> View
+                          </Button>
+
+                          <select
+                            disabled={updatingId === donation.id}
+                            value={donation.status}
+                            onChange={(e) => handleStatusChange(donation.id, e.target.value)}
+                            className="bg-white border border-slate-200 rounded-lg px-2 py-1 text-[11px] font-bold text-slate-700 cursor-pointer focus:border-pink-500"
+                          >
+                            <option value="PENDING">Set PENDING</option>
+                            <option value="SUCCESSFUL">Set SUCCESSFUL</option>
+                            <option value="COMPLETED">Set COMPLETED</option>
+                            <option value="FAILED">Set FAILED</option>
+                          </select>
+                        </div>
                       </td>
 
                     </tr>
@@ -400,6 +419,292 @@ export default function AdminDonationDashboard({ initialDonations }: AdminDonati
           </table>
         </div>
       </Card>
+
+      {/* Detailed View Modal */}
+      <AnimatePresence>
+        {selectedDonation && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md overflow-y-auto"
+            onClick={() => setSelectedDonation(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              className="relative w-full max-w-4xl bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-pink-200 dark:border-pink-800 shadow-2xl my-8 overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-pink-100 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center font-bold">
+                    <Heart className="h-5 w-5 fill-pink-500 text-pink-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                      Donation Details
+                      {getStatusBadge(selectedDonation.status)}
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      ID: <span className="font-mono text-slate-700 dark:text-slate-300">{selectedDonation.id}</span>
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setSelectedDonation(null)}
+                  className="p-2 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Modal Body - Two Column Layout */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-6 max-h-[75vh] overflow-y-auto pr-1">
+                
+                {/* Left Column: Donor & Transaction Info */}
+                <div className="lg:col-span-7 space-y-6">
+                  
+                  {/* Amount & Status Card */}
+                  <div className="bg-gradient-to-r from-pink-50 via-rose-50 to-purple-50 dark:from-pink-950/40 dark:via-rose-950/40 dark:to-purple-950/40 rounded-2xl p-5 border border-pink-200 dark:border-pink-800/60 space-y-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-pink-600 dark:text-pink-400">
+                          Amount Donated
+                        </span>
+                        <h4 className="text-3xl font-black text-slate-900 dark:text-white">
+                          ₹{Number(selectedDonation.amount).toLocaleString('en-IN')}{" "}
+                          <span className="text-sm font-semibold text-slate-500">{selectedDonation.currency || "INR"}</span>
+                        </h4>
+                      </div>
+
+                      {/* Status Selector Inside Modal */}
+                      <div className="space-y-1 text-right">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                          Update Status
+                        </span>
+                        <select
+                          disabled={updatingId === selectedDonation.id}
+                          value={selectedDonation.status}
+                          onChange={(e) => handleStatusChange(selectedDonation.id, e.target.value)}
+                          className="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-800 dark:text-slate-200 shadow-xs focus:border-pink-500 cursor-pointer"
+                        >
+                          <option value="PENDING">PENDING</option>
+                          <option value="SUCCESSFUL">SUCCESSFUL</option>
+                          <option value="COMPLETED">COMPLETED</option>
+                          <option value="FAILED">FAILED</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Donor Information */}
+                  <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 space-y-3">
+                    <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                      <User className="h-4 w-4 text-pink-500" /> Donor Profile
+                    </h4>
+
+                    <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
+                      <div>
+                        <span className="text-slate-400 block text-[11px] font-medium">Full Name</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-200">
+                          {selectedDonation.donorName || selectedDonation.donor?.name || "Guest Donor"}
+                        </span>
+                      </div>
+
+                      <div>
+                        <span className="text-slate-400 block text-[11px] font-medium">Anonymous Status</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-200">
+                          {selectedDonation.isAnonymous ? "Yes (Anonymous)" : "No (Public)"}
+                        </span>
+                      </div>
+
+                      <div>
+                        <span className="text-slate-400 block text-[11px] font-medium">Email Address</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-200 break-all">
+                          {selectedDonation.donorEmail || selectedDonation.donor?.email || "N/A"}
+                        </span>
+                      </div>
+
+                      <div>
+                        <span className="text-slate-400 block text-[11px] font-medium">Phone Number</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-200">
+                          {selectedDonation.donorPhone || "N/A"}
+                        </span>
+                      </div>
+
+                      {selectedDonation.organization && (
+                        <div className="col-span-2">
+                          <span className="text-slate-400 block text-[11px] font-medium">Organization</span>
+                          <span className="font-bold text-slate-800 dark:text-slate-200">
+                            {selectedDonation.organization}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Transaction & Campaign Details */}
+                  <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 space-y-3">
+                    <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                      <CreditCard className="h-4 w-4 text-pink-500" /> Transaction &amp; Purpose
+                    </h4>
+
+                    <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
+                      <div>
+                        <span className="text-slate-400 block text-[11px] font-medium">Payment Ref / Txn ID</span>
+                        <span className="font-mono font-bold text-pink-600 dark:text-pink-400 break-all">
+                          {selectedDonation.paymentGatewayId || "N/A"}
+                        </span>
+                      </div>
+
+                      <div>
+                        <span className="text-slate-400 block text-[11px] font-medium">Donation Type</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-200">
+                          {selectedDonation.campaignId ? "Campaign Donation" : "General Donation"}
+                        </span>
+                      </div>
+
+                      <div className="col-span-2">
+                        <span className="text-slate-400 block text-[11px] font-medium">Campaign Title</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-200">
+                          {selectedDonation.campaign?.title || selectedDonation.purpose || "General Breast Cancer Awareness"}
+                        </span>
+                      </div>
+
+                      <div className="col-span-2">
+                        <span className="text-slate-400 block text-[11px] font-medium">Date &amp; Time</span>
+                        <span className="font-medium text-slate-800 dark:text-slate-200">
+                          {new Date(selectedDonation.createdAt).toLocaleString("en-IN", {
+                            dateStyle: "full",
+                            timeStyle: "medium",
+                          })}
+                        </span>
+                      </div>
+                    </div>
+
+                    {selectedDonation.message && (
+                      <div className="pt-2 border-t border-slate-200 dark:border-slate-700">
+                        <span className="text-slate-400 block text-[11px] font-medium flex items-center gap-1 mb-1">
+                          <MessageSquare className="h-3.5 w-3.5 text-pink-500" /> Donor Message
+                        </span>
+                        <p className="text-xs italic text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+                          &ldquo;{selectedDonation.message}&rdquo;
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                </div>
+
+                {/* Right Column: Payment Proof / Screenshot Preview */}
+                <div className="lg:col-span-5 space-y-4">
+                  <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 h-full flex flex-col justify-between">
+                    <div>
+                      <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center justify-between mb-3">
+                        <span className="flex items-center gap-1.5">
+                          <FileText className="h-4 w-4 text-pink-500" /> Payment Screenshot / Proof
+                        </span>
+                      </h4>
+
+                      {(() => {
+                        const proofUrl =
+                          selectedDonation.screenshotUrl ||
+                          selectedDonation.paymentProofUrl ||
+                          selectedDonation.proofUrl ||
+                          selectedDonation.attachmentUrl ||
+                          selectedDonation.receiptUrl ||
+                          selectedDonation.documentUrl ||
+                          selectedDonation.fileUrl ||
+                          selectedDonation.proof;
+
+                        if (!proofUrl) {
+                          return (
+                            <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-8 text-center space-y-3 bg-white dark:bg-slate-900 my-auto">
+                              <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto">
+                                <ImageOff className="h-6 w-6" />
+                              </div>
+                              <div className="space-y-1">
+                                <p className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                                  No Proof Uploaded
+                                </p>
+                                <p className="text-[11px] text-slate-400">
+                                  Donor did not attach a payment screenshot during submission.
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        const isPdf = typeof proofUrl === "string" && proofUrl.toLowerCase().endsWith(".pdf");
+
+                        return (
+                          <div className="space-y-3">
+                            <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-black/5 dark:bg-black/40 min-h-[220px] flex items-center justify-center">
+                              {isPdf ? (
+                                <div className="p-6 text-center space-y-3">
+                                  <FileText className="h-12 w-12 text-pink-500 mx-auto" />
+                                  <p className="text-xs font-bold text-slate-700 dark:text-slate-200">
+                                    PDF Document Proof
+                                  </p>
+                                  <a
+                                    href={proofUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="inline-flex items-center gap-1.5 text-xs font-bold text-pink-600 dark:text-pink-400 hover:underline"
+                                  >
+                                    Open PDF in New Tab <ExternalLink className="h-3.5 w-3.5" />
+                                  </a>
+                                </div>
+                              ) : (
+                                <img
+                                  src={proofUrl}
+                                  alt="Payment Screenshot Proof"
+                                  className="w-full max-h-[340px] object-contain rounded-xl"
+                                />
+                              )}
+                            </div>
+
+                            {/* Action links for proof file */}
+                            <div className="flex gap-2 pt-2">
+                              <a
+                                href={proofUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                              >
+                                <ExternalLink className="h-3.5 w-3.5" /> Full Size
+                              </a>
+                              <a
+                                href={proofUrl}
+                                download={`donation_proof_${selectedDonation.id}`}
+                                className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-pink-600 hover:bg-pink-700 text-white text-xs font-bold transition-colors"
+                              >
+                                <Download className="h-3.5 w-3.5" /> Download
+                              </a>
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
+
+                    <div className="pt-4 border-t border-slate-200 dark:border-slate-700 text-center">
+                      <p className="text-[10px] text-slate-400 font-medium">
+                        Verification Tip: Check amount &amp; reference ID against your bank statement.
+                      </p>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

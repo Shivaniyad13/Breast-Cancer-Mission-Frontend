@@ -4,14 +4,14 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import WebinarRegisterButton from "@/components/webinars/WebinarRegisterButton";
 import Link from "next/link";
-import { 
-  Ribbon, 
-  Heart, 
-  Users, 
-  Calendar, 
-  Award, 
-  ShieldCheck, 
-  Plus, 
+import {
+  Ribbon,
+  Heart,
+  Users,
+  Calendar,
+  Award,
+  ShieldCheck,
+  Plus,
   Minus,
   CheckCircle,
   FileText,
@@ -225,12 +225,12 @@ export default function BreastCancerCampaignPage() {
 
   return (
     <div className="flex-1 w-full bg-background font-sans selection:bg-primary/20 text-foreground overflow-x-hidden">
-      
+
 
 
       {/* 2. HERO AUTOPLAY SLIDER */}
       <section className="relative h-[90vh] min-h-[600px] w-full overflow-hidden bg-slate-950 text-white" id="hero">
-        
+
         {/* Carousel slide transition wrapper */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -243,16 +243,16 @@ export default function BreastCancerCampaignPage() {
           >
             {/* Visual background pattern grids */}
             <div className="absolute inset-0 opacity-15 mix-blend-overlay bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:24px_24px]" />
-            
+
             {/* Highlighted Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-            
+
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                
+
                 {/* Text Content */}
                 <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-left">
-                  <motion.span 
+                  <motion.span
                     initial={{ y: -15, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2 }}
@@ -261,8 +261,8 @@ export default function BreastCancerCampaignPage() {
                     <Sparkles className="h-3.5 w-3.5" />
                     {slides[currentSlide].tag}
                   </motion.span>
-                  
-                  <motion.h2 
+
+                  <motion.h2
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.3 }}
@@ -270,8 +270,8 @@ export default function BreastCancerCampaignPage() {
                   >
                     {slides[currentSlide].title}
                   </motion.h2>
-                  
-                  <motion.p 
+
+                  <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
@@ -280,7 +280,7 @@ export default function BreastCancerCampaignPage() {
                     {slides[currentSlide].subtitle}
                   </motion.p>
 
-                  <motion.div 
+                  <motion.div
                     initial={{ y: 15, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.6 }}
@@ -302,7 +302,7 @@ export default function BreastCancerCampaignPage() {
 
                 {/* Graphic Visual Representation Placeholder */}
                 <div className="lg:col-span-5 hidden lg:flex items-center justify-center p-6">
-                  <motion.div 
+                  <motion.div
                     initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.4 }}
@@ -331,9 +331,8 @@ export default function BreastCancerCampaignPage() {
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                currentSlide === index ? "w-8 bg-primary" : "w-2.5 bg-white/30 hover:bg-white/50"
-              }`}
+              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${currentSlide === index ? "w-8 bg-primary" : "w-2.5 bg-white/30 hover:bg-white/50"
+                }`}
             />
           ))}
         </div>
@@ -364,7 +363,7 @@ export default function BreastCancerCampaignPage() {
       <section className="py-20 bg-card border-b border-border" id="about">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             {/* Visual Graphic Representation */}
             <div className="lg:col-span-5 flex justify-center">
               <div className="relative w-full max-w-sm aspect-square rounded-2xl bg-gradient-to-br from-primary/10 via-purple-500/10 to-transparent border border-border flex flex-col items-center justify-center p-8 text-center space-y-4 shadow-inner">
@@ -387,9 +386,9 @@ export default function BreastCancerCampaignPage() {
                   Why Breast Cancer Awareness Matters
                 </h2>
               </div>
-              
+
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-                Breast cancer is the leading cancer diagnosis among Indian women, often diagnosed too late due to visual stigma and financial gaps. 
+                Breast cancer is the leading cancer diagnosis among Indian women, often diagnosed too late due to visual stigma and financial gaps.
                 Our mission is to combine the medical-research network of our partners with the community rehabilitation outreach of **Khushi Centre** to create a secure, educational, and fundraising pipeline.
               </p>
 
@@ -536,7 +535,7 @@ export default function BreastCancerCampaignPage() {
         <AnimatePresence>
           {selectedDoctor && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
@@ -549,7 +548,7 @@ export default function BreastCancerCampaignPage() {
                 <p className="text-xs text-muted-foreground">
                   Confirm reservation slot for the medical checkup and staging guidelines webinar led by <strong className="text-foreground">{selectedDoctor}</strong>.
                 </p>
-                
+
                 {bookingSuccess ? (
                   <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-600 text-xs font-semibold border border-emerald-500/20 text-center flex items-center justify-center gap-1.5">
                     <CheckCircle className="h-4.5 w-4.5" />
@@ -559,13 +558,13 @@ export default function BreastCancerCampaignPage() {
                   <form onSubmit={handleBookingSubmit} className="space-y-4">
                     <div className="space-y-1">
                       <Label htmlFor="bookingEmail">Email Address</Label>
-                      <Input 
-                        id="bookingEmail" 
-                        type="email" 
-                        placeholder="you@example.com" 
+                      <Input
+                        id="bookingEmail"
+                        type="email"
+                        placeholder="you@example.com"
                         value={bookingEmail}
                         onChange={(e) => setBookingEmail(e.target.value)}
-                        required 
+                        required
                       />
                     </div>
                     <Button type="submit" className="w-full bg-primary text-white text-xs font-bold uppercase py-5">
@@ -658,7 +657,7 @@ export default function BreastCancerCampaignPage() {
       <section className="py-20 bg-muted/15 border-b border-border" id="volunteer">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             <div className="lg:col-span-7 space-y-6">
               <span className="text-xs text-primary font-bold uppercase tracking-wider">Join Advocacy</span>
               <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
@@ -667,7 +666,7 @@ export default function BreastCancerCampaignPage() {
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                 Join our network of college student volunteers, survivors, and advocates. By running local health camps, distributing pamphlets, or coordinating webinars, you help save lives through education.
               </p>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
                   "Coordinate physical checkups camps.",
@@ -722,17 +721,17 @@ export default function BreastCancerCampaignPage() {
       <section className="py-20 bg-card border-b border-border" id="certificate">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             {/* Visual Glassmorphic Certificate Preview */}
             <div className="lg:col-span-6 flex justify-center">
               <div className="relative w-full max-w-lg p-6 sm:p-8 rounded-2xl border-4 border-double border-primary/30 bg-card shadow-lg text-center space-y-6 relative">
                 <Ribbon className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-44 w-44 text-primary/3 -z-10 animate-pulse" />
-                
+
                 <div className="space-y-2">
                   <p className="text-[10px] uppercase font-bold tracking-widest text-primary">Certificate of Excellence</p>
                   <h3 className="font-heading font-serif text-xl sm:text-2xl text-foreground italic">Breast Cancer Awareness Ambassador</h3>
                 </div>
-                
+
                 <div className="space-y-1">
                   <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wide">Presented to</p>
                   <p className="font-heading text-lg font-bold text-foreground border-b border-border/80 max-w-xs mx-auto pb-1 italic">Jane Doe</p>
@@ -767,7 +766,7 @@ export default function BreastCancerCampaignPage() {
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                 Users who complete campaign awareness webinars, wellness screening programs, educational quizzes, or active volunteer camps will receive a verified digital participation certificate.
               </p>
-              
+
               <div className="space-y-3 text-xs sm:text-sm text-muted-foreground font-semibold">
                 <p className="flex items-center gap-1.5"><Award className="h-4.5 w-4.5 text-primary animate-pulse" /> Cryptographically signed SHA-256 validation hashes.</p>
                 <p className="flex items-center gap-1.5"><Download className="h-4.5 w-4.5 text-primary" /> Downloadable PDF formats with dynamic name overlays.</p>
@@ -794,11 +793,10 @@ export default function BreastCancerCampaignPage() {
                 <button
                   key={tab}
                   onClick={() => setActiveStoryTab(tab)}
-                  className={`px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 transition-colors cursor-pointer ${
-                    activeStoryTab === tab 
-                      ? "border-primary text-primary" 
+                  className={`px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 transition-colors cursor-pointer ${activeStoryTab === tab
+                      ? "border-primary text-primary"
                       : "border-transparent text-muted-foreground hover:text-foreground"
-                  }`}
+                    }`}
                 >
                   {tab} Story
                 </button>
@@ -868,21 +866,21 @@ export default function BreastCancerCampaignPage() {
       <section className="py-20 bg-muted/15 border-b border-border" id="contact">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            
+
             <div className="md:col-span-5 space-y-6">
               <h3 className="font-heading text-2xl font-bold text-foreground">Contact Campaign</h3>
               <p className="text-xs sm:text-sm text-muted-foreground">
                 Get in touch for diagnostic registrations, physical check guides, or sponsorship coordinates.
               </p>
-              
+
               <div className="space-y-3 text-xs sm:text-sm text-muted-foreground font-semibold">
                 <div className="flex items-center gap-2">
                   <Mail className="h-4.5 w-4.5 text-primary" />
-                  <span>support@grsawareness.org</span>
+                  <span>admin@cmba.in</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone className="h-4.5 w-4.5 text-primary" />
-                  <span>+91 92173 96124 | 0120-4814793</span>
+                  <span>+91 92173 96124</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin className="h-4.5 w-4.5 text-primary" />
@@ -932,7 +930,7 @@ export default function BreastCancerCampaignPage() {
       <footer className="border-t border-slate-800 bg-slate-950 text-slate-200 py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            
+
             <div className="space-y-4 md:col-span-2">
               <div className="flex items-center gap-2">
                 <Ribbon className="h-6 w-6 text-primary animate-pulse" />
@@ -969,7 +967,7 @@ export default function BreastCancerCampaignPage() {
             </div>
 
           </div>
-          
+
           <div className="mt-12 pt-8 border-t border-slate-900 text-center text-xs text-slate-500">
             © {new Date().getFullYear()} Khushi Centre. All rights reserved. Peer-reviewed medical disclaimers apply.
           </div>

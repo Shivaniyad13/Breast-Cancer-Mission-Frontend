@@ -75,27 +75,25 @@ export function renderEmailLayout(options: {
                 <td style="padding: 32px; text-align: left; color: #334155; font-size: 15px; line-height: 1.6;">
                   ${options.greeting ? `<h2 style="color: #0f172a; font-size: 18px; font-weight: 700; margin: 0 0 16px 0;">${options.greeting}</h2>` : ""}
                   
-                  ${
-                    badge
-                      ? `<div style="margin-bottom: 20px;">
+                  ${badge
+      ? `<div style="margin-bottom: 20px;">
                            <span style="display: inline-block; background-color: ${badge.bg}; color: ${badge.text}; border: 1px solid ${badge.border}; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.5px;">
                              ${options.statusBadge?.text}
                            </span>
                          </div>`
-                      : ""
-                  }
+      : ""
+    }
 
                   ${options.contentHtml}
 
-                  ${
-                    options.ctaLabel && options.ctaUrl
-                      ? `<div style="margin-top: 28px; margin-bottom: 12px; text-align: left;">
+                  ${options.ctaLabel && options.ctaUrl
+      ? `<div style="margin-top: 28px; margin-bottom: 12px; text-align: left;">
                            <a href="${options.ctaUrl}" style="display: inline-block; background-color: #db2777; color: #ffffff; font-weight: 600; font-size: 14px; padding: 12px 24px; text-decoration: none; border-radius: 8px; box-shadow: 0 2px 4px rgba(219, 39, 119, 0.25);">
                              ${options.ctaLabel}
                            </a>
                          </div>`
-                      : ""
-                  }
+      : ""
+    }
                 </td>
               </tr>
 
@@ -206,12 +204,11 @@ export async function sendUserRegistrationEmail(options: {
         </td>
       </tr>
     </table>
-    ${
-      isPending
-        ? `<p style="background-color: #fef3c7; border: 1px solid #fde68a; padding: 12px 16px; border-radius: 8px; color: #92400e; font-size: 13px;">
+    ${isPending
+      ? `<p style="background-color: #fef3c7; border: 1px solid #fde68a; padding: 12px 16px; border-radius: 8px; color: #92400e; font-size: 13px;">
              <strong>Next Steps:</strong> Your professional credentials have been submitted and are currently awaiting review by our administration team. You will receive an email update once verification is completed.
            </p>`
-        : `<p>You can now sign in to your dashboard to access campaigns, webinars, and health resources.</p>`
+      : `<p>You can now sign in to your dashboard to access campaigns, webinars, and health resources.</p>`
     }
   `;
 
@@ -243,7 +240,7 @@ export async function sendAdminRegistrationAlert(options: {
   role: string;
   details?: string;
 }) {
-  const adminEmail = process.env.ADMIN_EMAIL || "admin@breastcancer.org";
+  const adminEmail = process.env.ADMIN_EMAIL || "breastcancermission3@gmail.com";
 
   const contentHtml = `
     <p>A new application requiring administration review has been submitted to the Cancer Mukt Bharat Abhiyan platform.</p>
@@ -702,21 +699,20 @@ export async function sendVolunteerStatusEmail(options: {
     ? `
       <p>Congratulations! Your application to join the <strong>Cancer Mukt Bharat Abhiyan Volunteer Network</strong> has been <strong>APPROVED</strong>.</p>
       <p>Thank you for offering your time and dedication to support early detection, community outreach, and patient assistance.</p>
-      ${
-        options.certificateCode
-          ? `<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0;">
+      ${options.certificateCode
+      ? `<div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0;">
                <p style="margin: 0; color: #0f172a; font-weight: 600;">Official Volunteer Badge / Certificate Code:</p>
                <code style="display: inline-block; background: #e2e8f0; color: #0f172a; padding: 6px 12px; border-radius: 6px; font-weight: 700; margin-top: 6px; font-size: 16px;">${options.certificateCode}</code>
              </div>`
-          : ""
-      }
+      : ""
+    }
     `
     : isPending
-    ? `
+      ? `
       <p>Thank you for submitting your volunteer application to the <strong>Cancer Mukt Bharat Abhiyan Volunteer Network</strong>.</p>
       <p>Our volunteer coordination team is reviewing your details and will get in touch with you shortly.</p>
     `
-    : `
+      : `
       <p>Thank you for your interest in volunteering with the Cancer Mukt Bharat Abhiyan.</p>
       <p>After reviewing your submission, our coordination team is unable to approve your application at this time.</p>
       <div style="background-color: #fee2e2; border-left: 4px solid #ef4444; padding: 12px 16px; margin: 16px 0; border-radius: 4px;">
@@ -731,8 +727,8 @@ export async function sendVolunteerStatusEmail(options: {
     statusBadge: isApproved
       ? { text: "Volunteer Verified", color: "green" }
       : isPending
-      ? { text: "Application Received", color: "blue" }
-      : { text: "Application Declined", color: "red" },
+        ? { text: "Application Received", color: "blue" }
+        : { text: "Application Declined", color: "red" },
     contentHtml,
     ctaLabel: isApproved ? "Access Volunteer Portal" : undefined,
     ctaUrl: isApproved ? `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/dashboard` : undefined,

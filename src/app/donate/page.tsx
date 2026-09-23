@@ -15,7 +15,7 @@ import { QRModal } from '@/components/donate/QRModal'
 import { SuccessReceipt, SuccessReceiptData } from '@/components/donate/SuccessReceipt'
 import { SupportersWall, SupporterItem } from '@/components/donate/SupportersWall'
 import { TransparencyFaq } from '@/components/donate/TransparencyFaq'
-import { Loader2 } from 'lucide-react'
+import { Loader2, ChevronDown, ChevronUp } from 'lucide-react'
 import { DonationStatus } from '@prisma/client'
 
 
@@ -35,6 +35,10 @@ export default function DonatePage() {
 
   // Success view state
   const [successReceipt, setSuccessReceipt] = useState<SuccessReceiptData | null>(null)
+
+  // Supporters Wall display state
+  const [showAllSupporters, setShowAllSupporters] = useState(false)
+  const INITIAL_SUPPORTERS_COUNT = 3
 
   // Fetch initial backend stats & supporters
   const loadData = async () => {
@@ -71,7 +75,6 @@ export default function DonatePage() {
     setActiveFormData(formData)
     setSubmitError(null)
 
-    // Generate unique alphanumeric NPCI-compliant transaction ID
     const randomSuffix = Math.floor(1000 + Math.random() * 9000)
     const txnId = `TXNBC${Date.now()}${randomSuffix}`
     setCurrentTxnId(txnId)
@@ -79,7 +82,7 @@ export default function DonatePage() {
     setIsQrModalOpen(true)
   }
 
-  // Called when donor submits final form inside QRModal with uploaded screenshot proof
+  // Called when donor submits final form inside QRModal
   const handleFinalSubmit = async (screenshotUrl: string) => {
     if (!activeFormData || !currentTxnId) return
 
@@ -104,7 +107,6 @@ export default function DonatePage() {
       throw new Error(result.error || 'Failed to submit donation to server.')
     }
 
-    // Prepare success receipt data
     const newReceipt: SuccessReceiptData = {
       id: result.donation.id || currentTxnId,
       transactionId: currentTxnId,
@@ -121,7 +123,6 @@ export default function DonatePage() {
     setIsQrModalOpen(false)
     setActiveFormData(null)
 
-    // Refresh supporters & stats
     loadData()
   }
 
@@ -157,7 +158,7 @@ export default function DonatePage() {
           {/* Live Statistics Section */}
           <LiveStats stats={stats} uniqueDonorsCount={supporters.length} />
 
-          {/* Main Action Area: Success Receipt OR Donation Form */}
+          {/* Main Action Area */}
           <div ref={formRef} className="scroll-mt-8">
             {successReceipt ? (
               <SuccessReceipt receipt={successReceipt} onDonateAgain={handleDonateAgain} />
@@ -175,14 +176,45 @@ export default function DonatePage() {
             )}
           </div>
 
-          {/* Supporters Wall Section */}
-          <SupportersWall supporters={supporters} isLoading={loading} />
+          {/* Supporters Wall Section — 3 dikhao, baaki See More me */}
+          <div className="space-y-6">
+            <SupportersWall
+              supporters={
+                showAllSupporters
+                  ? supporters
+                  : supporters.slice(0, INITIAL_SUPPORTERS_COUNT)
+              }
+              isLoading={loading}
+            />
+
+            {!loading && supporters.length > INITIAL_SUPPORTERS_COUNT && (
+              <div className="text-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowAllSupporters((prev) => !prev)}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-slate-800 border-2 border-pink-300 dark:border-pink-700 text-pink-700 dark:text-pink-300 font-bold text-sm shadow-md hover:bg-pink-50 dark:hover:bg-pink-900/30 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                >
+                  {showAllSupporters ? (
+                    <>
+                      <ChevronUp className="h-4 w-4" />
+                      Show Less
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="h-4 w-4" />
+                      See More ({supporters.length - INITIAL_SUPPORTERS_COUNT} more donors)
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
+          </div>
 
           {/* Transparency & FAQs Section */}
           <TransparencyFaq />
         </div>
 
-        {/* Glassmorphism Payment QR Modal */}
+        {/* QR Modal */}
         {activeFormData && (
           <QRModal
             isOpen={isQrModalOpen}

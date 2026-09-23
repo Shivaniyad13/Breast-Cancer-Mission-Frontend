@@ -477,7 +477,7 @@ export default async function DashboardPage() {
                 If you have issues verifying your doctor credentials, registering NGO registration certificates, or setting up Razorpay donations, please contact the Support Desk.
               </p>
               <p className="font-bold text-slate-800">
-                Support email: support@grsawareness.org
+                Support email: admin@cmba.in
               </p>
             </CardContent>
           </Card>
@@ -585,8 +585,8 @@ export default async function DashboardPage() {
                         <td className="py-3 text-center font-mono font-bold text-slate-700">{log.attendancePercentage.toFixed(0)}%</td>
                         <td className="py-3 text-right">
                           <span className={`inline-block px-2.5 py-0.5 rounded font-bold text-[9px] uppercase tracking-wider ${log.status === "PRESENT" || log.status === "Completed"
-                              ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                              : "bg-red-50 text-red-500 border border-red-100"
+                            ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
+                            : "bg-red-50 text-red-500 border border-red-100"
                             }`}>
                             {log.status}
                           </span>
@@ -656,10 +656,10 @@ export default async function DashboardPage() {
                           </td>
                           <td className="py-3">
                             <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase ${d.status === "SUCCESSFUL" || d.status === "COMPLETED"
-                                ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                                : d.status === "PENDING"
-                                  ? "bg-amber-50 text-amber-600 border border-amber-100"
-                                  : "bg-red-50 text-red-600 border border-red-100"
+                              ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
+                              : d.status === "PENDING"
+                                ? "bg-amber-50 text-amber-600 border border-amber-100"
+                                : "bg-red-50 text-red-600 border border-red-100"
                               }`}>
                               {d.status}
                             </span>
