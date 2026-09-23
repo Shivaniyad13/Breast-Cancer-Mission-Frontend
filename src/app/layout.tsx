@@ -6,7 +6,15 @@ import FloatingWhatsApp from "@/components/layout/FloatingWhatsApp";
 
 export const metadata: Metadata = {
   title: "Breast Cancer Awareness Platform",
-  description: "A centralized campaign ecosystem connecting patients, doctors, NGOs, and donors. Supporting early diagnosis guides and verified crowdfunding.",
+  description:
+    "A centralized campaign ecosystem connecting patients, doctors, NGOs, and donors. Supporting early diagnosis guides and verified crowdfunding.",
+  icons: {
+    icon: [
+      { url: "/logo.png", type: "image/png" },
+    ],
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 import LayoutWrapper from "@/components/layout/LayoutWrapper";
@@ -19,14 +27,9 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" className="min-h-full">
-      <body
-        className="font-sans antialiased min-h-screen flex flex-col bg-background text-foreground"
-      >
+      <body className="font-sans antialiased min-h-screen flex flex-col bg-background text-foreground">
         <PageViewTracker />
-        <LayoutWrapper
-          navbar={<Navbar />}
-          footer={<Footer />}
-        >
+        <LayoutWrapper navbar={<Navbar />} footer={<Footer />}>
           {children}
         </LayoutWrapper>
         <FloatingWhatsApp />
@@ -34,6 +37,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
-
-

@@ -23,7 +23,7 @@ function getTransporter() {
 }
 
 /**
- * Renders a clean, responsive HTML email template with Breast Cancer Mission branding.
+ * Renders a clean, responsive HTML email template with Cancer Mukt Bharat Abhiyan branding.
  */
 export function renderEmailLayout(options: {
   title: string;
@@ -62,7 +62,7 @@ export function renderEmailLayout(options: {
                   <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <td>
-                        <span style="color: #ffffff; font-size: 20px; font-weight: 700; letter-spacing: -0.5px;">Breast Cancer Mission</span>
+                        <span style="color: #ffffff; font-size: 20px; font-weight: 700; letter-spacing: -0.5px;">Cancer Mukt Bharat Abhiyan</span>
                         <span style="display: block; color: #db2777; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px;">Early Detection & Support Network</span>
                       </td>
                     </tr>
@@ -103,8 +103,8 @@ export function renderEmailLayout(options: {
               <tr>
                 <td style="background-color: #f8fafc; padding: 20px 32px; border-top: 1px solid #f1f5f9; text-align: center; color: #64748b; font-size: 12px; line-height: 1.5;">
                   <p style="margin: 0 0 4px 0; font-weight: 600; color: #475569;">Breast Cancer Awareness & Patient Support Mission</p>
-                  <p style="margin: 0;">This is an automated notification from the Breast Cancer Mission Platform.</p>
-                  <p style="margin: 8px 0 0 0; color: #94a3b8;">© 2026 Breast Cancer Mission. All rights reserved.</p>
+                  <p style="margin: 0;">This is an automated notification from the Cancer Mukt Bharat Abhiyan Platform.</p>
+                  <p style="margin: 8px 0 0 0; color: #94a3b8;">© 2026 Cancer Mukt Bharat Abhiyan. All rights reserved.</p>
                 </td>
               </tr>
 
@@ -127,7 +127,7 @@ export async function sendEmailSafe(options: {
 }): Promise<boolean> {
   try {
     const transporter = getTransporter();
-    const from = process.env.SMTP_FROM || `"Breast Cancer Mission" <${process.env.SMTP_USER || "noreply@breastcancermission.org"}>`;
+    const from = process.env.SMTP_FROM || `"Cancer Mukt Bharat Abhiyan" <${process.env.SMTP_USER || "noreply@breastcancermission.org"}>`;
 
     if (!transporter) {
       console.log("\n════════════════════════════════════════════");
@@ -161,7 +161,7 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string) {
     title: "Reset Your Password",
     greeting: "Password Reset Request",
     contentHtml: `
-      <p>We received a request to reset your password for your Breast Cancer Mission account.</p>
+      <p>We received a request to reset your password for your Cancer Mukt Bharat Abhiyan account.</p>
       <p>Click the button below to set a new password. This link will expire in 30 minutes.</p>
       <p style="color: #64748b; font-size: 13px; margin-top: 16px;">If you did not request a password reset, please ignore this email.</p>
     `,
@@ -171,7 +171,7 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string) {
 
   await sendEmailSafe({
     to,
-    subject: "Reset your Breast Cancer Mission password",
+    subject: "Reset your Cancer Mukt Bharat Abhiyan password",
     html,
   });
 }
@@ -189,7 +189,7 @@ export async function sendUserRegistrationEmail(options: {
   const isPending = options.verificationStatus === "PENDING";
 
   const contentHtml = `
-    <p>Welcome to the <strong>Breast Cancer Mission Platform</strong>. Your account has been registered successfully.</p>
+    <p>Welcome to the <strong>Cancer Mukt Bharat Abhiyan Platform</strong>. Your account has been registered successfully.</p>
     <table style="width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px;">
       <tr style="border-bottom: 1px solid #f1f5f9;">
         <td style="padding: 8px 0; color: #64748b; font-weight: 600;">Account Name:</td>
@@ -228,7 +228,7 @@ export async function sendUserRegistrationEmail(options: {
 
   await sendEmailSafe({
     to: options.to,
-    subject: `Registration Confirmation - Breast Cancer Mission`,
+    subject: `Registration Confirmation - Cancer Mukt Bharat Abhiyan`,
     html,
   });
 }
@@ -246,7 +246,7 @@ export async function sendAdminRegistrationAlert(options: {
   const adminEmail = process.env.ADMIN_EMAIL || "admin@breastcancer.org";
 
   const contentHtml = `
-    <p>A new application requiring administration review has been submitted to the Breast Cancer Mission platform.</p>
+    <p>A new application requiring administration review has been submitted to the Cancer Mukt Bharat Abhiyan platform.</p>
     <table style="width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px;">
       <tr style="border-bottom: 1px solid #f1f5f9;">
         <td style="padding: 8px 0; color: #64748b; font-weight: 600;">Application Type:</td>
@@ -302,7 +302,7 @@ export async function sendDoctorVerificationStatusEmail(options: {
       <p>Your Doctor Profile is now fully active. You have full access to create medical articles, host awareness webinars, and interact with healthcare networks.</p>
     `
     : `
-      <p>Thank you for submitting your professional details to the Breast Cancer Mission platform.</p>
+      <p>Thank you for submitting your professional details to the Cancer Mukt Bharat Abhiyan platform.</p>
       <p>After reviewing your application, our administration team has updated your verification status to <strong>REJECTED</strong>.</p>
       <div style="background-color: #fee2e2; border-left: 4px solid #ef4444; padding: 12px 16px; margin: 16px 0; border-radius: 4px;">
         <strong style="color: #991b1b; display: block; margin-bottom: 4px;">Reason for Rejection:</strong>
@@ -324,7 +324,7 @@ export async function sendDoctorVerificationStatusEmail(options: {
 
   await sendEmailSafe({
     to: options.to,
-    subject: `Doctor Credentials Verification ${isApproved ? "Approved" : "Status Update"} - Breast Cancer Mission`,
+    subject: `Doctor Credentials Verification ${isApproved ? "Approved" : "Status Update"} - Cancer Mukt Bharat Abhiyan`,
     html,
   });
 }
@@ -359,7 +359,7 @@ export async function sendDoctorResubmissionAlert(options: {
 
   await sendEmailSafe({
     to: options.doctorEmail,
-    subject: "Doctor Verification Resubmitted - Breast Cancer Mission",
+    subject: "Doctor Verification Resubmitted - Cancer Mukt Bharat Abhiyan",
     html,
   });
 }
@@ -430,12 +430,12 @@ export async function sendIndividualMemberStatusEmail(options: {
 
   const contentHtml = isApproved
     ? `
-      <p>Congratulations! Your application for <strong>Individual Membership</strong> with the Breast Cancer Mission has been <strong>APPROVED</strong>.</p>
+      <p>Congratulations! Your application for <strong>Individual Membership</strong> with the Cancer Mukt Bharat Abhiyan has been <strong>APPROVED</strong>.</p>
       <p>You are now a verified member of our awareness network. Thank you for standing with us in early detection and community support.</p>
       ${options.remarks ? `<p style="font-size: 13px; color: #475569;"><strong>Admin Remarks:</strong> ${options.remarks}</p>` : ""}
     `
     : `
-      <p>Thank you for applying for Individual Membership with the Breast Cancer Mission.</p>
+      <p>Thank you for applying for Individual Membership with the Cancer Mukt Bharat Abhiyan.</p>
       <p>After reviewing your submission, our team is unable to approve your membership request at this time.</p>
       ${options.remarks ? `<div style="background-color: #fee2e2; border-left: 4px solid #ef4444; padding: 12px 16px; margin: 16px 0; border-radius: 4px; color: #7f1d1d; font-size: 14px;"><strong>Remarks:</strong> ${options.remarks}</div>` : ""}
     `;
@@ -451,7 +451,7 @@ export async function sendIndividualMemberStatusEmail(options: {
 
   await sendEmailSafe({
     to: options.to,
-    subject: `Individual Membership ${isApproved ? "Approved" : "Status Update"} - Breast Cancer Mission`,
+    subject: `Individual Membership ${isApproved ? "Approved" : "Status Update"} - Cancer Mukt Bharat Abhiyan`,
     html,
   });
 }
@@ -473,7 +473,7 @@ export async function sendArticleStatusEmail(options: {
   const contentHtml = isApproved
     ? `
       <p>Your medical resource article titled <strong>"${options.articleTitle}"</strong> has been reviewed and <strong>APPROVED</strong> by our clinical moderation team.</p>
-      <p>It is now published on the public Breast Cancer Mission Healthcare Portal for patients and medical professionals.</p>
+      <p>It is now published on the public Cancer Mukt Bharat Abhiyan Healthcare Portal for patients and medical professionals.</p>
     `
     : `
       <p>Thank you for submitting your article <strong>"${options.articleTitle}"</strong>.</p>
@@ -700,7 +700,7 @@ export async function sendVolunteerStatusEmail(options: {
 
   const contentHtml = isApproved
     ? `
-      <p>Congratulations! Your application to join the <strong>Breast Cancer Mission Volunteer Network</strong> has been <strong>APPROVED</strong>.</p>
+      <p>Congratulations! Your application to join the <strong>Cancer Mukt Bharat Abhiyan Volunteer Network</strong> has been <strong>APPROVED</strong>.</p>
       <p>Thank you for offering your time and dedication to support early detection, community outreach, and patient assistance.</p>
       ${
         options.certificateCode
@@ -713,11 +713,11 @@ export async function sendVolunteerStatusEmail(options: {
     `
     : isPending
     ? `
-      <p>Thank you for submitting your volunteer application to the <strong>Breast Cancer Mission Volunteer Network</strong>.</p>
+      <p>Thank you for submitting your volunteer application to the <strong>Cancer Mukt Bharat Abhiyan Volunteer Network</strong>.</p>
       <p>Our volunteer coordination team is reviewing your details and will get in touch with you shortly.</p>
     `
     : `
-      <p>Thank you for your interest in volunteering with the Breast Cancer Mission.</p>
+      <p>Thank you for your interest in volunteering with the Cancer Mukt Bharat Abhiyan.</p>
       <p>After reviewing your submission, our coordination team is unable to approve your application at this time.</p>
       <div style="background-color: #fee2e2; border-left: 4px solid #ef4444; padding: 12px 16px; margin: 16px 0; border-radius: 4px;">
         <strong style="color: #991b1b; display: block; margin-bottom: 4px;">Reason:</strong>
@@ -740,7 +740,7 @@ export async function sendVolunteerStatusEmail(options: {
 
   await sendEmailSafe({
     to: options.to,
-    subject: `Volunteer Application ${isApproved ? "Approved" : "Status Update"} - Breast Cancer Mission`,
+    subject: `Volunteer Application ${isApproved ? "Approved" : "Status Update"} - Cancer Mukt Bharat Abhiyan`,
     html,
   });
 }
@@ -904,7 +904,7 @@ export async function sendSuccessStoryStatusEmail(options: {
 
   const contentHtml = isApproved
     ? `
-      <p>Thank you for sharing your journey with the Breast Cancer Mission. Your story <strong>"${options.storyTitle}"</strong> has been verified and <strong>PUBLISHED</strong> on our inspiring Survivor Stories wall.</p>
+      <p>Thank you for sharing your journey with the Cancer Mukt Bharat Abhiyan. Your story <strong>"${options.storyTitle}"</strong> has been verified and <strong>PUBLISHED</strong> on our inspiring Survivor Stories wall.</p>
       <p>Your bravery and hope will inspire countless patients and families facing similar challenges.</p>
     `
     : `
@@ -948,7 +948,7 @@ export async function sendDonationReceiptEmail(options: {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
   const contentHtml = `
-    <p>Thank you for your generous contribution to the <strong>Breast Cancer Mission & Early Detection Network</strong>.</p>
+    <p>Thank you for your generous contribution to the <strong>Cancer Mukt Bharat Abhiyan & Early Detection Network</strong>.</p>
     <p>Your payment has been successfully confirmed and verified. Below is your official donation receipt and 80G tax exemption details.</p>
     
     <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0;">
@@ -997,7 +997,7 @@ export async function sendDonationReceiptEmail(options: {
 
   await sendEmailSafe({
     to: options.to,
-    subject: `Donation Receipt & 80G Tax Confirmation [Ref: ${options.transactionId}] - Breast Cancer Mission`,
+    subject: `Donation Receipt & 80G Tax Confirmation [Ref: ${options.transactionId}] - Cancer Mukt Bharat Abhiyan`,
     html,
   });
 }
@@ -1018,7 +1018,7 @@ export async function sendDonationPendingEmail(options: {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
   const contentHtml = `
-    <p>Thank you for initiating a donation of <strong>${formattedAmount}</strong> to the <strong>Breast Cancer Mission</strong>.</p>
+    <p>Thank you for initiating a donation of <strong>${formattedAmount}</strong> to the <strong>Cancer Mukt Bharat Abhiyan</strong>.</p>
     <p>We have received your transaction reference and screenshot proof. Our administration team is currently verifying the payment with our banking partner.</p>
     
     <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0;">
@@ -1093,4 +1093,4 @@ export async function sendDonationStatusEmail(options: {
   });
 }
 
-
+

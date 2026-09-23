@@ -16,9 +16,6 @@ interface Slide {
 
 export default function AwarenessCarousel() {
   const slides: Slide[] = [
-    // ─────────────────────────────────────────
-    // SLIDE 1: Hope & Unity → ✅ ORIGINAL
-    // ─────────────────────────────────────────
     {
       src: "/images/awareness_ribbon.png",
       tag: "Hope & Unity",
@@ -28,10 +25,6 @@ export default function AwarenessCarousel() {
         "The universal symbol of hope, courage, and collective support for breast cancer patients, survivors, and their families around the globe.",
       icon: <Heart className="h-4 w-4 text-primary" />,
     },
-
-    // ─────────────────────────────────────────
-    // SLIDE 2: Advocacy → 🆕 NEW URL 1
-    // ─────────────────────────────────────────
     {
       src: "/images/imagesC2.jpg",
       tag: "Advocacy",
@@ -41,10 +34,6 @@ export default function AwarenessCarousel() {
         "Every step counts. Raising awareness, removing societal taboos, and organizing physical walkathons to promote early breast screening guidelines.",
       icon: <Users className="h-4 w-4 text-primary" />,
     },
-
-    // ─────────────────────────────────────────
-    // SLIDE 3: Early Detection → 🆕 NEW URL 2
-    // ─────────────────────────────────────────
     {
       src: "/images/imagesC1.jpg",
       tag: "Early Detection",
@@ -54,10 +43,6 @@ export default function AwarenessCarousel() {
         "Oncologists recommend monthly self-exams and annual clinical check-ups. Our platform connects users to experts for immediate guidance.",
       icon: <ShieldCheck className="h-4 w-4 text-primary" />,
     },
-
-    // ─────────────────────────────────────────
-    // SLIDE 4: Mental Wellness → 🆕 NEW URL 3
-    // ─────────────────────────────────────────
     {
       src: "/images/imagesC3.jpg",
       tag: "Mental Wellness",
@@ -67,10 +52,6 @@ export default function AwarenessCarousel() {
         "Fostering safe spaces where patients, survivors, and advocates share experiences, emotional support, and recovery milestones.",
       icon: <Users className="h-4 w-4 text-primary" />,
     },
-
-    // ─────────────────────────────────────────
-    // SLIDE 5: Diagnostics → ✅ ORIGINAL
-    // ─────────────────────────────────────────
     {
       src: "/images/mammography_screening.png",
       tag: "Diagnostics",
@@ -80,10 +61,6 @@ export default function AwarenessCarousel() {
         "High-tech mammograms detect anomalies years before symptoms appear. Modern clinics ensure comfortable, supportive diagnostic workflows.",
       icon: <ShieldCheck className="h-4 w-4 text-primary" />,
     },
-
-    // ─────────────────────────────────────────
-    // SLIDE 6: Scientific Innovation → ✅ ORIGINAL
-    // ─────────────────────────────────────────
     {
       src: "/images/cancer_research.png",
       tag: "Scientific Innovation",
@@ -93,10 +70,6 @@ export default function AwarenessCarousel() {
         "Dedicated oncologists and research scientists analyze genetic patterns to develop highly precise, targeted treatments for individuals.",
       icon: <Heart className="h-4 w-4 text-primary" />,
     },
-
-    // ─────────────────────────────────────────
-    // SLIDE 7: Hope & Recovery → 🆕 NEW URL 4
-    // ─────────────────────────────────────────
     {
       src: "/images/imagesC4.jpeg",
       tag: "Hope & Recovery",
@@ -106,10 +79,6 @@ export default function AwarenessCarousel() {
         "Real-life testaments of resilience and recovery, proving that early diagnosis, timely treatment, and robust support systems can beat cancer.",
       icon: <Heart className="h-4 w-4 text-primary" />,
     },
-
-    // ─────────────────────────────────────────
-    // SLIDE 8: Education → ✅ ORIGINAL
-    // ─────────────────────────────────────────
     {
       src: "/images/awareness4.png",
       tag: "Education",
@@ -119,10 +88,6 @@ export default function AwarenessCarousel() {
         "Listen directly to registered oncologists and doctors outline diagnosis methods, lifestyle shifts, and preventative strategies.",
       icon: <Calendar className="h-4 w-4 text-primary" />,
     },
-
-    // ─────────────────────────────────────────
-    // SLIDE 9: FundLife Campaign → ✅ ORIGINAL
-    // ─────────────────────────────────────────
     {
       src: "/images/awareness2.png",
       tag: "FundLife Campaign",
@@ -132,10 +97,6 @@ export default function AwarenessCarousel() {
         "Ensuring 100% financial transparency. Donations flow directly to partner hospitals to support active chemotherapy and surgery bills.",
       icon: <Heart className="h-4 w-4 text-primary" />,
     },
-
-    // ─────────────────────────────────────────
-    // SLIDE 10: Healthy Living → ✅ ORIGINAL
-    // ─────────────────────────────────────────
     {
       src: "/images/preventive_wellness.png",
       tag: "Healthy Living",
@@ -245,77 +206,35 @@ export default function AwarenessCarousel() {
           </p>
         </div>
 
-        {/* Main Carousel Viewport */}
+        {/* Main Carousel Viewport — aspect-video (16:9) */}
         <div
-          className="relative group rounded-3xl overflow-hidden border border-border shadow-xl bg-card aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] min-h-[280px] sm:min-h-[340px] md:min-h-[380px] flex items-stretch"
+          className="relative group rounded-3xl overflow-hidden border border-border shadow-xl bg-black aspect-video w-full"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="relative flex-1 w-full h-full overflow-hidden">
-            <AnimatePresence initial={false} custom={direction}>
-              <motion.div
-                key={currentIndex}
-                custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                className="absolute inset-0 w-full h-full"
-              >
-                <Image
-                  src={slides[currentIndex].src}
-                  alt={slides[currentIndex].title}
-                  fill
-                  priority
-                  sizes="(max-width: 1200px) 100vw, 1200px"
-                  className="object-cover object-center select-none"
-                />
+          <AnimatePresence initial={false} custom={direction}>
+            <motion.div
+              key={currentIndex}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="absolute inset-0 w-full h-full bg-black"
+            >
+              {/* ✅ object-contain — poori image, no cut */}
+              <Image
+                src={slides[currentIndex].src}
+                alt={slides[currentIndex].title}
+                fill
+                priority
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                className="object-contain object-center select-none"
+              />
+            </motion.div>
+          </AnimatePresence>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent md:bg-gradient-to-r md:from-black/90 md:via-black/50 md:to-transparent" />
-
-                <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 md:top-0 md:bottom-auto md:h-full md:w-3/5 md:flex md:flex-col md:justify-center md:items-start text-white space-y-2 sm:space-y-4">
-                  <motion.span
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/25 border border-primary/45 backdrop-blur-md text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-pink-200"
-                  >
-                    {slides[currentIndex].icon}
-                    {slides[currentIndex].tag}
-                  </motion.span>
-
-                  <div className="space-y-1 sm:space-y-2">
-                    <motion.h3
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 }}
-                      className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight leading-tight"
-                    >
-                      {slides[currentIndex].title}
-                    </motion.h3>
-                    <motion.p
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4 }}
-                      className="text-pink-100 font-medium text-xs sm:text-sm md:text-base"
-                    >
-                      {slides[currentIndex].subtitle}
-                    </motion.p>
-                  </div>
-
-                  <motion.p
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="text-white/80 text-[11px] sm:text-xs md:text-sm leading-relaxed max-w-md hidden sm:block font-light"
-                  >
-                    {slides[currentIndex].description}
-                  </motion.p>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
+          {/* Play / Pause */}
           <div className="absolute top-4 right-4 z-20 flex gap-2">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
@@ -326,6 +245,7 @@ export default function AwarenessCarousel() {
             </button>
           </div>
 
+          {/* Prev / Next */}
           <div className="absolute inset-y-0 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
             <button
               onClick={prevSlide}
@@ -343,6 +263,7 @@ export default function AwarenessCarousel() {
             </button>
           </div>
 
+          {/* Bottom controls */}
           <div className="absolute bottom-0 left-0 right-0 z-20 flex flex-col pointer-events-none">
             <div className="flex items-center justify-between p-4 bg-gradient-to-t from-black/80 to-transparent sm:hidden pointer-events-auto">
               <span className="text-white/80 text-xs font-semibold">
@@ -398,7 +319,7 @@ export default function AwarenessCarousel() {
               <button
                 key={index}
                 onClick={() => selectSlide(index)}
-                className={`relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer transition-all duration-300 border-2 hover:scale-[1.03] shadow-sm ${index === currentIndex
+                className={`relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer transition-all duration-300 border-2 hover:scale-[1.03] shadow-sm bg-black ${index === currentIndex
                     ? "border-primary ring-2 ring-primary/20 scale-[1.03] opacity-100 shadow-md"
                     : "border-transparent opacity-55 hover:opacity-90"
                   }`}
@@ -409,7 +330,7 @@ export default function AwarenessCarousel() {
                   alt={`Thumbnail ${index + 1}`}
                   fill
                   sizes="120px"
-                  className="object-cover"
+                  className="object-contain"
                 />
                 <div className="absolute inset-0 bg-black/10 hover:bg-transparent transition-all" />
               </button>

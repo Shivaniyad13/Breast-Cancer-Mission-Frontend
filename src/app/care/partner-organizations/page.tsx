@@ -115,7 +115,7 @@ const faqsData: FAQItem[] = [
   {
     question: "Is there any fee required to join?",
     answer:
-      "No, GRS Breast Cancer Mission charges no registration or membership fees to join the Partner Network. Our alliances are built on shared clinical resources, community screening drives, and voluntary collaborations.",
+      "No, GRS Cancer Mukt Bharat Abhiyan charges no registration or membership fees to join the Partner Network. Our alliances are built on shared clinical resources, community screening drives, and voluntary collaborations.",
   },
   {
     question: "Can international organizations collaborate?",
@@ -965,7 +965,7 @@ export default function PartnerOrganizationsPage() {
               Partnership Request Application
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
-              Submit your institutional credentials and selected areas of interest to connect with GRS Breast Cancer Mission.
+              Submit your institutional credentials and selected areas of interest to connect with GRS Cancer Mukt Bharat Abhiyan.
             </p>
           </div>
 

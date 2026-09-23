@@ -11,7 +11,6 @@ import {
   ChevronDown,
 } from "lucide-react";
 
-// Inline SVG brand icons
 const FacebookIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
@@ -72,14 +71,14 @@ export default function Footer() {
         background:
           "radial-gradient(circle at 50% 35%, #9d174d 0%, #fb549f 50%, #f65a9b 100%)",
       }}
-      className="relative text-white"
+      className="relative text-slate-100"
     >
       {/* Top pink accent line */}
       <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-pink-600 via-pink-400 to-rose-500" />
 
       {/* Watermark ribbon */}
       <div className="absolute right-10 top-10 opacity-[0.06] pointer-events-none select-none">
-        <Ribbon className="w-64 h-64 text-white" />
+        <Ribbon className="w-64 h-64 text-slate-100" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -88,21 +87,21 @@ export default function Footer() {
           <div className="space-y-5 lg:col-span-1">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-white/15 border border-white/30">
-                <Ribbon className="h-5 w-5 text-white" />
+                <Ribbon className="h-5 w-5 text-slate-100" />
               </div>
 
               <div>
-                <p className="font-heading text-[10px] font-bold tracking-[0.2em] uppercase text-white">
-                  Breast Cancer
+                <p className="font-heading text-[10px] font-bold tracking-[0.2em] uppercase text-slate-100">
+                  Cancer Mukt Bharat
                 </p>
 
-                <p className="font-heading text-[10px] font-bold tracking-[0.15em] uppercase text-white/90">
-                  Mission
+                <p className="font-heading text-[10px] font-bold tracking-[0.15em] uppercase text-slate-200">
+                  Abhiyan
                 </p>
               </div>
             </div>
 
-            <p className="text-sm text-white/90 leading-relaxed">
+            <p className="text-sm text-slate-200 leading-relaxed">
               A trusted unified healthcare portal spreading early detection
               knowledge, hosting expert webinars, and coordinating verified
               crowdfunding support for breast cancer patients.
@@ -111,32 +110,31 @@ export default function Footer() {
             <div className="space-y-2.5">
               <a
                 href="tel:+919217396124"
-                className="flex items-center gap-2.5 text-sm text-white/90 hover:text-white transition-colors group"
+                className="flex items-center gap-2.5 text-sm text-slate-200 hover:text-slate-100 transition-colors group"
               >
-                <Phone className="h-4 w-4 text-white group-hover:scale-110 transition-transform" />
+                <Phone className="h-4 w-4 text-slate-100 group-hover:scale-110 transition-transform" />
                 +91 9217396124
               </a>
 
               <a
                 href="mailto:breastcancermission3@gmail.com , admin@cmba.in"
-                className="flex items-center gap-2.5 text-sm text-white/90 hover:text-white transition-colors group"
+                className="flex items-center gap-2.5 text-sm text-slate-200 hover:text-slate-100 transition-colors group"
               >
-                <Mail className="h-4 w-4 text-white group-hover:scale-110 transition-transform" />
+                <Mail className="h-4 w-4 text-slate-100 group-hover:scale-110 transition-transform" />
                 breastcancermission3@gmail.com
                 admin@cmba.in
               </a>
             </div>
           </div>
 
-          {/* ── Col 2 · Quick Links (Hover Dropdown) ── */}
+          {/* ── Col 2 · Quick Links ── */}
           <div className="space-y-5">
             <div className="relative inline-block group">
-              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-white flex items-center gap-1.5 cursor-pointer select-none">
+              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-100 flex items-center gap-1.5 cursor-pointer select-none">
                 Quick Links
                 <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" />
               </h3>
 
-              {/* Dropdown panel */}
               <ul
                 className="
                   absolute top-full left-0 mt-3 w-60 z-30
@@ -152,7 +150,7 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="block px-3 py-2 rounded-lg text-sm text-white/90 hover:text-white hover:bg-white/10 transition-colors duration-150"
+                      className="block px-3 py-2 rounded-lg text-sm text-slate-200 hover:text-slate-100 hover:bg-white/10 transition-colors duration-150"
                     >
                       {link.label}
                     </Link>
@@ -161,22 +159,20 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Small helper text below dropdown trigger */}
-            <p className="text-xs text-white/70 leading-relaxed max-w-[14rem]">
+            <p className="text-xs text-slate-300 leading-relaxed max-w-[14rem]">
               Hover to explore all quick links to campaigns, webinars and
               awareness resources.
             </p>
           </div>
 
-          {/* ── Col 3 · Contact (Hover Dropdown) ── */}
+          {/* ── Col 3 · Contact ── */}
           <div className="space-y-5">
             <div className="relative inline-block group">
-              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-white flex items-center gap-1.5 cursor-pointer select-none">
+              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-100 flex items-center gap-1.5 cursor-pointer select-none">
                 Contact
                 <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" />
               </h3>
 
-              {/* Dropdown panel */}
               <ul
                 className="
                   absolute top-full left-0 mt-3 w-60 z-30
@@ -192,7 +188,7 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="block px-3 py-2 rounded-lg text-sm text-white/90 hover:text-white hover:bg-white/10 transition-colors duration-150"
+                      className="block px-3 py-2 rounded-lg text-sm text-slate-200 hover:text-slate-100 hover:bg-white/10 transition-colors duration-150"
                     >
                       {link.label}
                     </Link>
@@ -201,7 +197,7 @@ export default function Footer() {
                 <li>
                   <button
                     onClick={scrollToTop}
-                    className="w-full text-left px-3 py-2 rounded-lg text-sm text-white/90 hover:text-white hover:bg-white/10 transition-colors duration-150"
+                    className="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-200 hover:text-slate-100 hover:bg-white/10 transition-colors duration-150"
                   >
                     Back to Top
                   </button>
@@ -209,14 +205,13 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Head office */}
             <div className="pt-3">
-              <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-white mb-2">
+              <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-slate-100 mb-2">
                 Head Office
               </p>
 
-              <div className="flex items-start gap-2 text-sm text-white/90">
-                <MapPin className="h-4 w-4 text-white mt-0.5 flex-shrink-0" />
+              <div className="flex items-start gap-2 text-sm text-slate-200">
+                <MapPin className="h-4 w-4 text-slate-100 mt-0.5 flex-shrink-0" />
                 <span>
                   B-14 Sector 64, Noida, Uttar Pradesh, India – 201301
                 </span>
@@ -226,12 +221,11 @@ export default function Footer() {
 
           {/* ── Col 4 · Collaboration ── */}
           <div className="space-y-5">
-            <h3 className="text-[10px] font-bold tracking-[0.15em] uppercase text-white leading-relaxed">
+            <h3 className="text-[10px] font-bold tracking-[0.15em] uppercase text-slate-100 leading-relaxed">
               Developed by Khushi Centre for Rehabilitation &amp; Research and
               GRS India Pvt Ltd
             </h3>
 
-            {/* Khushi Research */}
             <a
               href="https://khushicentre.in/"
               target="_blank"
@@ -246,16 +240,15 @@ export default function Footer() {
                 />
               </div>
 
-              <p className="text-xs font-semibold uppercase tracking-wide text-white group-hover:text-white transition-colors leading-snug">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-100 leading-snug">
                 Khushi Centre for Rehabilitation &amp; Research
               </p>
 
-              <p className="text-[11px] text-white/75 mt-1 group-hover:text-white/90 transition-colors">
+              <p className="text-[11px] text-slate-300 mt-1 group-hover:text-slate-200 transition-colors">
                 Research Partner · khushicentre.in
               </p>
             </a>
 
-            {/* GRS India Group */}
             <a
               href="https://grsgroup.in/"
               target="_blank"
@@ -270,11 +263,11 @@ export default function Footer() {
                 />
               </div>
 
-              <p className="text-xs font-semibold uppercase tracking-wide text-white group-hover:text-white transition-colors leading-snug">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-100 leading-snug">
                 GRS India Group
               </p>
 
-              <p className="text-[11px] text-white/75 mt-1 group-hover:text-white/90 transition-colors">
+              <p className="text-[11px] text-slate-300 mt-1 group-hover:text-slate-200 transition-colors">
                 Principal Partner · grsindiacorporation.com
               </p>
             </a>
@@ -286,15 +279,14 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/80 text-center sm:text-left">
+          <p className="text-xs text-slate-300 text-center sm:text-left">
             © {new Date().getFullYear()}{" "}
-            <span className="text-white font-medium">
+            <span className="text-slate-100 font-medium">
               Breast Cancer Awareness Mission.
             </span>{" "}
             All rights reserved.
           </p>
 
-          {/* Social icons */}
           <div className="flex items-center gap-3">
             {socialLinks.map(({ icon: Icon, href, label }) => (
               <a
@@ -303,39 +295,37 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="flex items-center justify-center h-8 w-8 rounded-full border border-white/40 text-white/90 hover:border-white hover:text-white hover:bg-white/15 transition-all duration-200"
+                className="flex items-center justify-center h-8 w-8 rounded-full border border-white/40 text-slate-200 hover:border-white hover:text-slate-100 hover:bg-white/15 transition-all duration-200"
               >
                 <Icon className="h-3.5 w-3.5" />
               </a>
             ))}
           </div>
 
-          {/* Right links + back-to-top */}
-          <div className="flex items-center gap-4 text-xs text-white/80">
+          <div className="flex items-center gap-4 text-xs text-slate-300">
             <Link
               href="/privacy"
-              className="hover:text-white transition-colors"
+              className="hover:text-slate-100 transition-colors"
             >
               Privacy Policy
             </Link>
 
-            <Link href="/terms" className="hover:text-white transition-colors">
+            <Link href="/terms" className="hover:text-slate-100 transition-colors">
               Terms of Use
             </Link>
 
             <button
               onClick={scrollToTop}
               aria-label="Back to top"
-              className="flex items-center justify-center h-8 w-8 rounded-full bg-white/15 border border-white/40 hover:bg-white/25 hover:border-white text-white transition-all duration-200 ml-2"
+              className="flex items-center justify-center h-8 w-8 rounded-full bg-white/15 border border-white/40 hover:bg-white/25 hover:border-white text-slate-100 transition-all duration-200 ml-2"
             >
               <ArrowUp className="h-3.5 w-3.5" />
             </button>
           </div>
         </div>
 
-        {/* Made-with-love tag */}
-        <p className="mt-5 text-center text-[11px] text-white/70 flex items-center justify-center gap-1">
-          Made with <Heart className="h-3 w-3 text-white fill-white" /> for
+        <p className="mt-5 text-center text-[11px] text-slate-300 flex items-center justify-center gap-1">
+          Made with <Heart className="h-3 w-3 text-slate-100 fill-slate-100" /> for
           breast cancer awareness in India
         </p>
       </div>

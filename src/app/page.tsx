@@ -22,30 +22,26 @@ import {
   Radio
 } from "lucide-react";
 
-export const revalidate = 0; // Dynamic server component
+export const revalidate = 0;
 
 export default async function Home() {
-  // Fetch approved success stories (will seed database automatically if empty)
   const storiesResult = await getApprovedSuccessStories();
   const stories = storiesResult.success && storiesResult.stories ? storiesResult.stories : [];
 
-  // Fetch right sidebar sponsor banners and celebrity testimonials
   const bannersRes = await getSponsorBanners(true);
   const testimonialsRes = await getCelebrityTestimonials(true);
 
   const banners = bannersRes.success && bannersRes.banners ? bannersRes.banners : [];
   const testimonials = testimonialsRes.success && testimonialsRes.testimonials ? testimonialsRes.testimonials : [];
 
-  // Fetch live updates for left sidebar bottom
   const liveUpdatesRes = await getLiveUpdates(true);
   const liveUpdates = liveUpdatesRes.success && liveUpdatesRes.updates ? liveUpdatesRes.updates : [];
 
   return (
-    <div className="flex flex-col w-full min-h-screen">
+    <div className="flex flex-col w-full min-h-screen overflow-x-hidden">
 
-      {/* Hero Section */}   
-      <section className="relative overflow-hidden py-16 sm:py-24 md:py-32 min-h-[90vh] flex items-center justify-center">
-        {/* Background Video */}
+      {/* ============ HERO SECTION ============ */}
+      <section className="relative overflow-hidden py-12 sm:py-16 md:py-24 lg:py-32 min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center">
         <video
           autoPlay
           muted
@@ -57,49 +53,45 @@ export default async function Home() {
           Your browser does not support the video tag.
         </video>
 
-        {/* Pink Dark Overlay */}
         <div className="absolute inset-0 bg-black/45"></div>
-
-        {/* Pink Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-pink-900/20 via-pink-800/10 to-background/90"></div>
 
-        {/* Hero Content Grid (Left Sidebar, Centered Content, Right Sidebar) */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-10">
-          <div className="grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-8 items-center w-full">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-6 sm:pt-10">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-center w-full">
 
-            {/* LEFT FLOATING SIDEBAR (Desktop/Tablet) */}
+            {/* LEFT SIDEBAR (Desktop/Tablet only) */}
             <div className="hidden md:block md:col-span-3">
               <HeroLeftSidebar stories={stories as any} updates={liveUpdates as any} />
             </div>
 
-            {/* CENTER HERO CONTENT (Perfectly centered on all views) */}
-            <div className="col-span-12 md:col-span-6 text-center space-y-6 max-w-xl mx-auto flex flex-col justify-center items-center">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/20 backdrop-blur-md border border-pink-300/20 text-pink-100 text-xs font-semibold tracking-wider uppercase">
-                <Ribbon className="h-4 w-4" />
-                
+            {/* CENTER HERO CONTENT */}
+            <div className="col-span-12 md:col-span-6 text-center space-y-5 sm:space-y-6 max-w-xl mx-auto flex flex-col justify-center items-center px-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/20 backdrop-blur-md border border-pink-300/20 text-pink-100 text-[10px] sm:text-xs font-semibold tracking-wider uppercase">
+                <Ribbon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span>Cancer Mukt Bharat Abhiyan</span>
               </div>
 
-              <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                Connecting Communities for <br className="hidden sm:inline" />
-                <span className="text-pink-300">
-                  Breast Cancer Mission
+              <h1 className="font-heading text-[26px] leading-[1.15] sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+                Connecting Communities for{" "}
+                <span className="text-pink-300 block sm:inline">
+                  Cancer Mukt Bharat Abhiyan
                 </span>
               </h1>
 
-              <p className="text-xs sm:text-sm text-gray-200 leading-relaxed max-w-md">
+              <p className="text-xs sm:text-sm text-gray-200 leading-relaxed max-w-md px-2">
                 A trusted unified healthcare portal. Spreading early physical diagnosis
                 knowledge, hosting expert webinars, and coordinating verified
                 crowdfunding support for patients.
               </p>
 
-              <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2 w-full max-w-sm">
+              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 pt-2 w-full max-w-sm mx-auto px-2">
                 <Link href="/webinars" className="w-full sm:w-auto">
                   <Button
                     size="lg"
-                    className="w-full bg-pink-600 hover:bg-pink-700 text-white shadow-xl cursor-pointer"
+                    className="w-full bg-pink-600 hover:bg-pink-700 text-white shadow-xl cursor-pointer text-sm sm:text-base"
                   >
                     Join Webinar
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                 </Link>
 
@@ -107,7 +99,7 @@ export default async function Home() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full border-white text-white bg-white/10 backdrop-blur-md hover:bg-white/20 cursor-pointer"
+                    className="w-full border-white text-white bg-white/10 backdrop-blur-md hover:bg-white/20 cursor-pointer text-sm sm:text-base"
                   >
                     Support Patients
                   </Button>
@@ -115,7 +107,7 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* RIGHT FLOATING SIDEBAR (Desktop/Tablet) */}
+            {/* RIGHT SIDEBAR (Desktop/Tablet only) */}
             <div className="hidden md:block md:col-span-3">
               <HeroRightSidebar banners={banners as any} testimonials={testimonials as any} />
             </div>
@@ -124,37 +116,40 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* MOBILE-ONLY PANELS SLIDER CONTAINER */}
+      {/* ============ MOBILE-ONLY PANELS ============ */}
       <div className="block md:hidden px-4 py-8 bg-pink-50/50 space-y-8 border-b border-pink-100">
 
-        {/* Mobile Left Sidebar - Stories */}
+        {/* Success Stories */}
         <div className="space-y-3">
-          <h3 className="text-xs font-black text-pink-600 uppercase tracking-widest px-1 flex items-center gap-1">
-            <Heart className="h-3.5 w-3.5 fill-pink-600 text-pink-600" /> Patient Success Stories
+          <h3 className="text-xs font-black text-pink-600 uppercase tracking-widest px-1 flex items-center gap-1.5">
+            <Heart className="h-3.5 w-3.5 fill-pink-600 text-pink-600 shrink-0" />
+            <span>Patient Success Stories</span>
           </h3>
-          <div className="flex overflow-x-auto pb-2 gap-4 snap-x snap-mandatory scroll-smooth no-scrollbar">
-            <div className="w-[85vw] flex-shrink-0 snap-center">
+          <div className="flex overflow-x-auto pb-2 gap-4 snap-x snap-mandatory scroll-smooth no-scrollbar -mx-4 px-4">
+            <div className="w-[88vw] max-w-md flex-shrink-0 snap-center">
               <StoryPlayerWidget stories={stories as any} />
             </div>
           </div>
         </div>
 
-        {/* Mobile Left Sidebar - Live Updates */}
+        {/* Live Updates */}
         <div className="space-y-3">
-          <h3 className="text-xs font-black text-pink-600 uppercase tracking-widest px-1 flex items-center gap-1">
-            <Radio className="h-3.5 w-3.5 text-pink-600" /> Live Updates Hub
+          <h3 className="text-xs font-black text-pink-600 uppercase tracking-widest px-1 flex items-center gap-1.5">
+            <Radio className="h-3.5 w-3.5 text-pink-600 shrink-0" />
+            <span>Live Updates Hub</span>
           </h3>
-          <div className="flex overflow-x-auto pb-2 gap-4 snap-x snap-mandatory scroll-smooth no-scrollbar">
-            <div className="w-[85vw] flex-shrink-0 snap-center">
+          <div className="flex overflow-x-auto pb-2 gap-4 snap-x snap-mandatory scroll-smooth no-scrollbar -mx-4 px-4">
+            <div className="w-[88vw] max-w-md flex-shrink-0 snap-center">
               <LiveUpdatesWidget updates={liveUpdates as any} />
             </div>
           </div>
         </div>
 
-        {/* Mobile Right Sidebar Widgets */}
+        {/* Highlights & Testimonials */}
         <div className="space-y-3">
-          <h3 className="text-xs font-black text-pink-600 uppercase tracking-widest px-1 flex items-center gap-1">
-            <Sparkles className="h-3.5 w-3.5 text-pink-600" /> Highlights & Testimonials
+          <h3 className="text-xs font-black text-pink-600 uppercase tracking-widest px-1 flex items-center gap-1.5">
+            <Sparkles className="h-3.5 w-3.5 text-pink-600 shrink-0" />
+            <span>Highlights &amp; Testimonials</span>
           </h3>
           <div className="w-full">
             <HeroRightSidebar banners={banners as any} testimonials={testimonials as any} />
@@ -162,26 +157,25 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* APOCAN Advance Capsules Teaser Highlight */}
+      {/* ============ APOCAN TEASER ============ */}
       <ApocanTeaser />
 
-      {/* SHARE YOUR SUCCESS STORY CTA SECTION */}
-      <section className="py-12 bg-white border-b border-pink-100">
+      {/* ============ SHARE SUCCESS STORY CTA ============ */}
+      <section className="py-10 sm:py-12 bg-white border-b border-pink-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 rounded-3xl shadow-xl text-white py-10 px-8 sm:px-12">
-            {/* Glow circles */}
-            <div className="absolute -top-32 -left-32 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
-            <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-white/15 rounded-full blur-3xl" />
+          <div className="relative overflow-hidden bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 rounded-2xl sm:rounded-3xl shadow-xl text-white py-8 sm:py-10 px-5 sm:px-8 md:px-12">
+            <div className="absolute -top-32 -left-32 w-72 h-72 sm:w-80 sm:h-80 bg-white/10 rounded-full blur-3xl" />
+            <div className="absolute -bottom-32 -right-32 w-72 h-72 sm:w-80 sm:h-80 bg-white/15 rounded-full blur-3xl" />
 
-            <div className="relative z-10 max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="space-y-4 text-center md:text-left">
-                <span className="inline-block px-3 py-1 bg-white/15 backdrop-blur rounded-full text-xs font-bold uppercase tracking-wider">
+            <div className="relative z-10 max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
+              <div className="space-y-3 sm:space-y-4 text-center md:text-left">
+                <span className="inline-block px-3 py-1 bg-white/15 backdrop-blur rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider">
                   Share Your Success Story
                 </span>
-                <h2 className="font-heading text-2xl md:text-3xl font-extrabold tracking-tight">
+                <h2 className="font-heading text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
                   Has Cancer Awareness Touched Your Life?
                 </h2>
-                <p className="text-pink-100 max-w-xl text-xs md:text-sm leading-relaxed">
+                <p className="text-pink-100 max-w-xl text-xs sm:text-sm leading-relaxed">
                   Every battle fought is a reminder of hope. Whether you are a survivor or a supportive family member, sharing your journey of recovery can inspire thousands of others to detect early and seek timely medical care.
                 </p>
               </div>
@@ -189,7 +183,7 @@ export default async function Home() {
               <Link href="/success-stories/share" className="flex-shrink-0 w-full md:w-auto">
                 <Button
                   size="lg"
-                  className="w-full md:w-auto bg-white hover:bg-pink-50 text-pink-700 font-extrabold shadow-lg hover:shadow-xl active:scale-95 transition-all text-sm px-8 h-12 rounded-xl cursor-pointer"
+                  className="w-full md:w-auto bg-white hover:bg-pink-50 text-pink-700 font-extrabold shadow-lg hover:shadow-xl active:scale-95 transition-all text-sm px-6 sm:px-8 h-11 sm:h-12 rounded-xl cursor-pointer"
                 >
                   Share Your Story
                   <Heart className="ml-2 h-4 w-4 fill-pink-600 text-pink-600 animate-pulse" />
@@ -200,200 +194,185 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Module Overview cards */}
-      <section className="py-20 sm:py-28 container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
-            A Unified Platform For Awareness & Care
+      {/* ============ MODULE OVERVIEW CARDS ============ */}
+      <section className="py-14 sm:py-20 md:py-28 container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
+          <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900 px-2 leading-tight">
+            A Unified Platform For Awareness &amp; Care
           </h2>
-          <p className="text-slate-600 max-w-xl mx-auto">
+          <p className="text-slate-600 max-w-xl mx-auto text-sm sm:text-base px-2">
             Bringing together patients, medical experts, verified NGOs, and volunteer networks.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
           {/* Card 1 */}
-          <div className="p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-4">
-            <div className="h-12 w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600">
-              <BookOpen className="h-6 w-6" />
+          <div className="p-5 sm:p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-3 sm:space-y-4">
+            <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 shrink-0">
+              <BookOpen className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900">Awareness Hub</h3>
-            <p className="text-sm text-slate-600 flex-1">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900">Awareness Hub</h3>
+            <p className="text-sm text-slate-600 flex-1 leading-relaxed">
               Access early detection physical test timers, interactive quizzes, and verified medical blogs written by licensed oncologists.
             </p>
           </div>
 
           {/* Card 2 */}
-          <div className="p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-4">
-            <div className="h-12 w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600">
-              <Heart className="h-6 w-6" />
+          <div className="p-5 sm:p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-3 sm:space-y-4">
+            <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 shrink-0">
+              <Heart className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900">FundLife Crowdfunding</h3>
-            <p className="text-sm text-slate-600 flex-1">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900">FundLife Crowdfunding</h3>
+            <p className="text-sm text-slate-600 flex-1 leading-relaxed">
               Launch fundraising campaigns for cancer treatments. Contributions flow directly to hospital bank accounts to prevent fraud.
             </p>
           </div>
 
           {/* Card 3 */}
-          <div className="p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-4">
-            <div className="h-12 w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600">
-              <ShieldCheck className="h-6 w-6" />
+          <div className="p-5 sm:p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-3 sm:space-y-4">
+            <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 shrink-0">
+              <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900">NGO & Doctor Connect</h3>
-            <p className="text-sm text-slate-600 flex-1">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900">NGO &amp; Doctor Connect</h3>
+            <p className="text-sm text-slate-600 flex-1 leading-relaxed">
               Every campaign undergoes direct document reviews by registered NGOs, ensuring transparent fundraising channels.
             </p>
           </div>
 
           {/* Card 4 */}
-          <div className="p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-4">
-            <div className="h-12 w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600">
-              <Award className="h-6 w-6" />
+          <div className="p-5 sm:p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-3 sm:space-y-4">
+            <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 shrink-0">
+              <Award className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900">QR Certifications</h3>
-            <p className="text-sm text-slate-600 flex-1">
+            <h3 className="text-lg sm:text-xl font-bold text-slate-900">QR Certifications</h3>
+            <p className="text-sm text-slate-600 flex-1 leading-relaxed">
               Receive cryptographically signed PDF certificates upon quiz completions and webinar attendance with instant QR verification.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Our Team Section */}
+      {/* ============ OUR TEAM ============ */}
       <OurTeam />
-{/* Partner Organizations Section */}
-<section className="py-20 sm:py-28 bg-gradient-to-b from-pink-50/40 via-white to-pink-50/30">
-  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
-    {/* Section Heading */}
-    <div className="text-center space-y-4 mb-16">
-      <span className="inline-block px-4 py-1 rounded-full bg-pink-100 text-pink-700 text-xs font-semibold uppercase tracking-widest">
-        Backed By
-      </span>
+      {/* ============ PARTNER ORGANIZATIONS ============ */}
+      <section className="py-14 sm:py-20 md:py-28 bg-gradient-to-b from-pink-50/40 via-white to-pink-50/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
-      <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
-        Our Partner Organizations
-      </h2>
-    </div>
+          <div className="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
+            <span className="inline-block px-4 py-1 rounded-full bg-pink-100 text-pink-700 text-[10px] sm:text-xs font-semibold uppercase tracking-widest">
+              Backed By
+            </span>
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900 px-2 leading-tight">
+              Our Partner Organizations
+            </h2>
+          </div>
 
-    {/* Partner Cards */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
 
-      {/* ================= GRS ================= */}
-      <div className="group bg-white rounded-2xl overflow-hidden border border-pink-100 shadow-md hover:shadow-2xl hover:border-pink-300 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
+            {/* GRS */}
+            <div className="group bg-white rounded-2xl overflow-hidden border border-pink-100 shadow-md hover:shadow-2xl hover:border-pink-300 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
+              <div className="h-40 sm:h-48 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-6 sm:p-8">
+                <img
+                  src="/images/grs-group-logo.jpg"
+                  alt="GRS India Group"
+                  className="max-h-24 sm:max-h-28 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex flex-col flex-1 p-5 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">
+                  GRS India Group
+                </h3>
+                <p className="text-sm text-slate-600 flex-1 leading-relaxed">
+                  Supporting healthcare innovation, breast cancer awareness,
+                  community outreach, and medical initiatives across India.
+                </p>
+                <a
+                  href="https://grsindiacorporation.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 sm:mt-5 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700 text-sm"
+                >
+                  Visit Website →
+                </a>
+              </div>
+            </div>
 
-        <div className="h-48 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-8">
-          <img
-            src="/images/grs-group-logo.jpg"
-            alt="GRS India Group"
-            className="max-h-28 object-contain transition-transform duration-300 group-hover:scale-105"
-          />
+            {/* Mission Bharat */}
+            <div className="group bg-white rounded-2xl overflow-hidden border border-pink-100 shadow-md hover:shadow-2xl hover:border-pink-300 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
+              <div className="h-40 sm:h-48 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-6 sm:p-8">
+                <img
+                  src="/images/mission bharat.jpeg"
+                  alt="Mission Bharat"
+                  className="max-h-24 sm:max-h-28 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex flex-col flex-1 p-5 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">
+                  Mission Bharat
+                </h3>
+                <p className="text-sm text-slate-600 flex-1 leading-relaxed">
+                  Empowering communities through social development, healthcare,
+                  education, and nationwide awareness initiatives.
+                </p>
+                <a
+                  href="https://missionbharat.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 sm:mt-5 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700 text-sm"
+                >
+                  Visit Website →
+                </a>
+              </div>
+            </div>
+
+            {/* Khushi Centre */}
+            <div className="group bg-white rounded-2xl overflow-hidden border border-pink-100 shadow-md hover:shadow-2xl hover:border-pink-300 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
+              <div className="h-40 sm:h-48 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-6 sm:p-8">
+                <img
+                  src="/images/khushi-logo.jpg"
+                  alt="Khushi Centre"
+                  className="max-h-24 sm:max-h-28 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex flex-col flex-1 p-5 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 leading-snug">
+                  Khushi Centre for Rehabilitation &amp; Research
+                </h3>
+                <p className="text-sm text-slate-600 flex-1 leading-relaxed">
+                  Dedicated to rehabilitation, patient care, research, and
+                  improving the quality of life for individuals facing serious
+                  health challenges.
+                </p>
+                <a
+                  href="https://khushicentre.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 sm:mt-5 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700 text-sm"
+                >
+                  Visit Website →
+                </a>
+              </div>
+            </div>
+
+          </div>
         </div>
+      </section>
 
-        <div className="flex flex-col flex-1 p-6">
-          <h3 className="text-xl font-bold text-slate-900 mb-2">
-            GRS India Group
-          </h3>
+      {/* ============ TRUSTED PARTNERS CAROUSEL ============ */}
+      <TrustedPartnersCarousel />
 
-          <p className="text-sm text-slate-600 flex-1">
-            Supporting healthcare innovation, breast cancer awareness,
-            community outreach, and medical initiatives across India.
+      {/* ============ MEDICAL DISCLAIMER ============ */}
+      <div className="px-4 sm:px-6 pb-6 sm:pb-8">
+        <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/50 flex gap-3 text-xs text-slate-500 max-w-4xl mx-auto leading-relaxed">
+          <ShieldCheck className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-500 shrink-0 mt-0.5" />
+          <p>
+            <strong>Medical Disclaimer:</strong> The information provided on this platform is for educational and campaign purposes only. It should not be used as a substitute for professional clinical advice, diagnosis, or treatment. Always consult with a licensed physician or oncologist regarding health concerns.
           </p>
-
-          <a
-            href="https://grsindiacorporation.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700"
-          >
-            Visit Website →
-          </a>
         </div>
       </div>
 
-      {/* ================= Mission Bharat ================= */}
-      <div className="group bg-white rounded-2xl overflow-hidden border border-pink-100 shadow-md hover:shadow-2xl hover:border-pink-300 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
-
-        <div className="h-48 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-8">
-          <img
-            src="/images/mission bharat.jpeg"
-            alt="Mission Bharat"
-            className="max-h-28 object-contain transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
-
-        <div className="flex flex-col flex-1 p-6">
-          <h3 className="text-xl font-bold text-slate-900 mb-2">
-            Mission Bharat
-          </h3>
-
-          <p className="text-sm text-slate-600 flex-1">
-            Empowering communities through social development, healthcare,
-            education, and nationwide awareness initiatives.
-          </p>
-
-          <a
-            href="https://missionbharat.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700"
-          >
-            Visit Website →
-          </a>
-        </div>
-      </div>
-
-      {/* ================= Khushi Centre ================= */}
-      <div className="group bg-white rounded-2xl overflow-hidden border border-pink-100 shadow-md hover:shadow-2xl hover:border-pink-300 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
-
-        <div className="h-48 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-8">
-          <img
-            src="/images/khushi-logo.jpg"
-            alt="Khushi Centre"
-            className="max-h-28 object-contain transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
-
-        <div className="flex flex-col flex-1 p-6">
-          <h3 className="text-xl font-bold text-slate-900 mb-2">
-            Khushi Centre for Rehabilitation & Research
-          </h3>
-
-          <p className="text-sm text-slate-600 flex-1">
-            Dedicated to rehabilitation, patient care, research, and
-            improving the quality of life for individuals facing serious
-            health challenges.
-          </p>
-
-          <a
-            href="https://khushicentre.in/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700"
-          >
-            Visit Website →
-          </a>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-{/* Trusted Healthcare & Support Organizations Auto-scrolling Carousel */}
-<TrustedPartnersCarousel />
-
-      {/* Slideshow/Carousel Section */}
-      <AwarenessCarousel /> 
-
-       <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/50 flex gap-3 text-xs text-slate-500 max-w-4xl mx-auto leading-relaxed">
-        <ShieldCheck className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
-        <p>
-          <strong>Medical Disclaimer:</strong> The information provided on this platform is for educational and campaign purposes only. It should not be used as a substitute for professional clinical advice, diagnosis, or treatment. Always consult with a licensed physician or oncologist regarding health concerns.
-        </p>
-      </div>
-
-      {/* One-Time Session Reminder Popup */}
+      {/* ============ POPUP ============ */}
       <ApocanPopup />
 
     </div>

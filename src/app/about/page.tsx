@@ -17,7 +17,7 @@ import {
 
 export const metadata: Metadata = {
   title: "About Us | GRS Breast Cancer Awareness Mission",
-  description: "Learn about the GRS Breast Cancer Mission platform, our goals, pillars, and how we bring together patients, doctors, NGOs, and donors to spread awareness and support care.",
+  description: "Learn about the GRS Cancer Mukt Bharat Abhiyan platform, our goals, pillars, and how we bring together patients, doctors, NGOs, and donors to spread awareness and support care.",
 };
 
 export default function AboutPage() {
@@ -36,7 +36,7 @@ export default function AboutPage() {
             About Our Mission
           </div>
           <h1 id="about-hero-title" className="font-heading text-4xl sm:text-5xl font-black text-slate-800 leading-tight">
-            Breast Cancer <span className="text-primary">Mission </span>
+            Cancer Mukt Bharat <span className="text-primary">Abhiyan </span>
           </h1>
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
             An enterprise-grade digital ecosystem designed to connect patients, healthcare professionals, donors, and non-profit organizations into a unified front against breast cancer.

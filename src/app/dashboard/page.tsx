@@ -379,7 +379,7 @@ export default async function DashboardPage() {
             Welcome back, {user.name}
           </h1>
           <p className="text-muted-foreground text-sm">
-            Manage your breast cancer mission dashboard as a <span className="text-primary font-bold uppercase tracking-wider">{user.role}</span>
+            Manage your cancer mukt bharat abhiyan dashboard as a <span className="text-primary font-bold uppercase tracking-wider">{user.role}</span>
           </p>
         </div>
         <div className="flex gap-2">

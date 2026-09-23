@@ -30,7 +30,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick }) => {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-xs sm:text-sm font-medium text-pink-100 shadow-inner"
           >
             <Ribbon className="h-4 w-4 text-pink-200 animate-pulse" />
-            <span>Official Breast Cancer  Mission</span>
+            <span>Official Cancer Mukt Bharat Abhiyan</span>
             <Sparkles className="h-3.5 w-3.5 text-yellow-300 ml-0.5" />
           </motion.div>
 

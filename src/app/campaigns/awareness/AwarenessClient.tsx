@@ -760,7 +760,7 @@ export default function AwarenessClient() {
                 </h3>
                 
                 <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
-                  Volunteering with the Breast Cancer Mission offers a direct way to support your local community. Engage in public checkup organization, distribute safety checklists, and assist survivors.
+                  Volunteering with the Cancer Mukt Bharat Abhiyan offers a direct way to support your local community. Engage in public checkup organization, distribute safety checklists, and assist survivors.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -931,7 +931,7 @@ export default function AwarenessClient() {
                   <h3 className="font-heading text-2xl font-black text-slate-800">Become Our Partner</h3>
                 </div>
                 <p className="text-slate-500 text-xs sm:text-sm font-medium">
-                  Apply to register your entity as an official Breast Cancer Mission partner organization.
+                  Apply to register your entity as an official Cancer Mukt Bharat Abhiyan partner organization.
                 </p>
               </div>
 

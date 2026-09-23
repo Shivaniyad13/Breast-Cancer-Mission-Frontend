@@ -241,10 +241,10 @@ export default function CampaignsPage() {
           </div>
         </motion.div>
 
-        {/* REDESIGNED: Grid of Breast Cancer Mission Campaigns */}
+        {/* REDESIGNED: Grid of Cancer Mukt Bharat Abhiyan Campaigns */}
         <div id="education" className="space-y-8">
           <div className="border-b border-border pb-4 flex justify-between items-end">
-            <h3 className="font-heading text-2xl font-bold text-foreground">Breast Cancer Mission & Prevention</h3>
+            <h3 className="font-heading text-2xl font-bold text-foreground">Cancer Mukt Bharat Abhiyan & Prevention</h3>
             <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">
               {cancerTypes.length} Core Areas
             </span>

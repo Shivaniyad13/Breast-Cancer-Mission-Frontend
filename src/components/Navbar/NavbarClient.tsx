@@ -77,7 +77,7 @@ export default function NavbarClient({ user, handleSignOut }: NavbarClientProps)
             <Link href="/" className="flex items-center gap-1.5">
               <Ribbon className="h-5 w-5 sm:h-6 sm:w-6 text-primary animate-pulse shrink-0" />
               <span className="font-heading text-sm sm:text-base md:text-lg font-bold tracking-tight text-slate-900 whitespace-nowrap">
-                Breast Cancer <span className="text-primary">Mission </span>
+                Cancer Mukt Bharat <span className="text-primary">Abhiyan </span>
               </span>
             </Link>
           )}

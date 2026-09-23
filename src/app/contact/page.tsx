@@ -24,7 +24,7 @@ export default function ContactPage() {
   return (
     <>
       {/* ── SEO Meta ── */}
-      <title>Contact Us · Breast Cancer  Mission</title>
+      <title>Contact Us · Cancer Mukt Bharat Abhiyan</title>
 
       <div className="min-h-screen bg-gradient-to-b from-pink-50/60 via-white to-pink-50/30 text-slate-800">
 
