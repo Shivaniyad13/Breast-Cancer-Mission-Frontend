@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
+import { apiClient } from "@/lib/apiClient";
 
 // POST /api/volunteers/events/[id]/apply
 export async function POST(
@@ -19,15 +19,11 @@ export async function POST(
       );
     }
 
-    // Check if user is a verified volunteer
-    const volunteer = await db.volunteerApplication.findFirst({
-      where: {
-        userId: session.user.id,
-        status: "VERIFIED",
-      },
-    });
+    const sessRes = await apiClient(`/volunteers/session?userId=${session.user.id}`);
+    const sessData = await sessRes.json();
+    const volunteer = sessData.data;
 
-    if (!volunteer) {
+    if (!volunteer || !volunteer.volunteerId || (volunteer.volunteerStatus !== "VERIFIED" && volunteer.volunteerStatus !== "APPROVED")) {
       return NextResponse.json(
         {
           success: false,
@@ -37,68 +33,25 @@ export async function POST(
       );
     }
 
-    // Check if event exists
-    const event = await db.volunteerEvent.findUnique({
-      where: { id: eventId },
+    const response = await apiClient(`/volunteers/events/${eventId}/apply`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ volunteerId: volunteer.volunteerId }),
     });
 
-    if (!event) {
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
       return NextResponse.json(
-        { success: false, error: "Volunteer event not found" },
-        { status: 404 }
+        { success: false, error: resData.message || resData.error || "Failed to apply for event" },
+        { status: response.status || 500 }
       );
-    }
-
-    if (!event.isOpen) {
-      return NextResponse.json(
-        { success: false, error: "This event is closed for applications" },
-        { status: 400 }
-      );
-    }
-
-    // Prevent duplicate application
-    const existingApplication = await db.volunteerEventApplication.findUnique({
-      where: {
-        eventId_volunteerId: {
-          eventId,
-          volunteerId: volunteer.id,
-        },
-      },
-    });
-
-    if (existingApplication) {
-      return NextResponse.json(
-        { success: false, error: "You have already applied for this event" },
-        { status: 400 }
-      );
-    }
-
-    // Create event application
-    const application = await db.volunteerEventApplication.create({
-      data: {
-        eventId,
-        volunteerId: volunteer.id,
-        status: "PENDING",
-      },
-    });
-
-    if (volunteer.email) {
-      try {
-        const { sendVolunteerEventApplicationEmail } = await import("@/lib/email");
-        await sendVolunteerEventApplicationEmail({
-          to: volunteer.email,
-          volunteerName: volunteer.fullName,
-          eventTitle: event.title,
-        });
-      } catch (e) {
-        console.error("[SMTP] Failed to send volunteer event application email:", e);
-      }
     }
 
     return NextResponse.json(
       {
         success: true,
-        data: application,
+        data: resData.data,
       },
       { status: 201 }
     );

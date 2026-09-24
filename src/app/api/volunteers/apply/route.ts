@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
+import { apiClient } from "@/lib/apiClient";
 
 const applySchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
@@ -35,39 +35,25 @@ export async function POST(request: Request) {
 
     const data = validation.data;
 
-    const application = await db.volunteerApplication.create({
-      data: {
-        userId,
-        fullName: data.fullName,
-        email: data.email,
-        phone: data.phone,
-        city: data.city,
-        age: data.age,
-        occupation: data.occupation,
-        interest: data.interest,
-        availability: data.availability,
-        motivation: data.motivation,
-        status: "PENDING",
-      },
+    const response = await apiClient("/volunteers/apply", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...data, userId }),
     });
 
-    try {
-      const { sendVolunteerStatusEmail, sendAdminRegistrationAlert } = await import("@/lib/email");
-      await sendVolunteerStatusEmail({
-        to: data.email,
-        volunteerName: data.fullName,
-        status: "PENDING",
-      });
-      await sendAdminRegistrationAlert({
-        type: "Volunteer Application",
-        applicantName: data.fullName,
-        applicantEmail: data.email,
-        role: "VOLUNTEER",
-        details: `City: ${data.city}, Interest: ${data.interest}`,
-      });
-    } catch (e) {
-      console.error("[SMTP] Failed to send volunteer application emails:", e);
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: resData.message || resData.error || "Failed to submit volunteer application",
+        },
+        { status: response.status || 500 }
+      );
     }
+
+    const application = resData.data;
 
     return NextResponse.json(
       {

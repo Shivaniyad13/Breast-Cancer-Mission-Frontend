@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
+import { apiClient } from "@/lib/apiClient";
 
 const statusSchema = z.object({
   status: z.enum(["VERIFIED", "REJECTED", "APPROVED", "PENDING"]),
@@ -48,17 +48,25 @@ export async function PATCH(
       targetStatus = "VERIFIED";
     }
 
-    const updatedFeedback = await db.volunteerFeedback.update({
-      where: { id },
-      data: {
-        status: targetStatus as any,
-      },
+    const response = await apiClient(`/volunteers/feedback/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: targetStatus }),
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return NextResponse.json(
+        { success: false, error: resData.message || resData.error || "Failed to update feedback status" },
+        { status: response.status || 500 }
+      );
+    }
 
     return NextResponse.json(
       {
         success: true,
-        data: updatedFeedback,
+        data: resData.data,
       },
       { status: 200 }
     );

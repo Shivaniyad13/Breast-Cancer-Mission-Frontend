@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { loginUserAction } from "@/app/actions/auth";
 import { motion } from "framer-motion";
 import { Ribbon, ArrowLeft, Lock, Mail, User, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -44,12 +44,7 @@ export default function VolunteerRegisterPage() {
       }
 
       // Auto sign-in after registration
-      const signInRes = await signIn("credentials", {
-        email: email.trim().toLowerCase(),
-        password,
-        redirect: false,
-        callbackUrl: "/campaigns/volunteers",
-      });
+      const signInRes = await loginUserAction(email, password);
 
       if (signInRes?.error) {
         // If auto sign-in fails for any reason, redirect to login page

@@ -1,48 +1,41 @@
-import NextAuth from "next-auth";
-import { db } from "@/lib/db";
-import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { authConfig } from "./auth.config";
+import { getCurrentUserAction, loginUserAction, logoutUserAction } from "@/app/actions/auth";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  ...authConfig,
-  providers: [
-    Credentials({
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
-        }
-
-        const email = (credentials.email as string).trim().toLowerCase();
-        const password = credentials.password as string;
-
-        try {
-          const user = await db.user.findUnique({
-            where: { email },
-          });
-
-          if (!user || !user.passwordHash) {
-            return null;
-          }
-
-          const passwordsMatch = await bcrypt.compare(password, user.passwordHash);
-
-          if (!passwordsMatch) {
-            return null;
-          }
-
-          return {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-          };
-        } catch (error) {
-          console.error("Database error during authorize check:", error);
-          return null;
-        }
+export async function auth() {
+  try {
+    const sessionData = await getCurrentUserAction();
+    if (!sessionData || !sessionData.userId) {
+      return null;
+    }
+    return {
+      user: {
+        id: sessionData.userId,
+        name: sessionData.fullName || sessionData.user?.name || "User",
+        email: sessionData.user?.email || "",
+        role: sessionData.role,
       },
-    }),
-  ],
-  session: { strategy: "jwt" },
-});
+    };
+  } catch (error) {
+    console.error("Error in auth() helper:", error);
+    return null;
+  }
+}
+
+export async function signIn(provider?: string, options?: any) {
+  if (options?.email && options?.password) {
+    const res = await loginUserAction(options.email, options.password);
+    if (res.error) {
+      return { error: res.error };
+    }
+    return { ok: true, url: options.callbackUrl || "/dashboard" };
+  }
+  return { error: "Credentials required" };
+}
+
+export async function signOut(options?: any) {
+  return logoutUserAction();
+}
+
+export const handlers = {
+  GET: async () => new Response("OK"),
+  POST: async () => new Response("OK"),
+};

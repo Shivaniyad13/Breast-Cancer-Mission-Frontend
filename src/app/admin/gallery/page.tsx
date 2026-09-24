@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { apiClient } from "@/lib/apiClient";
 import Link from "next/link";
 import {
   Upload,
@@ -123,7 +124,7 @@ export default function AdminGalleryPage() {
     formData.append("file", file);
 
     try {
-      const res = await fetch("/api/upload", {
+      const res = await apiClient("/upload", {
         method: "POST",
         body: formData,
       });

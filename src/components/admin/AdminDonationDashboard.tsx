@@ -24,7 +24,7 @@ import {
   ImageOff,
 } from "lucide-react";
 import { updateDonationStatusAction } from "@/app/actions/donations";
-import { DonationStatus } from "@prisma/client";
+import { DonationStatus } from "@/types/enums";
 
 interface AdminDonationDashboardProps {
   initialDonations?: any[];

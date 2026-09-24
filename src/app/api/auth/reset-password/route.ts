@@ -1,34 +1,31 @@
 import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
-import { db } from "@/lib/db";
+import { apiClient } from "@/lib/apiClient";
 
 export async function POST(req: Request) {
   try {
-    const { token, password } = await req.json();
+    const { token, password, newPassword } = await req.json();
+    const pass = password || newPassword;
 
-    if (!token || !password || password.length < 8) {
+    if (!token || !pass || pass.length < 6) {
       return NextResponse.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const record = await db.passwordResetToken.findUnique({ where: { token } });
+    const res = await apiClient("/auth/reset-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, newPassword: pass }),
+    });
 
-    if (!record || record.expiresAt < new Date()) {
+    const resData = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
       return NextResponse.json(
-        { error: "Reset link is invalid or has expired." },
-        { status: 400 }
+        { error: resData.message || resData.error || "Reset link is invalid or has expired." },
+        { status: res.status }
       );
     }
 
-    const hashed = await bcrypt.hash(password, 10);
-
-    await db.user.update({
-      where: { id: record.userId },
-      data: { passwordHash: hashed },
-    });
-
-    await db.passwordResetToken.delete({ where: { token } });
-
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, message: resData.message });
   } catch (err) {
     console.error("reset-password error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

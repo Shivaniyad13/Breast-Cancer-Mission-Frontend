@@ -1,41 +1,15 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
-import { db } from "@/lib/db";
+import { getCurrentUserAction } from "@/app/actions/auth";
 
 // GET /api/auth/me
-// Returns current logged in user & volunteer status for client-side polling / external integrations
+// Compatibility layer: Returns current logged in user & volunteer status for client components
 export async function GET() {
   try {
-    const session = await auth();
+    const userData = await getCurrentUserAction();
 
-    if (!session?.user?.id) {
+    if (!userData) {
       return NextResponse.json({ success: true, user: null }, { status: 200 });
     }
-
-    const userId = session.user.id;
-    const role = (session.user.role as any) || "USER";
-
-    const volunteer = await db.volunteerApplication.findFirst({
-      where: { userId },
-      orderBy: { createdAt: "desc" },
-    });
-
-    let certificateCode: string | null = null;
-    if (volunteer && (volunteer.status === "VERIFIED" || (volunteer.status as any) === "APPROVED")) {
-      const cert = await db.volunteerCertificate.findFirst({
-        where: { volunteerId: volunteer.id },
-      });
-      certificateCode = cert?.certificateCode || null;
-    }
-
-    const userData = {
-      userId,
-      role,
-      volunteerStatus: volunteer ? volunteer.status : "NOT_APPLIED",
-      volunteerId: volunteer?.id,
-      certificateCode,
-      fullName: volunteer?.fullName || session.user.name || "",
-    };
 
     return NextResponse.json({ success: true, user: userData }, { status: 200 });
   } catch (error: any) {

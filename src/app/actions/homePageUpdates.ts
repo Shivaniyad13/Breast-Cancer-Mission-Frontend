@@ -1,9 +1,9 @@
 "use server";
 
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
-import { Role } from "@prisma/client";
+import { Role } from "@/types/enums";
 import { revalidatePath } from "next/cache";
+import { apiClient } from "@/lib/apiClient";
 
 // Helper for admin auth check
 async function requireAdmin() {
@@ -14,82 +14,16 @@ async function requireAdmin() {
   return session.user;
 }
 
-const SEED_UPDATES = [
-  {
-    category: "Webinar",
-    title: "Early Detection Oncology Panel Live Q&A",
-    shortDescription: "Learn from lead oncologists about regular clinical screenings, self-check timings, and treatment plans. Join our Zoom meeting room this weekend.",
-    imageUrl: "/images/awareness4.png",
-    destinationLink: "/webinars",
-    eventDate: new Date("2026-07-25T14:30:00Z"),
-    orderIndex: 0,
-    isActive: true
-  },
-  {
-    category: "Campaign",
-    title: "FundLife Campaign: Support Anjali's Chemotherapy",
-    shortDescription: "Anjali is undergoing treatment for stage II breast cancer at KEM Hospital. Direct hospital payout coordination ensures your donation builds hope.",
-    imageUrl: "/images/awareness2.png",
-    destinationLink: "/campaigns",
-    eventDate: null,
-    orderIndex: 1,
-    isActive: true
-  },
-  {
-    category: "News",
-    title: "50 Free Mammography Screenings in Pune",
-    shortDescription: "Collaborative clinical test drives are launched in association with NGO Khushi Centre. Apply for free checkups.",
-    imageUrl: "/images/mammography_screening.png",
-    destinationLink: "/campaigns/awareness",
-    eventDate: new Date("2026-08-01T09:00:00Z"),
-    orderIndex: 2,
-    isActive: true
-  },
-  {
-    category: "Tip",
-    title: "Breast Self-Examination (BSE) Routine",
-    shortDescription: "Regular checks help spot unusual lumps early. Oncologists recommend spending 10 minutes every month conducting checks. Learn standard procedures.",
-    imageUrl: "/images/awareness_ribbon.png",
-    destinationLink: "/learn/bse-guide",
-    eventDate: null,
-    orderIndex: 3,
-    isActive: true
-  }
-];
-
-// Seed updates if table is empty
-async function ensureSeedUpdates() {
-  try {
-    const count = await db.homePageUpdate.count();
-    if (count === 0) {
-      for (const update of SEED_UPDATES) {
-        await db.homePageUpdate.create({ data: update });
-      }
-    }
-  } catch (error) {
-    console.error("Failed to seed Home Page Updates:", error);
-  }
-}
-
 // 1. Fetch updates
 export async function getHomePageUpdates(onlyActive: boolean = false) {
   try {
-    await ensureSeedUpdates();
-    
-    const where: any = {};
-    if (onlyActive) {
-      where.isActive = true;
+    const res = await apiClient(`/homepage-updates?onlyActive=${onlyActive}`, { cache: "no-store" });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return { success: false, error: err.message || "Failed to fetch updates" };
     }
-
-    const updates = await db.homePageUpdate.findMany({
-      where,
-      orderBy: [
-        { orderIndex: "asc" },
-        { createdAt: "desc" }
-      ]
-    });
-
-    return { success: true, updates };
+    const resData = await res.json();
+    return { success: true, updates: resData.data || [] };
   } catch (error: any) {
     console.error("Error fetching homepage updates:", error);
     return { success: false, error: error.message || "Failed to fetch updates" };
@@ -110,28 +44,19 @@ export async function createHomePageUpdate(data: {
   try {
     await requireAdmin();
 
-    // Get max order index to put at the end
-    const lastItem = await db.homePageUpdate.findFirst({
-      orderBy: { orderIndex: "desc" }
+    const res = await apiClient("/homepage-updates", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
-    const orderIndex = lastItem ? lastItem.orderIndex + 1 : 0;
 
-    const newUpdate = await db.homePageUpdate.create({
-      data: {
-        category: data.category,
-        imageUrl: data.imageUrl || null,
-        title: data.title,
-        shortDescription: data.shortDescription,
-        detailedContent: data.detailedContent || null,
-        eventDate: data.eventDate || null,
-        destinationLink: data.destinationLink || null,
-        isActive: data.isActive !== undefined ? data.isActive : true,
-        orderIndex
-      }
-    });
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to create update" };
+    }
 
     revalidatePath("/");
-    return { success: true, update: newUpdate };
+    return { success: true, update: resData.data };
   } catch (error: any) {
     console.error("Error creating homepage update:", error);
     return { success: false, error: error.message || "Failed to create update" };
@@ -152,13 +77,19 @@ export async function updateHomePageUpdate(id: string, data: {
   try {
     await requireAdmin();
 
-    const updated = await db.homePageUpdate.update({
-      where: { id },
-      data
+    const res = await apiClient(`/homepage-updates/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
 
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to update update" };
+    }
+
     revalidatePath("/");
-    return { success: true, update: updated };
+    return { success: true, update: resData.data };
   } catch (error: any) {
     console.error("Error updating homepage update:", error);
     return { success: false, error: error.message || "Failed to update update" };
@@ -170,9 +101,14 @@ export async function deleteHomePageUpdate(id: string) {
   try {
     await requireAdmin();
 
-    await db.homePageUpdate.delete({
-      where: { id }
+    const res = await apiClient(`/homepage-updates/${id}`, {
+      method: "DELETE",
     });
+
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to delete update" };
+    }
 
     revalidatePath("/");
     return { success: true };
@@ -187,15 +123,17 @@ export async function reorderHomePageUpdates(orderedIds: string[]) {
   try {
     await requireAdmin();
 
-    // Perform updates in transaction
-    const updatePromises = orderedIds.map((id, index) => 
-      db.homePageUpdate.update({
-        where: { id },
-        data: { orderIndex: index }
-      })
-    );
+    const res = await apiClient("/homepage-updates/reorder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderedIds }),
+    });
 
-    await db.$transaction(updatePromises);
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to reorder updates" };
+    }
+
     revalidatePath("/");
     return { success: true };
   } catch (error: any) {

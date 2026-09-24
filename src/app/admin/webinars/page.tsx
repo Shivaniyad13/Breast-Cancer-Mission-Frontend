@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
-import { db } from "@/lib/db";
-import { Role } from "@prisma/client";
+import { Role } from "@/types/enums";
 import { redirect } from "next/navigation";
 import AdminWebinarDashboard from "@/components/admin/AdminWebinarDashboard";
+import { getWebinars } from "@/app/actions/webinars";
 import { Video, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
@@ -15,34 +15,8 @@ export default async function AdminWebinarsPage() {
     redirect("/");
   }
 
-  // Fetch all webinars with doctor info, registrations, attendance, and certificates
-  const webinars = await db.webinar.findMany({
-    orderBy: { date: "desc" },
-    include: {
-      doctor: {
-        include: {
-          user: {
-            select: { id: true, name: true, email: true, image: true }
-          }
-        }
-      },
-      registrations: {
-        include: {
-          user: {
-            select: { id: true, name: true, email: true, role: true }
-          }
-        }
-      },
-      attendance: {
-        include: {
-          user: {
-            select: { id: true, name: true, email: true }
-          }
-        }
-      },
-      certificates: true
-    }
-  });
+  const rawWebinars = await getWebinars({});
+  const webinars = Array.isArray(rawWebinars) ? rawWebinars : [];
 
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 min-h-screen">

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { apiClient } from "@/lib/apiClient";
 import { 
   Plus, 
   Edit2, 
@@ -267,7 +268,7 @@ export default function AdminDiagnosisDashboard({
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const res = await apiClient("/upload", { method: "POST", body: formData });
       const data = await res.json();
       if (res.ok && data.url) {
         if (fieldName === "imageUrl") setImageUrl(data.url);

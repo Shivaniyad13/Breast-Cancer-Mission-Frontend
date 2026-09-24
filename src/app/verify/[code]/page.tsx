@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Ribbon, ArrowLeft, ShieldCheck, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
-import { db } from "@/lib/db";
+import { apiClient } from "@/lib/apiClient";
 
 const interestToRole: Record<string, string> = {
   outreach: "Community Outreach Volunteer",
@@ -19,18 +19,11 @@ export default async function VerifyCertificatePage(
 
   let cert = null;
   try {
-    cert = await db.volunteerCertificate.findUnique({
-      where: { certificateCode: code },
-      include: {
-        volunteer: {
-          select: {
-            fullName: true,
-            city: true,
-            interest: true,
-          },
-        },
-      },
-    });
+    const res = await apiClient(`/certificates/verify/volunteer/${code}`);
+    if (res.ok) {
+      const body = await res.json();
+      cert = body.data || null;
+    }
   } catch (error) {
     console.error("Error verifying certificate:", error);
   }

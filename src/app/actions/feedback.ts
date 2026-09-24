@@ -1,9 +1,9 @@
 "use server";
 
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
-import { Role, VerificationStatus } from "@prisma/client";
+import { Role, VerificationStatus } from "@/types/enums";
 import { revalidatePath } from "next/cache";
+import { apiClient } from "@/lib/apiClient";
 
 // Admin check helper
 async function requireAdmin() {
@@ -37,18 +37,16 @@ export async function submitFeedback(data: {
       throw new Error("Feedback message must not exceed 500 characters.");
     }
 
-    const feedback = await db.feedback.create({
-      data: {
-        name: data.name.trim(),
-        email: data.email.trim(),
-        role: data.role.trim(),
-        city: data.city ? data.city.trim() : null,
-        rating: Math.round(data.rating),
-        message: data.message.trim(),
-        consent: Boolean(data.consent),
-        status: VerificationStatus.PENDING,
-      },
+    const res = await apiClient("/site-feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
+
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to submit feedback." };
+    }
 
     try {
       revalidatePath("/campaigns/membership");
@@ -58,7 +56,7 @@ export async function submitFeedback(data: {
       // Ignore revalidate errors outside Next.js request context
     }
 
-    return { success: true, feedback };
+    return { success: true, feedback: resData.data };
   } catch (error: any) {
     console.error("Error submitting feedback:", error);
     return { success: false, error: error.message || "Failed to submit feedback." };
@@ -68,16 +66,13 @@ export async function submitFeedback(data: {
 // 2. Fetch Approved Feedback (Public)
 export async function getApprovedFeedback() {
   try {
-    const feedbackList = await db.feedback.findMany({
-      where: {
-        status: VerificationStatus.VERIFIED,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-
-    return { success: true, feedback: feedbackList };
+    const res = await apiClient("/site-feedback/public", { cache: "no-store" });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return { success: false, error: err.message || "Failed to fetch feedback." };
+    }
+    const resData = await res.json();
+    return { success: true, feedback: resData.data || [] };
   } catch (error: any) {
     console.error("Error fetching approved feedback:", error);
     return { success: false, error: error.message || "Failed to fetch feedback." };
@@ -92,29 +87,17 @@ export async function getAllFeedbackAdmin(filters?: {
   try {
     await requireAdmin();
 
-    const whereClause: any = {};
+    const queryParams = new URLSearchParams();
+    if (filters?.status) queryParams.set("status", filters.status);
+    if (filters?.search) queryParams.set("search", filters.search);
 
-    if (filters?.status && filters.status !== "ALL") {
-      whereClause.status = filters.status as VerificationStatus;
+    const res = await apiClient(`/site-feedback/admin?${queryParams.toString()}`, { cache: "no-store" });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return { success: false, error: err.message || "Unauthorized or fetch failed." };
     }
-
-    if (filters?.search) {
-      const searchLower = filters.search.trim();
-      whereClause.OR = [
-        { name: { contains: searchLower, mode: "insensitive" } },
-        { email: { contains: searchLower, mode: "insensitive" } },
-        { role: { contains: searchLower, mode: "insensitive" } },
-        { city: { contains: searchLower, mode: "insensitive" } },
-        { message: { contains: searchLower, mode: "insensitive" } },
-      ];
-    }
-
-    const feedbackList = await db.feedback.findMany({
-      where: whereClause,
-      orderBy: { createdAt: "desc" },
-    });
-
-    return { success: true, feedback: feedbackList };
+    const resData = await res.json();
+    return { success: true, feedback: resData.data || [] };
   } catch (error: any) {
     console.error("Error fetching admin feedback list:", error);
     return { success: false, error: error.message || "Unauthorized or fetch failed." };
@@ -130,21 +113,16 @@ export async function updateFeedbackStatus(
   try {
     await requireAdmin();
 
-    const existing = await db.feedback.findUnique({
-      where: { id },
+    const res = await apiClient(`/site-feedback/${id}/status`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status, remarks }),
     });
 
-    if (!existing) {
-      throw new Error("Feedback record not found.");
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to update feedback status." };
     }
-
-    const updated = await db.feedback.update({
-      where: { id },
-      data: {
-        status: status as VerificationStatus,
-        remarks: remarks !== undefined ? remarks : existing.remarks,
-      },
-    });
 
     try {
       revalidatePath("/campaigns/membership");
@@ -154,7 +132,7 @@ export async function updateFeedbackStatus(
       // Ignore
     }
 
-    return { success: true, feedback: updated };
+    return { success: true, feedback: resData.data };
   } catch (error: any) {
     console.error("Error updating feedback status:", error);
     return { success: false, error: error.message || "Failed to update feedback status." };
@@ -166,9 +144,14 @@ export async function deleteFeedback(id: string) {
   try {
     await requireAdmin();
 
-    await db.feedback.delete({
-      where: { id },
+    const res = await apiClient(`/site-feedback/${id}`, {
+      method: "DELETE",
     });
+
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to delete feedback." };
+    }
 
     try {
       revalidatePath("/campaigns/membership");
@@ -190,23 +173,14 @@ export async function toggleFeedbackStatus(id: string) {
   try {
     await requireAdmin();
 
-    const existing = await db.feedback.findUnique({
-      where: { id },
+    const res = await apiClient(`/site-feedback/${id}/toggle-active`, {
+      method: "PATCH",
     });
 
-    if (!existing) {
-      throw new Error("Feedback record not found.");
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to toggle feedback status." };
     }
-
-    const newStatus =
-      existing.status === VerificationStatus.VERIFIED
-        ? VerificationStatus.REJECTED
-        : VerificationStatus.VERIFIED;
-
-    const updated = await db.feedback.update({
-      where: { id },
-      data: { status: newStatus },
-    });
 
     try {
       revalidatePath("/campaigns/membership");
@@ -216,7 +190,7 @@ export async function toggleFeedbackStatus(id: string) {
       // Ignore
     }
 
-    return { success: true, feedback: updated };
+    return { success: true, feedback: resData.data };
   } catch (error: any) {
     console.error("Error toggling feedback status:", error);
     return { success: false, error: error.message || "Failed to toggle feedback status." };

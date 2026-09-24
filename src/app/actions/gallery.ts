@@ -1,9 +1,9 @@
 "use server";
 
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
-import { Role } from "@prisma/client";
+import { Role } from "@/types/enums";
 import { revalidatePath } from "next/cache";
+import { apiClient } from "@/lib/apiClient";
 
 // Admin check helper
 async function requireAdmin() {
@@ -17,14 +17,13 @@ async function requireAdmin() {
 // 1. Fetch Active Gallery Items (Public)
 export async function getActiveGalleryItems() {
   try {
-    const items = await db.galleryItem.findMany({
-      where: { isActive: true },
-      orderBy: [
-        { orderIndex: "asc" },
-        { createdAt: "desc" },
-      ],
-    });
-    return { success: true, items };
+    const res = await apiClient("/gallery-items/public", { cache: "no-store" });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return { success: false, error: err.message || "Failed to fetch gallery items." };
+    }
+    const resData = await res.json();
+    return { success: true, items: resData.data || [] };
   } catch (error: any) {
     console.error("Error fetching active gallery items:", error);
     return { success: false, error: error.message || "Failed to fetch gallery items." };
@@ -35,13 +34,14 @@ export async function getActiveGalleryItems() {
 export async function getAllGalleryItems() {
   try {
     await requireAdmin();
-    const items = await db.galleryItem.findMany({
-      orderBy: [
-        { orderIndex: "asc" },
-        { createdAt: "desc" },
-      ],
-    });
-    return { success: true, items };
+
+    const res = await apiClient("/gallery-items/admin", { cache: "no-store" });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return { success: false, error: err.message || "Unauthorized or fetch failed." };
+    }
+    const resData = await res.json();
+    return { success: true, items: resData.data || [] };
   } catch (error: any) {
     console.error("Error fetching all gallery items for admin:", error);
     return { success: false, error: error.message || "Unauthorized or fetch failed." };
@@ -63,21 +63,21 @@ export async function createGalleryItem(data: {
       throw new Error("Image URL, caption, and category are required.");
     }
 
-    const item = await db.galleryItem.create({
-      data: {
-        imageUrl: data.imageUrl,
-        caption: data.caption,
-        category: data.category,
-        eventDate: data.eventDate ? new Date(data.eventDate) : null,
-        orderIndex: data.orderIndex ?? 0,
-        isActive: true,
-      },
+    const res = await apiClient("/gallery-items", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
+
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to create gallery item." };
+    }
 
     revalidatePath("/care/partner-organizations");
     revalidatePath("/admin/gallery");
 
-    return { success: true, item };
+    return { success: true, item: resData.data };
   } catch (error: any) {
     console.error("Error creating gallery item:", error);
     return { success: false, error: error.message || "Failed to create gallery item." };
@@ -99,23 +99,21 @@ export async function updateGalleryItem(
   try {
     await requireAdmin();
 
-    const updateData: any = {};
-    if (data.imageUrl !== undefined) updateData.imageUrl = data.imageUrl;
-    if (data.caption !== undefined) updateData.caption = data.caption;
-    if (data.category !== undefined) updateData.category = data.category;
-    if (data.eventDate !== undefined) updateData.eventDate = data.eventDate ? new Date(data.eventDate) : null;
-    if (data.orderIndex !== undefined) updateData.orderIndex = data.orderIndex;
-    if (data.isActive !== undefined) updateData.isActive = data.isActive;
-
-    const item = await db.galleryItem.update({
-      where: { id },
-      data: updateData,
+    const res = await apiClient(`/gallery-items/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
+
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to update gallery item." };
+    }
 
     revalidatePath("/care/partner-organizations");
     revalidatePath("/admin/gallery");
 
-    return { success: true, item };
+    return { success: true, item: resData.data };
   } catch (error: any) {
     console.error("Error updating gallery item:", error);
     return { success: false, error: error.message || "Failed to update gallery item." };
@@ -127,9 +125,14 @@ export async function deleteGalleryItem(id: string) {
   try {
     await requireAdmin();
 
-    await db.galleryItem.delete({
-      where: { id },
+    const res = await apiClient(`/gallery-items/${id}`, {
+      method: "DELETE",
     });
+
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to delete gallery item." };
+    }
 
     revalidatePath("/care/partner-organizations");
     revalidatePath("/admin/gallery");
@@ -146,23 +149,19 @@ export async function toggleGalleryItemActive(id: string) {
   try {
     await requireAdmin();
 
-    const existing = await db.galleryItem.findUnique({
-      where: { id },
+    const res = await apiClient(`/gallery-items/${id}/toggle-active`, {
+      method: "PATCH",
     });
 
-    if (!existing) {
-      throw new Error("Gallery item not found.");
+    const resData = await res.json();
+    if (!res.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to toggle gallery item active status." };
     }
-
-    const item = await db.galleryItem.update({
-      where: { id },
-      data: { isActive: !existing.isActive },
-    });
 
     revalidatePath("/care/partner-organizations");
     revalidatePath("/admin/gallery");
 
-    return { success: true, item };
+    return { success: true, item: resData.data };
   } catch (error: any) {
     console.error("Error toggling gallery item active state:", error);
     return { success: false, error: error.message || "Failed to toggle gallery item active status." };

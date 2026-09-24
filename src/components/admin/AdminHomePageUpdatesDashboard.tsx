@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { apiClient } from "@/lib/apiClient";
 import { 
   Plus, 
   Edit2, 
@@ -89,7 +90,7 @@ export default function AdminHomePageUpdatesDashboard({ initialUpdates }: AdminH
     formData.append("file", file);
 
     try {
-      const res = await fetch("/api/upload", {
+      const res = await apiClient("/upload", {
         method: "POST",
         body: formData,
       });

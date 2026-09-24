@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { apiClient } from "@/lib/apiClient";
 import {
   Upload,
   Download,
@@ -130,7 +131,7 @@ export default function HealthcareProfessionalsClient({
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await fetch("/api/upload", {
+      const res = await apiClient("/upload", {
         method: "POST",
         body: formData,
       });

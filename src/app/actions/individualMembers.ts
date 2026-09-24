@@ -1,16 +1,10 @@
 "use server";
 
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
-import { Role, VerificationStatus } from "@prisma/client";
+import { apiClient } from "@/lib/apiClient";
+import { Role, VerificationStatus } from "@/types/enums";
 import { revalidatePath } from "next/cache";
-import { 
-  sendUserRegistrationEmail, 
-  sendAdminRegistrationAlert, 
-  sendIndividualMemberStatusEmail 
-} from "@/lib/email";
 
-// Admin check helper
 async function requireAdmin() {
   const session = await auth();
   if (!session?.user || session.user.role !== Role.ADMIN) {
@@ -19,7 +13,6 @@ async function requireAdmin() {
   return session.user;
 }
 
-// 1. Submit Individual Member Application (Public)
 export async function applyIndividualMemberAction(data: {
   fullName: string;
   email: string;
@@ -46,44 +39,25 @@ export async function applyIndividualMemberAction(data: {
       throw new Error("Please enter a valid email address.");
     }
 
-    const member = await db.individualMember.create({
-      data: {
-        fullName: data.fullName.trim(),
-        email: data.email.trim(),
-        mobile: data.mobile.trim(),
-        city: data.city.trim(),
-        state: data.state.trim(),
-        category: data.category.trim(),
-        whyJoin: data.whyJoin.trim(),
-        status: VerificationStatus.PENDING,
-      },
+    const response = await apiClient("/memberships/individual", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
 
-    // Trigger SMTP email notifications safely
-    try {
-      await sendUserRegistrationEmail({
-        to: data.email.trim(),
-        userName: data.fullName.trim(),
-        role: `Individual Member (${data.category.trim()})`,
-        verificationStatus: "PENDING",
-      });
+    const resData = await response.json();
 
-      await sendAdminRegistrationAlert({
-        type: "Individual Membership Application",
-        applicantName: data.fullName.trim(),
-        applicantEmail: data.email.trim(),
-        role: `Individual Member (${data.category.trim()})`,
-        details: `City: ${data.city.trim()}, ${data.state.trim()} | Category: ${data.category.trim()}`
-      });
-    } catch (emailErr) {
-      console.error("Non-fatal individual member email error:", emailErr);
+    if (!response.ok || !resData.success) {
+      throw new Error(resData.message || "Failed to submit application.");
     }
+
+    const member = resData.data;
 
     try {
       revalidatePath("/campaigns/membership");
       revalidatePath("/admin/individual-members");
     } catch (e) {
-      // Ignore revalidate errors outside Next.js request context
+      // Ignore
     }
 
     return { success: true, id: member.id };
@@ -93,35 +67,22 @@ export async function applyIndividualMemberAction(data: {
   }
 }
 
-// 2. Fetch Approved Individual Members (Public)
 export async function getApprovedIndividualMembers() {
   try {
-    const members = await db.individualMember.findMany({
-      where: {
-        status: VerificationStatus.VERIFIED,
-      },
-      select: {
-        id: true,
-        fullName: true,
-        city: true,
-        state: true,
-        category: true,
-        whyJoin: true,
-        createdAt: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const response = await apiClient("/memberships/individual/approved");
+    const resData = await response.json();
 
-    return { success: true, members };
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to fetch approved members." };
+    }
+
+    return { success: true, members: resData.data };
   } catch (error: any) {
     console.error("Error fetching approved individual members:", error);
     return { success: false, error: error.message || "Failed to fetch approved members." };
   }
 }
 
-// 3. Fetch All Individual Members (Admin only, with filters & search)
 export async function getIndividualMembersAdmin(filters?: {
   status?: string;
   search?: string;
@@ -129,37 +90,26 @@ export async function getIndividualMembersAdmin(filters?: {
   try {
     await requireAdmin();
 
-    const whereClause: any = {};
+    const queryParams = new URLSearchParams();
+    if (filters?.search) queryParams.set("search", filters.search);
+    if (filters?.status) queryParams.set("status", filters.status);
 
-    if (filters?.status && filters.status !== "ALL") {
-      whereClause.status = filters.status as VerificationStatus;
+    const queryStr = queryParams.toString() ? `?${queryParams.toString()}` : "";
+
+    const response = await apiClient(`/memberships/individual/admin/all${queryStr}`);
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Unauthorized or fetch failed." };
     }
 
-    if (filters?.search) {
-      const searchLower = filters.search.trim();
-      whereClause.OR = [
-        { fullName: { contains: searchLower, mode: "insensitive" } },
-        { email: { contains: searchLower, mode: "insensitive" } },
-        { mobile: { contains: searchLower, mode: "insensitive" } },
-        { city: { contains: searchLower, mode: "insensitive" } },
-        { state: { contains: searchLower, mode: "insensitive" } },
-        { whyJoin: { contains: searchLower, mode: "insensitive" } },
-      ];
-    }
-
-    const members = await db.individualMember.findMany({
-      where: whereClause,
-      orderBy: { createdAt: "desc" },
-    });
-
-    return { success: true, members };
+    return { success: true, members: resData.data };
   } catch (error: any) {
     console.error("Error fetching individual members for admin:", error);
     return { success: false, error: error.message || "Unauthorized or fetch failed." };
   }
 }
 
-// 4. Update Individual Member Application Status (Admin only)
 export async function updateIndividualMemberStatus(
   id: string,
   status: VerificationStatus | "PENDING" | "VERIFIED" | "REJECTED",
@@ -168,37 +118,19 @@ export async function updateIndividualMemberStatus(
   try {
     await requireAdmin();
 
-    const existing = await db.individualMember.findUnique({
-      where: { id },
+    const response = await apiClient(`/memberships/individual/${id}/status`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status, remarks }),
     });
 
-    if (!existing) {
-      throw new Error("Individual member record not found.");
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      throw new Error(resData.message || "Failed to update status.");
     }
 
-    const statusChanged = existing.status !== status;
-
-    const updated = await db.individualMember.update({
-      where: { id },
-      data: {
-        status: status as VerificationStatus,
-        remarks: remarks !== undefined ? remarks : existing.remarks,
-      },
-    });
-
-    // Send SMTP status email strictly when status changes
-    if (statusChanged && (status === "VERIFIED" || status === "REJECTED")) {
-      try {
-        await sendIndividualMemberStatusEmail({
-          to: existing.email,
-          memberName: existing.fullName,
-          status: status as "VERIFIED" | "REJECTED",
-          remarks: remarks !== undefined ? remarks : (existing.remarks || undefined),
-        });
-      } catch (emailErr) {
-        console.error("Non-fatal individual member status email error:", emailErr);
-      }
-    }
+    const updated = resData.data;
 
     try {
       revalidatePath("/campaigns/membership");
@@ -214,14 +146,19 @@ export async function updateIndividualMemberStatus(
   }
 }
 
-// 5. Delete Individual Member Record (Admin only)
 export async function deleteIndividualMember(id: string) {
   try {
     await requireAdmin();
 
-    await db.individualMember.delete({
-      where: { id },
+    const response = await apiClient(`/memberships/individual/${id}`, {
+      method: "DELETE",
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      throw new Error(resData.message || "Failed to delete record.");
+    }
 
     try {
       revalidatePath("/campaigns/membership");
@@ -236,4 +173,3 @@ export async function deleteIndividualMember(id: string) {
     return { success: false, error: error.message || "Failed to delete record." };
   }
 }
-

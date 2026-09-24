@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { loginUserAction } from "@/app/actions/auth";
 import { motion } from "framer-motion";
 import { Ribbon, ArrowLeft, Lock, Mail, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,15 +21,10 @@ export default function VolunteerLoginPage() {
     setLoading(true);
 
     try {
-      const res = await signIn("credentials", {
-        email: email.trim().toLowerCase(),
-        password,
-        redirect: false,
-        callbackUrl: "/campaigns/volunteers",
-      });
+      const res = await loginUserAction(email, password);
 
       if (res?.error) {
-        setError("Invalid email or password");
+        setError(res.error || "Invalid email or password");
         setLoading(false);
       } else {
         router.push("/campaigns/volunteers");

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, Suspense } from "react";
-import { signIn } from "next-auth/react";
+import { loginUserAction } from "@/app/actions/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -28,16 +28,12 @@ function LoginForm() {
     const password = formData.get("password") as string;
 
     try {
-      const res = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+      const res = await loginUserAction(email, password);
 
       setLoading(false);
 
       if (res?.error) {
-        setError("Invalid email address or password.");
+        setError(res.error || "Invalid email address or password.");
       } else {
         router.push(callbackUrl);
         router.refresh();

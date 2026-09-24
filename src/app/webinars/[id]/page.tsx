@@ -27,8 +27,8 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
     notFound();
   }
 
-  const isRegistered = webinar.registrations.some((r) => r.userId === userId);
-  const remainingSeats = Math.max(webinar.maxSeats - webinar.registrations.length, 0);
+  const isRegistered = (webinar.registrations || []).some((r: any) => r.userId === userId);
+  const remainingSeats = Math.max(webinar.maxSeats - (webinar.registrations?.length || 0), 0);
 
   // Format Dates
   const fullDateStr = new Date(webinar.date).toLocaleDateString("en-US", {
@@ -200,7 +200,7 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
                 <Award className="h-5 w-5 text-primary" /> Learning Outcomes
               </h2>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-slate-600 font-semibold">
-                {learningOutcomesList.map((outcome, i) => (
+                {learningOutcomesList.map((outcome: any, i: number) => (
                   <li key={i} className="flex gap-2.5 items-start">
                     <span className="h-5 w-5 bg-pink-100 text-primary rounded-full flex items-center justify-center font-black text-xs shrink-0 mt-0.5 shadow-sm">
                       {i + 1}
@@ -217,7 +217,7 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
                 <Clock className="h-5 w-5 text-primary" /> Webinar Agenda
               </h2>
               <div className="relative border-l-2 border-pink-100 ml-3 pl-6 space-y-6 py-2 text-xs sm:text-sm">
-                {agendaList.map((item, i) => (
+                {agendaList.map((item: any, i: number) => (
                   <div key={i} className="relative">
                     <div className="absolute -left-[31px] top-1.5 h-3.5 w-3.5 rounded-full bg-primary border-4 border-white shadow-sm" />
                     <p className="font-semibold text-slate-700">{item}</p>

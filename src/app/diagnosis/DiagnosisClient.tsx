@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+import { apiClient } from "@/lib/apiClient";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -498,7 +499,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const res = await apiClient("/upload", { method: "POST", body: formData });
       const data = await res.json();
       if (res.ok && data.url) {
         if (type === "brochure") setBrochureUrl(data.url);

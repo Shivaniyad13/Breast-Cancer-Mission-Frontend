@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { Role } from "@prisma/client";
+import { Role } from "@/types/enums";
 import { redirect } from "next/navigation";
 import { getAllCareProvidersAdmin } from "@/app/actions/careProviders";
 import AdminCareProvidersDashboard from "@/components/admin/AdminCareProvidersDashboard";

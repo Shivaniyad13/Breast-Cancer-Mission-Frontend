@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { apiClient } from "@/lib/apiClient";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Building2,
@@ -275,7 +276,7 @@ export default function PartnerOrganizationsPage() {
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const res = await apiClient("/upload", { method: "POST", body: fd });
       const data = await res.json();
       if (res.ok && data.url) setUploadedDocUrl(data.url);
     } catch (err) {

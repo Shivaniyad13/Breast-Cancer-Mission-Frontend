@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { db } from "@/lib/db";
+import { apiClient } from "@/lib/apiClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -40,16 +40,29 @@ export default async function DashboardPage() {
     );
   }
 
-  // Fetch Institution Data if applicable
+  // Fetch Dashboard Summary via Express Backend
   let institutionData: any = null;
-  if (user.role === "ORGANIZATION_MEMBER") {
-    institutionData = await db.organizationMember.findFirst({
-      where: { email: user.email || "" }
-    });
-  } else if (user.role === "CORPORATE_PARTNER") {
-    institutionData = await db.corporatePartner.findFirst({
-      where: { email: user.email || "" }
-    });
+  let registrations: any[] = [];
+  let attendanceLogs: any[] = [];
+  let certificates: any[] = [];
+  let userDonations: any[] = [];
+
+  try {
+    const res = await apiClient(
+      `/user/dashboard-summary?userId=${user.id}&email=${encodeURIComponent(user.email || "")}&role=${user.role}`,
+      { cache: "no-store" }
+    );
+    if (res.ok) {
+      const resData = await res.json();
+      const summary = resData.data || {};
+      institutionData = summary.institutionData || null;
+      registrations = summary.registrations || [];
+      attendanceLogs = summary.attendanceLogs || [];
+      certificates = summary.certificates || [];
+      userDonations = summary.userDonations || [];
+    }
+  } catch (err) {
+    console.error("Error fetching user dashboard summary from Express:", err);
   }
 
   // If user is approved organization or corporate, return the Institution Dashboard
@@ -94,8 +107,6 @@ export default async function DashboardPage() {
                 View Membership Info
               </Button>
             </Link>
-
-
           </div>
         </div>
 
@@ -154,7 +165,6 @@ export default async function DashboardPage() {
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-1">
-                  {/* Signature image */}
                   <img
                     src="/images/signature.png"
                     alt="Saket Mani Trivedi Signature"
@@ -253,43 +263,6 @@ export default async function DashboardPage() {
     );
   }
 
-  // Fetch Webinar Registrations
-  const registrations = await db.webinarRegistration.findMany({
-    where: { userId: user.id },
-    include: {
-      webinar: {
-        include: {
-          registrations: true,
-        }
-      }
-    },
-    orderBy: { registeredAt: "desc" },
-  });
-
-  // Fetch Attendance Records
-  const attendanceLogs = await db.attendance.findMany({
-    where: { userId: user.id },
-    include: { webinar: true },
-    orderBy: { createdAt: "desc" },
-  });
-
-  // Fetch Certificates
-  const certificates = await db.certificate.findMany({
-    where: { recipientId: user.id },
-    orderBy: { createdAt: "desc" },
-  });
-
-  // Fetch User Donations
-  const userDonations = await db.donation.findMany({
-    where: { donorId: user.id },
-    orderBy: { createdAt: "desc" },
-    include: {
-      campaign: {
-        select: { id: true, title: true, slug: true },
-      },
-    },
-  });
-
   // Segregate webinars into Upcoming, Live, and Past
   const liveWebinars = registrations.filter(r => {
     const start = new Date(r.webinar.startTime);
@@ -318,7 +291,7 @@ export default async function DashboardPage() {
     notifications.push({
       title: "Registration Successful",
       message: `You are officially registered for "${r.webinar.title}". Join details will unlock on ${start.toLocaleDateString("en-US")}.`,
-      date: r.registeredAt,
+      date: new Date(r.registeredAt),
       type: "SUCCESS"
     });
 
@@ -361,7 +334,7 @@ export default async function DashboardPage() {
     notifications.push({
       title: "Certificate Ready",
       message: `Congratulations! Your cryptographic attendance certificate for "${c.eventName}" is ready to download.`,
-      date: c.createdAt,
+      date: new Date(c.createdAt),
       type: "CERTIFICATE"
     });
   });
@@ -578,11 +551,11 @@ export default async function DashboardPage() {
                   <tbody className="divide-y divide-slate-100 font-medium">
                     {attendanceLogs.map(log => (
                       <tr key={log.id} className="hover:bg-slate-50/50">
-                        <td className="py-3 font-bold text-slate-800">{log.webinar.title}</td>
+                        <td className="py-3 font-bold text-slate-800">{log.webinar?.title || "Webinar Session"}</td>
                         <td className="py-3">{log.joinTime ? new Date(log.joinTime).toLocaleString() : "-"}</td>
                         <td className="py-3">{log.leaveTime ? new Date(log.leaveTime).toLocaleString() : "Active Session"}</td>
-                        <td className="py-3 text-center">{log.durationMinutes.toFixed(1)} mins</td>
-                        <td className="py-3 text-center font-mono font-bold text-slate-700">{log.attendancePercentage.toFixed(0)}%</td>
+                        <td className="py-3 text-center">{(log.durationMinutes || 0).toFixed(1)} mins</td>
+                        <td className="py-3 text-center font-mono font-bold text-slate-700">{(log.attendancePercentage || 0).toFixed(0)}%</td>
                         <td className="py-3 text-right">
                           <span className={`inline-block px-2.5 py-0.5 rounded font-bold text-[9px] uppercase tracking-wider ${log.status === "PRESENT" || log.status === "Completed"
                             ? "bg-emerald-50 text-emerald-600 border border-emerald-100"

@@ -16,7 +16,7 @@ import { SuccessReceipt, SuccessReceiptData } from '@/components/donate/SuccessR
 import { SupportersWall, SupporterItem } from '@/components/donate/SupportersWall'
 import { TransparencyFaq } from '@/components/donate/TransparencyFaq'
 import { Loader2, ChevronDown, ChevronUp } from 'lucide-react'
-import { DonationStatus } from '@prisma/client'
+import { DonationStatus } from "@/types/enums"
 
 
 export default function DonatePage() {

@@ -3,7 +3,7 @@ import Link from "next/link";
 import QRCode from "qrcode";
 import { Ribbon, ArrowLeft } from "lucide-react";
 import { auth } from "@/auth";
-import { db } from "@/lib/db";
+import { apiClient } from "@/lib/apiClient";
 import PrintButton from "./PrintButton";
 
 export const dynamic = "force-dynamic";
@@ -15,18 +15,25 @@ export default async function VolunteerCertificatePage() {
     redirect("/volunteer/login?callbackUrl=/campaigns/volunteers/certificate");
   }
 
-  const volunteer = await db.volunteerApplication.findFirst({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: "desc" },
-  });
+  let volunteer: { id: string; fullName: string; status: string } | null = null;
+  let cert: { id: string; certificateCode: string; issuedAt: string } | null = null;
+
+  try {
+    const res = await apiClient(`/volunteers/certificate?userId=${session.user.id}`);
+    if (res.ok) {
+      const body = await res.json();
+      if (body.success && body.data) {
+        volunteer = body.data.volunteer;
+        cert = body.data.certificate;
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching volunteer certificate:", error);
+  }
 
   if (!volunteer || (volunteer.status !== "VERIFIED" && (volunteer.status as any) !== "APPROVED")) {
     redirect("/campaigns/volunteers");
   }
-
-  const cert = await db.volunteerCertificate.findFirst({
-    where: { volunteerId: volunteer.id },
-  });
 
   if (!cert) {
     return (

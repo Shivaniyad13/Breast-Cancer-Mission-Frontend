@@ -24,7 +24,7 @@ export default async function JoinWebinarPage({ params }: JoinWebinarPageProps) 
   }
 
   // Security: Check if user is registered
-  const isRegistered = webinar.registrations.some((r) => r.userId === session.user.id);
+  const isRegistered = (webinar.registrations || []).some((r: any) => r.userId === session.user.id);
   if (!isRegistered && session.user.role !== "ADMIN") {
     redirect(`/webinars/${id}`);
   }

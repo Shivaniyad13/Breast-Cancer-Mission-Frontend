@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
+import { apiClient } from "@/lib/apiClient";
 
 // GET /api/volunteers/certificate
 export async function GET() {
@@ -14,10 +14,20 @@ export async function GET() {
       );
     }
 
-    const volunteer = await db.volunteerApplication.findFirst({
-      where: { userId: session.user.id },
-      orderBy: { createdAt: "desc" },
-    });
+    const response = await apiClient(`/volunteers/certificate?userId=${session.user.id}`);
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: resData.message || resData.error || "Failed to fetch certificate details",
+        },
+        { status: response.status || 500 }
+      );
+    }
+
+    const { volunteer, certificate } = resData.data;
 
     if (!volunteer) {
       return NextResponse.json(
@@ -25,10 +35,6 @@ export async function GET() {
         { status: 404 }
       );
     }
-
-    const certificate = await db.volunteerCertificate.findFirst({
-      where: { volunteerId: volunteer.id },
-    });
 
     if (!certificate) {
       return NextResponse.json(
@@ -42,11 +48,11 @@ export async function GET() {
         success: true,
         data: {
           certificateCode: certificate.certificateCode,
-          issuedAt: certificate.issuedAt.toISOString(),
-          revokedAt: certificate.revokedAt ? certificate.revokedAt.toISOString() : null,
+          issuedAt: certificate.issuedAt,
+          revokedAt: certificate.revokedAt || null,
           volunteerName: volunteer.fullName,
-          city: volunteer.city,
-          interest: volunteer.interest,
+          city: volunteer.city || "",
+          interest: volunteer.interest || "",
         },
       },
       { status: 200 }

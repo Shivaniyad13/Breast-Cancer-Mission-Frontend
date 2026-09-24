@@ -1,28 +1,24 @@
 "use server";
 
 import { auth } from "@/auth";
-import { db } from "@/lib/db";
-import { Role, DonationStatus, Prisma } from "@prisma/client";
+import { apiClient } from "@/lib/apiClient";
+import { Role, DonationStatus } from "@/types/enums";
 import { revalidatePath } from "next/cache";
-import {
-  sendDonationReceiptEmail,
-  sendDonationPendingEmail,
-  sendDonationStatusEmail,
-  sendAdminRegistrationAlert,
-} from "@/lib/email";
 
 export async function getAvailableCampaignsAction() {
   try {
-    const campaigns = await db.campaign.findMany({
-      orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        status: true,
-      },
-    });
-    return { success: true, campaigns };
+    const res = await apiClient("/campaigns");
+    const data = await res.json();
+    if (res.ok && data.data) {
+      const campaigns = data.data.map((c: any) => ({
+        id: c.id,
+        title: c.title,
+        slug: c.slug,
+        status: c.status,
+      }));
+      return { success: true, campaigns };
+    }
+    return { success: false, campaigns: [], error: data.message || "Failed to fetch campaigns" };
   } catch (error: any) {
     console.error("Error fetching campaigns:", error);
     return { success: false, campaigns: [], error: error.message };
@@ -51,134 +47,33 @@ export async function createDonationAction(data: {
     const session = await auth();
     const donorId = session?.user?.id || null;
 
-    let validDonorId: string | null = null;
-    if (donorId) {
-      const userExists = await db.user.findUnique({ where: { id: donorId } });
-      if (userExists) {
-        validDonorId = donorId;
-      }
+    const payload = {
+      campaignId: data.campaignId || undefined,
+      donorId: donorId || undefined,
+      amount: data.amount,
+      currency: data.currency || "INR",
+      paymentGatewayId: data.paymentGatewayId || data.transaction_id || `UPI-${Date.now()}`,
+      isAnonymous: data.isAnonymous ?? data.is_anonymous ?? false,
+      donorName: data.donorName || data.name || session?.user?.name || undefined,
+      donorEmail: data.donorEmail || data.email || session?.user?.email || undefined,
+      donorPhone: data.donorPhone || data.phone || undefined,
+      message: data.message || undefined,
+      status: data.status || DonationStatus.SUCCESSFUL,
+    };
+
+    const res = await apiClient("/donations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const responseData = await res.json();
+
+    if (!res.ok) {
+      return { success: false, error: responseData.message || responseData.error || "Failed to process donation" };
     }
 
-    let campaignId: string | null = data.campaignId || null;
-
-    if (campaignId) {
-      const campaign = await db.campaign.findUnique({
-        where: { id: campaignId },
-      });
-
-      if (!campaign) {
-        console.warn(`Campaign ID ${campaignId} not found, proceeding with general donation`);
-        campaignId = null;
-      }
-    }
-
-    const initialStatus = data.status || DonationStatus.SUCCESSFUL;
-    const paymentGatewayId =
-      data.paymentGatewayId || data.transaction_id || `UPI-${Date.now()}`;
-
-    const donation = await db.$transaction(
-      async (tx) => {
-        // Check if a donation with this paymentGatewayId already exists
-        const existing = await tx.donation.findUnique({
-          where: { paymentGatewayId },
-          include: {
-            campaign: {
-              select: { id: true, title: true, slug: true },
-            },
-            donor: {
-              select: { id: true, name: true, email: true },
-            },
-          },
-        });
-
-        if (existing) {
-          return existing;
-        }
-
-        const created = await tx.donation.create({
-          data: {
-            campaignId,
-            donorId: validDonorId,
-            donorName: data.donorName || data.name || session?.user?.name || null,
-            donorEmail: data.donorEmail || data.email || session?.user?.email || null,
-            donorPhone: data.donorPhone || data.phone || null,
-            message: data.message || null,
-            amount: new Prisma.Decimal(data.amount),
-            currency: data.currency || "INR",
-            paymentGatewayId,
-            isAnonymous: data.isAnonymous ?? data.is_anonymous ?? false,
-            status: initialStatus,
-          },
-          include: {
-            campaign: {
-              select: { id: true, title: true, slug: true },
-            },
-            donor: {
-              select: { id: true, name: true, email: true },
-            },
-          },
-        });
-
-        // Increment campaign amountRaised ONLY if campaignId exists and status is SUCCESSFUL
-        if (initialStatus === DonationStatus.SUCCESSFUL && campaignId) {
-          await tx.campaign.update({
-            where: { id: campaignId },
-            data: {
-              amountRaised: {
-                increment: data.amount,
-              },
-            },
-          });
-        }
-
-        return created;
-      },
-      {
-        maxWait: 10000,
-        timeout: 20000,
-      }
-    );
-
-    // Send SMTP email notifications safely
-    try {
-      const donorEmail = donation.donorEmail || donation.donor?.email;
-      const donorName = donation.donorName || donation.donor?.name || "Anonymous Donor";
-      const isCompleted = donation.status === DonationStatus.SUCCESSFUL || donation.status === DonationStatus.COMPLETED;
-
-      if (donorEmail) {
-        if (isCompleted) {
-          await sendDonationReceiptEmail({
-            to: donorEmail,
-            donorName,
-            amount: Number(donation.amount),
-            currency: donation.currency,
-            transactionId: donation.paymentGatewayId,
-            campaignTitle: donation.campaign?.title,
-            donationDate: donation.createdAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" }),
-            isAnonymous: donation.isAnonymous,
-          });
-        } else {
-          await sendDonationPendingEmail({
-            to: donorEmail,
-            donorName,
-            amount: Number(donation.amount),
-            currency: donation.currency,
-            transactionId: donation.paymentGatewayId,
-            campaignTitle: donation.campaign?.title,
-          });
-        }
-      }
-
-      await sendAdminRegistrationAlert({
-        type: isCompleted ? "Donation Confirmed" : "Donation Submitted (Pending Review)",
-        applicantName: donorName,
-        applicantEmail: donorEmail || "N/A",
-        role: "DONOR",
-        details: `Amount: ₹${Number(donation.amount).toLocaleString("en-IN")} | Ref ID: ${donation.paymentGatewayId} | Campaign: ${donation.campaign?.title || "General"}`,
-      });
-    } catch (e) {
-      console.error("[SMTP] Non-fatal donation creation email error:", e);
-    }
+    const donation = responseData.data || responseData;
 
     revalidatePath("/donate");
     revalidatePath("/dashboard");
@@ -204,57 +99,54 @@ export async function getPublicDonationsAction(params?: {
   search?: string;
 }) {
   try {
-    const limit = params?.limit || 100;
-    const page = params?.page || 1;
-    const skip = (page - 1) * limit;
+    const query = new URLSearchParams();
+    if (params?.limit) query.set("limit", params.limit.toString());
+    if (params?.page) query.set("page", params.page.toString());
+    if (params?.status) query.set("status", params.status);
+    if (params?.search) query.set("search", params.search);
 
-    const donations = await db.donation.findMany({
-      take: limit,
-      skip,
-      orderBy: { createdAt: "desc" },
-      include: {
-        campaign: {
-          select: { id: true, title: true, slug: true },
-        },
-        donor: {
-          select: { id: true, name: true, email: true, image: true },
-        },
-      },
-    });
+    const endpoint = `/donations${query.toString() ? `?${query.toString()}` : ""}`;
+    const res = await apiClient(endpoint);
+    const data = await res.json();
 
-    const formatted = donations.map((d) => {
-      const isCompleted =
-        d.status === DonationStatus.SUCCESSFUL ||
-        d.status === DonationStatus.COMPLETED;
-      return {
-        id: d.id,
-        name: d.isAnonymous ? "Anonymous" : d.donorName || d.donor?.name || "Anonymous Supporter",
-        donorName: d.donorName,
-        email: d.donorEmail || d.donor?.email || "",
-        donorEmail: d.donorEmail,
-        organization: undefined,
-        amount: Number(d.amount),
-        message: d.message || undefined,
-        is_anonymous: d.isAnonymous,
-        isAnonymous: d.isAnonymous,
-        created_at: d.createdAt.toISOString(),
-        createdAt: d.createdAt.toISOString(),
-        status: d.status,
-        payment_status: isCompleted ? "completed" : d.status.toLowerCase(),
-        user_id: d.donorId || undefined,
-        user: d.donor
-          ? {
-              id: d.donor.id,
-              name: d.donor.name || "Anonymous",
-              email: d.donor.email || "",
-              image: d.donor.image || undefined,
-            }
-          : undefined,
-        campaign: d.campaign,
-      };
-    });
+    if (res.ok && data.data) {
+      const donationsList = Array.isArray(data.data) ? data.data : (data.data.donations || []);
+      const formatted = donationsList.map((d: any) => {
+        const isCompleted =
+          d.status === DonationStatus.SUCCESSFUL ||
+          d.status === DonationStatus.COMPLETED;
+        return {
+          id: d.id,
+          name: d.isAnonymous ? "Anonymous" : d.donorName || d.donor?.name || "Anonymous Supporter",
+          donorName: d.donorName,
+          email: d.donorEmail || d.donor?.email || "",
+          donorEmail: d.donorEmail,
+          organization: undefined,
+          amount: Number(d.amount),
+          message: d.message || undefined,
+          is_anonymous: d.isAnonymous,
+          isAnonymous: d.isAnonymous,
+          created_at: d.createdAt ? new Date(d.createdAt).toISOString() : new Date().toISOString(),
+          createdAt: d.createdAt ? new Date(d.createdAt).toISOString() : new Date().toISOString(),
+          status: d.status,
+          payment_status: isCompleted ? "completed" : (d.status ? d.status.toLowerCase() : "pending"),
+          user_id: d.donorId || undefined,
+          user: d.donor
+            ? {
+                id: d.donor.id,
+                name: d.donor.name || "Anonymous",
+                email: d.donor.email || "",
+                image: d.donor.image || undefined,
+              }
+            : undefined,
+          campaign: d.campaign,
+        };
+      });
 
-    return { success: true, donations: formatted };
+      return { success: true, donations: formatted };
+    }
+
+    return { success: false, donations: [], error: data.message || "Failed to fetch donations" };
   } catch (error: any) {
     console.error("Error fetching public donations:", error);
     return { success: false, donations: [], error: error.message };
@@ -263,51 +155,43 @@ export async function getPublicDonationsAction(params?: {
 
 export async function getDonationStatsAction() {
   try {
-    const aggregate = await db.donation.aggregate({
-      where: {
-        status: {
-          in: [DonationStatus.SUCCESSFUL, DonationStatus.COMPLETED],
-        },
-      },
-      _count: { id: true },
-      _sum: { amount: true },
-      _avg: { amount: true },
-      _max: { amount: true },
-    });
+    const res = await apiClient("/donations/stats");
+    const data = await res.json();
 
-    const totalDonations = aggregate._count.id || 0;
-    const totalAmount = Number(aggregate._sum.amount || 0);
-    const averageDonation = Math.round(Number(aggregate._avg.amount || 0));
-    const highestDonation = Number(aggregate._max.amount || 0);
-
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-    const recentDonationsCount = await db.donation.count({
-      where: {
-        status: {
-          in: [DonationStatus.SUCCESSFUL, DonationStatus.COMPLETED],
-        },
-        createdAt: {
-          gte: thirtyDaysAgo,
-        },
-      },
-    });
+    if (res.ok && data.data) {
+      const stats = data.data;
+      return {
+        success: true,
+        total_donations: stats.total_donations ?? stats.totalDonations ?? 0,
+        totalDonations: stats.totalDonations ?? stats.total_donations ?? 0,
+        total_amount: stats.total_amount ?? stats.totalAmount ?? 0,
+        totalAmount: stats.totalAmount ?? stats.total_amount ?? 0,
+        average_donation: stats.average_donation ?? stats.averageDonation ?? 0,
+        averageDonation: stats.averageDonation ?? stats.average_donation ?? 0,
+        top_donation: stats.top_donation ?? stats.topDonation ?? stats.highest_donation ?? 0,
+        highest_donation: stats.highest_donation ?? stats.highestDonation ?? 0,
+        topDonation: stats.topDonation ?? stats.top_donation ?? 0,
+        highestDonation: stats.highestDonation ?? stats.highest_donation ?? 0,
+        recent_donations: stats.recent_donations ?? stats.recentDonations ?? 0,
+        recentDonations: stats.recentDonations ?? stats.recent_donations ?? 0,
+      };
+    }
 
     return {
-      success: true,
-      total_donations: totalDonations,
-      totalDonations: totalDonations,
-      total_amount: totalAmount,
-      totalAmount: totalAmount,
-      average_donation: averageDonation,
-      averageDonation: averageDonation,
-      top_donation: highestDonation,
-      highest_donation: highestDonation,
-      topDonation: highestDonation,
-      highestDonation: highestDonation,
-      recent_donations: recentDonationsCount,
-      recentDonations: recentDonationsCount,
+      success: false,
+      total_donations: 0,
+      totalDonations: 0,
+      total_amount: 0,
+      totalAmount: 0,
+      average_donation: 0,
+      averageDonation: 0,
+      top_donation: 0,
+      highest_donation: 0,
+      topDonation: 0,
+      highestDonation: 0,
+      recent_donations: 0,
+      recentDonations: 0,
+      error: data.message,
     };
   } catch (error: any) {
     console.error("Error fetching donation stats:", error);
@@ -337,22 +221,18 @@ export async function getMyDonationsAction() {
       return { success: true, donations: [] };
     }
 
-    const donations = await db.donation.findMany({
-      where: { donorId: session.user.id },
-      orderBy: { createdAt: "desc" },
-      include: {
-        campaign: {
-          select: { id: true, title: true, slug: true },
-        },
-      },
-    });
+    const res = await apiClient("/donations/my");
+    const data = await res.json();
 
-    const formatted = donations.map((d) => ({
-      ...d,
-      amount: Number(d.amount),
-    }));
+    if (res.ok && data.data) {
+      const formatted = data.data.map((d: any) => ({
+        ...d,
+        amount: Number(d.amount),
+      }));
+      return { success: true, donations: formatted };
+    }
 
-    return { success: true, donations: formatted };
+    return { success: false, donations: [] };
   } catch (error: any) {
     console.error("Error fetching user donations:", error);
     return { success: false, donations: [], error: error.message };
@@ -370,53 +250,25 @@ export async function getAdminDonationsAction(filters?: {
       return { success: false, error: "Unauthorized access", donations: [] };
     }
 
-    const whereConditions: Prisma.DonationWhereInput[] = [];
+    const query = new URLSearchParams();
+    if (filters?.search) query.set("search", filters.search);
+    if (filters?.status) query.set("status", filters.status);
+    if (filters?.donationType) query.set("donationType", filters.donationType);
 
-    if (filters?.status && filters.status !== "ALL") {
-      whereConditions.push({ status: filters.status as DonationStatus });
+    const endpoint = `/donations/admin/all${query.toString() ? `?${query.toString()}` : ""}`;
+    const res = await apiClient(endpoint);
+    const data = await res.json();
+
+    if (res.ok && data.data) {
+      const donationsList = Array.isArray(data.data) ? data.data : (data.data.donations || []);
+      const formatted = donationsList.map((d: any) => ({
+        ...d,
+        amount: Number(d.amount),
+      }));
+      return { success: true, donations: formatted };
     }
 
-    if (filters?.donationType === "GENERAL") {
-      whereConditions.push({ campaignId: null });
-    } else if (filters?.donationType === "CAMPAIGN") {
-      whereConditions.push({ campaignId: { not: null } });
-    }
-
-    if (filters?.search && filters.search.trim() !== "") {
-      const q = filters.search.trim();
-      whereConditions.push({
-        OR: [
-          { donorName: { contains: q, mode: "insensitive" } },
-          { donorEmail: { contains: q, mode: "insensitive" } },
-          { donorPhone: { contains: q, mode: "insensitive" } },
-          { paymentGatewayId: { contains: q, mode: "insensitive" } },
-          { campaign: { title: { contains: q, mode: "insensitive" } } },
-        ],
-      });
-    }
-
-    const where: Prisma.DonationWhereInput =
-      whereConditions.length > 0 ? { AND: whereConditions } : {};
-
-    const donations = await db.donation.findMany({
-      where,
-      orderBy: { createdAt: "desc" },
-      include: {
-        campaign: {
-          select: { id: true, title: true, slug: true },
-        },
-        donor: {
-          select: { id: true, name: true, email: true },
-        },
-      },
-    });
-
-    const formatted = donations.map((d) => ({
-      ...d,
-      amount: Number(d.amount),
-    }));
-
-    return { success: true, donations: formatted };
+    return { success: false, donations: [], error: data.message };
   } catch (error: any) {
     console.error("Error fetching admin donations:", error);
     return { success: false, donations: [], error: error.message };
@@ -430,79 +282,19 @@ export async function updateDonationStatusAction(id: string, status: DonationSta
       return { success: false, error: "Unauthorized access" };
     }
 
-    const donation = await db.donation.findUnique({ where: { id } });
-    if (!donation) {
-      return { success: false, error: "Donation not found" };
-    }
-
-    const oldStatus = donation.status;
-
-    const updated = await db.$transaction(async (tx) => {
-      const updatedDonation = await tx.donation.update({
-        where: { id },
-        data: { status },
-        include: {
-          campaign: {
-            select: { id: true, title: true, slug: true },
-          },
-          donor: {
-            select: { id: true, name: true, email: true },
-          },
-        },
-      });
-
-      // Increment campaign amountRaised ONLY if campaignId exists and status transitions to SUCCESSFUL
-      if (
-        status === DonationStatus.SUCCESSFUL &&
-        donation.status !== DonationStatus.SUCCESSFUL &&
-        donation.campaignId
-      ) {
-        await tx.campaign.update({
-          where: { id: donation.campaignId },
-          data: {
-            amountRaised: {
-              increment: donation.amount,
-            },
-          },
-        });
-      }
-
-      return updatedDonation;
+    const res = await apiClient(`/donations/${id}/status`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
     });
 
-    // Send SMTP status email strictly when status transitioned
-    if (oldStatus !== status) {
-      const recipientEmail = updated.donorEmail || updated.donor?.email;
-      const recipientName = updated.donorName || updated.donor?.name || "Donor";
+    const data = await res.json();
 
-      if (recipientEmail) {
-        try {
-          if (status === DonationStatus.SUCCESSFUL || status === DonationStatus.COMPLETED) {
-            await sendDonationReceiptEmail({
-              to: recipientEmail,
-              donorName: recipientName,
-              amount: Number(updated.amount),
-              currency: updated.currency,
-              transactionId: updated.paymentGatewayId,
-              campaignTitle: updated.campaign?.title,
-              donationDate: updated.createdAt.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" }),
-              isAnonymous: updated.isAnonymous,
-            });
-          } else if (status === DonationStatus.FAILED || status === DonationStatus.REFUNDED) {
-            await sendDonationStatusEmail({
-              to: recipientEmail,
-              donorName: recipientName,
-              amount: Number(updated.amount),
-              currency: updated.currency,
-              transactionId: updated.paymentGatewayId,
-              status: status as "FAILED" | "REFUNDED",
-            });
-          }
-        } catch (e) {
-          console.error("[SMTP] Non-fatal donation status update email error:", e);
-        }
-      }
+    if (!res.ok) {
+      return { success: false, error: data.message || "Failed to update donation status" };
     }
+
+    const updated = data.data || data;
 
     revalidatePath("/admin/donations");
     revalidatePath("/donate");

@@ -1,60 +1,17 @@
 "use server";
 
-import { db } from "@/lib/db";
+import { apiClient } from "@/lib/apiClient";
 
 export async function getImpactStats() {
   try {
-    const [
-      partnershipCount,
-      corporateCount,
-      orgMemberCount,
-      doctorCount,
-      hospitalCount,
-      campaignCount,
-      storyCount,
-      webinarCount,
-    ] = await Promise.all([
-      db.partnershipRequest.count({
-        where: { status: "APPROVED", isPublished: true },
-      }),
-      db.corporatePartner.count({
-        where: { status: "VERIFIED" },
-      }),
-      db.organizationMember.count({
-        where: { status: "VERIFIED" },
-      }),
-      db.doctor.count({
-        where: { verificationStatus: "VERIFIED" },
-      }),
-      db.partnershipRequest.count({
-        where: {
-          status: "APPROVED",
-          isPublished: true,
-          organizationType: { contains: "hospital", mode: "insensitive" },
-        },
-      }),
-      db.campaign.count({
-        where: { status: { in: ["ACTIVE", "COMPLETED"] } },
-      }),
-      db.successStory.count({
-        where: { status: "VERIFIED" },
-      }),
-      db.webinar.count({
-        where: { status: "PUBLISHED" },
-      }),
-    ]);
-
+    const res = await apiClient("/analytics/impact-stats");
+    if (!res.ok) {
+      throw new Error("Failed to fetch impact stats from backend.");
+    }
+    const body = await res.json();
     return {
       success: true,
-      stats: {
-        totalPartners: partnershipCount + corporateCount + orgMemberCount,
-        doctors: doctorCount,
-        hospitals: hospitalCount,
-        campaigns: campaignCount,
-        stories: storyCount,
-        webinars: webinarCount,
-        ngo: orgMemberCount + partnershipCount,
-      },
+      stats: body.data,
     };
   } catch (error: any) {
     console.error("Error in getImpactStats:", error);

@@ -138,7 +138,7 @@ export default async function SuccessStoryDetailPage({ params }: SuccessStoryPag
               <h2 className="font-heading text-2xl font-bold text-slate-800 dark:text-slate-100">
                 The Complete Journey
               </h2>
-              {paragraphs.slice(1).map((para, idx) => (
+              {paragraphs.slice(1).map((para: string, idx: number) => (
                 <p key={idx} className="whitespace-pre-wrap">
                   {para}
                 </p>
@@ -168,7 +168,7 @@ export default async function SuccessStoryDetailPage({ params }: SuccessStoryPag
                   <FileImage className="h-5 w-5 text-pink-600" /> Shared Journey Media
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
-                  {story.imageUrls.map((url, idx) => (
+                  {story.imageUrls.map((url: string, idx: number) => (
                     <div key={idx} className="relative aspect-video rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 shadow-inner group">
                       <img 
                         src={url} 

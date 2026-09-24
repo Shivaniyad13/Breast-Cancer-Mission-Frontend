@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import { apiClient } from "@/lib/apiClient";
 import { headers } from "next/headers";
 import { ShieldCheck, ShieldAlert, Award, Calendar, User, BookOpen } from "lucide-react";
 import Link from "next/link";
@@ -16,36 +16,23 @@ export default async function VerifyWebinarCertificatePage({ params }: VerifyPag
   const ipAddress = headerList.get("x-forwarded-for") || headerList.get("x-real-ip") || "127.0.0.1";
   const userAgent = headerList.get("user-agent") || "Unknown Browser";
 
-  // Find certificate
-  const cert = await db.certificate.findFirst({
-    where: {
-      OR: [
-        { id },
-        { certificateIdString: id }
-      ]
-    },
-    include: {
-      webinar: true,
-      recipient: true
+  let cert = null;
+  try {
+    const res = await apiClient(`/certificates/verify/${id}`, {
+      headers: {
+        "x-forwarded-for": ipAddress,
+        "user-agent": userAgent,
+      },
+    });
+    if (res.ok) {
+      const body = await res.json();
+      cert = body.data || null;
     }
-  });
+  } catch (error) {
+    console.error("Error verifying webinar certificate:", error);
+  }
 
   const isValid = !!cert;
-
-  // Log verification attempt in the database
-  if (isValid && cert) {
-    await db.certificateVerification.create({
-      data: {
-        certificateId: cert.id,
-        verificationUrl: `http://localhost:3000/verify/webinar/${id}`,
-        ipAddress,
-        userAgent,
-        status: "SUCCESS",
-      }
-    });
-  } else {
-    console.log(`[VERIFICATION ATTEMPT FAILED] Unknown Certificate ID: ${id} checked from IP ${ipAddress}`);
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-pink-50 via-white to-rose-50 flex items-center justify-center p-4">

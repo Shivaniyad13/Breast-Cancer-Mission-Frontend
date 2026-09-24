@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { apiClient } from "@/lib/apiClient";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -311,7 +312,7 @@ export default function AwarenessClient() {
     try {
       const uploadData = new FormData();
       uploadData.append("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body: uploadData });
+      const res = await apiClient("/upload", { method: "POST", body: uploadData });
       if (!res.ok) throw new Error("File upload failed.");
       const data = await res.json();
       if (data.url) {

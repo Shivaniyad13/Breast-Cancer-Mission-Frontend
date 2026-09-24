@@ -1,8 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import bcrypt from "bcryptjs";
-import { db } from "@/lib/db";
+import { apiClient } from "@/lib/apiClient";
 
 const registerSchema = z
   .object({
@@ -30,66 +29,32 @@ export async function registerVolunteerAction(input: z.infer<typeof registerSche
     const { fullName, email, password } = validation.data;
     const normalizedEmail = email.trim().toLowerCase();
 
-    // Check if email already registered
-    const existingUser = await db.user.findUnique({
-      where: { email: normalizedEmail },
+    const response = await apiClient("/volunteers/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fullName,
+        email: normalizedEmail,
+        password,
+      }),
     });
 
-    if (existingUser) {
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
       return {
         success: false,
-        error: "Email is already registered. Please sign in instead.",
+        error: resData.message || resData.error || "Registration failed. Please try again.",
       };
     }
 
-    // Hash password
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    // Create user with role VOLUNTEER
-    const newUser = await db.user.create({
-      data: {
-        name: fullName.trim(),
-        email: normalizedEmail,
-        passwordHash,
-        role: "VOLUNTEER",
-      },
-    });
-
-    // Auto-link any guest VolunteerApplication submitted with the same email
-    await db.volunteerApplication.updateMany({
-      where: {
-        email: {
-          equals: normalizedEmail,
-          mode: "insensitive",
-        },
-        userId: null,
-      },
-      data: {
-        userId: newUser.id,
-      },
-    });
-
-    try {
-      const { sendUserRegistrationEmail, sendAdminRegistrationAlert } = await import("@/lib/email");
-      await sendUserRegistrationEmail({
-        to: normalizedEmail,
-        userName: fullName.trim(),
-        role: "VOLUNTEER",
-        verificationStatus: "PENDING",
-      });
-      await sendAdminRegistrationAlert({
-        type: "Volunteer Registration",
-        applicantName: fullName.trim(),
-        applicantEmail: normalizedEmail,
-        role: "VOLUNTEER",
-      });
-    } catch (e) {
-      console.error("[SMTP] Failed to send volunteer registration emails:", e);
-    }
+    const userId = resData.data?.userId;
 
     return {
       success: true,
-      userId: newUser.id,
+      userId,
     };
   } catch (error: any) {
     console.error("Error in registerVolunteerAction:", error);

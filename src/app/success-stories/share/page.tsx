@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { apiClient } from "@/lib/apiClient";
 import { useRouter } from "next/navigation";
 import { 
   Heart, 
@@ -59,7 +60,7 @@ export default function ShareSuccessStoryPage() {
         const formData = new FormData();
         formData.append("file", file);
 
-        const res = await fetch("/api/upload", {
+        const res = await apiClient("/upload", {
           method: "POST",
           body: formData,
         });
@@ -90,7 +91,7 @@ export default function ShareSuccessStoryPage() {
     formData.append("file", file);
 
     try {
-      const res = await fetch("/api/upload", {
+      const res = await apiClient("/upload", {
         method: "POST",
         body: formData,
       });

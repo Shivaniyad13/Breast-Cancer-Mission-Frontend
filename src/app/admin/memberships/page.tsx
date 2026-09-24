@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
-import { db } from "@/lib/db";
-import { Role } from "@prisma/client";
+import { apiClient } from "@/lib/apiClient";
+import { Role } from "@/types/enums";
 import { redirect } from "next/navigation";
 import AdminMembershipDashboard from "@/components/admin/AdminMembershipDashboard";
 import { Building2, ShieldCheck } from "lucide-react";
@@ -15,14 +15,27 @@ export default async function AdminMembershipsPage() {
     redirect("/");
   }
 
-  // Fetch all applications
-  const orgApplications = await db.organizationMember.findMany({
-    orderBy: { createdAt: "desc" }
-  });
+  let orgApplications: any[] = [];
+  let corpApplications: any[] = [];
 
-  const corpApplications = await db.corporatePartner.findMany({
-    orderBy: { createdAt: "desc" }
-  });
+  try {
+    const [orgRes, corpRes] = await Promise.all([
+      apiClient("/organizations"),
+      apiClient("/partners"),
+    ]);
+
+    if (orgRes.ok) {
+      const orgData = await orgRes.json();
+      if (orgData.success) orgApplications = orgData.data || [];
+    }
+
+    if (corpRes.ok) {
+      const corpData = await corpRes.json();
+      if (corpData.success) corpApplications = corpData.data || [];
+    }
+  } catch (error) {
+    console.error("Error fetching admin membership applications:", error);
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 min-h-screen">

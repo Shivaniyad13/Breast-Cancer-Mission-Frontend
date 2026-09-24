@@ -1,56 +1,26 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
-
-function getInitials(name: string) {
-  if (!name) return "??";
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-}
+import { apiClient } from "@/lib/apiClient";
 
 // GET /api/volunteers/feedback?status=APPROVED
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const statusParam = searchParams.get("status") || "APPROVED";
-    
-    // Map APPROVED or VERIFIED to VERIFIED for VerificationStatus enum compatibility
-    const targetStatus = (statusParam === "APPROVED" || statusParam === "VERIFIED") ? "VERIFIED" : (statusParam as any);
+    const targetStatus = (statusParam === "APPROVED" || statusParam === "VERIFIED") ? "VERIFIED" : statusParam;
 
-    const feedbacks = await db.volunteerFeedback.findMany({
-      where: {
-        status: targetStatus,
-      },
-      include: {
-        volunteer: {
-          select: {
-            fullName: true,
-            city: true,
-            interest: true,
-          },
-        },
-      },
-      orderBy: { createdAt: "desc" },
-      take: 6,
-    });
+    const response = await apiClient(`/volunteers/feedback?status=${targetStatus}&limit=6`);
+    const resData = await response.json();
 
-    const data = feedbacks.map((fb) => ({
-      id: fb.id,
-      name: fb.volunteer?.fullName || "Volunteer",
-      role: fb.volunteer?.interest || "Volunteer Member",
-      review: fb.message,
-      rating: fb.rating,
-      initials: getInitials(fb.volunteer?.fullName || "Volunteer"),
-      city: fb.volunteer?.city || "",
-      createdAt: fb.createdAt,
-    }));
+    if (!response.ok || !resData.success) {
+      return NextResponse.json(
+        { success: false, error: resData.message || resData.error || "Failed to fetch feedback" },
+        { status: response.status || 500 }
+      );
+    }
 
-    return NextResponse.json({ success: true, data }, { status: 200 });
+    return NextResponse.json({ success: true, data: resData.data }, { status: 200 });
   } catch (error: any) {
     console.error("Error in GET /api/volunteers/feedback:", error);
     return NextResponse.json(
@@ -77,14 +47,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const volunteer = await db.volunteerApplication.findFirst({
-      where: {
-        userId: session.user.id,
-        status: "VERIFIED",
-      },
-    });
+    const sessRes = await apiClient(`/volunteers/session?userId=${session.user.id}`);
+    const sessData = await sessRes.json();
+    const volunteer = sessData.data;
 
-    if (!volunteer) {
+    if (!volunteer || !volunteer.volunteerId || (volunteer.volunteerStatus !== "VERIFIED" && volunteer.volunteerStatus !== "APPROVED")) {
       return NextResponse.json(
         { success: false, error: "Only verified volunteers can submit feedback" },
         { status: 403 }
@@ -104,19 +71,29 @@ export async function POST(request: Request) {
       );
     }
 
-    const feedback = await db.volunteerFeedback.create({
-      data: {
-        volunteerId: volunteer.id,
+    const response = await apiClient("/volunteers/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        volunteerId: volunteer.volunteerId,
         rating: validation.data.rating,
         message: validation.data.message,
-        status: "PENDING",
-      },
+      }),
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return NextResponse.json(
+        { success: false, error: resData.message || resData.error || "Failed to submit feedback" },
+        { status: response.status || 500 }
+      );
+    }
 
     return NextResponse.json(
       {
         success: true,
-        data: { id: feedback.id },
+        data: { id: resData.data.id },
       },
       { status: 201 }
     );

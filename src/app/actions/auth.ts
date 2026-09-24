@@ -1,9 +1,7 @@
 "use server";
 
-import { db } from "@/lib/db";
-import bcrypt from "bcryptjs";
-import { Role, VerificationStatus } from "@prisma/client";
-import { sendUserRegistrationEmail, sendAdminRegistrationAlert } from "@/lib/email";
+import { apiClient } from "@/lib/apiClient";
+import { cookies } from "next/headers";
 
 export interface RegisterInput {
   name?: string;
@@ -19,166 +17,119 @@ export interface RegisterInput {
   nationalId?: string;
 }
 
+/**
+ * Registers a user via Express backend. Sets HttpOnly token cookie upon success.
+ */
 export async function registerUserAction(data: RegisterInput) {
   try {
-    const { 
-      name, 
-      email, 
-      password, 
-      role, 
-      phoneNumber, 
-      docLicense, 
-      docAffiliation, 
-      docSpecialty, 
-      ngoRegNum, 
-      tax80g, 
-      nationalId 
-    } = data;
-
-    if (!name || !email || !password || !role) {
-      return { error: "Please enter all required fields." };
-    }
-
-    if (role === Role.ADMIN || role === "ADMIN") {
-      return { error: "Registration as an Administrator is not allowed." };
-    }
-
-    const normalizedEmail = email.trim().toLowerCase();
-
-    const existingUser = await db.user.findUnique({
-      where: { email: normalizedEmail },
+    const res = await apiClient("/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
 
-    if (existingUser) {
-      return { error: "A user with this email address already exists." };
+    const resData = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      return { error: resData.message || resData.error || "Registration failed." };
     }
 
-    if (role === Role.DOCTOR || role === "DOCTOR") {
-      const licenseTrimmed = docLicense?.trim();
-      const affiliationTrimmed = docAffiliation?.trim();
-      const specialtyTrimmed = docSpecialty?.trim();
-
-      if (!licenseTrimmed || licenseTrimmed.length < 3) {
-        return { error: "A valid Medical License / Registration Number (minimum 3 characters) is required for Doctor registration." };
-      }
-      if (!affiliationTrimmed) {
-        return { error: "Hospital / Clinic Affiliation is required for Doctor registration." };
-      }
-      if (!specialtyTrimmed) {
-        return { error: "Medical Specialty is required for Doctor registration." };
-      }
-    }
-
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const user = await db.user.create({
-      data: {
-        name,
-        email: normalizedEmail,
-        passwordHash,
-        role: role as Role,
-      },
-    });
-
-    // Handle role verification queues
-    let verificationStatus: VerificationStatus = VerificationStatus.UNVERIFIED;
-    if (role === Role.DOCTOR || role === Role.NGO_REP || role === "DOCTOR" || role === "NGO_REP") {
-      verificationStatus = VerificationStatus.PENDING;
-    }
-
-    await db.profile.create({
-      data: {
-        userId: user.id,
-        phoneNumber: phoneNumber || null,
-        verificationStatus,
-        
-        // Doctor details
-        medicalLicenseNumber: (role === Role.DOCTOR || role === "DOCTOR") ? docLicense?.trim() || null : null,
-        hospitalAffiliation: (role === Role.DOCTOR || role === "DOCTOR") ? docAffiliation?.trim() || null : null,
-        specialty: (role === Role.DOCTOR || role === "DOCTOR") ? docSpecialty?.trim() || null : null,
-        
-        // NGO details
-        ngoRegistrationNumber: (role === Role.NGO_REP || role === "NGO_REP") ? ngoRegNum?.trim() || null : null,
-        taxExemptionStatus80G: (role === Role.NGO_REP || role === "NGO_REP") ? !!tax80g : false,
-        
-        // Patient details
-        nationalIdNumber: (role === Role.PATIENT || role === "PATIENT") ? nationalId?.trim() || null : null,
-      },
-    });
-
-    // Create Doctor profile entry if role is DOCTOR
-    let isDoctorRole = false;
-    if (role === Role.DOCTOR || role === "DOCTOR") {
-      isDoctorRole = true;
-      const doctorIdString = "DOC-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-      await db.doctor.create({
-        data: {
-          userId: user.id,
-          doctorId: doctorIdString,
-          medicalLicenseNumber: docLicense?.trim() || null,
-          hospitalAffiliation: docAffiliation?.trim() || null,
-          specialty: docSpecialty?.trim() || "Oncology",
-          verificationStatus: VerificationStatus.PENDING,
-        },
+    if (resData.data?.token) {
+      const cookieStore = await cookies();
+      cookieStore.set("token", resData.data.token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60, // 7 days
       });
     }
 
-    // Trigger SMTP email notifications safely
-    try {
-      if (isDoctorRole) {
-        await sendUserRegistrationEmail({
-          to: email,
-          userName: name,
-          role: "Medical Doctor",
-          verificationStatus: "PENDING",
-        });
-
-        await sendAdminRegistrationAlert({
-          type: "Doctor Registration",
-          applicantName: name,
-          applicantEmail: email,
-          role: "Doctor",
-          details: `License: ${docLicense?.trim() || "N/A"} | Specialty: ${docSpecialty?.trim() || "Oncology"} | Hospital: ${docAffiliation?.trim() || "N/A"}`,
-        });
-      } else if (role === Role.NGO_REP || role === "NGO_REP") {
-        await sendUserRegistrationEmail({
-          to: email,
-          userName: name,
-          role: "NGO Representative",
-          verificationStatus: "PENDING",
-        });
-
-        await sendAdminRegistrationAlert({
-          type: "NGO Representative Registration",
-          applicantName: name,
-          applicantEmail: email,
-          role: "NGO Representative",
-          details: `NGO Reg Num: ${ngoRegNum?.trim() || "N/A"} | 80G Status: ${tax80g ? "Yes" : "No"}`,
-        });
-      } else {
-        await sendUserRegistrationEmail({
-          to: email,
-          userName: name,
-          role: String(role),
-          verificationStatus: "UNVERIFIED",
-        });
-      }
-    } catch (emailErr) {
-      console.error("Non-fatal registration email error:", emailErr);
-    }
-
-    if (isDoctorRole) {
-      return { 
-        success: true, 
-        isDoctor: true,
-        message: "Your doctor account has been created successfully. Your professional credentials are pending verification by our administration team." 
-      };
-    }
-
-    return { success: true };
-  } catch (error: unknown) {
-    console.error("Registration error details:", error);
+    return {
+      success: true,
+      message: resData.message || resData.data?.message,
+      isDoctor: resData.data?.isDoctor,
+    };
+  } catch (error: any) {
+    console.error("registerUserAction error:", error);
     return { error: "An unexpected error occurred during registration. Please try again later." };
   }
 }
 
+/**
+ * Logs in user via Express backend. Sets HttpOnly token cookie upon success.
+ */
+export async function loginUserAction(email: string, password: string) {
+  try {
+    const res = await apiClient("/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const resData = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      return { error: resData.message || resData.error || "Invalid email address or password." };
+    }
+
+    const token = resData.data?.token;
+    if (token) {
+      const cookieStore = await cookies();
+      cookieStore.set("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60, // 7 days
+      });
+    }
+
+    return { success: true, user: resData.data?.user };
+  } catch (error: any) {
+    console.error("loginUserAction error:", error);
+    return { error: "An error occurred during login. Please try again." };
+  }
+}
+
+/**
+ * Logs out user via Express backend. Removes HttpOnly token cookie.
+ */
+export async function logoutUserAction() {
+  try {
+    const cookieStore = await cookies();
+    cookieStore.delete("token");
+    await apiClient("/auth/logout", { method: "POST" });
+    return { success: true };
+  } catch (error: any) {
+    console.error("logoutUserAction error:", error);
+    return { success: true };
+  }
+}
+
+/**
+ * Retrieves the current authenticated user session via Express backend.
+ */
+export async function getCurrentUserAction() {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+    if (!token) return null;
+
+    const res = await apiClient("/auth/me", {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      cookieStore.delete("token");
+      return null;
+    }
+
+    const resData = await res.json();
+    return resData.data?.user ? resData.data : null;
+  } catch (error) {
+    console.error("getCurrentUserAction error:", error);
+    return null;
+  }
+}

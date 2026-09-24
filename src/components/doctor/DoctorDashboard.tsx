@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { apiClient } from "@/lib/apiClient";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -142,7 +143,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const res = await apiClient("/upload", { method: "POST", body: formData });
       const resData = await res.json();
       if (resData.url) {
         setArticleForm((prev) => ({ ...prev, fileUrl: resData.url }));
@@ -163,7 +164,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const res = await apiClient("/upload", { method: "POST", body: formData });
       const resData = await res.json();
       if (resData.url) {
         setArticleForm((prev) => ({ ...prev, featuredImage: resData.url }));

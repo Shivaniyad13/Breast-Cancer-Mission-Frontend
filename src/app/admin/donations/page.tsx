@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
-import { db } from "@/lib/db";
-import { Role } from "@prisma/client";
+import { Role } from "@/types/enums";
 import { redirect } from "next/navigation";
 import AdminDonationDashboard from "@/components/admin/AdminDonationDashboard";
+import { getAdminDonationsAction } from "@/app/actions/donations";
 import { Heart, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
@@ -15,20 +15,8 @@ export default async function AdminDonationsPage() {
     redirect("/");
   }
 
-  const rawDonations = await db.donation.findMany({
-    include: {
-      donor: true,
-      campaign: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  const donations = rawDonations.map((d) => ({
-    ...d,
-    amount: Number(d.amount),
-  }));
+  const res = await getAdminDonationsAction();
+  const donations = res.success ? (res.donations as any[]) : [];
 
   return (
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 min-h-screen">

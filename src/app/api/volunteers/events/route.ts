@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
+import { apiClient } from "@/lib/apiClient";
 
 // GET /api/volunteers/events?isOpen=true
 export async function GET(request: Request) {
@@ -9,24 +9,25 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const isOpenParam = searchParams.get("isOpen");
     
-    const whereCondition: any = {};
-    if (isOpenParam !== null) {
-      whereCondition.isOpen = isOpenParam === "true";
-    } else {
-      whereCondition.isOpen = true;
-    }
+    const query = isOpenParam !== null ? `?isOpen=${isOpenParam}` : "";
 
-    const events = await db.volunteerEvent.findMany({
-      where: whereCondition,
-      orderBy: {
-        eventDate: "asc",
-      },
-    });
+    const response = await apiClient(`/volunteers/events${query}`);
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: resData.message || resData.error || "Failed to fetch volunteer events",
+        },
+        { status: response.status || 500 }
+      );
+    }
 
     return NextResponse.json(
       {
         success: true,
-        data: events,
+        data: resData.data,
       },
       { status: 200 }
     );
@@ -84,24 +85,28 @@ export async function POST(request: Request) {
       );
     }
 
-    const data = validation.data;
-    const newEvent = await db.volunteerEvent.create({
-      data: {
-        title: data.title,
-        description: data.description,
-        location: data.location,
-        eventDate: new Date(data.eventDate),
-        slots: data.slots,
-        interestKey: data.interestKey,
-        isOpen: data.isOpen,
+    const response = await apiClient("/volunteers/events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...validation.data,
         createdBy: session.user.id,
-      },
+      }),
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return NextResponse.json(
+        { success: false, error: resData.message || resData.error || "Failed to create event" },
+        { status: response.status || 500 }
+      );
+    }
 
     return NextResponse.json(
       {
         success: true,
-        data: newEvent,
+        data: resData.data,
       },
       { status: 201 }
     );
@@ -113,4 +118,3 @@ export async function POST(request: Request) {
     );
   }
 }
-

@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { logoutUserAction } from "@/app/actions/auth";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -576,7 +576,10 @@ export default function VolunteersClient({
                   </Link>
                 )}
                 <Button
-                  onClick={() => signOut({ callbackUrl: "/" })}
+                  onClick={async () => {
+                    await logoutUserAction();
+                    window.location.href = "/";
+                  }}
                   variant="ghost"
                   className="text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white border border-white/20 rounded-full px-3 py-1.5"
                 >

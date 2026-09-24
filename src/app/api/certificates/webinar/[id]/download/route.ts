@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { db } from "@/lib/db";
-import { Role } from "@prisma/client";
+import { apiClient } from "@/lib/apiClient";
+import { Role } from "@/types/enums";
 import fs from "fs";
 import path from "path";
 
@@ -17,15 +17,14 @@ export async function GET(
 
     const { id } = await params;
 
-    // Find certificate
-    const cert = await db.certificate.findFirst({
-      where: {
-        OR: [
-          { id },
-          { certificateIdString: id }
-        ]
-      }
-    });
+    // Find certificate via Express backend
+    const certRes = await apiClient(`/certificates/verify/${id}`);
+    if (!certRes.ok) {
+      return new NextResponse("Certificate not found", { status: 404 });
+    }
+
+    const certData = await certRes.json();
+    const cert = certData.data;
 
     if (!cert) {
       return new NextResponse("Certificate not found", { status: 404 });
@@ -36,21 +35,30 @@ export async function GET(
       return new NextResponse("Forbidden: Access denied", { status: 403 });
     }
 
-    // Build absolute path to the PDF file
-    const filePath = path.join(process.cwd(), "public", cert.pdfStorageUrl);
-
-    if (!fs.existsSync(filePath)) {
+    // Fetch PDF stream from Express backend or read file
+    const pdfRes = await apiClient(`/certificates/download/${id}`);
+    if (!pdfRes.ok) {
+      // Fallback: check local public path if applicable
+      const filePath = path.join(process.cwd(), "public", cert.pdfStorageUrl || "");
+      if (fs.existsSync(filePath)) {
+        const fileBuffer = fs.readFileSync(filePath);
+        return new NextResponse(fileBuffer, {
+          status: 200,
+          headers: {
+            "Content-Type": "application/pdf",
+            "Content-Disposition": `attachment; filename="${cert.certificateIdString || id}.pdf"`,
+          },
+        });
+      }
       return new NextResponse("PDF file not found on disk", { status: 404 });
     }
 
-    // Read file stream
-    const fileBuffer = fs.readFileSync(filePath);
-
-    return new NextResponse(fileBuffer, {
+    const arrayBuffer = await pdfRes.arrayBuffer();
+    return new NextResponse(arrayBuffer, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="${cert.certificateIdString}.pdf"`,
+        "Content-Disposition": `attachment; filename="${cert.certificateIdString || id}.pdf"`,
       },
     });
   } catch (error: any) {

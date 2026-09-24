@@ -1,14 +1,10 @@
 "use server";
 
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
-import { Role } from "@prisma/client";
+import { apiClient } from "@/lib/apiClient";
+import { Role } from "@/types/enums";
 import { revalidatePath } from "next/cache";
-import { sendAdminRegistrationAlert, sendResearchPartnerStatusEmail } from "@/lib/email";
 
-// ----------------------------------------------------------------------
-// Helper for Admin authorization
-// ----------------------------------------------------------------------
 async function requireAdmin() {
   const session = await auth();
   if (!session?.user || session.user.role !== Role.ADMIN) {
@@ -16,10 +12,6 @@ async function requireAdmin() {
   }
   return session.user;
 }
-
-// ----------------------------------------------------------------------
-// PUBLIC SUBMISSION ACTIONS
-// ----------------------------------------------------------------------
 
 export async function submitArticle(data: {
   title: string;
@@ -35,28 +27,22 @@ export async function submitArticle(data: {
   externalUrl?: string;
 }) {
   try {
-    const article = await db.healthcareResearchArticle.create({
-      data: {
-        title: data.title,
-        category: data.category || "General",
-        publishDate: data.publishDate || new Date().toISOString().split("T")[0],
-        journal: data.journal || "Submitted Research",
-        summary: data.summary,
-        conclusions: data.conclusions || data.summary,
-        authors: data.authors,
-        institution: data.institution || null,
-        email: data.email || null,
-        documentUrl: data.documentUrl || null,
-        externalUrl: data.externalUrl || null,
-        status: "PENDING" as any,
-        isPublished: false,
-      },
+    const response = await apiClient("/healthcare-professionals/articles", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to submit article" };
+    }
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
 
-    return { success: true, data: article };
+    return { success: true, data: resData.data };
   } catch (error: any) {
     console.error("Error submitting article:", error);
     return { success: false, error: error.message || "Failed to submit article" };
@@ -74,25 +60,22 @@ export async function submitResource(data: {
   email?: string;
 }) {
   try {
-    const resource = await db.professionalResource.create({
-      data: {
-        title: data.title,
-        category: data.category || "General Resource",
-        desc: data.desc,
-        fileUrl: data.fileUrl,
-        size: data.size || "PDF",
-        format: data.format || "PDF",
-        author: data.author || null,
-        email: data.email || null,
-        status: "PENDING" as any,
-        isPublished: false,
-      },
+    const response = await apiClient("/healthcare-professionals/resources", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to submit resource" };
+    }
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
 
-    return { success: true, data: resource };
+    return { success: true, data: resData.data };
   } catch (error: any) {
     console.error("Error submitting resource:", error);
     return { success: false, error: error.message || "Failed to submit resource" };
@@ -111,32 +94,19 @@ export async function submitPartnerRequest(data: {
   documentUrl?: string;
 }) {
   try {
-    const partnerReq = await db.researchPartnerRequest.create({
-      data: {
-        applicantName: data.applicantName,
-        email: data.email,
-        phone: data.phone || "",
-        institution: data.institution,
-        organizationType: data.organizationType || "Academic",
-        researchArea: data.researchArea,
-        proposal: data.proposal,
-        website: data.website || null,
-        documentUrl: data.documentUrl || null,
-        status: "PENDING" as any,
-      },
+    const response = await apiClient("/healthcare-professionals/research-partners/request", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     });
 
-    try {
-      await sendAdminRegistrationAlert({
-        type: "Research Partner Request",
-        applicantName: data.applicantName,
-        applicantEmail: data.email,
-        role: `Research Partner (${data.institution})`,
-        details: `Research Area: ${data.researchArea}`,
-      });
-    } catch (e) {
-      console.error("[SMTP] Failed to send admin alert for research partner request:", e);
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to submit partner request" };
     }
+
+    const partnerReq = resData.data;
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
@@ -148,34 +118,18 @@ export async function submitPartnerRequest(data: {
   }
 }
 
-// ----------------------------------------------------------------------
-// PUBLIC FETCH ACTION - Only APPROVED + isPublished=true
-// ----------------------------------------------------------------------
-
 export async function getHealthcarePortalContent() {
   try {
-    const [articles, resources, partners] = await Promise.all([
-      db.healthcareResearchArticle.findMany({
-        where: { isPublished: true, status: "APPROVED" as any },
-        orderBy: { createdAt: "desc" },
-      }),
-      db.professionalResource.findMany({
-        where: { isPublished: true, status: "APPROVED" as any },
-        orderBy: { createdAt: "desc" },
-      }),
-      db.researchPartner.findMany({
-        where: { isPublished: true },
-        orderBy: { createdAt: "desc" },
-      }),
-    ]);
+    const response = await apiClient("/healthcare-professionals/portal-content");
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message, data: { articles: [], resources: [], partners: [] } };
+    }
 
     return {
       success: true,
-      data: {
-        articles,
-        resources,
-        partners,
-      },
+      data: resData.data,
     };
   } catch (error: any) {
     console.error("Error fetching healthcare portal content:", error);
@@ -183,37 +137,24 @@ export async function getHealthcarePortalContent() {
   }
 }
 
-// ----------------------------------------------------------------------
-// ADMIN FETCH ACTION - Returns ALL submissions for moderation
-// ----------------------------------------------------------------------
-
 export async function getAllHealthcareAdminData() {
   try {
     await requireAdmin();
 
-    const [articles, resources, partnerRequests, volunteerRequests] = await Promise.all([
-      db.healthcareResearchArticle.findMany({
-        orderBy: { createdAt: "desc" },
-      }),
-      db.professionalResource.findMany({
-        orderBy: { createdAt: "desc" },
-      }),
-      db.researchPartnerRequest.findMany({
-        orderBy: { createdAt: "desc" },
-      }),
-      db.volunteerDoctorRequest.findMany({
-        orderBy: { createdAt: "desc" },
-      }),
-    ]);
+    const response = await apiClient("/healthcare-professionals/admin/all");
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return {
+        success: false,
+        error: resData.message,
+        data: { articles: [], resources: [], partnerRequests: [], volunteerRequests: [] },
+      };
+    }
 
     return {
       success: true,
-      data: {
-        articles,
-        resources,
-        partnerRequests,
-        volunteerRequests,
-      },
+      data: resData.data,
     };
   } catch (error: any) {
     console.error("Error fetching admin healthcare data:", error);
@@ -225,26 +166,24 @@ export async function getAllHealthcareAdminData() {
   }
 }
 
-// ----------------------------------------------------------------------
-// ADMIN APPROVE / REJECT ACTIONS
-// ----------------------------------------------------------------------
-
 export async function approveResearchArticle(id: string) {
   try {
     await requireAdmin();
 
-    const article = await db.healthcareResearchArticle.update({
-      where: { id },
-      data: {
-        status: "APPROVED" as any,
-        isPublished: true,
-      },
+    const response = await apiClient(`/healthcare-professionals/articles/${id}/approve`, {
+      method: "PATCH",
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to approve article" };
+    }
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
 
-    return { success: true, data: article };
+    return { success: true, data: resData.data };
   } catch (error: any) {
     console.error("Error approving article:", error);
     return { success: false, error: error.message };
@@ -255,18 +194,20 @@ export async function rejectResearchArticle(id: string) {
   try {
     await requireAdmin();
 
-    const article = await db.healthcareResearchArticle.update({
-      where: { id },
-      data: {
-        status: "REJECTED" as any,
-        isPublished: false,
-      },
+    const response = await apiClient(`/healthcare-professionals/articles/${id}/reject`, {
+      method: "PATCH",
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to reject article" };
+    }
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
 
-    return { success: true, data: article };
+    return { success: true, data: resData.data };
   } catch (error: any) {
     console.error("Error rejecting article:", error);
     return { success: false, error: error.message };
@@ -277,18 +218,20 @@ export async function approveResource(id: string) {
   try {
     await requireAdmin();
 
-    const resource = await db.professionalResource.update({
-      where: { id },
-      data: {
-        status: "APPROVED" as any,
-        isPublished: true,
-      },
+    const response = await apiClient(`/healthcare-professionals/resources/${id}/approve`, {
+      method: "PATCH",
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to approve resource" };
+    }
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
 
-    return { success: true, data: resource };
+    return { success: true, data: resData.data };
   } catch (error: any) {
     console.error("Error approving resource:", error);
     return { success: false, error: error.message };
@@ -299,18 +242,20 @@ export async function rejectResource(id: string) {
   try {
     await requireAdmin();
 
-    const resource = await db.professionalResource.update({
-      where: { id },
-      data: {
-        status: "REJECTED" as any,
-        isPublished: false,
-      },
+    const response = await apiClient(`/healthcare-professionals/resources/${id}/reject`, {
+      method: "PATCH",
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to reject resource" };
+    }
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
 
-    return { success: true, data: resource };
+    return { success: true, data: resData.data };
   } catch (error: any) {
     console.error("Error rejecting resource:", error);
     return { success: false, error: error.message };
@@ -319,49 +264,19 @@ export async function rejectResource(id: string) {
 
 export async function approveResearchPartnerRequest(id: string) {
   try {
-    const admin = await requireAdmin();
+    await requireAdmin();
 
-    const existingReq = await db.researchPartnerRequest.findUnique({
-      where: { id },
+    const response = await apiClient(`/healthcare-professionals/research-partners/request/${id}/approve`, {
+      method: "PATCH",
     });
 
-    const oldStatus = existingReq?.status;
+    const resData = await response.json();
 
-    const req = await db.researchPartnerRequest.update({
-      where: { id },
-      data: {
-        status: "APPROVED" as any,
-        reviewedAt: new Date(),
-        reviewedBy: admin.email || admin.id,
-      },
-    });
-
-    // Create entry in ResearchPartner table so it appears on public page
-    await db.researchPartner.create({
-      data: {
-        requestId: req.id,
-        name: req.applicantName,
-        institution: req.institution,
-        website: req.website || null,
-        researchArea: req.researchArea,
-        description: req.proposal,
-        isPublished: true,
-      },
-    });
-
-    // Duplicate email protection: send only if status transitioned to APPROVED
-    if (oldStatus !== "APPROVED" && req.email) {
-      try {
-        await sendResearchPartnerStatusEmail({
-          to: req.email,
-          applicantName: req.applicantName,
-          institution: req.institution,
-          status: "APPROVED",
-        });
-      } catch (e) {
-        console.error("[SMTP] Failed to send research partner approval email:", e);
-      }
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to approve partner request" };
     }
+
+    const req = resData.data;
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
@@ -375,40 +290,21 @@ export async function approveResearchPartnerRequest(id: string) {
 
 export async function rejectResearchPartnerRequest(id: string, reason?: string) {
   try {
-    const admin = await requireAdmin();
+    await requireAdmin();
 
-    const existingReq = await db.researchPartnerRequest.findUnique({
-      where: { id },
+    const response = await apiClient(`/healthcare-professionals/research-partners/request/${id}/reject`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reason }),
     });
 
-    const oldStatus = existingReq?.status;
-    const oldReason = existingReq?.rejectionReason;
-    const trimmedReason = reason?.trim();
+    const resData = await response.json();
 
-    const req = await db.researchPartnerRequest.update({
-      where: { id },
-      data: {
-        status: "REJECTED" as any,
-        reviewedAt: new Date(),
-        reviewedBy: admin.email || admin.id,
-        rejectionReason: trimmedReason || null,
-      },
-    });
-
-    // Duplicate email protection: send only if status or reason changed
-    if ((oldStatus !== "REJECTED" || oldReason !== trimmedReason) && req.email) {
-      try {
-        await sendResearchPartnerStatusEmail({
-          to: req.email,
-          applicantName: req.applicantName,
-          institution: req.institution,
-          status: "REJECTED",
-          rejectionReason: trimmedReason,
-        });
-      } catch (e) {
-        console.error("[SMTP] Failed to send research partner rejection email:", e);
-      }
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to reject partner request" };
     }
+
+    const req = resData.data;
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
@@ -422,21 +318,22 @@ export async function rejectResearchPartnerRequest(id: string, reason?: string) 
 
 export async function approveVolunteerDoctorRequest(id: string) {
   try {
-    const admin = await requireAdmin();
+    await requireAdmin();
 
-    const req = await db.volunteerDoctorRequest.update({
-      where: { id },
-      data: {
-        status: "APPROVED" as any,
-        reviewedAt: new Date(),
-        reviewedBy: admin.email || admin.id,
-      },
+    const response = await apiClient(`/healthcare-professionals/volunteer-doctors/request/${id}/approve`, {
+      method: "PATCH",
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to approve volunteer doctor request" };
+    }
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
 
-    return { success: true, data: req };
+    return { success: true, data: resData.data };
   } catch (error: any) {
     console.error("Error approving volunteer doctor request:", error);
     return { success: false, error: error.message };
@@ -445,21 +342,22 @@ export async function approveVolunteerDoctorRequest(id: string) {
 
 export async function rejectVolunteerDoctorRequest(id: string) {
   try {
-    const admin = await requireAdmin();
+    await requireAdmin();
 
-    const req = await db.volunteerDoctorRequest.update({
-      where: { id },
-      data: {
-        status: "REJECTED" as any,
-        reviewedAt: new Date(),
-        reviewedBy: admin.email || admin.id,
-      },
+    const response = await apiClient(`/healthcare-professionals/volunteer-doctors/request/${id}/reject`, {
+      method: "PATCH",
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { success: false, error: resData.message || "Failed to reject volunteer doctor request" };
+    }
 
     revalidatePath("/care/healthcare-professionals");
     revalidatePath("/admin/healthcare-professionals");
 
-    return { success: true, data: req };
+    return { success: true, data: resData.data };
   } catch (error: any) {
     console.error("Error rejecting volunteer doctor request:", error);
     return { success: false, error: error.message };

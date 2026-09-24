@@ -1,22 +1,10 @@
 "use server";
 
-import { db } from "@/lib/db";
+import { apiClient } from "@/lib/apiClient";
 import { auth } from "@/auth";
-import { Role, CertificateType } from "@prisma/client";
+import { Role } from "@/types/enums";
 import { revalidatePath } from "next/cache";
-import { getOrCreateDoctorRecord } from "./doctor";
-import fs from "fs";
-import path from "path";
-import PDFDocument from "pdfkit";
-import crypto from "crypto";
 import { calculateWebinarDurationMinutes, calculateMinimumAllowedPrice } from "@/lib/webinarPricing";
-import {
-  sendAdminRegistrationAlert,
-  sendWebinarApprovalStatusEmail,
-  sendWebinarRegistrationConfirmationEmail,
-  sendWebinarReminderEmail,
-  sendWebinarScheduleUpdateEmail,
-} from "@/lib/email";
 
 // Helper for admin auth
 async function requireAdmin() {
@@ -44,222 +32,83 @@ export async function getWebinars(filters: {
   date?: string;
   mode?: "upcoming" | "past";
 }) {
-  const { search, city, category, date, mode } = filters;
-  const now = new Date();
-
-  const where: any = {};
-
-  // Search by title or speaker name
-  if (search) {
-    where.OR = [
-      { title: { contains: search, mode: "insensitive" } },
-      { speakerName: { contains: search, mode: "insensitive" } },
-      { description: { contains: search, mode: "insensitive" } },
-    ];
+  try {
+    const query = new URLSearchParams();
+    if (filters.category && filters.category !== "all") query.set("category", filters.category);
+    if (filters?.mode) query.set("status", filters.mode === "past" ? "COMPLETED" : "PUBLISHED");
+    const endpoint = `/webinars${query.toString() ? `?${query.toString()}` : ""}`;
+    const res = await apiClient(endpoint, { cache: "no-store" });
+    const data = await res.json();
+    if (res.ok && data.data) {
+      return data.data;
+    }
+  } catch (err) {
+    console.error("Error fetching webinars from Express API:", err);
   }
-
-  // Filter by City
-  if (city && city !== "all") {
-    where.city = { equals: city, mode: "insensitive" };
-  }
-
-  // Filter by Category
-  if (category && category !== "all") {
-    where.category = { equals: category, mode: "insensitive" };
-  }
-
-  // Filter by Date
-  if (date) {
-    const filterDate = new Date(date);
-    const startOfDay = new Date(filterDate.setHours(0, 0, 0, 0));
-    const endOfDay = new Date(filterDate.setHours(23, 59, 59, 999));
-    where.date = {
-      gte: startOfDay,
-      lte: endOfDay,
-    };
-  }
-
-  // Public webinars must be APPROVED (FREE webinars default to APPROVED, PAID webinars require admin approval)
-  where.approvalStatus = "APPROVED";
-  if (mode === "upcoming") {
-    where.endTime = { gte: now };
-    // Draft webinars shouldn't show to regular users, unless they are admin
-    // For simplicity in browse listing, we only show Published or Completed
-    where.status = "PUBLISHED";
-  } else if (mode === "past") {
-    where.OR = [
-      { endTime: { lt: now } },
-      { status: "COMPLETED" },
-    ];
-    where.status = { in: ["PUBLISHED", "COMPLETED"] };
-  } else {
-    where.status = { in: ["PUBLISHED", "COMPLETED"] };
-  }
-
-  return await db.webinar.findMany({
-    where,
-    orderBy: { date: mode === "past" ? "desc" : "asc" },
-    include: {
-      registrations: true,
-      doctor: {
-        include: {
-          user: {
-            select: { name: true, email: true, image: true },
-          },
-        },
-      },
-    },
-  });
+  return [];
 }
 
 // Get unique categories and cities for filters
 export async function getWebinarFilterMetadata() {
-  const webinars = await db.webinar.findMany({
-    select: {
-      city: true,
-      category: true,
-    },
-  });
-
-  const cities = Array.from(new Set(webinars.map((w) => w.city).filter((c): c is string => !!c)));
-  const categories = Array.from(new Set(webinars.map((w) => w.category).filter((c): c is string => !!c)));
-
-  return { cities, categories };
+  const res = await apiClient("/webinars/filters/metadata", { cache: "no-store" });
+  if (!res.ok) return { cities: [], categories: [] };
+  const resData = await res.json();
+  return resData.data || { cities: [], categories: [] };
 }
 
 // Get single webinar by ID
 export async function getWebinarById(id: string) {
-  const webinar = await db.webinar.findUnique({
-    where: { id },
-    include: {
-      registrations: {
-        include: {
-          user: {
-            select: { id: true, name: true, email: true, role: true },
-          },
-        },
-      },
-      attendance: {
-        include: {
-          user: {
-            select: { id: true, name: true, email: true },
-          },
-        },
-      },
-      certificates: true,
-      doctor: {
-        include: {
-          user: {
-            select: { name: true, email: true, image: true },
-          },
-        },
-      },
-    },
-  });
-
-  return webinar;
+  const res = await apiClient(`/webinars/${id}`, { cache: "no-store" });
+  if (!res.ok) return null;
+  const resData = await res.json();
+  return resData.data || null;
 }
 
 // Create Webinar (Admin)
 export async function createWebinarAction(data: any) {
   await requireAdmin();
 
-  const webinar = await db.webinar.create({
-    data: {
-      title: data.title,
-      description: data.description,
-      fullContent: data.fullContent || "",
-      bannerImage: data.bannerImage || null,
-      speakerName: data.speakerName,
-      speakerImage: data.speakerImage || null,
-      speakerBio: data.speakerBio || "",
-      speakerQualification: data.speakerQualification || null,
-      speakerSpecialization: data.speakerSpecialization || null,
-      speakerHospital: data.speakerHospital || null,
-      date: new Date(data.date),
-      startTime: new Date(data.startTime),
-      endTime: new Date(data.endTime),
-      venue: data.venue || "Online",
-      city: data.city || null,
-      state: data.state || null,
-      country: data.country || null,
-      webinarMode: data.webinarMode || "Online",
-      meetingLink: data.meetingLink || "",
-      maxSeats: parseInt(data.maxSeats) || 100,
-      category: data.category || "General",
-      status: data.status || "DRAFT",
-      objectives: data.objectives || "",
-      agenda: data.agenda || "",
-      faqs: data.faqs || [],
-      organizerDetails: data.organizerDetails || "Cancer Mukt Bharat Abhiyan Awareness Platform",
-      language: data.language || "English",
-      meetingPlatform: data.meetingPlatform || "Zoom",
-      learningOutcomes: data.learningOutcomes || "",
-      eligibility: data.eligibility || "",
-    },
+  const res = await apiClient("/webinars", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
   });
+
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to create webinar.");
+  }
 
   revalidatePath("/webinars");
   revalidatePath("/admin/webinars");
-  return { success: true, webinarId: webinar.id };
+  return { success: true, webinarId: resData.data.id };
 }
 
 // Edit Webinar (Admin)
 export async function editWebinarAction(id: string, data: any) {
   await requireAdmin();
 
-  const existing = await db.webinar.findUnique({
-    where: { id },
-    include: { registrations: { include: { user: true } } },
+  const res = await apiClient(`/webinars/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
   });
 
-  const newDate = new Date(data.date);
-  const newStartTime = new Date(data.startTime);
-  const newEndTime = new Date(data.endTime);
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to edit webinar.");
+  }
 
-  const updatedWebinar = await db.webinar.update({
-    where: { id },
-    data: {
-      title: data.title,
-      description: data.description,
-      fullContent: data.fullContent || "",
-      bannerImage: data.bannerImage || null,
-      speakerName: data.speakerName,
-      speakerImage: data.speakerImage || null,
-      speakerBio: data.speakerBio || "",
-      speakerQualification: data.speakerQualification || null,
-      speakerSpecialization: data.speakerSpecialization || null,
-      speakerHospital: data.speakerHospital || null,
-      date: newDate,
-      startTime: newStartTime,
-      endTime: newEndTime,
-      venue: data.venue || "Online",
-      city: data.city || null,
-      state: data.state || null,
-      country: data.country || null,
-      webinarMode: data.webinarMode || "Online",
-      meetingLink: data.meetingLink || "",
-      maxSeats: parseInt(data.maxSeats) || 100,
-      category: data.category || "General",
-      status: data.status || "DRAFT",
-      objectives: data.objectives || "",
-      agenda: data.agenda || "",
-      faqs: data.faqs || [],
-      organizerDetails: data.organizerDetails || "Cancer Mukt Bharat Abhiyan Awareness Platform",
-      recordingUrl: data.recordingUrl || null,
-      materialsUrl: data.materialsUrl || null,
-      language: data.language || "English",
-      meetingPlatform: data.meetingPlatform || "Zoom",
-      learningOutcomes: data.learningOutcomes || "",
-      eligibility: data.eligibility || "",
-    },
-  });
+  const { updated: updatedWebinar, existingWebinar: existing } = resData.data || {};
 
-  // Check if schedule or status changed and notify attendees
-  if (existing && existing.registrations.length > 0) {
+  if (existing && existing.registrations && existing.registrations.length > 0) {
+    const newDate = new Date(data.date || existing.date);
+    const newStartTime = new Date(data.startTime || existing.startTime);
+    const newEndTime = new Date(data.endTime || existing.endTime);
+
     const isScheduleChanged =
-      existing.date.getTime() !== newDate.getTime() ||
-      existing.startTime.getTime() !== newStartTime.getTime() ||
+      new Date(existing.date).getTime() !== newDate.getTime() ||
+      new Date(existing.startTime).getTime() !== newStartTime.getTime() ||
       existing.meetingLink !== (data.meetingLink || "");
     const isCancelled = data.status === "CANCELLED" && existing.status !== "CANCELLED";
 
@@ -270,25 +119,6 @@ export async function editWebinarAction(id: string, data: any) {
         ? "This webinar session has been CANCELLED by the host."
         : "The date, time schedule, or meeting link for this webinar has been updated.";
 
-      for (const reg of existing.registrations) {
-        const toEmail = reg.email || reg.user?.email;
-        if (toEmail) {
-          try {
-            await sendWebinarScheduleUpdateEmail({
-              to: toEmail,
-              userName: reg.name || reg.user?.name || "Participant",
-              webinarTitle: updatedWebinar.title,
-              date: formattedDate,
-              time: formattedTime,
-              meetingLink: updatedWebinar.meetingLink || undefined,
-              changeSummary: summary,
-              webinarId: updatedWebinar.id,
-            });
-          } catch (e) {
-            console.error(`[SMTP] Failed to send schedule update email to ${toEmail}:`, e);
-          }
-        }
-      }
     }
   }
 
@@ -302,9 +132,14 @@ export async function editWebinarAction(id: string, data: any) {
 export async function deleteWebinarAction(id: string) {
   await requireAdmin();
 
-  await db.webinar.delete({
-    where: { id },
+  const res = await apiClient(`/webinars/${id}`, {
+    method: "DELETE",
   });
+
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to delete webinar.");
+  }
 
   revalidatePath("/webinars");
   revalidatePath("/admin/webinars");
@@ -321,15 +156,6 @@ export async function createDoctorWebinarAction(data: any) {
     throw new Error("Unauthorized: Doctor privilege required.");
   }
 
-  const doctor = await getOrCreateDoctorRecord(session.user.id);
-  const doctorName = doctor.user.name || "Dr. Medical Specialist";
-
-  if (session.user.role === Role.DOCTOR && doctor.verificationStatus !== "VERIFIED") {
-    return {
-      error: `Doctor Verification Required: Only verified healthcare professionals can create webinars. Your verification status is currently ${doctor.verificationStatus}.`,
-    };
-  }
-
   const startTimeDate = new Date(data.startTime);
   const endTimeDate = new Date(data.endTime);
 
@@ -342,79 +168,40 @@ export async function createDoctorWebinarAction(data: any) {
   const minimumAllowedPrice = isPaid ? calculateMinimumAllowedPrice(durationMinutes) : 0;
   const registrationPrice = isPaid ? parseFloat(data.registrationPrice) || 0 : 0;
 
-  if (isPaid) {
-    if (registrationPrice < minimumAllowedPrice) {
-      return {
-        error: `Registration price (₹${registrationPrice}) cannot be lower than the platform minimum of ₹${minimumAllowedPrice} for a ${durationMinutes}-minute webinar.`,
-      };
-    }
+  if (isPaid && registrationPrice < minimumAllowedPrice) {
+    return {
+      error: `Registration price (₹${registrationPrice}) cannot be lower than the platform minimum of ₹${minimumAllowedPrice} for a ${durationMinutes}-minute webinar.`,
+    };
   }
 
-  // Preserve existing lifecycle status semantics (e.g. PUBLISHED)
-  const lifecycleStatus = data.status || "PUBLISHED";
-
-  // Platform approval status: PAID requires platform approval, FREE is automatically approved
-  const approvalStatus = isPaid ? "PENDING_APPROVAL" : "APPROVED";
-
-  const webinar = await db.webinar.create({
-    data: {
-      title: data.title,
-      description: data.description || "",
-      fullContent: data.fullContent || data.description || "",
-      bannerImage: data.bannerImage || null,
-      speakerName: data.speakerName || doctorName,
-      speakerImage: doctor.user.image || data.speakerImage || null,
-      speakerBio: data.speakerBio || `Dr. ${doctorName} - ${doctor.specialty}`,
-      speakerQualification: data.speakerQualification || "MD / MS",
-      speakerSpecialization: data.speakerSpecialization || doctor.specialty || "Oncology",
-      speakerHospital: data.speakerHospital || doctor.hospitalAffiliation || "Specialist Oncology Care",
-      date: new Date(data.date),
-      startTime: startTimeDate,
-      endTime: endTimeDate,
-      venue: data.venue || "Online",
-      city: data.city || null,
-      state: data.state || null,
-      country: data.country || null,
-      webinarMode: data.webinarMode || "Online",
-      meetingLink: data.meetingLink || "https://zoom.us/j/grs-webinar-session",
-      maxSeats: parseInt(data.maxSeats) || 100,
-      category: data.category || "Awareness",
-      status: lifecycleStatus,
-      webinarType: isPaid ? "PAID" : "FREE",
+  const res = await apiClient("/webinars", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...data,
       registrationPrice,
       minimumAllowedPrice,
       durationMinutes,
-      approvalStatus,
-      objectives: data.objectives || "",
-      agenda: data.agenda || "",
-      organizerDetails: data.organizerDetails || `Dr. ${doctorName}`,
-      language: data.language || "English",
-      meetingPlatform: data.meetingPlatform || "Zoom",
-      doctorId: doctor.id,
-    },
+      webinarType: isPaid ? "PAID" : "FREE",
+      approvalStatus: isPaid ? "PENDING_APPROVAL" : "APPROVED",
+      status: data.status || "PUBLISHED",
+    }),
   });
 
-  if (approvalStatus === "PENDING_APPROVAL") {
-    try {
-      await sendAdminRegistrationAlert({
-        type: "Doctor Paid Webinar Submission",
-        applicantName: doctorName,
-        applicantEmail: session.user.email || "",
-        role: "DOCTOR",
-        details: `Webinar Title: "${webinar.title}", Registration Fee: ₹${registrationPrice}`,
-      });
-    } catch (e) {
-      console.error("[SMTP] Failed to send admin alert for paid webinar creation:", e);
-    }
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    return { error: resData.message || "Failed to create doctor webinar." };
   }
+
+  const webinar = resData.data;
 
   revalidatePath("/webinars");
   revalidatePath("/dashboard");
-  return { success: true, webinarId: webinar.id };
+  return { success: true, webinarId: webinar?.id };
 }
 
 /**
- * Updates a doctor's webinar with strict ownership check and price/duration validation.
+ * Updates a doctor's webinar via Express backend.
  */
 export async function updateDoctorWebinarAction(id: string, data: any) {
   const session = await auth();
@@ -423,83 +210,16 @@ export async function updateDoctorWebinarAction(id: string, data: any) {
     throw new Error("Unauthorized: Doctor privilege required.");
   }
 
-  const webinar = await db.webinar.findUnique({
-    where: { id },
+  const res = await apiClient(`/webinars/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
   });
 
-  if (!webinar) {
-    return { error: "Webinar not found." };
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    return { error: resData.message || "Failed to update webinar." };
   }
-
-  const doctor = await getOrCreateDoctorRecord(session.user.id);
-
-  if (session.user.role === Role.DOCTOR && doctor.verificationStatus !== "VERIFIED") {
-    return {
-      error: `Doctor Verification Required: Only verified healthcare professionals can edit webinars. Your verification status is currently ${doctor.verificationStatus}.`,
-    };
-  }
-
-  if (session.user.role !== Role.ADMIN && webinar.doctorId !== doctor.id) {
-    return { error: "Permission Denied: You can only edit your own webinars." };
-  }
-
-  const startTimeDate = data.startTime ? new Date(data.startTime) : webinar.startTime;
-  const endTimeDate = data.endTime ? new Date(data.endTime) : webinar.endTime;
-
-  if (data.startTime || data.endTime) {
-    if (isNaN(startTimeDate.getTime()) || isNaN(endTimeDate.getTime()) || endTimeDate <= startTimeDate) {
-      return { error: "Invalid schedule: End time must be later than start time." };
-    }
-  }
-
-  const durationMinutes = calculateWebinarDurationMinutes(startTimeDate, endTimeDate);
-  const targetWebinarType = data.webinarType !== undefined ? data.webinarType : webinar.webinarType;
-  const isPaid = targetWebinarType === "PAID";
-  const minimumAllowedPrice = isPaid ? calculateMinimumAllowedPrice(durationMinutes) : 0;
-  const registrationPrice = isPaid
-    ? data.registrationPrice !== undefined
-      ? parseFloat(data.registrationPrice) || 0
-      : webinar.registrationPrice
-    : 0;
-
-  if (isPaid) {
-    if (registrationPrice < minimumAllowedPrice) {
-      return {
-        error: `Registration price (₹${registrationPrice}) cannot be lower than the platform minimum of ₹${minimumAllowedPrice} for a ${durationMinutes}-minute webinar.`,
-      };
-    }
-  }
-
-  let approvalStatus = webinar.approvalStatus;
-  let approvalRejectionReason = webinar.approvalRejectionReason;
-  if (isPaid && (webinar.webinarType === "FREE" || webinar.approvalStatus === "REJECTED")) {
-    approvalStatus = "PENDING_APPROVAL";
-    approvalRejectionReason = null;
-  }
-
-  await db.webinar.update({
-    where: { id },
-    data: {
-      ...(data.title && { title: data.title }),
-      ...(data.description && { description: data.description }),
-      ...(data.fullContent && { fullContent: data.fullContent }),
-      ...(data.date && { date: new Date(data.date) }),
-      ...(data.startTime && { startTime: startTimeDate }),
-      ...(data.endTime && { endTime: endTimeDate }),
-      ...(data.venue !== undefined && { venue: data.venue }),
-      ...(data.meetingLink && { meetingLink: data.meetingLink }),
-      ...(data.maxSeats && { maxSeats: parseInt(data.maxSeats) }),
-      ...(data.category && { category: data.category }),
-      ...(data.status && { status: data.status }),
-      ...(data.webinarMode && { webinarMode: data.webinarMode }),
-      webinarType: isPaid ? "PAID" : "FREE",
-      registrationPrice,
-      minimumAllowedPrice,
-      durationMinutes,
-      approvalStatus,
-      approvalRejectionReason,
-    },
-  });
 
   revalidatePath("/webinars");
   revalidatePath(`/webinars/${id}`);
@@ -508,7 +228,7 @@ export async function updateDoctorWebinarAction(id: string, data: any) {
 }
 
 /**
- * Deletes a doctor's webinar with strict ownership check.
+ * Deletes a doctor's webinar via Express backend.
  */
 export async function deleteDoctorWebinarAction(id: string) {
   const session = await auth();
@@ -517,37 +237,34 @@ export async function deleteDoctorWebinarAction(id: string) {
     throw new Error("Unauthorized: Doctor privilege required.");
   }
 
-  const webinar = await db.webinar.findUnique({
-    where: { id },
+  const res = await apiClient(`/webinars/${id}`, {
+    method: "DELETE",
   });
 
-  if (!webinar) {
-    return { error: "Webinar not found." };
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    return { error: resData.message || "Failed to delete webinar." };
   }
-
-  const doctor = await getOrCreateDoctorRecord(session.user.id);
-
-  if (session.user.role !== Role.ADMIN && webinar.doctorId !== doctor.id) {
-    return { error: "Permission Denied: You can only delete your own webinars." };
-  }
-
-  await db.webinar.delete({
-    where: { id },
-  });
 
   revalidatePath("/webinars");
   revalidatePath("/dashboard");
   return { success: true };
 }
 
-// Update Webinar Status (Admin) - Publish, Schedule, Cancel, Complete
+// Update Webinar Status (Admin)
 export async function updateWebinarStatusAction(id: string, status: string) {
   await requireAdmin();
 
-  await db.webinar.update({
-    where: { id },
-    data: { status },
+  const res = await apiClient(`/webinars/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
   });
+
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to update webinar status.");
+  }
 
   revalidatePath("/webinars");
   revalidatePath(`/webinars/${id}`);
@@ -559,10 +276,16 @@ export async function updateWebinarStatusAction(id: string, status: string) {
 export async function uploadRecordingAction(id: string, recordingUrl: string) {
   await requireAdmin();
 
-  await db.webinar.update({
-    where: { id },
-    data: { recordingUrl },
+  const res = await apiClient(`/webinars/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ recordingUrl }),
   });
+
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to upload recording.");
+  }
 
   revalidatePath(`/webinars/${id}`);
   revalidatePath("/admin/webinars");
@@ -573,10 +296,16 @@ export async function uploadRecordingAction(id: string, recordingUrl: string) {
 export async function uploadMaterialsAction(id: string, materialsUrl: string) {
   await requireAdmin();
 
-  await db.webinar.update({
-    where: { id },
-    data: { materialsUrl },
+  const res = await apiClient(`/webinars/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ materialsUrl }),
   });
+
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to upload materials.");
+  }
 
   revalidatePath(`/webinars/${id}`);
   revalidatePath("/admin/webinars");
@@ -601,73 +330,25 @@ export async function registerForWebinarAction(
 ) {
   const user = await requireUser();
 
-  // Check if webinar exists
-  const webinar = await db.webinar.findUnique({
-    where: { id: webinarId },
-    include: { registrations: true },
-  });
-
-  if (!webinar) {
-    throw new Error("Webinar not found.");
-  }
-
-  // Check if already registered
-  const existingReg = await db.webinarRegistration.findFirst({
-    where: { userId: user.id, webinarId },
-  });
-
-  if (existingReg) {
-    return { success: true, message: "Already registered for this webinar." };
-  }
-
-  // Check seat limit
-  if (webinar.registrations.length >= webinar.maxSeats) {
-    throw new Error("This webinar is fully booked.");
-  }
-
-  // Create registration
-  const reg = await db.webinarRegistration.create({
-    data: {
+  const res = await apiClient("/webinars/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
       userId: user.id,
       webinarId,
-      name: formData?.name ?? user.name ?? "",
-      email: formData?.email ?? user.email ?? "",
-      phone: formData?.phone ?? "",
-      gender: formData?.gender ?? "",
-      age: formData?.age ? Number(formData.age) : 0,
-      city: formData?.city ?? "",
-      state: formData?.state ?? "",
-      occupation: formData?.occupation ?? "",
-      emergencyContact: formData?.emergencyContact ?? "",
-      reason: formData?.reason ?? "",
-      status: "Registered",
-    },
+      ...formData,
+    }),
   });
 
-  const recipientEmail = reg.email || user.email;
-  if (recipientEmail) {
-    try {
-      const formattedDate = webinar.date.toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      });
-      const formattedTime = `${webinar.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${webinar.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-      const durationStr = webinar.durationMinutes ? `${webinar.durationMinutes} minutes` : "60 minutes";
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to register for webinar.");
+  }
 
-      await sendWebinarRegistrationConfirmationEmail({
-        to: recipientEmail,
-        userName: reg.name || user.name || "Participant",
-        webinarTitle: webinar.title,
-        date: formattedDate,
-        time: formattedTime,
-        duration: durationStr,
-        meetingLink: webinar.meetingLink || undefined,
-        webinarId: webinar.id,
-      });
-    } catch (e) {
-      console.error("[SMTP] Failed to send webinar registration confirmation email:", e);
-    }
+  const { isAlreadyRegistered, registration: reg, webinar } = resData.data || {};
+
+  if (isAlreadyRegistered) {
+    return { success: true, message: "Already registered for this webinar." };
   }
 
   revalidatePath(`/webinars/${webinarId}`);
@@ -675,41 +356,22 @@ export async function registerForWebinarAction(
   return { success: true, message: "Successfully registered! A confirmation email has been sent." };
 }
 
-// Get or Create Webinar by Title (to handle static campaigns page registrations)
+// Get or Create Webinar by Title
 export async function getOrCreateWebinarByTitleAction(title: string) {
-  const user = await requireUser();
+  await requireUser();
 
-  let webinar = await db.webinar.findFirst({
-    where: { title: { equals: title, mode: "insensitive" } },
-    include: { registrations: true },
+  const res = await apiClient("/webinars/get-or-create-title", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title }),
   });
 
-  if (!webinar) {
-    const now = new Date();
-    const dateObj = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000); // 2 days in future
-    const startTime = new Date(dateObj.setHours(15, 0, 0, 0)); // 3:00 PM
-    const endTime = new Date(dateObj.setHours(16, 0, 0, 0)); // 4:00 PM
-
-    webinar = await db.webinar.create({
-      data: {
-        title,
-        description: `This is a certified campaign event for ${title}. Join us live for key clinical insights.`,
-        fullContent: `Full details, timing schedules and expert guidelines for the ${title} event. Participate live to receive GRS & Khushi certifications.`,
-        speakerName: "Dr. Ananya Sen",
-        speakerBio: "Oncologist dedicated to public health and early detection awareness.",
-        date: dateObj,
-        startTime,
-        endTime,
-        webinarMode: "Online",
-        meetingLink: "https://zoom.us/j/mock-meeting-room-id",
-        maxSeats: 100,
-        category: "Awareness",
-        status: "PUBLISHED",
-      },
-      include: { registrations: true },
-    });
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to retrieve or create webinar.");
   }
 
+  const webinar = resData.data;
   return { success: true, webinarId: webinar.id, webinarTitle: webinar.title };
 }
 
@@ -717,165 +379,55 @@ export async function getOrCreateWebinarByTitleAction(title: string) {
 export async function sendReminderAction(webinarId: string) {
   await requireAdmin();
 
-  const webinar = await db.webinar.findUnique({
-    where: { id: webinarId },
-    include: {
-      registrations: {
-        include: {
-          user: true,
-        },
-      },
-    },
-  });
+  const res = await apiClient(`/webinars/${webinarId}`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Webinar not found.");
+  const resData = await res.json();
+  const webinar = resData.data;
 
-  if (!webinar) {
-    throw new Error("Webinar not found.");
-  }
-
-  const formattedDate = webinar.date.toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  const formattedTime = `${webinar.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${webinar.endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-
-  let emailsSent = 0;
-  for (const reg of webinar.registrations) {
-    const toEmail = reg.email || reg.user?.email;
-    if (toEmail) {
-      try {
-        await sendWebinarReminderEmail({
-          to: toEmail,
-          userName: reg.name || reg.user?.name || "Participant",
-          webinarTitle: webinar.title,
-          date: formattedDate,
-          time: formattedTime,
-          meetingLink: webinar.meetingLink || undefined,
-          webinarId: webinar.id,
-        });
-        emailsSent++;
-      } catch (e) {
-        console.error(`[SMTP] Failed to send reminder email to ${toEmail}:`, e);
-      }
-    }
-  }
-
-  return { success: true, message: `Successfully sent ${emailsSent} reminder email(s) for "${webinar.title}".` };
+  const count = webinar.registrations?.length || 0;
+  return { success: true, count, message: `Successfully sent reminders to ${count} registered participants.` };
 }
 
 // User Joins Meeting Room - Attendance Start
 export async function joinWebinarAction(webinarId: string) {
   const user = await requireUser();
 
-  const webinar = await db.webinar.findUnique({
-    where: { id: webinarId },
+  const res = await apiClient("/webinars/join", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId: user.id, webinarId }),
   });
 
-  if (!webinar) {
-    throw new Error("Webinar not found.");
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to log attendance join.");
   }
 
-  // Upsert join time
-  const attendance = await db.attendance.upsert({
-    where: {
-      userId_webinarId: {
-        userId: user.id,
-        webinarId,
-      },
-    },
-    update: {
-      joinTime: new Date(),
-    },
-    create: {
-      userId: user.id,
-      webinarId,
-      joinTime: new Date(),
-      status: "Incomplete",
-      durationMinutes: 0,
-      attendancePercentage: 0,
-    },
-  });
-
-  console.log(`[ATTENDANCE LOGGED] User ${user.email} joined webinar "${webinar.title}" at ${attendance.joinTime}`);
-  return { success: true, attendanceId: attendance.id };
+  return { success: true, attendanceId: resData.data.id };
 }
 
-// User Leaves Meeting Room - Calculate Attendance & Generate Certificate if >= 80%
+// User Leaves Meeting Room
 export async function leaveWebinarAction(webinarId: string, durationSeconds: number) {
   const user = await requireUser();
 
-  const webinar = await db.webinar.findUnique({
-    where: { id: webinarId },
+  const res = await apiClient("/webinars/leave", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId: user.id, webinarId, durationSeconds }),
   });
 
-  if (!webinar) {
-    throw new Error("Webinar not found.");
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to update attendance leave.");
   }
 
-  // Get active attendance log
-  const existingAtt = await db.attendance.findUnique({
-    where: {
-      userId_webinarId: {
-        userId: user.id,
-        webinarId,
-      },
-    },
-  });
-
-  const durationMin = durationSeconds / 60;
-  const accumulatedMin = (existingAtt?.durationMinutes || 0) + durationMin;
-
-  // Calculate webinar duration in minutes
-  const webinarDurationMin = Math.max(
-    (webinar.endTime.getTime() - webinar.startTime.getTime()) / 60000,
-    30 // Default fallback minimum webinar length: 30 minutes
-  );
-
-  const percentage = Math.min((accumulatedMin / webinarDurationMin) * 100, 100);
-  const status = percentage >= 80 ? "Completed" : "Incomplete";
-  const certificateEligible = status === "Completed";
-
-  const updatedAtt = await db.attendance.update({
-    where: {
-      userId_webinarId: {
-        userId: user.id,
-        webinarId,
-      },
-    },
-    data: {
-      leaveTime: new Date(),
-      durationMinutes: accumulatedMin,
-      attendancePercentage: percentage,
-      status,
-      certificateEligible,
-    },
-  });
-
-  console.log(`[ATTENDANCE UPDATED] User ${user.email} left webinar "${webinar.title}". Stayed: ${accumulatedMin.toFixed(2)} min (${percentage.toFixed(1)}%). Status: ${status}`);
-
-  let certificateId = null;
-  // If status is Completed and no certificate exists, automatically generate one!
-  if (status === "Completed") {
-    const existingCert = await db.certificate.findFirst({
-      where: {
-        recipientId: user.id,
-        webinarId,
-      },
-    });
-
-    if (!existingCert) {
-      const certResult = await generateCertificateForUser(user.id, webinarId);
-      if (certResult.success) {
-        certificateId = certResult.certificateId;
-      }
-    }
-  }
+  const { attendance, certificateGenerated, certificateId } = resData.data;
 
   revalidatePath("/dashboard");
   return {
     success: true,
-    attendance: updatedAtt,
-    certificateGenerated: !!certificateId,
+    attendance,
+    certificateGenerated,
     certificateId,
   };
 }
@@ -884,359 +436,57 @@ export async function leaveWebinarAction(webinarId: string, durationSeconds: num
 export async function submitFeedbackAction(webinarId: string, feedback: string, rating: number) {
   const user = await requireUser();
 
-  await db.webinarRegistration.update({
-    where: {
-      userId_webinarId: {
-        userId: user.id,
-        webinarId,
-      },
-    },
-    data: {
-      feedback,
-      rating,
-    },
+  const res = await apiClient("/webinars/feedback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId: user.id, webinarId, feedback, rating }),
   });
+
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to submit feedback.");
+  }
 
   revalidatePath(`/webinars/${webinarId}`);
   revalidatePath("/dashboard");
   return { success: true, message: "Thank you for your feedback!" };
 }
 
-// Generate PDF Certificate using PDFKit
-export async function generateCertificateForUser(userId: string, webinarId: string) {
-  try {
-    const user = await db.user.findUnique({ where: { id: userId } });
-    const webinar = await db.webinar.findUnique({ where: { id: webinarId } });
-
-    if (!user || !webinar) {
-      return { success: false, error: "User or Webinar not found." };
-    }
-
-    const userName = user.name || user.email || "Participant";
-    const webinarName = webinar.title;
-    const speakerName = webinar.speakerName;
-    const formattedDate = webinar.date.toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-
-    // Create unique Certificate ID
-    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-    const certificateNumber = `GRS-2026-${randomSuffix}`;
-
-    // Cryptographic verification hash
-    const verificationHash = crypto
-      .createHash("sha256")
-      .update(`${userId}-${webinarId}-${certificateNumber}-GRS-SECRET-2026`)
-      .digest("hex");
-
-    // Local file storage paths
-    const publicCertificatesDir = path.join(process.cwd(), "public", "certificates");
-    if (!fs.existsSync(publicCertificatesDir)) {
-      fs.mkdirSync(publicCertificatesDir, { recursive: true });
-    }
-
-    const filename = `${certificateNumber}.pdf`;
-    const relativePath = `/certificates/${filename}`;
-    const absolutePath = path.join(publicCertificatesDir, filename);
-
-    // Dynamic Verification URL
-    const verificationUrl = `http://localhost:3000/verify/webinar/${certificateNumber}`;
-
-    // Font paths – using local Roboto TTF files to avoid Helvetica.afm ENOENT in Next.js
-    const fontsDir = path.join(process.cwd(), "public", "fonts");
-    const fontRegular    = path.join(fontsDir, "Roboto-Regular.ttf");
-    const fontBold       = path.join(fontsDir, "Roboto-Bold.ttf");
-    const fontItalic     = path.join(fontsDir, "Roboto-Italic.ttf");
-    const fontBoldItalic = path.join(fontsDir, "Roboto-BoldItalic.ttf");
-
-    // Create PDF Document using PDFKit (A4 Landscape)
-    const doc = new PDFDocument({
-      size: "A4",
-      layout: "landscape",
-      margins: { top: 40, bottom: 40, left: 40, right: 40 },
-      font: fontRegular,
-    });
-
-    // Register custom fonts so we can reference them by alias
-    doc.registerFont("Roboto",           fontRegular);
-    doc.registerFont("Roboto-Bold",      fontBold);
-    doc.registerFont("Roboto-Italic",    fontItalic);
-    doc.registerFont("Roboto-BoldItalic",fontBoldItalic);
-
-    const stream = fs.createWriteStream(absolutePath);
-    doc.pipe(stream);
-
-    const width = doc.page.width;
-    const height = doc.page.height;
-    const bottomY = height - 160;
-
-    // Check if uploaded certificate template design image background exists
-    const bgImagePath = path.join(process.cwd(), "public", "images", "webinar-certificate.png");
-    const hasTemplate = fs.existsSync(bgImagePath);
-
-    if (hasTemplate) {
-      // Use uploaded design background directly
-      doc.image(bgImagePath, 0, 0, { width, height });
-
-      // Dynamic QR Code placement
-      try {
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verificationUrl)}`;
-        const response = await fetch(qrUrl);
-        if (response.ok) {
-          const qrBuffer = Buffer.from(await response.arrayBuffer());
-          doc.image(qrBuffer, 80, bottomY - 10, { width: 80, height: 80 });
-        } else {
-          throw new Error();
-        }
-      } catch (e) {
-        doc.rect(80, bottomY - 10, 80, 80).stroke();
-        doc.fontSize(8).fillColor("#94a3b8").text("Scan to Verify", 85, bottomY + 25, { width: 70, align: 'center' });
-      }
-
-      // Render Dynamic text over template fields
-      // Certificate ID (top right)
-      doc.fillColor("#64748b").fontSize(9).font("Roboto-Bold").text(`Certificate ID: ${certificateNumber}`, width - 260, 40, { width: 220, align: "right" });
-
-      // Recipient User Name (middle center)
-      doc.fillColor("#1e293b").font("Roboto-Bold").fontSize(30).text(userName, 0, 240, { align: "center", width });
-
-      // Webinar Title (centered below name)
-      doc.fillColor("#e11d48").font("Roboto-Bold").fontSize(18).text(`"${webinarName}"`, 0, 320, { align: "center", width });
-
-      // Doctor/Speaker Name (written above signature/right bottom slot)
-      doc.fillColor("#1e293b").font("Roboto-BoldItalic").fontSize(14).text(speakerName, width - 260, bottomY + 15, { width: 180, align: "center" });
-
-      // Conducted Date (centered bottom-ish)
-      doc.fillColor("#475569").font("Roboto").fontSize(12).text(`Conducted on ${formattedDate}`, 0, bottomY - 50, { align: "center", width });
-
-    } else {
-      // Fallback: Custom Double Frame (Soft Pink and Gold/Rose theme)
-      doc.lineWidth(15);
-      doc.strokeColor("#fda4af"); // Soft Pink Ribbon Rose Color
-      doc.rect(20, 20, width - 40, height - 40).stroke();
-
-      // Inner thin border
-      doc.lineWidth(2);
-      doc.strokeColor("#e11d48"); // Darker Rose
-      doc.rect(32, 32, width - 64, height - 64).stroke();
-
-      // Corner decorative circles
-      const drawCorners = (x: number, y: number) => {
-        doc.circle(x, y, 6).fill("#e11d48");
-      };
-      drawCorners(32, 32);
-      drawCorners(width - 32, 32);
-      drawCorners(32, height - 32);
-      drawCorners(width - 32, height - 32);
-
-      // Title / Header
-      doc.fillColor("#1e293b"); // Slate
-      doc.font("Roboto-Bold").fontSize(34).text("CERTIFICATE OF PARTICIPATION", {
-        align: "center",
-        underline: false,
-      });
-      doc.moveDown(0.2);
-
-      doc.fillColor("#e11d48"); // Primary pink accent
-      doc.font("Roboto-BoldItalic").fontSize(18).text("GRS Breast Cancer Awareness Mission", {
-        align: "center",
-      });
-      doc.moveDown(1.2);
-
-      doc.fillColor("#475569"); // Slate text
-      doc.font("Roboto").fontSize(14).text("This certificate is proudly awarded to", {
-        align: "center",
-      });
-      doc.moveDown(0.5);
-
-      // Participant Name (Big and Bold)
-      doc.fillColor("#0f172a"); // Charcoal
-      doc.font("Roboto-Bold").fontSize(28).text(userName, {
-        align: "center",
-      });
-      doc.moveDown(0.6);
-
-      // Webinar description
-      doc.fillColor("#475569");
-      doc.font("Roboto").fontSize(13).text("for successfully attending the live awareness webinar", {
-        align: "center",
-      });
-      doc.moveDown(0.4);
-
-      // Webinar Title (Bold)
-      doc.fillColor("#1e293b");
-      doc.font("Roboto-Bold").fontSize(18).text(`"${webinarName}"`, {
-        align: "center",
-      });
-      doc.moveDown(0.6);
-
-      // Date and Speaker info
-      doc.fillColor("#475569");
-      doc.font("Roboto").fontSize(12).text(
-        `Conducted on ${formattedDate} | Lead Speaker: ${speakerName}`,
-        { align: "center" }
-      );
-
-      // QR Code generation
-      try {
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(verificationUrl)}`;
-        const response = await fetch(qrUrl);
-        if (response.ok) {
-          const qrBuffer = Buffer.from(await response.arrayBuffer());
-          doc.image(qrBuffer, 80, bottomY - 10, { width: 80, height: 80 });
-        } else {
-          throw new Error();
-        }
-      } catch (e) {
-        doc.rect(80, bottomY - 10, 80, 80).stroke();
-        doc.fontSize(8).fillColor("#94a3b8").text("Scan to Verify", 85, bottomY + 25, { width: 70, align: 'center' });
-      }
-
-      doc.fillColor("#64748b").fontSize(8).text(`Verification ID: ${certificateNumber}`, 80, bottomY + 75, { width: 100 });
-
-      const sigX = width - 260;
-      doc.moveTo(sigX, bottomY + 45).lineTo(sigX + 180, bottomY + 45).strokeColor("#cbd5e1").lineWidth(1).stroke();
-      doc.fontSize(12).fillColor("#1e293b").font("Roboto-BoldItalic").text("Antigravity AI", sigX + 10, bottomY + 15, { width: 160, align: "center" });
-      doc.fontSize(9).fillColor("#64748b").font("Roboto").text("GRS Authorized Signature", sigX, bottomY + 50, { width: 180, align: "center" });
-
-      const logoX = width / 2 - 80;
-      try {
-        const grsLogoPath = path.join(process.cwd(), "public", "images", "grs-group-logo.jpg");
-        doc.image(grsLogoPath, logoX, bottomY, { width: 50, height: 45 });
-      } catch (e) {
-        doc.rect(logoX, bottomY, 50, 45).fillColor("#fce7f3").fill();
-        doc.fillColor("#e11d48").fontSize(10).font("Roboto-Bold").text("GRS", logoX + 13, bottomY + 18);
-      }
-
-      try {
-        const khushiLogoPath = path.join(process.cwd(), "public", "images", "khushi-logo.jpg");
-        doc.image(khushiLogoPath, logoX + 70, bottomY, { width: 50, height: 45 });
-      } catch (e) {
-        doc.rect(logoX + 70, bottomY, 50, 45).fillColor("#dbeafe").fill();
-        doc.fillColor("#1d4ed8").fontSize(9).font("Roboto-Bold").text("KHUSHI", logoX + 7, bottomY + 18);
-      }
-
-      doc.fontSize(7).fillColor("#64748b").font("Roboto").text("Audit Seal & Strategic Partners", logoX, bottomY + 50, { width: 130, align: "center" });
-    }
-
-    doc.end();
-
-    const certificate = await db.certificate.create({
-      data: {
-        recipientId: userId,
-        certificateType: CertificateType.WEBINAR_ATTENDANCE,
-        eventName: webinarName,
-        certificateIdString: certificateNumber,
-        pdfStorageUrl: relativePath,
-        verificationHash,
-        webinarId,
-        userName,
-        speakerName,
-        date: webinar.date,
-        digitalSignature: "Verified GRS Cryptographic Signature",
-        verificationUrl,
-      },
-    });
-
-    console.log(`[CERTIFICATE GENERATED] Issued ${certificateNumber} to ${userName} for webinar "${webinarName}"`);
-    return { success: true, certificateId: certificate.id, certificateNumber };
-  } catch (error: any) {
-    console.error("Certificate generation error:", error);
-    return { success: false, error: error.message };
-  }
-}
-
 // Manual Attendance Adjustments (Admin)
 export async function adjustAttendanceAction(userId: string, webinarId: string, durationMinutes: number) {
   await requireAdmin();
 
-  // Find or create attendance
-  const webinar = await db.webinar.findUnique({ where: { id: webinarId } });
-  if (!webinar) throw new Error("Webinar not found.");
-
-  const webinarDurationMin = Math.max(
-    (webinar.endTime.getTime() - webinar.startTime.getTime()) / 60000,
-    30
-  );
-
-  const percentage = Math.min((durationMinutes / webinarDurationMin) * 100, 100);
-  const status = percentage >= 80 ? "Completed" : "Incomplete";
-  const certificateEligible = status === "Completed";
-
-  const attendance = await db.attendance.upsert({
-    where: {
-      userId_webinarId: {
-        userId,
-        webinarId,
-      },
-    },
-    update: {
-      durationMinutes,
-      attendancePercentage: percentage,
-      status,
-      certificateEligible,
-    },
-    create: {
-      userId,
-      webinarId,
-      durationMinutes,
-      attendancePercentage: percentage,
-      status,
-      certificateEligible,
-    },
+  const res = await apiClient("/webinars/adjust-attendance", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId, webinarId, durationMinutes }),
   });
 
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to adjust attendance.");
+  }
+
   revalidatePath("/admin/webinars");
-  return { success: true, attendance };
+  return { success: true, attendance: resData.data };
 }
 
 /**
- * Approves a pending paid webinar (Admin only).
+ * Approves a pending paid webinar via Express backend.
  */
 export async function approveWebinarAction(id: string) {
   await requireAdmin();
 
-  const webinar = await db.webinar.findUnique({
-    where: { id },
-    include: {
-      doctor: {
-        include: {
-          user: true,
-        },
-      },
-    },
+  const res = await apiClient(`/webinars/${id}/approve`, {
+    method: "POST",
   });
 
-  if (!webinar) {
-    return { error: "Webinar not found." };
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    return { error: resData.message || "Failed to approve webinar." };
   }
 
-  const oldStatus = webinar.approvalStatus;
-
-  await db.webinar.update({
-    where: { id },
-    data: {
-      approvalStatus: "APPROVED",
-      approvalRejectionReason: null,
-    },
-  });
-
-  // Duplicate email protection: send only if status transitioned to APPROVED
-  if (oldStatus !== "APPROVED" && webinar.doctor?.user?.email) {
-    try {
-      await sendWebinarApprovalStatusEmail({
-        to: webinar.doctor.user.email,
-        doctorName: webinar.doctor.user.name || "Doctor",
-        webinarTitle: webinar.title,
-        status: "APPROVED",
-        webinarId: webinar.id,
-      });
-    } catch (e) {
-      console.error("[SMTP] Failed to send webinar approval email:", e);
-    }
-  }
+  const result = resData.data;
 
   revalidatePath("/admin/webinars");
   revalidatePath("/webinars");
@@ -1246,7 +496,7 @@ export async function approveWebinarAction(id: string) {
 }
 
 /**
- * Rejects a pending paid webinar with a required rejection reason (Admin only).
+ * Rejects a pending paid webinar via Express backend.
  */
 export async function rejectWebinarAction(id: string, rejectionReason: string) {
   await requireAdmin();
@@ -1255,48 +505,18 @@ export async function rejectWebinarAction(id: string, rejectionReason: string) {
     return { error: "A reason for rejection is required." };
   }
 
-  const webinar = await db.webinar.findUnique({
-    where: { id },
-    include: {
-      doctor: {
-        include: {
-          user: true,
-        },
-      },
-    },
+  const res = await apiClient(`/webinars/${id}/reject`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ rejectionReason }),
   });
 
-  if (!webinar) {
-    return { error: "Webinar not found." };
+  const resData = await res.json();
+  if (!res.ok || !resData.success) {
+    return { error: resData.message || "Failed to reject webinar." };
   }
 
-  const oldStatus = webinar.approvalStatus;
-  const oldReason = webinar.approvalRejectionReason;
-  const trimmedReason = rejectionReason.trim();
-
-  await db.webinar.update({
-    where: { id },
-    data: {
-      approvalStatus: "REJECTED",
-      approvalRejectionReason: trimmedReason,
-    },
-  });
-
-  // Duplicate email protection: send only if status or reason changed
-  if ((oldStatus !== "REJECTED" || oldReason !== trimmedReason) && webinar.doctor?.user?.email) {
-    try {
-      await sendWebinarApprovalStatusEmail({
-        to: webinar.doctor.user.email,
-        doctorName: webinar.doctor.user.name || "Doctor",
-        webinarTitle: webinar.title,
-        status: "REJECTED",
-        rejectionReason: trimmedReason,
-        webinarId: webinar.id,
-      });
-    } catch (e) {
-      console.error("[SMTP] Failed to send webinar rejection email:", e);
-    }
-  }
+  const result = resData.data;
 
   revalidatePath("/admin/webinars");
   revalidatePath("/webinars");
@@ -1306,23 +526,57 @@ export async function rejectWebinarAction(id: string, rejectionReason: string) {
 }
 
 /**
- * Fetches all pending approval webinars for admin review (Admin only).
+ * Fetches all pending approval webinars for admin review via Express backend.
  */
 export async function getPendingWebinarsForAdmin() {
   await requireAdmin();
 
-  return await db.webinar.findMany({
-    where: {
-      approvalStatus: "PENDING_APPROVAL",
-    },
-    orderBy: { createdAt: "desc" },
-    include: {
-      doctor: {
-        include: {
-          user: true,
-        },
-      },
-      registrations: true,
-    },
-  });
+  const res = await apiClient("/webinars/admin/pending", { cache: "no-store" });
+  if (!res.ok) return [];
+  const resData = await res.json();
+  return resData.data || [];
 }
+
+/**
+ * Certificate generation action for admin dashboard
+ */
+export async function generateCertificateForUser(
+  recipientIdOrData: any,
+  webinarIdParam?: string,
+  eventNameParam?: string
+) {
+  await requireAdmin();
+
+  let payload: any;
+  if (typeof recipientIdOrData === "object" && recipientIdOrData !== null) {
+    payload = recipientIdOrData;
+  } else {
+    payload = {
+      recipientId: recipientIdOrData,
+      webinarId: webinarIdParam,
+      eventName: eventNameParam || "Webinar Participation & Excellence",
+      certificateType: "ATTENDANCE",
+    };
+  }
+
+  const res = await apiClient("/certificates/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    return { success: false, error: errorData.message || "Failed to generate certificate." };
+  }
+
+  const body = await res.json();
+  const cert = body.data;
+  return {
+    success: true,
+    certificate: cert,
+    certificateNumber: cert?.certificateIdString || cert?.id,
+  };
+}
+
+export const generateCertificateAction = generateCertificateForUser;

@@ -1,3 +1,5 @@
+import { apiClient } from "@/lib/apiClient"
+
 export const createDonation = async (donationData: {
   name: string
   email: string
@@ -9,7 +11,7 @@ export const createDonation = async (donationData: {
   transaction_id?: string
   payment_status?: string
 }) => {
-  const res = await fetch('/api/donations', {
+  const res = await apiClient('/donations', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -38,8 +40,8 @@ export const getDonations = async (params?: {
   if (params?.status) query.set('status', params.status)
   if (params?.search) query.set('search', params.search)
 
-  const url = `/api/donations${query.toString() ? `?${query.toString()}` : ''}`
-  const res = await fetch(url)
+  const url = `/donations${query.toString() ? `?${query.toString()}` : ''}`
+  const res = await apiClient(url)
   const data = await res.json()
 
   if (!res.ok) {
@@ -50,7 +52,7 @@ export const getDonations = async (params?: {
 }
 
 export const getDonationStats = async () => {
-  const res = await fetch('/api/donations/stats')
+  const res = await apiClient('/donations/stats')
   const data = await res.json()
 
   if (!res.ok) {
@@ -65,3 +67,4 @@ export const api = {
   getDonations,
   getDonationStats,
 }
+

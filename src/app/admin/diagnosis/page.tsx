@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { Role } from "@prisma/client";
+import { Role } from "@/types/enums";
 import { redirect } from "next/navigation";
 import { getDiagnosisTechnologies, getCollaborationRequests } from "@/app/actions/diagnosis";
 import AdminDiagnosisDashboard from "@/components/admin/AdminDiagnosisDashboard";

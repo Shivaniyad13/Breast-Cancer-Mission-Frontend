@@ -1,11 +1,9 @@
 "use server";
 
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
-
-import { Role, VerificationStatus } from "@prisma/client";
+import { apiClient } from "@/lib/apiClient";
+import { Role } from "@/types/enums";
 import { revalidatePath } from "next/cache";
-import { sendDoctorVerificationStatusEmail, sendDoctorResubmissionAlert } from "@/lib/email";
 
 async function requireAdmin() {
   const session = await auth();
@@ -15,56 +13,19 @@ async function requireAdmin() {
   return session.user;
 }
 
-/**
- * Ensures the logged-in doctor user has a Doctor model record.
- * Lazily creates one if it doesn't exist yet.
- */
 export async function getOrCreateDoctorRecord(userId: string) {
-  let doctor = await db.doctor.findUnique({
-    where: { userId },
-    include: {
-      user: {
-        select: { id: true, name: true, email: true, image: true, role: true }
-      },
-    },
+  const response = await apiClient("/doctors/get-or-create", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId }),
   });
-
-  if (!doctor) {
-    // Check if user is a DOCTOR or ADMIN
-    const user = await db.user.findUnique({
-      where: { id: userId },
-      include: { profile: true },
-    });
-
-    if (!user || (user.role !== Role.DOCTOR && user.role !== Role.ADMIN)) {
-      throw new Error("Unauthorized: Doctor access required.");
-    }
-
-    const doctorIdString = "DOC-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-    
-    doctor = await db.doctor.create({
-      data: {
-        userId: user.id,
-        doctorId: doctorIdString,
-        medicalLicenseNumber: user.profile?.medicalLicenseNumber || null,
-        hospitalAffiliation: user.profile?.hospitalAffiliation || null,
-        specialty: user.profile?.specialty || "Surgical Oncology",
-        verificationStatus: user.profile?.verificationStatus || "VERIFIED",
-      },
-      include: {
-        user: {
-          select: { id: true, name: true, email: true, image: true, role: true }
-        },
-      },
-    });
+  const resData = await response.json();
+  if (!response.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to get or create doctor record.");
   }
-
-  return doctor;
+  return resData.data;
 }
 
-/**
- * Fetches dashboard analytics and history strictly for the authenticated doctor.
- */
 export async function getDoctorDashboardData() {
   const session = await auth();
 
@@ -72,275 +33,51 @@ export async function getDoctorDashboardData() {
     throw new Error("Unauthorized: Only doctors can view doctor dashboard.");
   }
 
-  const doctor = await getOrCreateDoctorRecord(session.user.id);
-  const now = new Date();
+  const response = await apiClient(`/doctors/dashboard?userId=${session.user.id}`);
+  const resData = await response.json();
 
-  // Fetch articles belonging strictly to this doctor
-  const articles = await db.article.findMany({
-    where: { doctorId: doctor.id },
-    orderBy: { createdAt: "desc" },
-  });
+  if (!response.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to fetch doctor dashboard data.");
+  }
 
-  // Fetch webinars belonging strictly to this doctor
-  const webinars = await db.webinar.findMany({
-    where: { doctorId: doctor.id },
-    include: {
-      registrations: true,
-    },
-    orderBy: { date: "desc" },
-  });
-
-  // Calculate strict Doctor counters
-  const totalArticlesPublished = articles.filter(a => a.status === "PUBLISHED").length;
-  const draftArticles = articles.filter(a => a.status === "DRAFT").length;
-  const totalWebinarsCreated = webinars.length;
-  
-  const upcomingWebinars = webinars.filter(w => {
-    const isFuture = new Date(w.date) >= now || new Date(w.startTime) >= now;
-    return isFuture && w.status !== "COMPLETED" && w.status !== "CANCELLED";
-  }).length;
-
-  const completedWebinars = webinars.filter(w => {
-    const isPast = new Date(w.endTime) < now || new Date(w.date) < now;
-    return isPast || w.status === "COMPLETED";
-  }).length;
-
-  // Build Recent Activity Feed
-  const recentArticles = articles.slice(0, 5).map(a => ({
-    id: a.id,
-    type: "ARTICLE",
-    title: a.title,
-    status: a.status,
-    date: a.createdAt,
-  }));
-
-  const recentWebinars = webinars.slice(0, 5).map(w => ({
-    id: w.id,
-    type: "WEBINAR",
-    title: w.title,
-    status: w.status,
-    date: w.createdAt,
-  }));
-
-  const recentActivity = [...recentArticles, ...recentWebinars]
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 7);
-
-  return {
-    doctor: {
-      id: doctor.id,
-      doctorId: doctor.doctorId,
-      name: doctor.user.name || "Dr. Medical Specialist",
-      email: doctor.user.email || "",
-      specialty: doctor.specialty || "Oncology Specialist",
-      hospitalAffiliation: doctor.hospitalAffiliation || "General Hospital",
-      medicalLicenseNumber: doctor.medicalLicenseNumber || "N/A",
-      verificationStatus: doctor.verificationStatus,
-      rejectionReason: doctor.rejectionReason || null,
-      verificationDocument: doctor.verificationDocument || null,
-    },
-    stats: {
-      totalArticlesPublished,
-      draftArticles,
-      totalWebinarsCreated,
-      upcomingWebinars,
-      completedWebinars,
-    },
-    myArticles: articles.map(a => ({
-      id: a.id,
-      title: a.title,
-      slug: a.slug,
-      category: a.category,
-      excerpt: a.excerpt || a.summary || "",
-      content: a.content,
-      status: a.status,
-      readTime: a.readTime,
-      publishDate: a.createdAt.toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-      }),
-      createdAt: a.createdAt,
-    })),
-    myWebinars: webinars.map(w => ({
-      id: w.id,
-      title: w.title,
-      description: w.description,
-      fullContent: w.fullContent,
-      category: w.category,
-      date: w.date.toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-      }),
-      rawDate: w.date,
-      startTime: w.startTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-      endTime: w.endTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-      rawStartTime: w.startTime,
-      rawEndTime: w.endTime,
-      meetingLink: w.meetingLink,
-      venue: w.venue,
-      webinarMode: w.webinarMode,
-      status: w.status,
-      webinarType: w.webinarType || "FREE",
-      registrationPrice: w.registrationPrice || 0,
-      minimumAllowedPrice: w.minimumAllowedPrice || 0,
-      durationMinutes: w.durationMinutes || 60,
-      approvalStatus: w.approvalStatus || "APPROVED",
-      approvalRejectionReason: w.approvalRejectionReason || null,
-      maxSeats: w.maxSeats,
-      registeredUsersCount: w.registrations.length,
-      createdAt: w.createdAt,
-    })),
-    recentActivity,
-  };
+  return resData.data;
 }
 
-/**
- * Public function to fetch Doctor profile & their published content.
- */
 export async function getDoctorPublicProfile(idOrDoctorId: string) {
-  let doctor = await db.doctor.findFirst({
-    where: {
-      OR: [
-        { id: idOrDoctorId },
-        { doctorId: idOrDoctorId },
-      ],
-    },
-    include: {
-      user: {
-        select: { name: true, email: true, image: true },
-      },
-      articles: {
-        where: { status: "PUBLISHED" },
-        orderBy: { createdAt: "desc" },
-      },
-      webinars: {
-        where: { status: { in: ["PUBLISHED", "COMPLETED"] } },
-        include: { registrations: true },
-        orderBy: { date: "desc" },
-      },
-    },
-  });
+  const response = await apiClient(`/doctors/profile/${idOrDoctorId}`);
+  const resData = await response.json();
 
-  if (!doctor) {
+  if (!response.ok || !resData.success) {
     return null;
   }
 
-  return {
-    id: doctor.id,
-    doctorId: doctor.doctorId,
-    name: doctor.user.name || "Dr. Verified Medical Practitioner",
-    email: doctor.user.email,
-    image: doctor.user.image,
-    specialty: doctor.specialty || "Oncology Specialist",
-    hospitalAffiliation: doctor.hospitalAffiliation || "Leading Cancer Research Center",
-    medicalLicenseNumber: doctor.medicalLicenseNumber,
-    verificationStatus: doctor.verificationStatus,
-    bio: doctor.bio || `Dr. ${doctor.user.name || "Specialist"} is a dedicated medical professional committed to raising awareness, improving breast cancer screening, and providing guidance to patients.`,
-    articles: doctor.articles,
-    webinars: doctor.webinars,
-  };
+  return resData.data;
 }
 
-/**
- * Admin Action: Fetches all doctor verification requests with full details (Admin only).
- */
 export async function getAdminDoctorVerificationRequests() {
   await requireAdmin();
 
-  const doctors = await db.doctor.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          image: true,
-          role: true,
-          createdAt: true,
-          profile: true,
-        },
-      },
-      articles: {
-        select: { id: true },
-      },
-      webinars: {
-        select: { id: true },
-      },
-    },
-  });
+  const response = await apiClient("/doctors/admin/verifications");
+  const resData = await response.json();
 
-  return doctors.map((d) => ({
-    id: d.id,
-    doctorId: d.doctorId,
-    userId: d.userId,
-    name: d.user?.name || "Dr. Medical Specialist",
-    email: d.user?.email || "N/A",
-    image: d.user?.image || null,
-    medicalLicenseNumber: d.medicalLicenseNumber || d.user?.profile?.medicalLicenseNumber || "N/A",
-    hospitalAffiliation: d.hospitalAffiliation || d.user?.profile?.hospitalAffiliation || "N/A",
-    specialty: d.specialty || d.user?.profile?.specialty || "N/A",
-    verificationStatus: d.verificationStatus,
-    rejectionReason: d.rejectionReason || d.user?.profile?.rejectionReason || null,
-    verificationDocument: d.verificationDocument || null,
-    createdAt: d.createdAt,
-    articlesCount: d.articles.length,
-    webinarsCount: d.webinars.length,
-  }));
+  if (!response.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to fetch doctor verifications.");
+  }
+
+  return resData.data;
 }
 
-/**
- * Admin Action: Verifies a doctor's professional identity (Admin only).
- */
 export async function approveDoctorVerificationAction(doctorId: string) {
   await requireAdmin();
 
-  const doctor = await db.doctor.findFirst({
-    where: {
-      OR: [{ id: doctorId }, { doctorId: doctorId }],
-    },
-    include: {
-      user: { select: { name: true, email: true } },
-    },
+  const response = await apiClient(`/doctors/admin/verify/${doctorId}/approve`, {
+    method: "POST",
   });
 
-  if (!doctor) {
-    return { error: "Doctor record not found." };
-  }
+  const resData = await response.json();
 
-  const statusChanged = doctor.verificationStatus !== VerificationStatus.VERIFIED;
-
-  // Update Doctor model
-  await db.doctor.update({
-    where: { id: doctor.id },
-    data: {
-      verificationStatus: VerificationStatus.VERIFIED,
-      rejectionReason: null,
-    },
-  });
-
-  // Update corresponding Profile model
-  await db.profile.updateMany({
-    where: { userId: doctor.userId },
-    data: {
-      verificationStatus: VerificationStatus.VERIFIED,
-      rejectionReason: null,
-    },
-  });
-
-  // Trigger SMTP notification strictly when status changes
-  if (statusChanged && doctor.user?.email) {
-    try {
-      await sendDoctorVerificationStatusEmail({
-        to: doctor.user.email,
-        doctorName: doctor.user.name || "Doctor",
-        status: "VERIFIED",
-      });
-    } catch (emailErr) {
-      console.error("Non-fatal doctor approval email error:", emailErr);
-    }
+  if (!response.ok || !resData.success) {
+    return { error: resData.message || "Failed to approve doctor verification." };
   }
 
   revalidatePath("/admin/doctors");
@@ -348,9 +85,6 @@ export async function approveDoctorVerificationAction(doctorId: string) {
   return { success: true };
 }
 
-/**
- * Admin Action: Rejects a doctor's verification request with mandatory reason (Admin only).
- */
 export async function rejectDoctorVerificationAction(doctorId: string, rejectionReason: string) {
   await requireAdmin();
 
@@ -358,52 +92,16 @@ export async function rejectDoctorVerificationAction(doctorId: string, rejection
     return { error: "A reason for rejection is required." };
   }
 
-  const doctor = await db.doctor.findFirst({
-    where: {
-      OR: [{ id: doctorId }, { doctorId: doctorId }],
-    },
-    include: {
-      user: { select: { name: true, email: true } },
-    },
+  const response = await apiClient(`/doctors/admin/verify/${doctorId}/reject`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ rejectionReason: rejectionReason.trim() }),
   });
 
-  if (!doctor) {
-    return { error: "Doctor record not found." };
-  }
+  const resData = await response.json();
 
-  const trimmedReason = rejectionReason.trim();
-  const statusChanged = doctor.verificationStatus !== VerificationStatus.REJECTED;
-
-  // Update Doctor model
-  await db.doctor.update({
-    where: { id: doctor.id },
-    data: {
-      verificationStatus: VerificationStatus.REJECTED,
-      rejectionReason: trimmedReason,
-    },
-  });
-
-  // Update corresponding Profile model
-  await db.profile.updateMany({
-    where: { userId: doctor.userId },
-    data: {
-      verificationStatus: VerificationStatus.REJECTED,
-      rejectionReason: trimmedReason,
-    },
-  });
-
-  // Trigger SMTP notification strictly when status changes
-  if (statusChanged && doctor.user?.email) {
-    try {
-      await sendDoctorVerificationStatusEmail({
-        to: doctor.user.email,
-        doctorName: doctor.user.name || "Doctor",
-        status: "REJECTED",
-        rejectionReason: trimmedReason,
-      });
-    } catch (emailErr) {
-      console.error("Non-fatal doctor rejection email error:", emailErr);
-    }
+  if (!response.ok || !resData.success) {
+    return { error: resData.message || "Failed to reject doctor verification." };
   }
 
   revalidatePath("/admin/doctors");
@@ -411,9 +109,6 @@ export async function rejectDoctorVerificationAction(doctorId: string, rejection
   return { success: true };
 }
 
-/**
- * Doctor Action: Resubmits updated professional credentials for verification (Doctor only).
- */
 export async function resubmitDoctorVerificationAction(data: {
   medicalLicenseNumber: string;
   hospitalAffiliation: string;
@@ -439,49 +134,25 @@ export async function resubmitDoctorVerificationAction(data: {
     return { error: "Medical Specialty is required." };
   }
 
-  const doctor = await getOrCreateDoctorRecord(session.user.id);
-
-  // Update Doctor model: resets verificationStatus = PENDING, clears rejectionReason
-  await db.doctor.update({
-    where: { id: doctor.id },
-    data: {
+  const response = await apiClient("/doctors/verify/resubmit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userId: session.user.id,
       medicalLicenseNumber: licenseTrimmed,
       hospitalAffiliation: affiliationTrimmed,
       specialty: specialtyTrimmed,
-      ...(data.verificationDocument !== undefined && { verificationDocument: data.verificationDocument?.trim() || null }),
-      verificationStatus: VerificationStatus.PENDING,
-      rejectionReason: null,
-    },
+      verificationDocument: data.verificationDocument?.trim() || undefined,
+    }),
   });
 
-  // Update Profile model
-  await db.profile.updateMany({
-    where: { userId: session.user.id },
-    data: {
-      medicalLicenseNumber: licenseTrimmed,
-      hospitalAffiliation: affiliationTrimmed,
-      specialty: specialtyTrimmed,
-      verificationStatus: VerificationStatus.PENDING,
-      rejectionReason: null,
-    },
-  });
+  const resData = await response.json();
 
-  // Trigger SMTP alert for resubmission
-  try {
-    const doctorUser = await db.user.findUnique({ where: { id: session.user.id } });
-    if (doctorUser?.email) {
-      await sendDoctorResubmissionAlert({
-        doctorName: doctorUser.name || "Doctor",
-        doctorEmail: doctorUser.email,
-        specialty: specialtyTrimmed,
-      });
-    }
-  } catch (emailErr) {
-    console.error("Non-fatal doctor resubmission email error:", emailErr);
+  if (!response.ok || !resData.success) {
+    return { error: resData.message || "Failed to resubmit verification details." };
   }
 
   revalidatePath("/dashboard");
   revalidatePath("/admin/doctors");
   return { success: true };
 }
-

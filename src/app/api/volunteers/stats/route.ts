@@ -1,45 +1,28 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { apiClient } from "@/lib/apiClient";
 
 export const revalidate = 300;
 
 // GET /api/volunteers/stats
 export async function GET() {
   try {
-    const now = new Date();
+    const response = await apiClient("/volunteers/stats");
+    const resData = await response.json();
 
-    const [volunteers, campaigns, reachedAggregate, events] = await Promise.all([
-      db.volunteerApplication.count({
-        where: {
-          status: "VERIFIED",
+    if (!response.ok || !resData.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: resData.message || resData.error || "Failed to fetch volunteer stats",
         },
-      }),
-      db.volunteerEvent.count({
-        where: {
-          eventDate: {
-            lte: now,
-          },
-        },
-      }),
-      db.volunteerEvent.aggregate({
-        _sum: {
-          peopleReached: true,
-        },
-      }),
-      db.volunteerEvent.count(),
-    ]);
-
-    const reached = reachedAggregate._sum.peopleReached || 0;
+        { status: response.status || 500 }
+      );
+    }
 
     return NextResponse.json(
       {
         success: true,
-        data: {
-          volunteers,
-          campaigns,
-          reached,
-          events,
-        },
+        data: resData.data,
       },
       { status: 200 }
     );

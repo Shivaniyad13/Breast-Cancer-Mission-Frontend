@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-import crypto from "crypto";
-import { db } from "@/lib/db";
-import { sendPasswordResetEmail } from "@/lib/email";
+import { apiClient } from "@/lib/apiClient";
 
 export async function POST(req: Request) {
   try {
@@ -11,26 +9,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
-    const user = await db.user.findUnique({ where: { email } });
-
-    // Security: always return success (prevents user enumeration)
-    if (!user || !user.email) {
-      return NextResponse.json({ success: true });
-    }
-
-    const token = crypto.randomBytes(32).toString("hex");
-    const expiresAt = new Date(Date.now() + 30 * 60 * 1000);
-
-    await db.passwordResetToken.create({
-      data: { userId: user.id, token, expiresAt },
+    const res = await apiClient("/auth/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
     });
 
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const resetUrl = `${baseUrl}/reset-password?token=${token}`;
+    const resData = await res.json().catch(() => ({}));
 
-    await sendPasswordResetEmail(user.email, resetUrl);
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: resData.message || resData.error || "Server error" },
+        { status: res.status }
+      );
+    }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, message: resData.message });
   } catch (err) {
     console.error("forgot-password error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });

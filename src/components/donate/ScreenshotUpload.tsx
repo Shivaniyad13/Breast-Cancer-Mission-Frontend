@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useRef } from 'react'
+import { apiClient } from "@/lib/apiClient"
 import { motion, AnimatePresence } from 'framer-motion'
 import { UploadCloud, X, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -51,7 +52,7 @@ export const ScreenshotUpload: React.FC<ScreenshotUploadProps> = ({
       const formData = new FormData()
       formData.append('file', file)
 
-      const res = await fetch('/api/upload', {
+      const res = await apiClient('/upload', {
         method: 'POST',
         body: formData,
       })

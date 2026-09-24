@@ -1,47 +1,27 @@
 import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
-import crypto from "crypto";
-import { db } from "@/lib/db";
-import { auth } from "@/auth";
-import cloudinary from "@/lib/cloudinary";
+import { apiClient } from "@/lib/apiClient";
 
 // GET /api/volunteers/gallery?status=APPROVED
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const statusParam = searchParams.get("status") || "APPROVED";
-    const targetStatus = (statusParam === "APPROVED" || statusParam === "VERIFIED") ? "VERIFIED" : (statusParam as any);
+    const targetStatus = (statusParam === "APPROVED" || statusParam === "VERIFIED") ? "VERIFIED" : statusParam;
 
-    const submissions = await db.gallerySubmission.findMany({
-      where: {
-        status: targetStatus,
-      },
-      include: {
-        volunteer: {
-          select: {
-            fullName: true,
-            city: true,
-          },
+    const response = await apiClient(`/volunteers/gallery?status=${targetStatus}&limit=12`);
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: resData.message || resData.error || "Failed to fetch gallery submissions",
         },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+        { status: response.status || 500 }
+      );
+    }
 
-    const data = submissions.map((sub) => ({
-      id: sub.id,
-      title: sub.title,
-      imageUrl: sub.imageUrl,
-      caption: sub.caption || "",
-      fullName: sub.volunteer?.fullName || "Volunteer",
-      city: sub.volunteer?.city || "",
-      status: sub.status,
-      createdAt: sub.createdAt,
-    }));
-
-    return NextResponse.json({ success: true, data }, { status: 200 });
+    return NextResponse.json({ success: true, data: resData.data }, { status: 200 });
   } catch (error: any) {
     console.error("Error in GET /api/volunteers/gallery:", error);
     return NextResponse.json(
@@ -54,85 +34,58 @@ export async function GET(request: Request) {
   }
 }
 
-// Helper to save uploaded image
+// Helper to save uploaded image via Express upload API
 async function processImageUpload(file: File): Promise<string> {
+  const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch(`${backendUrl}/upload`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (res.ok) {
+    const resData = await res.json();
+    return resData.data?.url || resData.url;
+  }
+
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
-
-  // 1. Try Cloudinary if configured
-  const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-  const apiKey = process.env.CLOUDINARY_API_KEY;
-  const isCloudinaryConfigured =
-    cloudName && apiKey && cloudName !== "demo" && apiKey !== "1234567890";
-
-  if (isCloudinaryConfigured) {
-    try {
-      const uploadResult = await new Promise<{ secure_url: string }>((resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          {
-            folder: "volunteer_gallery",
-            resource_type: "auto",
-          },
-          (error, result) => {
-            if (error || !result) {
-              return reject(error || new Error("Cloudinary upload failed"));
-            }
-            resolve({ secure_url: result.secure_url });
-          }
-        );
-        uploadStream.end(buffer);
-      });
-
-      return uploadResult.secure_url;
-    } catch (cloudinaryErr) {
-      console.warn("Cloudinary upload failed, falling back to disk/data URL:", cloudinaryErr);
-    }
-  }
-
-  // 2. Try writing to local disk (/public/uploads)
-  // TODO: Configure S3 / Vercel Blob / Cloudinary for production persistence
-  try {
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    await mkdir(uploadDir, { recursive: true });
-
-    const uniqueSuffix = `${Date.now()}-${crypto.randomBytes(4).toString("hex")}`;
-    const fileExt = path.extname(file.name) || ".jpg";
-    const filename = `${file.name
-      .replace(/\.[^/.]+$/, "")
-      .replace(/[^a-zA-Z0-9-_]/g, "_")}-${uniqueSuffix}${fileExt}`;
-    const filepath = path.join(uploadDir, filename);
-
-    await writeFile(filepath, buffer);
-    return `/uploads/${filename}`;
-  } catch (fsErr: any) {
-    console.warn("Local disk write failed, falling back to Data URL:", fsErr?.message || fsErr);
-    const base64Data = buffer.toString("base64");
-    const mimeType = file.type || "image/png";
-    return `data:${mimeType};base64,${base64Data}`;
-  }
+  const base64Data = buffer.toString("base64");
+  const mimeType = file.type || "image/png";
+  return `data:${mimeType};base64,${base64Data}`;
 }
 
 // POST /api/volunteers/gallery
 export async function POST(request: Request) {
   try {
-    const session = await auth();
+    const meRes = await apiClient("/auth/me", {
+      headers: { cookie: request.headers.get("cookie") || "" },
+    });
 
-    if (!session?.user?.id) {
+    if (!meRes.ok) {
       return NextResponse.json(
         { success: false, error: "Authentication required" },
         { status: 401 }
       );
     }
 
-    // Check for VERIFIED volunteer application
-    const volunteer = await db.volunteerApplication.findFirst({
-      where: {
-        userId: session.user.id,
-        status: "VERIFIED",
-      },
-    });
+    const meData = await meRes.json();
+    const userId = meData.data?.user?.id;
 
-    if (!volunteer) {
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, error: "Authentication required" },
+        { status: 401 }
+      );
+    }
+
+    const sessRes = await apiClient(`/volunteers/session?userId=${userId}`);
+    const sessData = await sessRes.json();
+    const volunteer = sessData.data;
+
+    if (!volunteer || !volunteer.volunteerId || (volunteer.volunteerStatus !== "VERIFIED" && volunteer.volunteerStatus !== "APPROVED")) {
       return NextResponse.json(
         {
           success: false,
@@ -160,7 +113,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Max 5MB validation
     const MAX_SIZE = 5 * 1024 * 1024;
     if (image.size > MAX_SIZE) {
       return NextResponse.json(
@@ -169,7 +121,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Allowed mime types (jpg/png/webp)
     const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
     if (image.type && !allowedTypes.includes(image.type.toLowerCase())) {
       return NextResponse.json(
@@ -180,19 +131,32 @@ export async function POST(request: Request) {
 
     const imageUrl = await processImageUpload(image);
 
-    const submission = await db.gallerySubmission.create({
-      data: {
-        volunteerId: volunteer.id,
+    const response = await apiClient("/volunteers/gallery", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        cookie: request.headers.get("cookie") || "",
+      },
+      body: JSON.stringify({
+        volunteerId: volunteer.volunteerId,
         title: title.trim(),
         imageUrl,
-        status: "PENDING",
-      },
+      }),
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return NextResponse.json(
+        { success: false, error: resData.message || resData.error || "Failed to upload gallery photo" },
+        { status: response.status || 500 }
+      );
+    }
 
     return NextResponse.json(
       {
         success: true,
-        data: submission,
+        data: resData.data,
       },
       { status: 201 }
     );
@@ -207,3 +171,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

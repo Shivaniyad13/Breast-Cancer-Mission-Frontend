@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
+import { apiClient } from "@/lib/apiClient";
 
 const statusSchema = z.object({
   status: z.enum(["VERIFIED", "REJECTED", "APPROVED", "PENDING"]),
@@ -48,18 +48,25 @@ export async function PATCH(
       targetStatus = "VERIFIED";
     }
 
-    const updatedSubmission = await db.gallerySubmission.update({
-      where: { id },
-      data: {
-        status: targetStatus as any,
-        reviewedBy: session.user.id,
-      },
+    const response = await apiClient(`/volunteers/gallery/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: targetStatus }),
     });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return NextResponse.json(
+        { success: false, error: resData.message || resData.error || "Failed to update gallery submission status" },
+        { status: response.status || 500 }
+      );
+    }
 
     return NextResponse.json(
       {
         success: true,
-        data: updatedSubmission,
+        data: resData.data,
       },
       { status: 200 }
     );

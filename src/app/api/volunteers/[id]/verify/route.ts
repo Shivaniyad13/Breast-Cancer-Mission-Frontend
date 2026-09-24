@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-import crypto from "crypto";
 import { z } from "zod";
-import { db } from "@/lib/db";
 import { auth } from "@/auth";
+import { apiClient } from "@/lib/apiClient";
 
 const verifySchema = z.object({
   status: z.enum(["VERIFIED", "REJECTED"]),
@@ -49,76 +48,30 @@ export async function POST(
 
     const { status, rejectionReason } = validation.data;
 
-    // Verify volunteer application exists
-    const volunteer = await db.volunteerApplication.findUnique({
-      where: { id: volunteerId },
+    const response = await apiClient(`/volunteers/${volunteerId}/verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status, rejectionReason }),
     });
 
-    if (!volunteer) {
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
       return NextResponse.json(
-        { success: false, error: "Volunteer application not found" },
-        { status: 404 }
+        {
+          success: false,
+          error: resData.message || resData.error || "Failed to verify volunteer application",
+        },
+        { status: response.status || 500 }
       );
     }
 
-    const oldStatus = volunteer.status;
-    const oldReason = volunteer.rejectionReason;
-
-    // Update volunteer application
-    const updatedVolunteer = await db.volunteerApplication.update({
-      where: { id: volunteerId },
-      data: {
-        status: status as any,
-        verifiedAt: status === "VERIFIED" ? new Date() : null,
-        verifiedBy: session.user.id,
-        rejectionReason: status === "REJECTED" ? rejectionReason || "Rejected by admin" : null,
-      },
-    });
-
-    // If verified, also ensure a VolunteerCertificate row exists with unique nanoid code
-    let certificate = null;
-    if (status === "VERIFIED") {
-      const existingCert = await db.volunteerCertificate.findFirst({
-        where: { volunteerId },
-      });
-
-      if (!existingCert) {
-        const certCode = `CERT-${crypto.randomBytes(5).toString("hex").toUpperCase()}`;
-        certificate = await db.volunteerCertificate.create({
-          data: {
-            certificateCode: certCode,
-            volunteerId,
-            issuedAt: new Date(),
-          },
-        });
-      } else {
-        certificate = existingCert;
-      }
-    }
-
-    // Duplicate email protection: send only if status or rejection reason transitioned
-    if ((oldStatus !== status || (status === "REJECTED" && oldReason !== updatedVolunteer.rejectionReason)) && updatedVolunteer.email) {
-      try {
-        const { sendVolunteerStatusEmail } = await import("@/lib/email");
-        await sendVolunteerStatusEmail({
-          to: updatedVolunteer.email,
-          volunteerName: updatedVolunteer.fullName,
-          status: status as "VERIFIED" | "REJECTED",
-          rejectionReason: updatedVolunteer.rejectionReason || undefined,
-          certificateCode: certificate?.certificateCode,
-        });
-      } catch (e) {
-        console.error("[SMTP] Failed to send volunteer status/certificate email:", e);
-      }
-    }
+    const updatedVolunteer = resData.data;
 
     return NextResponse.json(
       {
         success: true,
-        data: {
-          volunteer: updatedVolunteer,
-          certificate,
-        },
+        data: updatedVolunteer,
       },
       { status: 200 }
     );

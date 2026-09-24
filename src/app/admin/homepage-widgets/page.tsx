@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { Role } from "@prisma/client";
+import { Role } from "@/types/enums";
 import { redirect } from "next/navigation";
 import { getSponsorBanners, getCelebrityTestimonials } from "@/app/actions/rightSidebarWidgets";
 import AdminSponsorsDashboard from "@/components/admin/AdminSponsorsDashboard";
