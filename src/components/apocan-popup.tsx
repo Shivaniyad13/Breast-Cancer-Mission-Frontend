@@ -88,7 +88,7 @@ export default function ApocanPopup() {
               {/* Info */}
               <div className="space-y-2 text-center sm:text-left">
                 <h3 className="font-heading text-xl font-black text-slate-900 leading-tight">
-                  APOCAN ADVANCE CAPSULES
+                  APOCAN  CAPSULES
                 </h3>
                 
                 <p className="text-xs text-slate-500 font-medium leading-relaxed">

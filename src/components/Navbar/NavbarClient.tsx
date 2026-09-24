@@ -1,11 +1,10 @@
 "use client";
-
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Ribbon, ChevronDown, LayoutDashboard, LogOut } from "lucide-react";
-import {
+import { ChevronDown, LayoutDashboard, LogOut } from "lucide-react"; import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -45,23 +44,29 @@ export default function NavbarClient({ user, handleSignOut }: NavbarClientProps)
 
   // Determine navbar container classes
   const headerClass = isCampaignPage
-    ? `fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 h-20 ${
-        isScrolled
-          ? "bg-white/95 border-b border-pink-100 shadow-md backdrop-blur supports-[backdrop-filter]:bg-white/90 text-slate-800"
-          : "bg-transparent border-b border-transparent text-slate-800"
-      }`
+    ? `fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 h-20 ${isScrolled
+      ? "bg-white/95 border-b border-pink-100 shadow-md backdrop-blur supports-[backdrop-filter]:bg-white/90 text-slate-800"
+      : "bg-transparent border-b border-transparent text-slate-800"
+    }`
     : "fixed top-0 left-0 right-0 w-full z-50 h-20 border-b border-pink-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90 text-slate-800 shadow-xs";
 
   return (
     <header className={headerClass}>
       <div className="container mx-auto relative flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
-        
+
         {/* Branding - Left aligned */}
         <div className="flex items-center gap-2 z-10">
           {isCampaignPage ? (
             <Link href="/" className="flex items-center gap-2 group">
               <div className="flex items-center gap-1 bg-pink-50 px-2 sm:px-3 py-1.5 rounded-xl border border-pink-200 shadow-xs">
-                <Ribbon className="h-4.5 w-4.5 text-primary animate-pulse shrink-0" />
+                <Image
+                  src="/logo.png"
+                  alt="Khushi Centre Logo"
+                  width={80}
+                  height={80}
+                  className="h-5 w-5 sm:h-6 sm:w-6 object-contain shrink-0"
+                  priority
+                />
                 <span className="font-heading text-xs sm:text-sm font-extrabold tracking-tight text-slate-900">
                   Khushi <span className="text-primary">Centre</span>
                 </span>
@@ -75,7 +80,14 @@ export default function NavbarClient({ user, handleSignOut }: NavbarClientProps)
             </Link>
           ) : (
             <Link href="/" className="flex items-center gap-1.5">
-              <Ribbon className="h-5 w-5 sm:h-6 sm:w-6 text-primary animate-pulse shrink-0" />
+              <Image
+                src="/logo.png"
+                alt="Cancer Mukt Bharat Abhiyan Logo"
+                width={80}
+                height={80}
+                className="h-8 w-auto sm:h-10 md:h-12 object-contain shrink-0"
+                priority
+              />
               <span className="font-heading text-sm sm:text-base md:text-lg font-bold tracking-tight text-slate-900 whitespace-nowrap">
                 Cancer Mukt Bharat <span className="text-primary">Abhiyan </span>
               </span>
@@ -265,9 +277,9 @@ export default function NavbarClient({ user, handleSignOut }: NavbarClientProps)
           </div>
 
           {/* Mobile menu trigger and drawer */}
-          <MobileMenu 
-            user={user ? { name: user.name, email: user.email, role: user.role } : undefined} 
-            handleSignOut={handleSignOut} 
+          <MobileMenu
+            user={user ? { name: user.name, email: user.email, role: user.role } : undefined}
+            handleSignOut={handleSignOut}
             isCampaignPage={isCampaignPage}
           />
         </div>

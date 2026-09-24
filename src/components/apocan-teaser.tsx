@@ -56,7 +56,7 @@ export default function ApocanTeaser() {
                   </div>
 
                   <h3 className="font-heading text-lg sm:text-xl font-black text-slate-900 group-hover:text-emerald-900 transition-colors">
-                    APOCAN Advance Capsules
+                    APOCAN  Capsules
                   </h3>
 
                   <p className="text-slate-600 text-xs sm:text-sm font-medium leading-relaxed">

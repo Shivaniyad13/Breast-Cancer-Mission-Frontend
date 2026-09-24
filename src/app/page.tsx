@@ -261,7 +261,7 @@ export default async function Home() {
 
           <div className="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
             <span className="inline-block px-4 py-1 rounded-full bg-pink-100 text-pink-700 text-[10px] sm:text-xs font-semibold uppercase tracking-widest">
-              Backed By
+            
             </span>
             <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900 px-2 leading-tight">
               Our Partner Organizations
@@ -274,7 +274,7 @@ export default async function Home() {
             <div className="group bg-white rounded-2xl overflow-hidden border border-pink-100 shadow-md hover:shadow-2xl hover:border-pink-300 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
               <div className="h-40 sm:h-48 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-6 sm:p-8">
                 <img
-                  src="/images/grs-group-logo.jpg"
+                  src="/images/grs-group-logo.jpeg"
                   alt="GRS India Group"
                   className="max-h-24 sm:max-h-28 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                 />
@@ -288,7 +288,7 @@ export default async function Home() {
                   community outreach, and medical initiatives across India.
                 </p>
                 <a
-                  href="https://grsindiacorporation.com/"
+                  href="https://www.grsgroup.in/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-4 sm:mt-5 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700 text-sm"

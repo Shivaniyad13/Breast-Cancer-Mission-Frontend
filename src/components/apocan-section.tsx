@@ -51,10 +51,10 @@ export default function ApocanSection() {
           </div>
 
           <h2 className="font-heading text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            APOCAN ADVANCE CAPSULES
+            APOCAN  CAPSULES
           </h2>
 
-          <p className="text-slate-600 text-sm sm:text-base font-medium max-w-2xl mx-auto leading-relaxed">
+          <p className="text-white text-sm sm:text-base font-medium max-w-2xl mx-auto leading-relaxed">
             Formulated by <strong className="text-slate-900">GRS India Pvt Ltd</strong> — A pure blend of traditional Himalayan herbs dedicated to immune support, cellular vitality, and overall wellness.
           </p>
         </motion.div>
@@ -131,7 +131,7 @@ export default function ApocanSection() {
                 </div>
 
                 <h3 className="font-heading text-2xl sm:text-3xl font-black text-slate-900">
-                  APOCAN Advance Capsules (800 mg)
+                  APOCAN  Capsules (800 mg)
                 </h3>
 
                 <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">

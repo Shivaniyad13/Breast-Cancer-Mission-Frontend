@@ -1,8 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import {
-  Ribbon,
   Phone,
   Mail,
   MapPin,
@@ -76,9 +76,17 @@ export default function Footer() {
       {/* Top pink accent line */}
       <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-pink-600 via-pink-400 to-rose-500" />
 
-      {/* Watermark ribbon */}
-      <div className="absolute right-10 top-10 opacity-[0.06] pointer-events-none select-none">
-        <Ribbon className="w-64 h-64 text-slate-100" />
+      {/* Watermark logo */}
+      {/* Watermark logo */}
+      <div className="absolute right-10 top-10 opacity-10 pointer-events-none select-none">
+        <Image
+          src="/logo.png"
+          alt=""
+          width={256}
+          height={256}
+          className="w-64 h-64 object-contain"
+          aria-hidden="true"
+        />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -86,8 +94,15 @@ export default function Footer() {
           {/* ── Col 1 · Brand ── */}
           <div className="space-y-5 lg:col-span-1">
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-white/15 border border-white/30">
-                <Ribbon className="h-5 w-5 text-slate-100" />
+              <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-white/15 border border-white/30 overflow-hidden p-1">
+                <Image
+                  src="/logo.png"
+                  alt="Cancer Mukt Bharat Abhiyan Logo"
+                  width={100}
+                  height={100}
+                  className="h-full w-full object-contain"
+                  priority
+                />
               </div>
 
               <div>

@@ -47,13 +47,13 @@ const CATEGORIES = [
     icon: Stethoscope,
   },
   {
-  title: "Support & Admin",
-  name: "Kritika Singh",
-  description:
-    "Manages administrative operations, coordinates volunteers, assists beneficiaries, and ensures smooth execution of organizational activities and support services.",
-  image: "/images/head.jpg",
-  icon: ShieldCheck,
-},
+    title: "Support & Admin",
+    name: "Kritika Singh",
+    description:
+      "Manages administrative operations, coordinates volunteers, assists beneficiaries, and ensures smooth execution of organizational activities and support services.",
+    image: "/images/head.jpg",
+    icon: ShieldCheck,
+  },
 ];
 
 export default function OurTeam() {
@@ -77,15 +77,15 @@ export default function OurTeam() {
 
   return (
     <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-pink-50/20 to-slate-50 dark:from-slate-900 dark:via-pink-950/5 dark:to-slate-950 overflow-hidden border-t border-slate-100 dark:border-slate-800">
-      
+
       {/* Premium ambient decorative shapes in background */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-pink-200/20 dark:bg-pink-900/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-200/20 dark:bg-blue-900/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container mx-auto max-w-7xl relative z-10">
-        
+
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           className="text-center space-y-4 mb-20"
           initial="hidden"
           whileInView="visible"
@@ -96,16 +96,16 @@ export default function OurTeam() {
             <Sparkles className="h-3.5 w-3.5" />
             MEET OUR EXPERTS
           </div>
-          <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
-            Our Team Behind <span className="text-pink-600 dark:text-pink-400">Every Life</span> We Touch
+          <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            Our Team Behind <span className="text-white dark:text-pink-400">Every Life</span> We Touch
           </h2>
-          <p className="text-slate-650 dark:text-slate-300 max-w-3xl mx-auto text-sm sm:text-base leading-relaxed">
+          <p className="text-white max-w-3xl mx-auto text-sm sm:text-base leading-relaxed">
             A dedicated team of doctors, researchers, healthcare professionals, volunteers, and support staff working together to provide hope, care, awareness, and innovation in the fight against breast cancer.
           </p>
         </motion.div>
 
         {/* Team Categories Grid (5 Static Cards) */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
           variants={containerVariants}
           initial="hidden"
@@ -123,7 +123,7 @@ export default function OurTeam() {
               >
                 {/* Background soft hover glow */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-pink-500/0 via-pink-500/0 to-pink-500/5 dark:to-pink-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                
+
                 {/* Category Image */}
                 <div className="relative w-24 h-24 mb-6 rounded-full overflow-hidden border-2 border-white dark:border-slate-800 shadow-md group-hover:border-pink-550 transition-colors duration-300">
                   <Image

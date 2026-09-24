@@ -39,7 +39,7 @@ export default function ContactPage() {
             <h1 className="font-heading text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 mb-4">
               Get In <span className="text-pink-600">Touch</span>
             </h1>
-            <p className="text-slate-600 max-w-xl mx-auto text-lg">
+            <p className="text-white max-w-xl mx-auto text-lg">
               Have a question, want to collaborate, or need support? We're here to help. Reach out and our team will respond within 24 hours.
             </p>
           </div>

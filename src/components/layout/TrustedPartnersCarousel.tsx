@@ -206,9 +206,9 @@ export default function TrustedPartnersCarousel() {
           Trusted Healthcare &amp; Support Organizations
         </h2>
 
-        <p className="text-slate-600 max-w-3xl mx-auto text-sm sm:text-base leading-relaxed">
-          We proudly recognize organizations, hospitals, NGOs, government institutions, and healthcare partners working towards breast cancer awareness, early detection, treatment, research, and patient support.
-        </p>
+      <p className="text-white max-w-3xl mx-auto text-sm sm:text-base leading-relaxed">
+  We proudly recognize organizations, hospitals, NGOs, government institutions, and healthcare partners working towards breast cancer awareness, early detection, treatment, research, and patient support.
+</p>
       </div>
 
       {/* Marquee Carousel Track */}
