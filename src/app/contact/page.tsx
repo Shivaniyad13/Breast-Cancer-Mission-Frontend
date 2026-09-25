@@ -83,12 +83,12 @@ export default function ContactPage() {
                   <div>
                     <p className="text-xs text-slate-500 uppercase tracking-widest mb-0.5">Head Office</p>
                     <p className="text-slate-900 font-semibold leading-relaxed">
-                       B-14, Sector 64,  Noida,<br />Uttar Pradesh, India – 201301
+                       B-14, Sector 64,  Noida,<br />Uttar Pradesh, India – 201309
                     </p>
                   </div>
                 </div>
               </div>
-
+0
              
               {/* Collaboration badge */}
               <div className="rounded-2xl border border-pink-200 bg-pink-50/70 p-5 text-center space-y-1">
