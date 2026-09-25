@@ -570,7 +570,7 @@ export default function MembershipClient() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
           <div className="space-y-6 text-center">
 
-           
+
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -580,7 +580,7 @@ export default function MembershipClient() {
             >
               Become a Membership <br />
               <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
-               
+
               </span>
             </motion.h1>
 
@@ -782,11 +782,10 @@ export default function MembershipClient() {
                         {[1, 2, 3, 4, 5].map((star) => (
                           <Star
                             key={star}
-                            className={`h-4 w-4 ${
-                              star <= item.rating
+                            className={`h-4 w-4 ${star <= item.rating
                                 ? "text-amber-400 fill-amber-400"
                                 : "text-slate-200"
-                            }`}
+                              }`}
                           />
                         ))}
                       </div>
@@ -935,11 +934,10 @@ export default function MembershipClient() {
                           className="p-1 hover:scale-110 transition-transform focus:outline-none"
                         >
                           <Star
-                            className={`h-6 w-6 ${
-                              star <= feedbackForm.rating
+                            className={`h-6 w-6 ${star <= feedbackForm.rating
                                 ? "text-amber-400 fill-amber-400"
                                 : "text-slate-300"
-                            }`}
+                              }`}
                           />
                         </button>
                       ))}
@@ -2141,7 +2139,7 @@ export default function MembershipClient() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center space-y-8 relative z-10">
 
           <div className="space-y-4">
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-pink-500">
               Together We Can Build a Breast Cancer Aware Community
             </h2>
             <p className="text-pink-100 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">

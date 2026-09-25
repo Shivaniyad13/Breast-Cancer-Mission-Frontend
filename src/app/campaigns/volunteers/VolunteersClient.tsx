@@ -525,12 +525,12 @@ export default function VolunteersClient({
               {/* Session State Badge & Actions */}
               {!session ? (
                 <Link href="/volunteer/login">
-                 <Button
-  variant="ghost"
-  className="text-xs font-bold uppercase tracking-wider text-white bg-primary hover:bg-pink-600 hover:text-white border border-primary rounded-full px-4 py-1.5 transition-all"
->
-  Login as Volunteer
-</Button>
+                  <Button
+                    variant="ghost"
+                    className="text-xs font-bold uppercase tracking-wider text-white bg-primary hover:bg-pink-600 hover:text-white border border-primary rounded-full px-4 py-1.5 transition-all"
+                  >
+                    Login as Volunteer
+                  </Button>
                 </Link>
               ) : session.volunteerStatus === "PENDING" ? (
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-50 border border-pink-200 text-primary text-xs font-bold uppercase tracking-wider">
@@ -893,11 +893,10 @@ export default function VolunteersClient({
                         {Array.from({ length: 5 }).map((_, i) => (
                           <Star
                             key={i}
-                            className={`h-4 w-4 ${
-                              i < fb.rating
+                            className={`h-4 w-4 ${i < fb.rating
                                 ? "text-amber-400 fill-amber-400"
                                 : "text-slate-200"
-                            }`}
+                              }`}
                           />
                         ))}
                       </div>
@@ -1325,11 +1324,10 @@ export default function VolunteersClient({
                           className="p-1.5 focus:outline-none transition-transform hover:scale-110"
                         >
                           <Star
-                            className={`h-7 w-7 ${
-                              star <= feedbackRating
+                            className={`h-7 w-7 ${star <= feedbackRating
                                 ? "text-amber-400 fill-amber-400"
                                 : "text-slate-200"
-                            }`}
+                              }`}
                           />
                         </button>
                       ))}
@@ -1584,7 +1582,7 @@ export default function VolunteersClient({
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center space-y-8 relative z-10">
 
           <div className="space-y-4">
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-pink-500">
               Ready to Make a Difference?
             </h2>
             <p className="text-pink-100 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">

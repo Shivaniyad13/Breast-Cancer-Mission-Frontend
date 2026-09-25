@@ -138,7 +138,7 @@ const specialistsData: Specialist[] = [
     icon: Stethoscope,
     desc: "A surgical oncologist specializing in removing breast tumors, performing mastectomies, lumpectomies, and node biopsies.",
     role: "Performs precise surgical excisions, designs surgical margins, and coordinates reconstruction.",
-    colorClass: "bg-pink-50 border-pink-100 text-pink-600 dark:bg-pink-950/20 dark:border-pink-900/40"
+    colorClass: "bg-pink-50/50 border-pink-100/60 text-pink-600"
   },
   {
     id: "medical-oncologist",
@@ -146,7 +146,7 @@ const specialistsData: Specialist[] = [
     icon: Pill,
     desc: "A specialist who treats breast cancer using systemic therapies like chemotherapy, targeted therapy, and immunotherapy.",
     role: "Designs chemo regimens, manages treatment side effects, and monitors patient systemic response.",
-    colorClass: "bg-purple-50 border-purple-100 text-purple-600 dark:bg-purple-950/20 dark:border-purple-900/40"
+    colorClass: "bg-purple-50/50 border-purple-100/60 text-purple-600"
   },
   {
     id: "radiation-oncologist",
@@ -154,7 +154,7 @@ const specialistsData: Specialist[] = [
     icon: Zap,
     desc: "Uses high-energy radiation beams to target and destroy remaining microscopic cancer cells post-surgery.",
     role: "Configures exact radiation dosage mapping and schedules localized radiotherapy cycles.",
-    colorClass: "bg-blue-50 border-blue-100 text-blue-600 dark:bg-blue-950/20 dark:border-blue-900/40"
+    colorClass: "bg-blue-50/50 border-blue-100/60 text-blue-600"
   },
   {
     id: "plastic-surgeon",
@@ -162,7 +162,7 @@ const specialistsData: Specialist[] = [
     icon: Layers,
     desc: "Restores breast shape, symmetry, and appearance using implants or natural tissue flaps after mastectomy.",
     role: "Performs oncoplastic reconstruction, tissue transfer, and aesthetic symmetrical reshaping.",
-    colorClass: "bg-rose-50 border-rose-100 text-rose-600 dark:bg-rose-950/20 dark:border-rose-900/40"
+    colorClass: "bg-rose-50/50 border-rose-100/60 text-rose-600"
   },
   {
     id: "radiologist",
@@ -170,7 +170,7 @@ const specialistsData: Specialist[] = [
     icon: Activity,
     desc: "An imaging specialist who interprets mammograms, breast ultrasounds, MRIs, and performs image-guided biopsies.",
     role: "Analyzes screening scans, identifies abnormalities, and guides needle localization biopsy procedures.",
-    colorClass: "bg-cyan-50 border-cyan-100 text-cyan-600 dark:bg-cyan-950/20 dark:border-cyan-900/40"
+    colorClass: "bg-cyan-50/50 border-cyan-100/60 text-cyan-600"
   },
   {
     id: "pathologist",
@@ -178,7 +178,7 @@ const specialistsData: Specialist[] = [
     icon: Microscope,
     desc: "Analyzes breast tissue biopsy samples under a microscope to confirm cancer, identify grade, and hormone receptors.",
     role: "Performs immunohistochemistry, determines ER/PR/HER2 status, and provides the diagnostic report.",
-    colorClass: "bg-indigo-50 border-indigo-100 text-indigo-600 dark:bg-indigo-950/20 dark:border-indigo-900/40"
+    colorClass: "bg-indigo-50/50 border-indigo-100/60 text-indigo-600"
   },
   {
     id: "oncology-nurse",
@@ -186,7 +186,7 @@ const specialistsData: Specialist[] = [
     icon: HeartPulse,
     desc: "Provides expert clinical nursing care, administers chemotherapy drugs, and manages symptom support during cycles.",
     role: "Monitors vitals, educates on medication side effects, and offers comforting bedside care.",
-    colorClass: "bg-pink-50 border-pink-100 text-pink-600 dark:bg-pink-950/20 dark:border-pink-900/40"
+    colorClass: "bg-pink-50/50 border-pink-100/60 text-pink-600"
   },
   {
     id: "genetic-counselor",
@@ -194,7 +194,7 @@ const specialistsData: Specialist[] = [
     icon: Dna,
     desc: "Assesses genetic risk profiles (e.g., BRCA1/BRCA2 mutation tests) for patients and their family members.",
     role: "Analyzes hereditary health history, explains risk assessment scores, and assists in gene-preventative plans.",
-    colorClass: "bg-violet-50 border-violet-100 text-violet-600 dark:bg-violet-950/20 dark:border-violet-900/40"
+    colorClass: "bg-violet-50/50 border-violet-100/60 text-violet-600"
   },
   {
     id: "physiotherapist",
@@ -202,7 +202,7 @@ const specialistsData: Specialist[] = [
     icon: Sparkles,
     desc: "Helps patients restore arm mobility, prevent lymphedema, and rebuild physical strength after surgery.",
     role: "Designs lymphatic drainage exercises, shoulder mobility programs, and physical recovery tracking.",
-    colorClass: "bg-emerald-50 border-emerald-100 text-emerald-600 dark:bg-emerald-950/20 dark:border-emerald-900/40"
+    colorClass: "bg-emerald-50/50 border-emerald-100/60 text-emerald-600"
   },
   {
     id: "nutritionist",
@@ -210,7 +210,7 @@ const specialistsData: Specialist[] = [
     icon: Apple,
     desc: "Curates tailored oncology nutritional plans to maintain strength, manage weight, and boost immunity.",
     role: "Develops meal plans for treatment cycles, recommends digestive remedies, and guides post-cancer diets.",
-    colorClass: "bg-amber-50 border-amber-100 text-amber-600 dark:bg-amber-950/20 dark:border-amber-900/40"
+    colorClass: "bg-amber-50/50 border-amber-100/60 text-amber-600"
   },
   {
     id: "psychologist",
@@ -218,7 +218,7 @@ const specialistsData: Specialist[] = [
     icon: Brain,
     desc: "Supports patients and families coping with the emotional stress, anxiety, and trauma of cancer diagnosis.",
     role: "Conducts individual therapy sessions, grief counseling, and cognitive behavioral therapy (CBT).",
-    colorClass: "bg-teal-50 border-teal-100 text-teal-600 dark:bg-teal-950/20 dark:border-teal-900/40"
+    colorClass: "bg-teal-50/50 border-teal-100/60 text-teal-600"
   },
   {
     id: "palliative-specialist",
@@ -226,7 +226,7 @@ const specialistsData: Specialist[] = [
     icon: HeartHandshake,
     desc: "Focuses on optimizing quality of life by managing pain, physical symptoms, and treatment stress.",
     role: "Prescribes advanced symptom relief management, coordinates holistic support, and comfort plans.",
-    colorClass: "bg-red-50 border-red-100 text-red-600 dark:bg-red-950/20 dark:border-red-900/40"
+    colorClass: "bg-red-50/50 border-red-100/60 text-red-600"
   },
   {
     id: "social-worker",
@@ -234,7 +234,7 @@ const specialistsData: Specialist[] = [
     icon: HeartHandshake,
     desc: "Guides patients through treatment scheduling, healthcare system navigation, and financial assistance schemes.",
     role: "Helps verify NGO grants, manages hospital insurance claims, and arranges support group logistics.",
-    colorClass: "bg-sky-50 border-sky-100 text-sky-600 dark:bg-sky-950/20 dark:border-sky-900/40"
+    colorClass: "bg-sky-50/50 border-sky-100/60 text-sky-600"
   }
 ];
 
@@ -253,16 +253,16 @@ const journeyStepsData: JourneyStep[] = [
 ];
 
 const supportServicesData: SupportService[] = [
-  { title: "Emotional Counseling", desc: "Professional therapists guiding you through shock, anxiety, and depression to build mental resilience.", features: ["One-on-one sessions", "Stress relief therapy", "Caregiver support"], icon: Brain, gradientClass: "from-pink-500/10 to-rose-500/10 text-pink-600 border-pink-200/50" },
-  { title: "Nutrition Guidance", desc: "Tailored dietary advice to maintain cellular strength, digest food easily, and boost immunity.", features: ["Cycle-specific meal plans", "Nausea mitigation diets", "Weight management"], icon: Apple, gradientClass: "from-amber-500/10 to-orange-500/10 text-amber-600 border-amber-200/50" },
-  { title: "Survivorship Programs", desc: "Providing transition support, helping survivors return to work, stay healthy, and advocate.", features: ["Transition guidance", "Healthy life coaching", "Advocacy meetups"], icon: Ribbon, gradientClass: "from-purple-500/10 to-indigo-500/10 text-purple-600 border-purple-200/50" },
-  { title: "Financial Assistance", desc: "Connecting families to government schemes, healthcare insurance, and verified NGO treatment grants.", features: ["NGO subsidy routing", "Insurance facilitation", "Crowdfunding tools"], icon: HeartHandshake, gradientClass: "from-emerald-500/10 to-teal-500/10 text-emerald-600 border-emerald-200/50" },
-  { title: "Family Support Systems", desc: "Counseling spouses, children, and close relatives on how to care for patients without burning out.", features: ["Family group therapy", "Youth coping toolkits", "Respite care help"], icon: Users2, gradientClass: "from-blue-500/10 to-sky-500/10 text-blue-600 border-blue-200/50" },
-  { title: "Fertility Counseling", desc: "Expert guidance on egg freezing and reproductive options before starting chemotherapy.", features: ["Egg preservation routing", "Hormonal consults", "Family planning advice"], icon: Dna, gradientClass: "from-pink-500/10 to-purple-500/10 text-pink-600 border-pink-200/50" },
-  { title: "Physical Rehabilitation", desc: "Restoring physical upper-body range of motion and checking for postoperative muscular stiffness.", features: ["Shoulder exercises", "Lymphedema detection", "Posture alignment"], icon: Sparkles, gradientClass: "from-cyan-500/10 to-teal-500/10 text-cyan-600 border-cyan-200/50" },
-  { title: "Pain & Symptom Control", desc: "Advanced therapeutic techniques to manage severe nausea, fatigue, neuropathy, and cancer pain.", features: ["Neuropathy remedies", "Advanced pain blocks", "Nausea management"], icon: HeartPulse, gradientClass: "from-red-500/10 to-rose-500/10 text-red-600 border-red-200/50" },
-  { title: "Support Groups", desc: "Weekly physical and digital peer circles to share cancer stories, exchange recovery advice, and heal.", features: ["Survivor-led sessions", "Digital chat forums", "Art therapy events"], icon: MessageSquare, gradientClass: "from-violet-500/10 to-fuchsia-500/10 text-violet-600 border-violet-200/50" },
-  { title: "Oncology Home Care", desc: "Nurses visiting your residence for PICC line dressing, port flushes, injections, and care management.", features: ["PICC line flushes", "Injection scheduling", "Vitals checks at home"], icon: Home, gradientClass: "from-sky-500/10 to-indigo-500/10 text-sky-600 border-indigo-200/50" }
+  { title: "Emotional Counseling", desc: "Professional therapists guiding you through shock, anxiety, and depression to build mental resilience.", features: ["One-on-one sessions", "Stress relief therapy", "Caregiver support"], icon: Brain, gradientClass: "from-pink-500/5 to-rose-500/5 text-pink-600 border-pink-100/60" },
+  { title: "Nutrition Guidance", desc: "Tailored dietary advice to maintain cellular strength, digest food easily, and boost immunity.", features: ["Cycle-specific meal plans", "Nausea mitigation diets", "Weight management"], icon: Apple, gradientClass: "from-amber-500/5 to-orange-500/5 text-amber-600 border-amber-100/60" },
+  { title: "Survivorship Programs", desc: "Providing transition support, helping survivors return to work, stay healthy, and advocate.", features: ["Transition guidance", "Healthy life coaching", "Advocacy meetups"], icon: Ribbon, gradientClass: "from-purple-500/5 to-indigo-500/5 text-purple-600 border-purple-100/60" },
+  { title: "Financial Assistance", desc: "Connecting families to government schemes, healthcare insurance, and verified NGO treatment grants.", features: ["NGO subsidy routing", "Insurance facilitation", "Crowdfunding tools"], icon: HeartHandshake, gradientClass: "from-emerald-500/5 to-teal-500/5 text-emerald-600 border-emerald-100/60" },
+  { title: "Family Support Systems", desc: "Counseling spouses, children, and close relatives on how to care for patients without burning out.", features: ["Family group therapy", "Youth coping toolkits", "Respite care help"], icon: Users2, gradientClass: "from-blue-500/5 to-sky-500/5 text-blue-600 border-blue-100/60" },
+  { title: "Fertility Counseling", desc: "Expert guidance on egg freezing and reproductive options before starting chemotherapy.", features: ["Egg preservation routing", "Hormonal consults", "Family planning advice"], icon: Dna, gradientClass: "from-pink-500/5 to-purple-500/5 text-pink-600 border-pink-100/60" },
+  { title: "Physical Rehabilitation", desc: "Restoring physical upper-body range of motion and checking for postoperative muscular stiffness.", features: ["Shoulder exercises", "Lymphedema detection", "Posture alignment"], icon: Sparkles, gradientClass: "from-cyan-500/5 to-teal-500/5 text-cyan-600 border-cyan-100/60" },
+  { title: "Pain & Symptom Control", desc: "Advanced therapeutic techniques to manage severe nausea, fatigue, neuropathy, and cancer pain.", features: ["Neuropathy remedies", "Advanced pain blocks", "Nausea management"], icon: HeartPulse, gradientClass: "from-red-500/5 to-rose-500/5 text-red-600 border-red-100/60" },
+  { title: "Support Groups", desc: "Weekly physical and digital peer circles to share cancer stories, exchange recovery advice, and heal.", features: ["Survivor-led sessions", "Digital chat forums", "Art therapy events"], icon: MessageSquare, gradientClass: "from-violet-500/5 to-fuchsia-500/5 text-violet-600 border-violet-100/60" },
+  { title: "Oncology Home Care", desc: "Nurses visiting your residence for PICC line dressing, port flushes, injections, and care management.", features: ["PICC line flushes", "Injection scheduling", "Vitals checks at home"], icon: Home, gradientClass: "from-sky-500/5 to-indigo-500/5 text-sky-600 border-sky-100/60" }
 ];
 
 const patientResourcesData: PatientResource[] = [
@@ -347,7 +347,6 @@ export default function CareProvidersPage() {
   const [activeJourneyStep, setActiveJourneyStep] = useState<number>(0);
   const [detailsModal, setDetailsModal] = useState<CareService | null>(null);
 
-  // Track which team member images failed to load (for fallback to person icon)
   const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
 
   const [helpRequestOpen, setHelpRequestOpen] = useState(false);
@@ -437,64 +436,66 @@ export default function CareProvidersPage() {
   };
 
   return (
-    <div className="flex-1 w-full bg-slate-50 text-slate-800 selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden">
+    <div className="flex-1 w-full bg-white text-slate-800 font-sans selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden relative">
+
+      {/* Decorative background blur blobs */}
+      <div className="absolute top-20 right-10 w-96 h-96 bg-pink-100/40 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse duration-[8000ms]" />
+      <div className="absolute top-1/3 left-5 w-80 h-80 bg-rose-50/50 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-1/4 right-5 w-96 h-96 bg-pink-50/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* ==================== 1. HERO SECTION ==================== */}
-      <section className="relative w-full min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-rose-50/50 via-white to-white border-b border-rose-100/30">
-        <div className="absolute top-20 right-10 w-96 h-96 bg-pink-100/40 rounded-full blur-3xl pointer-events-none -z-0" />
-        <div className="absolute bottom-10 left-5 w-80 h-80 bg-rose-50/50 rounded-full blur-3xl pointer-events-none -z-0" />
-
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10 py-20 text-center">
-          <div className="max-w-3xl mx-auto space-y-6 flex flex-col items-center">
+      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
+          <div className="space-y-6 text-center">
 
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
             >
-              <Ribbon className="h-4 w-4 text-pink-600 fill-pink-200 animate-pulse" />
+              <Ribbon className="h-3.5 w-3.5 text-primary animate-pulse" />
               Trusted Care Network
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black text-slate-800 tracking-tight leading-tight"
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
             >
               Find the Right Care, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-rose-500 to-pink-600">
+              <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
                 Every Step of Your Journey.
               </span>
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-slate-600 text-base sm:text-lg lg:text-xl leading-relaxed font-sans max-w-2xl mx-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.7 }}
+              className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto font-medium"
             >
               Connect with trusted healthcare providers, breast oncology specialists, diagnostic screening centers, and support networks dedicated to breast cancer recovery and survival.
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center pt-2"
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="pt-4 flex flex-wrap justify-center gap-4"
             >
               <Button
                 onClick={() => scrollToId("care-services-directory")}
-                className="bg-primary hover:bg-primary/95 text-white font-bold px-8 py-6 rounded-2xl shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
+                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
               >
                 Find a Care Provider
-                <ArrowRight className="h-5 w-5 ml-1.5" />
+                <ArrowRight className="h-4 w-4 ml-1.5" />
               </Button>
               <Button
                 variant="outline"
                 onClick={() => scrollToId("support-services-section")}
-                className="border-pink-200 text-primary bg-white hover:bg-pink-50/60 font-bold px-8 py-6 rounded-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
+                className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
               >
                 Get Support
               </Button>
@@ -504,78 +505,75 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 2. WHY CHOICE MATTERS ==================== */}
-      <section className="py-24 bg-white relative overflow-hidden">
-        <div className="absolute top-10 right-0 w-80 h-80 bg-pink-105/30 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 left-0 w-80 h-80 bg-purple-105/30 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="container mx-auto px-4 max-w-6xl relative z-10">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider border border-pink-200/50">
-              <ShieldCheck className="h-4 w-4 text-primary" />
+      <section className="py-20 md:py-28 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <ShieldCheck className="h-3.5 w-3.5" />
               Why Choice Matters
             </span>
 
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800 leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 leading-tight tracking-tight">
               Coordinated Care Improves Survival Outcomes
             </h2>
 
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               Breast cancer treatment is highly specialized. A coordinated, multidisciplinary medical team ensures custom chemotherapy, precise radiation, and surgical accuracy.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-pink-50/50 border border-pink-100/40 shadow-xs flex flex-col justify-between">
-                <div className="h-12 w-12 rounded-2xl bg-white border border-pink-200 flex items-center justify-center shadow-xs">
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-gradient-to-br from-pink-500/5 to-rose-500/5 border border-pink-100/60 shadow-sm flex flex-col justify-between">
+                <div className="h-12 w-12 rounded-2xl bg-white border border-pink-100/60 flex items-center justify-center shadow-sm">
                   <Activity className="h-6 w-6 text-pink-600" />
                 </div>
                 <div className="mt-8">
                   <h4 className="text-4xl font-black text-slate-800 tracking-tight">90%+</h4>
                   <p className="text-xs font-bold text-pink-600 uppercase tracking-widest mt-1">Survival Rate</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">With early stage clinical diagnostics and local screenings.</p>
+                  <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">With early stage clinical diagnostics and local screenings.</p>
                 </div>
               </motion.div>
 
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-purple-50/50 border border-purple-105/40 shadow-xs flex flex-col justify-between">
-                <div className="h-12 w-12 rounded-2xl bg-white border border-purple-200 flex items-center justify-center shadow-xs">
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-gradient-to-br from-purple-500/5 to-indigo-500/5 border border-purple-100/60 shadow-sm flex flex-col justify-between">
+                <div className="h-12 w-12 rounded-2xl bg-white border border-purple-100/60 flex items-center justify-center shadow-sm">
                   <Users2 className="h-6 w-6 text-purple-600" />
                 </div>
                 <div className="mt-8">
                   <h4 className="text-4xl font-black text-slate-800 tracking-tight">30%</h4>
                   <p className="text-xs font-bold text-purple-600 uppercase tracking-widest mt-1">Better Outcome</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">Observed in patients treated under formal multidisciplinary tumor boards.</p>
+                  <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">Observed in patients treated under formal multidisciplinary tumor boards.</p>
                 </div>
               </motion.div>
 
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-blue-50/50 border border-blue-105/40 shadow-xs flex flex-col justify-between">
-                <div className="h-12 w-12 rounded-2xl bg-white border border-blue-200 flex items-center justify-center shadow-xs">
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-gradient-to-br from-blue-500/5 to-sky-500/5 border border-blue-100/60 shadow-sm flex flex-col justify-between">
+                <div className="h-12 w-12 rounded-2xl bg-white border border-blue-100/60 flex items-center justify-center shadow-sm">
                   <HeartHandshake className="h-6 w-6 text-blue-600" />
                 </div>
                 <div className="mt-8">
                   <h4 className="text-4xl font-black text-slate-800 tracking-tight">24/7</h4>
                   <p className="text-xs font-bold text-blue-600 uppercase tracking-widest mt-1">Patient Support</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">Continuous navigation mapping support from diagnosis to survivorship.</p>
+                  <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">Continuous navigation mapping support from diagnosis to survivorship.</p>
                 </div>
               </motion.div>
 
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-cyan-50/50 border border-cyan-105/40 shadow-xs flex flex-col justify-between">
-                <div className="h-12 w-12 rounded-2xl bg-white border border-cyan-200 flex items-center justify-center shadow-xs">
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-gradient-to-br from-cyan-500/5 to-teal-500/5 border border-cyan-100/60 shadow-sm flex flex-col justify-between">
+                <div className="h-12 w-12 rounded-2xl bg-white border border-cyan-100/60 flex items-center justify-center shadow-sm">
                   <ShieldAlert className="h-6 w-6 text-cyan-600" />
                 </div>
                 <div className="mt-8">
                   <h4 className="text-4xl font-black text-slate-800 tracking-tight">Zero</h4>
                   <p className="text-xs font-bold text-cyan-600 uppercase tracking-widest mt-1">Stigma Care</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">Compassionate mental counseling focusing strictly on patient comfort.</p>
+                  <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">Compassionate mental counseling focusing strictly on patient comfort.</p>
                 </div>
               </motion.div>
             </div>
 
             <div className="lg:col-span-7 space-y-6">
-              <h3 className="font-heading text-2xl sm:text-3xl font-extrabold text-slate-800">
+              <h3 className="font-heading text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
                 A Unified Front Against Breast Cancer
               </h3>
-              <p className="text-slate-600 leading-relaxed text-sm sm:text-base font-sans">
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base font-medium">
                 Fighting cancer requires more than just a single physician. It calls for an integrated alliance of medical, surgical, and supportive care providers. In modern breast oncology, the key to successful treatment lies in the custom synergy of these specialists.
               </p>
 
@@ -585,13 +583,13 @@ export default function CareProvidersPage() {
                   { title: "Subtle Surgical & Reconstructive Work", desc: "Breast surgeons remove cancer cell margins, while reconstructive surgeons restore alignment, physical form, and self-confidence." },
                   { title: "Holistic Counseling and Rehabilitation", desc: "Mental health therapists and lymphedema physiotherapists help restore functional mobility and clear internal emotional strain." }
                 ].map((item, idx) => (
-                  <div key={idx} className="flex gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
-                    <div className="h-6 w-6 rounded-full bg-pink-100 flex items-center justify-center shrink-0 mt-0.5 animate-pulse">
+                  <div key={idx} className="flex gap-4 p-4 rounded-2xl bg-slate-50/50 border border-slate-100">
+                    <div className="h-6 w-6 rounded-full bg-pink-100 flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="h-3.5 w-3.5 text-pink-600" />
                     </div>
                     <div>
                       <h4 className="font-bold text-slate-800 text-sm font-heading">{item.title}</h4>
-                      <p className="text-xs text-slate-500 mt-1 leading-relaxed">{item.desc}</p>
+                      <p className="text-xs text-slate-500 mt-1 leading-relaxed font-medium">{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -602,17 +600,17 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 3. MULTIDISCIPLINARY CARE TEAM ==================== */}
-      <section className="py-24 bg-gradient-to-b from-slate-50 to-pink-50/20">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wider border border-purple-100">
-              <Users2 className="h-4 w-4" />
+      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wider border border-purple-100/60">
+              <Users2 className="h-3.5 w-3.5" />
               The Care Specialist Team
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Meet Your Multidisciplinary Care Team
             </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               Click on any specialist category below to understand their dedicated responsibilities in your therapeutic journey.
             </p>
           </div>
@@ -627,14 +625,14 @@ export default function CareProvidersPage() {
                     key={spec.id}
                     onClick={() => setSelectedSpecialist(spec.id)}
                     className={`flex items-center gap-3.5 px-4 py-3 rounded-2xl border text-left cursor-pointer transition-all shrink-0 select-none ${isSelected
-                      ? "bg-white border-pink-500 text-pink-600 shadow-md scale-[1.02]"
-                      : "bg-white border-slate-100 hover:border-slate-350 text-slate-650 shadow-xs"
+                      ? "bg-pink-50/40 border-primary/50 shadow-sm scale-[1.02]"
+                      : "bg-white border-slate-100 hover:border-pink-200/50 hover:bg-pink-50/10 text-slate-650"
                       }`}
                   >
                     <div className={`p-2 rounded-xl shrink-0 ${isSelected ? "bg-pink-100 text-pink-600" : "bg-slate-50 text-slate-400"}`}>
                       <SpecIcon className="h-5 w-5" />
                     </div>
-                    <span className="text-sm font-bold tracking-tight whitespace-nowrap font-heading">{spec.name}</span>
+                    <span className={`text-sm font-bold tracking-tight whitespace-nowrap font-heading ${isSelected ? "text-primary" : "text-slate-700"}`}>{spec.name}</span>
                   </button>
                 );
               })}
@@ -648,7 +646,7 @@ export default function CareProvidersPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white rounded-3xl p-8 border border-slate-200/60 shadow-xl relative overflow-hidden"
+                  className="bg-white rounded-3xl p-8 border border-pink-100/60 shadow-sm relative overflow-hidden"
                 >
                   <div className="absolute -top-12 -right-12 w-32 h-32 bg-pink-100/20 rounded-full blur-2xl pointer-events-none" />
 
@@ -665,12 +663,12 @@ export default function CareProvidersPage() {
                   <div className="space-y-6">
                     <div>
                       <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 font-heading">Specialty Focus</h4>
-                      <p className="text-slate-600 text-sm leading-relaxed font-sans">{currentSpecialist.desc}</p>
+                      <p className="text-slate-600 text-sm leading-relaxed font-medium">{currentSpecialist.desc}</p>
                     </div>
 
-                    <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div className="p-5 rounded-2xl bg-slate-50/50 border border-slate-100">
                       <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5 font-heading">Key Responsibilities</h4>
-                      <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-sans">{currentSpecialist.role}</p>
+                      <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-medium">{currentSpecialist.role}</p>
                     </div>
 
                     <div className="pt-2 flex items-center gap-2 text-xs font-medium text-slate-400">
@@ -686,17 +684,17 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 4. MEET OUR EXPERT TEAM (GALLERY) ==================== */}
-      <section id="expert-team-gallery" className="py-24 bg-white relative">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100">
-              <Users2 className="h-4 w-4" />
+      <section id="expert-team-gallery" className="py-20 md:py-28 bg-white border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <Users2 className="h-3.5 w-3.5" />
               Our Team
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Meet Our Expert Team
             </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               Dedicated specialists committed to your care – from diagnosis to recovery and beyond.
             </p>
           </div>
@@ -712,7 +710,7 @@ export default function CareProvidersPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.4, delay: idx * 0.05 }}
-                  className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-slate-50 border border-slate-100/50 hover:border-pink-200"
+                  className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-slate-50 border border-pink-100/60 hover:border-pink-200"
                 >
                   <div className="aspect-[4/5] w-full overflow-hidden bg-slate-100 relative">
                     {hasImage ? (
@@ -729,9 +727,8 @@ export default function CareProvidersPage() {
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
-                      /* Fallback: simple person icon */
                       <div className="w-full h-full bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 flex items-center justify-center">
-                        <div className="h-24 w-24 rounded-full bg-white/80 border-2 border-pink-200 flex items-center justify-center shadow-md">
+                        <div className="h-24 w-24 rounded-full bg-white/80 border-2 border-pink-200 flex items-center justify-center shadow-sm">
                           <User className="h-12 w-12 text-pink-500" strokeWidth={1.8} />
                         </div>
                       </div>
@@ -753,29 +750,29 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 5. CARE SERVICES DIRECTORY ==================== */}
-      <section id="care-services-directory" className="py-24 bg-white relative">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100">
-              <Search className="h-4 w-4" />
+      <section id="care-services-directory" className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <Search className="h-3.5 w-3.5" />
               Provider Search
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Verified Breast Cancer Care Directory
             </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               Find hospitals, diagnostics labs, home care nursing services, and mental health counseling support near you. Filter by category or search by city.
             </p>
           </div>
 
-          <div className="mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 flex gap-3 items-start max-w-3xl mx-auto">
+          <div className="mb-8 p-4 rounded-2xl bg-amber-50/50 border border-amber-100/60 flex gap-3 items-start max-w-3xl mx-auto">
             <Info className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
-            <p className="text-xs sm:text-sm text-amber-900 leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-amber-900 leading-relaxed font-medium">
               <strong>Informational Directory Only:</strong> This directory is provided purely for awareness and educational purposes. We do not facilitate bookings or appointments. Please contact the respective provider directly using the phone or email details listed.
             </p>
           </div>
 
-          <div className="bg-slate-50 rounded-3xl p-6 border border-slate-200/50 shadow-md mb-12 space-y-6">
+          <div className="bg-white rounded-3xl p-6 border border-pink-100/60 shadow-sm mb-12 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
               <div className="md:col-span-8 relative">
                 <Search className="absolute left-4.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
@@ -804,7 +801,7 @@ export default function CareProvidersPage() {
               </div>
             </div>
 
-            <div className="border-t border-slate-200 pt-4">
+            <div className="border-t border-pink-100/40 pt-4">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-3 font-heading">Filter by Category</span>
               <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
@@ -812,8 +809,8 @@ export default function CareProvidersPage() {
                     key={cat.value}
                     onClick={() => setSelectedCategory(cat.value)}
                     className={`px-4 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer select-none ${selectedCategory === cat.value
-                      ? "bg-pink-600 border-pink-600 text-white shadow-sm"
-                      : "bg-white border-slate-200 hover:border-slate-350 text-slate-650"
+                      ? "bg-primary border-primary text-white shadow-sm"
+                      : "bg-white border-slate-100 hover:border-pink-200/50 hover:bg-pink-50/10 text-slate-650"
                       }`}
                   >
                     {cat.label}
@@ -827,7 +824,7 @@ export default function CareProvidersPage() {
             {providersLoading ? (
               <div className="col-span-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="bg-white rounded-3xl p-6 border border-slate-200/40 animate-pulse space-y-4">
+                  <div key={i} className="bg-white rounded-3xl p-6 border border-pink-100/40 animate-pulse space-y-4">
                     <div className="h-4 w-20 bg-slate-200 rounded" />
                     <div className="h-6 w-3/4 bg-slate-200 rounded" />
                     <div className="h-12 w-full bg-slate-100 rounded" />
@@ -835,10 +832,10 @@ export default function CareProvidersPage() {
                 ))}
               </div>
             ) : careProviders.length === 0 ? (
-              <div className="col-span-full py-16 text-center bg-gradient-to-br from-pink-50 to-white rounded-3xl border-2 border-dashed border-pink-200 space-y-3 p-8">
+              <div className="col-span-full py-16 text-center bg-gradient-to-br from-pink-50/50 to-white rounded-3xl border-2 border-dashed border-pink-200/60 space-y-3 p-8">
                 <Building2 className="h-12 w-12 text-pink-400 mx-auto mb-2" />
                 <h3 className="font-heading text-xl font-extrabold text-slate-800">Directory Coming Soon</h3>
-                <p className="text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+                <p className="text-sm text-slate-500 max-w-md mx-auto leading-relaxed font-medium">
                   We are building a verified list of breast cancer care centers across India. Real hospitals, diagnostics, and support services will appear here soon.
                 </p>
               </div>
@@ -853,11 +850,11 @@ export default function CareProvidersPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.3 }}
-                      className="group bg-slate-50 hover:bg-white rounded-3xl p-6 border border-slate-200/40 shadow-xs hover:shadow-xl hover:border-pink-300 transition-all duration-300 flex flex-col justify-between"
+                      className="group bg-white hover:bg-pink-50/10 rounded-3xl p-6 border border-pink-100/60 shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col justify-between"
                     >
                       <div>
                         <div className="flex items-center justify-between mb-4">
-                          <span className="px-3 py-1 rounded-full bg-slate-200/50 text-slate-600 text-[10px] font-bold uppercase tracking-wider group-hover:bg-pink-50 group-hover:text-pink-600 group-hover:border-pink-100 border border-transparent font-heading">
+                          <span className="px-3 py-1 rounded-full bg-slate-100/50 text-slate-600 text-[10px] font-bold uppercase tracking-wider group-hover:bg-pink-100/60 group-hover:text-pink-700 border border-transparent font-heading">
                             {service.category.toUpperCase()}
                           </span>
                           <div className="flex items-center gap-1">
@@ -875,7 +872,7 @@ export default function CareProvidersPage() {
                           {service.specialization}
                         </p>
 
-                        <div className="space-y-2 mt-4 pt-4 border-t border-slate-200/50 text-xs text-slate-500 font-sans">
+                        <div className="space-y-2 mt-4 pt-4 border-t border-pink-100/40 text-xs text-slate-500 font-medium">
                           <p className="flex items-center gap-2">
                             <MapPin className="h-4 w-4 text-slate-400 shrink-0" />
                             <span className="line-clamp-1">{service.city} &bull; {service.address}</span>
@@ -891,11 +888,11 @@ export default function CareProvidersPage() {
                         </div>
                       </div>
 
-                      <div className="mt-6 pt-4 border-t border-slate-200/50">
+                      <div className="mt-6 pt-4 border-t border-pink-100/40">
                         <Button
                           variant="outline"
                           onClick={() => setDetailsModal(service)}
-                          className="w-full rounded-xl border-slate-200 text-slate-700 hover:bg-pink-50 hover:border-pink-300 hover:text-pink-600 font-semibold cursor-pointer h-10"
+                          className="w-full rounded-xl border-pink-200 text-primary hover:bg-pink-50/60 font-semibold cursor-pointer h-10"
                         >
                           <Info className="h-4 w-4 mr-2" />
                           View Details
@@ -905,9 +902,9 @@ export default function CareProvidersPage() {
                   ))
                 ) : (
                   <div className="col-span-full py-16 text-center space-y-4">
-                    <AlertCircle className="h-12 w-12 text-slate-350 mx-auto" />
+                    <AlertCircle className="h-12 w-12 text-slate-300 mx-auto" />
                     <h3 className="font-heading text-lg font-bold text-slate-700">No Providers Found</h3>
-                    <p className="text-slate-400 text-sm max-w-md mx-auto">
+                    <p className="text-slate-400 text-sm max-w-md mx-auto font-medium">
                       We couldn&apos;t find any clinics or diagnostic centers matching &ldquo;{searchQuery}&rdquo;. Try widening your filters or selecting &apos;All Cities&apos;.
                     </p>
                     <Button
@@ -916,7 +913,7 @@ export default function CareProvidersPage() {
                         setSelectedCategory("all");
                         setSelectedCity("all");
                       }}
-                      className="bg-slate-200 hover:bg-slate-350 text-slate-750 font-bold px-5 py-2.5 rounded-xl cursor-pointer"
+                      className="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-5 py-2.5 rounded-xl cursor-pointer"
                     >
                       Reset Filters
                     </Button>
@@ -929,17 +926,20 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 6. TREATMENT JOURNEY TIMELINE ==================== */}
-      <section className="py-24 bg-gradient-to-b from-slate-900 to-purple-950 text-white overflow-hidden relative">
-        <div className="container mx-auto px-4 max-w-6xl relative z-10">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider border border-pink-500/20">
-              <Activity className="h-4 w-4" />
+      <section className="py-20 md:py-28 bg-gradient-to-b from-slate-900 to-purple-950 text-white overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider border border-pink-500/20">
+              <Activity className="h-3.5 w-3.5" />
               Patient Path Roadmap
             </span>
             <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
               Breast Cancer Treatment Journey
             </h2>
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-300 text-sm sm:text-base font-medium">
               Every patient&apos;s timeline is unique, but cancer staging and execution generally follow these 11 milestones. Select a step to read details.
             </p>
           </div>
@@ -1000,7 +1000,7 @@ export default function CareProvidersPage() {
                 </div>
               </div>
 
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-3xl font-sans">
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-3xl font-medium">
                 {journeyStepsData[activeJourneyStep].desc}
               </p>
 
@@ -1028,17 +1028,17 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 7. SUPPORT SERVICES ==================== */}
-      <section id="support-services-section" className="py-24 bg-white relative">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100">
-              <HeartHandshake className="h-4 w-4" />
+      <section id="support-services-section" className="py-20 md:py-28 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <HeartHandshake className="h-3.5 w-3.5" />
               Integrated Support
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Compassionate Patient Support Services
             </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               We extend medical treatments by connecting you to specialized clinical counselors, oncology dietitians, survivor peer circles, and financial aid systems.
             </p>
           </div>
@@ -1050,22 +1050,22 @@ export default function CareProvidersPage() {
                 <motion.div
                   key={idx}
                   whileHover={{ y: -5, scale: 1.02 }}
-                  className={`p-6 rounded-3xl border bg-white ${support.gradientClass} shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between`}
+                  className={`p-6 rounded-3xl border bg-gradient-to-br ${support.gradientClass} shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between`}
                 >
                   <div className="space-y-4">
-                    <div className="h-11 w-11 rounded-xl bg-white flex items-center justify-center shadow-xs border border-slate-100">
+                    <div className="h-11 w-11 rounded-xl bg-white flex items-center justify-center shadow-sm border border-pink-100/40">
                       <SupportIcon className="h-5.5 w-5.5" />
                     </div>
                     <div>
                       <h4 className="font-heading text-base font-extrabold text-slate-800 leading-tight">{support.title}</h4>
-                      <p className="text-xs text-slate-500 mt-2 leading-relaxed font-sans">{support.desc}</p>
+                      <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">{support.desc}</p>
                     </div>
                   </div>
 
-                  <ul className="mt-5 space-y-1.5 border-t border-slate-200/50 pt-4 text-[11px] text-slate-500 font-medium font-sans">
+                  <ul className="mt-5 space-y-1.5 border-t border-pink-100/40 pt-4 text-[11px] text-slate-500 font-medium font-sans">
                     {support.features.map((feature, i) => (
                       <li key={i} className="flex items-center gap-1.5">
-                        <Check className="h-3.5 w-3.5 text-emerald-605 shrink-0" />
+                        <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
                         {feature}
                       </li>
                     ))}
@@ -1078,17 +1078,17 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 8. DOCTOR ARTICLES & RESOURCES ==================== */}
-      <section id="doctor-articles-section" className="py-24 bg-gradient-to-tr from-pink-50/40 via-purple-50/15 to-blue-50/30 border-y border-slate-200/55">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-3xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100 font-heading">
-              <FileText className="h-4 w-4 text-pink-600" />
+      <section id="doctor-articles-section" className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-y border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div className="text-center space-y-3 max-w-3xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <FileText className="h-3.5 w-3.5 text-pink-600" />
               Verified Expert Advice
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Doctor Articles &amp; Resources
             </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-sans">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               Explore trusted articles and educational resources shared by verified healthcare professionals to help you make informed decisions about breast cancer care.
             </p>
           </div>
@@ -1096,7 +1096,7 @@ export default function CareProvidersPage() {
           {articlesLoading && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs animate-pulse space-y-4">
+                <div key={i} className="bg-white rounded-3xl p-6 border border-pink-100/40 shadow-sm animate-pulse space-y-4">
                   <div className="flex justify-between items-center">
                     <div className="h-4 w-20 bg-slate-200 rounded" />
                     <div className="h-3 w-16 bg-slate-100 rounded" />
@@ -1117,22 +1117,22 @@ export default function CareProvidersPage() {
           )}
 
           {!articlesLoading && articlesError && (
-            <div className="bg-white rounded-3xl p-8 border border-red-100 text-center space-y-3 max-w-md mx-auto shadow-xs">
+            <div className="bg-white rounded-3xl p-8 border border-red-100/60 text-center space-y-3 max-w-md mx-auto shadow-sm">
               <AlertCircle className="h-10 w-10 text-red-500 mx-auto" />
               <h3 className="font-heading text-base font-bold text-slate-800">Notice</h3>
-              <p className="text-xs text-slate-500">{articlesError}</p>
+              <p className="text-xs text-slate-500 font-medium">{articlesError}</p>
             </div>
           )}
 
           {!articlesLoading && !articlesError && doctorArticles.length === 0 && (
-            <div className="bg-white rounded-3xl p-12 border border-slate-100 text-center space-y-4 max-w-xl mx-auto shadow-xs">
-              <div className="h-16 w-16 rounded-full bg-pink-50 border border-pink-100 text-pink-600 flex items-center justify-center mx-auto">
+            <div className="bg-white rounded-3xl p-12 border border-pink-100/60 text-center space-y-4 max-w-xl mx-auto shadow-sm">
+              <div className="h-16 w-16 rounded-full bg-pink-50/60 border border-pink-100/40 text-pink-600 flex items-center justify-center mx-auto">
                 <Stethoscope className="h-8 w-8" />
               </div>
               <h3 className="font-heading text-lg sm:text-xl font-extrabold text-slate-800">
                 No doctor articles are available yet.
               </h3>
-              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-sans">
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
                 New educational resources from our registered healthcare professionals will appear here once reviewed and approved by our medical administration team.
               </p>
             </div>
@@ -1143,11 +1143,11 @@ export default function CareProvidersPage() {
               {doctorArticles.map((art) => (
                 <div
                   key={art.id}
-                  className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow group relative"
+                  className="bg-white rounded-3xl p-6 border border-pink-100/60 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow group relative"
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-pink-50 text-pink-600 text-[10px] font-bold uppercase tracking-wider font-heading border border-pink-100">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-pink-50/60 text-pink-700 text-[10px] font-bold uppercase tracking-wider font-heading border border-pink-100/40">
                         {art.fileUrl ? <FileText className="h-3 w-3" /> : <BookOpen className="h-3 w-3" />}
                         {art.fileUrl ? "PDF ARTICLE" : "DOCTOR ARTICLE"}
                       </span>
@@ -1158,12 +1158,12 @@ export default function CareProvidersPage() {
                       {art.title}
                     </h4>
 
-                    <p className="text-slate-500 text-xs leading-relaxed font-sans line-clamp-3">
+                    <p className="text-slate-500 text-xs leading-relaxed font-medium line-clamp-3">
                       {art.excerpt}
                     </p>
 
-                    <div className="pt-3 border-t border-slate-100 flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-full bg-pink-50 text-pink-600 border border-pink-100 flex items-center justify-center font-bold text-xs shrink-0 font-heading">
+                    <div className="pt-3 border-t border-pink-100/40 flex items-center gap-3">
+                      <div className="h-9 w-9 rounded-full bg-pink-50/60 text-pink-600 border border-pink-100/40 flex items-center justify-center font-bold text-xs shrink-0 font-heading">
                         <Stethoscope className="h-4.5 w-4.5" />
                       </div>
                       <div className="min-w-0">
@@ -1173,10 +1173,10 @@ export default function CareProvidersPage() {
                     </div>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100">
+                  <div className="mt-6 pt-4 border-t border-pink-100/40">
                     {art.fileUrl ? (
                       <a href={art.fileUrl} target="_blank" rel="noreferrer" className="w-full inline-block">
-                        <Button className="w-full bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold text-xs py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-xs">
+                        <Button className="w-full bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold text-xs py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-sm">
                           <Download className="h-4 w-4 shrink-0" />
                           Download Doctor Article
                         </Button>
@@ -1184,7 +1184,7 @@ export default function CareProvidersPage() {
                     ) : (
                       <Button
                         onClick={() => alert(`Title: ${art.title}\nAuthor: ${art.doctorName} (${art.doctorSpecialty})\n\n${art.content}`)}
-                        className="w-full bg-slate-50 hover:bg-pink-600 text-slate-700 hover:text-white border border-slate-100 text-xs font-bold py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-2xs"
+                        className="w-full bg-slate-50/60 hover:bg-pink-600 text-slate-700 hover:text-white border border-pink-100/40 text-xs font-bold py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all"
                       >
                         <BookOpen className="h-4 w-4 shrink-0" />
                         Download Doctor Article
@@ -1199,32 +1199,32 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 9. FAQ ==================== */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100">
-              <MessageSquare className="h-4 w-4" />
+      <section className="py-20 md:py-28 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <MessageSquare className="h-3.5 w-3.5" />
               FAQ Help Desk
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Care Provider FAQ
             </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-sans">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               Find instant answers to major patient queries regarding specialist matching, medical opinions, and tumor diagnostics.
             </p>
           </div>
 
-          <div className="space-y-4">
+          <div className="bg-white/80 border border-pink-100/60 rounded-3xl p-5 sm:p-8 shadow-sm space-y-4">
             {faqsData.map((faq, idx) => {
               const isOpen = activeFaq === idx;
               return (
-                <div key={idx} className="bg-slate-50 border border-slate-200/50 rounded-2xl overflow-hidden transition-colors">
+                <div key={idx} className="border-b border-slate-100 last:border-0 pb-4 last:pb-0 pt-3 first:pt-0">
                   <button
                     onClick={() => setActiveFaq(isOpen ? null : idx)}
-                    className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer font-bold text-slate-800 hover:text-pink-600 transition-colors"
+                    className="w-full flex justify-between items-center text-left py-2 font-heading font-bold text-sm sm:text-base text-slate-800 hover:text-primary transition-colors cursor-pointer select-none outline-none"
                   >
-                    <span className="text-sm sm:text-base tracking-tight font-heading leading-tight">{faq.question}</span>
-                    <div className="shrink-0 ml-4">
+                    <span>{faq.question}</span>
+                    <span className="text-slate-400 shrink-0 ml-4">
                       {isOpen ? (
                         <div className="p-1 rounded-full bg-pink-100 text-pink-600">
                           <X className="h-4 w-4" />
@@ -1234,7 +1234,7 @@ export default function CareProvidersPage() {
                           <ChevronDown className="h-4 w-4" />
                         </div>
                       )}
-                    </div>
+                    </span>
                   </button>
 
                   <AnimatePresence initial={false}>
@@ -1246,9 +1246,9 @@ export default function CareProvidersPage() {
                         transition={{ duration: 0.25 }}
                         className="overflow-hidden"
                       >
-                        <div className="px-6 pb-6 pt-1 text-slate-500 text-xs sm:text-sm leading-relaxed border-t border-slate-200/40 font-sans">
+                        <p className="text-xs sm:text-sm text-slate-500 leading-relaxed pt-2.5 pr-6 font-medium border-t border-slate-200/40">
                           {faq.answer}
-                        </div>
+                        </p>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -1260,60 +1260,60 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 10. EMERGENCY & HELPLINE ==================== */}
-      <section id="emergency-helpline-section" className="py-24 bg-gradient-to-r from-red-650 via-rose-600 to-pink-650 text-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/10 rounded-full blur-3xl pointer-events-none" />
+      <section id="emergency-helpline-section" className="py-16 md:py-24 bg-gradient-to-br from-pink-500 to-rose-600 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none" />
+        <div className="absolute bottom-[-10%] left-[5%] w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="container mx-auto px-4 max-w-6xl relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 space-y-6">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold uppercase tracking-wider">
-                <AlertCircle className="h-4 w-4 animate-bounce" />
+              <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider">
+                <AlertCircle className="h-3.5 w-3.5 animate-bounce" />
                 Emergency Contact
               </span>
-              <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+              <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
                 Need Immediate Care Assistance?
               </h2>
-              <p className="text-rose-100 text-sm sm:text-base leading-relaxed font-sans">
+              <p className="text-pink-100 text-sm sm:text-base font-medium leading-relaxed">
                 If you are facing immediate postsurgical complications, severe oncology side-effects, or require diagnostic scheduling help, connect with the support desk instantly.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
-                <a href="tel:18002031066" className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors cursor-pointer">
-                  <div className="p-3 rounded-xl bg-white/10 text-white shrink-0">
+                <a href="tel:18002031066" className="flex items-center gap-4 bg-white/10 border border-white/20 rounded-2xl p-4 hover:bg-white/20 transition-colors cursor-pointer">
+                  <div className="p-3 rounded-xl bg-white/20 text-white shrink-0">
                     <Phone className="h-6 w-6" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] text-rose-200 uppercase tracking-widest font-bold font-heading">Cancer Care Helpline</p>
+                    <p className="text-[10px] text-pink-100 uppercase tracking-widest font-bold font-heading">Cancer Care Helpline</p>
                     <p className="text-lg font-black text-white tracking-tight font-heading">1800-203-1066</p>
-                    <p className="text-[10px] text-rose-200 font-medium">Apollo Cancer Centres • 24×7</p>
+                    <p className="text-[10px] text-pink-100 font-medium">Apollo Cancer Centres • 24×7</p>
                   </div>
                 </a>
 
-                <a href="tel:9599687085" className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors cursor-pointer">
-                  <div className="p-3 rounded-xl bg-white/10 text-white shrink-0">
+                <a href="tel:9599687085" className="flex items-center gap-4 bg-white/10 border border-white/20 rounded-2xl p-4 hover:bg-white/20 transition-colors cursor-pointer">
+                  <div className="p-3 rounded-xl bg-white/20 text-white shrink-0">
                     <HeartPulse className="h-6 w-6" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] text-rose-200 uppercase tracking-widest font-bold font-heading">Breast Cancer Helpline</p>
+                    <p className="text-[10px] text-pink-100 uppercase tracking-widest font-bold font-heading">Breast Cancer Helpline</p>
                     <p className="text-lg font-black text-white tracking-tight font-heading">95996 87085</p>
-                    <p className="text-[10px] text-rose-200 font-medium">Cancer Mukt Bharat • 24×7</p>
+                    <p className="text-[10px] text-pink-100 font-medium">Cancer Mukt Bharat • 24×7</p>
                   </div>
                 </a>
               </div>
 
-              <div className="pt-4 border-t border-white/10">
-                <p className="text-[11px] text-rose-200 uppercase tracking-widest font-bold font-heading mb-3">Additional Support</p>
+              <div className="pt-4 border-t border-white/20">
+                <p className="text-[11px] text-pink-100 uppercase tracking-widest font-bold font-heading mb-3">Additional Support</p>
                 <div className="flex flex-wrap gap-3">
-                  <a href="tel:9355520202" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-xs text-white hover:bg-white/10 transition-colors">
+                  <a href="tel:9355520202" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-xs text-white hover:bg-white/20 transition-colors">
                     <Phone className="h-3.5 w-3.5 shrink-0" />
                     <span className="font-semibold">93555 20202</span>
-                    <span className="text-[10px] text-rose-200">• National Cancer</span>
+                    <span className="text-[10px] text-pink-100">• National Cancer</span>
                   </a>
-                  <a href="tel:14416" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-xs text-white hover:bg-white/10 transition-colors">
+                  <a href="tel:14416" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-xs text-white hover:bg-white/20 transition-colors">
                     <Brain className="h-3.5 w-3.5 shrink-0" />
                     <span className="font-semibold">14416</span>
-                    <span className="text-[10px] text-rose-200">• Tele MANAS (Mental Health)</span>
+                    <span className="text-[10px] text-pink-100">• Tele MANAS (Mental Health)</span>
                   </a>
                 </div>
               </div>
@@ -1321,8 +1321,8 @@ export default function CareProvidersPage() {
 
             <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-4">
               <a href="tel:18002031066" className="w-full">
-                <Button className="w-full bg-white hover:bg-slate-100 text-red-600 font-bold py-6 px-6 rounded-2xl shadow-xl transition-all cursor-pointer text-base">
-                  <Phone className="h-5 w-5 mr-2 shrink-0" />
+                <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-6 shadow-lg active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer">
+                  <Phone className="h-4 w-4 mr-2 shrink-0" />
                   Call Helpline Now
                 </Button>
               </a>
@@ -1333,67 +1333,18 @@ export default function CareProvidersPage() {
                   setSelectedCategory("hospitals");
                   scrollToId("care-services-directory");
                 }}
-                className="w-full bg-white hover:bg-slate-100 text-red-600 font-bold py-6 px-6 rounded-2xl shadow-xl transition-all cursor-pointer text-base"
+                className="w-full border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full py-6 px-6 active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer"
               >
                 Find Nearest Hospital
               </Button>
 
               <Button
                 onClick={() => setHelpRequestOpen(true)}
-                className="w-full bg-red-800/40 hover:bg-red-800/60 border border-white/20 text-white font-bold py-6 px-6 rounded-2xl transition-all cursor-pointer text-base"
+                className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-6 shadow-lg active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer"
               >
                 Request Care Assistance
               </Button>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ==================== 11. FINAL CTA ==================== */}
-      <section className="py-28 bg-slate-950 text-white relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/images/12.png"
-            alt="Breast cancer survivor and nurse smiling"
-            className="w-full h-full object-cover object-center filter brightness-[0.25] pointer-events-none"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent" />
-        </div>
-
-        <div className="container mx-auto px-4 max-w-4xl relative z-10 text-center space-y-8">
-          <motion.div
-            initial={{ scale: 0.95, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider border border-pink-500/20"
-          >
-            <Heart className="h-4 w-4 text-pink-400 fill-pink-400 animate-pulse" />
-            Stand Together
-          </motion.div>
-
-          <h2 className="font-heading text-4xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-            You Don&apos;t Have to Face <br />
-            Breast Cancer Alone.
-          </h2>
-
-          <p className="text-slate-300 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed font-sans">
-            Our network of trusted care providers, oncological clinics, counseling groups, and recovery assets is here to assist you through diagnosis, surgery, treatment, and recovery.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-            <Button
-              onClick={() => scrollToId("care-services-directory")}
-              className="w-full sm:w-auto bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-pink-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
-            >
-              Find Care Provider
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => scrollToId("emergency-helpline-section")}
-              className="w-full sm:w-auto border-slate-500 text-pink-600 to-rose-500 hover:bg-white/10 font-bold px-8 py-6 rounded-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
-            >
-              Contact Support
-            </Button>
           </div>
         </div>
       </section>
@@ -1409,7 +1360,7 @@ export default function CareProvidersPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setDetailsModal(null)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-xs"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
             />
 
             <motion.div
@@ -1417,7 +1368,7 @@ export default function CareProvidersPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ duration: 0.3 }}
-              className="relative bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
+              className="relative bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-pink-100/60 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
             >
               <button
                 onClick={() => setDetailsModal(null)}
@@ -1426,7 +1377,7 @@ export default function CareProvidersPage() {
                 <X className="h-5 w-5" />
               </button>
 
-              <span className="inline-block px-2.5 py-0.5 rounded bg-pink-50 text-pink-600 text-[10px] font-bold uppercase tracking-wider mb-3 font-heading">
+              <span className="inline-block px-2.5 py-0.5 rounded bg-pink-50/60 text-pink-700 text-[10px] font-bold uppercase tracking-wider mb-3 font-heading border border-pink-100/40">
                 {detailsModal.category.toUpperCase()}
               </span>
 
@@ -1441,19 +1392,19 @@ export default function CareProvidersPage() {
               <div className="mt-6 space-y-4 font-sans">
                 <div>
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 font-heading">About the Provider</h4>
-                  <p className="text-slate-650 text-xs sm:text-sm mt-1 leading-relaxed">
+                  <p className="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed font-medium">
                     {detailsModal.about}
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 flex gap-2 items-start">
+                <div className="p-3 rounded-xl bg-amber-50/50 border border-amber-100/60 flex gap-2 items-start">
                   <Info className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
-                  <p className="text-[11px] text-amber-800 leading-relaxed font-sans">
+                  <p className="text-[11px] text-amber-800 leading-relaxed font-medium">
                     This directory is for <strong>informational purposes only</strong>. We do not facilitate bookings or appointments. Please contact the provider directly using the details below.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
                   <div className="space-y-1">
                     <h5 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Operational Hours</h5>
                     <p className="text-slate-700 text-xs font-medium flex items-center gap-1.5">
@@ -1484,13 +1435,13 @@ export default function CareProvidersPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-100 pt-6 mt-6">
                   <a href={`tel:${detailsModal.phone}`} className="w-full">
-                    <Button variant="outline" className="w-full rounded-xl border-slate-200 text-slate-700 font-bold h-11 cursor-pointer">
+                    <Button variant="outline" className="w-full rounded-xl border-pink-200 text-primary hover:bg-pink-50/60 font-bold h-11 cursor-pointer">
                       <Phone className="h-4 w-4 mr-2" />
                       Call Provider
                     </Button>
                   </a>
                   <a href={`mailto:${detailsModal.email}`} className="w-full">
-                    <Button variant="outline" className="w-full rounded-xl border-slate-200 text-slate-700 font-bold h-11 cursor-pointer">
+                    <Button variant="outline" className="w-full rounded-xl border-pink-200 text-primary hover:bg-pink-50/60 font-bold h-11 cursor-pointer">
                       <Mail className="h-4 w-4 mr-2" />
                       Email Provider
                     </Button>
@@ -1511,7 +1462,7 @@ export default function CareProvidersPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={resetHelpForm}
-              className="fixed inset-0 bg-black/60 backdrop-blur-xs"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
             />
 
             <motion.div
@@ -1519,7 +1470,7 @@ export default function CareProvidersPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ duration: 0.3 }}
-              className="relative bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 border border-slate-200 shadow-2xl z-10"
+              className="relative bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 border border-pink-100/60 shadow-2xl z-10"
             >
               <button
                 onClick={resetHelpForm}
@@ -1533,7 +1484,7 @@ export default function CareProvidersPage() {
                   <h3 className="font-heading text-xl font-extrabold text-slate-800 leading-tight">
                     Request Care Assistance
                   </h3>
-                  <p className="text-xs text-slate-500 mt-1 font-sans">
+                  <p className="text-xs text-slate-500 mt-1 font-medium">
                     Fill out details, and our patient navigator will contact you to assist with scheduling, funding, or counseling.
                   </p>
 
@@ -1546,7 +1497,7 @@ export default function CareProvidersPage() {
                         placeholder="Enter full name"
                         value={helpName}
                         onChange={(e) => setHelpName(e.target.value)}
-                        className="bg-slate-55 border-slate-200 h-10 rounded-xl"
+                        className="bg-slate-50/50 border-pink-100/60 h-10 rounded-xl focus-visible:ring-pink-500"
                       />
                     </div>
 
@@ -1558,7 +1509,7 @@ export default function CareProvidersPage() {
                         placeholder="e.g. +91 98765 43210"
                         value={helpPhone}
                         onChange={(e) => setHelpPhone(e.target.value)}
-                        className="bg-slate-55 border-slate-200 h-10 rounded-xl"
+                        className="bg-slate-50/50 border-pink-100/60 h-10 rounded-xl focus-visible:ring-pink-500"
                       />
                     </div>
 
@@ -1569,14 +1520,14 @@ export default function CareProvidersPage() {
                         placeholder="Describe what help you require (e.g. screening camps, diagnostic funding, counseling)"
                         value={helpMessage}
                         onChange={(e) => setHelpMessage(e.target.value)}
-                        className="w-full h-20 px-3 py-2 bg-slate-55 border border-slate-200 rounded-xl outline-none focus:border-pink-500 transition-colors text-xs font-semibold text-slate-705 cursor-pointer"
+                        className="w-full h-20 px-3 py-2 bg-slate-50/50 border border-pink-100/60 rounded-xl outline-none focus:border-pink-500 transition-colors text-xs font-medium text-slate-700 resize-none"
                       />
                     </div>
 
                     <Button
                       type="submit"
                       disabled={helpLoading}
-                      className="w-full bg-red-600 hover:bg-red-700 text-white font-bold h-11 rounded-xl cursor-pointer mt-2"
+                      className="w-full bg-primary hover:bg-primary/95 text-white font-bold h-11 rounded-xl cursor-pointer mt-2 shadow-md shadow-pink-100 active:scale-95 transition-all"
                     >
                       {helpLoading ? (
                         <>
@@ -1591,16 +1542,16 @@ export default function CareProvidersPage() {
                 </>
               ) : (
                 <div className="text-center py-6 space-y-4">
-                  <div className="h-14 w-14 rounded-full bg-emerald-50 border-2 border-emerald-250 text-emerald-600 flex items-center justify-center mx-auto">
+                  <div className="h-14 w-14 rounded-full bg-emerald-50 border-2 border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
                     <Check className="h-7 w-7 animate-pulse" />
                   </div>
                   <h3 className="font-heading text-lg font-bold text-slate-800">Request Received</h3>
-                  <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed font-sans">
+                  <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed font-medium">
                     Thank you, <span className="font-bold">{helpName}</span>. Your request has been queued. Our patient counselor will contact you within 24 hours at <span className="font-bold">{helpPhone}</span> to guide you.
                   </p>
                   <Button
                     onClick={resetHelpForm}
-                    className="bg-slate-200 hover:bg-slate-350 text-slate-750 font-bold px-6 py-2 rounded-xl cursor-pointer mt-4"
+                    className="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-6 py-2 rounded-xl cursor-pointer mt-4"
                   >
                     Done
                   </Button>

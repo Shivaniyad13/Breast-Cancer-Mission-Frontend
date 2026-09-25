@@ -371,8 +371,7 @@ const diagnosisMethods = {
 };
 
 const diagnosisVideos = [
-
-    {
+  {
     title: "Khushi Tactile Care Kit Instructions",
     duration: "5:12",
     description: "Learn how to use the checkup cards, timeline trackers, and tactile exam aids included in the Khushi Care Kit.",
@@ -390,7 +389,6 @@ const diagnosisVideos = [
     description: "Detailed medical walkthrough demonstrating correct examination motions, fingers pressure, and inspection zones.",
     src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789020972/euhbbZb3sNXxgOi6g2MF_42G6uUncFHU.mp4"
   },
-
 ];
 
 interface DiagnosisClientProps {
@@ -398,7 +396,6 @@ interface DiagnosisClientProps {
 }
 
 export default function DiagnosisClient({ initialTechnologies }: DiagnosisClientProps) {
-  // Use mock data if no initial technologies passed from server
   const [technologies] = useState<DiagnosisTechnology[]>(
     initialTechnologies && initialTechnologies.length > 0 ? initialTechnologies : MOCK_TECHNOLOGIES
   );
@@ -547,7 +544,6 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
           text: "Collaboration request submitted successfully! Our administrative panel will review your proposal and contact you via email shortly. Your request status is marked as PENDING.",
           type: "success"
         });
-        // Reset fields
         setOrgName("");
         setCompanyName("");
         setContactPerson("");
@@ -570,14 +566,12 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
     }
   };
 
-  // Open Collaboration Dialog and pre-populate Tech name
   const openCollabDialog = (techName = "") => {
     setCollabTechName(techName);
     setFormMessage(null);
     setIsCollabOpen(true);
   };
 
-  // Learn More details modal opener
   const openDetailsDialog = (tech: DiagnosisTechnology) => {
     setSelectedTech(tech);
     setOpenFaqIndex(null);
@@ -585,71 +579,83 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
   };
 
   return (
-    <div className="flex-1 w-full bg-slate-50 text-slate-800 font-sans selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden">
+    <div className="flex-1 w-full bg-white text-slate-800 font-sans selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden relative">
+
+      {/* Decorative background blur blobs */}
+      <div className="absolute top-20 right-10 w-96 h-96 bg-pink-100/40 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse duration-[8000ms]" />
+      <div className="absolute top-1/3 left-5 w-80 h-80 bg-rose-50/50 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-1/4 right-5 w-96 h-96 bg-pink-50/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* ========================================================
           1. HERO SECTION
           ======================================================== */}
-      <section className="relative bg-slate-950 py-24 md:py-36 overflow-hidden flex items-center justify-center border-b border-pink-500/10 min-h-[60vh]">
-        {/* Background Visual Grid / Circles */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(219,39,119,0.12),transparent_60%)] z-0" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-pink-500/20 to-transparent" />
+      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
+          <div className="space-y-6 text-center">
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl relative z-10 text-center space-y-6">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs font-bold uppercase tracking-wider"
-          >
-            <Ribbon className="h-4 w-4 animate-pulse text-pink-500" />
-            Global Diagnostic Directory
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
+            >
+              <Ribbon className="h-3.5 w-3.5 text-primary animate-pulse" />
+              Clinical Diagnostic Directory
+            </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.6 }}
-            className="font-heading text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight"
-          >
-            Breast Cancer <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-300 to-sky-300">
-              Diagnosis Technologies
-            </span>
-          </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
+            >
+              Breast Cancer <br />
+              <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
+                Diagnosis Technologies
+              </span>
+            </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto"
-          >
-            Explore the latest diagnostic technologies used worldwide for early breast cancer detection and understand how each examination is performed. Partner with us to spread clinical guidelines.
-          </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.7 }}
+              className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto font-medium"
+            >
+              Explore the latest diagnostic technologies used worldwide for early breast cancer detection and understand how each examination is performed. Partner with us to spread clinical guidelines.
+            </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="pt-4"
-          >
-            <a href="#diagnosis-modalities">
-              <Button size="lg" className="bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-bold rounded-full px-8 py-6 text-base cursor-pointer shadow-lg shadow-pink-600/20 hover:scale-105 transition-all">
-                Explore Diagnosis Methods
-              </Button>
-            </a>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="pt-4 flex flex-wrap justify-center gap-4"
+            >
+              <a href="#diagnosis-modalities">
+                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                  Explore Diagnosis Methods
+                </Button>
+              </a>
+              <a href="#video-library">
+                <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                  Watch Videos
+                </Button>
+              </a>
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      <section id="overview-story" className="py-24 bg-gradient-to-b from-rose-50/20 via-white to-rose-50/10 relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ========================================================
+          2. OVERVIEW STORY SECTION
+          ======================================================== */}
+      <section id="overview-story" className="py-20 md:py-28 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 
             {/* Left Column: Large Emotional Image */}
             <div className="lg:col-span-6 relative">
               <div className="absolute -inset-2 bg-gradient-to-br from-pink-400 to-purple-400 rounded-3xl opacity-20 blur-xl -z-10" />
-              <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden shadow-2xl border border-pink-100">
+              <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden shadow-sm border border-pink-100/60">
                 <Image
                   src="/images/image.png"
                   alt="Compassionate patient support care"
@@ -663,29 +669,29 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
 
             {/* Right Column: Narrative */}
             <div className="lg:col-span-6 space-y-6">
-              <span className="text-xs font-bold text-pink-600 uppercase tracking-widest bg-pink-50 px-3 py-1 rounded-full inline-block">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
                 Our Philosophy
               </span>
-              <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-tight">
-                You Are Not Fighting <span className="text-pink-600">Alone.</span>
+              <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 leading-tight tracking-tight">
+                You Are Not Fighting <span className="text-primary">Alone.</span>
               </h2>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
                 Facing a breast cancer diagnosis is a profound and emotional journey that impacts the entire family structure. We walk by your side at every step. We integrate advanced clinical research with deeply supportive, patient-first care pathways to maximize healing capacity.
               </p>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
                 By nurturing emotional health, providing evidence-based wellness guidelines, and introducing holistic support mechanisms, we aim to build resilience, restore vitality, and keep the flame of hope burning brightly.
               </p>
 
               {/* Animated Quote Card */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="p-6 rounded-2xl border border-pink-100 bg-white/70 backdrop-blur-md shadow-lg shadow-pink-100/20 relative overflow-hidden"
+                className="p-6 rounded-2xl border border-pink-100/60 bg-gradient-to-br from-pink-500/5 to-rose-500/5 backdrop-blur-sm shadow-sm relative overflow-hidden"
               >
                 <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-pink-500 to-purple-500" />
                 <p className="text-pink-700 italic font-semibold text-sm sm:text-base">
                   &ldquo;Cancer may change your life, but it doesn&apos;t define your future.&rdquo;
                 </p>
-                <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider block mt-2">
+                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider block mt-2">
                   Supportive Care Core
                 </span>
               </motion.div>
@@ -695,22 +701,22 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
         </div>
       </section>
 
-
       {/* ========================================================
-          DIAGNOSTIC MODALITIES TABBED LAYOUT & VIDEOS
+          3. DIAGNOSTIC MODALITIES TABBED LAYOUT
           ======================================================== */}
-      <section id="diagnosis-modalities" className="py-24 bg-white border-b border-slate-100">
+      <section id="diagnosis-modalities" className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
 
           {/* Header */}
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="text-xs font-bold text-pink-600 uppercase tracking-widest bg-pink-50 px-3 py-1 rounded-full inline-block">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <Stethoscope className="h-3.5 w-3.5" />
               Clinical Standards
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Breast Cancer Diagnosis Options
             </h2>
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               Early and accurate diagnosis is critical. Learn about standard clinical pathways, when they are recommended, and explore patient video walkthroughs.
             </p>
           </div>
@@ -729,10 +735,10 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
                   onClick={() => setActiveDiagTab(key)}
                   className={`p-3.5 sm:p-4 rounded-2xl border text-left cursor-pointer transition-all duration-300 flex items-center justify-between gap-4 shrink-0 lg:shrink ${activeDiagTab === key
                       ? "bg-pink-50/60 border-pink-200 text-pink-700 shadow-xs"
-                      : "bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-200 text-slate-700"
+                      : "bg-white border-slate-100 hover:bg-pink-50/10 hover:border-pink-200/50 text-slate-700"
                     }`}
                 >
-                  <span className="font-bold text-xs sm:text-sm md:text-base tracking-tight whitespace-nowrap">
+                  <span className={`font-bold text-xs sm:text-sm md:text-base tracking-tight whitespace-nowrap ${activeDiagTab === key ? "text-primary" : "text-slate-700"}`}>
                     {key === "mammography" && "Mammography"}
                     {key === "ultrasound" && "Ultrasound"}
                     {key === "mri" && "Breast MRI"}
@@ -747,31 +753,31 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
             </div>
 
             {/* Right Column: Tab Content */}
-            <Card className="lg:col-span-8 border-slate-100 bg-slate-50/20 p-6 sm:p-8 rounded-3xl flex flex-col justify-between space-y-6">
+            <Card className="lg:col-span-8 border-pink-100/60 bg-gradient-to-br from-pink-500/5 to-rose-500/5 p-6 sm:p-8 rounded-3xl flex flex-col justify-between space-y-6 shadow-sm">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
                 <div className="md:col-span-7 space-y-4">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-100/50 text-pink-700 text-[10px] font-bold uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-100/50 text-pink-700 text-[10px] font-bold uppercase tracking-wider border border-pink-100/60">
                     {activeDiagTab === "biopsy" ? "Invasive Diagnostic" : "Non-Invasive Imaging"}
                   </span>
                   <h3 className="font-heading text-2xl font-black text-slate-800 tracking-tight">
                     {diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].title}
                   </h3>
-                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
                     {diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].description}
                   </p>
 
-                  <div className="p-4 rounded-xl bg-amber-500/[0.03] border border-amber-500/10 space-y-1">
+                  <div className="p-4 rounded-xl bg-amber-50/50 border border-amber-100/60 space-y-1">
                     <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest flex items-center gap-1">
                       <Info className="h-3.5 w-3.5" /> Clinical Recommendation Criteria
                     </p>
-                    <p className="text-xs text-slate-500 leading-relaxed">
+                    <p className="text-xs text-slate-500 leading-relaxed font-medium">
                       {diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].recom}
                     </p>
                   </div>
                 </div>
 
                 {/* Modality Image */}
-                <div className="md:col-span-5 relative aspect-square w-full rounded-2xl overflow-hidden border border-pink-100/30 shadow-xs bg-white flex items-center justify-center">
+                <div className="md:col-span-5 relative aspect-square w-full rounded-2xl overflow-hidden border border-pink-100/60 shadow-sm bg-white flex items-center justify-center">
                   <Image
                     src={diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].imageUrl}
                     alt={diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].title}
@@ -798,106 +804,110 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
             </Card>
 
           </div>
-          {/* Videos Subsection */}
-          <div className="space-y-8 pt-8 border-t border-slate-100">
-            <div className="space-y-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-bold uppercase tracking-wider">
-                <Video className="h-3.5 w-3.5" />
-                Clinical Video Walkthroughs
-              </span>
-              <h3 className="font-heading text-2xl font-bold text-slate-800">
-                Early Screening & Consultation Video Guides
-              </h3>
-              <p className="text-slate-500 text-sm max-w-2xl">
-                Explore the official patient screening walkthroughs and self-examination video instructions. Select any video below to load it into the player.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-
-              {/* Main Player Container */}
-              <div className="lg:col-span-8 bg-card border border-slate-100 rounded-3xl overflow-hidden shadow-sm flex flex-col bg-white">
-                <div className="relative aspect-video bg-black w-full overflow-hidden">
-                  {diagnosisVideos[activeVideoIndex].src ? (
-                    <video
-                      ref={diagVideoRef}
-                      key={diagnosisVideos[activeVideoIndex].src}
-                      className="w-full h-full object-cover"
-                      controls
-                      playsInline
-                      autoPlay={activeVideoIndex > 0}
-                      preload="metadata"
-                    >
-                      <source src={diagnosisVideos[activeVideoIndex].src} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                  ) : (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 text-slate-400 space-y-4">
-                      <Video className="h-16 w-16 text-pink-500/80 animate-pulse" />
-                      <p className="text-white font-semibold">Video Not Available</p>
-                    </div>
-                  )}
-                </div>
-                <div className="p-6 space-y-3 bg-white">
-                  <div className="flex flex-wrap gap-2 items-center justify-between">
-                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-pink-600 uppercase tracking-widest bg-pink-50 px-2.5 py-1 rounded-md">
-                      Active Walkthrough
-                    </span>
-                    <span className="text-xs text-slate-400 flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      Duration: {diagnosisVideos[activeVideoIndex].duration}
-                    </span>
-                  </div>
-                  <h4 className="text-lg font-bold text-slate-800">
-                    {diagnosisVideos[activeVideoIndex].title}
-                  </h4>
-                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-                    {diagnosisVideos[activeVideoIndex].description}
-                  </p>
-                </div>
-              </div>
-
-              {/* Sidebar: Video Selectors */}
-              <div className="lg:col-span-4 space-y-4">
-                <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                  <Video className="h-4.5 w-4.5 text-pink-500" />
-                  Select Walkthrough Video
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
-                  {diagnosisVideos.map((vid, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => handleDiagVideoChange(idx)}
-                      className={`flex gap-3.5 p-3 rounded-2xl border text-left cursor-pointer transition-all duration-300 ${activeVideoIndex === idx
-                          ? "bg-pink-50/50 border-pink-200 shadow-xs"
-                          : "bg-white border-slate-100 hover:bg-slate-50 hover:border-slate-200"
-                        }`}
-                    >
-                      <div className="h-14 w-20 shrink-0 rounded-xl bg-slate-100 border border-slate-200/50 relative overflow-hidden flex items-center justify-center">
-                        <Play className="h-4.5 w-4.5 text-pink-500 fill-pink-500" />
-                        <div className="absolute bottom-1 right-1 bg-black/75 px-1 py-0.5 rounded text-[8px] text-white font-bold">
-                          {vid.duration}
-                        </div>
-                      </div>
-                      <div className="space-y-1">
-                        <h5 className="font-bold text-xs text-slate-800 line-clamp-1">
-                          {vid.title}
-                        </h5>
-                        <p className="text-[10px] text-slate-400 line-clamp-2 leading-relaxed">
-                          {vid.description}
-                        </p>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-          </div>
-
         </div>
       </section>
 
+      {/* ========================================================
+          4. CLINICAL VIDEO WALKTHROUGHS
+          ======================================================== */}
+      <section id="video-library" className="py-20 md:py-28 bg-white border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-10">
+
+          <div className="space-y-3 text-center">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <Video className="h-3.5 w-3.5" />
+              Clinical Video Walkthroughs
+            </span>
+            <h3 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+              Early Screening & Consultation Video Guides
+            </h3>
+            <p className="text-slate-500 text-sm sm:text-base font-medium max-w-2xl mx-auto">
+              Explore the official patient screening walkthroughs and self-examination video instructions. Select any video below to load it into the player.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+            {/* Main Player Container */}
+            <div className="lg:col-span-8 bg-white border border-pink-100/60 rounded-3xl overflow-hidden shadow-sm flex flex-col">
+              <div className="relative aspect-video bg-black w-full overflow-hidden">
+                {diagnosisVideos[activeVideoIndex].src ? (
+                  <video
+                    ref={diagVideoRef}
+                    key={diagnosisVideos[activeVideoIndex].src}
+                    className="w-full h-full object-cover"
+                    controls
+                    playsInline
+                    autoPlay={activeVideoIndex > 0}
+                    preload="metadata"
+                  >
+                    <source src={diagnosisVideos[activeVideoIndex].src} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 text-slate-400 space-y-4">
+                    <Video className="h-16 w-16 text-pink-500/80 animate-pulse" />
+                    <p className="text-white font-semibold">Video Not Available</p>
+                  </div>
+                )}
+              </div>
+              <div className="p-6 space-y-3 bg-white">
+                <div className="flex flex-wrap gap-2 items-center justify-between">
+                  <span className="inline-flex items-center gap-1 text-[10px] font-bold text-pink-600 uppercase tracking-widest bg-pink-50/60 px-2.5 py-1 rounded-md border border-pink-100/40">
+                    Active Walkthrough
+                  </span>
+                  <span className="text-xs text-slate-400 flex items-center gap-1 font-medium">
+                    <Clock className="h-3 w-3" />
+                    Duration: {diagnosisVideos[activeVideoIndex].duration}
+                  </span>
+                </div>
+                <h4 className="text-lg font-bold text-slate-800">
+                  {diagnosisVideos[activeVideoIndex].title}
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
+                  {diagnosisVideos[activeVideoIndex].description}
+                </p>
+              </div>
+            </div>
+
+            {/* Sidebar: Video Selectors */}
+            <div className="lg:col-span-4 space-y-4">
+              <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                <Video className="h-4.5 w-4.5 text-pink-500" />
+                Select Walkthrough Video
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+                {diagnosisVideos.map((vid, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleDiagVideoChange(idx)}
+                    className={`flex gap-3.5 p-3 rounded-2xl border text-left cursor-pointer transition-all duration-300 ${activeVideoIndex === idx
+                        ? "bg-pink-50/60 border-pink-200 shadow-xs"
+                        : "bg-white border-slate-100 hover:bg-pink-50/10 hover:border-pink-200/50"
+                      }`}
+                  >
+                    <div className="h-14 w-20 shrink-0 rounded-xl bg-slate-100 border border-pink-100/60 relative overflow-hidden flex items-center justify-center">
+                      <Play className="h-4.5 w-4.5 text-pink-500 fill-pink-500" />
+                      <div className="absolute bottom-1 right-1 bg-black/75 px-1 py-0.5 rounded text-[8px] text-white font-bold">
+                        {vid.duration}
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <h5 className={`font-bold text-xs line-clamp-1 ${activeVideoIndex === idx ? "text-primary" : "text-slate-800"}`}>
+                        {vid.title}
+                      </h5>
+                      <p className="text-[10px] text-slate-400 line-clamp-2 leading-relaxed font-medium">
+                        {vid.description}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
 
     </div>
   );

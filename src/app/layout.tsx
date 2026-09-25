@@ -6,7 +6,7 @@ import FloatingWhatsApp from "@/components/layout/FloatingWhatsApp";
 // export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: " Cancer Mukt Bharat Platform",
+  title: " Cancer Mukt Bharat Abhiyan",
   description:
     "A centralized campaign ecosystem connecting patients, doctors, NGOs, and donors. Supporting early diagnosis guides and verified crowdfunding.",
   icons: {

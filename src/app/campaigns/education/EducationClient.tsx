@@ -366,21 +366,19 @@ export default function EducationClient() {
                   className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-none"
                 >
                   <motion.div
-                    className={`w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
-                      isActive
+                    className={`w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${isActive
                         ? "bg-white border-primary shadow-[0_0_15px_rgba(219,39,119,0.3)] text-primary scale-110"
                         : isCompleted
-                        ? "bg-primary border-primary text-white"
-                        : "bg-white border-slate-200 text-slate-400 hover:border-pink-300 hover:text-pink-500"
-                    }`}
+                          ? "bg-primary border-primary text-white"
+                          : "bg-white border-slate-200 text-slate-400 hover:border-pink-300 hover:text-pink-500"
+                      }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
                     <Icon className="h-6 w-6" />
 
-                    <span className={`absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full text-[10px] font-bold flex items-center justify-center ${
-                      isActive || isCompleted ? "bg-primary text-white" : "bg-slate-100 text-slate-500 border border-slate-200"
-                    }`}>
+                    <span className={`absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full text-[10px] font-bold flex items-center justify-center ${isActive || isCompleted ? "bg-primary text-white" : "bg-slate-100 text-slate-500 border border-slate-200"
+                      }`}>
                       {idx + 1}
                     </span>
                   </motion.div>
@@ -408,15 +406,13 @@ export default function EducationClient() {
                 <button
                   key={step.id}
                   onClick={() => setActiveStep(idx)}
-                  className={`flex items-center gap-4 p-3 rounded-2xl border text-left transition-all cursor-pointer ${
-                    isActive
+                  className={`flex items-center gap-4 p-3 rounded-2xl border text-left transition-all cursor-pointer ${isActive
                       ? "bg-pink-50/50 border-primary/50 shadow-xs"
                       : "bg-white border-slate-100"
-                  }`}
+                    }`}
                 >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 border-2 ${
-                    isActive ? "bg-white border-primary text-primary" : "bg-slate-50 border-slate-200 text-slate-400"
-                  }`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 border-2 ${isActive ? "bg-white border-primary text-primary" : "bg-slate-50 border-slate-200 text-slate-400"
+                    }`}>
                     <Icon className="h-5 w-5" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -548,11 +544,10 @@ export default function EducationClient() {
                             return (
                               <label
                                 key={item.id}
-                                className={`flex items-start gap-3 p-3 rounded-2xl border transition-all cursor-pointer select-none ${
-                                  isChecked
+                                className={`flex items-start gap-3 p-3 rounded-2xl border transition-all cursor-pointer select-none ${isChecked
                                     ? "bg-pink-50/20 border-primary/30 shadow-xs"
                                     : "bg-slate-50/50 border-slate-100 hover:border-pink-200"
-                                }`}
+                                  }`}
                               >
                                 <input
                                   type="checkbox"
@@ -660,17 +655,15 @@ export default function EducationClient() {
                           <div
                             key={idx}
                             onClick={() => setSelectedSymptomIdx(selectedSymptomIdx === idx ? null : idx)}
-                            className={`border p-4 rounded-2xl transition-all cursor-pointer group flex flex-col justify-between min-h-[140px] relative overflow-hidden select-none ${
-                              isSelected
+                            className={`border p-4 rounded-2xl transition-all cursor-pointer group flex flex-col justify-between min-h-[140px] relative overflow-hidden select-none ${isSelected
                                 ? "bg-rose-50/30 border-rose-300 shadow-sm"
                                 : "bg-white border-slate-100 hover:border-pink-200 hover:shadow-sm"
-                            }`}
+                              }`}
                           >
                             <div className="space-y-2">
                               <div className="flex items-center justify-between">
-                                <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
-                                  isSelected ? "bg-rose-100 text-rose-800" : "bg-pink-50 text-primary group-hover:bg-pink-100"
-                                }`}>
+                                <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${isSelected ? "bg-rose-100 text-rose-800" : "bg-pink-50 text-primary group-hover:bg-pink-100"
+                                  }`}>
                                   Symptom 0{idx + 1}
                                 </span>
                                 <span className="text-[10px] font-semibold text-primary underline opacity-0 group-hover:opacity-100 transition-opacity">
@@ -741,11 +734,10 @@ export default function EducationClient() {
                           <button
                             key={type.id}
                             onClick={() => setActiveTypeTab(type.id)}
-                            className={`py-2 px-3 text-center rounded-xl font-bold text-xs transition-all cursor-pointer ${
-                              isSelected
+                            className={`py-2 px-3 text-center rounded-xl font-bold text-xs transition-all cursor-pointer ${isSelected
                                 ? "bg-primary text-white shadow-sm"
                                 : "bg-slate-50 text-slate-500 border border-slate-100 hover:bg-slate-100"
-                            }`}
+                              }`}
                           >
                             <span className="block text-sm">{type.abbrev}</span>
                             <span className="text-[8px] opacity-75 block mt-0.5 truncate">{type.category}</span>
@@ -1132,17 +1124,15 @@ export default function EducationClient() {
                     <button
                       key={idx}
                       onClick={() => handleVideoSelect(idx)}
-                      className={`w-full text-left flex items-start gap-3 p-3 rounded-2xl border transition-all duration-300 cursor-pointer ${
-                        isActive
+                      className={`w-full text-left flex items-start gap-3 p-3 rounded-2xl border transition-all duration-300 cursor-pointer ${isActive
                           ? "bg-pink-50/40 border-primary/50 shadow-sm"
                           : "bg-white border-slate-100 hover:border-pink-200/50 hover:bg-pink-50/10"
-                      }`}
+                        }`}
                     >
-                      <div className={`relative h-16 w-24 rounded-lg overflow-hidden shrink-0 flex items-center justify-center border ${
-                        isActive
+                      <div className={`relative h-16 w-24 rounded-lg overflow-hidden shrink-0 flex items-center justify-center border ${isActive
                           ? "bg-gradient-to-br from-pink-100 to-rose-100 border-pink-200"
                           : "bg-gradient-to-br from-slate-100 to-slate-50 border-slate-100"
-                      }`}>
+                        }`}>
                         <Play className={`h-6 w-6 ${isActive ? "text-primary fill-primary scale-110" : "text-slate-400"} transition-transform`} />
                       </div>
                       <div className="space-y-1 flex-1 min-w-0">
@@ -1238,7 +1228,7 @@ export default function EducationClient() {
           </span>
 
           <div className="space-y-4">
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-pink-500">
               Early Education Saves Lives
             </h2>
             <p className="text-pink-100 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">

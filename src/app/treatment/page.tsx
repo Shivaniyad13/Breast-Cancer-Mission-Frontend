@@ -16,8 +16,6 @@ import {
   Leaf,
   CheckCircle2,
   ArrowDown,
-  Volume2,
-  VolumeX,
   Plus,
   Minus,
 } from "lucide-react";
@@ -103,7 +101,6 @@ const trustPillars = [
 ];
 
 export default function TreatmentPage() {
-  const [videoMuted, setVideoMuted] = useState(true);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [activeStoryIdx, setActiveStoryIdx] = useState(0);
 
@@ -122,91 +119,73 @@ export default function TreatmentPage() {
   }, []);
 
   return (
-    <div className="flex-1 w-full bg-white text-slate-800 font-sans selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden">
+    <div className="flex-1 w-full bg-white text-slate-800 font-sans selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden relative">
+
+      {/* Decorative background blur blobs */}
+      <div className="absolute top-20 right-10 w-96 h-96 bg-pink-100/40 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse duration-[8000ms]" />
+      <div className="absolute top-1/3 left-5 w-80 h-80 bg-rose-50/50 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-1/4 right-5 w-96 h-96 bg-pink-50/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* ================================================
-          SECTION 1 - HERO VIDEO
+          SECTION 1 - HERO (Clean Background)
          ================================================ */}
-      <section className="relative h-[90vh] md:h-screen w-full flex items-center justify-center overflow-hidden">
-        {/* Background Video */}
-        <video
-          autoPlay
-          muted={videoMuted}
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        >
-          {/* <source src="/VID-20260715-WA0006.mp4" type="video/mp4" /> */}
-          Your browser does not support the video tag.
-        </video>
+      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
+          <div className="space-y-6 text-center">
 
-        {/* Video Overlay - Dark with slight pink gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/50 to-pink-950/20 z-10" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
+            >
+              <Ribbon className="h-3.5 w-3.5 text-primary animate-pulse" />
+              Integrative Healthcare
+            </motion.div>
 
-        {/* Hero Content */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-20 space-y-6 max-w-4xl pt-16">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-pink-500/20 backdrop-blur-md border border-pink-400/30 text-pink-100 text-xs font-bold uppercase tracking-wider"
-          >
-            <Ribbon className="h-3.5 w-3.5 text-pink-400 animate-pulse" />
-            Integrative Healthcare
-          </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
+            >
+              Every Life Deserves <br />
+              <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
+                Hope.
+              </span>
+            </motion.h1>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="font-heading text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight"
-          >
-            Every Life Deserves <span className="text-pink-300">Hope.</span>
-          </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.7 }}
+              className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto font-medium"
+            >
+              We believe every patient deserves compassionate care, advanced research, and continuous support throughout the treatment journey.
+            </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 1 }}
-            className="text-base sm:text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed font-medium"
-          >
-            We believe every patient deserves compassionate care, advanced research, and continuous support throughout the treatment journey.
-          </motion.p>
-
-          {/* Action Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="flex flex-col sm:flex-row justify-center gap-4 pt-4"
-          >
-            <a href="#treatment-overview">
-              <Button size="lg" className="w-full sm:w-auto bg-pink-600 hover:bg-pink-700 text-white font-semibold rounded-full shadow-lg shadow-pink-600/20 px-8">
-                Learn About Treatment
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </a>
-            <a href="#contact-specialist">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto border-white text-white bg-white/10 hover:bg-white/20 font-semibold rounded-full backdrop-blur-sm px-8">
-                Talk to Our Expert
-              </Button>
-            </a>
-          </motion.div>
-        </div>
-
-        {/* Mute/Unmute Float Control */}
-        <button
-          onClick={() => setVideoMuted(!videoMuted)}
-          className="absolute bottom-8 right-8 z-20 h-10 w-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-white/20 transition-all cursor-pointer shadow-md"
-          title={videoMuted ? "Unmute Background" : "Mute Background"}
-        >
-          {videoMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-        </button>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 text-white/60 text-[10px] tracking-widest font-bold uppercase animate-bounce">
-          <span>Scroll</span>
-          <ArrowDown className="h-3 w-3" />
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="pt-4 flex flex-wrap justify-center gap-4"
+            >
+              <a href="#treatment-overview">
+                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                  Learn About Treatment
+                  <ArrowRight className="h-4 w-4 ml-1.5" />
+                </Button>
+              </a>
+              <a href="#contact-specialist">
+                <Button
+                  variant="outline"
+                  className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
+                >
+                  Talk to Our Expert
+                </Button>
+              </a>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -220,36 +199,37 @@ export default function TreatmentPage() {
       {/* ================================================
           SECTION 6 - WHY PATIENTS TRUST US
          ================================================ */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-3 mb-16">
-            <span className="text-xs font-bold text-pink-600 uppercase tracking-widest bg-pink-50 px-3 py-1 rounded-full inline-block">
+      <section className="py-20 md:py-28 bg-white border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="h-3.5 w-3.5" />
               Our Core Pillars
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Why Patients Trust Us
             </h2>
-            <p className="text-slate-500 text-sm max-w-lg mx-auto">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               We stand for certified clinical rigor, safe manufacturing standards, and compassionate counselor availability.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {trustPillars.map((item, idx) => {
               const Icon = item.icon;
               return (
                 <motion.div
                   key={idx}
-                  whileHover={{ y: -4 }}
-                  className="p-6 rounded-2xl border border-slate-100 bg-white hover:border-pink-200 hover:shadow-lg shadow-2xs transition-all duration-300"
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="p-6 rounded-3xl border border-pink-100/60 bg-gradient-to-br from-pink-500/5 to-rose-500/5 shadow-sm hover:shadow-md transition-all duration-300"
                 >
-                  <div className="h-10 w-10 rounded-xl bg-pink-50 text-pink-500 flex items-center justify-center mb-4">
-                    <Icon className="h-5 w-5" />
+                  <div className="h-11 w-11 rounded-xl bg-white text-pink-500 flex items-center justify-center mb-4 shadow-sm border border-pink-100/40">
+                    <Icon className="h-5.5 w-5.5" />
                   </div>
-                  <h4 className="text-base font-bold text-slate-800 mb-2">
+                  <h4 className="text-base font-extrabold text-slate-800 mb-2 font-heading">
                     {item.title}
                   </h4>
-                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
                     {item.desc}
                   </p>
                 </motion.div>
@@ -262,16 +242,17 @@ export default function TreatmentPage() {
       {/* ================================================
           SECTION 7 - TREATMENT JOURNEY
          ================================================ */}
-      <section className="py-24 bg-gradient-to-b from-rose-50/15 via-white to-rose-50/15 border-t border-rose-50/50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
-          <div className="text-center space-y-3 mb-16">
-            <span className="text-xs font-bold text-purple-600 uppercase tracking-widest bg-purple-50 px-3 py-1 rounded-full inline-block">
+      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl overflow-hidden">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wider border border-purple-100/60">
+              <Activity className="h-3.5 w-3.5" />
               Workflow Steps
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Patient Journey Workflow
             </h2>
-            <p className="text-slate-500 text-sm max-w-lg mx-auto">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               Our structured step-by-step care timeline designed to keep patients informed and monitored throughout.
             </p>
           </div>
@@ -280,23 +261,26 @@ export default function TreatmentPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 relative">
 
             {/* Desktop Connective Line */}
-            <div className="hidden lg:block absolute top-7 left-12 right-12 h-0.5 bg-pink-200 -z-10" />
+            <div className="hidden lg:block absolute top-7 left-12 right-12 h-0.5 bg-pink-100 -z-10" />
 
             {treatmentJourneySteps.map((item, idx) => (
-              <div key={idx} className="bg-white border border-slate-100 p-5 rounded-2xl flex flex-col justify-between space-y-4 hover:border-pink-200 hover:shadow-md transition-all">
+              <div
+                key={idx}
+                className="bg-white border border-pink-100/60 p-5 rounded-2xl flex flex-col justify-between space-y-4 hover:border-pink-200 hover:shadow-md transition-all shadow-sm"
+              >
                 <div className="flex justify-between items-center">
-                  <span className="h-7 w-7 rounded-lg bg-pink-500 text-white text-xs font-bold flex items-center justify-center">
+                  <span className="h-7 w-7 rounded-lg bg-primary text-white text-xs font-bold flex items-center justify-center">
                     {item.step}
                   </span>
-                  <span className="text-[10px] text-muted-foreground font-semibold uppercase tracking-widest">
+                  <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-widest">
                     Step {idx + 1}
                   </span>
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-bold text-slate-800 text-sm">
+                  <h4 className="font-bold text-slate-800 text-sm font-heading">
                     {item.label}
                   </h4>
-                  <p className="text-[11px] text-slate-500 leading-relaxed">
+                  <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
                     {item.desc}
                   </p>
                 </div>
@@ -307,22 +291,23 @@ export default function TreatmentPage() {
       </section>
 
       {/* ================================================
-          SECTION 7.5 - Patients SUCCESS STORIES
+          SECTION 7.5 - PATIENTS SUCCESS STORIES
          ================================================ */}
-      <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
+      <section className="py-20 md:py-28 bg-gradient-to-b from-slate-900 to-purple-950 text-white relative overflow-hidden">
         {/* Background blobs */}
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="container mx-auto px-4 max-w-5xl relative z-10">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-400/20 text-pink-300 text-xs font-bold uppercase tracking-wider font-heading">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl relative z-10">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider border border-pink-500/20">
+              <HeartHandshake className="h-3.5 w-3.5" />
               Collaboration Impact
             </span>
             <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
               Patients Success Stories
             </h2>
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-sans">
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-medium">
               Explore real-life patient success stories that showcase the impact of early detection, advanced medical treatment, and compassionate care. These journeys inspire hope, encourage regular screenings, and remind us that every life saved begins with awareness.
             </p>
           </div>
@@ -356,13 +341,15 @@ export default function TreatmentPage() {
                 {/* Info & Quote */}
                 <div className="lg:col-span-7 space-y-6 text-left">
                   <div className="space-y-1">
-                    <p className="text-xs font-bold text-pink-400 uppercase tracking-widest font-heading">Alliance Success</p>
+                    <p className="text-xs font-bold text-pink-400 uppercase tracking-widest font-heading">
+                      Alliance Success
+                    </p>
                     <h3 className="font-heading text-2xl font-extrabold text-white">
                       {successStoriesData[activeStoryIdx].orgName}
                     </h3>
                   </div>
 
-                  <p className="text-slate-300 text-sm leading-relaxed font-sans">
+                  <p className="text-slate-300 text-sm leading-relaxed font-medium">
                     {successStoriesData[activeStoryIdx].beforeAfter}
                   </p>
 
@@ -410,94 +397,111 @@ export default function TreatmentPage() {
       {/* ================================================
           SECTION 8 - FREQUENTLY ASKED QUESTIONS
          ================================================ */}
-      <section className="py-24 bg-white max-w-3xl mx-auto px-4 sm:px-6">
-        <div className="text-center space-y-3 mb-12">
-          <span className="text-xs font-bold text-pink-600 uppercase tracking-widest bg-pink-50 px-3 py-1 rounded-full inline-block">
-            Common Inquiries
-          </span>
-          <h2 className="font-heading text-3xl font-extrabold text-slate-900">
-            Frequently Asked Questions
-          </h2>
-        </div>
+      <section className="py-20 md:py-28 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <MessageCircle className="h-3.5 w-3.5" />
+              Common Inquiries
+            </span>
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
+              Find instant answers to common patient queries about our treatment approach and products.
+            </p>
+          </div>
 
-        {/* Custom Accordion */}
-        <div className="space-y-4">
-          {[
-            {
-              q: "Who should consult before taking this product?",
-              a: "Any patient diagnosed with breast cancer or undergoing active clinical medical treatments (chemotherapy, radiation therapy, immunotherapy) must consult their oncologist before integrating Advance Apocan.",
-            },
-            {
-              q: "Can it be taken alongside conventional medical treatment?",
-              a: "Advanced Apocan is designed as a supportive wellness formulation. However, we advise patients to share our ingredient sheet with their licensed physician to structure appropriate dosage timing and avoid potential metabolic cross-reactions.",
-            },
-            {
-              q: "How should it be used?",
-              a: "Usage must be strictly guided by a registered Ayurvedic practitioner or physician. Standard support dosages typically involve taking the designated tablets/liquids post-meals with warm water twice a day, or as indicated on the prescription.",
-            },
-            {
-              q: "What are the storage instructions?",
-              a: "Store the products in a dry, cool environment away from direct exposure to solar heat or humidity. Secure the containers tightly after opening, and store safely out of reach of children.",
-            },
-            {
-              q: "What are the important precautions?",
-              a: "If you observe any discomfort, nausea, skin rashes, or metabolic changes upon intake, immediately halt use and report details to a medical specialist. Do not exceed the advised daily intake thresholds.",
-            },
-          ].map((item, idx) => {
-            const isOpen = activeFaq === idx;
-            return (
-              <div
-                key={idx}
-                className="border border-slate-100 rounded-2xl bg-white overflow-hidden transition-all duration-300 hover:border-pink-200"
-              >
-                <button
-                  onClick={() => toggleFaq(idx)}
-                  className="w-full flex justify-between items-center p-5 text-left font-semibold text-slate-800 text-sm sm:text-base cursor-pointer hover:bg-slate-50/50"
+          {/* Custom Accordion */}
+          <div className="bg-white/80 border border-pink-100/60 rounded-3xl p-5 sm:p-8 shadow-sm space-y-4">
+            {[
+              {
+                q: "Who should consult before taking this product?",
+                a: "Any patient diagnosed with breast cancer or undergoing active clinical medical treatments (chemotherapy, radiation therapy, immunotherapy) must consult their oncologist before integrating Advance Apocan.",
+              },
+              {
+                q: "Can it be taken alongside conventional medical treatment?",
+                a: "Advanced Apocan is designed as a supportive wellness formulation. However, we advise patients to share our ingredient sheet with their licensed physician to structure appropriate dosage timing and avoid potential metabolic cross-reactions.",
+              },
+              {
+                q: "How should it be used?",
+                a: "Usage must be strictly guided by a registered Ayurvedic practitioner or physician. Standard support dosages typically involve taking the designated tablets/liquids post-meals with warm water twice a day, or as indicated on the prescription.",
+              },
+              {
+                q: "What are the storage instructions?",
+                a: "Store the products in a dry, cool environment away from direct exposure to solar heat or humidity. Secure the containers tightly after opening, and store safely out of reach of children.",
+              },
+              {
+                q: "What are the important precautions?",
+                a: "If you observe any discomfort, nausea, skin rashes, or metabolic changes upon intake, immediately halt use and report details to a medical specialist. Do not exceed the advised daily intake thresholds.",
+              },
+            ].map((item, idx) => {
+              const isOpen = activeFaq === idx;
+              return (
+                <div
+                  key={idx}
+                  className="border-b border-slate-100 last:border-0 pb-4 last:pb-0 pt-3 first:pt-0"
                 >
-                  <span>{item.q}</span>
-                  <div className="h-6 w-6 rounded-full bg-pink-50 text-pink-600 flex items-center justify-center transition-transform duration-300">
-                    {isOpen ? <Minus className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
-                  </div>
-                </button>
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="border-t border-slate-100 bg-slate-50/30 text-xs sm:text-sm text-slate-500 p-5 leading-relaxed"
-                    >
-                      {item.a}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
+                  <button
+                    onClick={() => toggleFaq(idx)}
+                    className="w-full flex justify-between items-center text-left py-2 font-heading font-bold text-sm sm:text-base text-slate-800 hover:text-primary transition-colors cursor-pointer select-none outline-none"
+                  >
+                    <span>{item.q}</span>
+                    <span className="text-slate-400 shrink-0 ml-4">
+                      {isOpen ? (
+                        <div className="p-1 rounded-full bg-pink-100 text-pink-600">
+                          <Minus className="h-4 w-4" />
+                        </div>
+                      ) : (
+                        <div className="p-1 rounded-full bg-white text-slate-400 border border-slate-200">
+                          <Plus className="h-4 w-4" />
+                        </div>
+                      )}
+                    </span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="overflow-hidden"
+                      >
+                        <p className="text-xs sm:text-sm text-slate-500 leading-relaxed pt-2.5 pr-6 font-medium">
+                          {item.a}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-
-      
       {/* ================================================
           SECONDARY PAGES FOOTER LINKS
          ================================================ */}
-      <section className="bg-slate-50 py-12 border-t border-slate-200/50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+      <section className="bg-gradient-to-b from-white to-rose-50/30 py-12 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <Ribbon className="h-5 w-5 text-pink-500" />
-            <span className="font-heading font-bold text-sm text-slate-800">Healthcare Core Values:</span>
+            <Ribbon className="h-5 w-5 text-pink-500 animate-pulse" />
+            <span className="font-heading font-bold text-sm text-slate-800">
+              Healthcare Core Values:
+            </span>
           </div>
           <div className="flex flex-wrap justify-center gap-6 text-xs font-semibold text-slate-500">
-            <span className="hover:text-pink-600 transition-colors">Hope</span>
+            <span className="hover:text-pink-600 transition-colors cursor-pointer">Hope</span>
             <span>&bull;</span>
-            <span className="hover:text-pink-600 transition-colors">Research</span>
+            <span className="hover:text-pink-600 transition-colors cursor-pointer">Research</span>
             <span>&bull;</span>
-            <span className="hover:text-pink-600 transition-colors">Compassion</span>
+            <span className="hover:text-pink-600 transition-colors cursor-pointer">Compassion</span>
             <span>&bull;</span>
-            <span className="hover:text-pink-600 transition-colors">Innovation</span>
+            <span className="hover:text-pink-600 transition-colors cursor-pointer">Innovation</span>
             <span>&bull;</span>
-            <span className="hover:text-pink-600 transition-colors">Patient Care</span>
+            <span className="hover:text-pink-600 transition-colors cursor-pointer">Patient Care</span>
           </div>
         </div>
       </section>
