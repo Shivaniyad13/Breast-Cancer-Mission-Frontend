@@ -6,10 +6,6 @@ import {
   getCelebrityTestimonials,
 } from "@/app/actions/rightSidebarWidgets";
 import { getLiveUpdates } from "@/app/actions/liveUpdates";
-import {
-  LiveUpdatesWidget,
-  StoryPlayerWidget,
-} from "@/components/layout/HeroLeftSidebar";
 import LiveBreastCancerUpdatesFeed from "@/components/layout/LiveBreastCancerUpdatesFeed";
 import CelebrityTestimonials from "@/components/layout/CelebrityTestimonials";
 import OurTeam from "@/components/layout/OurTeam";
@@ -71,7 +67,7 @@ export default async function Home() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-center w-full">
             {/* LEFT — LIVE UPDATES FEED */}
             <div className="hidden md:block md:col-span-3">
-              <LiveBreastCancerUpdatesFeed updates={liveUpdates as any} />
+              <LiveBreastCancerUpdatesFeed />
             </div>
 
             {/* CENTER — HERO CONTENT */}
@@ -82,9 +78,9 @@ export default async function Home() {
               </div>
 
               <h1 className="font-heading text-[26px] leading-[1.15] sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-                Break the Silence, Beat the Cancer:{" "}
+                Break the Silence, Beat the Disease:{" "}
                 <span className="text-pink-300 block sm:inline">
-                  A Cancer Mukt Bharat.
+                  A Breast-Cancer-Free Bharat.
                 </span>
               </h1>
 
@@ -133,7 +129,7 @@ export default async function Home() {
             <span>Live Breast Cancer Updates</span>
           </h3>
           <div className="w-full">
-            <LiveBreastCancerUpdatesFeed updates={liveUpdates as any} />
+            <LiveBreastCancerUpdatesFeed />
           </div>
         </div>
 
