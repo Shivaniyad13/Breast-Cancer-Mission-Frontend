@@ -3,9 +3,10 @@ import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import FloatingWhatsApp from "@/components/layout/FloatingWhatsApp";
+// export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: "Breast Cancer Awareness Platform",
+  title: " Cancer Mukt Bharat Platform",
   description:
     "A centralized campaign ecosystem connecting patients, doctors, NGOs, and donors. Supporting early diagnosis guides and verified crowdfunding.",
   icons: {
