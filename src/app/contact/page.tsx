@@ -88,7 +88,6 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
-0
              
               {/* Collaboration badge */}
               <div className="rounded-2xl border border-pink-200 bg-pink-50/70 p-5 text-center space-y-1">
