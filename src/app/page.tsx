@@ -78,9 +78,9 @@ export default async function Home() {
               </div>
 
               <h1 className="font-heading text-[26px] leading-[1.15] sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-                Break the Silence, Beat the Disease:{" "}
+                Break the Silence, Beat the Cancer:{" "}
                 <span className="text-pink-300 block sm:inline">
-                  A Breast-Cancer-Free Bharat.
+                  A Cancer Mukt Bharat.
                 </span>
               </h1>
 

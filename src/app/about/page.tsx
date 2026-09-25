@@ -31,15 +31,12 @@ export default function AboutPage() {
 
         {/* Section 1: Hero Header */}
         <section className="text-center space-y-4 max-w-3xl mx-auto" aria-labelledby="about-hero-title">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-700 text-xs font-bold uppercase tracking-wider">
-            <Ribbon className="h-4 w-4 animate-pulse" />
-            About Our Mission
-          </div>
+          
           <h1
             id="about-hero-title"
             className="font-heading text-4xl sm:text-5xl font-black text-slate-800 leading-tight"
           >
-            <span className="text-primary">Cancer Mukt</span> Bharat Abhiyan
+            <span className="text-primary">About</span> Us
           </h1>
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
             Empowering Communities, Defeating Breast Cancer Together

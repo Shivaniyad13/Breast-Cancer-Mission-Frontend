@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import { apiClient } from "@/lib/apiClient";
-import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -12,7 +11,6 @@ import {
   Heart,
   ShieldCheck,
   Users,
-  Award,
   Clock,
   Activity,
   Check,
@@ -172,45 +170,6 @@ const impactStats = [
   { value: 12000, suffix: "+", label: "Lives Impacted" }
 ];
 
-// Gallery Images mapping (existing project images)
-const galleryImages = [
-  {
-    src: "/images/11.png",
-    title: "Hope & Pink Ribbon Campaign",
-    description: "Spreading solidarity and distributing diagnostic breast self-exam kits at regional community drives."
-  },
-  {
-    src: "/images/12.png",
-    title: "Clinical Mammography Van Setup",
-    description: "Partnering with diagnostic clinics to execute mobile breast screening schedules for women over 40."
-  },
-  {
-    src: "/images/13.png",
-    title: "Support Group Circle",
-    description: "Survivors and medical coordinators coming together to share experiences and build mental resilience."
-  },
-  {
-    src: "/images/14.png",
-    title: "Pink Walkathon for Awareness",
-    description: "Mobilizing youth networks and regional supporters in a united walkathon to raise clinical funds."
-  },
-  {
-    src: "/images/15.png",
-    title: "Expert Oncology Webinar Panel",
-    description: "Qualified doctors and oncologists teaching preventive care, cancer staging, and self-checks."
-  },
-  {
-    src: "/images/16.png",
-    title: "Volunteer Training Programs",
-    description: "Preparing local student leaders and NGO workers to execute breast check camps safely in rural villages."
-  },
-  {
-    src: "/images/17.png",
-    title: "Healthy Lifestyle & Risk Reduction",
-    description: "Sharing guidelines on nutrition, daily exercise schedules, and self-care routines to control risks."
-  }
-];
-
 // Timeline journey steps
 const timelineSteps = [
   {
@@ -246,7 +205,6 @@ const timelineSteps = [
 ];
 
 export default function AwarenessClient() {
-  const [lightboxImage, setLightboxImage] = useState<typeof galleryImages[0] | null>(null);
 
   // States for Become Our Partner Form Modal
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -423,95 +381,65 @@ export default function AwarenessClient() {
 
   return (
     <div className="flex-1 w-full bg-white text-slate-800 font-sans selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden relative">
-      
+
       {/* Dynamic blurred background visuals for premium feel */}
       <div className="absolute top-20 right-10 w-96 h-96 bg-pink-100/40 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse duration-[8000ms]" />
       <div className="absolute top-1/3 left-5 w-80 h-80 bg-rose-50/50 rounded-full blur-3xl pointer-events-none -z-10" />
       <div className="absolute bottom-1/4 right-5 w-96 h-96 bg-pink-50/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* ================= 1. HERO SECTION ================= */}
-      <section className="relative min-h-[85vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Left Column: Text Content */}
-            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
-              >
-                <Sparkles className="h-3.5 w-3.5 text-primary" />
-                Our Activities & Awareness
-              </motion.div>
+      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
+          <div className="space-y-6 text-center">
 
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.6 }}
-                className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
-              >
-                Creating Awareness, <br />
-                <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
-                  Inspiring Hope
-                </span>
-              </motion.h1>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
+              Our Activities & Awareness
+            </motion.div>
 
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.7 }}
-                className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium"
-              >
-                We are committed to early detection, community outreach, patient support, and active awareness campaigns. Together, we bring breast health guidelines directly to neighborhoods to save lives through early detection.
-              </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
+            >
+              Creating Awareness, <br />
+              <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
+                Inspiring Hope
+              </span>
+            </motion.h1>
 
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-                className="pt-4 flex flex-wrap justify-center lg:justify-start gap-4"
-              >
-                <Link href="/register">
-                  <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
-                    Join Our Campaign
-                  </Button>
-                </Link>
-                <Link href="/campaigns/volunteers">
-                  <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
-                    Become a Volunteer
-                  </Button>
-                </Link>
-              </motion.div>
-            </div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.7 }}
+              className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto font-medium"
+            >
+              We are committed to early detection, community outreach, patient support, and active awareness campaigns. Together, we bring breast health guidelines directly to neighborhoods to save lives through early detection.
+            </motion.p>
 
-            {/* Right Column: Creative Media Graphic */}
-            <div className="lg:col-span-5 relative flex justify-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-                className="w-full max-w-md relative"
-              >
-                <div className="absolute -inset-4 bg-gradient-to-tr from-pink-400/25 to-rose-300/25 rounded-3xl opacity-30 blur-2xl z-0" />
-                <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden border border-pink-100/50 shadow-2xl bg-white p-3 z-10 hover:shadow-pink-100/80 transition-shadow duration-500">
-                  <Image
-                    src="/images/community_walk.png"
-                    alt="Creating Awareness Campaign Walk"
-                    fill
-                    className="object-cover rounded-2xl"
-                    sizes="(max-width: 768px) 100vw, 450px"
-                    priority
-                  />
-                  <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold text-primary flex items-center gap-1.5 border border-pink-100 shadow-md">
-                    <Ribbon className="h-4 w-4 text-primary fill-pink-100/50" />
-                    Early Detection Saves Lives
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="pt-4 flex flex-wrap justify-center gap-4"
+            >
+              <Link href="/register">
+                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                  Join Our Campaign
+                </Button>
+              </Link>
+              <Link href="/campaigns/volunteers">
+                <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                  Become a Volunteer
+                </Button>
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -609,96 +537,8 @@ export default function AwarenessClient() {
       </section>
 
       {/* ================= 4. OUR IMPACT ================= */}
-      
-      {/* ================= 5. CAMPAIGN GALLERY ================= */}
-      <section id="awareness-gallery" className="py-20 md:py-28 bg-white scroll-mt-6">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
-              <Award className="h-3.5 w-3.5" /> Visual Moments
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
-              Campaign Gallery
-            </h2>
-            <p className="text-slate-500 text-sm sm:text-base font-medium">
-              Explore key moments captured during our health screening drives, walkathons, student rallies, and webinars.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {galleryImages.map((img, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.3 }}
-                onClick={() => setLightboxImage(img)}
-                className="group cursor-pointer bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 relative aspect-square"
-              >
-                <Image
-                  src={img.src}
-                  alt={img.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 320px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 text-white">
-                  <h4 className="font-heading font-bold text-lg leading-tight translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    {img.title}
-                  </h4>
-                  <p className="text-xs text-pink-55 line-clamp-2 mt-1 translate-y-3 group-hover:translate-y-0 transition-transform duration-300 delay-75 font-medium">
-                    {img.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {lightboxImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setLightboxImage(null)}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 cursor-zoom-out"
-          >
-            <motion.div
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.95 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-white max-w-3xl w-full rounded-3xl overflow-hidden shadow-2xl relative border border-slate-100 cursor-default"
-            >
-              <button
-                onClick={() => setLightboxImage(null)}
-                className="absolute top-4 right-4 z-10 p-2.5 rounded-full bg-black/50 hover:bg-black/75 text-white border border-white/10 hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                title="Close"
-              >
-                <X className="h-5 w-5" />
-              </button>
-
-              <div className="relative aspect-[4/3] w-full bg-slate-900">
-                <Image
-                  src={lightboxImage.src}
-                  alt={lightboxImage.title}
-                  fill
-                  className="object-contain"
-                  sizes="100vw"
-                />
-              </div>
-              <div className="p-6 space-y-2 bg-white">
-                <h3 className="font-heading text-xl font-extrabold text-slate-800">{lightboxImage.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed font-medium">{lightboxImage.description}</p>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ================= 6. AWARENESS JOURNEY ================= */}
+      {/* ================= 5. AWARENESS JOURNEY ================= */}
       <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
           <div className="text-center space-y-3 max-w-2xl mx-auto">
@@ -721,7 +561,7 @@ export default function AwarenessClient() {
             <div className="grid grid-cols-1 lg:grid-cols-6 gap-8 relative z-10">
               {timelineSteps.map((step, idx) => (
                 <div key={idx} className="flex lg:flex-col items-center lg:items-start text-left lg:text-center space-y-0 lg:space-y-4 gap-4 lg:gap-0 group">
-                  
+
                   {/* Step Marker */}
                   <div className="relative shrink-0 flex items-center justify-center w-12 h-12 rounded-2xl bg-white border-2 border-pink-200 text-primary font-heading font-black text-lg shadow-sm group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-300 lg:mx-auto">
                     {step.number}
@@ -743,23 +583,23 @@ export default function AwarenessClient() {
         </div>
       </section>
 
-      {/* ================= 7. VOLUNTEER WITH US ================= */}
+      {/* ================= 6. VOLUNTEER WITH US ================= */}
       <section className="py-20 md:py-28 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <Card className="border-pink-200/60 bg-gradient-to-br from-white via-pink-50/10 to-rose-50/20 shadow-xl rounded-3xl p-8 md:p-12 relative overflow-hidden group">
             {/* Decorative vector */}
             <div className="absolute top-[-20%] right-[-10%] w-72 h-72 bg-pink-400/10 rounded-full blur-3xl pointer-events-none group-hover:scale-105 transition-transform duration-700" />
-            
+
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
               <div className="md:col-span-8 space-y-6">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/80 text-primary text-xs font-bold uppercase tracking-wider">
                   <Users className="h-3.5 w-3.5" /> Joint Mission
                 </span>
-                
+
                 <h3 className="font-heading text-3xl font-black text-slate-800 tracking-tight leading-tight">
                   Volunteer With Us
                 </h3>
-                
+
                 <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
                   Volunteering with the Cancer Mukt Bharat Abhiyan offers a direct way to support your local community. Engage in public checkup organization, distribute safety checklists, and assist survivors.
                 </p>
@@ -798,10 +638,10 @@ export default function AwarenessClient() {
         </div>
       </section>
 
-      {/* ================= 8. PARTNER ORGANIZATIONS ================= */}
+      {/* ================= 7. PARTNER ORGANIZATIONS ================= */}
       <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
-          
+
           {/* Enhanced Header Section with Become Our Partner button */}
           <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6 pb-6 border-b border-pink-50">
             <div className="space-y-3 text-left">
@@ -847,21 +687,10 @@ export default function AwarenessClient() {
                     className="bg-white/80 backdrop-blur-sm border border-pink-100/40 hover:border-pink-300 rounded-3xl p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:shadow-pink-50/40 transition-all duration-300 group cursor-default relative overflow-hidden"
                   >
                     <div className="flex flex-col items-center text-center space-y-4">
-                      {/* Logo Image or Initials Fallback */}
-                      {partner.logoUrl ? (
-                        <div className="relative h-16 w-16 rounded-2xl overflow-hidden border border-pink-100/80 shadow-xs flex items-center justify-center bg-white shrink-0">
-                          <Image
-                            src={partner.logoUrl}
-                            alt={partner.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      ) : (
-                        <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-400 text-white flex items-center justify-center font-heading font-black text-xl shadow-md shrink-0 group-hover:scale-105 transition-transform duration-200">
-                          {initials}
-                        </div>
-                      )}
+                      {/* Initials Fallback Logo */}
+                      <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-400 text-white flex items-center justify-center font-heading font-black text-xl shadow-md shrink-0 group-hover:scale-105 transition-transform duration-200">
+                        {initials}
+                      </div>
 
                       <div className="space-y-1">
                         <span className="text-[9px] font-black text-primary uppercase tracking-widest bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100/50">
@@ -1232,13 +1061,13 @@ export default function AwarenessClient() {
         )}
       </AnimatePresence>
 
-      {/* ================= 9. CALL TO ACTION ================= */}
+      {/* ================= 8. CALL TO ACTION ================= */}
       <section className="py-16 md:py-24 bg-gradient-to-br from-pink-500 to-rose-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[5%] w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-        
+
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center space-y-8 relative z-10">
-          
+
           <div className="space-y-4">
             <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
               Support Our Activities Today
@@ -1254,7 +1083,7 @@ export default function AwarenessClient() {
                 Join Campaign
               </Button>
             </Link>
-            
+
             <Link href="/donate">
               <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-4 shadow-lg active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer">
                 Donate Now

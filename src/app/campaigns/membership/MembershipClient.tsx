@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import { apiClient } from "@/lib/apiClient";
-import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -49,31 +48,6 @@ function getInitials(name: string) {
     .join("")
     .toUpperCase();
 }
-
-
-// Why Become a Member Cards
-const whyBecomeMember = [
-  {
-    title: "Stay Updated with Campaigns",
-    description: "Get real-time updates regarding running crowdfunding drives, diagnostics camps, and volunteer meetups in your region.",
-    icon: <Bell className="h-6 w-6 text-primary" />
-  },
-  {
-    title: "Access Exclusive Resources",
-    description: "Read peer-reviewed oncology materials, download step-by-step BSE guides, and access preventive wellness publications.",
-    icon: <BookOpen className="h-6 w-6 text-primary" />
-  },
-  {
-    title: "Webinar & Event Invitations",
-    description: "Receive priority notifications and calendar invites to direct webinar streams hosted by certified oncologists and doctors.",
-    icon: <Video className="h-6 w-6 text-primary" />
-  },
-  {
-    title: "Support Women's Health",
-    description: "Become an active piece of a community dedicated to lowering breast cancer mortality through early screening advocacy.",
-    icon: <Heart className="h-6 w-6 text-primary" />
-  }
-];
 
 // Membership Benefits List
 const membershipBenefits = [
@@ -584,155 +558,86 @@ export default function MembershipClient() {
   };
 
   return (
-    <div className="flex-1 w-full bg-slate-50 text-slate-800 font-sans selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden relative">
+    <div className="flex-1 w-full bg-white text-slate-800 font-sans selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden relative">
 
       {/* Decorative background blur blobs */}
-      <div className="absolute top-20 right-10 w-72 h-72 bg-pink-200/25 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse duration-[6000ms]" />
-      <div className="absolute bottom-40 left-10 w-80 h-80 bg-rose-200/30 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-20 right-10 w-96 h-96 bg-pink-100/40 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse duration-[8000ms]" />
+      <div className="absolute top-1/3 left-5 w-80 h-80 bg-rose-50/50 rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-1/4 right-5 w-96 h-96 bg-pink-50/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* ================= HERO SECTION ================= */}
-      <section className="relative bg-gradient-to-b from-rose-50/40 via-white to-white py-20 md:py-28 border-b border-rose-100/30 overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
+          <div className="space-y-6 text-center">
 
-            {/* Hero Left Info */}
-            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-100/75 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider"
+           
+
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
+            >
+              Become a Membership <br />
+              <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
+               
+              </span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.7 }}
+              className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto font-medium"
+            >
+              Join our mission to spread breast cancer awareness, support early detection, participate in community campaigns, and make a massive social impact.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="pt-4 flex flex-wrap justify-center gap-4"
+            >
+              <Button
+                onClick={() => scrollToForm("individual", "volunteer")}
+                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
               >
-                <Users className="h-4 w-4 text-primary animate-pulse" />
-                Membership & Partnership
-              </motion.div>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.5 }}
-                className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-tight"
+                Join as Individual
+              </Button>
+              <Button
+                onClick={() => scrollToForm("institution")}
+                variant="outline"
+                className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
               >
-                Become a Stakeholder  <br />
-                <span className="text-primary">Member or Partner</span>
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.7 }}
-                className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium"
-              >
-                Join our mission to spread breast cancer awareness, support early detection, participate in community campaigns, and make a massive social impact.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-                className="pt-2 flex flex-wrap justify-center lg:justify-start gap-4"
-              >
-                <Button
-                  onClick={() => scrollToForm("individual", "volunteer")}
-                  className="bg-primary hover:bg-primary/95 text-white font-semibold rounded-full shadow-md px-6 py-5 active:scale-95 transition-all cursor-pointer"
-                >
-                  Join as Individual
-                </Button>
-                <Button
-                  onClick={() => scrollToForm("institution")}
-                  className="bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-full shadow-md px-6 py-5 active:scale-95 transition-all cursor-pointer"
-                >
-                  Become Institution Partner
-                </Button>
-              </motion.div>
-            </div>
-
-            {/* Hero Right Graphic */}
-            <div className="lg:col-span-5 relative flex justify-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-                className="w-full max-w-sm relative"
-              >
-                <div className="absolute -inset-4 bg-gradient-to-tr from-pink-400/20 to-rose-300/20 rounded-3xl opacity-30 blur-2xl z-0" />
-                <div className="relative aspect-[4/3] w-full rounded-3xl overflow-hidden border border-pink-100/60 shadow-xl bg-white p-2.5 z-10 hover:shadow-2xl transition-all duration-500">
-                  <Image
-                    src="/images/awareness2.png"
-                    alt="Preventive Health and Wellness Member Checkup"
-                    fill
-                    className="object-cover rounded-2xl"
-                    sizes="(max-width: 768px) 100vw, 400px"
-                    priority
-                  />
-                  <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 border border-white/10">
-                    <Sparkles className="h-3.5 w-3.5 text-primary fill-primary animate-pulse" />
-                    Empowerment
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
+                Become Institution Partner
+              </Button>
+            </motion.div>
           </div>
-        </div>
-      </section>
-
-      {/* ================= WHY BECOME A MEMBER ================= */}
-      <section className="py-20 bg-white border-b border-slate-100">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-14">
-
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
-              <Info className="h-3.5 w-3.5" /> Core Value
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
-              Why Join Us?
-            </h2>
-            <p className="text-slate-500 text-sm sm:text-base font-medium">
-              We coordinate resource distributions, direct oncology briefings, and early detection camps to support positive health outcomes.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {whyBecomeMember.map((item, idx) => (
-              <Card key={idx} className="border-pink-100/50 bg-gradient-to-br from-white to-pink-50/[0.05] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl p-6 group hover:border-pink-300">
-                <div className="h-12 w-12 rounded-xl bg-pink-50 flex items-center justify-center border border-pink-100/30 group-hover:scale-110 transition-transform">
-                  {item.icon}
-                </div>
-                <h3 className="font-heading text-xl font-bold mt-5 text-slate-800">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed mt-3 font-medium">
-                  {item.description}
-                </p>
-              </Card>
-            ))}
-          </div>
-
         </div>
       </section>
 
       {/* ================= MEMBERSHIP BENEFITS ================= */}
-      <section id="membership-benefits" className="py-20 bg-gradient-to-b from-white to-pink-50/20 border-b border-pink-100/30 scroll-mt-6">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
+      <section id="membership-benefits" className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20 scroll-mt-6">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-16">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/50 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
               <Sparkles className="h-3.5 w-3.5" /> Perks & Support
             </span>
-            <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Membership Benefits
             </h2>
-            <p className="text-sm text-slate-500 font-medium">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               Enjoy exclusive support access while advancing regional diagnostic capabilities and public wellness guidelines.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {membershipBenefits.map((benefit, idx) => (
-              <Card key={idx} className="border-pink-100/40 bg-white shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between group hover:border-pink-300">
+              <Card key={idx} className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl flex flex-col justify-between group hover:border-pink-300 hover:-translate-y-1">
                 <CardHeader className="p-6 pb-2">
-                  <div className="h-10 w-10 rounded-lg bg-pink-50 flex items-center justify-center border border-pink-100/20 group-hover:scale-105 transition-transform">
+                  <div className="h-11 w-11 rounded-2xl bg-pink-50 flex items-center justify-center border border-pink-100/40 group-hover:scale-105 transition-transform duration-300">
                     {benefit.icon}
                   </div>
                   <CardTitle className="font-heading text-lg font-bold mt-4 text-slate-800 group-hover:text-primary transition-colors">
@@ -752,17 +657,17 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= MEMBERSHIP CATEGORIES ================= */}
-      <section className="py-20 bg-white border-b border-slate-100">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
+      <section className="py-20 md:py-28 bg-white relative">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
               <Users className="h-3.5 w-3.5" /> Options
             </span>
-            <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Choose Your Membership Category
             </h2>
-            <p className="text-sm text-slate-500 font-medium">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               We have designed membership channels corresponding to your capacity to commit time, funds, or expertise.
             </p>
           </div>
@@ -770,13 +675,13 @@ export default function MembershipClient() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
 
             {/* Card 1: Institution Partner */}
-            <Card className="border-pink-100/40 bg-gradient-to-br from-white to-pink-50/[0.02] shadow-sm hover:shadow-lg transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between space-y-6 group hover:border-pink-300 text-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-gradient-to-l from-pink-500 to-purple-600 text-white text-[9px] font-bold uppercase tracking-wider px-3.5 py-1 rounded-bl-xl shadow-xs">
+            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-lg transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between space-y-6 group hover:border-pink-300 text-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-gradient-to-l from-primary to-rose-500 text-white text-[9px] font-bold uppercase tracking-wider px-3.5 py-1 rounded-bl-xl shadow-sm">
                 Partner Hub
               </div>
               <div className="space-y-4">
-                <div className="h-14 w-14 rounded-full bg-gradient-to-tr from-pink-100 to-purple-100 text-primary flex items-center justify-center border border-pink-100/20 mx-auto group-hover:scale-105 transition-transform">
-                  <Building2 className="h-7 w-7 text-pink-600" />
+                <div className="h-14 w-14 rounded-full bg-pink-50 text-primary flex items-center justify-center border border-pink-100/40 mx-auto group-hover:scale-105 transition-transform duration-300">
+                  <Building2 className="h-7 w-7 text-primary" />
                 </div>
                 <div className="space-y-2">
                   <h3 className="font-heading text-xl font-bold text-slate-800 group-hover:text-primary transition-colors">Institution Partner</h3>
@@ -787,16 +692,16 @@ export default function MembershipClient() {
               </div>
               <Button
                 onClick={() => scrollToForm("institution")}
-                className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-95 text-white font-bold rounded-full py-5 active:scale-95 transition-all cursor-pointer border-0"
+                className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 active:scale-95 transition-all cursor-pointer shadow-md shadow-pink-100"
               >
                 Register Organization
               </Button>
             </Card>
 
             {/* Card 2: Individual Member */}
-            <Card className="border-pink-100/40 bg-gradient-to-br from-white to-pink-50/[0.02] shadow-sm hover:shadow-lg transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between space-y-6 group hover:border-pink-300 text-center relative overflow-hidden">
+            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-lg transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between space-y-6 group hover:border-pink-300 text-center relative overflow-hidden">
               <div className="space-y-4">
-                <div className="h-14 w-14 rounded-full bg-pink-50 text-primary flex items-center justify-center border border-pink-100/20 mx-auto group-hover:scale-105 transition-transform">
+                <div className="h-14 w-14 rounded-full bg-pink-50 text-primary flex items-center justify-center border border-pink-100/40 mx-auto group-hover:scale-105 transition-transform duration-300">
                   <Heart className="h-7 w-7 text-primary fill-pink-500/20" />
                 </div>
                 <div className="space-y-2">
@@ -808,7 +713,7 @@ export default function MembershipClient() {
               </div>
               <Button
                 onClick={() => scrollToForm("individual", "volunteer")}
-                className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-5 active:scale-95 transition-all cursor-pointer"
+                className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 active:scale-95 transition-all cursor-pointer shadow-md shadow-pink-100"
               >
                 Join as Individual
               </Button>
@@ -819,19 +724,19 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= COMMUNITY FEEDBACK ================= */}
-      <section className="py-20 bg-gradient-to-b from-white to-pink-50/20 border-b border-pink-100/30">
+      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
 
           {/* Public Feedback Display */}
           <div className="space-y-8">
             <div className="text-center space-y-3 max-w-2xl mx-auto">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/50 text-primary text-xs font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
                 <MessageSquare className="h-3.5 w-3.5" /> Community Feedback
               </span>
-              <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
+              <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
                 What Our Members Say
               </h2>
-              <p className="text-sm text-slate-500 font-medium">
+              <p className="text-slate-500 text-sm sm:text-base font-medium">
                 Read feedback from community members, volunteers, and healthcare partners.
               </p>
             </div>
@@ -839,7 +744,7 @@ export default function MembershipClient() {
             {feedbackLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="rounded-2xl border border-pink-100/40 bg-white p-6 shadow-sm animate-pulse space-y-3">
+                  <div key={i} className="rounded-3xl border border-pink-100/60 bg-white p-6 shadow-sm animate-pulse space-y-3">
                     <div className="h-4 w-1/2 bg-slate-200 rounded" />
                     <div className="h-3 w-1/3 bg-slate-100 rounded" />
                     <div className="h-12 w-full bg-slate-100 rounded" />
@@ -847,7 +752,7 @@ export default function MembershipClient() {
                 ))}
               </div>
             ) : approvedFeedback.length === 0 ? (
-              <Card className="rounded-2xl border border-pink-100/40 bg-white p-8 shadow-sm text-center max-w-xl mx-auto space-y-3">
+              <Card className="rounded-3xl border border-pink-100/60 bg-white p-8 shadow-sm text-center max-w-xl mx-auto space-y-3">
                 <MessageSquare className="h-10 w-10 text-pink-300 mx-auto" />
                 <p className="text-sm text-slate-600 font-semibold">
                   No feedback yet. Be the first to share your experience!
@@ -856,7 +761,7 @@ export default function MembershipClient() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {approvedFeedback.map((item) => (
-                  <Card key={item.id} className="rounded-2xl border border-pink-100/40 bg-white p-6 shadow-sm hover:shadow-md transition-shadow space-y-4 flex flex-col justify-between">
+                  <Card key={item.id} className="rounded-3xl border border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] p-6 shadow-sm hover:shadow-md transition-shadow space-y-4 flex flex-col justify-between hover:border-pink-300">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between gap-2">
                         <div>
@@ -904,7 +809,7 @@ export default function MembershipClient() {
           <div className="max-w-2xl mx-auto pt-8 border-t border-pink-100/40">
             <Card className="rounded-3xl border border-pink-100 bg-white p-6 sm:p-10 shadow-lg space-y-6">
               <div className="text-center space-y-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider">
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
                   <Sparkles className="h-3.5 w-3.5 text-primary" /> Share Your Experience
                 </span>
                 <h3 className="font-heading text-2xl font-black text-slate-900">Submit Your Feedback</h3>
@@ -935,7 +840,7 @@ export default function MembershipClient() {
                         consent: false
                       });
                     }}
-                    className="bg-primary hover:bg-primary/95 text-white rounded-xl text-xs py-2.5 px-5 font-bold cursor-pointer"
+                    className="bg-primary hover:bg-primary/95 text-white rounded-full text-xs py-2.5 px-5 font-bold cursor-pointer"
                   >
                     Submit Another Feedback
                   </Button>
@@ -1072,7 +977,7 @@ export default function MembershipClient() {
                       id="feedbackConsent"
                       checked={feedbackForm.consent}
                       onChange={(e) => setFeedbackForm(prev => ({ ...prev, consent: e.target.checked }))}
-                      className="mt-1 h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary cursor-pointer"
+                      className="mt-1 h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary cursor-pointer accent-primary"
                     />
                     <label htmlFor="feedbackConsent" className="text-xs text-slate-600 font-medium cursor-pointer">
                       I agree to display my feedback publicly with my name.
@@ -1083,7 +988,7 @@ export default function MembershipClient() {
                   <Button
                     type="submit"
                     disabled={feedbackSubmitting}
-                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-xl py-3.5 text-sm shadow-md active:scale-95 transition-all cursor-pointer"
+                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 text-sm shadow-md shadow-pink-100 active:scale-95 transition-all cursor-pointer"
                   >
                     {feedbackSubmitting ? "Submitting..." : "Submit Feedback"}
                   </Button>
@@ -1096,19 +1001,19 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= VERIFIED MEMBERS SECTION ================= */}
-      <section className="py-20 bg-gradient-to-b from-white to-pink-50/20 border-y border-pink-100/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
+      <section className="py-20 md:py-28 bg-white border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-16">
 
           {/* Heading */}
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/50 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
               <CheckCircle2 className="h-3.5 w-3.5" />
               Verified Members
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Our Growing Community
             </h2>
-            <p className="text-sm text-slate-500 font-medium">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               Meet the verified individuals, organizations, and corporate partners who have joined our mission.
             </p>
           </div>
@@ -1117,7 +1022,7 @@ export default function MembershipClient() {
           {verifiedLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="rounded-2xl border border-pink-100/40 bg-white p-6 shadow-sm animate-pulse space-y-3">
+                <div key={i} className="rounded-3xl border border-pink-100/60 bg-white p-6 shadow-sm animate-pulse space-y-3">
                   <div className="h-12 w-12 rounded-full bg-slate-200" />
                   <div className="h-4 w-1/2 bg-slate-200 rounded" />
                   <div className="h-3 w-3/4 bg-slate-100 rounded" />
@@ -1125,7 +1030,7 @@ export default function MembershipClient() {
               ))}
             </div>
           ) : verifiedMembers.length === 0 ? (
-            <Card className="rounded-2xl border-2 border-dashed border-pink-200 bg-white p-12 shadow-sm text-center max-w-xl mx-auto space-y-3">
+            <Card className="rounded-3xl border-2 border-dashed border-pink-200 bg-white p-12 shadow-sm text-center max-w-xl mx-auto space-y-3">
               <Users className="h-10 w-10 text-pink-300 mx-auto" />
               <p className="text-sm text-slate-600 font-semibold">
                 No verified members yet.
@@ -1137,30 +1042,18 @@ export default function MembershipClient() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {verifiedMembers.map((member) => (
-                <Card key={member.id} className="rounded-2xl border border-pink-100/40 bg-white p-6 shadow-sm hover:shadow-md transition-shadow space-y-4 flex flex-col justify-between">
+                <Card key={member.id} className="rounded-3xl border border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] p-6 shadow-sm hover:shadow-md transition-shadow space-y-4 flex flex-col justify-between hover:border-pink-300">
 
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
-                      {member.logoUrl ? (
-                        <div className="h-12 w-12 rounded-full overflow-hidden border border-pink-100 shrink-0">
-                          <img src={member.logoUrl} alt={member.displayName} className="w-full h-full object-cover" />
-                        </div>
-                      ) : (
-                        <div className="h-12 w-12 rounded-full bg-pink-100 text-pink-700 flex items-center justify-center font-bold text-sm shrink-0">
-                          {getInitials(member.displayName)}
-                        </div>
-                      )}
+                      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-rose-400 text-white flex items-center justify-center font-bold text-sm shrink-0 shadow-md">
+                        {getInitials(member.displayName)}
+                      </div>
                       <div className="flex-1 min-w-0">
                         <h4 className="font-bold text-slate-800 text-sm leading-tight truncate">
                           {member.displayName}
                         </h4>
-                        <span className={
-                          member.type === "individual"
-                            ? "text-[10px] font-semibold px-2 py-0.5 rounded border border-pink-100 bg-pink-50 text-pink-700 inline-block mt-1"
-                            : member.type === "ngo"
-                            ? "text-[10px] font-semibold px-2 py-0.5 rounded border border-purple-100 bg-purple-50 text-purple-700 inline-block mt-1"
-                            : "text-[10px] font-semibold px-2 py-0.5 rounded border border-blue-100 bg-blue-50 text-blue-700 inline-block mt-1"
-                        }>
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded border border-pink-100 bg-pink-50 text-pink-700 inline-block mt-1">
                           {member.category}
                         </span>
                       </div>
@@ -1192,7 +1085,7 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= DYNAMIC FORMS SECTION ================= */}
-      <section ref={formSectionRef} className="py-20 bg-slate-50 border-t border-pink-100/30 scroll-mt-6">
+      <section ref={formSectionRef} className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20 scroll-mt-6">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl space-y-8">
 
           <AnimatePresence mode="wait">
@@ -1208,13 +1101,13 @@ export default function MembershipClient() {
                 <h3 className="font-heading text-2xl font-black text-slate-900">Start Your Membership</h3>
                 <p className="text-slate-500 text-sm font-medium">Select a category above or choose an onboarding workflow below to load the registration form.</p>
                 <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
-                  <Button onClick={() => scrollToForm("individual", "volunteer")} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-xl text-xs py-3.5 px-6">Individual Member</Button>
-                  <Button onClick={() => scrollToForm("institution")} className="bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-95 text-white font-bold rounded-xl text-xs py-3.5 px-6 border-0">Institution Partner</Button>
+                  <Button onClick={() => scrollToForm("individual", "volunteer")} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full text-xs py-6 px-6">Individual Member</Button>
+                  <Button onClick={() => scrollToForm("institution")} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full text-xs py-6 px-6">Institution Partner</Button>
                 </div>
               </motion.div>
             ) : activeWorkflow === "individual" ? (
 
-              /* ================= RESTORED INDIVIDUAL REGISTRATION FORM ================= */
+              /* ================= INDIVIDUAL REGISTRATION FORM ================= */
               <motion.div
                 key="individual-registration-view"
                 initial={{ opacity: 0, y: 15 }}
@@ -1222,18 +1115,18 @@ export default function MembershipClient() {
                 exit={{ opacity: 0, y: -15 }}
                 className="space-y-6"
               >
-                <div className="text-center space-y-2">
-                  <span className="bg-pink-100 text-pink-700 border border-pink-200 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1.5">
-                    <Users className="h-3 w-3" /> Individual Registration Form
+                <div className="text-center space-y-3">
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+                    <Users className="h-3.5 w-3.5" /> Individual Registration Form
                   </span>
-                  <h2 className="font-heading text-3xl font-black tracking-tight text-slate-900">
+                  <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">
                     Apply for Membership
                   </h2>
-                  <p className="text-slate-500 text-xs sm:text-sm font-medium">Provide your details below to request community member registration.</p>
+                  <p className="text-slate-500 text-sm font-medium">Provide your details below to request community member registration.</p>
                 </div>
 
-                <Card className="border-pink-100 bg-white shadow-xl rounded-3xl p-6 sm:p-10 relative overflow-hidden">
-                  <div className="absolute top-0 left-0 right-0 h-2 bg-primary" />
+                <Card className="border-pink-100/60 bg-white shadow-xl rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-rose-500 to-pink-600" />
 
                   <AnimatePresence mode="wait">
                     {!individualSubmitted ? (
@@ -1356,7 +1249,7 @@ export default function MembershipClient() {
                         </div>
 
                         {/* Action Info Note */}
-                        <div className="flex gap-2 p-4 rounded-xl bg-slate-50 text-slate-500 border border-slate-100">
+                        <div className="flex gap-2 p-4 rounded-xl bg-pink-50/40 text-slate-500 border border-pink-100/50">
                           <Info className="h-4 w-4 shrink-0 text-primary mt-0.5" />
                           <p className="text-[10px] leading-relaxed font-semibold">
                             Your details are kept confidential under platform privacy terms. System processes verify inputs before approval alerts are emailed.
@@ -1371,7 +1264,7 @@ export default function MembershipClient() {
                         <Button
                           type="submit"
                           disabled={isPending}
-                          className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-xl py-4 active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2"
+                          className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-pink-100"
                         >
                           {isPending ? (
                             <>
@@ -1406,14 +1299,14 @@ export default function MembershipClient() {
                         <div className="pt-4 flex gap-3 justify-center">
                           <Button
                             onClick={resetIndividualForm}
-                            className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-4 px-6 active:scale-95 transition-all text-xs uppercase"
+                            className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 px-6 active:scale-95 transition-all text-xs uppercase shadow-md shadow-pink-100"
                           >
                             Submit Another
                           </Button>
                           <Link href="/">
                             <Button
                               variant="outline"
-                              className="border-slate-200 text-slate-600 hover:bg-slate-50 font-bold rounded-full py-4 px-6 active:scale-95 transition-all text-xs uppercase"
+                              className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full py-6 px-6 active:scale-95 transition-all text-xs uppercase"
                             >
                               Return Home
                             </Button>
@@ -1436,10 +1329,10 @@ export default function MembershipClient() {
               >
                 {/* flowchart layout */}
                 <div className="text-center space-y-3">
-                  <span className="bg-pink-100 text-pink-700 border border-pink-200 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1.5">
-                    <Building2 className="h-3 w-3" /> Institution Partner Hub
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+                    <Building2 className="h-3.5 w-3.5" /> Institution Partner Hub
                   </span>
-                  <h2 className="font-heading text-3xl font-extrabold text-slate-900 tracking-tight">
+                  <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
                     Become an Institution Partner
                   </h2>
                   <p className="text-slate-500 text-sm font-medium max-w-lg mx-auto">
@@ -1448,10 +1341,10 @@ export default function MembershipClient() {
                 </div>
 
                 {/* Diagram */}
-                <div className="relative max-w-2xl mx-auto pt-2 pb-6 border border-pink-100 bg-white rounded-3xl shadow-xs">
+                <div className="relative max-w-2xl mx-auto pt-2 pb-6 border border-pink-100 bg-white rounded-3xl shadow-sm">
 
                   {/* Top Node */}
-                  <div className="inline-flex flex-col items-center mt-6 p-4 px-6 bg-gradient-to-r from-pink-600 via-rose-500 to-purple-600 text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-md border border-white/20 select-none">
+                  <div className="inline-flex flex-col items-center mt-6 p-4 px-6 bg-gradient-to-r from-primary via-rose-500 to-pink-600 text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-md border border-white/20 select-none">
                     <Building2 className="h-5 w-5 mb-1" />
                     Institution Member
                   </div>
@@ -1459,7 +1352,7 @@ export default function MembershipClient() {
                   {/* Lines */}
                   <div className="w-0.5 h-6 border-l-2 border-dashed border-pink-300 mx-auto" />
 
-                  <div className="inline-block px-4 py-1.5 bg-pink-50 text-pink-700 border border-pink-100 rounded-full font-bold text-[10px] uppercase tracking-wide shadow-xs select-none">
+                  <div className="inline-block px-4 py-1.5 bg-pink-50 text-pink-700 border border-pink-100 rounded-full font-bold text-[10px] uppercase tracking-wide shadow-sm select-none">
                     Choose Membership Type
                   </div>
 
@@ -1477,17 +1370,17 @@ export default function MembershipClient() {
                     {/* Organization card */}
                     <div
                       onClick={() => handleSelectFlow("NGO")}
-                      className={`cursor-pointer rounded-2xl p-4 border flex flex-col justify-between space-y-4 bg-white transition-all shadow-xs group ${selectedFlow === "NGO" ? "border-pink-500 ring-2 ring-pink-100" : "border-slate-100 hover:border-pink-300"
+                      className={`cursor-pointer rounded-2xl p-4 border flex flex-col justify-between space-y-4 bg-white transition-all shadow-sm group ${selectedFlow === "NGO" ? "border-primary ring-2 ring-pink-100" : "border-slate-100 hover:border-pink-300"
                         }`}
                     >
                       <div className="space-y-2">
-                        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-pink-500 to-rose-400 text-white flex items-center justify-center shadow-xs">
+                        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-rose-400 text-white flex items-center justify-center shadow-sm">
                           <Building2 className="h-5 w-5" />
                         </div>
-                        <h4 className="font-heading text-sm font-bold text-slate-800 group-hover:text-pink-600 transition-colors">Organization Member</h4>
+                        <h4 className="font-heading text-sm font-bold text-slate-800 group-hover:text-primary transition-colors">Organization Member</h4>
                         <p className="text-[10.5px] text-slate-500 leading-normal font-medium">For NGOs, Trusts, Foundations, Hospitals, Educational Groups, and Welfare Units.</p>
                       </div>
-                      <Button className={`w-full font-bold rounded-lg text-[10px] py-2 h-auto cursor-pointer ${selectedFlow === "NGO" ? "bg-pink-600 text-white" : "bg-slate-50 text-slate-600 hover:bg-pink-50"
+                      <Button className={`w-full font-bold rounded-full text-[10px] py-2 h-auto cursor-pointer ${selectedFlow === "NGO" ? "bg-primary text-white" : "bg-slate-50 text-slate-600 hover:bg-pink-50"
                         }`}>
                         Register NGO Flow
                       </Button>
@@ -1496,17 +1389,17 @@ export default function MembershipClient() {
                     {/* Corporate card */}
                     <div
                       onClick={() => handleSelectFlow("CORPORATE")}
-                      className={`cursor-pointer rounded-2xl p-4 border flex flex-col justify-between space-y-4 bg-white transition-all shadow-xs group ${selectedFlow === "CORPORATE" ? "border-purple-500 ring-2 ring-purple-100" : "border-slate-100 hover:border-purple-300"
+                      className={`cursor-pointer rounded-2xl p-4 border flex flex-col justify-between space-y-4 bg-white transition-all shadow-sm group ${selectedFlow === "CORPORATE" ? "border-primary ring-2 ring-pink-100" : "border-slate-100 hover:border-pink-300"
                         }`}
                     >
                       <div className="space-y-2">
-                        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-purple-600 to-pink-500 text-white flex items-center justify-center shadow-xs">
+                        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-rose-500 text-white flex items-center justify-center shadow-sm">
                           <Briefcase className="h-5 w-5" />
                         </div>
-                        <h4 className="font-heading text-sm font-bold text-slate-800 group-hover:text-purple-600 transition-colors">Corporate Partner</h4>
+                        <h4 className="font-heading text-sm font-bold text-slate-800 group-hover:text-primary transition-colors">Corporate Partner</h4>
                         <p className="text-[10.5px] text-slate-500 leading-normal font-medium">For Corporate, CSR Provider to support and spread the cost for maximum outreach.</p>
                       </div>
-                      <Button className={`w-full font-bold rounded-lg text-[10px] py-2 h-auto cursor-pointer ${selectedFlow === "CORPORATE" ? "bg-purple-600 text-white" : "bg-slate-50 text-slate-600 hover:bg-purple-50"
+                      <Button className={`w-full font-bold rounded-full text-[10px] py-2 h-auto cursor-pointer ${selectedFlow === "CORPORATE" ? "bg-primary text-white" : "bg-slate-50 text-slate-600 hover:bg-pink-50"
                         }`}>
                         Register Corporate
                       </Button>
@@ -1534,7 +1427,7 @@ export default function MembershipClient() {
                             <button
                               type="button" onClick={() => step < ngoFormStep && setNgoFormStep(step)}
                               className={`h-6 w-6 rounded-full font-bold text-[10px] flex items-center justify-center transition-all ${ngoFormStep === step
-                                ? "bg-pink-600 text-white ring-2 ring-pink-100"
+                                ? "bg-primary text-white ring-2 ring-pink-100"
                                 : ngoFormStep > step
                                   ? "bg-emerald-500 text-white"
                                   : "bg-white border border-slate-200 text-slate-400"
@@ -1548,7 +1441,7 @@ export default function MembershipClient() {
                       </div>
 
                       <Card className="border-pink-100 bg-white shadow-xl rounded-3xl p-6 sm:p-10 relative overflow-hidden">
-                        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-500 to-rose-400" />
+                        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-rose-500 to-pink-600" />
 
                         {!ngoSubmitted ? (
                           <form onSubmit={handleNgoSubmit} className="space-y-6 text-left">
@@ -1561,7 +1454,7 @@ export default function MembershipClient() {
                                     <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Organization Name</label>
                                     <input
                                       type="text" name="organizationName" value={ngoData.organizationName} onChange={handleNgoInputChange}
-                                      className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.organizationName ? "border-rose-500" : "border-slate-200 focus:border-pink-500"}`}
+                                      className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.organizationName ? "border-rose-500" : "border-slate-200 focus:border-primary"}`}
                                       placeholder="Care for All Foundation"
                                     />
                                     {formErrors.organizationName && <p className="text-[10px] text-rose-500 font-bold">{formErrors.organizationName}</p>}
@@ -1607,7 +1500,7 @@ export default function MembershipClient() {
                                 </div>
 
                                 <div className="flex justify-end pt-4">
-                                  <Button type="button" onClick={() => validateNgoStep(1) && setNgoFormStep(2)} className="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl px-6 py-3 cursor-pointer">
+                                  <Button type="button" onClick={() => validateNgoStep(1) && setNgoFormStep(2)} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3 cursor-pointer shadow-md shadow-pink-100">
                                     Next <ChevronRight className="ml-1 h-4 w-4" />
                                   </Button>
                                 </div>
@@ -1669,10 +1562,10 @@ export default function MembershipClient() {
                                 </div>
 
                                 <div className="flex justify-between pt-4">
-                                  <Button type="button" onClick={() => setNgoFormStep(1)} variant="outline" className="border-slate-200 text-slate-600 rounded-xl px-6 py-3 cursor-pointer">
+                                  <Button type="button" onClick={() => setNgoFormStep(1)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
                                     Back
                                   </Button>
-                                  <Button type="button" onClick={() => validateNgoStep(2) && setNgoFormStep(3)} className="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl px-6 py-3 cursor-pointer">
+                                  <Button type="button" onClick={() => validateNgoStep(2) && setNgoFormStep(3)} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3 cursor-pointer shadow-md shadow-pink-100">
                                     Next <ChevronRight className="ml-1 h-4 w-4" />
                                   </Button>
                                 </div>
@@ -1735,10 +1628,10 @@ export default function MembershipClient() {
                                 </div>
 
                                 <div className="flex justify-between pt-4">
-                                  <Button type="button" onClick={() => setNgoFormStep(2)} variant="outline" className="border-slate-200 text-slate-600 rounded-xl px-6 py-3 cursor-pointer">
+                                  <Button type="button" onClick={() => setNgoFormStep(2)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
                                     Back
                                   </Button>
-                                  <Button type="button" onClick={() => validateNgoStep(3) && setNgoFormStep(4)} className="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl px-6 py-3 cursor-pointer">
+                                  <Button type="button" onClick={() => validateNgoStep(3) && setNgoFormStep(4)} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3 cursor-pointer shadow-md shadow-pink-100">
                                     Next <ChevronRight className="ml-1 h-4 w-4" />
                                   </Button>
                                 </div>
@@ -1791,14 +1684,14 @@ export default function MembershipClient() {
                                   </div>
 
                                   {/* UPLOADS */}
-                                  <div className="space-y-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                  <div className="space-y-3 p-4 bg-pink-50/40 rounded-2xl border border-pink-100/50">
                                     <span className="text-[10px] font-bold uppercase text-slate-700 tracking-wider">Supporting Scans</span>
 
                                     <div className="space-y-2">
                                       <span className="text-xs text-slate-600 block">Registration Certificate</span>
                                       <div className="flex items-center gap-3">
                                         <input type="file" id="ngoCertFile" onChange={(e) => handleFileUpload(e, setNgoCertificateUpload)} className="hidden" accept=".pdf,.png,.jpg" />
-                                        <label htmlFor="ngoCertFile" className="bg-white border rounded-xl px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-pink-600 cursor-pointer shadow-xs"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
+                                        <label htmlFor="ngoCertFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
                                         <span className="text-[11px] text-slate-500 truncate max-w-xs">{ngoCertificateUpload.state === "success" ? `✓ ${ngoCertificateUpload.filename}` : ngoCertificateUpload.state === "uploading" ? "Uploading..." : "No file"}</span>
                                       </div>
                                       {formErrors.ngoCertificate && <p className="text-[10px] text-rose-500 font-bold">{formErrors.ngoCertificate}</p>}
@@ -1808,7 +1701,7 @@ export default function MembershipClient() {
                                       <span className="text-xs text-slate-600 block">Organization Logo</span>
                                       <div className="flex items-center gap-3">
                                         <input type="file" id="ngoLogoFile" onChange={(e) => handleFileUpload(e, setNgoLogoUpload)} className="hidden" accept=".png,.jpg" />
-                                        <label htmlFor="ngoLogoFile" className="bg-white border rounded-xl px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-pink-600 cursor-pointer shadow-xs"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
+                                        <label htmlFor="ngoLogoFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
                                         <span className="text-[11px] text-slate-500 truncate max-w-xs">{ngoLogoUpload.state === "success" ? `✓ ${ngoLogoUpload.filename}` : "No file"}</span>
                                       </div>
                                       {formErrors.ngoLogo && <p className="text-[10px] text-rose-500 font-bold">{formErrors.ngoLogo}</p>}
@@ -1818,7 +1711,7 @@ export default function MembershipClient() {
                                       <span className="text-xs text-slate-600 block">Supporting Documents</span>
                                       <div className="flex items-center gap-3">
                                         <input type="file" id="ngoDocsFile" onChange={(e) => handleFileUpload(e, setNgoDocsUpload)} className="hidden" accept=".pdf" />
-                                        <label htmlFor="ngoDocsFile" className="bg-white border rounded-xl px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-pink-600 cursor-pointer shadow-xs"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
+                                        <label htmlFor="ngoDocsFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
                                         <span className="text-[11px] text-slate-500 truncate max-w-xs">{ngoDocsUpload.state === "success" ? `✓ ${ngoDocsUpload.filename}` : "No file"}</span>
                                       </div>
                                       {formErrors.supportingDocs && <p className="text-[10px] text-rose-500 font-bold">{formErrors.supportingDocs}</p>}
@@ -1826,17 +1719,17 @@ export default function MembershipClient() {
                                   </div>
 
                                   <div className="flex items-start gap-2 pt-2">
-                                    <input type="checkbox" id="ngoIsDeclared" name="isDeclared" checked={ngoData.isDeclared} onChange={handleNgoInputChange} className="mt-1 h-4 w-4" />
-                                    <label htmlFor="ngoIsDeclared" className="text-xs text-slate-500 cursor-pointer">I hereby declare that the details provided are correct and our organization commits to coordinating breast cancer awareness campaigns.</label>
+                                    <input type="checkbox" id="ngoIsDeclared" name="isDeclared" checked={ngoData.isDeclared} onChange={handleNgoInputChange} className="mt-1 h-4 w-4 accent-primary" />
+                                    <label htmlFor="ngoIsDeclared" className="text-xs text-slate-500 cursor-pointer font-medium">I hereby declare that the details provided are correct and our organization commits to coordinating breast cancer awareness campaigns.</label>
                                   </div>
                                   {formErrors.isDeclared && <p className="text-[10px] text-rose-500 font-bold">{formErrors.isDeclared}</p>}
                                 </div>
 
-                                <div className="flex justify-between pt-4 border-t border-slate-100">
-                                  <Button type="button" onClick={() => setNgoFormStep(3)} variant="outline" className="border-slate-200 text-slate-600 rounded-xl px-6 py-3 cursor-pointer">
+                                <div className="flex justify-between pt-4 border-t border-pink-50">
+                                  <Button type="button" onClick={() => setNgoFormStep(3)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
                                     Back
                                   </Button>
-                                  <Button type="submit" disabled={isPending} className="bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl px-6 py-3.5 cursor-pointer shadow-md">
+                                  <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3.5 cursor-pointer shadow-md shadow-pink-100">
                                     {isPending ? "Submitting..." : "Apply for Organization Membership"}
                                   </Button>
                                 </div>
@@ -1849,7 +1742,7 @@ export default function MembershipClient() {
                             <div className="h-14 w-14 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto"><Check className="h-7 w-7" /></div>
                             <h3 className="font-heading font-black text-xl text-slate-900">Application Submitted!</h3>
                             <p className="text-xs text-slate-500">Thank you, NGO application for **{ngoData.organizationName}** has been registered. Coordination managers will review details shortly.</p>
-                            <Button onClick={() => { setNgoSubmitted(false); setNgoFormStep(1); }} className="bg-pink-600 text-white rounded-xl text-xs py-3 px-6 cursor-pointer">Submit Another</Button>
+                            <Button onClick={() => { setNgoSubmitted(false); setNgoFormStep(1); }} className="bg-primary text-white rounded-full text-xs py-3 px-6 cursor-pointer shadow-md shadow-pink-100">Submit Another</Button>
                           </div>
                         )}
                       </Card>
@@ -1871,7 +1764,7 @@ export default function MembershipClient() {
                             <button
                               type="button" onClick={() => step < corpFormStep && setCorpFormStep(step)}
                               className={`h-6 w-6 rounded-full font-bold text-[10px] flex items-center justify-center transition-all ${corpFormStep === step
-                                ? "bg-purple-600 text-white ring-2 ring-purple-100"
+                                ? "bg-primary text-white ring-2 ring-pink-100"
                                 : corpFormStep > step
                                   ? "bg-emerald-500 text-white"
                                   : "bg-white border border-slate-200 text-slate-400"
@@ -1884,8 +1777,8 @@ export default function MembershipClient() {
                         ))}
                       </div>
 
-                      <Card className="border-purple-100 bg-white shadow-xl rounded-3xl p-6 sm:p-10 relative overflow-hidden">
-                        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-600 to-pink-500" />
+                      <Card className="border-pink-100 bg-white shadow-xl rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+                        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-rose-500 to-pink-600" />
 
                         {!corpSubmitted ? (
                           <form onSubmit={handleCorpSubmit} className="space-y-6 text-left">
@@ -1942,7 +1835,7 @@ export default function MembershipClient() {
                                 </div>
 
                                 <div className="flex justify-end pt-4">
-                                  <Button type="button" onClick={() => validateCorpStep(1) && setCorpFormStep(2)} className="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl px-6 py-3 cursor-pointer">
+                                  <Button type="button" onClick={() => validateCorpStep(1) && setCorpFormStep(2)} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3 cursor-pointer shadow-md shadow-pink-100">
                                     Next <ChevronRight className="ml-1 h-4 w-4" />
                                   </Button>
                                 </div>
@@ -2004,10 +1897,10 @@ export default function MembershipClient() {
                                 </div>
 
                                 <div className="flex justify-between pt-4">
-                                  <Button type="button" onClick={() => setCorpFormStep(1)} variant="outline" className="border-slate-200 text-slate-600 rounded-xl px-6 py-3 cursor-pointer">
+                                  <Button type="button" onClick={() => setCorpFormStep(1)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
                                     Back
                                   </Button>
-                                  <Button type="button" onClick={() => validateCorpStep(2) && setCorpFormStep(3)} className="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl px-6 py-3 cursor-pointer">
+                                  <Button type="button" onClick={() => validateCorpStep(2) && setCorpFormStep(3)} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3 cursor-pointer shadow-md shadow-pink-100">
                                     Next <ChevronRight className="ml-1 h-4 w-4" />
                                   </Button>
                                 </div>
@@ -2060,10 +1953,10 @@ export default function MembershipClient() {
                                 </div>
 
                                 <div className="flex justify-between pt-4">
-                                  <Button type="button" onClick={() => setCorpFormStep(2)} variant="outline" className="border-slate-200 text-slate-600 rounded-xl px-6 py-3 cursor-pointer">
+                                  <Button type="button" onClick={() => setCorpFormStep(2)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
                                     Back
                                   </Button>
-                                  <Button type="button" onClick={() => validateCorpStep(3) && setCorpFormStep(4)} className="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl px-6 py-3 cursor-pointer">
+                                  <Button type="button" onClick={() => validateCorpStep(3) && setCorpFormStep(4)} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3 cursor-pointer shadow-md shadow-pink-100">
                                     Next <ChevronRight className="ml-1 h-4 w-4" />
                                   </Button>
                                 </div>
@@ -2101,14 +1994,14 @@ export default function MembershipClient() {
 
                                   <div className="space-y-2">
                                     <label className="text-xs font-bold uppercase text-slate-500 tracking-wider block">Collaboration Interest</label>
-                                    <div className="grid grid-cols-2 gap-2 p-3 bg-slate-50 border rounded-xl">
+                                    <div className="grid grid-cols-2 gap-2 p-3 bg-pink-50/40 border border-pink-100/50 rounded-2xl">
                                       {["Awareness Campaigns", "Employee Wellness", "Sponsorships", "Screening Camps", "Fundraising"].map((item) => (
                                         <div key={item} className="flex items-center gap-2">
                                           <input
                                             type="checkbox" id={`corp-interest-${item}`}
                                             checked={corpData.collaborationInterest.includes(item)}
                                             onChange={(e) => handleInterestCheckboxChange(item, e.target.checked)}
-                                            className="h-4 w-4"
+                                            className="h-4 w-4 accent-primary"
                                           />
                                           <label htmlFor={`corp-interest-${item}`} className="text-xs cursor-pointer select-none font-medium">{item}</label>
                                         </div>
@@ -2118,14 +2011,14 @@ export default function MembershipClient() {
                                   </div>
 
                                   {/* UPLOADS */}
-                                  <div className="space-y-3 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                  <div className="space-y-3 p-4 bg-pink-50/40 rounded-2xl border border-pink-100/50">
                                     <span className="text-[10px] font-bold uppercase text-slate-700 tracking-wider">Branding Documents</span>
 
                                     <div className="space-y-2">
                                       <span className="text-xs text-slate-600 block">Company Logo</span>
                                       <div className="flex items-center gap-3">
                                         <input type="file" id="corpLogoFile" onChange={(e) => handleFileUpload(e, setCorpLogoUpload)} className="hidden" accept=".png,.jpg" />
-                                        <label htmlFor="corpLogoFile" className="bg-white border rounded-xl px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-purple-600 cursor-pointer shadow-xs"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
+                                        <label htmlFor="corpLogoFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
                                         <span className="text-[11px] text-slate-500 truncate max-w-xs">{corpLogoUpload.state === "success" ? `✓ ${corpLogoUpload.filename}` : "No file"}</span>
                                       </div>
                                       {formErrors.companyLogo && <p className="text-[10px] text-rose-500 font-bold">{formErrors.companyLogo}</p>}
@@ -2135,7 +2028,7 @@ export default function MembershipClient() {
                                       <span className="text-xs text-slate-600 block">CSR Policy File (Optional)</span>
                                       <div className="flex items-center gap-3">
                                         <input type="file" id="corpPolicyFile" onChange={(e) => handleFileUpload(e, setCorpPolicyUpload)} className="hidden" accept=".pdf" />
-                                        <label htmlFor="corpPolicyFile" className="bg-white border rounded-xl px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-purple-600 cursor-pointer shadow-xs"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
+                                        <label htmlFor="corpPolicyFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
                                         <span className="text-[11px] text-slate-500 truncate max-w-xs">{corpPolicyUpload.state === "success" ? `✓ ${corpPolicyUpload.filename}` : "No file"}</span>
                                       </div>
                                     </div>
@@ -2144,7 +2037,7 @@ export default function MembershipClient() {
                                       <span className="text-xs text-slate-600 block">Supporting Document</span>
                                       <div className="flex items-center gap-3">
                                         <input type="file" id="corpDocsFile" onChange={(e) => handleFileUpload(e, setCorpDocsUpload)} className="hidden" accept=".pdf" />
-                                        <label htmlFor="corpDocsFile" className="bg-white border rounded-xl px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-purple-600 cursor-pointer shadow-xs"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
+                                        <label htmlFor="corpDocsFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
                                         <span className="text-[11px] text-slate-500 truncate max-w-xs">{corpDocsUpload.state === "success" ? `✓ ${corpDocsUpload.filename}` : "No file"}</span>
                                       </div>
                                       {formErrors.supportingDocs && <p className="text-[10px] text-rose-500 font-bold">{formErrors.supportingDocs}</p>}
@@ -2152,17 +2045,17 @@ export default function MembershipClient() {
                                   </div>
 
                                   <div className="flex items-start gap-2 pt-2">
-                                    <input type="checkbox" id="corpIsDeclared" name="isDeclared" checked={corpData.isDeclared} onChange={handleCorpInputChange} className="mt-1 h-4 w-4" />
-                                    <label htmlFor="corpIsDeclared" className="text-xs text-slate-500 cursor-pointer">I declare that corporate details are correct and we comply with statutory CSR rules.</label>
+                                    <input type="checkbox" id="corpIsDeclared" name="isDeclared" checked={corpData.isDeclared} onChange={handleCorpInputChange} className="mt-1 h-4 w-4 accent-primary" />
+                                    <label htmlFor="corpIsDeclared" className="text-xs text-slate-500 cursor-pointer font-medium">I declare that corporate details are correct and we comply with statutory CSR rules.</label>
                                   </div>
                                   {formErrors.isDeclared && <p className="text-[10px] text-rose-500 font-bold">{formErrors.isDeclared}</p>}
                                 </div>
 
-                                <div className="flex justify-between pt-4 border-t border-slate-100">
-                                  <Button type="button" onClick={() => setCorpFormStep(3)} variant="outline" className="border-slate-200 text-slate-600 rounded-xl px-6 py-3 cursor-pointer">
+                                <div className="flex justify-between pt-4 border-t border-pink-50">
+                                  <Button type="button" onClick={() => setCorpFormStep(3)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
                                     Back
                                   </Button>
-                                  <Button type="submit" disabled={isPending} className="bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl px-6 py-3.5 cursor-pointer shadow-md">
+                                  <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3.5 cursor-pointer shadow-md shadow-pink-100">
                                     {isPending ? "Submitting..." : "Become Corporate Partner"}
                                   </Button>
                                 </div>
@@ -2175,7 +2068,7 @@ export default function MembershipClient() {
                             <div className="h-14 w-14 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto"><Check className="h-7 w-7" /></div>
                             <h3 className="font-heading font-black text-xl text-slate-900">Application Submitted!</h3>
                             <p className="text-xs text-slate-500">Thank you, corporate application for **{corpData.companyName}** has been registered. Audits will be finalized shortly.</p>
-                            <Button onClick={() => { setCorpSubmitted(false); setCorpFormStep(1); }} className="bg-purple-600 text-white rounded-xl text-xs py-3 px-6 cursor-pointer">Submit Another</Button>
+                            <Button onClick={() => { setCorpSubmitted(false); setCorpFormStep(1); }} className="bg-primary text-white rounded-full text-xs py-3 px-6 cursor-pointer shadow-md shadow-pink-100">Submit Another</Button>
                           </div>
                         )}
                       </Card>
@@ -2191,17 +2084,17 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= FREQUENTLY ASKED QUESTIONS ================= */}
-      <section className="py-20 bg-white border-t border-slate-100">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl space-y-12">
+      <section className="py-20 md:py-28 bg-white border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-12">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider">
-              <HelpCircle className="h-3.5 w-3.5" /> FAQ
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <HelpCircle className="h-3.5 w-3.5" /> FAQ Accordion
             </span>
-            <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
               Frequently Asked Questions
             </h2>
-            <p className="text-sm text-slate-500 font-medium">
+            <p className="text-slate-500 text-sm sm:text-base font-medium">
               Quick answers about membership, partnership, and community involvement.
             </p>
           </div>
@@ -2210,7 +2103,7 @@ export default function MembershipClient() {
             {faqsList.map((faq, idx) => {
               const isOpen = openFaqIdx === idx;
               return (
-                <div key={idx} className="border border-pink-100/50 rounded-2xl bg-white overflow-hidden shadow-xs">
+                <div key={idx} className="border border-pink-100/60 rounded-3xl bg-white overflow-hidden shadow-sm hover:border-pink-300 transition-all">
                   <button
                     onClick={() => setOpenFaqIdx(isOpen ? null : idx)}
                     className="w-full flex items-center justify-between p-5 text-left font-heading font-bold text-sm sm:text-base text-slate-800 hover:text-primary transition-colors cursor-pointer select-none"

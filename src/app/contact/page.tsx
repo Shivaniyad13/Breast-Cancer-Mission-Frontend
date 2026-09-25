@@ -24,25 +24,20 @@ export default function ContactPage() {
   return (
     <>
       {/* ── SEO Meta ── */}
-      <title>Contact Us · Cancer Mukt Bharat Abhiyan</title>
+     
 
       <div className="min-h-screen bg-gradient-to-b from-pink-50/60 via-white to-pink-50/30 text-slate-800">
 
         {/* ── Hero Banner ── */}
         <section className="relative overflow-hidden pt-32 pb-20 text-center">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(219,39,119,0.08)_0%,_transparent_60%)] pointer-events-none" />
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-700 text-xs font-semibold tracking-wider uppercase mb-6">
-              <Ribbon className="h-3.5 w-3.5 text-pink-600" />
-              Cancer Mukt Bharat 
-            </div>
-            <h1 className="font-heading text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 mb-4">
-              Get In <span className="text-pink-600">Touch</span>
-            </h1>
-            <p className="text-white max-w-xl mx-auto text-lg">
-              Have a question, want to collaborate, or need support? We're here to help. Reach out and our team will respond within 24 hours.
-            </p>
-          </div>
+
+          <h1 className="relative z-10 font-heading text-4xl sm:text-5xl font-extrabold tracking-tight text-pink-600 mb-4">
+            Contact <span className="text-slate-900">US</span>
+          </h1>
+          <p className="relative z-10 text-white max-w-xl mx-auto text-lg px-4">
+            Have a question, want to collaborate, or need support? We're here to help. Reach out and our team will respond within 24 hours.
+          </p>
         </section>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-24">
@@ -77,7 +72,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-xs text-slate-500 uppercase tracking-widest mb-0.5">Email</p>
-                    <p className="text-slate-900 font-semibold group-hover:text-pink-600 transition-colors">breastcancermission3@gmail.com  admin@cmba.in</p>
+                    <p className="text-slate-900 font-semibold group-hover:text-pink-600 transition-colors"> admin@cmba.in</p>
                   </div>
                 </a>
 
@@ -88,27 +83,13 @@ export default function ContactPage() {
                   <div>
                     <p className="text-xs text-slate-500 uppercase tracking-widest mb-0.5">Head Office</p>
                     <p className="text-slate-900 font-semibold leading-relaxed">
-                      Sector 64, B-14, Noida,<br />Uttar Pradesh, India – 201301
+                       B-14, Sector 64,  Noida,<br />Uttar Pradesh, India – 201301
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Office Hours */}
-              <div className="rounded-2xl border border-pink-100 bg-white shadow-md p-7 space-y-4 text-slate-800">
-                <h2 className="text-sm font-bold uppercase tracking-widest text-pink-700">Office Hours</h2>
-                <div className="space-y-3 text-sm">
-                  {[
-                    { day: "Monday – Friday", time: "9:00 AM – 6:00 PM" },
-                  ].map(({ day, time }) => (
-                    <div key={day} className="flex justify-between items-center border-b border-pink-100 pb-2 last:border-0 last:pb-0">
-                      <span className="text-slate-600">{day}</span>
-                      <span className="text-slate-900 font-semibold">{time}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
+             
               {/* Collaboration badge */}
               <div className="rounded-2xl border border-pink-200 bg-pink-50/70 p-5 text-center space-y-1">
                 <p className="text-xs text-pink-700 font-semibold uppercase tracking-widest">In Collaboration With</p>
@@ -255,13 +236,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-      {/* Clinical Disclaimer */}
-      <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/50 flex gap-3 text-xs text-slate-500 max-w-4xl mx-auto leading-relaxed">
-        <ShieldCheck className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
-        <p>
-          <strong>Medical Disclaimer:</strong> The information provided on this platform is for educational and campaign purposes only. It should not be used as a substitute for professional clinical advice, diagnosis, or treatment. Always consult with a licensed physician or oncologist regarding health concerns.
-        </p>
-      </div>
+     
     </>
   );
 }

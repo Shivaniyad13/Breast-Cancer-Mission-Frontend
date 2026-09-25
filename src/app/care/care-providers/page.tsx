@@ -239,224 +239,55 @@ const specialistsData: Specialist[] = [
 ];
 
 const journeyStepsData: JourneyStep[] = [
-  {
-    step: "01",
-    title: "Self-Examination",
-    desc: "Perform monthly breast self-exams to detect unusual lumps, skin dimpling, or nipple changes early.",
-    icon: Ribbon
-  },
-  {
-    step: "02",
-    title: "Mammography",
-    desc: "Schedule annual screenings for women aged 40+, or earlier if high-risk, to detect microscopic changes.",
-    icon: Activity
-  },
-  {
-    step: "03",
-    title: "Clinical Exam",
-    desc: "Visit a gynecologist or breast specialist for a physical evaluation if symptoms or lump arises.",
-    icon: User
-  },
-  {
-    step: "04",
-    title: "Biopsy & Pathology",
-    desc: "Extract tumor cells via needle biopsy to analyze cell types, tumor grade, and hormone receptors.",
-    icon: Microscope
-  },
-  {
-    step: "05",
-    title: "Treatment Plan",
-    desc: "Collaborate with a multidisciplinary tumor board to define chemotherapy, surgery, and radiation stages.",
-    icon: Stethoscope
-  },
-  {
-    step: "06",
-    title: "Breast Surgery",
-    desc: "Remove the tumor (lumpectomy) or the whole breast (mastectomy), often combined with lymph node checks.",
-    icon: Layers
-  },
-  {
-    step: "07",
-    title: "Chemotherapy",
-    desc: "Administer systemic drugs orally or intravenously to target and kill fast-dividing cancer cells.",
-    icon: Pill
-  },
-  {
-    step: "08",
-    title: "Radiation Therapy",
-    desc: "Expose target breast margins to energy beams, destroying microscopic cells remaining after surgery.",
-    icon: Zap
-  },
-  {
-    step: "09",
-    title: "Hormone Therapy",
-    desc: "Block estrogen/HER2 pathways using medication (like Tamoxifen or Herceptin) to prevent recurrence.",
-    icon: HeartPulse
-  },
-  {
-    step: "10",
-    title: "Rehabilitation",
-    desc: "Engage in lymphedema prevention therapy, physical shoulder exercises, and reconstructive healing.",
-    icon: Sparkles
-  },
-  {
-    step: "11",
-    title: "Follow-up Care",
-    desc: "Receive surveillance scans, blood work, and oncological follow-up appointments every 3-6 months.",
-    icon: ShieldCheck
-  }
+  { step: "01", title: "Self-Examination", desc: "Perform monthly breast self-exams to detect unusual lumps, skin dimpling, or nipple changes early.", icon: Ribbon },
+  { step: "02", title: "Mammography", desc: "Schedule annual screenings for women aged 40+, or earlier if high-risk, to detect microscopic changes.", icon: Activity },
+  { step: "03", title: "Clinical Exam", desc: "Visit a gynecologist or breast specialist for a physical evaluation if symptoms or lump arises.", icon: User },
+  { step: "04", title: "Biopsy & Pathology", desc: "Extract tumor cells via needle biopsy to analyze cell types, tumor grade, and hormone receptors.", icon: Microscope },
+  { step: "05", title: "Treatment Plan", desc: "Collaborate with a multidisciplinary tumor board to define chemotherapy, surgery, and radiation stages.", icon: Stethoscope },
+  { step: "06", title: "Breast Surgery", desc: "Remove the tumor (lumpectomy) or the whole breast (mastectomy), often combined with lymph node checks.", icon: Layers },
+  { step: "07", title: "Chemotherapy", desc: "Administer systemic drugs orally or intravenously to target and kill fast-dividing cancer cells.", icon: Pill },
+  { step: "08", title: "Radiation Therapy", desc: "Expose target breast margins to energy beams, destroying microscopic cells remaining after surgery.", icon: Zap },
+  { step: "09", title: "Hormone Therapy", desc: "Block estrogen/HER2 pathways using medication (like Tamoxifen or Herceptin) to prevent recurrence.", icon: HeartPulse },
+  { step: "10", title: "Rehabilitation", desc: "Engage in lymphedema prevention therapy, physical shoulder exercises, and reconstructive healing.", icon: Sparkles },
+  { step: "11", title: "Follow-up Care", desc: "Receive surveillance scans, blood work, and oncological follow-up appointments every 3-6 months.", icon: ShieldCheck }
 ];
 
 const supportServicesData: SupportService[] = [
-  {
-    title: "Emotional Counseling",
-    desc: "Professional therapists guiding you through shock, anxiety, and depression to build mental resilience.",
-    features: ["One-on-one sessions", "Stress relief therapy", "Caregiver support"],
-    icon: Brain,
-    gradientClass: "from-pink-500/10 to-rose-500/10 text-pink-600 border-pink-200/50"
-  },
-  {
-    title: "Nutrition Guidance",
-    desc: "Tailored dietary advice to maintain cellular strength, digest food easily, and boost immunity.",
-    features: ["Cycle-specific meal plans", "Nausea mitigation diets", "Weight management"],
-    icon: Apple,
-    gradientClass: "from-amber-500/10 to-orange-500/10 text-amber-600 border-amber-200/50"
-  },
-  {
-    title: "Survivorship Programs",
-    desc: "Providing transition support, helping survivors return to work, stay healthy, and advocate.",
-    features: ["Transition guidance", "Healthy life coaching", "Advocacy meetups"],
-    icon: Ribbon,
-    gradientClass: "from-purple-500/10 to-indigo-500/10 text-purple-600 border-purple-200/50"
-  },
-  {
-    title: "Financial Assistance",
-    desc: "Connecting families to government schemes, healthcare insurance, and verified NGO treatment grants.",
-    features: ["NGO subsidy routing", "Insurance facilitation", "Crowdfunding tools"],
-    icon: HeartHandshake,
-    gradientClass: "from-emerald-500/10 to-teal-500/10 text-emerald-600 border-emerald-200/50"
-  },
-  {
-    title: "Family Support Systems",
-    desc: "Counseling spouses, children, and close relatives on how to care for patients without burning out.",
-    features: ["Family group therapy", "Youth coping toolkits", "Respite care help"],
-    icon: Users2,
-    gradientClass: "from-blue-500/10 to-sky-500/10 text-blue-600 border-blue-200/50"
-  },
-  {
-    title: "Fertility Counseling",
-    desc: "Expert guidance on egg freezing and reproductive options before starting chemotherapy.",
-    features: ["Egg preservation routing", "Hormonal consults", "Family planning advice"],
-    icon: Dna,
-    gradientClass: "from-pink-500/10 to-purple-500/10 text-pink-600 border-pink-200/50"
-  },
-  {
-    title: "Physical Rehabilitation",
-    desc: "Restoring physical upper-body range of motion and checking for postoperative muscular stiffness.",
-    features: ["Shoulder exercises", "Lymphedema detection", "Posture alignment"],
-    icon: Sparkles,
-    gradientClass: "from-cyan-500/10 to-teal-500/10 text-cyan-600 border-cyan-200/50"
-  },
-  {
-    title: "Pain & Symptom Control",
-    desc: "Advanced therapeutic techniques to manage severe nausea, fatigue, neuropathy, and cancer pain.",
-    features: ["Neuropathy remedies", "Advanced pain blocks", "Nausea management"],
-    icon: HeartPulse,
-    gradientClass: "from-red-500/10 to-rose-500/10 text-red-600 border-red-200/50"
-  },
-  {
-    title: "Support Groups",
-    desc: "Weekly physical and digital peer circles to share cancer stories, exchange recovery advice, and heal.",
-    features: ["Survivor-led sessions", "Digital chat forums", "Art therapy events"],
-    icon: MessageSquare,
-    gradientClass: "from-violet-500/10 to-fuchsia-500/10 text-violet-600 border-violet-200/50"
-  },
-  {
-    title: "Oncology Home Care",
-    desc: "Nurses visiting your residence for PICC line dressing, port flushes, injections, and care management.",
-    features: ["PICC line flushes", "Injection scheduling", "Vitals checks at home"],
-    icon: Home,
-    gradientClass: "from-sky-500/10 to-indigo-500/10 text-sky-600 border-indigo-200/50"
-  }
+  { title: "Emotional Counseling", desc: "Professional therapists guiding you through shock, anxiety, and depression to build mental resilience.", features: ["One-on-one sessions", "Stress relief therapy", "Caregiver support"], icon: Brain, gradientClass: "from-pink-500/10 to-rose-500/10 text-pink-600 border-pink-200/50" },
+  { title: "Nutrition Guidance", desc: "Tailored dietary advice to maintain cellular strength, digest food easily, and boost immunity.", features: ["Cycle-specific meal plans", "Nausea mitigation diets", "Weight management"], icon: Apple, gradientClass: "from-amber-500/10 to-orange-500/10 text-amber-600 border-amber-200/50" },
+  { title: "Survivorship Programs", desc: "Providing transition support, helping survivors return to work, stay healthy, and advocate.", features: ["Transition guidance", "Healthy life coaching", "Advocacy meetups"], icon: Ribbon, gradientClass: "from-purple-500/10 to-indigo-500/10 text-purple-600 border-purple-200/50" },
+  { title: "Financial Assistance", desc: "Connecting families to government schemes, healthcare insurance, and verified NGO treatment grants.", features: ["NGO subsidy routing", "Insurance facilitation", "Crowdfunding tools"], icon: HeartHandshake, gradientClass: "from-emerald-500/10 to-teal-500/10 text-emerald-600 border-emerald-200/50" },
+  { title: "Family Support Systems", desc: "Counseling spouses, children, and close relatives on how to care for patients without burning out.", features: ["Family group therapy", "Youth coping toolkits", "Respite care help"], icon: Users2, gradientClass: "from-blue-500/10 to-sky-500/10 text-blue-600 border-blue-200/50" },
+  { title: "Fertility Counseling", desc: "Expert guidance on egg freezing and reproductive options before starting chemotherapy.", features: ["Egg preservation routing", "Hormonal consults", "Family planning advice"], icon: Dna, gradientClass: "from-pink-500/10 to-purple-500/10 text-pink-600 border-pink-200/50" },
+  { title: "Physical Rehabilitation", desc: "Restoring physical upper-body range of motion and checking for postoperative muscular stiffness.", features: ["Shoulder exercises", "Lymphedema detection", "Posture alignment"], icon: Sparkles, gradientClass: "from-cyan-500/10 to-teal-500/10 text-cyan-600 border-cyan-200/50" },
+  { title: "Pain & Symptom Control", desc: "Advanced therapeutic techniques to manage severe nausea, fatigue, neuropathy, and cancer pain.", features: ["Neuropathy remedies", "Advanced pain blocks", "Nausea management"], icon: HeartPulse, gradientClass: "from-red-500/10 to-rose-500/10 text-red-600 border-red-200/50" },
+  { title: "Support Groups", desc: "Weekly physical and digital peer circles to share cancer stories, exchange recovery advice, and heal.", features: ["Survivor-led sessions", "Digital chat forums", "Art therapy events"], icon: MessageSquare, gradientClass: "from-violet-500/10 to-fuchsia-500/10 text-violet-600 border-violet-200/50" },
+  { title: "Oncology Home Care", desc: "Nurses visiting your residence for PICC line dressing, port flushes, injections, and care management.", features: ["PICC line flushes", "Injection scheduling", "Vitals checks at home"], icon: Home, gradientClass: "from-sky-500/10 to-indigo-500/10 text-sky-600 border-indigo-200/50" }
 ];
 
 const patientResourcesData: PatientResource[] = [
-  {
-    title: "Breast Self-Examination Guide",
-    size: "2.4 MB",
-    format: "PDF",
-    desc: "Visual step-by-step instructions on performing monthly self-exams, showing what to feel and watch for."
-  },
-  {
-    title: "Breast Cancer Treatment Checklist",
-    size: "1.8 MB",
-    format: "PDF",
-    desc: "A workbook to record consultations, chemotherapy cycles, scan dates, and medication dosage calendars."
-  },
-  {
-    title: "Questions to Ask Your Doctor",
-    size: "820 KB",
-    format: "PDF",
-    desc: "A guide detailing critical questions about biopsy reports, surgical margins, and treatment pathways."
-  },
-  {
-    title: "Nutrition & Diet Oncology Guide",
-    size: "3.1 MB",
-    format: "PDF",
-    desc: "Easy recipes, nausea-fighting foods, and dietary protocols compiled by specialized oncology dietitians."
-  },
-  {
-    title: "Post-Surgical Recovery Handbook",
-    size: "4.2 MB",
-    format: "PDF",
-    desc: "Exercises for shoulder mobility, drain bulb records, and lymphedema prevention steps after surgery."
-  },
-  {
-    title: "Mental Wellness & Coping Guide",
-    size: "1.5 MB",
-    format: "PDF",
-    desc: "Mindfulness methods, breathing exercises, and emotional coping pathways for cancer anxiety."
-  },
-  {
-    title: "Survivorship Care & Follow-Up Plan",
-    size: "2.0 MB",
-    format: "PDF",
-    desc: "A guide on routine health check schedules, hormonal therapy control, and living healthy after recovery."
-  }
+  { title: "Breast Self-Examination Guide", size: "2.4 MB", format: "PDF", desc: "Visual step-by-step instructions on performing monthly self-exams, showing what to feel and watch for." },
+  { title: "Breast Cancer Treatment Checklist", size: "1.8 MB", format: "PDF", desc: "A workbook to record consultations, chemotherapy cycles, scan dates, and medication dosage calendars." },
+  { title: "Questions to Ask Your Doctor", size: "820 KB", format: "PDF", desc: "A guide detailing critical questions about biopsy reports, surgical margins, and treatment pathways." },
+  { title: "Nutrition & Diet Oncology Guide", size: "3.1 MB", format: "PDF", desc: "Easy recipes, nausea-fighting foods, and dietary protocols compiled by specialized oncology dietitians." },
+  { title: "Post-Surgical Recovery Handbook", size: "4.2 MB", format: "PDF", desc: "Exercises for shoulder mobility, drain bulb records, and lymphedema prevention steps after surgery." },
+  { title: "Mental Wellness & Coping Guide", size: "1.5 MB", format: "PDF", desc: "Mindfulness methods, breathing exercises, and emotional coping pathways for cancer anxiety." },
+  { title: "Survivorship Care & Follow-Up Plan", size: "2.0 MB", format: "PDF", desc: "A guide on routine health check schedules, hormonal therapy control, and living healthy after recovery." }
 ];
 
 const faqsData: FAQItem[] = [
-  {
-    question: "How do I choose the right breast cancer specialist?",
-    answer: "A certified breast surgeon or surgical oncologist should be your first consult for a suspicious lump. When diagnosed, they will coordinate with a medical oncologist and a radiation oncologist. It is ideal to choose specialists who work within a multidisciplinary team or host tumor boards, ensuring all angles of your biology are discussed collectively."
-  },
-  {
-    question: "When should I see a medical oncologist?",
-    answer: "You should see a medical oncologist immediately after receiving a tissue biopsy report confirming cancer cells. They will assess hormone receptor parameters (ER, PR, HER2 status) and design any necessary systemic therapies, such as pre-surgery (neoadjuvant) chemotherapy to shrink tumors, or post-surgery (adjuvant) chemotherapy."
-  },
-  {
-    question: "What is the role of a breast surgeon?",
-    answer: "A breast surgeon specializes specifically in breast physiology, conservative breast surgeries (lumpectomies), and breast mastectomies. They remove cancer cell margins, evaluate lymph nodes, and coordinate closely with reconstructive surgeons for form restoration."
-  },
-  {
-    question: "Can I get a second opinion?",
-    answer: "Yes. Getting a second opinion is a standard and highly encouraged protocol in oncology. It ensures the staging is accurate and validates the proposed treatment plan. Any reputable specialist will gladly support you sharing your pathology slides and imaging records with another center."
-  },
-  {
-    question: "How often should I undergo screening?",
-    answer: "For healthy women of average risk, standard guidelines recommend clinical examinations and mammograms annually starting at age 40. If you have a family history of breast cancer (BRCA gene mutations), screening should begin earlier (often at age 25 or 30) using alternate diagnostic methods like breast MRIs."
-  },
-  {
-    question: "What support services are available?",
-    answer: "Our network connects you with free patient navigation services, government funding subsidies, emotional counseling, home nursing support (port flushes), post-operative physiotherapy, and weekly survivor-led support groups to guide you through recovery."
-  }
+  { question: "How do I choose the right breast cancer specialist?", answer: "A certified breast surgeon or surgical oncologist should be your first consult for a suspicious lump. When diagnosed, they will coordinate with a medical oncologist and a radiation oncologist. It is ideal to choose specialists who work within a multidisciplinary team or host tumor boards, ensuring all angles of your biology are discussed collectively." },
+  { question: "When should I see a medical oncologist?", answer: "You should see a medical oncologist immediately after receiving a tissue biopsy report confirming cancer cells. They will assess hormone receptor parameters (ER, PR, HER2 status) and design any necessary systemic therapies, such as pre-surgery (neoadjuvant) chemotherapy to shrink tumors, or post-surgery (adjuvant) chemotherapy." },
+  { question: "What is the role of a breast surgeon?", answer: "A breast surgeon specializes specifically in breast physiology, conservative breast surgeries (lumpectomies), and breast mastectomies. They remove cancer cell margins, evaluate lymph nodes, and coordinate closely with reconstructive surgeons for form restoration." },
+  { question: "Can I get a second opinion?", answer: "Yes. Getting a second opinion is a standard and highly encouraged protocol in oncology. It ensures the staging is accurate and validates the proposed treatment plan. Any reputable specialist will gladly support you sharing your pathology slides and imaging records with another center." },
+  { question: "How often should I undergo screening?", answer: "For healthy women of average risk, standard guidelines recommend clinical examinations and mammograms annually starting at age 40. If you have a family history of breast cancer (BRCA gene mutations), screening should begin earlier (often at age 25 or 30) using alternate diagnostic methods like breast MRIs." },
+  { question: "What support services are available?", answer: "Our network connects you with free patient navigation services, government funding subsidies, emotional counseling, home nursing support (port flushes), post-operative physiotherapy, and weekly survivor-led support groups to guide you through recovery." }
 ];
 
 export default function CareProvidersPage() {
   // ----------------------------------------------------------------------
   // State variables
   // ----------------------------------------------------------------------
-  // Doctor Articles state
   const [doctorArticles, setDoctorArticles] = useState<any[]>([]);
   const [articlesLoading, setArticlesLoading] = useState<boolean>(true);
   const [articlesError, setArticlesError] = useState<string | null>(null);
@@ -485,7 +316,6 @@ export default function CareProvidersPage() {
     return () => { isMounted = false; };
   }, []);
 
-  // Care Providers state
   const [careProviders, setCareProviders] = useState<CareService[]>([]);
   const [providersLoading, setProvidersLoading] = useState<boolean>(true);
 
@@ -513,16 +343,13 @@ export default function CareProvidersPage() {
   const [selectedCity, setSelectedCity] = useState("all");
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
-  // Selected team specialist for info card
   const [selectedSpecialist, setSelectedSpecialist] = useState<string>("breast-surgeon");
-
-  // Journey step detail view
   const [activeJourneyStep, setActiveJourneyStep] = useState<number>(0);
-
-  // Details modal state
   const [detailsModal, setDetailsModal] = useState<CareService | null>(null);
 
-  // Help Request Modal State
+  // Track which team member images failed to load (for fallback to person icon)
+  const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
+
   const [helpRequestOpen, setHelpRequestOpen] = useState(false);
   const [helpName, setHelpName] = useState("");
   const [helpPhone, setHelpPhone] = useState("");
@@ -530,7 +357,6 @@ export default function CareProvidersPage() {
   const [helpSuccess, setHelpSuccess] = useState(false);
   const [helpLoading, setHelpLoading] = useState(false);
 
-  // Download simulation state
   const [downloadingResource, setDownloadingResource] = useState<string | null>(null);
   const [downloadedResources, setDownloadedResources] = useState<Record<string, boolean>>({});
 
@@ -569,7 +395,6 @@ export default function CareProvidersPage() {
     setHelpSuccess(false);
   };
 
-  // Filter logic for care services
   const filteredServices = careProviders.filter(service => {
     const matchesSearch =
       service.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -604,7 +429,6 @@ export default function CareProvidersPage() {
 
   const currentSpecialist = specialistsData.find(s => s.id === selectedSpecialist) || specialistsData[0];
 
-  // Scroll Helper
   const scrollToId = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -615,31 +439,21 @@ export default function CareProvidersPage() {
   return (
     <div className="flex-1 w-full bg-slate-50 text-slate-800 selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden">
 
-      {/* ----------------------------------------------------------------------
-          1. HERO SECTION
-          ---------------------------------------------------------------------- */}
-      <section className="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden">
-        {/* Background Image Overlay */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/images/14.png"
-            alt="Doctors caring for patient"
-            className="w-full h-full object-cover object-center scale-105 filter brightness-[0.35] contrast-105 pointer-events-none"
-          />
-          {/* Gradients */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-900/65 to-pink-950/45 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-95" />
-        </div>
+      {/* ==================== 1. HERO SECTION ==================== */}
+      <section className="relative w-full min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-rose-50/50 via-white to-white border-b border-rose-100/30">
+        <div className="absolute top-20 right-10 w-96 h-96 bg-pink-100/40 rounded-full blur-3xl pointer-events-none -z-0" />
+        <div className="absolute bottom-10 left-5 w-80 h-80 bg-rose-50/50 rounded-full blur-3xl pointer-events-none -z-0" />
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10 py-24 text-center sm:text-left">
-          <div className="max-w-3xl space-y-6">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10 py-20 text-center">
+          <div className="max-w-3xl mx-auto space-y-6 flex flex-col items-center">
+
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/20 backdrop-blur-md border border-pink-500/30 text-pink-300 text-xs font-bold uppercase tracking-wider"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
             >
-              <Ribbon className="h-4 w-4 text-pink-400 fill-pink-400 animate-pulse" />
+              <Ribbon className="h-4 w-4 text-pink-600 fill-pink-200 animate-pulse" />
               Trusted Care Network
             </motion.div>
 
@@ -647,10 +461,10 @@ export default function CareProvidersPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight"
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black text-slate-800 tracking-tight leading-tight"
             >
               Find the Right Care, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-300 to-purple-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-rose-500 to-pink-600">
                 Every Step of Your Journey.
               </span>
             </motion.h1>
@@ -659,7 +473,7 @@ export default function CareProvidersPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-slate-300 text-base sm:text-lg lg:text-xl leading-relaxed font-sans"
+              className="text-slate-600 text-base sm:text-lg lg:text-xl leading-relaxed font-sans max-w-2xl mx-auto"
             >
               Connect with trusted healthcare providers, breast oncology specialists, diagnostic screening centers, and support networks dedicated to breast cancer recovery and survival.
             </motion.p>
@@ -668,11 +482,11 @@ export default function CareProvidersPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center sm:justify-start pt-2"
+              className="flex flex-col sm:flex-row gap-4 justify-center pt-2"
             >
               <Button
                 onClick={() => scrollToId("care-services-directory")}
-                className="bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-pink-600/25 transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
+                className="bg-primary hover:bg-primary/95 text-white font-bold px-8 py-6 rounded-2xl shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
               >
                 Find a Care Provider
                 <ArrowRight className="h-5 w-5 ml-1.5" />
@@ -680,7 +494,7 @@ export default function CareProvidersPage() {
               <Button
                 variant="outline"
                 onClick={() => scrollToId("support-services-section")}
-                className="border-slate-400 text-pink hover:bg-white/10 hover:text-white font-bold px-8 py-6 rounded-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
+                className="border-pink-200 text-primary bg-white hover:bg-pink-50/60 font-bold px-8 py-6 rounded-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
               >
                 Get Support
               </Button>
@@ -689,121 +503,87 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------------
-          2. WHY CHOOSING THE RIGHT CARE MATTERS
-          ---------------------------------------------------------------------- */}
+      {/* ==================== 2. WHY CHOICE MATTERS ==================== */}
       <section className="py-24 bg-white relative overflow-hidden">
-        {/* Abstract background elements */}
         <div className="absolute top-10 right-0 w-80 h-80 bg-pink-105/30 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-10 left-0 w-80 h-80 bg-purple-105/30 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 max-w-6xl relative z-10">
           <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider border border-white/20">
-    <ShieldCheck className="h-4 w-4 text-white" />
-    Why Choice Matters
-  </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider border border-pink-200/50">
+              <ShieldCheck className="h-4 w-4 text-primary" />
+              Why Choice Matters
+            </span>
 
-  <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-    Coordinated Care Improves Survival Outcomes
-  </h2>
+            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800 leading-tight">
+              Coordinated Care Improves Survival Outcomes
+            </h2>
 
-  <p className="text-white/90 text-sm sm:text-base leading-relaxed">
-    Breast cancer treatment is highly specialized. A coordinated, multidisciplinary medical team ensures custom chemotherapy, precise radiation, and surgical accuracy.
-  </p>
-</div>
+            <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
+              Breast cancer treatment is highly specialized. A coordinated, multidisciplinary medical team ensures custom chemotherapy, precise radiation, and surgical accuracy.
+            </p>
+          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Graphics/Stats */}
             <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <motion.div
-                whileHover={{ y: -5 }}
-                className="p-6 rounded-3xl bg-pink-50/50 border border-pink-100/40 shadow-xs flex flex-col justify-between"
-              >
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-pink-50/50 border border-pink-100/40 shadow-xs flex flex-col justify-between">
                 <div className="h-12 w-12 rounded-2xl bg-white border border-pink-200 flex items-center justify-center shadow-xs">
                   <Activity className="h-6 w-6 text-pink-600" />
                 </div>
                 <div className="mt-8">
                   <h4 className="text-4xl font-black text-slate-800 tracking-tight">90%+</h4>
                   <p className="text-xs font-bold text-pink-600 uppercase tracking-widest mt-1">Survival Rate</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">
-                    With early stage clinical diagnostics and local screenings.
-                  </p>
+                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">With early stage clinical diagnostics and local screenings.</p>
                 </div>
               </motion.div>
 
-              <motion.div
-                whileHover={{ y: -5 }}
-                className="p-6 rounded-3xl bg-purple-50/50 border border-purple-105/40 shadow-xs flex flex-col justify-between"
-              >
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-purple-50/50 border border-purple-105/40 shadow-xs flex flex-col justify-between">
                 <div className="h-12 w-12 rounded-2xl bg-white border border-purple-200 flex items-center justify-center shadow-xs">
                   <Users2 className="h-6 w-6 text-purple-600" />
                 </div>
                 <div className="mt-8">
                   <h4 className="text-4xl font-black text-slate-800 tracking-tight">30%</h4>
                   <p className="text-xs font-bold text-purple-600 uppercase tracking-widest mt-1">Better Outcome</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">
-                    Observed in patients treated under formal multidisciplinary tumor boards.
-                  </p>
+                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">Observed in patients treated under formal multidisciplinary tumor boards.</p>
                 </div>
               </motion.div>
 
-              <motion.div
-                whileHover={{ y: -5 }}
-                className="p-6 rounded-3xl bg-blue-50/50 border border-blue-105/40 shadow-xs flex flex-col justify-between"
-              >
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-blue-50/50 border border-blue-105/40 shadow-xs flex flex-col justify-between">
                 <div className="h-12 w-12 rounded-2xl bg-white border border-blue-200 flex items-center justify-center shadow-xs">
                   <HeartHandshake className="h-6 w-6 text-blue-600" />
                 </div>
                 <div className="mt-8">
                   <h4 className="text-4xl font-black text-slate-800 tracking-tight">24/7</h4>
                   <p className="text-xs font-bold text-blue-600 uppercase tracking-widest mt-1">Patient Support</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">
-                    Continuous navigation mapping support from diagnosis to survivorship.
-                  </p>
+                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">Continuous navigation mapping support from diagnosis to survivorship.</p>
                 </div>
               </motion.div>
 
-              <motion.div
-                whileHover={{ y: -5 }}
-                className="p-6 rounded-3xl bg-cyan-50/50 border border-cyan-105/40 shadow-xs flex flex-col justify-between"
-              >
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-cyan-50/50 border border-cyan-105/40 shadow-xs flex flex-col justify-between">
                 <div className="h-12 w-12 rounded-2xl bg-white border border-cyan-200 flex items-center justify-center shadow-xs">
                   <ShieldAlert className="h-6 w-6 text-cyan-600" />
                 </div>
                 <div className="mt-8">
                   <h4 className="text-4xl font-black text-slate-800 tracking-tight">Zero</h4>
                   <p className="text-xs font-bold text-cyan-600 uppercase tracking-widest mt-1">Stigma Care</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">
-                    Compassionate mental counseling focusing strictly on patient comfort.
-                  </p>
+                  <p className="text-slate-500 text-xs mt-2 leading-relaxed">Compassionate mental counseling focusing strictly on patient comfort.</p>
                 </div>
               </motion.div>
             </div>
 
-            {/* Right Information */}
             <div className="lg:col-span-7 space-y-6">
               <h3 className="font-heading text-2xl sm:text-3xl font-extrabold text-slate-800">
                 A Unified Front Against Breast Cancer
               </h3>
-              <p className="text-white/90 leading-relaxed text-sm sm:text-base font-sans">
-  Fighting cancer requires more than just a single physician. It calls for an integrated alliance of medical, surgical, and supportive care providers. In modern breast oncology, the key to successful treatment lies in the custom synergy of these specialists.
-</p>
+              <p className="text-slate-600 leading-relaxed text-sm sm:text-base font-sans">
+                Fighting cancer requires more than just a single physician. It calls for an integrated alliance of medical, surgical, and supportive care providers. In modern breast oncology, the key to successful treatment lies in the custom synergy of these specialists.
+              </p>
 
               <div className="space-y-4 pt-2">
                 {[
-                  {
-                    title: "Early Diagnosis and Accurate Staging",
-                    desc: "Mammography screening clinics and pathologists work together to recognize cancerous anomalies before they advance."
-                  },
-                  {
-                    title: "Subtle Surgical & Reconstructive Work",
-                    desc: "Breast surgeons remove cancer cell margins, while reconstructive surgeons restore alignment, physical form, and self-confidence."
-                  },
-                  {
-                    title: "Holistic Counseling and Rehabilitation",
-                    desc: "Mental health therapists and lymphedema physiotherapists help restore functional mobility and clear internal emotional strain."
-                  }
+                  { title: "Early Diagnosis and Accurate Staging", desc: "Mammography screening clinics and pathologists work together to recognize cancerous anomalies before they advance." },
+                  { title: "Subtle Surgical & Reconstructive Work", desc: "Breast surgeons remove cancer cell margins, while reconstructive surgeons restore alignment, physical form, and self-confidence." },
+                  { title: "Holistic Counseling and Rehabilitation", desc: "Mental health therapists and lymphedema physiotherapists help restore functional mobility and clear internal emotional strain." }
                 ].map((item, idx) => (
                   <div key={idx} className="flex gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
                     <div className="h-6 w-6 rounded-full bg-pink-100 flex items-center justify-center shrink-0 mt-0.5 animate-pulse">
@@ -821,9 +601,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------------
-          3. MEET YOUR BREAST CANCER CARE TEAM
-          ---------------------------------------------------------------------- */}
+      {/* ==================== 3. MULTIDISCIPLINARY CARE TEAM ==================== */}
       <section className="py-24 bg-gradient-to-b from-slate-50 to-pink-50/20">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
@@ -840,7 +618,6 @@ export default function CareProvidersPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left Specialist Selector List */}
             <div className="lg:col-span-5 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible gap-2 pb-4 lg:pb-0 scrollbar-none max-h-[500px] lg:overflow-y-auto pr-0 lg:pr-3">
               {specialistsData.map((spec) => {
                 const SpecIcon = spec.icon;
@@ -863,7 +640,6 @@ export default function CareProvidersPage() {
               })}
             </div>
 
-            {/* Right Details Card */}
             <div className="lg:col-span-7 h-full">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -874,7 +650,6 @@ export default function CareProvidersPage() {
                   transition={{ duration: 0.3 }}
                   className="bg-white rounded-3xl p-8 border border-slate-200/60 shadow-xl relative overflow-hidden"
                 >
-                  {/* Decorative background circle */}
                   <div className="absolute -top-12 -right-12 w-32 h-32 bg-pink-100/20 rounded-full blur-2xl pointer-events-none" />
 
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
@@ -910,9 +685,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ======================================================================
-          4.  MEET OUR EXPERT TEAM (GALLERY SECTION)
-          ====================================================================== */}
+      {/* ==================== 4. MEET OUR EXPERT TEAM (GALLERY) ==================== */}
       <section id="expert-team-gallery" className="py-24 bg-white relative">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
@@ -929,51 +702,57 @@ export default function CareProvidersPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {GALLERY_ITEMS.map((person, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-slate-50 border border-slate-100/50 hover:border-pink-200"
-              >
-                <div className="aspect-[4/5] w-full overflow-hidden bg-slate-100">
-                  <img
-                    src={person.img}
-                    alt={person.name}
-                    onError={(e) => {
-                      // Fallback if image fails to load
-                      (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x500?text=Team+Member";
-                    }}
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent backdrop-blur-[2px]">
-                  <h4 className="text-white font-heading text-base font-bold leading-tight">
-                    {person.name}
-                  </h4>
-                  <p className="text-pink-300 text-xs font-medium tracking-wide uppercase">
-                    {person.dept}
-                  </p>
-                </div>
-                {/* Optional hover overlay with more info */}
-                <div className="absolute inset-0 bg-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-              </motion.div>
-            ))}
-          </div>
+            {GALLERY_ITEMS.map((person, idx) => {
+              const hasImage = Boolean(person.img) && !failedImages.has(idx);
 
-          <div className="text-center mt-12">
-            <p className="text-xs text-slate-400 font-medium">
-              * Our team of experienced professionals works collaboratively to provide the best possible care.
-            </p>
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.4, delay: idx * 0.05 }}
+                  className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-slate-50 border border-slate-100/50 hover:border-pink-200"
+                >
+                  <div className="aspect-[4/5] w-full overflow-hidden bg-slate-100 relative">
+                    {hasImage ? (
+                      <img
+                        src={person.img}
+                        alt={person.name}
+                        onError={() => {
+                          setFailedImages(prev => {
+                            const next = new Set(prev);
+                            next.add(idx);
+                            return next;
+                          });
+                        }}
+                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                      />
+                    ) : (
+                      /* Fallback: simple person icon */
+                      <div className="w-full h-full bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 flex items-center justify-center">
+                        <div className="h-24 w-24 rounded-full bg-white/80 border-2 border-pink-200 flex items-center justify-center shadow-md">
+                          <User className="h-12 w-12 text-pink-500" strokeWidth={1.8} />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 via-black/40 to-transparent backdrop-blur-[2px]">
+                    <h4 className="text-white font-heading text-base font-bold leading-tight text-center">
+                      {person.name}
+                    </h4>
+                  </div>
+
+                  <div className="absolute inset-0 bg-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------------
-          5. FIND CARE SERVICES (DIRECTORY SECTION)
-          ---------------------------------------------------------------------- */}
+      {/* ==================== 5. CARE SERVICES DIRECTORY ==================== */}
       <section id="care-services-directory" className="py-24 bg-white relative">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
@@ -989,7 +768,6 @@ export default function CareProvidersPage() {
             </p>
           </div>
 
-          {/* Disclaimer Banner */}
           <div className="mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 flex gap-3 items-start max-w-3xl mx-auto">
             <Info className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
             <p className="text-xs sm:text-sm text-amber-900 leading-relaxed font-sans">
@@ -997,11 +775,8 @@ export default function CareProvidersPage() {
             </p>
           </div>
 
-          {/* Interactive Search Panel */}
           <div className="bg-slate-50 rounded-3xl p-6 border border-slate-200/50 shadow-md mb-12 space-y-6">
-            {/* Search inputs row */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-              {/* Search Bar */}
               <div className="md:col-span-8 relative">
                 <Search className="absolute left-4.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                 <Input
@@ -1013,7 +788,6 @@ export default function CareProvidersPage() {
                 />
               </div>
 
-              {/* City filter drop down */}
               <div className="md:col-span-4 relative">
                 <MapPin className="absolute left-4.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
                 <select
@@ -1030,7 +804,6 @@ export default function CareProvidersPage() {
               </div>
             </div>
 
-            {/* Category tabs */}
             <div className="border-t border-slate-200 pt-4">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-3 font-heading">Filter by Category</span>
               <div className="flex flex-wrap gap-2">
@@ -1050,7 +823,6 @@ export default function CareProvidersPage() {
             </div>
           </div>
 
-          {/* Directory Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {providersLoading ? (
               <div className="col-span-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1084,7 +856,6 @@ export default function CareProvidersPage() {
                       className="group bg-slate-50 hover:bg-white rounded-3xl p-6 border border-slate-200/40 shadow-xs hover:shadow-xl hover:border-pink-300 transition-all duration-300 flex flex-col justify-between"
                     >
                       <div>
-                        {/* Rating and Badge */}
                         <div className="flex items-center justify-between mb-4">
                           <span className="px-3 py-1 rounded-full bg-slate-200/50 text-slate-600 text-[10px] font-bold uppercase tracking-wider group-hover:bg-pink-50 group-hover:text-pink-600 group-hover:border-pink-100 border border-transparent font-heading">
                             {service.category.toUpperCase()}
@@ -1096,7 +867,6 @@ export default function CareProvidersPage() {
                           </div>
                         </div>
 
-                        {/* Header Info */}
                         <h4 className="font-heading text-lg font-extrabold text-slate-800 group-hover:text-pink-600 transition-colors leading-snug line-clamp-2">
                           {service.name}
                         </h4>
@@ -1121,7 +891,6 @@ export default function CareProvidersPage() {
                         </div>
                       </div>
 
-                      {/* CTA Button - Only View Details */}
                       <div className="mt-6 pt-4 border-t border-slate-200/50">
                         <Button
                           variant="outline"
@@ -1159,9 +928,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------------
-          6. BREAST CANCER TREATMENT JOURNEY TIMELINE
-          ---------------------------------------------------------------------- */}
+      {/* ==================== 6. TREATMENT JOURNEY TIMELINE ==================== */}
       <section className="py-24 bg-gradient-to-b from-slate-900 to-purple-950 text-white overflow-hidden relative">
         <div className="container mx-auto px-4 max-w-6xl relative z-10">
           <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
@@ -1177,9 +944,7 @@ export default function CareProvidersPage() {
             </p>
           </div>
 
-          {/* Timeline Selector */}
           <div className="relative mb-10 pb-4 overflow-x-auto scrollbar-none">
-            {/* Connecting Line (Only visible on md/desktop) */}
             <div className="hidden md:block absolute top-7 left-8 right-8 h-1 bg-white/10 z-0" />
 
             <div className="flex md:justify-between items-center min-w-[1000px] md:min-w-0 relative z-10 px-4">
@@ -1212,7 +977,6 @@ export default function CareProvidersPage() {
             </div>
           </div>
 
-          {/* Active Step Panel */}
           <AnimatePresence mode="wait">
             <motion.div
               key={activeJourneyStep}
@@ -1246,17 +1010,9 @@ export default function CareProvidersPage() {
                   size="sm"
                   onClick={() => {
                     const lookup: Record<number, string> = {
-                      0: "clinics",
-                      1: "diagnostics",
-                      2: "clinics",
-                      3: "diagnostics",
-                      4: "hospitals",
-                      5: "hospitals",
-                      6: "chemotherapy",
-                      7: "radiation",
-                      8: "hospitals",
-                      9: "rehab",
-                      10: "palliative"
+                      0: "clinics", 1: "diagnostics", 2: "clinics", 3: "diagnostics",
+                      4: "hospitals", 5: "hospitals", 6: "chemotherapy", 7: "radiation",
+                      8: "hospitals", 9: "rehab", 10: "palliative"
                     };
                     setSelectedCategory(lookup[activeJourneyStep] || "all");
                     scrollToId("care-services-directory");
@@ -1271,9 +1027,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------------
-          7. SUPPORT SERVICES
-          ---------------------------------------------------------------------- */}
+      {/* ==================== 7. SUPPORT SERVICES ==================== */}
       <section id="support-services-section" className="py-24 bg-white relative">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
@@ -1323,9 +1077,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------------
-          8. DOCTOR ARTICLES & RESOURCES
-          ---------------------------------------------------------------------- */}
+      {/* ==================== 8. DOCTOR ARTICLES & RESOURCES ==================== */}
       <section id="doctor-articles-section" className="py-24 bg-gradient-to-tr from-pink-50/40 via-purple-50/15 to-blue-50/30 border-y border-slate-200/55">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center space-y-4 max-w-3xl mx-auto mb-16">
@@ -1341,7 +1093,6 @@ export default function CareProvidersPage() {
             </p>
           </div>
 
-          {/* Loading State */}
           {articlesLoading && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
@@ -1365,7 +1116,6 @@ export default function CareProvidersPage() {
             </div>
           )}
 
-          {/* Error State */}
           {!articlesLoading && articlesError && (
             <div className="bg-white rounded-3xl p-8 border border-red-100 text-center space-y-3 max-w-md mx-auto shadow-xs">
               <AlertCircle className="h-10 w-10 text-red-500 mx-auto" />
@@ -1374,7 +1124,6 @@ export default function CareProvidersPage() {
             </div>
           )}
 
-          {/* Empty State */}
           {!articlesLoading && !articlesError && doctorArticles.length === 0 && (
             <div className="bg-white rounded-3xl p-12 border border-slate-100 text-center space-y-4 max-w-xl mx-auto shadow-xs">
               <div className="h-16 w-16 rounded-full bg-pink-50 border border-pink-100 text-pink-600 flex items-center justify-center mx-auto">
@@ -1389,7 +1138,6 @@ export default function CareProvidersPage() {
             </div>
           )}
 
-          {/* Cards Grid */}
           {!articlesLoading && !articlesError && doctorArticles.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {doctorArticles.map((art) => (
@@ -1398,8 +1146,6 @@ export default function CareProvidersPage() {
                   className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow group relative"
                 >
                   <div className="space-y-4">
-                    
-                    {/* Badge & Date */}
                     <div className="flex items-center justify-between">
                       <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-pink-50 text-pink-600 text-[10px] font-bold uppercase tracking-wider font-heading border border-pink-100">
                         {art.fileUrl ? <FileText className="h-3 w-3" /> : <BookOpen className="h-3 w-3" />}
@@ -1408,17 +1154,14 @@ export default function CareProvidersPage() {
                       <span className="text-[10px] text-slate-400 font-semibold font-sans">{art.publishDate}</span>
                     </div>
 
-                    {/* Article Title */}
                     <h4 className="font-heading text-lg font-extrabold text-slate-800 leading-snug group-hover:text-pink-600 transition-colors line-clamp-2">
                       {art.title}
                     </h4>
 
-                    {/* Excerpt */}
                     <p className="text-slate-500 text-xs leading-relaxed font-sans line-clamp-3">
                       {art.excerpt}
                     </p>
 
-                    {/* Doctor Info */}
                     <div className="pt-3 border-t border-slate-100 flex items-center gap-3">
                       <div className="h-9 w-9 rounded-full bg-pink-50 text-pink-600 border border-pink-100 flex items-center justify-center font-bold text-xs shrink-0 font-heading">
                         <Stethoscope className="h-4.5 w-4.5" />
@@ -1428,30 +1171,19 @@ export default function CareProvidersPage() {
                         <p className="text-[10px] text-slate-400 font-medium truncate font-sans">{art.doctorSpecialty}</p>
                       </div>
                     </div>
-
                   </div>
 
-                  {/* Download / View Button */}
                   <div className="mt-6 pt-4 border-t border-slate-100">
                     {art.fileUrl ? (
-                      <a
-                        href={art.fileUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="w-full inline-block"
-                      >
-                        <Button
-                          className="w-full bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold text-xs py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-xs"
-                        >
+                      <a href={art.fileUrl} target="_blank" rel="noreferrer" className="w-full inline-block">
+                        <Button className="w-full bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold text-xs py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-xs">
                           <Download className="h-4 w-4 shrink-0" />
                           Download Doctor Article
                         </Button>
                       </a>
                     ) : (
                       <Button
-                        onClick={() => {
-                          alert(`Title: ${art.title}\nAuthor: ${art.doctorName} (${art.doctorSpecialty})\n\n${art.content}`);
-                        }}
+                        onClick={() => alert(`Title: ${art.title}\nAuthor: ${art.doctorName} (${art.doctorSpecialty})\n\n${art.content}`)}
                         className="w-full bg-slate-50 hover:bg-pink-600 text-slate-700 hover:text-white border border-slate-100 text-xs font-bold py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-2xs"
                       >
                         <BookOpen className="h-4 w-4 shrink-0" />
@@ -1463,13 +1195,10 @@ export default function CareProvidersPage() {
               ))}
             </div>
           )}
-
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------------
-          9. FREQUENTLY ASKED QUESTIONS
-          ---------------------------------------------------------------------- */}
+      {/* ==================== 9. FAQ ==================== */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
@@ -1489,10 +1218,7 @@ export default function CareProvidersPage() {
             {faqsData.map((faq, idx) => {
               const isOpen = activeFaq === idx;
               return (
-                <div
-                  key={idx}
-                  className="bg-slate-50 border border-slate-200/50 rounded-2xl overflow-hidden transition-colors"
-                >
+                <div key={idx} className="bg-slate-50 border border-slate-200/50 rounded-2xl overflow-hidden transition-colors">
                   <button
                     onClick={() => setActiveFaq(isOpen ? null : idx)}
                     className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer font-bold text-slate-800 hover:text-pink-600 transition-colors"
@@ -1533,21 +1259,13 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------------
-          10. EMERGENCY & HELPLINE SECTION
-          ---------------------------------------------------------------------- */}
-            {/* ----------------------------------------------------------------------
-          10. EMERGENCY & HELPLINE SECTION
-          ---------------------------------------------------------------------- */}
+      {/* ==================== 10. EMERGENCY & HELPLINE ==================== */}
       <section id="emergency-helpline-section" className="py-24 bg-gradient-to-r from-red-650 via-rose-600 to-pink-650 text-white relative overflow-hidden">
-        {/* Abstract background shapes */}
         <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 max-w-6xl relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-
-            {/* Left Texts */}
             <div className="lg:col-span-7 space-y-6">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold uppercase tracking-wider">
                 <AlertCircle className="h-4 w-4 animate-bounce" />
@@ -1560,13 +1278,8 @@ export default function CareProvidersPage() {
                 If you are facing immediate postsurgical complications, severe oncology side-effects, or require diagnostic scheduling help, connect with the support desk instantly.
               </p>
 
-              {/* Primary Helplines */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
-                {/* Apollo Cancer Care */}
-                <a
-                  href="tel:18002031066"
-                  className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors cursor-pointer"
-                >
+                <a href="tel:18002031066" className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors cursor-pointer">
                   <div className="p-3 rounded-xl bg-white/10 text-white shrink-0">
                     <Phone className="h-6 w-6" />
                   </div>
@@ -1577,11 +1290,7 @@ export default function CareProvidersPage() {
                   </div>
                 </a>
 
-                {/* Pink Breast Cancer Helpline */}
-                <a
-                  href="tel:9599687085"
-                  className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors cursor-pointer"
-                >
+                <a href="tel:9599687085" className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-colors cursor-pointer">
                   <div className="p-3 rounded-xl bg-white/10 text-white shrink-0">
                     <HeartPulse className="h-6 w-6" />
                   </div>
@@ -1593,24 +1302,15 @@ export default function CareProvidersPage() {
                 </a>
               </div>
 
-              {/* Additional Support Helplines */}
               <div className="pt-4 border-t border-white/10">
-                <p className="text-[11px] text-rose-200 uppercase tracking-widest font-bold font-heading mb-3">
-                  Additional Support
-                </p>
+                <p className="text-[11px] text-rose-200 uppercase tracking-widest font-bold font-heading mb-3">Additional Support</p>
                 <div className="flex flex-wrap gap-3">
-                  <a
-                    href="tel:9355520202"
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-xs text-white hover:bg-white/10 transition-colors"
-                  >
+                  <a href="tel:9355520202" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-xs text-white hover:bg-white/10 transition-colors">
                     <Phone className="h-3.5 w-3.5 shrink-0" />
                     <span className="font-semibold">93555 20202</span>
                     <span className="text-[10px] text-rose-200">• National Cancer</span>
                   </a>
-                  <a
-                    href="tel:14416"
-                    className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-xs text-white hover:bg-white/10 transition-colors"
-                  >
+                  <a href="tel:14416" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-xs text-white hover:bg-white/10 transition-colors">
                     <Brain className="h-3.5 w-3.5 shrink-0" />
                     <span className="font-semibold">14416</span>
                     <span className="text-[10px] text-rose-200">• Tele MANAS (Mental Health)</span>
@@ -1619,7 +1319,6 @@ export default function CareProvidersPage() {
               </div>
             </div>
 
-            {/* Right Buttons Container */}
             <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-4">
               <a href="tel:18002031066" className="w-full">
                 <Button className="w-full bg-white hover:bg-slate-100 text-red-600 font-bold py-6 px-6 rounded-2xl shadow-xl transition-all cursor-pointer text-base">
@@ -1646,16 +1345,12 @@ export default function CareProvidersPage() {
                 Request Care Assistance
               </Button>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------------
-          11. FINAL CALL TO ACTION (CTA)
-          ---------------------------------------------------------------------- */}
+      {/* ==================== 11. FINAL CTA ==================== */}
       <section className="py-28 bg-slate-950 text-white relative overflow-hidden">
-        {/* Background survivor image overlay */}
         <div className="absolute inset-0 z-0">
           <img
             src="/images/12.png"
@@ -1703,15 +1398,12 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ----------------------------------------------------------------------
-          MODALS / POP-UPS
-          ---------------------------------------------------------------------- */}
+      {/* ==================== MODALS ==================== */}
 
       {/* 1. Care Provider Details Modal */}
       <AnimatePresence>
         {detailsModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -1720,7 +1412,6 @@ export default function CareProvidersPage() {
               className="fixed inset-0 bg-black/60 backdrop-blur-xs"
             />
 
-            {/* Modal Body */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1728,7 +1419,6 @@ export default function CareProvidersPage() {
               transition={{ duration: 0.3 }}
               className="relative bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-slate-200 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
             >
-              {/* Close Button */}
               <button
                 onClick={() => setDetailsModal(null)}
                 className="absolute top-5 right-5 p-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors cursor-pointer"
@@ -1756,7 +1446,6 @@ export default function CareProvidersPage() {
                   </p>
                 </div>
 
-                {/* Informational Disclaimer */}
                 <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 flex gap-2 items-start">
                   <Info className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
                   <p className="text-[11px] text-amber-800 leading-relaxed font-sans">
@@ -1785,10 +1474,7 @@ export default function CareProvidersPage() {
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 font-heading">Available Facilities</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {detailsModal.facilities.map((fac, i) => (
-                      <span
-                        key={i}
-                        className="px-2.5 py-1 rounded-lg bg-pink-500/5 text-pink-700 border border-pink-500/10 text-[10px] font-bold flex items-center gap-1.5"
-                      >
+                      <span key={i} className="px-2.5 py-1 rounded-lg bg-pink-500/5 text-pink-700 border border-pink-500/10 text-[10px] font-bold flex items-center gap-1.5">
                         <CheckCircle2 className="h-3 w-3 text-pink-600" />
                         {fac}
                       </span>
@@ -1820,7 +1506,6 @@ export default function CareProvidersPage() {
       <AnimatePresence>
         {helpRequestOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -1829,7 +1514,6 @@ export default function CareProvidersPage() {
               className="fixed inset-0 bg-black/60 backdrop-blur-xs"
             />
 
-            {/* Modal Body */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1837,7 +1521,6 @@ export default function CareProvidersPage() {
               transition={{ duration: 0.3 }}
               className="relative bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 border border-slate-200 shadow-2xl z-10"
             >
-              {/* Close Button */}
               <button
                 onClick={resetHelpForm}
                 className="absolute top-5 right-5 p-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors cursor-pointer"

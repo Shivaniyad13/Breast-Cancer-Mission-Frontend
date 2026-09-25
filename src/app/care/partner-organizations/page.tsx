@@ -357,111 +357,77 @@ export default function PartnerOrganizationsPage() {
       {/* ----------------------------------------------------------------------
           1. HERO SECTION (Looping Background Video)
           ---------------------------------------------------------------------- */}
-      <section className="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden">
-        {/* Background Video */}
-        <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover pointer-events-none filter brightness-[0.3] contrast-105"
-            poster="/images/community_walk.png"
+   <section className="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden bg-white">
+  {/* White Hero Background */}
+  <div className="absolute inset-0 z-0 bg-white" />
+
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl relative z-10 py-24 text-center">
+    <div className="flex items-center justify-center">
+      {/* Centered Hero Content */}
+      <div className="w-full max-w-4xl mx-auto space-y-6 flex flex-col items-center">
+
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-50 border border-pink-200 text-pink-600 text-xs font-bold uppercase tracking-wider"
+        >
+          <Handshake className="h-4 w-4 text-pink-500" />
+          Collaborative Impact Network
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight"
+        >
+          Together We Create <br />
+
+          <span className="text-pink-600 font-heading">
+            Greater Impact.
+          </span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-slate-600 text-base sm:text-lg leading-relaxed font-sans max-w-2xl mx-auto"
+        >
+          Strong partnerships between healthcare providers, NGOs,
+          research institutions, corporate organizations, and communities
+          help improve breast cancer awareness, research, treatment, and
+          patient care.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center pt-2"
+        >
+          <Button
+            onClick={() => setPartnerFormOpen(true)}
+            className="bg-pink-600 hover:bg-pink-500 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-pink-600/25 transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
           >
-            <source src="/videos/videoplayback.mp4" type="video/mp4" />
-          </video>
-          {/* Deep premium overlay with pink/purple/dark shades */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-900/65 to-pink-955/45 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-95" />
-        </div>
+            Become a Partner
+            <ArrowRight className="h-5 w-5 ml-1.5" />
+          </Button>
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10 py-24 text-center sm:text-left">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <Button
+            variant="outline"
+            onClick={() => scrollToId("partner-network-directory")}
+            className="border-pink-500 text-pink-600 hover:bg-pink-50 hover:text-pink-700 font-bold px-8 py-6 rounded-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
+          >
+            Explore Our Network
+          </Button>
+        </motion.div>
 
-            {/* Left Content */}
-            <div className="lg:col-span-8 space-y-6">
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/20 backdrop-blur-md border border-pink-500/30 text-pink-300 text-xs font-bold uppercase tracking-wider"
-              >
-                <Handshake className="h-4 w-4 text-pink-400" />
-                Collaborative Impact Network
-              </motion.div>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight"
-              >
-                Together We Create <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-300 to-purple-450 font-heading">
-                  Greater Impact.
-                </span>
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-slate-300 text-base sm:text-lg leading-relaxed font-sans max-w-2xl"
-              >
-                Strong partnerships between healthcare providers, NGOs, research institutions, corporate organizations, and communities help improve breast cancer awareness, research, treatment, and patient care.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center sm:justify-start pt-2"
-              >
-                <Button
-                  onClick={() => setPartnerFormOpen(true)}
-                  className="bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-pink-600/25 transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
-                >
-                  Become a Partner
-                  <ArrowRight className="h-5 w-5 ml-1.5" />
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => scrollToId("partner-network-directory")}
-                  className="border-slate-400 text-pink-600 to rose-500 hover:bg-pink/10 hover:text-pink font-bold px-8 py-6 rounded-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
-                >
-                  Explore Our Network
-                </Button>
-              </motion.div>
-            </div>
-
-            {/* Right Side Stats Panel */}
-            <div className="lg:col-span-4 grid grid-cols-2 gap-4">
-              {[
-                { label: "NGOs & Partners", value: formatMetric(stats.ngo), delay: 0.2 },
-                { label: "Hospitals Connected", value: formatMetric(stats.hospitals), delay: 0.3 },
-                { label: "Awareness Drives", value: formatMetric(stats.campaigns), delay: 0.4 },
-                { label: "Verified Doctors", value: formatMetric(stats.doctors), delay: 0.5 },
-              ].map((stat, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: stat.delay }}
-                  className="p-5 rounded-3xl bg-white/10 backdrop-blur-md border border-white/15 shadow-xl hover:bg-white/15 transition-all flex flex-col justify-between text-left"
-                >
-                  <p className="text-[10px] text-pink-300 font-bold tracking-widest uppercase font-heading">
-                    {stat.label}
-                  </p>
-                  <p className="text-3xl font-black text-white tracking-tight font-heading mt-3">
-                    {stat.value}
-                  </p>
-                  <div className="h-1.5 w-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mt-3" />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* ----------------------------------------------------------------------
           2. WHY PARTNERSHIPS MATTER
@@ -1298,19 +1264,9 @@ export default function PartnerOrganizationsPage() {
           14. FINAL CTA (Background Video Loop)
           ---------------------------------------------------------------------- */}
       <section className="py-28 bg-slate-950 text-white relative overflow-hidden">
-        {/* Background Video */}
-        <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover pointer-events-none filter brightness-[0.25]"
-            poster="/images/volunteers.png"
-          >
-            <source src="/videos/videoplayback.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-955/60 to-transparent" />
+        {/* Static CTA Background */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-950 via-slate-900 to-pink-950">
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-pink-950/50" />
         </div>
 
         <div className="container mx-auto px-4 max-w-4xl relative z-10 text-center space-y-8">
