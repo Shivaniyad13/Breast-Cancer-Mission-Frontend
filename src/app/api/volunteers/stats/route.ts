@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { apiClient } from "@/lib/apiClient";
+export const dynamic = "force-dynamic";
 
 export const revalidate = 300;
 
