@@ -34,7 +34,7 @@ export default function ContactPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-700 text-xs font-semibold tracking-wider uppercase mb-6">
               <Ribbon className="h-3.5 w-3.5 text-pink-600" />
-              Breast Cancer Awareness Mission
+              Cancer Mukt Bharat 
             </div>
             <h1 className="font-heading text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 mb-4">
               Get In <span className="text-pink-600">Touch</span>
