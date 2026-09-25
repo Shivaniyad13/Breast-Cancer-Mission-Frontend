@@ -1314,14 +1314,7 @@ export default function EducationClient() {
       </section>
 
       {/* Medical Disclaimer footer element */}
-      <footer className="bg-slate-50 border-t border-slate-200/50 py-10 px-4">
-        <div className="container mx-auto max-w-4xl flex gap-3 text-[11px] text-slate-400 leading-relaxed justify-center items-start">
-          <ShieldCheck className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" />
-          <p className="max-w-2xl text-center">
-            <strong>Clinical Disclaimer:</strong> The educational details shared on this portal are designed to spread public awareness and must not substitute formal medical advice, clinical diagnostics, or professional therapeutic guidance. Always seek counsel from a registered physician or oncology practitioner regarding symptoms or screenings.
-          </p>
-        </div>
-      </footer>
+     
 
     </div>
   );

@@ -174,13 +174,7 @@ export default function AwarenessHubPage() {
           </div>
         </div>
 
-        {/* Clinical Disclaimer */}
-        <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/50 flex gap-3 text-xs text-slate-500 max-w-4xl mx-auto leading-relaxed">
-          <ShieldCheck className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
-          <p>
-            <strong>Medical Disclaimer:</strong> The information provided on this platform is for educational and campaign purposes only. It should not be used as a substitute for professional clinical advice, diagnosis, or treatment. Always consult with a licensed physician or oncologist regarding health concerns.
-          </p>
-        </div>
+       
       </div>
     </div>
   );

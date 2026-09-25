@@ -21,6 +21,64 @@ import {
   logoutUserAction,
 } from "@/app/actions/auth";
 
+/* ── Hover dropdown (pure CSS, opens on hover) ── */
+function HoverDropdown({
+  label,
+  items,
+  width = "w-48",
+}: {
+  label: string;
+  items: { label: string; href: string }[];
+  width?: string;
+}) {
+  return (
+    <div className="relative group">
+      <button
+        type="button"
+        className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-primary cursor-pointer select-none outline-none"
+      >
+        {label}
+        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
+      </button>
+
+      {/* pt-2 creates an invisible bridge so hover doesn't break between trigger and menu */}
+      <div
+        className={`absolute top-full left-0 pt-2 z-50 ${width} opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 ease-out`}
+      >
+        <div className="bg-white border border-pink-100 rounded-md shadow-xl shadow-pink-900/10 p-1">
+          {items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="block px-3 py-2 text-sm text-slate-800 rounded-sm hover:bg-pink-50 focus:bg-pink-50 hover:text-primary transition-colors"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const campaignItems = [
+  { label: "Education", href: "/campaigns/education" },
+  { label: "Our Activities", href: "/campaigns/awareness" },
+  { label: "Membership", href: "/campaigns/membership" },
+  { label: "Volunteers", href: "/campaigns/volunteers" },
+];
+
+const careItems = [
+  { label: "Care Providers", href: "/care/care-providers" },
+  { label: "Healthcare Professionals", href: "/care/healthcare-professionals" },
+  { label: "Partner Organizations", href: "/care/partner-organizations" },
+];
+
+const cureItems = [
+  { label: "Diagnosis", href: "/diagnosis" },
+  { label: "Treatment", href: "/treatment" },
+];
+
 export default function Navbar() {
   const pathname = usePathname();
   const isCampaignPage = pathname?.startsWith("/campaigns/breast-cancer");
@@ -39,7 +97,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Auth fetch via server action (no cookies, no /api route)
+  // Auth fetch via server action
   useEffect(() => {
     let mounted = true;
     getCurrentUserAction()
@@ -110,8 +168,9 @@ export default function Navbar() {
                 className="h-8 w-auto sm:h-10 md:h-12 object-contain shrink-0"
                 priority
               />
-              <span className="font-heading text-sm sm:text-base md:text-lg font-bold tracking-tight text-slate-900 whitespace-nowrap">
-                Cancer Mukt Bharat <span className="text-primary">Abhiyan</span>
+              <span className="font-heading flex flex-col leading-[1.1] tracking-tight whitespace-nowrap text-sm sm:text-base md:text-lg font-bold">
+                <span className="text-primary">Cancer Mukt</span>
+                <span className="text-slate-900">Bharat Abhiyan</span>
               </span>
             </Link>
           )}
@@ -135,56 +194,10 @@ export default function Navbar() {
             <>
               <Link href="/" className="text-sm font-semibold text-slate-700 transition-colors hover:text-primary">Home</Link>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-primary cursor-pointer select-none outline-none">
-                  Campaign <ChevronDown className="h-4 w-4" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-48 bg-white border-pink-100 text-slate-800 shadow-xl shadow-pink-900/10">
-                  <DropdownMenuItem className="hover:bg-pink-50 focus:bg-pink-50 hover:text-primary cursor-pointer">
-                    <Link href="/campaigns/education" className="w-full block">Education</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-pink-50 focus:bg-pink-50 hover:text-primary cursor-pointer">
-                    <Link href="/campaigns/awareness" className="w-full block">Our Activities</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-pink-50 focus:bg-pink-50 hover:text-primary cursor-pointer">
-                    <Link href="/campaigns/membership" className="w-full block">Membership</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-pink-50 focus:bg-pink-50 hover:text-primary cursor-pointer">
-                    <Link href="/campaigns/volunteers" className="w-full block">Volunteers</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-primary cursor-pointer select-none outline-none">
-                  Care <ChevronDown className="h-4 w-4" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 bg-white border-pink-100 text-slate-800 shadow-xl shadow-pink-900/10">
-                  <DropdownMenuItem className="hover:bg-pink-50 focus:bg-pink-50 hover:text-primary cursor-pointer">
-                    <Link href="/care/care-providers" className="w-full block">Care Providers</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-pink-50 focus:bg-pink-50 hover:text-primary cursor-pointer">
-                    <Link href="/care/healthcare-professionals" className="w-full block">Healthcare Professionals</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-pink-50 focus:bg-pink-50 hover:text-primary cursor-pointer">
-                    <Link href="/care/partner-organizations" className="w-full block">Partner Organizations</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-primary cursor-pointer select-none outline-none">
-                  Cure <ChevronDown className="h-4 w-4" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-48 bg-white border-pink-100 text-slate-800 shadow-xl shadow-pink-900/10">
-                  <DropdownMenuItem className="hover:bg-pink-50 focus:bg-pink-50 hover:text-primary cursor-pointer">
-                    <Link href="/diagnosis" className="w-full block">Diagnosis</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="hover:bg-pink-50 focus:bg-pink-50 hover:text-primary cursor-pointer">
-                    <Link href="/treatment" className="w-full block">Treatment</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              {/* Hover dropdowns — open on hover, no click needed */}
+              <HoverDropdown label="Campaign" items={campaignItems} width="w-48" />
+              <HoverDropdown label="Care" items={careItems} width="w-56" />
+              <HoverDropdown label="Cure" items={cureItems} width="w-48" />
 
               <Link href="/donate" className="flex items-center">
                 <Button
@@ -196,8 +209,8 @@ export default function Navbar() {
                 </Button>
               </Link>
 
-              <Link href="/about" className="text-sm font-semibold text-slate-700 transition-colors hover:text-primary">About Us</Link>
-              <Link href="/contact" className="text-sm font-semibold text-slate-700 transition-colors hover:text-primary">Contact Us</Link>
+              <Link href="/about" className="text-sm font-semibold text-slate-700 transition-colors hover:text-primary">About</Link>
+              <Link href="/contact" className="text-sm font-semibold text-slate-700 transition-colors hover:text-primary">Contact</Link>
             </>
           )}
         </nav>

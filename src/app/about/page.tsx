@@ -35,11 +35,15 @@ export default function AboutPage() {
             <Ribbon className="h-4 w-4 animate-pulse" />
             About Our Mission
           </div>
-          <h1 id="about-hero-title" className="font-heading text-4xl sm:text-5xl font-black text-slate-800 leading-tight">
-            Cancer Mukt Bharat <span className="text-primary">Abhiyan </span>
+          <h1
+            id="about-hero-title"
+            className="font-heading text-4xl sm:text-5xl font-black text-slate-800 leading-tight"
+          >
+            <span className="text-primary">Cancer Mukt</span> Bharat Abhiyan
           </h1>
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
-            An enterprise-grade digital ecosystem designed to connect patients, healthcare professionals, donors, and non-profit organizations into a unified front against breast cancer.
+            Empowering Communities, Defeating Breast Cancer Together
+            Welcome to the official web portal of Cancer Mukt Bharat Abhiyan—an enterprise-grade digital ecosystem uniting patients, healthcare professionals, donors, and  organizations in a shared mission to eliminate the burden of breast cancer.
           </p>
         </section>
 
@@ -57,7 +61,16 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="p-6 pt-2 space-y-4">
               <p className="text-sm text-slate-600 leading-relaxed">
-                Our purpose is twofold: first, to democratize breast health literacy by providing verified self-examination guides,  Breast cancer webinars, and health quizzes. Second, to provide trusted financial support for breast cancer patients through a secure, transparent crowdfunding platform verified by NGOs and administrators.
+                The breast cancer mission under the <strong>Cancer Mukt Bharat Abhiyan</strong> is a comprehensive nationwide initiative dedicated to reducing mortality through early detection, community empowerment, and structural healthcare support.
+              </p>
+              <ul className="space-y-2 text-sm text-slate-600 leading-relaxed list-disc pl-5 marker:text-primary">
+                <li>Break social stigmas and promote regular breast self-examinations across communities.</li>
+                <li>Deploy grassroots screening camps to catch diagnoses in early, highly curable stages.</li>
+                <li>Enable affordable mammography access and dedicated digital helplines.</li>
+                <li>Ensure end-to-end patient navigation — from diagnosis to oncological care, financial aid, and holistic counseling.</li>
+              </ul>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Together, these efforts foster a truly supportive ecosystem for patients and their families.
               </p>
             </CardContent>
           </Card>
@@ -74,32 +87,19 @@ export default function AboutPage() {
             </CardHeader>
             <CardContent className="p-6 pt-2 space-y-4">
               <p className="text-sm text-slate-600 leading-relaxed">
-                We envision a world where breast cancer is detected early enough to be fully treatable, and where no individual is denied life-saving medical care due to lack of funds. Through digital empowerment, clinical partnerships, and crowd support, we aim to bridge the gap between healthcare systems and local communities.
+                The vision for breast cancer under the <strong>Cancer Mukt Bharat Abhiyan</strong> is to drastically reduce late-stage diagnoses and mortality rates through accessible, affordable, and inclusive early-detection tools for every woman across India.
+              </p>
+              <ul className="space-y-2 text-sm text-slate-600 leading-relaxed list-disc pl-5 marker:text-primary">
+                <li>Eradicate social stigmas and normalize open conversations through grassroots outreach.</li>
+                <li>Bridge healthcare gaps via mobile screening units and public-private partnerships.</li>
+                <li>Ensure seamless pathways from initial diagnosis to affordable treatment and survivorship care.</li>
+                <li>Foster a proactive healthcare culture centered on timely intervention and comprehensive support.</li>
+              </ul>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Ultimately, no woman or man should face their battle alone — breast cancer must be caught in its earliest, most treatable stages.
               </p>
             </CardContent>
           </Card>
-        </section>
-
-        {/* Section 3: Stat Indicators */}
-        <section className="bg-white/40 border border-pink-100/60 rounded-3xl p-8 backdrop-blur-md" aria-label="Platform Highlights">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="space-y-2">
-              <p className="text-3xl sm:text-4xl font-extrabold text-primary">100K+</p>
-              <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Educational Target</p>
-            </div>
-            <div className="space-y-2 border-l border-pink-100/50">
-              <p className="text-3xl sm:text-4xl font-extrabold text-primary">100%</p>
-              <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">NGO-Verified Cases</p>
-            </div>
-            {/* <div className="space-y-2 max-sm:border-t max-sm:pt-4 md:border-l border-pink-100/50">
-              <p className="text-3xl sm:text-4xl font-extrabold text-primary">Secure</p>
-              <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Razorpay Payments</p>
-            </div> */}
-            <div className="space-y-2 max-sm:border-t max-sm:pt-4 border-l border-pink-100/50">
-              <p className="text-3xl sm:text-4xl font-extrabold text-primary">QR-Code</p>
-              <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Verifiable Certificates</p>
-            </div>
-          </div>
         </section>
 
         {/* Section 4: Three Core Pillars */}
@@ -159,10 +159,10 @@ export default function AboutPage() {
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/20 border border-pink-500/30 text-pink-300 text-xs font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500 border border-pink-500 text-white text-xs font-bold uppercase tracking-wider shadow-md">
                 <Award className="h-4 w-4" /> Become an Ambassador
               </span>
-              <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+              <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-primary">
                 Help Us Make a Difference Today
               </h2>
               <p className="text-slate-300 text-sm max-w-xl leading-relaxed">
@@ -183,7 +183,7 @@ export default function AboutPage() {
                 <Button
                   id="about-cta-learn-more"
                   variant="outline"
-                  className="w-full border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white font-bold h-11 px-6 rounded-xl transition-all duration-200 cursor-pointer bg-transparent"
+                  className="w-full bg-pink-500 border-pink-500 text-white hover:bg-pink-600 hover:border-pink-600 hover:text-white font-bold h-11 px-6 rounded-xl transition-all duration-200 cursor-pointer"
                 >
                   Explore Awareness Hub
                 </Button>
@@ -196,13 +196,7 @@ export default function AboutPage() {
 
       </div>
 
-      {/* Clinical Disclaimer */}
-      <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/50 flex gap-3 text-xs text-slate-500 max-w-4xl mx-auto leading-relaxed">
-        <ShieldCheck className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
-        <p>
-          <strong>Medical Disclaimer:</strong> The information provided on this platform is for educational and campaign purposes only. It should not be used as a substitute for professional clinical advice, diagnosis, or treatment. Always consult with a licensed physician or oncologist regarding health concerns.
-        </p>
-      </div>
+      
 
     </div>
 

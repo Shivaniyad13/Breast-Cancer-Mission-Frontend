@@ -48,73 +48,96 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ==========================================
+   LIGHT THEME — very light blush pink
+   ========================================== */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.2 0.04 350);
+  --background: oklch(0.995 0.005 350);             /* barely-there pink-white */
+  --foreground: oklch(0.28 0.03 350);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2 0.04 350);
+  --card-foreground: oklch(0.28 0.03 350);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2 0.04 350);
-  --primary: oklch(0.58 0.23 350);
+  --popover-foreground: oklch(0.28 0.03 350);
+
+  --primary: oklch(0.68 0.17 350);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.96 0.025 350);
-  --secondary-foreground: oklch(0.35 0.18 350);
-  --muted: oklch(0.97 0.015 350);
-  --muted-foreground: oklch(0.42 0.06 350);
-  --accent: oklch(0.95 0.03 350);
-  --accent-foreground: oklch(0.35 0.2 350);
+
+  --secondary: oklch(0.98 0.012 350);
+  --secondary-foreground: oklch(0.4 0.09 350);
+
+  --muted: oklch(0.985 0.008 350);
+  --muted-foreground: oklch(0.52 0.04 350);
+
+  --accent: oklch(0.975 0.018 350);
+  --accent-foreground: oklch(0.42 0.1 350);
+
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.03 350);
-  --input: oklch(0.92 0.03 350);
-  --ring: oklch(0.58 0.23 350);
-  --chart-1: oklch(0.58 0.23 350);
-  --chart-2: oklch(0.85 0.08 350);
-  --chart-3: oklch(0.35 0.18 350);
-  --chart-4: oklch(0.7 0.15 350);
-  --chart-5: oklch(0.25 0.12 350);
+
+  --border: oklch(0.955 0.015 350);
+  --input: oklch(0.955 0.015 350);
+  --ring: oklch(0.68 0.17 350);
+
+  --chart-1: oklch(0.68 0.17 350);
+  --chart-2: oklch(0.9 0.05 350);
+  --chart-3: oklch(0.5 0.12 350);
+  --chart-4: oklch(0.8 0.09 350);
+  --chart-5: oklch(0.38 0.08 350);
+
   --radius: 0.625rem;
+
   --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.2 0.04 350);
-  --sidebar-primary: oklch(0.58 0.23 350);
+  --sidebar-foreground: oklch(0.28 0.03 350);
+  --sidebar-primary: oklch(0.68 0.17 350);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.96 0.025 350);
-  --sidebar-accent-foreground: oklch(0.35 0.18 350);
-  --sidebar-border: oklch(0.92 0.03 350);
-  --sidebar-ring: oklch(0.58 0.23 350);
+  --sidebar-accent: oklch(0.98 0.012 350);
+  --sidebar-accent-foreground: oklch(0.4 0.09 350);
+  --sidebar-border: oklch(0.955 0.015 350);
+  --sidebar-ring: oklch(0.68 0.17 350);
 }
 
+/* ==========================================
+   DARK THEME — softened
+   ========================================== */
 .dark {
-  --background: oklch(0.18 0.06 350);
-  --foreground: oklch(0.98 0.005 350);
-  --card: oklch(0.22 0.07 350);
-  --card-foreground: oklch(0.98 0.005 350);
-  --popover: oklch(0.22 0.07 350);
-  --popover-foreground: oklch(0.98 0.005 350);
-  --primary: oklch(0.65 0.22 350);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.28 0.08 350);
-  --secondary-foreground: oklch(0.96 0.02 350);
-  --muted: oklch(0.28 0.08 350);
-  --muted-foreground: oklch(0.75 0.03 350);
-  --accent: oklch(0.28 0.08 350);
-  --accent-foreground: oklch(0.96 0.02 350);
+  --background: oklch(0.23 0.025 350);
+  --foreground: oklch(0.97 0.008 350);
+  --card: oklch(0.27 0.03 350);
+  --card-foreground: oklch(0.97 0.008 350);
+  --popover: oklch(0.27 0.03 350);
+  --popover-foreground: oklch(0.97 0.008 350);
+
+  --primary: oklch(0.74 0.15 350);
+  --primary-foreground: oklch(0.2 0.03 350);
+
+  --secondary: oklch(0.32 0.035 350);
+  --secondary-foreground: oklch(0.96 0.015 350);
+
+  --muted: oklch(0.32 0.035 350);
+  --muted-foreground: oklch(0.78 0.025 350);
+
+  --accent: oklch(0.32 0.035 350);
+  --accent-foreground: oklch(0.96 0.015 350);
+
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.35 0.1 350);
-  --input: oklch(0.35 0.1 350);
-  --ring: oklch(0.65 0.22 350);
-  --chart-1: oklch(0.65 0.22 350);
-  --chart-2: oklch(0.75 0.12 350);
-  --chart-3: oklch(0.85 0.08 350);
-  --chart-4: oklch(0.45 0.15 350);
-  --chart-5: oklch(0.3 0.1 350);
-  --sidebar: oklch(0.22 0.07 350);
-  --sidebar-foreground: oklch(0.98 0.005 350);
-  --sidebar-primary: oklch(0.65 0.22 350);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.28 0.08 350);
-  --sidebar-accent-foreground: oklch(0.98 0.005 350);
-  --sidebar-border: oklch(0.35 0.1 350);
-  --sidebar-ring: oklch(0.65 0.22 350);
+
+  --border: oklch(0.38 0.04 350);
+  --input: oklch(0.38 0.04 350);
+  --ring: oklch(0.74 0.15 350);
+
+  --chart-1: oklch(0.74 0.15 350);
+  --chart-2: oklch(0.82 0.08 350);
+  --chart-3: oklch(0.9 0.05 350);
+  --chart-4: oklch(0.55 0.11 350);
+  --chart-5: oklch(0.4 0.07 350);
+
+  --sidebar: oklch(0.27 0.03 350);
+  --sidebar-foreground: oklch(0.97 0.008 350);
+  --sidebar-primary: oklch(0.74 0.15 350);
+  --sidebar-primary-foreground: oklch(0.2 0.03 350);
+  --sidebar-accent: oklch(0.32 0.035 350);
+  --sidebar-accent-foreground: oklch(0.97 0.008 350);
+  --sidebar-border: oklch(0.38 0.04 350);
+  --sidebar-ring: oklch(0.74 0.15 350);
 }
 
 @layer base {
@@ -122,17 +145,17 @@
     @apply border-border outline-ring/50;
   }
 
-  body {
-    @apply bg-background text-foreground;
-  }
-
   html {
     @apply font-sans;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
 /* ==========================================
-   Floating WhatsApp Button Custom Styles
+   Floating WhatsApp Button
    ========================================== */
 .grs-whatsapp-container {
   position: fixed;
@@ -153,7 +176,7 @@
   background-color: #25D366;
   color: #ffffff;
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(37, 211, 102, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(37, 211, 102, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
   border: none;
@@ -171,7 +194,7 @@
 .grs-whatsapp-btn:hover {
   transform: scale(1.1) translateY(-2px);
   background-color: #20ba56;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), 0 12px 32px rgba(37, 211, 102, 0.35);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16), 0 12px 32px rgba(37, 211, 102, 0.28);
 }
 
 .grs-whatsapp-btn:hover .grs-whatsapp-icon {
@@ -182,12 +205,10 @@
   transform: scale(0.95) translateY(0);
 }
 
-/* Tooltip style */
 .grs-whatsapp-tooltip {
   position: absolute;
   right: 72px;
   background-color: #1e293b;
-  /* slate-800 */
   color: #ffffff;
   padding: 8px 14px;
   border-radius: 8px;
@@ -220,7 +241,6 @@
   transform: translateX(0);
 }
 
-/* Pulse Ring Animation */
 .grs-whatsapp-pulse {
   position: absolute;
   width: 56px;
@@ -238,54 +258,42 @@
     transform: scale(0.95);
     opacity: 0.8;
   }
-
   30% {
     transform: scale(1.4);
     opacity: 0;
   }
-
   100% {
     transform: scale(1.4);
     opacity: 0;
   }
 }
 
-/* Responsiveness adjustments */
 @media (max-width: 768px) {
   .grs-whatsapp-container {
     bottom: 16px;
     right: 16px;
   }
-
   .grs-whatsapp-btn {
     width: 48px;
     height: 48px;
   }
-
   .grs-whatsapp-icon {
     width: 24px;
     height: 24px;
   }
-
   .grs-whatsapp-pulse {
     width: 48px;
     height: 48px;
   }
-
   .grs-whatsapp-tooltip {
     display: none;
-    /* Hide tooltip on small mobile screens to prevent layout overlap */
   }
 }
 
-/* Infinite Marquee Animation for Partner Logos */
+/* Infinite Marquee Animation */
 @keyframes partner-marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }
 
 .animate-partner-marquee {
@@ -300,259 +308,260 @@
 }
 
 /* ==========================================
-   Home Page Premium Pink + White Card Styling
+   Home Page — Soft Pink + White Card Styling
    ========================================== */
 
-/* 1. Dark Maroon Cards Overrides ([class*="2d0a20"]) */
-/* Target Patient Story, Live Updates Hub, and Celebrity Testimonial cards */
 div[class*="2d0a20"] {
   background-color: #ffffff !important;
   background-image: none !important;
-  border-color: rgba(244, 114, 182, 0.35) !important; /* soft pink border */
-  box-shadow: 0 10px 30px -5px rgba(219, 39, 119, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.03) !important;
-  color: #0f172a !important; /* dark navy base text */
+  border-color: #fce7f3 !important;
+  box-shadow: 0 6px 24px -8px rgba(219, 39, 119, 0.06),
+              0 2px 6px -2px rgba(0, 0, 0, 0.02) !important;
+  color: #1f2937 !important;
 }
 
-/* Card top accent lines */
 div[class*="2d0a20"] > div[class*="h-0.5"] {
-  background: linear-gradient(to right, #db2777, #f43f5e) !important;
+  background: linear-gradient(to right, #f9a8d4, #fbcfe8) !important;
 }
 
-/* Card Header Dividers */
 div[class*="2d0a20"] div[class*="border-b"] {
-  border-color: rgba(244, 114, 182, 0.25) !important;
+  border-color: #fdf2f8 !important;
 }
 
-/* Card Header Section Titles (PATIENT STORY, LIVE UPDATES HUB, CELEBRITY TESTIMONIAL) */
 div[class*="2d0a20"] span[class*="text-pink-400"] {
-  color: #be185d !important;
+  color: #db2777 !important;
   font-weight: 800 !important;
 }
 
-/* Card Badges (Survivor/Family, Timer, Status) */
 div[class*="2d0a20"] span[class*="bg-pink-500/20"] {
-  background-color: #fce7f3 !important;
-  color: #9d174d !important;
-  border-color: #fbcfe8 !important;
+  background-color: #fdf2f8 !important;
+  color: #be185d !important;
+  border-color: #fce7f3 !important;
   font-weight: 700 !important;
 }
 
-/* Completed Status badge */
 div[class*="2d0a20"] span[class*="bg-slate-800"] {
-  background-color: #f1f5f9 !important;
-  color: #475569 !important;
-  border-color: #cbd5e1 !important;
-}
-
-/* Video Frame Container in Story & Testimonial */
-div[class*="2d0a20"] div[class*="aspect-video"] {
-  background-color: #0f172a !important;
-  border-color: #fbcfe8 !important;
-}
-
-/* Navigation Arrow Buttons in Live Updates Hub (ChevronLeft / ChevronRight) */
-div[class*="2d0a20"] button[class*="bg-slate-800"] {
   background-color: #f8fafc !important;
-  color: #1e293b !important;
-  border: 1px solid #e2e8f0 !important;
+  color: #64748b !important;
+  border-color: #eef2f7 !important;
+}
+
+div[class*="2d0a20"] div[class*="aspect-video"] {
+  background-color: #fdf2f8 !important;
+  border-color: #fce7f3 !important;
+}
+
+div[class*="2d0a20"] button[class*="bg-slate-800"] {
+  background-color: #ffffff !important;
+  color: #475569 !important;
+  border: 1px solid #fce7f3 !important;
 }
 div[class*="2d0a20"] button[class*="bg-slate-800"]:hover {
-  background-color: #fce7f3 !important;
-  color: #be185d !important;
+  background-color: #fdf2f8 !important;
+  color: #db2777 !important;
   border-color: #fbcfe8 !important;
 }
 
-/* Headings (h4) inside cards */
 div[class*="2d0a20"] h4,
 div[class*="2d0a20"] .text-white {
-  color: #0f172a !important; /* Dark Navy for patient name, news title, celebrity name */
+  color: #1f2937 !important;
 }
 
-/* Subtitles, Locations, Descriptions, Quotes */
 div[class*="2d0a20"] p[class*="text-pink-100"],
 div[class*="2d0a20"] p[class*="text-slate-300"],
 div[class*="2d0a20"] p[class*="text-pink-100/90"],
 div[class*="2d0a20"] div[class*="text-pink-300"],
 div[class*="2d0a20"] span[class*="text-pink-300"] {
-  color: #334155 !important; /* Slate 700 for descriptions and quotes */
+  color: #6b7280 !important;
 }
 
-/* Specific location/profession text colors */
 div[class*="2d0a20"] div[class*="text-[9px]"],
 div[class*="2d0a20"] span[class*="text-[9px]"] {
-  color: #475569 !important;
+  color: #9ca3af !important;
 }
 
-/* Quote and dividers inside card body */
 div[class*="2d0a20"] p[class*="border-t"],
 div[class*="2d0a20"] p[class*="border-l"],
 div[class*="2d0a20"] div[class*="border-l"],
 div[class*="2d0a20"] div[class*="border-t"] {
-  border-color: rgba(244, 114, 182, 0.25) !important;
+  border-color: #fdf2f8 !important;
 }
 
-/* Category Badges inside Live Updates Hub */
 div[class*="2d0a20"] span[class*="bg-emerald-500/20"] {
-  background-color: #dcfce7 !important;
-  color: #15803d !important;
-  border-color: #bbf7d0 !important;
+  background-color: #f0fdf4 !important;
+  color: #16a34a !important;
+  border-color: #dcfce7 !important;
 }
 div[class*="2d0a20"] span[class*="bg-rose-500/20"] {
-  background-color: #ffe4e6 !important;
-  color: #be123c !important;
-  border-color: #fecdd3 !important;
+  background-color: #fff1f2 !important;
+  color: #e11d48 !important;
+  border-color: #ffe4e6 !important;
 }
 div[class*="2d0a20"] span[class*="bg-sky-500/20"] {
-  background-color: #e0f2fe !important;
-  color: #0369a1 !important;
-  border-color: #bae6fd !important;
+  background-color: #f0f9ff !important;
+  color: #0284c7 !important;
+  border-color: #e0f2fe !important;
 }
 div[class*="2d0a20"] span[class*="bg-amber-500/20"] {
-  background-color: #fef3c7 !important;
-  color: #b45309 !important;
-  border-color: #fde68a !important;
+  background-color: #fffbeb !important;
+  color: #d97706 !important;
+  border-color: #fef3c7 !important;
 }
 div[class*="2d0a20"] span[class*="bg-purple-500/20"] {
-  background-color: #f3e8ff !important;
-  color: #7e22ce !important;
-  border-color: #e9d5ff !important;
+  background-color: #faf5ff !important;
+  color: #9333ea !important;
+  border-color: #f3e8ff !important;
 }
 
-/* Pagination indicator dots */
 div[class*="2d0a20"] button[class*="bg-slate-700"] {
-  background-color: #cbd5e1 !important;
+  background-color: #f1f5f9 !important;
 }
 
-/* Playlist title / duration text in Celebrity Testimonial */
 div[class*="2d0a20"] span[class*="text-slate-400"] {
-  color: #64748b !important;
+  color: #9ca3af !important;
 }
 
-/* Playlist thumbnail buttons in Celebrity Testimonial */
 div[class*="2d0a20"] button[class*="border-slate-700"] {
-  border-color: #cbd5e1 !important;
-  background-color: #f8fafc !important;
+  border-color: #fce7f3 !important;
+  background-color: #ffffff !important;
 }
 
-/* Buttons inside Cards ("View Story", "Register Now", "Explore More") */
 div[class*="2d0a20"] button[class*="bg-pink-600"] {
-  background-color: #db2777 !important;
+  background-color: #ec4899 !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.25) !important;
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2) !important;
 }
 div[class*="2d0a20"] button[class*="bg-pink-600"]:hover {
-  background-color: #be185d !important;
+  background-color: #db2777 !important;
 }
 
-
-/* 2. Live Breast Cancer Updates Feed Overrides (Card 3) */
-
-/* Live Header Title */
+/* Live Updates Feed Overrides */
 h3[class*="text-pink-300"] {
-  color: #9d174d !important; /* deep rich pink text for high contrast */
+  color: #db2777 !important;
   font-weight: 800 !important;
 }
 
-/* Header Up/Down Arrow Buttons */
 button[aria-label="Previous item"],
 button[aria-label="Next item"] {
-  background-color: #f8fafc !important;
-  color: #1e293b !important;
-  border: 1px solid #e2e8f0 !important;
+  background-color: #ffffff !important;
+  color: #475569 !important;
+  border: 1px solid #fce7f3 !important;
 }
 button[aria-label="Previous item"]:hover,
 button[aria-label="Next item"]:hover {
-  background-color: #fce7f3 !important;
-  color: #be185d !important;
+  background-color: #fdf2f8 !important;
+  color: #db2777 !important;
   border-color: #fbcfe8 !important;
 }
 
-/* Breaking News Ticker Container */
 div[class*="bg-pink-950/50"] {
-  background-color: #fff0f5 !important; /* soft blush background */
-  border-color: #fbcfe8 !important;
-  box-shadow: inset 0 2px 4px rgba(219, 39, 119, 0.04) !important;
+  background-color: #fff5f9 !important;
+  border-color: #fce7f3 !important;
+  box-shadow: inset 0 2px 4px rgba(219, 39, 119, 0.03) !important;
 }
-/* Ticker text color override */
 div[class*="bg-pink-950/50"] div,
 div[class*="bg-pink-950/50"] span:not([class*="bg-pink-600"]) {
-  color: #0f172a !important;
+  color: #1f2937 !important;
   font-weight: 700 !important;
 }
 
-/* Feed Main Item Card */
 a[class*="from-slate-900"] {
   background: #ffffff !important;
-  border-color: rgba(244, 114, 182, 0.35) !important;
-  box-shadow: 0 10px 25px -5px rgba(219, 39, 119, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03) !important;
+  border-color: #fce7f3 !important;
+  box-shadow: 0 6px 22px -8px rgba(219, 39, 119, 0.06),
+              0 2px 6px -2px rgba(0, 0, 0, 0.02) !important;
 }
 a[class*="from-slate-900"]:hover {
-  background: #fff5f8 !important; /* soft light blush on hover */
-  border-color: #f472b6 !important;
-}
-
-/* Source text & Published time */
-a[class*="from-slate-900"] span[class*="text-pink-400"] {
-  color: #be185d !important;
-}
-a[class*="from-slate-900"] span[class*="text-slate-400"] {
-  color: #64748b !important;
-}
-
-/* Feed Title text */
-a[class*="from-slate-900"] h4 {
-  color: #0f172a !important; /* Dark Navy for title */
-}
-a[class*="from-slate-900"]:hover h4 {
-  color: #be185d !important;
-}
-
-/* Action text ("Read Article" / "Watch Video") */
-a[class*="from-slate-900"] div[class*="text-pink-400"] {
-  color: #be185d !important;
-}
-
-/* Bottom Feed Indicator Dots */
-button[aria-label^="Go to slide"] {
-  background-color: #cbd5e1 !important;
-}
-button[aria-label^="Go to slide"][class*="bg-pink-500"] {
-  background-color: #db2777 !important;
-}
-span[class*="text-slate-400"] {
-  color: #64748b !important;
-}
-
-/* 3. Mobile Panels Slider Container & Sections Styling */
-div[class*="bg-pink-50/50"] {
-  background-color: #fff5f8 !important;
+  background: #fff5f9 !important;
   border-color: #fbcfe8 !important;
 }
 
-/* 4. Home Page Container Responsive Guard */
+a[class*="from-slate-900"] span[class*="text-pink-400"] {
+  color: #db2777 !important;
+}
+a[class*="from-slate-900"] span[class*="text-slate-400"] {
+  color: #9ca3af !important;
+}
+
+a[class*="from-slate-900"] h4 {
+  color: #1f2937 !important;
+}
+a[class*="from-slate-900"]:hover h4 {
+  color: #db2777 !important;
+}
+
+a[class*="from-slate-900"] div[class*="text-pink-400"] {
+  color: #db2777 !important;
+}
+
+button[aria-label^="Go to slide"] {
+  background-color: #f1f5f9 !important;
+}
+button[aria-label^="Go to slide"][class*="bg-pink-500"] {
+  background-color: #ec4899 !important;
+}
+span[class*="text-slate-400"] {
+  color: #9ca3af !important;
+}
+
+div[class*="bg-pink-50/50"] {
+  background-color: #fff8fb !important;
+  border-color: #fce7f3 !important;
+}
+
 body {
   overflow-x: hidden;
 }
 
 /* ==========================================
-   Hero Section Deep Pink Container Gradient
-   (Matching Reference Blue Container in Premium Pink)
+   Hero Section — Soft Blush Pink Gradient
+   (very light, subtle, no dark maroon)
    ========================================== */
-section.relative.overflow-hidden.py-16,
 section.relative.overflow-hidden {
-  background: radial-gradient(circle at 50% 35%, #9d174d 0%, #fb549f 50%, #f65a9b 100%) !important;
+  background: radial-gradient(
+    circle at 50% 30%,
+    #ffffff 0%,
+    #fff8fb 45%,
+    #fdf2f8 100%
+  ) !important;
 }
 
-/* Override dull black & transparent overlays with rich deep magenta/pink glows */
 section.relative.overflow-hidden > div.bg-black\/45 {
-  background: radial-gradient(circle at 50% 30%, rgba(244, 63, 94, 0.15) 0%, rgba(157, 23, 77, 0.25) 50%, rgba(63, 7, 30, 0.6) 100%) !important;
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(252, 231, 243, 0.35) 55%,
+    rgba(251, 207, 232, 0.25) 100%
+  ) !important;
 }
 
 section.relative.overflow-hidden > div[class*="from-pink-900"] {
-  background: linear-gradient(to bottom, rgba(112, 26, 64, 0.2) 0%, rgba(63, 7, 30, 0.4) 75%, rgba(255, 245, 248, 0.1) 100%) !important;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(253, 242, 248, 0.5) 70%,
+    rgba(255, 255, 255, 0.85) 100%
+  ) !important;
 }
 
-/* Print Styles for Certificates */
+section.relative.overflow-hidden [class*="text-white"],
+section.relative.overflow-hidden [class*="text-pink-100"],
+section.relative.overflow-hidden [class*="text-pink-200"],
+section.relative.overflow-hidden [class*="text-slate-200"],
+section.relative.overflow-hidden [class*="text-slate-300"],
+section.relative.overflow-hidden [class*="text-gray-200"],
+section.relative.overflow-hidden [class*="text-gray-300"] {
+  color: #4a1030 !important;
+}
+
+section.relative.overflow-hidden [class*="bg-pink-600"],
+section.relative.overflow-hidden [class*="bg-pink-500"],
+section.relative.overflow-hidden [class*="bg-rose-500"],
+section.relative.overflow-hidden [class*="bg-primary"] {
+  color: #ffffff !important;
+}
+
+/* Print Styles */
 @media print {
   .no-print {
     display: none !important;
@@ -562,9 +571,6 @@ section.relative.overflow-hidden > div[class*="from-pink-900"] {
   }
   .cert-print-clean {
     box-shadow: none !important;
-    border-color: #fbcfe8 !important;
+    border-color: #fce7f3 !important;
   }
 }
-
-
-

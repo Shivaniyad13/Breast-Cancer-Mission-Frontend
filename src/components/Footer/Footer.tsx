@@ -7,8 +7,7 @@ import {
   Mail,
   MapPin,
   ArrowUp,
-  Heart,
-  ChevronDown,
+  ShieldCheck,
 } from "lucide-react";
 
 const FacebookIcon = ({ className }: { className?: string }) => (
@@ -35,22 +34,17 @@ const YoutubeIcon = ({ className }: { className?: string }) => (
     <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
     <polygon
       points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"
-      fill="#0d1b2a"
+      fill="#ffffff"
     />
   </svg>
 );
 
 const quickLinks = [
-  { label: "Support Patients", href: "/campaigns" },
+  { label: "Support Patients", href: "/donate" },
   { label: "Webinars", href: "/webinars" },
-  { label: "About Us", href: "/about" },
+  { label: "About", href: "/about" },
   { label: "Self-Examination Guide", href: "/learn/bse-guide" },
-  { label: "Contact Us", href: "/contact" },
-];
-
-const contactLinks = [
-  { label: "Get In Touch", href: "/contact" },
-  { label: "Our Mission", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const socialLinks = [
@@ -60,150 +54,110 @@ const socialLinks = [
   { icon: YoutubeIcon, href: "https://youtube.com", label: "YouTube" },
 ];
 
+const HEAD_OFFICE_ADDRESS = "B-14 Sector 64, Noida, Uttar Pradesh, India – 201309";
+const MAP_EMBED_SRC =
+  "https://www.google.com/maps?q=Sector%2064%2C%20Noida%2C%20Uttar%20Pradesh%20201309&output=embed";
+
 export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <footer
-      style={{
-        background:
-          "radial-gradient(circle at 50% 35%, #9d174d 0%, #fb549f 50%, #f65a9b 100%)",
-      }}
-      className="relative text-slate-100"
-    >
-      {/* Top pink accent line */}
-      <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-pink-600 via-pink-400 to-rose-500" />
-
-      {/* Watermark logo */}
-      {/* Watermark logo */}
-      <div className="absolute right-10 top-10 opacity-10 pointer-events-none select-none">
-        <Image
-          src="/logo.png"
-          alt=""
-          width={256}
-          height={256}
-          className="w-64 h-64 object-contain"
-          aria-hidden="true"
-        />
+    <footer className="relative">
+      {/* ============ CLINICAL DISCLAIMER SECTION (Top) ============ */}
+      <div className="relative bg-gradient-to-r from-pink-50 via-pink-50/70 to-pink-50 border-t border-pink-100">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="max-w-5xl mx-auto flex items-start gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl bg-white border border-pink-100 shadow-sm">
+            <div className="flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-pink-100 text-pink-600 shrink-0">
+              <ShieldCheck className="h-4 w-4 sm:h-5 sm:w-5" />
+            </div>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <strong className="text-slate-900 font-bold">
+                Clinical Disclaimer:
+              </strong>{" "}
+              The educational details shared on this portal are designed to
+              spread public awareness and must not substitute formal medical
+              advice, clinical diagnostics, or professional therapeutic
+              guidance. Always seek counsel from a registered physician or
+              oncology practitioner regarding symptoms or screenings.
+            </p>
+          </div>
+        </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* ── Col 1 · Brand ── */}
-          <div className="space-y-5 lg:col-span-1">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-white/15 border border-white/30 overflow-hidden p-1">
-                <Image
-                  src="/logo.png"
-                  alt="Cancer Mukt Bharat Abhiyan Logo"
-                  width={100}
-                  height={100}
-                  className="h-full w-full object-contain"
-                  priority
-                />
+      {/* ============ MAIN FOOTER ============ */}
+      <div
+        className="relative bg-white text-slate-700 border-t border-pink-100"
+        style={{
+          background:
+            "linear-gradient(to bottom, #ffffff 0%, #fff8fb 40%, #fdf2f8 100%)",
+        }}
+      >
+        {/* Top pink accent line */}
+        <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-pink-300 via-pink-400 to-pink-300" />
+
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+            {/* ── Col 1 · Brand ── */}
+            <div className="space-y-5">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-pink-50 border border-pink-100 overflow-hidden p-1 shadow-sm">
+                  <Image
+                    src="/logo.png"
+                    alt="Cancer Mukt Bharat Abhiyan Logo"
+                    width={100}
+                    height={100}
+                    className="h-full w-full object-contain"
+                    priority
+                  />
+                </div>
+
+                <div className="font-heading flex flex-col leading-[1.1] tracking-tight">
+                  <span className="text-base sm:text-lg font-bold text-primary">
+                    Cancer Mukt
+                  </span>
+                  <span className="text-base sm:text-lg font-bold text-slate-900">
+                    Bharat Abhiyan
+                  </span>
+                </div>
               </div>
 
-              <div>
-                <p className="font-heading text-[10px] font-bold tracking-[0.2em] uppercase text-slate-100">
-                  Cancer Mukt Bharat
-                </p>
+              <p className="text-sm font-medium text-slate-600 leading-relaxed">
+                A trusted unified healthcare portal spreading early detection
+                knowledge, hosting expert webinars, and coordinating verified
+                crowdfunding support for breast cancer patients.
+              </p>
 
-                <p className="font-heading text-[10px] font-bold tracking-[0.15em] uppercase text-slate-200">
-                  Abhiyan
-                </p>
+              {/* Social media links */}
+              <div className="flex items-center gap-3 pt-1">
+                {socialLinks.map(({ icon: Icon, href, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="flex items-center justify-center h-9 w-9 rounded-full bg-pink-500 text-white hover:bg-pink-600 transition-all duration-200 shadow-sm shadow-pink-500/20"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                ))}
               </div>
             </div>
 
-            <p className="text-sm text-slate-200 leading-relaxed">
-              A trusted unified healthcare portal spreading early detection
-              knowledge, hosting expert webinars, and coordinating verified
-              crowdfunding support for breast cancer patients.
-            </p>
-
-            <div className="space-y-2.5">
-              <a
-                href="tel:+919217396124"
-                className="flex items-center gap-2.5 text-sm text-slate-200 hover:text-slate-100 transition-colors group"
-              >
-                <Phone className="h-4 w-4 text-slate-100 group-hover:scale-110 transition-transform" />
-                +91 9217396124
-              </a>
-
-              <a
-                href="mailto:breastcancermission3@gmail.com , admin@cmba.in"
-                className="flex items-center gap-2.5 text-sm text-slate-200 hover:text-slate-100 transition-colors group"
-              >
-                <Mail className="h-4 w-4 text-slate-100 group-hover:scale-110 transition-transform" />
-                breastcancermission3@gmail.com
-                admin@cmba.in
-              </a>
-            </div>
-          </div>
-
-          {/* ── Col 2 · Quick Links ── */}
-          <div className="space-y-5">
-            <div className="relative inline-block group">
-              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-100 flex items-center gap-1.5 cursor-pointer select-none">
+            {/* ── Col 2 · Quick Links ── */}
+            <div className="space-y-5">
+              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-pink-600">
                 Quick Links
-                <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" />
               </h3>
 
-              <ul
-                className="
-                  absolute top-full left-0 mt-3 w-60 z-30
-                  rounded-xl bg-[#831843] border border-white/20
-                  shadow-2xl shadow-pink-950/40 p-2
-                  opacity-0 invisible translate-y-1
-                  group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
-                  group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0
-                  transition-all duration-200 ease-out
-                "
-              >
+              <ul className="space-y-2">
                 {quickLinks.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="block px-3 py-2 rounded-lg text-sm text-slate-200 hover:text-slate-100 hover:bg-white/10 transition-colors duration-150"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <p className="text-xs text-slate-300 leading-relaxed max-w-[14rem]">
-              Hover to explore all quick links to campaigns, webinars and
-              awareness resources.
-            </p>
-          </div>
-
-          {/* ── Col 3 · Contact ── */}
-          <div className="space-y-5">
-            <div className="relative inline-block group">
-              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-100 flex items-center gap-1.5 cursor-pointer select-none">
-                Contact
-                <ChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" />
-              </h3>
-
-              <ul
-                className="
-                  absolute top-full left-0 mt-3 w-60 z-30
-                  rounded-xl bg-[#831843] border border-white/20
-                  shadow-2xl shadow-pink-950/40 p-2
-                  opacity-0 invisible translate-y-1
-                  group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
-                  group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0
-                  transition-all duration-200 ease-out
-                "
-              >
-                {contactLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="block px-3 py-2 rounded-lg text-sm text-slate-200 hover:text-slate-100 hover:bg-white/10 transition-colors duration-150"
+                      className="block text-sm font-semibold text-slate-700 hover:text-primary hover:bg-pink-50 rounded-lg px-3 py-1.5 -mx-3 transition-colors duration-150"
                     >
                       {link.label}
                     </Link>
@@ -212,7 +166,7 @@ export default function Footer() {
                 <li>
                   <button
                     onClick={scrollToTop}
-                    className="w-full text-left px-3 py-2 rounded-lg text-sm text-slate-200 hover:text-slate-100 hover:bg-white/10 transition-colors duration-150"
+                    className="w-full text-left text-sm font-semibold text-slate-700 hover:text-primary hover:bg-pink-50 rounded-lg px-3 py-1.5 -mx-3 transition-colors duration-150 cursor-pointer"
                   >
                     Back to Top
                   </button>
@@ -220,129 +174,92 @@ export default function Footer() {
               </ul>
             </div>
 
-            <div className="pt-3">
-              <p className="text-[10px] font-bold tracking-[0.15em] uppercase text-slate-100 mb-2">
-                Head Office
-              </p>
+            {/* ── Col 3 · Location + Contact ── */}
+            <div className="space-y-5">
+              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-pink-600">
+                Get In Touch
+              </h3>
 
-              <div className="flex items-start gap-2 text-sm text-slate-200">
-                <MapPin className="h-4 w-4 text-slate-100 mt-0.5 flex-shrink-0" />
-                <span>
-                  B-14 Sector 64, Noida, Uttar Pradesh, India – 201301
-                </span>
+              {/* Map embed */}
+              <div className="rounded-xl overflow-hidden border border-pink-100 shadow-sm shadow-pink-900/5 bg-white">
+                <iframe
+                  title="Cancer Mukt Bharat Abhiyan Location"
+                  src={MAP_EMBED_SRC}
+                  width="100%"
+                  height="180"
+                  style={{ border: 0 }}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="block w-full"
+                />
+              </div>
+
+              {/* Phone & Email */}
+              <div className="space-y-2.5">
+                <a
+                  href="tel:+919217396124"
+                  className="flex items-center gap-2.5 text-sm font-semibold text-slate-700 hover:text-primary transition-colors group"
+                >
+                  <Phone className="h-4 w-4 text-pink-500 group-hover:scale-110 transition-transform" />
+                  +91 9217396124
+                </a>
+
+                <a
+                  href="mailto:admin@cmba.in"
+                  className="flex items-center gap-2.5 text-sm font-semibold text-slate-700 hover:text-primary transition-colors group"
+                >
+                  <Mail className="h-4 w-4 text-pink-500 group-hover:scale-110 transition-transform" />
+                  admin@cmba.in
+                </a>
+              </div>
+
+              {/* Address */}
+              <div className="flex items-start gap-2 text-sm font-semibold text-slate-700">
+                <MapPin className="h-4 w-4 text-pink-500 mt-0.5 flex-shrink-0" />
+                <span>{HEAD_OFFICE_ADDRESS}</span>
               </div>
             </div>
           </div>
 
-          {/* ── Col 4 · Collaboration ── */}
-          <div className="space-y-5">
-            <h3 className="text-[10px] font-bold tracking-[0.15em] uppercase text-slate-100 leading-relaxed">
-              Developed by Khushi Centre for Rehabilitation &amp; Research and
-              GRS India Pvt Ltd
-            </h3>
+          {/* Divider */}
+          <div className="mt-12 border-t border-pink-100" />
 
-            <a
-              href="https://khushicentre.in/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block rounded-xl border border-white/30 hover:border-white/60 bg-[#9D174D] hover:bg-[#831843] p-4 transition-all duration-300 hover:shadow-lg hover:shadow-pink-950/30"
-            >
-              <div className="flex items-center justify-center h-14 mb-3 rounded-lg bg-white/10 overflow-hidden px-3">
-                <img
-                  src="/images/khushi-logo.jpg"
-                  alt="Khushi Centre for Rehabilitation & Research"
-                  className="max-h-10 w-auto object-contain brightness-110"
-                />
-              </div>
+          {/* Bottom bar */}
+          <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-xs font-medium text-slate-500 text-center sm:text-left">
+              © {new Date().getFullYear()}{" "}
+              <span className="text-slate-900 font-bold">
+                Cancer Mukt Bharat Abhiyan
+              </span>{" "}
+              All rights reserved.
+            </p>
 
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-100 leading-snug">
-                Khushi Centre for Rehabilitation &amp; Research
-              </p>
-
-              <p className="text-[11px] text-slate-300 mt-1 group-hover:text-slate-200 transition-colors">
-                Research Partner · khushicentre.in
-              </p>
-            </a>
-
-            <a
-              href="https://grsgroup.in/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block rounded-xl border border-white/30 hover:border-white/60 bg-[#9D174D] hover:bg-[#831843] p-4 transition-all duration-300 hover:shadow-lg hover:shadow-pink-950/30"
-            >
-              <div className="flex items-center justify-center h-14 mb-3 rounded-lg bg-white/10 overflow-hidden px-3">
-                <img
-                  src="/images/grs-group-logo.jpg"
-                  alt="GRS India Group"
-                  className="max-h-10 w-auto object-contain brightness-110"
-                />
-              </div>
-
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-100 leading-snug">
-                GRS India Group
-              </p>
-
-              <p className="text-[11px] text-slate-300 mt-1 group-hover:text-slate-200 transition-colors">
-                Principal Partner · grsindiacorporation.com
-              </p>
-            </a>
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div className="mt-12 border-t border-white/25" />
-
-        {/* Bottom bar */}
-        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-slate-300 text-center sm:text-left">
-            © {new Date().getFullYear()}{" "}
-            <span className="text-slate-100 font-medium">
-              Breast Cancer Awareness Mission.
-            </span>{" "}
-            All rights reserved.
-          </p>
-
-          <div className="flex items-center gap-3">
-            {socialLinks.map(({ icon: Icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="flex items-center justify-center h-8 w-8 rounded-full border border-white/40 text-slate-200 hover:border-white hover:text-slate-100 hover:bg-white/15 transition-all duration-200"
+            <div className="flex items-center gap-4 text-xs font-medium text-slate-500">
+              <Link
+                href="/privacy"
+                className="font-semibold hover:text-primary transition-colors"
               >
-                <Icon className="h-3.5 w-3.5" />
-              </a>
-            ))}
-          </div>
+                Privacy Policy
+              </Link>
 
-          <div className="flex items-center gap-4 text-xs text-slate-300">
-            <Link
-              href="/privacy"
-              className="hover:text-slate-100 transition-colors"
-            >
-              Privacy Policy
-            </Link>
+              <Link
+                href="/terms"
+                className="font-semibold hover:text-primary transition-colors"
+              >
+                Terms of Use
+              </Link>
 
-            <Link href="/terms" className="hover:text-slate-100 transition-colors">
-              Terms of Use
-            </Link>
-
-            <button
-              onClick={scrollToTop}
-              aria-label="Back to top"
-              className="flex items-center justify-center h-8 w-8 rounded-full bg-white/15 border border-white/40 hover:bg-white/25 hover:border-white text-slate-100 transition-all duration-200 ml-2"
-            >
-              <ArrowUp className="h-3.5 w-3.5" />
-            </button>
+              <button
+                onClick={scrollToTop}
+                aria-label="Back to top"
+                className="flex items-center justify-center h-7 w-7 rounded-full bg-pink-500 hover:bg-pink-600 text-white transition-all duration-200 shadow-sm shadow-pink-500/20 cursor-pointer"
+              >
+                <ArrowUp className="h-3.5 w-3.5" />
+              </button>
+            </div>
           </div>
         </div>
-
-        <p className="mt-5 text-center text-[11px] text-slate-300 flex items-center justify-center gap-1">
-          Made with <Heart className="h-3 w-3 text-slate-100 fill-slate-100" /> for
-          breast cancer awareness in India
-        </p>
       </div>
     </footer>
   );

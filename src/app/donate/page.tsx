@@ -70,7 +70,6 @@ export default function DonatePage() {
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
-  // Called when user clicks "Proceed to UPI Payment" on DonationForm
   const handleInitiatePayment = (formData: DonationFormData) => {
     setActiveFormData(formData)
     setSubmitError(null)
@@ -82,7 +81,6 @@ export default function DonatePage() {
     setIsQrModalOpen(true)
   }
 
-  // Called when donor submits final form inside QRModal
   const handleFinalSubmit = async (screenshotUrl: string) => {
     if (!activeFormData || !currentTxnId) return
 
@@ -136,10 +134,10 @@ export default function DonatePage() {
   if (loading) {
     return (
       <ProtectedRoute>
-        <div className="min-h-screen flex flex-col items-center justify-center bg-pink-50/50 dark:bg-slate-900">
-          <div className="p-4 rounded-3xl bg-white dark:bg-slate-800 shadow-xl flex flex-col items-center space-y-3">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+          <div className="p-6 rounded-3xl bg-white border border-pink-100 shadow-lg shadow-pink-900/5 flex flex-col items-center space-y-3">
             <Loader2 className="h-10 w-10 text-pink-600 animate-spin" />
-            <p className="text-sm font-bold text-slate-700 dark:text-slate-200">
+            <p className="text-sm font-bold text-slate-700">
               Loading Secure Donation Portal...
             </p>
           </div>
@@ -150,7 +148,7 @@ export default function DonatePage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-pink-50/40 dark:bg-slate-950 py-8 px-4 sm:px-6 lg:px-8 selection:bg-pink-500 selection:text-white">
+      <div className="min-h-screen bg-white py-8 px-4 sm:px-6 lg:px-8 selection:bg-pink-500 selection:text-white">
         <div className="max-w-7xl mx-auto space-y-10">
           {/* Hero Section */}
           <HeroSection onDonateClick={scrollToForm} />
@@ -176,7 +174,7 @@ export default function DonatePage() {
             )}
           </div>
 
-          {/* Supporters Wall Section — 3 dikhao, baaki See More me */}
+          {/* Supporters Wall Section */}
           <div className="space-y-6">
             <SupportersWall
               supporters={
@@ -192,7 +190,7 @@ export default function DonatePage() {
                 <button
                   type="button"
                   onClick={() => setShowAllSupporters((prev) => !prev)}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white dark:bg-slate-800 border-2 border-pink-300 dark:border-pink-700 text-pink-700 dark:text-pink-300 font-bold text-sm shadow-md hover:bg-pink-50 dark:hover:bg-pink-900/30 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border-2 border-pink-300 text-pink-700 font-bold text-sm shadow-md hover:bg-pink-50 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
                 >
                   {showAllSupporters ? (
                     <>
