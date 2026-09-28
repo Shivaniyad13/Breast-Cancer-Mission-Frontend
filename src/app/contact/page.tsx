@@ -24,7 +24,7 @@ export default function ContactPage() {
   return (
     <>
       {/* ── SEO Meta ── */}
-     
+
 
       <div className="min-h-screen bg-gradient-to-b from-pink-50/60 via-white to-pink-50/30 text-slate-800">
 
@@ -83,16 +83,22 @@ export default function ContactPage() {
                   <div>
                     <p className="text-xs text-slate-500 uppercase tracking-widest mb-0.5">Head Office</p>
                     <p className="text-slate-900 font-semibold leading-relaxed">
-                       B-14, Sector 64,  Noida,<br />Uttar Pradesh, India – 201309
+                      B-14, Sector 64,  Noida,<br />Uttar Pradesh, India – 201309
                     </p>
                   </div>
                 </div>
               </div>
-             
+
               {/* Collaboration badge */}
               <div className="rounded-2xl border border-pink-200 bg-pink-50/70 p-5 text-center space-y-1">
-                <p className="text-xs text-pink-700 font-semibold uppercase tracking-widest">In Collaboration With</p>
-                <p className="text-slate-900 font-bold text-sm">Khushi Centre for Rehabilitation & Research</p>
+                <p className="text-xs text-pink-700 font-semibold uppercase tracking-widest">
+                  An Initiative of
+                </p>
+
+                <p className="text-slate-900 font-bold text-sm">
+                  Khushi Centre for Rehabilitation & Research
+                </p>
+
                 <a
                   href="https://khushicentre.in/"
                   target="_blank"
@@ -235,7 +241,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-     
+
     </>
   );
 }

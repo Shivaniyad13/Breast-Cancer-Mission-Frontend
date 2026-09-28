@@ -39,10 +39,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick }) => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight"
+            className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-pink-500"
           >
             Together We Can <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-pink-100 to-white">
+            <span>
               Save Lives
             </span>
           </motion.h1>

@@ -11,7 +11,6 @@ import CelebrityTestimonials from "@/components/layout/CelebrityTestimonials";
 import OurTeam from "@/components/layout/OurTeam";
 import TrustedPartnersCarousel from "@/components/layout/TrustedPartnersCarousel";
 import ApocanTeaser from "@/components/apocan-teaser";
-import ApocanPopup from "@/components/apocan-popup";
 import {
   Ribbon,
   ShieldCheck,
@@ -364,9 +363,6 @@ export default async function Home() {
 
       {/* ============ TRUSTED PARTNERS CAROUSEL ============ */}
       <TrustedPartnersCarousel />
-
-      {/* ============ POPUP ============ */}
-      <ApocanPopup />
     </div>
   );
 }
