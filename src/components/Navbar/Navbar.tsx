@@ -90,6 +90,9 @@ export default function Navbar() {
     role?: string;
   } | undefined>(undefined);
 
+  // Loading state — isse LOGIN / Get Started ka flash nahi hoga
+  const [authLoading, setAuthLoading] = useState(true);
+
   // Scroll effect
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -97,30 +100,51 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Auth fetch via server action
+  // Auth fetch — pathname change pe bhi refetch hoga
   useEffect(() => {
     let mounted = true;
+    setAuthLoading(true);
+
     getCurrentUserAction()
       .then((sessionData) => {
-        if (!mounted || !sessionData?.userId) return;
-        setUser({
-          name: sessionData.fullName || sessionData.user?.name || "User",
-          email: sessionData.user?.email || "",
-          role: sessionData.role,
-        });
+        if (!mounted) return;
+        if (sessionData?.userId) {
+          setUser({
+            name: sessionData.fullName || sessionData.user?.name || "User",
+            email: sessionData.user?.email || "",
+            role: sessionData.role,
+          });
+        } else {
+          setUser(undefined);
+        }
       })
       .catch(() => {
-        /* ignore */
+        if (mounted) setUser(undefined);
+      })
+      .finally(() => {
+        if (mounted) setAuthLoading(false);
       });
+
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [pathname]);
 
+  // 👇 UPDATED: Sign out with proper error handling
   const handleSignOut = async () => {
-    await logoutUserAction();
+    console.log("🔴 Sign out clicked");
+
+    try {
+      await logoutUserAction();
+      console.log("✅ logoutUserAction complete");
+    } catch (err) {
+      console.error("❌ logout error:", err);
+    }
+
     setUser(undefined);
-    window.location.href = "/";
+
+    console.log("➡️ Redirecting to /");
+    window.location.replace("/");
   };
 
   const headerClass = isCampaignPage
@@ -218,7 +242,10 @@ export default function Navbar() {
         {/* Right — Auth */}
         <div className="flex items-center gap-4 z-10">
           <div className="hidden lg:flex items-center gap-4">
-            {user ? (
+            {authLoading ? (
+              // Loading skeleton — LOGIN / Get Started ka flash rokta hai
+              <div className="h-10 w-32 bg-slate-100 animate-pulse rounded-full" />
+            ) : user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger className="relative inline-flex items-center justify-center h-10 rounded-full px-3 text-sm font-semibold text-slate-700 hover:bg-pink-50 hover:text-pink-700 border border-pink-200 cursor-pointer transition-colors bg-transparent select-none">
                   {user.name || user.email}
@@ -250,7 +277,7 @@ export default function Navbar() {
                   <DropdownMenuSeparator className="bg-pink-100" />
                   <DropdownMenuItem
                     className="hover:bg-pink-50 focus:bg-pink-50 cursor-pointer text-destructive focus:text-destructive"
-                    onSelect={() => handleSignOut()}
+                    onClick={() => handleSignOut()}
                   >
                     <span className="w-full text-left font-medium cursor-pointer text-sm text-rose-600">
                       Sign Out
@@ -292,7 +319,7 @@ export default function Navbar() {
               </>
             )}
 
-            {isCampaignPage && (
+            {isCampaignPage && !authLoading && (
               <Link href="/donate">
                 <Button className="bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs uppercase px-4 py-2 h-10 shadow-md shadow-pink-600/20">
                   Donate Now

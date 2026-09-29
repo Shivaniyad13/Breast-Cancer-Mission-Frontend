@@ -26,7 +26,7 @@ export default function RegisterPage() {
 
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries()) as unknown as RegisterInput;
-    
+
     // Process checkbox manually
     data.tax80g = formData.get("tax80g") === "on";
     data.role = role;
@@ -117,21 +117,33 @@ export default function RegisterPage() {
               </div>
             </div>
 
+            {/* ✅ ROLE SELECT — full content visible, no truncation */}
             <div className="space-y-1">
               <Label htmlFor="role">I want to register as a</Label>
               <Select value={role} onValueChange={(val) => setRole(val || "VOLUNTEER")}>
-                <SelectTrigger className="bg-background/80">
+                <SelectTrigger className="bg-background/80 w-full">
                   <SelectValue placeholder="Select role" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="PATIENT">Patient / Beneficiary</SelectItem>
-                  <SelectItem value="DOCTOR">Healthcare Provider / Doctor</SelectItem>
-                   <SelectItem value="NGO_REP">NGO/Goverment Organization</SelectItem>
-                  <SelectItem value="VOLUNTEER">Volunteer / Schlors</SelectItem>
-                  <SelectItem value="DONOR">Donor/Supporter</SelectItem>
-                  
-                  
-                 
+
+                <SelectContent
+                  sideOffset={4}
+                  className="min-w-[var(--anchor-width)] max-w-none"
+                >
+                  <SelectItem value="PATIENT" className="whitespace-nowrap">
+                    Patient / Beneficiary
+                  </SelectItem>
+                  <SelectItem value="DOCTOR" className="whitespace-nowrap">
+                    Healthcare Provider / Doctor
+                  </SelectItem>
+                  <SelectItem value="NGO_REP" className="whitespace-nowrap">
+                    NGO / Government Organization
+                  </SelectItem>
+                  <SelectItem value="VOLUNTEER" className="whitespace-nowrap">
+                    Volunteer / Scholar
+                  </SelectItem>
+                  <SelectItem value="DONOR" className="whitespace-nowrap">
+                    Donor / Supporter
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>

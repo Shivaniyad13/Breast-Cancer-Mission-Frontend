@@ -578,7 +578,7 @@ export default function MembershipClient() {
               transition={{ delay: 0.1, duration: 0.6 }}
               className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
             >
-              Become a Membership <br />
+              Become a Members<br />
               <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
 
               </span>

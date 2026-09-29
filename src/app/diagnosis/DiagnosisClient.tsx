@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import BreastCancerDiagnosticKitSection from "@/components/BreastCancerDiagnosticKitSection";
 import {
   Dialog,
   DialogContent,
@@ -370,18 +371,13 @@ const diagnosisMethods = {
   }
 };
 
+// ✅ Only these 2 videos — shown side by side, both auto-play
 const diagnosisVideos = [
   {
     title: "Khushi Tactile Care Kit Instructions",
     duration: "5:12",
     description: "Learn how to use the checkup cards, timeline trackers, and tactile exam aids included in the Khushi Care Kit.",
     src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789022133/vid-20260715-wa0006-qir1ytvw_lQPH3Tjn.mp4"
-  },
-  {
-    title: "Early Screening Guidance by Clinical Experts",
-    duration: "8:30",
-    description: "Oncologists explain standard diagnostic pathways, clinical screening protocols, mammography frequencies, and answer general early consultation inquiries.",
-    src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789021760/yPVvi64woY74YzOBqwhF_MmgUBXyBdEg.mp4"
   },
   {
     title: "Breast Self-Examination (BSE) Guided Checkup",
@@ -402,15 +398,6 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const [activeDiagTab, setActiveDiagTab] = useState<string>("mammography");
-  const [activeVideoIndex, setActiveVideoIndex] = useState<number>(0);
-  const diagVideoRef = useRef<HTMLVideoElement>(null);
-
-  const handleDiagVideoChange = (idx: number) => {
-    setActiveVideoIndex(idx);
-    if (diagVideoRef.current) {
-      diagVideoRef.current.load();
-    }
-  };
 
   // Interaction Modals
   const [selectedTech, setSelectedTech] = useState<DiagnosisTechnology | null>(null);
@@ -646,63 +633,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
       </section>
 
       {/* ========================================================
-          2. OVERVIEW STORY SECTION
-          ======================================================== */}
-      <section id="overview-story" className="py-20 md:py-28 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
-            {/* Left Column: Large Emotional Image */}
-            <div className="lg:col-span-6 relative">
-              <div className="absolute -inset-2 bg-gradient-to-br from-pink-400 to-purple-400 rounded-3xl opacity-20 blur-xl -z-10" />
-              <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden shadow-sm border border-pink-100/60">
-                <Image
-                  src="/images/image.png"
-                  alt="Compassionate patient support care"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  priority
-                />
-              </div>
-            </div>
-
-            {/* Right Column: Narrative */}
-            <div className="lg:col-span-6 space-y-6">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
-                Our Philosophy
-              </span>
-              <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 leading-tight tracking-tight">
-                You Are Not Fighting <span className="text-primary">Alone.</span>
-              </h2>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
-                Facing a breast cancer diagnosis is a profound and emotional journey that impacts the entire family structure. We walk by your side at every step. We integrate advanced clinical research with deeply supportive, patient-first care pathways to maximize healing capacity.
-              </p>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
-                By nurturing emotional health, providing evidence-based wellness guidelines, and introducing holistic support mechanisms, we aim to build resilience, restore vitality, and keep the flame of hope burning brightly.
-              </p>
-
-              {/* Animated Quote Card */}
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                className="p-6 rounded-2xl border border-pink-100/60 bg-gradient-to-br from-pink-500/5 to-rose-500/5 backdrop-blur-sm shadow-sm relative overflow-hidden"
-              >
-                <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-pink-500 to-purple-500" />
-                <p className="text-pink-700 italic font-semibold text-sm sm:text-base">
-                  &ldquo;Cancer may change your life, but it doesn&apos;t define your future.&rdquo;
-                </p>
-                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider block mt-2">
-                  Supportive Care Core
-                </span>
-              </motion.div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          3. DIAGNOSTIC MODALITIES TABBED LAYOUT
+          2. DIAGNOSTIC MODALITIES TABBED LAYOUT
           ======================================================== */}
       <section id="diagnosis-modalities" className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
@@ -807,11 +738,13 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
         </div>
       </section>
 
+
+
       {/* ========================================================
-          4. CLINICAL VIDEO WALKTHROUGHS
+          3. CLINICAL VIDEO WALKTHROUGHS — BOTH VIDEOS SIDE BY SIDE
           ======================================================== */}
       <section id="video-library" className="py-20 md:py-28 bg-white border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-10">
 
           <div className="space-y-3 text-center">
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
@@ -822,87 +755,118 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
               Early Screening & Consultation Video Guides
             </h3>
             <p className="text-slate-500 text-sm sm:text-base font-medium max-w-2xl mx-auto">
-              Explore the official patient screening walkthroughs and self-examination video instructions. Select any video below to load it into the player.
+              Watch both guided walkthroughs below — learn how to use the Khushi Tactile Care Kit and perform a correct Breast Self-Examination.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-
-            {/* Main Player Container */}
-            <div className="lg:col-span-8 bg-white border border-pink-100/60 rounded-3xl overflow-hidden shadow-sm flex flex-col">
-              <div className="relative aspect-video bg-black w-full overflow-hidden">
-                {diagnosisVideos[activeVideoIndex].src ? (
+          {/* ✅ Two videos side by side */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {diagnosisVideos.map((vid, idx) => (
+              <div
+                key={idx}
+                className="bg-white border border-pink-100/60 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col"
+              >
+                <div className="relative aspect-video bg-black w-full overflow-hidden">
                   <video
-                    ref={diagVideoRef}
-                    key={diagnosisVideos[activeVideoIndex].src}
                     className="w-full h-full object-cover"
                     controls
                     playsInline
-                    autoPlay={activeVideoIndex > 0}
+                    autoPlay
+                    muted
+                    loop
                     preload="metadata"
                   >
-                    <source src={diagnosisVideos[activeVideoIndex].src} type="video/mp4" />
+                    <source src={vid.src} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
-                ) : (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 text-slate-400 space-y-4">
-                    <Video className="h-16 w-16 text-pink-500/80 animate-pulse" />
-                    <p className="text-white font-semibold">Video Not Available</p>
+
+                  {/* Auto-playing badge */}
+                  <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-full text-white text-[10px] font-bold uppercase tracking-wider pointer-events-none">
+                    <span className="h-1.5 w-1.5 rounded-full bg-pink-400 animate-pulse" />
+                    Auto Playing
                   </div>
-                )}
-              </div>
-              <div className="p-6 space-y-3 bg-white">
-                <div className="flex flex-wrap gap-2 items-center justify-between">
-                  <span className="inline-flex items-center gap-1 text-[10px] font-bold text-pink-600 uppercase tracking-widest bg-pink-50/60 px-2.5 py-1 rounded-md border border-pink-100/40">
-                    Active Walkthrough
-                  </span>
-                  <span className="text-xs text-slate-400 flex items-center gap-1 font-medium">
-                    <Clock className="h-3 w-3" />
-                    Duration: {diagnosisVideos[activeVideoIndex].duration}
-                  </span>
                 </div>
-                <h4 className="text-lg font-bold text-slate-800">
-                  {diagnosisVideos[activeVideoIndex].title}
-                </h4>
-                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
-                  {diagnosisVideos[activeVideoIndex].description}
-                </p>
+
+                <div className="p-5 sm:p-6 space-y-3 bg-white flex-1 flex flex-col">
+                  <div className="flex flex-wrap gap-2 items-center justify-between">
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-pink-600 uppercase tracking-widest bg-pink-50/60 px-2.5 py-1 rounded-md border border-pink-100/40">
+                      Walkthrough #{idx + 1}
+                    </span>
+                    <span className="text-xs text-slate-400 flex items-center gap-1 font-medium">
+                      <Clock className="h-3 w-3" />
+                      Duration: {vid.duration}
+                    </span>
+                  </div>
+                  <h4 className="text-base sm:text-lg font-bold text-slate-800 leading-snug">
+                    {vid.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
+                    {vid.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+            {/* ========================================================
+          BREAST CANCER DIAGNOSTIC KIT — GRS Product Showcase
+          ======================================================== */}
+      <BreastCancerDiagnosticKitSection />
+
+      {/* ========================================================
+          4. OVERVIEW STORY — "YOU ARE NOT FIGHTING ALONE"
+          (Just below the videos)
+          ======================================================== */}
+      <section id="overview-story" className="py-20 md:py-28 bg-gradient-to-b from-rose-50/30 to-white border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+            {/* Left Column: Large Emotional Image */}
+            <div className="lg:col-span-6 relative">
+              <div className="absolute -inset-2 bg-gradient-to-br from-pink-400 to-purple-400 rounded-3xl opacity-20 blur-xl -z-10" />
+              <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden shadow-sm border border-pink-100/60">
+                <Image
+                  src="/images/image.png"
+                  alt="Compassionate patient support care"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                />
               </div>
             </div>
 
-            {/* Sidebar: Video Selectors */}
-            <div className="lg:col-span-4 space-y-4">
-              <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                <Video className="h-4.5 w-4.5 text-pink-500" />
-                Select Walkthrough Video
-              </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
-                {diagnosisVideos.map((vid, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => handleDiagVideoChange(idx)}
-                    className={`flex gap-3.5 p-3 rounded-2xl border text-left cursor-pointer transition-all duration-300 ${activeVideoIndex === idx
-                        ? "bg-pink-50/60 border-pink-200 shadow-xs"
-                        : "bg-white border-slate-100 hover:bg-pink-50/10 hover:border-pink-200/50"
-                      }`}
-                  >
-                    <div className="h-14 w-20 shrink-0 rounded-xl bg-slate-100 border border-pink-100/60 relative overflow-hidden flex items-center justify-center">
-                      <Play className="h-4.5 w-4.5 text-pink-500 fill-pink-500" />
-                      <div className="absolute bottom-1 right-1 bg-black/75 px-1 py-0.5 rounded text-[8px] text-white font-bold">
-                        {vid.duration}
-                      </div>
-                    </div>
-                    <div className="space-y-1">
-                      <h5 className={`font-bold text-xs line-clamp-1 ${activeVideoIndex === idx ? "text-primary" : "text-slate-800"}`}>
-                        {vid.title}
-                      </h5>
-                      <p className="text-[10px] text-slate-400 line-clamp-2 leading-relaxed font-medium">
-                        {vid.description}
-                      </p>
-                    </div>
-                  </button>
-                ))}
-              </div>
+            {/* Right Column: Narrative */}
+            <div className="lg:col-span-6 space-y-6">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+                Our Philosophy
+              </span>
+              <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 leading-tight tracking-tight">
+                You Are Not Fighting <span className="text-primary">Alone.</span>
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
+                Facing a breast cancer diagnosis is a profound and emotional journey that impacts the entire family structure. We walk by your side at every step. We integrate advanced clinical research with deeply supportive, patient-first care pathways to maximize healing capacity.
+              </p>
+              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
+                By nurturing emotional health, providing evidence-based wellness guidelines, and introducing holistic support mechanisms, we aim to build resilience, restore vitality, and keep the flame of hope burning brightly.
+              </p>
+
+              {/* Animated Quote Card */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="p-6 rounded-2xl border border-pink-100/60 bg-gradient-to-br from-pink-500/5 to-rose-500/5 backdrop-blur-sm shadow-sm relative overflow-hidden"
+              >
+                <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-pink-500 to-purple-500" />
+                <p className="text-pink-700 italic font-semibold text-sm sm:text-base">
+                  &ldquo;Cancer may change your life, but it doesn&apos;t define your future.&rdquo;
+                </p>
+                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider block mt-2">
+                  Supportive Care Core
+                </span>
+              </motion.div>
             </div>
 
           </div>

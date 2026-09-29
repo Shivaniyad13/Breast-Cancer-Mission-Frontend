@@ -94,17 +94,32 @@ export async function loginUserAction(email: string, password: string) {
 
 /**
  * Logs out user via Express backend. Removes HttpOnly token cookie.
+ * 👇 FIXED: Backend call PEHLE, cookie delete BAAD ME
  */
 export async function logoutUserAction() {
+  // 1. Backend call PEHLE — token abhi cookie me hai
+  try {
+    await apiClient("/auth/logout", { method: "POST" });
+  } catch (err) {
+    console.error("Backend logout failed (ignored):", err);
+  }
+
+  // 2. Ab cookie delete karo — reliable method
   try {
     const cookieStore = await cookies();
-    cookieStore.delete("token");
-    await apiClient("/auth/logout", { method: "POST" });
-    return { success: true };
-  } catch (error: any) {
-    console.error("logoutUserAction error:", error);
-    return { success: true };
+    cookieStore.set("token", "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 0,
+      expires: new Date(0),
+    });
+  } catch (err) {
+    console.error("Cookie clear failed:", err);
   }
+
+  return { success: true };
 }
 
 /**
