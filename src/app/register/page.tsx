@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Ribbon, Loader2 } from "lucide-react";
+import { Ribbon, Loader2, Eye, EyeOff } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -18,6 +18,7 @@ export default function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string>("Registration successful! Redirecting to login page...");
+  const [showPassword, setShowPassword] = useState(false); // 👈 NEW
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,11 +28,9 @@ export default function RegisterPage() {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries()) as unknown as RegisterInput;
 
-    // Process checkbox manually
     data.tax80g = formData.get("tax80g") === "on";
     data.role = role;
 
-    // Frontend validation for DOCTOR
     if (role === "DOCTOR") {
       const docLic = (data.docLicense || "").trim();
       const docAff = (data.docAffiliation || "").trim();
@@ -107,48 +106,56 @@ export default function RegisterPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* 🔐 PASSWORD with show/hide toggle */}
               <div className="space-y-1">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" name="password" type="password" placeholder="••••••••" required className="bg-background/80" />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    required
+                    className="bg-background/80 pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors focus:outline-none"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    tabIndex={-1}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
               </div>
+
               <div className="space-y-1">
                 <Label htmlFor="phoneNumber">Phone Number</Label>
                 <Input id="phoneNumber" name="phoneNumber" placeholder="+91 99999 99999" className="bg-background/80" />
               </div>
             </div>
 
-            {/* ✅ ROLE SELECT — full content visible, no truncation */}
             <div className="space-y-1">
               <Label htmlFor="role">I want to register as a</Label>
               <Select value={role} onValueChange={(val) => setRole(val || "VOLUNTEER")}>
                 <SelectTrigger className="bg-background/80 w-full">
                   <SelectValue placeholder="Select role" />
                 </SelectTrigger>
-
-                <SelectContent
-                  sideOffset={4}
-                  className="min-w-[var(--anchor-width)] max-w-none"
-                >
-                  <SelectItem value="PATIENT" className="whitespace-nowrap">
-                    Patient / Beneficiary
-                  </SelectItem>
-                  <SelectItem value="DOCTOR" className="whitespace-nowrap">
-                    Healthcare Provider / Doctor
-                  </SelectItem>
-                  <SelectItem value="NGO_REP" className="whitespace-nowrap">
-                    NGO / Government Organization
-                  </SelectItem>
-                  <SelectItem value="VOLUNTEER" className="whitespace-nowrap">
-                    Volunteer / Scholar
-                  </SelectItem>
-                  <SelectItem value="DONOR" className="whitespace-nowrap">
-                    Donor / Supporter
-                  </SelectItem>
+                <SelectContent sideOffset={4} className="min-w-[var(--anchor-width)] max-w-none">
+                  <SelectItem value="PATIENT" className="whitespace-nowrap">Patient / Beneficiary</SelectItem>
+                  <SelectItem value="DOCTOR" className="whitespace-nowrap">Healthcare Provider / Doctor</SelectItem>
+                  <SelectItem value="NGO_REP" className="whitespace-nowrap">NGO / Government Organization</SelectItem>
+                  <SelectItem value="VOLUNTEER" className="whitespace-nowrap">Volunteer / Scholar</SelectItem>
+                  <SelectItem value="DONOR" className="whitespace-nowrap">Donor / Supporter</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            {/* Dynamic Doctor Fields */}
             {role === "DOCTOR" && (
               <div className="space-y-4 p-4 rounded-lg bg-accent/40 border border-border/50 animate-in fade-in slide-in-from-top-2 duration-300">
                 <h4 className="text-sm font-semibold text-primary">Doctor Verification Details</h4>
@@ -169,7 +176,6 @@ export default function RegisterPage() {
               </div>
             )}
 
-            {/* Dynamic NGO Fields */}
             {role === "NGO_REP" && (
               <div className="space-y-4 p-4 rounded-lg bg-accent/40 border border-border/50 animate-in fade-in slide-in-from-top-2 duration-300">
                 <h4 className="text-sm font-semibold text-primary">NGO Credentials</h4>
@@ -186,7 +192,6 @@ export default function RegisterPage() {
               </div>
             )}
 
-            {/* Dynamic Patient Fields */}
             {role === "PATIENT" && (
               <div className="space-y-4 p-4 rounded-lg bg-accent/40 border border-border/50 animate-in fade-in slide-in-from-top-2 duration-300">
                 <h4 className="text-sm font-semibold text-primary">Patient Identity Identification</h4>

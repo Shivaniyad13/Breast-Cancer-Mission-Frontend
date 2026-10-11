@@ -16,10 +16,10 @@ import {
 const CATEGORIES = [
   {
     title: "President",
-    name: "Puja Kapil Mishra",
+    name: "Dr. Anurag Srivastava",
     description:
       "Provides strategic leadership, defines the organization's vision, and leads initiatives that strengthen breast cancer awareness, patient support, and community partnerships.",
-    image: "/images/President Khusi.png",
+    image: "/images/President Khusi.jpg",
     icon: HeartHandshake,
   },
   {

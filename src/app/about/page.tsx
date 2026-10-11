@@ -31,7 +31,7 @@ export default function AboutPage() {
 
         {/* Section 1: Hero Header */}
         <section className="text-center space-y-4 max-w-3xl mx-auto" aria-labelledby="about-hero-title">
-          
+
           <h1
             id="about-hero-title"
             className="font-heading text-4xl sm:text-5xl font-black text-slate-800 leading-tight"
@@ -39,8 +39,8 @@ export default function AboutPage() {
             <span className="text-primary">About</span> Us
           </h1>
           <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
-            Empowering Communities, Defeating Breast Cancer Together
-            Welcome to the official web portal of Cancer Mukt Bharat Abhiyan—an enterprise-grade digital ecosystem uniting patients, healthcare professionals, donors, and  organizations in a shared mission to eliminate the burden of breast cancer.
+            Empowering Communities, Defeating Cancer Together
+            Welcome to the official web portal of Cancer Mukt Bharat Abhiyan—an enterprise-grade digital ecosystem uniting patients, healthcare professionals, donors, and  organizations in a shared mission to eliminate the burden of  cancer.
           </p>
         </section>
 
@@ -193,7 +193,7 @@ export default function AboutPage() {
 
       </div>
 
-      
+
 
     </div>
 
