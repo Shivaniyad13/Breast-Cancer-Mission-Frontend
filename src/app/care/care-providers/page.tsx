@@ -112,13 +112,15 @@ interface FAQItem {
 // ----------------------------------------------------------------------
 
 const GALLERY_ITEMS = [
+  { name: "Dr. G K Ratnam", dept: "Medical Oncology", img: "/gkr.jpg" },
   { name: "Dr.Anurag Srivastav", dept: "Medical Oncology", img: "/team8.jpg" },
   { name: "Dr.Navneet Kaur", dept: "Genetics Lab", img: "/photo.jpg" },
   { name: "Dr. Rahul Bhardavaj", dept: "Patient Support", img: "/photo.jpg" },
-  { name: "Dr. Ashok Sharma ", dept: "Community Outreach", img: "/photo.jpg" },
+
   { name: "Dr. Nandani Bhojraj", dept: "Operations & HR", img: "/photo.jpg" },
   { name: "Dr. U.P Sahi", dept: "Diagnostic Imaging", img: "/photo.jpg" },
   { name: "Dr. Ashok Ved", dept: "Public Advocacy", img: "/photo.jpg" },
+  { name: "Dr. Ashok Sharma ", dept: "Community Outreach", img: "/photo.jpg" },
   { name: "Dr. Ashutosh Pathankar", dept: "Family Counselling", img: "/photo.jpg" },
   { name: "Dr. Sanjay Mahesawari", dept: "Molecular Research", img: "/photo.jpg" },
   { name: "Dr. Shilpa Rao", dept: "Campaign Logistics", img: "/photo.jpg" },
@@ -127,8 +129,7 @@ const GALLERY_ITEMS = [
   { name: "Dr. Sushil Jain", dept: "Patient Support", img: "/photo.jpg" },
   { name: "Dr. Nikhil", dept: "Patient Support", img: "/photo.jpg" },
   { name: "Dr. Neraj", dept: "Patient Support", img: "/photo.jpg" },
-  { name: "Dr. P.C Sharma", dept: "Patient Support", img: "/photo.jpg" },
-  { name: "Dr. Hari Shukla", dept: "Patient Support", img: "/photo.jpg" },
+
 ];
 
 const specialistsData: Specialist[] = [
@@ -363,6 +364,7 @@ export default function CareProvidersPage() {
   const [detailsModal, setDetailsModal] = useState<CareService | null>(null);
 
   const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
+  const [showAllTeam, setShowAllTeam] = useState<boolean>(false);
 
   const [helpRequestOpen, setHelpRequestOpen] = useState(false);
   const [helpName, setHelpName] = useState("");
@@ -715,16 +717,18 @@ export default function CareProvidersPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {GALLERY_ITEMS.map((person, idx) => {
-              const hasImage = Boolean(person.img) && !failedImages.has(idx);
+            {(showAllTeam ? GALLERY_ITEMS : GALLERY_ITEMS.slice(0, 8)).map((person, idx) => {
+              const originalIdx = GALLERY_ITEMS.findIndex((p) => p.name === person.name);
+              const itemIdx = originalIdx >= 0 ? originalIdx : idx;
+              const hasImage = Boolean(person.img) && !failedImages.has(itemIdx);
 
               return (
                 <motion.div
-                  key={idx}
+                  key={person.name}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.4, delay: idx * 0.05 }}
+                  transition={{ duration: 0.4, delay: (idx % 4) * 0.05 }}
                   className="group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-slate-50 border border-pink-100/60 hover:border-pink-200"
                 >
                   <div className="aspect-[4/5] w-full overflow-hidden bg-slate-100 relative">
@@ -733,9 +737,9 @@ export default function CareProvidersPage() {
                         src={person.img}
                         alt={person.name}
                         onError={() => {
-                          setFailedImages(prev => {
+                          setFailedImages((prev) => {
                             const next = new Set(prev);
-                            next.add(idx);
+                            next.add(itemIdx);
                             return next;
                           });
                         }}
@@ -761,6 +765,33 @@ export default function CareProvidersPage() {
               );
             })}
           </div>
+
+          {GALLERY_ITEMS.length > 8 && (
+            <div className="mt-12 flex justify-center">
+              <Button
+                type="button"
+                onClick={() => {
+                  if (showAllTeam) {
+                    setShowAllTeam(false);
+                    const el = document.getElementById("expert-team-gallery");
+                    if (el) {
+                      el.scrollIntoView({ behavior: "smooth" });
+                    }
+                  } else {
+                    setShowAllTeam(true);
+                  }
+                }}
+                variant="outline"
+                className="h-12 px-8 rounded-full border-2 border-pink-200 bg-white hover:bg-pink-50 text-slate-700 hover:text-pink-600 font-semibold text-sm shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer inline-flex items-center gap-2 group"
+              >
+                <span>{showAllTeam ? "Show Less" : "Show More"}</span>
+                <ChevronDown
+                  className={`h-4 w-4 text-pink-500 transition-transform duration-300 ${showAllTeam ? "rotate-180" : "group-hover:translate-y-0.5"
+                    }`}
+                />
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 

@@ -156,3 +156,95 @@ export async function updateCorporateApplicationStatusAction(
     return { error: error.message || "Failed to update application status." };
   }
 }
+
+export async function updateOrganizationMemberAction(id: string, data: any) {
+  await requireAdmin();
+
+  try {
+    const response = await apiClient(`/organizations/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { error: resData.message || "Failed to update organization member." };
+    }
+
+    revalidatePath("/admin/memberships");
+    return { success: true, data: resData.data };
+  } catch (error: any) {
+    console.error("updateOrganizationMemberAction error:", error);
+    return { error: error.message || "Failed to update organization member." };
+  }
+}
+
+export async function deleteOrganizationMemberAction(id: string) {
+  await requireAdmin();
+
+  try {
+    const response = await apiClient(`/organizations/${id}`, {
+      method: "DELETE",
+    });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { error: resData.message || "Failed to delete organization member." };
+    }
+
+    revalidatePath("/admin/memberships");
+    return { success: true };
+  } catch (error: any) {
+    console.error("deleteOrganizationMemberAction error:", error);
+    return { error: error.message || "Failed to delete organization member." };
+  }
+}
+
+export async function updateCorporatePartnerAction(id: string, data: any) {
+  await requireAdmin();
+
+  try {
+    const response = await apiClient(`/partners/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { error: resData.message || "Failed to update corporate partner." };
+    }
+
+    revalidatePath("/admin/memberships");
+    return { success: true, data: resData.data };
+  } catch (error: any) {
+    console.error("updateCorporatePartnerAction error:", error);
+    return { error: error.message || "Failed to update corporate partner." };
+  }
+}
+
+export async function deleteCorporatePartnerAction(id: string) {
+  await requireAdmin();
+
+  try {
+    const response = await apiClient(`/partners/${id}`, {
+      method: "DELETE",
+    });
+
+    const resData = await response.json();
+
+    if (!response.ok || !resData.success) {
+      return { error: resData.message || "Failed to delete corporate partner." };
+    }
+
+    revalidatePath("/admin/memberships");
+    return { success: true };
+  } catch (error: any) {
+    console.error("deleteCorporatePartnerAction error:", error);
+    return { error: error.message || "Failed to delete corporate partner." };
+  }
+}
