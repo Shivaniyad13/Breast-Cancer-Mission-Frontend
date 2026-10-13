@@ -301,7 +301,7 @@ export default function MobileMenu({ user, handleSignOut, isCampaignPage = false
                   </Link>
                   <Link href="/register" onClick={closeMenu} className="flex-1 w-full">
                     <Button className="w-full h-11 text-sm bg-primary text-white font-bold hover:bg-primary/90 rounded-xl border-0 shadow-md shadow-pink-600/20">
-                      Get Started
+                      Sign Up
                     </Button>
                   </Link>
                 </div>

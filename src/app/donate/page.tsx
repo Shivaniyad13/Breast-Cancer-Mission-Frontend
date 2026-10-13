@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { ProtectedRoute } from '@/components/ProtectedRoute/ProtectedRoute'
 import { useAuth } from '@/hooks/useAuth'
 import {
   createDonationAction,
@@ -15,7 +14,7 @@ import { QRModal } from '@/components/donate/QRModal'
 import { SuccessReceipt, SuccessReceiptData } from '@/components/donate/SuccessReceipt'
 import { SupportersWall, SupporterItem } from '@/components/donate/SupportersWall'
 import { TransparencyFaq } from '@/components/donate/TransparencyFaq'
-import { Loader2, ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 import { DonationStatus } from "@/types/enums"
 
 
@@ -131,24 +130,8 @@ export default function DonatePage() {
     scrollToForm()
   }
 
-  if (loading) {
-    return (
-      <ProtectedRoute>
-        <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-          <div className="p-6 rounded-3xl bg-white border border-pink-100 shadow-lg shadow-pink-900/5 flex flex-col items-center space-y-3">
-            <Loader2 className="h-10 w-10 text-pink-600 animate-spin" />
-            <p className="text-sm font-bold text-slate-700">
-              Loading Secure Donation Portal...
-            </p>
-          </div>
-        </div>
-      </ProtectedRoute>
-    )
-  }
-
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-white py-8 px-4 sm:px-6 lg:px-8 selection:bg-pink-500 selection:text-white">
+    <div className="min-h-screen bg-white py-8 px-4 sm:px-6 lg:px-8 selection:bg-pink-500 selection:text-white">
         <div className="max-w-7xl mx-auto space-y-10">
           {/* Hero Section */}
           <HeroSection onDonateClick={scrollToForm} />
@@ -230,6 +213,5 @@ export default function DonatePage() {
           />
         )}
       </div>
-    </ProtectedRoute>
-  )
-}
+    )
+  }

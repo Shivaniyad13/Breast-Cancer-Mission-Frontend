@@ -11,6 +11,7 @@ import CelebrityTestimonials from "@/components/layout/CelebrityTestimonials";
 import OurTeam from "@/components/layout/OurTeam";
 import TrustedPartnersCarousel from "@/components/layout/TrustedPartnersCarousel";
 import ApocanTeaser from "@/components/apocan-teaser";
+import SurvivorStoryCardSection from "@/components/layout/SurvivorStoryCardSection";
 import {
   Ribbon,
   ShieldCheck,
@@ -21,24 +22,28 @@ import {
   Radio,
 } from "lucide-react";
 
-export const revalidate = 0;
+export const revalidate = 0; // Dynamic so newly submitted stories appear immediately
 
 export default async function Home() {
-  const storiesResult = await getApprovedSuccessStories();
+  // Fetch data in parallel instead of sequentially
+  const [storiesResult, bannersRes, testimonialsRes, liveUpdatesRes] = await Promise.all([
+    getApprovedSuccessStories(),
+    getSponsorBanners(true),
+    getCelebrityTestimonials(true),
+    getLiveUpdates(true)
+  ]);
+
   const stories =
     storiesResult.success && storiesResult.stories ? storiesResult.stories : [];
 
-  const bannersRes = await getSponsorBanners(true);
-  const testimonialsRes = await getCelebrityTestimonials(true);
-
   const banners =
     bannersRes.success && bannersRes.banners ? bannersRes.banners : [];
+    
   const testimonials =
     testimonialsRes.success && testimonialsRes.testimonials
       ? testimonialsRes.testimonials
       : [];
 
-  const liveUpdatesRes = await getLiveUpdates(true);
   const liveUpdates =
     liveUpdatesRes.success && liveUpdatesRes.updates
       ? liveUpdatesRes.updates
@@ -185,6 +190,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* ============ SURVIVOR SUCCESS STORIES (IMAGE 2 STYLE) ============ */}
+      <SurvivorStoryCardSection initialStories={stories} />
 
       {/* ============ MODULE OVERVIEW CARDS ============ */}
       <section className="py-14 sm:py-20 md:py-28 container mx-auto px-4 sm:px-6 lg:px-8">

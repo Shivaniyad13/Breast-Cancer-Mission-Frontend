@@ -21,15 +21,24 @@ export async function applyOrganizationMemberAction(data: any) {
       body: JSON.stringify(data),
     });
 
-    const resData = await response.json();
+    let resData: any = {};
+    try {
+      resData = await response.json();
+    } catch {
+      return { error: `Server returned status ${response.status}. Please check your connection.` };
+    }
 
     if (!response.ok || !resData.success) {
-      return { error: resData.message || "An unexpected error occurred." };
+      const detailedError =
+        (Array.isArray(resData.errors) && resData.errors[0]?.message) ||
+        resData.message ||
+        "An unexpected error occurred.";
+      return { error: detailedError };
     }
 
     const application = resData.data;
 
-    return { success: true, applicationId: application.id };
+    return { success: true, applicationId: application?.id };
   } catch (error: any) {
     console.error("applyOrganizationMemberAction error:", error);
     return { error: error.message || "An unexpected error occurred." };
@@ -44,15 +53,24 @@ export async function applyCorporatePartnerAction(data: any) {
       body: JSON.stringify(data),
     });
 
-    const resData = await response.json();
+    let resData: any = {};
+    try {
+      resData = await response.json();
+    } catch {
+      return { error: `Server returned status ${response.status}. Please check your connection.` };
+    }
 
     if (!response.ok || !resData.success) {
-      return { error: resData.message || "An unexpected error occurred." };
+      const detailedError =
+        (Array.isArray(resData.errors) && resData.errors[0]?.message) ||
+        resData.message ||
+        "An unexpected error occurred.";
+      return { error: detailedError };
     }
 
     const application = resData.data;
 
-    return { success: true, applicationId: application.id };
+    return { success: true, applicationId: application?.id };
   } catch (error: any) {
     console.error("applyCorporatePartnerAction error:", error);
     return { error: error.message || "An unexpected error occurred." };

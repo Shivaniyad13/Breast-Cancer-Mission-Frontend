@@ -145,10 +145,10 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
       formData.append("file", file);
       const res = await apiClient("/upload", { method: "POST", body: formData });
       const resData = await res.json();
-      if (resData.url) {
-        setArticleForm((prev) => ({ ...prev, fileUrl: resData.url }));
+      if (resData.data?.url) {
+        setArticleForm((prev) => ({ ...prev, fileUrl: resData.data.url }));
       } else {
-        alert(resData.error || "File upload failed");
+        alert(resData.message || resData.error || "File upload failed");
       }
     } catch (err: any) {
       alert("Error uploading file: " + err.message);
@@ -166,10 +166,10 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
       formData.append("file", file);
       const res = await apiClient("/upload", { method: "POST", body: formData });
       const resData = await res.json();
-      if (resData.url) {
-        setArticleForm((prev) => ({ ...prev, featuredImage: resData.url }));
+      if (resData.data?.url) {
+        setArticleForm((prev) => ({ ...prev, featuredImage: resData.data.url }));
       } else {
-        alert(resData.error || "Image upload failed");
+        alert(resData.message || resData.error || "Image upload failed");
       }
     } catch (err: any) {
       alert("Error uploading image: " + err.message);

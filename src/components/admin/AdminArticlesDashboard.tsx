@@ -453,6 +453,7 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
                   </div>
                   <a
                     href={viewingArticle.fileUrl}
+                    download
                     target="_blank"
                     rel="noreferrer"
                   >

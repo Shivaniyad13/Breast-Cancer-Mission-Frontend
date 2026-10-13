@@ -297,9 +297,24 @@ export default function CareProvidersPage() {
     async function loadApprovedArticles() {
       try {
         setArticlesLoading(true);
-        const data = await getPublicApprovedArticlesAction();
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+        let articlesData: any[] = [];
+
+        try {
+          const res = await fetch(`${apiUrl}/articles-content/public`, { cache: "no-store" });
+          if (res.ok) {
+            const json = await res.json();
+            if (json.success && Array.isArray(json.data)) {
+              articlesData = json.data;
+            }
+          }
+        } catch {
+          // If direct fetch fails, fallback to server action
+          articlesData = await getPublicApprovedArticlesAction();
+        }
+
         if (isMounted) {
-          setDoctorArticles(data || []);
+          setDoctorArticles(articlesData || []);
           setArticlesError(null);
         }
       } catch (err: any) {
@@ -1175,7 +1190,13 @@ export default function CareProvidersPage() {
 
                   <div className="mt-6 pt-4 border-t border-pink-100/40">
                     {art.fileUrl ? (
-                      <a href={art.fileUrl} target="_blank" rel="noreferrer" className="w-full inline-block">
+                      <a
+                        href={art.fileUrl}
+                        download={art.title ? `${art.title.trim().replace(/[^a-zA-Z0-9_-]/g, "_")}.pdf` : "doctor-article.pdf"}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-full inline-block"
+                      >
                         <Button className="w-full bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold text-xs py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-sm">
                           <Download className="h-4 w-4 shrink-0" />
                           Download Doctor Article

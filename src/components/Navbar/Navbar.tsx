@@ -312,7 +312,7 @@ export default function Navbar() {
                       size="sm"
                       className="bg-primary hover:bg-primary/95 text-white font-bold shadow-md shadow-pink-600/20 transition-transform active:scale-95 h-10 px-4"
                     >
-                      Get Started
+                      Sign Up
                     </Button>
                   </Link>
                 )}

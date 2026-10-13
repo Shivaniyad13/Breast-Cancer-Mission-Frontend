@@ -32,7 +32,8 @@ import {
   ChevronRight,
   Stethoscope,
   MapPin,
-  CheckCircle2
+  CheckCircle2,
+  Loader2
 } from "lucide-react";
 import { applyOrganizationMemberAction, applyCorporatePartnerAction } from "@/app/actions/institution";
 import { getApprovedFeedback, submitFeedback } from "@/app/actions/feedback";
@@ -283,7 +284,11 @@ export default function MembershipClient() {
   };
 
   // File upload logic
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, setUploadState: any) => {
+  const handleFileUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setUploadState: any,
+    errorKey?: string
+  ) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -293,20 +298,88 @@ export default function MembershipClient() {
     formData.append("file", file);
 
     try {
-      const res = await apiClient("/upload", {
+      let res = await apiClient("/upload", {
         method: "POST",
-        body: formData
+        body: formData,
       });
+
+      if (!res.ok) {
+        res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+      }
+
       const data = await res.json();
-      if (res.ok && data.url) {
-        setUploadState({ state: "success", filename: file.name, url: data.url });
+      const uploadedUrl = data.url || data.data?.url || data.data?.fileUrl;
+
+      if (uploadedUrl) {
+        setUploadState({ state: "success", filename: file.name, url: uploadedUrl });
+        if (errorKey) {
+          setFormErrors((prev) => {
+            const next = { ...prev };
+            delete next[errorKey];
+            return next;
+          });
+        }
       } else {
         setUploadState({ state: "error", filename: file.name, url: "" });
       }
     } catch (err) {
-      console.error(err);
+      console.error("Upload error:", err);
+      try {
+        const fallbackRes = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const fallbackData = await fallbackRes.json();
+        const uploadedUrl = fallbackData.url || fallbackData.data?.url;
+        if (uploadedUrl) {
+          setUploadState({ state: "success", filename: file.name, url: uploadedUrl });
+          if (errorKey) {
+            setFormErrors((prev) => {
+              const next = { ...prev };
+              delete next[errorKey];
+              return next;
+            });
+          }
+          return;
+        }
+      } catch (fbErr) {
+        console.error("Fallback upload error:", fbErr);
+      }
       setUploadState({ state: "error", filename: file.name, url: "" });
+    } finally {
+      if (e.target) {
+        e.target.value = "";
+      }
     }
+  };
+
+  const renderUploadStatus = (upload: { state: string; filename: string }) => {
+    if (upload.state === "uploading") {
+      return (
+        <span className="text-[11px] text-pink-600 font-semibold flex items-center gap-1.5 animate-pulse">
+          <Loader2 className="h-3.5 w-3.5 animate-spin" /> Uploading...
+        </span>
+      );
+    }
+    if (upload.state === "success") {
+      return (
+        <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-1 truncate max-w-xs">
+          <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-500" />
+          <span className="truncate">{upload.filename}</span>
+        </span>
+      );
+    }
+    if (upload.state === "error") {
+      return (
+        <span className="text-[11px] text-rose-500 font-medium">
+          Upload failed. Please try again.
+        </span>
+      );
+    }
+    return <span className="text-[11px] text-slate-400">No file</span>;
   };
 
   const handleNgoInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -517,11 +590,17 @@ export default function MembershipClient() {
     if (!validateNgoStep(4)) return;
 
     setIsPending(true);
+    setFormErrors({});
+
     const payload = {
       ...ngoData,
+      yearEstablished: Number(ngoData.yearEstablished) || new Date().getFullYear(),
+      numberOfVolunteers: Number(ngoData.numberOfVolunteers) || 0,
+      website: ngoData.website?.trim() || null,
       ngoCertificateUrl: ngoCertificateUpload.url,
       organizationLogoUrl: ngoLogoUpload.url,
-      supportingDocumentsUrl: ngoDocsUpload.url
+      supportingDocumentsUrl: ngoDocsUpload.url,
+      isDeclared: Boolean(ngoData.isDeclared)
     };
 
     const res = await applyOrganizationMemberAction(payload);
@@ -539,12 +618,18 @@ export default function MembershipClient() {
     if (!validateCorpStep(4)) return;
 
     setIsPending(true);
+    setFormErrors({});
+
     const payload = {
       ...corpData,
-      collaborationInterest: corpData.collaborationInterest.join(", "),
+      employeeStrength: Number(corpData.employeeStrength) || 1,
+      cinNumber: corpData.cinNumber?.trim() || null,
+      website: corpData.website?.trim() || null,
+      collaborationInterest: Array.isArray(corpData.collaborationInterest) ? corpData.collaborationInterest.join(", ") : String(corpData.collaborationInterest),
       companyLogoUrl: corpLogoUpload.url,
       csrPolicyUrl: corpPolicyUpload.url || null,
-      supportingDocumentsUrl: corpDocsUpload.url
+      supportingDocumentsUrl: corpDocsUpload.url,
+      isDeclared: Boolean(corpData.isDeclared)
     };
 
     const res = await applyCorporatePartnerAction(payload);
@@ -1688,9 +1773,9 @@ export default function MembershipClient() {
                                     <div className="space-y-2">
                                       <span className="text-xs text-slate-600 block">Registration Certificate</span>
                                       <div className="flex items-center gap-3">
-                                        <input type="file" id="ngoCertFile" onChange={(e) => handleFileUpload(e, setNgoCertificateUpload)} className="hidden" accept=".pdf,.png,.jpg" />
+                                        <input type="file" id="ngoCertFile" onChange={(e) => handleFileUpload(e, setNgoCertificateUpload, "ngoCertificate")} className="hidden" accept=".pdf,.png,.jpg,.jpeg,.webp" />
                                         <label htmlFor="ngoCertFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
-                                        <span className="text-[11px] text-slate-500 truncate max-w-xs">{ngoCertificateUpload.state === "success" ? `✓ ${ngoCertificateUpload.filename}` : ngoCertificateUpload.state === "uploading" ? "Uploading..." : "No file"}</span>
+                                        {renderUploadStatus(ngoCertificateUpload)}
                                       </div>
                                       {formErrors.ngoCertificate && <p className="text-[10px] text-rose-500 font-bold">{formErrors.ngoCertificate}</p>}
                                     </div>
@@ -1698,9 +1783,9 @@ export default function MembershipClient() {
                                     <div className="space-y-2">
                                       <span className="text-xs text-slate-600 block">Organization Logo</span>
                                       <div className="flex items-center gap-3">
-                                        <input type="file" id="ngoLogoFile" onChange={(e) => handleFileUpload(e, setNgoLogoUpload)} className="hidden" accept=".png,.jpg" />
-                                        <label htmlFor="ngoLogoFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
-                                        <span className="text-[11px] text-slate-500 truncate max-w-xs">{ngoLogoUpload.state === "success" ? `✓ ${ngoLogoUpload.filename}` : "No file"}</span>
+                                        <input type="file" id="ngoLogoFile" onChange={(e) => handleFileUpload(e, setNgoLogoUpload, "ngoLogo")} className="hidden" accept=".png,.jpg,.jpeg,.webp,.svg" />
+                                        <label htmlFor="ngoLogoFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm transition-colors"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
+                                        {renderUploadStatus(ngoLogoUpload)}
                                       </div>
                                       {formErrors.ngoLogo && <p className="text-[10px] text-rose-500 font-bold">{formErrors.ngoLogo}</p>}
                                     </div>
@@ -1708,9 +1793,9 @@ export default function MembershipClient() {
                                     <div className="space-y-2">
                                       <span className="text-xs text-slate-600 block">Supporting Documents</span>
                                       <div className="flex items-center gap-3">
-                                        <input type="file" id="ngoDocsFile" onChange={(e) => handleFileUpload(e, setNgoDocsUpload)} className="hidden" accept=".pdf" />
-                                        <label htmlFor="ngoDocsFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
-                                        <span className="text-[11px] text-slate-500 truncate max-w-xs">{ngoDocsUpload.state === "success" ? `✓ ${ngoDocsUpload.filename}` : "No file"}</span>
+                                        <input type="file" id="ngoDocsFile" onChange={(e) => handleFileUpload(e, setNgoDocsUpload, "supportingDocs")} className="hidden" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx" />
+                                        <label htmlFor="ngoDocsFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm transition-colors"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
+                                        {renderUploadStatus(ngoDocsUpload)}
                                       </div>
                                       {formErrors.supportingDocs && <p className="text-[10px] text-rose-500 font-bold">{formErrors.supportingDocs}</p>}
                                     </div>
@@ -1723,13 +1808,20 @@ export default function MembershipClient() {
                                   {formErrors.isDeclared && <p className="text-[10px] text-rose-500 font-bold">{formErrors.isDeclared}</p>}
                                 </div>
 
-                                <div className="flex justify-between pt-4 border-t border-pink-50">
-                                  <Button type="button" onClick={() => setNgoFormStep(3)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
-                                    Back
-                                  </Button>
-                                  <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3.5 cursor-pointer shadow-md shadow-pink-100">
-                                    {isPending ? "Submitting..." : "Apply for Organization Membership"}
-                                  </Button>
+                                <div className="flex flex-col gap-3 pt-4 border-t border-pink-50">
+                                  {formErrors.submit && (
+                                    <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-semibold text-center">
+                                      {formErrors.submit}
+                                    </div>
+                                  )}
+                                  <div className="flex justify-between">
+                                    <Button type="button" onClick={() => setNgoFormStep(3)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
+                                      Back
+                                    </Button>
+                                    <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3.5 cursor-pointer shadow-md shadow-pink-100">
+                                      {isPending ? "Submitting..." : "Apply for Organization Membership"}
+                                    </Button>
+                                  </div>
                                 </div>
                               </motion.div>
                             )}
@@ -2015,9 +2107,9 @@ export default function MembershipClient() {
                                     <div className="space-y-2">
                                       <span className="text-xs text-slate-600 block">Company Logo</span>
                                       <div className="flex items-center gap-3">
-                                        <input type="file" id="corpLogoFile" onChange={(e) => handleFileUpload(e, setCorpLogoUpload)} className="hidden" accept=".png,.jpg" />
-                                        <label htmlFor="corpLogoFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
-                                        <span className="text-[11px] text-slate-500 truncate max-w-xs">{corpLogoUpload.state === "success" ? `✓ ${corpLogoUpload.filename}` : "No file"}</span>
+                                        <input type="file" id="corpLogoFile" onChange={(e) => handleFileUpload(e, setCorpLogoUpload, "companyLogo")} className="hidden" accept=".png,.jpg,.jpeg,.webp,.svg" />
+                                        <label htmlFor="corpLogoFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm transition-colors"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
+                                        {renderUploadStatus(corpLogoUpload)}
                                       </div>
                                       {formErrors.companyLogo && <p className="text-[10px] text-rose-500 font-bold">{formErrors.companyLogo}</p>}
                                     </div>
@@ -2025,18 +2117,18 @@ export default function MembershipClient() {
                                     <div className="space-y-2">
                                       <span className="text-xs text-slate-600 block">CSR Policy File (Optional)</span>
                                       <div className="flex items-center gap-3">
-                                        <input type="file" id="corpPolicyFile" onChange={(e) => handleFileUpload(e, setCorpPolicyUpload)} className="hidden" accept=".pdf" />
-                                        <label htmlFor="corpPolicyFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
-                                        <span className="text-[11px] text-slate-500 truncate max-w-xs">{corpPolicyUpload.state === "success" ? `✓ ${corpPolicyUpload.filename}` : "No file"}</span>
+                                        <input type="file" id="corpPolicyFile" onChange={(e) => handleFileUpload(e, setCorpPolicyUpload)} className="hidden" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx" />
+                                        <label htmlFor="corpPolicyFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm transition-colors"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
+                                        {renderUploadStatus(corpPolicyUpload)}
                                       </div>
                                     </div>
 
                                     <div className="space-y-2">
                                       <span className="text-xs text-slate-600 block">Supporting Document</span>
                                       <div className="flex items-center gap-3">
-                                        <input type="file" id="corpDocsFile" onChange={(e) => handleFileUpload(e, setCorpDocsUpload)} className="hidden" accept=".pdf" />
-                                        <label htmlFor="corpDocsFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
-                                        <span className="text-[11px] text-slate-500 truncate max-w-xs">{corpDocsUpload.state === "success" ? `✓ ${corpDocsUpload.filename}` : "No file"}</span>
+                                        <input type="file" id="corpDocsFile" onChange={(e) => handleFileUpload(e, setCorpDocsUpload, "supportingDocs")} className="hidden" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx" />
+                                        <label htmlFor="corpDocsFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm transition-colors"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
+                                        {renderUploadStatus(corpDocsUpload)}
                                       </div>
                                       {formErrors.supportingDocs && <p className="text-[10px] text-rose-500 font-bold">{formErrors.supportingDocs}</p>}
                                     </div>
@@ -2049,13 +2141,20 @@ export default function MembershipClient() {
                                   {formErrors.isDeclared && <p className="text-[10px] text-rose-500 font-bold">{formErrors.isDeclared}</p>}
                                 </div>
 
-                                <div className="flex justify-between pt-4 border-t border-pink-50">
-                                  <Button type="button" onClick={() => setCorpFormStep(3)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
-                                    Back
-                                  </Button>
-                                  <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3.5 cursor-pointer shadow-md shadow-pink-100">
-                                    {isPending ? "Submitting..." : "Become Corporate Partner"}
-                                  </Button>
+                                <div className="flex flex-col gap-3 pt-4 border-t border-pink-50">
+                                  {formErrors.submit && (
+                                    <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-semibold text-center">
+                                      {formErrors.submit}
+                                    </div>
+                                  )}
+                                  <div className="flex justify-between">
+                                    <Button type="button" onClick={() => setCorpFormStep(3)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
+                                      Back
+                                    </Button>
+                                    <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3.5 cursor-pointer shadow-md shadow-pink-100">
+                                      {isPending ? "Submitting..." : "Become Corporate Partner"}
+                                    </Button>
+                                  </div>
                                 </div>
                               </motion.div>
                             )}

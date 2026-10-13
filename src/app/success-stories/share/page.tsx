@@ -12,7 +12,8 @@ import {
   AlertCircle,
   FileImage,
   FileVideo,
-  Loader2
+  Loader2,
+  X
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -60,23 +61,34 @@ export default function ShareSuccessStoryPage() {
         const formData = new FormData();
         formData.append("file", file);
 
-        const res = await apiClient("/upload", {
+        let res = await apiClient("/upload", {
           method: "POST",
           body: formData,
         });
 
+        // Fallback to Next.js route if backend fetch failed
+        if (!res.ok) {
+          res = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+        }
+
         const data = await res.json();
-        if (res.ok && data.url) {
-          setImageUploads((prev) => [...prev, { url: data.url, name: file.name }]);
+        const uploadedUrl = data.data?.url || data.url;
+
+        if (res.ok && uploadedUrl) {
+          setImageUploads((prev) => [...prev, { url: uploadedUrl, name: file.name }]);
         } else {
-          setError(data.error || "Failed to upload one or more images.");
+          setError(data.error || data.message || "Failed to upload one or more images.");
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Upload error", err);
       setError("An error occurred during file upload.");
     } finally {
       setIsUploadingImage(false);
+      e.target.value = "";
     }
   };
 
@@ -91,22 +103,33 @@ export default function ShareSuccessStoryPage() {
     formData.append("file", file);
 
     try {
-      const res = await apiClient("/upload", {
+      let res = await apiClient("/upload", {
         method: "POST",
         body: formData,
       });
 
-      const data = await res.json();
-      if (res.ok && data.url) {
-        setVideoUpload({ url: data.url, name: file.name });
-      } else {
-        setError(data.error || "Failed to upload video.");
+      // Fallback to Next.js route if backend fetch failed
+      if (!res.ok) {
+        res = await fetch("/api/upload-video", {
+          method: "POST",
+          body: formData,
+        });
       }
-    } catch (err) {
+
+      const data = await res.json();
+      const uploadedUrl = data.data?.url || data.url;
+
+      if (res.ok && uploadedUrl) {
+        setVideoUpload({ url: uploadedUrl, name: file.name });
+      } else {
+        setError(data.error || data.message || "Failed to upload video.");
+      }
+    } catch (err: any) {
       console.error("Upload error", err);
       setError("An error occurred during video upload.");
     } finally {
       setIsUploadingVideo(false);
+      e.target.value = "";
     }
   };
 
@@ -180,14 +203,21 @@ export default function ShareSuccessStoryPage() {
               Story Submitted Successfully!
             </h1>
             <p className="text-muted-foreground max-w-lg mx-auto text-base">
-              Thank you for sharing your journey of hope and courage. Your submission has been saved as <strong className="text-pink-600">Pending Review</strong>. Campaign administrators will verify details and approve it before it appears on the Home Page.
+              Thank you for sharing your journey of hope and courage. Your story has been successfully published and is now visible on the Home Page to inspire thousands of others!
             </p>
-            <div className="pt-6">
+            <div className="pt-6 flex flex-wrap justify-center gap-4">
               <Button
-                onClick={() => router.push("/")}
-                className="bg-pink-600 hover:bg-pink-700 text-white shadow-md rounded-xl px-8 h-12"
+                onClick={() => router.push("/#success-stories")}
+                className="bg-pink-600 hover:bg-pink-700 text-white shadow-md rounded-xl px-8 h-12 cursor-pointer font-bold"
               >
-                Back to Home Page
+                View Your Story on Home Page
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => router.push("/success-stories")}
+                className="rounded-xl px-6 h-12 cursor-pointer font-bold border-slate-300"
+              >
+                All Stories
               </Button>
             </div>
           </motion.div>
@@ -354,7 +384,7 @@ export default function ShareSuccessStoryPage() {
                       accept="image/*"
                       onChange={handleImageUpload}
                       disabled={isUploadingImage}
-                      className="absolute inset-0 opacity-0 cursor-pointer"
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                     />
                     <Upload className={`h-8 w-8 text-pink-400 mb-2 ${isUploadingImage && 'animate-bounce'}`} />
                     <span className="text-xs font-semibold text-pink-600">
@@ -366,11 +396,21 @@ export default function ShareSuccessStoryPage() {
                   {/* Render uploaded image files */}
                   {imageUploads.length > 0 && (
                     <div className="space-y-1.5 mt-2">
-                      <p className="text-xs font-bold text-slate-700 dark:text-slate-300">Uploaded files:</p>
+                      <p className="text-xs font-bold text-slate-700 dark:text-slate-300">Uploaded images ({imageUploads.length}):</p>
                       {imageUploads.map((file, idx) => (
-                        <div key={idx} className="flex items-center gap-1.5 text-xs text-emerald-600 bg-emerald-50 dark:bg-emerald-950/20 px-2 py-1 rounded">
-                          <FileImage className="h-3.5 w-3.5" />
-                          <span className="truncate flex-1">{file.name}</span>
+                        <div key={idx} className="flex items-center justify-between gap-1.5 text-xs text-emerald-700 bg-emerald-50 dark:bg-emerald-950/20 px-2.5 py-1.5 rounded-lg border border-emerald-100">
+                          <div className="flex items-center gap-1.5 truncate">
+                            <FileImage className="h-4 w-4 shrink-0 text-emerald-600" />
+                            <span className="truncate">{file.name}</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setImageUploads((prev) => prev.filter((_, i) => i !== idx))}
+                            className="text-slate-400 hover:text-rose-600 p-0.5 cursor-pointer ml-2"
+                            title="Remove image"
+                          >
+                            <X className="h-3.5 w-3.5" />
+                          </button>
                         </div>
                       ))}
                     </div>
@@ -386,7 +426,7 @@ export default function ShareSuccessStoryPage() {
                       accept="video/*"
                       onChange={handleVideoUpload}
                       disabled={isUploadingVideo}
-                      className="absolute inset-0 opacity-0 cursor-pointer"
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                     />
                     <Upload className={`h-8 w-8 text-pink-400 mb-2 ${isUploadingVideo && 'animate-bounce'}`} />
                     <span className="text-xs font-semibold text-pink-600">
@@ -399,9 +439,19 @@ export default function ShareSuccessStoryPage() {
                   {videoUpload && (
                     <div className="space-y-1.5 mt-2">
                       <p className="text-xs font-bold text-slate-700 dark:text-slate-300">Uploaded video:</p>
-                      <div className="flex items-center gap-1.5 text-xs text-emerald-600 bg-emerald-50 dark:bg-emerald-950/20 px-2 py-1 rounded">
-                        <FileVideo className="h-3.5 w-3.5" />
-                        <span className="truncate flex-1">{videoUpload.name}</span>
+                      <div className="flex items-center justify-between gap-1.5 text-xs text-emerald-700 bg-emerald-50 dark:bg-emerald-950/20 px-2.5 py-1.5 rounded-lg border border-emerald-100">
+                        <div className="flex items-center gap-1.5 truncate">
+                          <FileVideo className="h-4 w-4 shrink-0 text-emerald-600" />
+                          <span className="truncate">{videoUpload.name}</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setVideoUpload(null)}
+                          className="text-slate-400 hover:text-rose-600 p-0.5 cursor-pointer ml-2"
+                          title="Remove video"
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </button>
                       </div>
                     </div>
                   )}
