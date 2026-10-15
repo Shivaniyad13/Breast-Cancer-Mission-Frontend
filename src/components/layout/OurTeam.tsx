@@ -3,56 +3,35 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import {
-  Stethoscope,
-  Beaker,
-  Activity,
-  HeartHandshake,
-  ShieldCheck,
-  Sparkles,
-} from "lucide-react";
 
-// Team categories definition
-const CATEGORIES = [
+// Team members — name + qualification + image only
+const TEAM = [
+
   {
-    title: "President",
-    name: "Dr. Anurag Srivastava",
-    description:
-      "Provides strategic leadership, defines the organization's vision, and leads initiatives that strengthen breast cancer awareness, patient support, and community partnerships.",
-    image: "/images/President Khusi.jpg",
-    icon: HeartHandshake,
-  },
-  {
-    title: "CEO",
-    name: "Saket Mani Trivedi",
-    description:
-      "Oversees daily operations, implements organizational strategies, manages programs, and ensures the successful execution of healthcare and awareness initiatives.",
-    image: "/images/team3.jpg",
-    icon: Activity,
-  },
-  {
-    title: "Secretary General",
-    name: "Mandvi Kumari",
-    description:
-      "Coordinates organizational activities, manages official communications, maintains records, and supports the effective implementation of campaigns and partnerships.",
+    name: " Prof. G. K. Rath ",
+    qualification: "M.D.",
     image: "/images/team2.jpg",
-    icon: Beaker,
   },
+  // {
+  //   name: "Dr. Anurag Srivastava",
+  //   qualification: "MBBS, MD",
+  //   image: "/images/President Khusi.jpg",
+  // },
   {
-    title: "Executive Director",
-    name: "Dr. Renu Kulshrestha (Ph.D)",
-    description:
-      "Leads program development, supervises healthcare initiatives, collaborates with medical experts, and ensures quality patient care and community outreach services.",
+    name: "Saket Mani Trivedi",
+    qualification: "MD, Fellow CSD & PMR",
+    image: "/images/team3.jpg",
+  },
+  
+  {
+    name: "Dr. Renu Kulshrestha",
+    qualification: "MPhil, PhD.",
     image: "/images/team1.jpg",
-    icon: Stethoscope,
   },
   {
-    title: "Support & Admin",
     name: "Kritika Singh",
-    description:
-      "Manages administrative operations, coordinates volunteers, assists beneficiaries, and ensures smooth execution of organizational activities and support services.",
+    qualification: "B.Pharma",
     image: "/images/head.jpg",
-    icon: ShieldCheck,
   },
 ];
 
@@ -83,27 +62,16 @@ export default function OurTeam() {
       <div className="container mx-auto max-w-7xl relative z-10">
         {/* Section Header */}
         <motion.div
-          className="text-center space-y-4 mb-20"
+          className="text-center mb-16"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUpVariants}
         >
-          {/* Badge — hover state made default */}
-         
-
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
-            Our Team Behind{" "}
-            <span className="text-pink-600 dark:text-pink-400">
-              Every Life
-            </span>{" "}
-            We Touch
+            Our{" "}
+            <span className="text-pink-600 dark:text-pink-400">Team</span>
           </h2>
-          <p className="text-slate-600 dark:text-slate-300 max-w-3xl mx-auto text-sm sm:text-base leading-relaxed">
-            A dedicated team of doctors, researchers, healthcare professionals,
-            volunteers, and support staff working together to provide hope,
-            care, awareness, and innovation in the fight against breast cancer.
-          </p>
         </motion.div>
 
         {/* Team Grid */}
@@ -114,52 +82,40 @@ export default function OurTeam() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {CATEGORIES.map((card) => {
-            const Icon = card.icon;
-            return (
-              <motion.div
-                key={card.title}
-                variants={fadeUpVariants}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="group relative flex flex-col items-center text-center p-6 bg-white/70 dark:bg-slate-900/65 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/40 rounded-2xl shadow-md hover:shadow-xl hover:border-pink-300/60 dark:hover:border-pink-800/60 transition-all duration-300"
-              >
-                {/* Hover glow */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-pink-500/0 via-pink-500/0 to-pink-500/5 dark:to-pink-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          {TEAM.map((member, index) => (
+            <motion.article
+              key={member.name}
+              variants={fadeUpVariants}
+              whileHover={{ y: -6 }}
+              className="group overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:border-pink-300/60 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-pink-800/60"
+            >
+              {/* Professional Image */}
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  priority={index < 2}
+                />
 
-                {/* Photo */}
-                <div className="relative w-24 h-24 mb-6 rounded-full overflow-hidden border-2 border-white dark:border-slate-800 shadow-md group-hover:border-pink-500 transition-colors duration-300">
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    fill
-                    sizes="(max-width: 768px) 96px, 96px"
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    priority={true}
-                  />
-                </div>
+                {/* Subtle hover overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/25 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              </div>
 
-                {/* Icon badge — hover state = default (pink bg, white icon) */}
-                <div className="w-10 h-10 rounded-xl bg-pink-600 text-white flex items-center justify-center mb-4 border border-pink-500 shadow-md shadow-pink-600/25">
-                  <Icon className="h-5 w-5" />
-                </div>
-
-                {/* Title */}
-                <h3 className="font-heading text-base font-bold text-slate-800 dark:text-slate-100 mb-2">
-                  {card.title}
+              {/* Minimal Content */}
+              <div className="px-4 py-5 text-center">
+                <h3 className="font-heading text-base font-bold text-slate-900 dark:text-white">
+                  {member.name}
                 </h3>
 
-                {/* Name */}
-                <p className="text-pink-600 dark:text-pink-400 text-sm font-semibold mt-1">
-                  {card.name}
+                <p className="mt-1 text-sm font-medium text-pink-600 dark:text-pink-400">
+                  {member.qualification}
                 </p>
-
-                {/* Description */}
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {card.description}
-                </p>
-              </motion.div>
-            );
-          })}
+              </div>
+            </motion.article>
+          ))}
         </motion.div>
       </div>
     </section>
