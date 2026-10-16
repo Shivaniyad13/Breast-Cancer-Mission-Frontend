@@ -10,7 +10,7 @@ const TEAM = [
   {
     name: " Patrons & chief  Prof. G. K. Rath ",
     qualification: "M.D.",
-    image: "/images/team2.jpg",
+    image: "/images/GK.png",
   },
   // {
   //   name: "Dr. Anurag Srivastava",
@@ -36,7 +36,7 @@ const TEAM = [
   },
 
 
-  
+
   {
     name: "Dr. Renu Kulshrestha",
     qualification: "MPhil, PhD.",
@@ -46,6 +46,18 @@ const TEAM = [
     name: "Kritika Singh",
     qualification: "B.Pharma",
     image: "/images/head.jpg",
+  },
+
+   {
+    name: "Shivani Yadav",
+    qualification: "B.Tech",
+    image: "/images/shivani.jpg",
+  },
+
+   {
+    name: "Krishna Mishra",
+    qualification: "B.tech",
+    image: "/images/krishna.jpeg",
   },
 ];
 

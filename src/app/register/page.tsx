@@ -17,9 +17,8 @@ type RegistrationField =
   | "email"
   | "password"
   | "phoneNumber"
+  | "role"
   | "ngoRegNum"
-  | "aadhaarCardFile"
-  | "panCardFile"
   | "qualificationFile"
   | "organizationProofFile"
   | "aadhaarNumber"
@@ -34,7 +33,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [role, setRole] = useState<string>("PATIENT");
+  const [role, setRole] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -96,6 +95,10 @@ export default function RegisterPage() {
         : "Enter exactly 10 digits for the phone number.";
     }
 
+    if (!role) {
+      nextFieldErrors.role = "Please select an account type.";
+    }
+
     if (role === "NGO_REP" && !String(data.ngoRegNum || "").trim()) {
       nextFieldErrors.ngoRegNum = "Enter your NGO registration or Darpan ID.";
     }
@@ -111,10 +114,6 @@ export default function RegisterPage() {
       }
     };
 
-    if (role === "NGO_REP") {
-      validateDocumentFile("aadhaarCardFile", "Upload an Aadhaar card image or PDF.");
-      validateDocumentFile("panCardFile", "Upload a PAN card image or PDF.");
-    }
     if (role === "DOCTOR") {
       validateDocumentFile("qualificationFile", "Upload your medical degree or doctorate certificate.");
     }
@@ -306,11 +305,13 @@ export default function RegisterPage() {
             <div className="space-y-1">
               <Label htmlFor="role">I want to register as a</Label>
               <Select value={role} onValueChange={(val) => {
-                setRole(val || "PATIENT");
+                setRole(val || "");
                 setFieldErrors({});
               }}>
-                <SelectTrigger className="bg-background/80 w-full">
-                  <SelectValue placeholder="Select role" />
+                <SelectTrigger aria-invalid={!!fieldErrors.role} aria-describedby={fieldErrors.role ? "role-error" : undefined} className="bg-background/80 w-full">
+                  <SelectValue placeholder="Select account type">
+                    {role ? (role === "NGO_REP" ? "NGO" : role.replaceAll("_", " ")) : null}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent sideOffset={4} className="min-w-[var(--anchor-width)] max-w-none">
                   <SelectItem value="PATIENT" className="whitespace-nowrap">Patient</SelectItem>
@@ -320,6 +321,7 @@ export default function RegisterPage() {
                   <SelectItem value="GOVERNMENT_ORG" className="whitespace-nowrap">Government Organization</SelectItem>
                 </SelectContent>
               </Select>
+              <FieldError id="role-error" message={fieldErrors.role} />
             </div>
 
             {role === "DOCTOR" && (
@@ -367,16 +369,6 @@ export default function RegisterPage() {
                     <Label htmlFor="ngoRegNum">NGO Registration / Darpan ID</Label>
                     <Input id="ngoRegNum" name="ngoRegNum" placeholder="NGO/2026/00123" aria-invalid={!!fieldErrors.ngoRegNum} aria-describedby={fieldErrors.ngoRegNum ? "ngoRegNum-error" : undefined} onChange={() => clearFieldError("ngoRegNum")} className={`bg-background/80 ${fieldErrors.ngoRegNum ? "border-destructive" : ""}`} />
                     <FieldError id="ngoRegNum-error" message={fieldErrors.ngoRegNum} />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="aadhaarCardFile">Aadhaar Card</Label>
-                    <Input id="aadhaarCardFile" name="aadhaarCardFile" type="file" accept=".pdf,image/jpeg,image/png,image/webp" aria-invalid={!!fieldErrors.aadhaarCardFile} aria-describedby={fieldErrors.aadhaarCardFile ? "aadhaarCardFile-error" : undefined} onChange={() => clearFieldError("aadhaarCardFile")} className={`bg-background/80 ${fieldErrors.aadhaarCardFile ? "border-destructive" : ""}`} />
-                    <FieldError id="aadhaarCardFile-error" message={fieldErrors.aadhaarCardFile} />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="panCardFile">PAN Card</Label>
-                    <Input id="panCardFile" name="panCardFile" type="file" accept=".pdf,image/jpeg,image/png,image/webp" aria-invalid={!!fieldErrors.panCardFile} aria-describedby={fieldErrors.panCardFile ? "panCardFile-error" : undefined} onChange={() => clearFieldError("panCardFile")} className={`bg-background/80 ${fieldErrors.panCardFile ? "border-destructive" : ""}`} />
-                    <FieldError id="panCardFile-error" message={fieldErrors.panCardFile} />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="organizationProofFile">NGO Registration Certificate / Organization Proof</Label>
