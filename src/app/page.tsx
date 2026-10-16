@@ -146,7 +146,18 @@ export default async function Home() {
           </div>
         </div>
       </div>
-
+{/* ============ BANNER SECTION ============ */}
+<section className="w-full bg-white py-6 sm:py-8">
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-lg">
+      <img
+        src="/banner.png"
+        alt="Cancer Mukt Bharat Banner"
+        className="w-full h-auto object-cover"
+      />
+    </div>
+  </div>
+</section>
       {/* ============ SHARE SUCCESS STORY CTA ============ */}
       <section className="py-10 sm:py-12 bg-white border-b border-pink-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -296,7 +307,7 @@ export default async function Home() {
             <div className="group bg-white rounded-xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-lg hover:border-pink-300 transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
               <div className="h-28 sm:h-32 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-4">
                 <img
-                  src="/images/mission bharat.jpeg"
+                  src="/images/mission-bharat.png"
                   alt="Mission Bharat"
                   className="max-h-16 sm:max-h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                 />
