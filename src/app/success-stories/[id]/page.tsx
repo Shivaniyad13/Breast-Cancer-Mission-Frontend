@@ -220,11 +220,7 @@ export default async function SuccessStoryDetailPage({ params }: SuccessStoryPag
                 If you or a loved one is currently navigating breast cancer, we provide verified fundraising tools, connection with registered NGOs, and oncology checkups.
               </p>
               <div className="flex flex-col gap-2 pt-2">
-                <Link href="/campaigns">
-                  <Button size="sm" className="w-full bg-pink-600 hover:bg-pink-700 text-white text-xs">
-                    Explore Support Campaigns
-                  </Button>
-                </Link>
+
                 <Link href="/success-stories/share">
                   <Button size="sm" variant="outline" className="w-full border-pink-200 text-pink-700 dark:border-pink-900 dark:text-pink-400 text-xs">
                     Share Your Journey

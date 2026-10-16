@@ -10,7 +10,6 @@ import LiveBreastCancerUpdatesFeed from "@/components/layout/LiveBreastCancerUpd
 import CelebrityTestimonials from "@/components/layout/CelebrityTestimonials";
 import OurTeam from "@/components/layout/OurTeam";
 import TrustedPartnersCarousel from "@/components/layout/TrustedPartnersCarousel";
-import ApocanTeaser from "@/components/apocan-teaser";
 import SurvivorStoryCardSection from "@/components/layout/SurvivorStoryCardSection";
 import {
   Ribbon,
@@ -147,9 +146,6 @@ export default async function Home() {
           </div>
         </div>
       </div>
-
-      {/* ============ APOCAN TEASER ============ */}
-      <ApocanTeaser />
 
       {/* ============ SHARE SUCCESS STORY CTA ============ */}
       <section className="py-10 sm:py-12 bg-white border-b border-pink-100">

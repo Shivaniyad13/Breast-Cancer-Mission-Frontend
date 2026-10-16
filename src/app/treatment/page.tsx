@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import ApocanSection from "@/components/apocan-section";
+
 import {
   Ribbon,
   ArrowRight,
@@ -193,7 +193,6 @@ export default function TreatmentPage() {
           SECTION 4 - APOCAN TREATMENT SHOWCASE
          ================================================ */}
       <div id="treatment-overview">
-        <ApocanSection />
       </div>
 
       {/* ================================================

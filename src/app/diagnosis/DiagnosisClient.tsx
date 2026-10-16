@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import BreastCancerDiagnosticKitSection from "@/components/BreastCancerDiagnosticKitSection";
+
 import {
   Dialog,
   DialogContent,
@@ -814,7 +814,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
             {/* ========================================================
           BREAST CANCER DIAGNOSTIC KIT — GRS Product Showcase
           ======================================================== */}
-      <BreastCancerDiagnosticKitSection />
+      
 
       {/* ========================================================
           4. OVERVIEW STORY — "YOU ARE NOT FIGHTING ALONE"
