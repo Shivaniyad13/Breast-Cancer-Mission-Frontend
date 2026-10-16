@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 const TEAM = [
 
   {
-    name: " Prof. G. K. Rath ",
+    name: " Patrons & chief  Prof. G. K. Rath ",
     qualification: "M.D.",
     image: "/images/team2.jpg",
   },
@@ -18,10 +18,24 @@ const TEAM = [
   //   image: "/images/President Khusi.jpg",
   // },
   {
+    name: "Vaidya Smt. Nandini Bhojraj",
+    qualification: "B.A., M.S., M.D.",
+    image: "/images/16.png",
+  },
+  {
     name: "Saket Mani Trivedi",
     qualification: "MD, Fellow CSD & PMR",
     image: "/images/team3.jpg",
   },
+
+
+  {
+    name: "Mukta Sharma",
+    qualification: "PG Diploma Biotechnology , PG Diploma in Bioinformatics",
+    image: "/images/10.png",
+  },
+
+
   
   {
     name: "Dr. Renu Kulshrestha",

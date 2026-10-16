@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { apiClient } from "@/lib/apiClient";
-import { 
-  Plus, 
-  Edit2, 
-  Trash2, 
-  ArrowUp, 
-  ArrowDown, 
-  Eye, 
-  EyeOff, 
+import {
+  Plus,
+  Edit2,
+  Trash2,
+  ArrowUp,
+  ArrowDown,
+  Eye,
+  EyeOff,
   AlertCircle,
   Video,
   FileImage,
@@ -19,19 +19,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
   DialogFooter,
   DialogDescription
 } from "@/components/ui/dialog";
-import { 
-  createCelebrityTestimonial, 
-  updateCelebrityTestimonial, 
-  deleteCelebrityTestimonial, 
-  reorderCelebrityTestimonials 
+import {
+  createCelebrityTestimonial,
+  updateCelebrityTestimonial,
+  deleteCelebrityTestimonial,
+  reorderCelebrityTestimonials
 } from "@/app/actions/rightSidebarWidgets";
 
 interface CelebrityTestimonial {
@@ -53,7 +53,7 @@ interface AdminCelebrityDashboardProps {
 
 export default function AdminCelebrityDashboard({ initialTestimonials }: AdminCelebrityDashboardProps) {
   const [testimonials, setTestimonials] = useState<CelebrityTestimonial[]>(initialTestimonials);
-  
+
   // Dialog controls
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -85,12 +85,15 @@ export default function AdminCelebrityDashboard({ initialTestimonials }: AdminCe
     formData.append("file", file);
     try {
       const res = await apiClient("/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (res.ok && data.url) {
-        setVideoUrl(data.url);
-        setMessage({ text: "Video file uploaded successfully!", type: "success" });
+      const response = await res.json();
+      const upload = response.data || response;
+      if (res.ok && upload.url && upload.storageProvider === "cloudinary") {
+        setVideoUrl(upload.url);
+        setMessage({ text: "Video uploaded to Cloudinary successfully.", type: "success" });
+      } else if (res.ok && upload.url) {
+        setMessage({ text: "Video was saved locally, not to Cloudinary. Check Cloudinary configuration and retry.", type: "error" });
       } else {
-        setMessage({ text: data.error || "Failed to upload video.", type: "error" });
+        setMessage({ text: response.message || response.error || "Failed to upload video.", type: "error" });
       }
     } catch {
       setMessage({ text: "Upload failed.", type: "error" });
@@ -108,12 +111,13 @@ export default function AdminCelebrityDashboard({ initialTestimonials }: AdminCe
     formData.append("file", file);
     try {
       const res = await apiClient("/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (res.ok && data.url) {
-        setThumbnailUrl(data.url);
+      const response = await res.json();
+      const upload = response.data || response;
+      if (res.ok && upload.url) {
+        setThumbnailUrl(upload.url);
         setMessage({ text: "Thumbnail uploaded successfully!", type: "success" });
       } else {
-        setMessage({ text: data.error || "Failed to upload thumbnail.", type: "error" });
+        setMessage({ text: response.message || response.error || "Failed to upload thumbnail.", type: "error" });
       }
     } catch {
       setMessage({ text: "Upload failed.", type: "error" });
@@ -276,11 +280,10 @@ export default function AdminCelebrityDashboard({ initialTestimonials }: AdminCe
     <div className="space-y-4">
       {/* Toast alert */}
       {message && (
-        <div 
+        <div
           onClick={() => setMessage(null)}
-          className={`p-4 rounded-xl flex items-center justify-between cursor-pointer border shadow-sm ${
-            message.type === "success" ? "bg-emerald-50 text-emerald-800 border-emerald-200" : "bg-rose-50 text-rose-800 border-rose-200"
-          }`}
+          className={`p-4 rounded-xl flex items-center justify-between cursor-pointer border shadow-sm ${message.type === "success" ? "bg-emerald-50 text-emerald-800 border-emerald-200" : "bg-rose-50 text-rose-800 border-rose-200"
+            }`}
         >
           <div className="flex items-center gap-2">
             <AlertCircle className="h-5 w-5" />
@@ -368,7 +371,7 @@ export default function AdminCelebrityDashboard({ initialTestimonials }: AdminCe
           </DialogHeader>
 
           <form onSubmit={handleAddSubmit} className="space-y-4 pt-2">
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <Label>Video Testimonial File <span className="text-pink-500">*</span></Label>
@@ -443,7 +446,7 @@ export default function AdminCelebrityDashboard({ initialTestimonials }: AdminCe
           </DialogHeader>
 
           <form onSubmit={handleEditSubmit} className="space-y-4 pt-2">
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <Label>Video Testimonial File</Label>

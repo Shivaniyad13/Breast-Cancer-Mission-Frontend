@@ -46,7 +46,12 @@ export function middleware(req: NextRequest) {
     }
 
     // Role-specific dashboard route protections
-    if (nextUrl.pathname.startsWith("/dashboard/patient") && role !== "PATIENT" && role !== "ADMIN") {
+    if (
+      nextUrl.pathname.startsWith("/dashboard/patient") &&
+      role !== "PATIENT" &&
+      role !== "BENEFICIARY" &&
+      role !== "ADMIN"
+    ) {
       return NextResponse.redirect(new URL("/dashboard", nextUrl));
     }
     if (nextUrl.pathname.startsWith("/dashboard/ngo") && role !== "NGO_REP" && role !== "ADMIN") {

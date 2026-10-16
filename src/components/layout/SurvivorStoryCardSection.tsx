@@ -2,17 +2,17 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { 
-  Heart, 
-  MapPin, 
-  Hospital, 
-  ChevronLeft, 
-  ChevronRight, 
-  Sparkles, 
-  ArrowRight, 
-  X, 
-  Share2, 
-  User, 
+import {
+  Heart,
+  MapPin,
+  Hospital,
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+  ArrowRight,
+  X,
+  Share2,
+  User,
   CheckCircle2,
   Quote
 } from "lucide-react";
@@ -47,7 +47,7 @@ export default function SurvivorStoryCardSection({
   const [stories, setStories] = useState<SuccessStoryItem[]>(initialStories);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedStory, setSelectedStory] = useState<SuccessStoryItem | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(initialStories.length === 0);
 
   // Fallback images for stories that don't have an uploaded picture
   const fallbackImages = [
@@ -66,18 +66,30 @@ export default function SurvivorStoryCardSection({
         const res = await fetch(`${apiUrl}/success-stories/approved`, { cache: "no-store" });
         if (res.ok) {
           const json = await res.json();
-          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          if (json.success && Array.isArray(json.data)) {
             setStories(json.data);
           }
         }
       } catch (err) {
         console.error("Failed to refresh success stories:", err);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchStories();
   }, []);
 
   if (!stories || stories.length === 0) {
+    if (isLoading) {
+      return (
+        <section aria-label="Loading survivor stories" className="border-b border-slate-200/70 bg-slate-50/60 py-10 sm:py-14">
+          <div className="container mx-auto space-y-5 px-4 sm:px-6 lg:px-8">
+            <div className="h-6 w-48 animate-pulse rounded bg-slate-200" />
+            <div className="h-40 animate-pulse rounded-2xl bg-slate-200 sm:h-56" />
+          </div>
+        </section>
+      );
+    }
     return null;
   }
 
@@ -121,11 +133,10 @@ export default function SurvivorStoryCardSection({
               <button
                 key={s.id || idx}
                 onClick={() => setCurrentIndex(idx)}
-                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
-                  currentIndex === idx
+                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${currentIndex === idx
                     ? "bg-slate-900 text-white shadow-sm"
                     : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
-                }`}
+                  }`}
               >
                 {s.fullName}
               </button>
@@ -146,7 +157,7 @@ export default function SurvivorStoryCardSection({
         {/* ============ MAIN STORY CARD (IMAGE 2 STYLE) ============ */}
         <div className="bg-white rounded-3xl sm:rounded-[32px] p-6 sm:p-8 lg:p-10 border border-slate-200/90 shadow-[0_4px_25px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_35px_rgba(0,0,0,0.07)] transition-all duration-300">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
+
             {/* LEFT COLUMN: Modern Styled Image or Video with Badges */}
             <div className="lg:col-span-5 w-full">
               <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm aspect-[4/3] sm:aspect-[16/11] lg:h-[350px] w-full bg-slate-900 group">
@@ -183,7 +194,7 @@ export default function SurvivorStoryCardSection({
                             : "प्रेरणादायक पारिवारिक संबल"}
                         </span>
                       </span>
-                      
+
                       {currentStory.age && (
                         <span className="bg-black/60 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-md border border-white/10">
                           Age: {currentStory.age}
@@ -211,7 +222,7 @@ export default function SurvivorStoryCardSection({
 
             {/* RIGHT COLUMN: Content matching Image 2 Layout */}
             <div className="lg:col-span-7 flex flex-col justify-center space-y-4 sm:space-y-5">
-              
+
               {/* Category / Kicker in Green Uppercase (Matches "WHY YOU" in reference) */}
               <div className="flex items-center justify-between">
                 <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-emerald-600 flex items-center gap-2">
@@ -253,8 +264,8 @@ export default function SurvivorStoryCardSection({
               <p className="text-slate-700 font-semibold text-sm sm:text-base leading-relaxed">
                 <strong className="text-slate-900 font-black">{currentStory.fullName.toUpperCase()}</strong>
                 {currentStory.age ? `, aged ${currentStory.age}` : ""}, from {currentStory.city}{currentStory.state ? `, ${currentStory.state}` : ""}
-                {currentStory.treatmentHospital 
-                  ? ` successfully completed treatment at ${currentStory.treatmentHospital}.` 
+                {currentStory.treatmentHospital
+                  ? ` successfully completed treatment at ${currentStory.treatmentHospital}.`
                   : " fought breast cancer with tremendous resilience and hope."}
               </p>
 

@@ -23,21 +23,59 @@ interface CelebrityTestimonial {
 }
 
 interface CelebrityTestimonialsProps {
-  testimonials: CelebrityTestimonial[];
+  testimonials?: CelebrityTestimonial[];
+}
+
+let testimonialsRequest: Promise<CelebrityTestimonial[]> | null = null;
+
+function getTestimonials() {
+  if (!testimonialsRequest) {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+    testimonialsRequest = fetch(`${apiUrl}/sidebar-widgets/testimonials?onlyActive=true`, {
+      cache: "no-store",
+    })
+      .then(async (response) => {
+        if (!response.ok) return [];
+        const result = await response.json();
+        return Array.isArray(result.data) ? result.data : [];
+      })
+      .catch(() => [])
+      .finally(() => {
+        testimonialsRequest = null;
+      });
+  }
+  return testimonialsRequest;
 }
 
 export default function CelebrityTestimonials({
-  testimonials,
+  testimonials: initialTestimonials = [],
 }: CelebrityTestimonialsProps) {
+  const [testimonials, setTestimonials] = useState(initialTestimonials);
+  const [isLoading, setIsLoading] = useState(initialTestimonials.length === 0);
   const [activeTestimonialIdx, setActiveTestimonialIdx] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [failedTestimonialIds, setFailedTestimonialIds] = useState<string[]>([]);
+  const [allVideosFailed, setAllVideosFailed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const activeTestimonial = testimonials[activeTestimonialIdx];
 
   useEffect(() => {
-    if (videoRef.current) {
+    if (initialTestimonials.length > 0) return;
+    let mounted = true;
+    getTestimonials().then((items) => {
+      if (!mounted) return;
+      setTestimonials(items);
+      setIsLoading(false);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [initialTestimonials.length]);
+
+  useEffect(() => {
+    if (activeTestimonial && videoRef.current) {
       videoRef.current.load();
       const playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
@@ -46,13 +84,31 @@ export default function CelebrityTestimonials({
           .catch(() => setIsPlaying(false));
       }
     }
-  }, [activeTestimonialIdx]);
+  }, [activeTestimonial, activeTestimonialIdx]);
 
   const handleVideoEnded = () => {
     if (testimonials.length > 1) {
       setActiveTestimonialIdx((prev) => (prev + 1) % testimonials.length);
     } else {
       setIsPlaying(false);
+    }
+  };
+
+  const handleVideoError = () => {
+    if (!activeTestimonial) return;
+
+    const failedIds = new Set(failedTestimonialIds);
+    failedIds.add(activeTestimonial.id);
+    setFailedTestimonialIds([...failedIds]);
+    setIsPlaying(false);
+
+    const nextIndex = testimonials.findIndex(
+      (testimonial) => !failedIds.has(testimonial.id)
+    );
+    if (nextIndex >= 0) {
+      setActiveTestimonialIdx(nextIndex);
+    } else {
+      setAllVideosFailed(true);
     }
   };
 
@@ -79,7 +135,14 @@ export default function CelebrityTestimonials({
     }
   };
 
-  if (!activeTestimonial) return null;
+  if (!activeTestimonial) {
+    if (!isLoading) return null;
+    return (
+      <div aria-label="Loading testimonials" className="flex min-h-[260px] animate-pulse items-center justify-center rounded-3xl border border-pink-900/60 bg-[#2d0a20]/95">
+        <span className="h-4 w-28 rounded bg-pink-200/20" />
+      </div>
+    );
+  }
 
   return (
     <div className="relative overflow-hidden bg-[#2d0a20]/95 backdrop-blur-xl border border-pink-900/60 rounded-3xl p-4 shadow-xl flex flex-col justify-between min-h-[260px] group text-white">
@@ -105,23 +168,29 @@ export default function CelebrityTestimonials({
           onClick={togglePlay}
           className="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-950/90 border border-slate-800/80 shadow-inner group/player flex items-center justify-center cursor-pointer p-0.5"
         >
-          <video
-            ref={videoRef}
-            src={activeTestimonial.videoUrl}
-            onEnded={handleVideoEnded}
-            autoPlay
-            muted={isMuted}
-            playsInline
-            className="w-full h-full object-contain mx-auto rounded-xl"
-          />
+          {allVideosFailed ? (
+            <p role="status" className="px-4 text-center text-xs text-slate-300">
+              This testimonial video is unavailable. Please contact the administrator.
+            </p>
+          ) : (
+            <video
+              ref={videoRef}
+              src={activeTestimonial.videoUrl}
+              onEnded={handleVideoEnded}
+              onError={handleVideoError}
+              autoPlay
+              muted={isMuted}
+              playsInline
+              className="w-full h-full object-contain mx-auto rounded-xl"
+            />
+          )}
 
           {/* Play/Pause Overlay — center */}
           <div
-            className={`absolute inset-0 m-auto h-10 w-10 rounded-full bg-pink-600/90 hover:bg-pink-500 text-white flex items-center justify-center backdrop-blur-md shadow-lg shadow-pink-600/40 cursor-pointer z-10 transition-all active:scale-90 ${
-              !isPlaying
-                ? "opacity-100 scale-100"
-                : "opacity-0 group-hover/player:opacity-100 scale-95 hover:scale-100"
-            }`}
+            className={`absolute inset-0 m-auto h-10 w-10 rounded-full bg-pink-600/90 hover:bg-pink-500 text-white flex items-center justify-center backdrop-blur-md shadow-lg shadow-pink-600/40 cursor-pointer z-10 transition-all active:scale-90 ${!isPlaying
+              ? "opacity-100 scale-100"
+              : "opacity-0 group-hover/player:opacity-100 scale-95 hover:scale-100"
+              }`}
           >
             {isPlaying ? (
               <Pause className="h-4 w-4 fill-white" />
@@ -156,7 +225,7 @@ export default function CelebrityTestimonials({
           </div>
           <p className="text-[10px] italic leading-relaxed text-slate-300 line-clamp-2 pl-3 border-l border-slate-800 relative">
             <Quote className="h-2 w-2 text-pink-400 absolute left-0 top-0.5 opacity-70 rotate-180" />
-            "{activeTestimonial.quote}"
+            &quot;{activeTestimonial.quote}&quot;
           </p>
         </div>
       </div>
@@ -174,11 +243,10 @@ export default function CelebrityTestimonials({
                 <button
                   key={t.id}
                   onClick={() => setActiveTestimonialIdx(idx)}
-                  className={`relative flex-shrink-0 h-8 w-12 rounded overflow-hidden border transition-all cursor-pointer ${
-                    isActive
-                      ? "border-pink-500 scale-105 shadow-md shadow-pink-500/30"
-                      : "border-slate-700 opacity-60 hover:opacity-100"
-                  }`}
+                  className={`relative flex-shrink-0 h-8 w-12 rounded overflow-hidden border transition-all cursor-pointer ${isActive
+                    ? "border-pink-500 scale-105 shadow-md shadow-pink-500/30"
+                    : "border-slate-700 opacity-60 hover:opacity-100"
+                    }`}
                 >
                   {t.thumbnailUrl ? (
                     <img

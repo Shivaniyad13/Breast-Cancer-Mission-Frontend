@@ -1,11 +1,5 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getApprovedSuccessStories } from "@/app/actions/successStories";
-import {
-  getSponsorBanners,
-  getCelebrityTestimonials,
-} from "@/app/actions/rightSidebarWidgets";
-import { getLiveUpdates } from "@/app/actions/liveUpdates";
 import LiveBreastCancerUpdatesFeed from "@/components/layout/LiveBreastCancerUpdatesFeed";
 import CelebrityTestimonials from "@/components/layout/CelebrityTestimonials";
 import OurTeam from "@/components/layout/OurTeam";
@@ -23,31 +17,7 @@ import {
 
 export const revalidate = 0; // Dynamic so newly submitted stories appear immediately
 
-export default async function Home() {
-  // Fetch data in parallel instead of sequentially
-  const [storiesResult, bannersRes, testimonialsRes, liveUpdatesRes] = await Promise.all([
-    getApprovedSuccessStories(),
-    getSponsorBanners(true),
-    getCelebrityTestimonials(true),
-    getLiveUpdates(true)
-  ]);
-
-  const stories =
-    storiesResult.success && storiesResult.stories ? storiesResult.stories : [];
-
-  const banners =
-    bannersRes.success && bannersRes.banners ? bannersRes.banners : [];
-    
-  const testimonials =
-    testimonialsRes.success && testimonialsRes.testimonials
-      ? testimonialsRes.testimonials
-      : [];
-
-  const liveUpdates =
-    liveUpdatesRes.success && liveUpdatesRes.updates
-      ? liveUpdatesRes.updates
-      : [];
-
+export default function Home() {
   return (
     <div className="flex flex-col w-full min-h-screen overflow-x-hidden">
       {/* ============ HERO SECTION ============ */}
@@ -118,7 +88,7 @@ export default async function Home() {
 
             {/* RIGHT — CELEBRITY TESTIMONIALS */}
             <div className="hidden md:block md:col-span-3">
-              <CelebrityTestimonials testimonials={testimonials as any} />
+              <CelebrityTestimonials />
             </div>
           </div>
         </div>
@@ -142,7 +112,7 @@ export default async function Home() {
             <span>Celebrity Testimonials</span>
           </h3>
           <div className="w-full">
-            <CelebrityTestimonials testimonials={testimonials as any} />
+            <CelebrityTestimonials />
           </div>
         </div>
       </div>
@@ -199,7 +169,7 @@ export default async function Home() {
       </section>
 
       {/* ============ SURVIVOR SUCCESS STORIES (IMAGE 2 STYLE) ============ */}
-      <SurvivorStoryCardSection initialStories={stories} />
+      <SurvivorStoryCardSection />
 
       {/* ============ MODULE OVERVIEW CARDS ============ */}
       <section className="py-14 sm:py-20 md:py-28 container mx-auto px-4 sm:px-6 lg:px-8">
@@ -269,7 +239,7 @@ export default async function Home() {
       </section>
 
       {/* ============ OUR TEAM ============ */}
-      {/* <OurTeam /> */}
+      { <OurTeam /> }
 
       {/* ============ PARTNER ORGANIZATIONS ============ */}
       <section className="py-14 sm:py-20 md:py-28 bg-gradient-to-b from-pink-50/40 via-white to-pink-50/30">

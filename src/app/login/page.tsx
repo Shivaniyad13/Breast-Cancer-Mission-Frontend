@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, Suspense } from "react";
+import Image from "next/image";
 import { loginUserAction } from "@/app/actions/auth";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -8,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Ribbon, Loader2, Eye, EyeOff } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 
 function LoginForm() {
   const router = useRouter();
@@ -49,7 +50,7 @@ function LoginForm() {
       <Card className="w-full max-w-md border-border bg-card/60 backdrop-blur-md shadow-xl transition-all duration-300 hover:shadow-2xl">
         <CardHeader className="space-y-2 text-center">
           <div className="flex justify-center mb-2">
-            <Ribbon className="h-10 w-10 text-primary animate-pulse" />
+            <Image src="/logo.png" alt="Cancer Mukt Bharat Abhiyan" width={64} height={64} className="h-16 w-16 object-contain" priority />
           </div>
           <CardTitle className="font-heading text-3xl font-bold tracking-tight">
             Welcome Back

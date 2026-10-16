@@ -422,7 +422,7 @@ export default async function DashboardPage() {
                 </div>
               )}
 
-              {user.role === "PATIENT" && (
+              {(user.role === "PATIENT" || user.role === "BENEFICIARY") && (
                 <div className="space-y-2 text-sm pt-2">
                   <p className="font-semibold text-primary flex items-center gap-1.5"><Heart className="h-4 w-4" /> My Campaigns</p>
                   <p className="text-muted-foreground">No active crowdfunding campaigns found. Upload medical bills and request NGO endorsements to start fundraising.</p>

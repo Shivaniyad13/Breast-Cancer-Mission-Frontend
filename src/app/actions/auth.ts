@@ -3,29 +3,14 @@
 import { apiClient } from "@/lib/apiClient";
 import { cookies } from "next/headers";
 
-export interface RegisterInput {
-  name?: string;
-  email?: string;
-  password?: string;
-  role?: string;
-  phoneNumber?: string;
-  docLicense?: string;
-  docAffiliation?: string;
-  docSpecialty?: string;
-  ngoRegNum?: string;
-  tax80g?: boolean;
-  nationalId?: string;
-}
-
 /**
- * Registers a user via Express backend. Sets HttpOnly token cookie upon success.
+ * Registers a user via Express backend without creating an authenticated session.
  */
-export async function registerUserAction(data: RegisterInput) {
+export async function registerUserAction(data: FormData) {
   try {
     const res = await apiClient("/auth/register", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: data,
     });
 
     const resData = await res.json().catch(() => ({}));
@@ -34,23 +19,12 @@ export async function registerUserAction(data: RegisterInput) {
       return { error: resData.message || resData.error || "Registration failed." };
     }
 
-    if (resData.data?.token) {
-      const cookieStore = await cookies();
-      cookieStore.set("token", resData.data.token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-        maxAge: 7 * 24 * 60 * 60, // 7 days
-      });
-    }
-
     return {
       success: true,
       message: resData.message || resData.data?.message,
       isDoctor: resData.data?.isDoctor,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("registerUserAction error:", error);
     return { error: "An unexpected error occurred during registration. Please try again later." };
   }
@@ -86,7 +60,7 @@ export async function loginUserAction(email: string, password: string) {
     }
 
     return { success: true, user: resData.data?.user };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("loginUserAction error:", error);
     return { error: "An error occurred during login. Please try again." };
   }
