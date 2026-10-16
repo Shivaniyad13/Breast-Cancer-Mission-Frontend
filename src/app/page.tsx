@@ -239,7 +239,7 @@ export default function Home() {
       </section>
 
       {/* ============ OUR TEAM ============ */}
-      { <OurTeam /> }
+      {/* { <OurTeam /> } */}
 
       {/* ============ PARTNER ORGANIZATIONS ============ */}
       <section className="py-14 sm:py-20 md:py-28 bg-gradient-to-b from-pink-50/40 via-white to-pink-50/30">
