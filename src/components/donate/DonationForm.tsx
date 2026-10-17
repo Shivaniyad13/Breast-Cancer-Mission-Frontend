@@ -79,13 +79,13 @@ export const DonationForm: React.FC<DonationFormProps> = ({
     if (initialValues) {
       setFormData((prev) => ({
         ...prev,
-        name: initialValues.name ?? prev.name,
-        email: initialValues.email ?? prev.email,
-        phone: initialValues.phone ?? prev.phone,
-        organization: initialValues.organization ?? prev.organization,
+        name: prev.name.trim() ? prev.name : (initialValues.name || ''),
+        email: prev.email.trim() ? prev.email : (initialValues.email || ''),
+        phone: prev.phone.trim() ? prev.phone : (initialValues.phone || ''),
+        organization: prev.organization.trim() ? prev.organization : (initialValues.organization || ''),
       }))
     }
-  }, [initialValues])
+  }, [initialValues?.name, initialValues?.email, initialValues?.phone, initialValues?.organization])
 
   const validateForm = (): boolean => {
     setFormError(null)

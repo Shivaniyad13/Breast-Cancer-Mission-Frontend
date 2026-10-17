@@ -39,25 +39,91 @@ export async function createCashfreeDonationOrderAction(data: {
     const session = await auth();
     const donorId = session?.user?.id || null;
 
-    const res = await apiClient("/donations/cashfree/create-order", {
+    // 1. Try Express backend API first
+    try {
+      const res = await apiClient("/donations/cashfree/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          donorId,
+          donorName: data.donorName || session?.user?.name,
+          donorEmail: data.donorEmail || session?.user?.email,
+        }),
+      });
+
+      if (res.ok) {
+        const resData = await res.json();
+        if (resData.success && resData.data) {
+          return { success: true, data: resData.data };
+        }
+      }
+    } catch {
+      // Backend offline or unreachable from Vercel, fallback to direct Cashfree API call
+    }
+
+    // 2. Direct Cashfree Production API call (Runs server-side in Vercel)
+    const appId = process.env.CASHFREE_APP_ID;
+    const secretKey = process.env.CASHFREE_SECRET_KEY;
+    if (!appId || !secretKey) {
+      return {
+        success: false,
+        error: "Cashfree credentials (CASHFREE_APP_ID & CASHFREE_SECRET_KEY) are missing in environment variables.",
+      };
+    }
+    const env = (process.env.CASHFREE_ENV || "PRODUCTION").toUpperCase();
+    const baseUrl = env === "PRODUCTION" ? "https://api.cashfree.com/pg" : "https://sandbox.cashfree.com/pg";
+
+    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+    const orderId = `CF_DON_${Date.now()}_${randomSuffix}`;
+    const cleanPhone = (data.donorPhone || "").replace(/\D/g, "");
+    const customerPhone =
+      cleanPhone.length === 10
+        ? cleanPhone
+        : cleanPhone.length > 10
+        ? cleanPhone.slice(-10)
+        : "9999999999";
+
+    const cfRes = await fetch(`${baseUrl}/orders`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "x-client-id": appId,
+        "x-client-secret": secretKey,
+        "x-api-version": "2023-08-01",
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        ...data,
-        donorId,
-        donorName: data.donorName || session?.user?.name,
-        donorEmail: data.donorEmail || session?.user?.email,
+        order_id: orderId,
+        order_amount: Number(data.amount.toFixed(2)),
+        order_currency: "INR",
+        customer_details: {
+          customer_id: (donorId || `CUST_${Date.now()}_${randomSuffix}`).substring(0, 45),
+          customer_name: (data.donorName || "Generous Donor").trim().substring(0, 90),
+          customer_email: (data.donorEmail || "donor@breastcancerawareness.org").trim(),
+          customer_phone: customerPhone,
+        },
+        order_meta: {
+          return_url: null,
+        },
+        order_note: (data.purpose ? `Donation for ${data.purpose}` : "Donation to Breast Cancer Awareness").substring(0, 200),
       }),
     });
 
-    const resData = await res.json();
-    if (!res.ok) {
-      return { success: false, error: resData.message || resData.error || "Failed to initialize Cashfree payment" };
+    const cfData = await cfRes.json();
+    if (!cfRes.ok) {
+      console.error("[Cashfree Direct Error]:", cfData);
+      return { success: false, error: cfData.message || "Failed to initialize Cashfree payment" };
     }
 
     return {
       success: true,
-      data: resData.data,
+      data: {
+        orderId: cfData.order_id,
+        paymentSessionId: cfData.payment_session_id,
+        cfOrderId: cfData.cf_order_id,
+        amount: cfData.order_amount,
+        currency: cfData.order_currency,
+      },
     };
   } catch (err: any) {
     console.error("Cashfree create order action error:", err);
@@ -67,26 +133,66 @@ export async function createCashfreeDonationOrderAction(data: {
 
 export async function verifyCashfreePaymentAction(orderId: string) {
   try {
-    const res = await apiClient("/donations/cashfree/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ orderId }),
-    });
+    // 1. Try Express backend verification first
+    try {
+      const res = await apiClient("/donations/cashfree/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
+      });
 
-    const resData = await res.json();
-    if (!res.ok) {
-      return { success: false, error: resData.message || resData.error || "Failed to verify payment" };
+      if (res.ok) {
+        const resData = await res.json();
+        if (resData.success && resData.data) {
+          revalidatePath("/donate");
+          return {
+            success: true,
+            verified: resData.data.verified,
+            status: resData.data.status,
+            donation: resData.data.donation,
+          };
+        }
+      }
+    } catch {
+      // Backend offline or unreachable from Vercel, fallback to direct Cashfree API check
     }
 
+    // 2. Direct Cashfree API verification (Runs server-side in Vercel)
+    const appId = process.env.CASHFREE_APP_ID;
+    const secretKey = process.env.CASHFREE_SECRET_KEY;
+    if (!appId || !secretKey) {
+      return {
+        success: false,
+        error: "Cashfree credentials (CASHFREE_APP_ID & CASHFREE_SECRET_KEY) are missing in environment variables.",
+      };
+    }
+    const env = (process.env.CASHFREE_ENV || "PRODUCTION").toUpperCase();
+    const baseUrl = env === "PRODUCTION" ? "https://api.cashfree.com/pg" : "https://sandbox.cashfree.com/pg";
+
+    const cfRes = await fetch(`${baseUrl}/orders/${encodeURIComponent(orderId)}`, {
+      method: "GET",
+      headers: {
+        "x-client-id": appId,
+        "x-client-secret": secretKey,
+        "x-api-version": "2023-08-01",
+      },
+    });
+
+    const cfOrder = await cfRes.json();
+    const isPaid = cfOrder?.order_status === "PAID";
+
     revalidatePath("/donate");
-    revalidatePath("/dashboard");
-    revalidatePath("/admin/donations");
 
     return {
       success: true,
-      verified: resData.data?.verified,
-      status: resData.data?.status,
-      donation: resData.data?.donation,
+      verified: isPaid,
+      status: isPaid ? "SUCCESSFUL" : cfOrder?.order_status || "PENDING",
+      donation: {
+        id: orderId,
+        paymentGatewayId: orderId,
+        amount: Number(cfOrder?.order_amount || 0),
+        status: isPaid ? "SUCCESSFUL" : "PENDING",
+      },
     };
   } catch (err: any) {
     console.error("Cashfree verify payment action error:", err);
