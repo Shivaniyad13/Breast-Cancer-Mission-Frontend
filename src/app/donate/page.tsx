@@ -6,7 +6,10 @@ import {
   createDonationAction,
   getPublicDonationsAction,
   getDonationStatsAction,
+  createCashfreeDonationOrderAction,
+  verifyCashfreePaymentAction,
 } from '@/app/actions/donations'
+import { load } from '@cashfreepayments/cashfree-js'
 import { HeroSection } from '@/components/donate/HeroSection'
 import { LiveStats } from '@/components/donate/LiveStats'
 import { DonationForm, DonationFormData } from '@/components/donate/DonationForm'
@@ -31,6 +34,7 @@ export default function DonatePage() {
   const [activeFormData, setActiveFormData] = useState<DonationFormData | null>(null)
   const [currentTxnId, setCurrentTxnId] = useState<string>('')
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Success view state
   const [successReceipt, setSuccessReceipt] = useState<SuccessReceiptData | null>(null)
@@ -63,21 +67,114 @@ export default function DonatePage() {
 
   useEffect(() => {
     loadData()
+
+    // Handle return from Cashfree if redirected with order_id in query
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const orderId = params.get('order_id')
+      if (orderId) {
+        verifyCashfreePaymentAction(orderId)
+          .then((res) => {
+            if (res.success && (res.verified || res.status === 'SUCCESSFUL')) {
+              const donation = res.donation
+              setSuccessReceipt({
+                id: donation?.id || orderId,
+                transactionId: orderId,
+                amount: Number(donation?.amount || 0),
+                currency: donation?.currency || 'INR',
+                donorName: donation?.donorName || 'Generous Supporter',
+                donorEmail: donation?.donorEmail || '',
+                purpose: donation?.campaign?.title || 'Breast Cancer Care',
+                date: donation?.createdAt || new Date().toISOString(),
+                status: 'SUCCESSFUL',
+              })
+              loadData()
+              window.history.replaceState({}, '', window.location.pathname)
+            }
+          })
+          .catch((err) => console.error('Redirect verification error:', err))
+      }
+    }
   }, [])
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
-  const handleInitiatePayment = (formData: DonationFormData) => {
+  const handleInitiatePayment = async (
+    formData: DonationFormData,
+    method: 'cashfree' | 'upi' = 'cashfree'
+  ) => {
     setActiveFormData(formData)
     setSubmitError(null)
 
-    const randomSuffix = Math.floor(1000 + Math.random() * 9000)
-    const txnId = `TXNBC${Date.now()}${randomSuffix}`
-    setCurrentTxnId(txnId)
+    if (method === 'upi') {
+      const randomSuffix = Math.floor(1000 + Math.random() * 9000)
+      const txnId = `TXNBC${Date.now()}${randomSuffix}`
+      setCurrentTxnId(txnId)
+      setIsQrModalOpen(true)
+      return
+    }
 
-    setIsQrModalOpen(true)
+    // Cashfree Checkout Flow
+    setIsSubmitting(true)
+    try {
+      const orderRes = await createCashfreeDonationOrderAction({
+        amount: formData.amount,
+        donorName: formData.isAnonymous ? 'Anonymous' : formData.name,
+        donorEmail: formData.email,
+        donorPhone: formData.phone || undefined,
+        purpose: formData.purpose,
+        message: formData.message || undefined,
+        isAnonymous: formData.isAnonymous,
+      })
+
+      if (!orderRes.success || !orderRes.data) {
+        throw new Error(orderRes.error || 'Failed to initialize Cashfree payment session.')
+      }
+
+      const { paymentSessionId, orderId } = orderRes.data
+
+      const mode =
+        (process.env.NEXT_PUBLIC_CASHFREE_MODE as 'production' | 'sandbox') || 'production'
+
+      const cashfree = await load({ mode })
+      if (!cashfree) {
+        throw new Error('Cashfree SDK could not be loaded. Please check your internet connection.')
+      }
+
+      await cashfree.checkout({
+        paymentSessionId,
+        redirectTarget: '_modal',
+      })
+
+      // When modal finishes or closes, verify status with server
+      const verifyRes = await verifyCashfreePaymentAction(orderId)
+
+      if (verifyRes.success && (verifyRes.verified || verifyRes.status === 'SUCCESSFUL')) {
+        const newReceipt: SuccessReceiptData = {
+          id: verifyRes.donation?.id || orderId,
+          transactionId: orderId,
+          amount: formData.amount,
+          currency: 'INR',
+          donorName: formData.isAnonymous ? 'Anonymous Supporter' : formData.name,
+          donorEmail: formData.email,
+          purpose: formData.purpose,
+          date: new Date().toISOString(),
+          status: 'SUCCESSFUL',
+        }
+        setSuccessReceipt(newReceipt)
+        setActiveFormData(null)
+        loadData()
+      } else {
+        console.log('[Cashfree] Modal closed or payment pending verification:', verifyRes)
+      }
+    } catch (err: any) {
+      console.error('Cashfree payment error:', err)
+      setSubmitError(err?.message || 'Payment could not be processed. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleFinalSubmit = async (screenshotUrl: string) => {
@@ -151,6 +248,7 @@ export default function DonatePage() {
                     email: user?.email || '',
                   }}
                   onSubmitForm={handleInitiatePayment}
+                  isSubmitting={isSubmitting}
                   error={submitError}
                 />
               </div>

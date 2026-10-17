@@ -14,6 +14,9 @@ import {
   ArrowRight,
   Coins,
   HeartHandshake,
+  CreditCard,
+  ShieldCheck,
+  Smartphone,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -30,7 +33,7 @@ export interface DonationFormData {
 
 interface DonationFormProps {
   initialValues?: Partial<DonationFormData>
-  onSubmitForm: (data: DonationFormData) => void
+  onSubmitForm: (data: DonationFormData, method: 'cashfree' | 'upi') => void
   isSubmitting?: boolean
   error?: string | null
 }
@@ -84,26 +87,32 @@ export const DonationForm: React.FC<DonationFormProps> = ({
     }
   }, [initialValues])
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const validateForm = (): boolean => {
     setFormError(null)
 
     if (!formData.name.trim()) {
       setFormError('Please enter your full name.')
-      return
+      return false
     }
 
     if (!formData.email.trim() || !formData.email.includes('@')) {
       setFormError('Please enter a valid email address.')
-      return
+      return false
     }
 
     if (!formData.amount || formData.amount <= 0) {
       setFormError('Please select or enter a valid donation amount as per your strength.')
-      return
+      return false
     }
 
-    onSubmitForm(formData)
+    return true
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (validateForm()) {
+      onSubmitForm(formData, 'cashfree')
+    }
   }
 
   return (
@@ -374,16 +383,45 @@ export const DonationForm: React.FC<DonationFormProps> = ({
           </div>
         </div>
 
-        {/* Submit Button */}
-        <Button
-          type="submit"
-          disabled={isSubmitting || formData.amount <= 0}
-          className="w-full bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-6 rounded-2xl shadow-xl shadow-pink-500/25 text-base sm:text-lg flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.01] cursor-pointer"
-        >
-          <HeartPulse className="h-5 w-5 text-white animate-bounce" />
-          <span>Proceed to UPI Payment (₹{formData.amount.toLocaleString('en-IN')})</span>
-          <ArrowRight className="h-5 w-5 text-white ml-1" />
-        </Button>
+        {/* Payment Action Buttons */}
+        <div className="space-y-3 pt-2">
+          {/* Primary: Cashfree Gateway */}
+          <Button
+            type="submit"
+            disabled={isSubmitting || formData.amount <= 0}
+            className="w-full bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-6 rounded-2xl shadow-xl shadow-pink-500/25 text-base sm:text-lg flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.01] cursor-pointer"
+          >
+            <CreditCard className="h-5 w-5 text-white" />
+            <span>Pay with Cashfree (₹{formData.amount.toLocaleString('en-IN')})</span>
+            <ArrowRight className="h-5 w-5 text-white ml-1" />
+          </Button>
+
+          <div className="flex items-center justify-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 font-medium text-center">
+            <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+            <span>Instant &amp; Automated: Cards, UPI (GPay/PhonePe/Paytm), NetBanking via Cashfree</span>
+          </div>
+
+          {/* Divider */}
+          <div className="relative py-2 flex items-center justify-center">
+            <div className="border-t border-slate-200 dark:border-slate-800 w-full" />
+            <span className="bg-white dark:bg-slate-900 px-3 text-xs text-slate-400 font-medium absolute">or</span>
+          </div>
+
+          {/* Secondary: Manual Direct UPI QR option */}
+          <button
+            type="button"
+            onClick={() => {
+              if (validateForm()) {
+                onSubmitForm(formData, 'upi')
+              }
+            }}
+            disabled={isSubmitting || formData.amount <= 0}
+            className="w-full py-3 px-4 rounded-xl border border-pink-300 dark:border-pink-800 bg-pink-50/50 dark:bg-pink-950/20 hover:bg-pink-100/60 text-pink-700 dark:text-pink-300 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
+          >
+            <Smartphone className="h-4 w-4" />
+            <span>Scan Direct UPI QR Code (Manual Screenshot Review)</span>
+          </button>
+        </div>
       </form>
     </div>
   )

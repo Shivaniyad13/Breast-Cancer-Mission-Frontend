@@ -25,6 +25,75 @@ export async function getAvailableCampaignsAction() {
   }
 }
 
+export async function createCashfreeDonationOrderAction(data: {
+  amount: number;
+  donorName?: string;
+  donorEmail?: string;
+  donorPhone?: string;
+  purpose?: string;
+  message?: string;
+  isAnonymous?: boolean;
+  campaignId?: string | null;
+}) {
+  try {
+    const session = await auth();
+    const donorId = session?.user?.id || null;
+
+    const res = await apiClient("/donations/cashfree/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...data,
+        donorId,
+        donorName: data.donorName || session?.user?.name,
+        donorEmail: data.donorEmail || session?.user?.email,
+      }),
+    });
+
+    const resData = await res.json();
+    if (!res.ok) {
+      return { success: false, error: resData.message || resData.error || "Failed to initialize Cashfree payment" };
+    }
+
+    return {
+      success: true,
+      data: resData.data,
+    };
+  } catch (err: any) {
+    console.error("Cashfree create order action error:", err);
+    return { success: false, error: err.message || "Failed to initialize Cashfree payment" };
+  }
+}
+
+export async function verifyCashfreePaymentAction(orderId: string) {
+  try {
+    const res = await apiClient("/donations/cashfree/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderId }),
+    });
+
+    const resData = await res.json();
+    if (!res.ok) {
+      return { success: false, error: resData.message || resData.error || "Failed to verify payment" };
+    }
+
+    revalidatePath("/donate");
+    revalidatePath("/dashboard");
+    revalidatePath("/admin/donations");
+
+    return {
+      success: true,
+      verified: resData.data?.verified,
+      status: resData.data?.status,
+      donation: resData.data?.donation,
+    };
+  } catch (err: any) {
+    console.error("Cashfree verify payment action error:", err);
+    return { success: false, error: err.message || "Failed to verify payment" };
+  }
+}
+
 export async function createDonationAction(data: {
   campaignId?: string | null;
   amount: number;
