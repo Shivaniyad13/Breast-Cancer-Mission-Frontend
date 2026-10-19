@@ -19,7 +19,7 @@ const TEAM = [
   // },
   {
     name: "Vaidya Smt. Nandini Bhojraj",
-    qualification: "B.A., M.S., M.D.",
+    qualification: "BAMS, M.D. (Ayurveda)",
     image: "/images/16.png",
   },
   {
@@ -35,13 +35,6 @@ const TEAM = [
     image: "/images/10.png",
   },
 
-
-
-  {
-    name: "Dr. Renu Kulshrestha",
-    qualification: "MPhil, PhD.",
-    image: "/images/team1.jpg",
-  },
   {
     name: "Kritika Singh",
     qualification: "B.Pharma",

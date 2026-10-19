@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import HomeBanner from "@/components/layout/HomeBanner";
 import LiveBreastCancerUpdatesFeed from "@/components/layout/LiveBreastCancerUpdatesFeed";
 import CelebrityTestimonials from "@/components/layout/CelebrityTestimonials";
 import OurTeam from "@/components/layout/OurTeam";
@@ -20,6 +21,8 @@ export const revalidate = 0; // Dynamic so newly submitted stories appear immedi
 export default function Home() {
   return (
     <div className="flex flex-col w-full min-h-screen overflow-x-hidden">
+      <HomeBanner />
+
       {/* ============ HERO SECTION ============ */}
       <section className="relative overflow-hidden pt-2 sm:pt-4 md:pt-6 lg:pt-8 pb-12 sm:pb-16 md:pb-24 lg:pb-32 min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center">
         <video
@@ -116,18 +119,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-{/* ============ BANNER SECTION ============ */}
-<section className="w-full bg-white py-6 sm:py-8">
-  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-lg">
-      <img
-        src="/banner.png"
-        alt="Cancer Mukt Bharat Banner"
-        className="w-full h-auto object-cover"
-      />
-    </div>
-  </div>
-</section>
       {/* ============ SHARE SUCCESS STORY CTA ============ */}
       <section className="py-10 sm:py-12 bg-white border-b border-pink-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -239,7 +230,7 @@ export default function Home() {
       </section>
 
       {/* ============ OUR TEAM ============ */}
-      {/* { <OurTeam /> } */}
+      { <OurTeam /> }
 
       {/* ============ PARTNER ORGANIZATIONS ============ */}
       <section className="py-14 sm:py-20 md:py-28 bg-gradient-to-b from-pink-50/40 via-white to-pink-50/30">
