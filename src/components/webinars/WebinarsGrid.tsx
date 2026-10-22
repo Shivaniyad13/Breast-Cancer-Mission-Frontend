@@ -208,7 +208,7 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                         <img
                           src={webinar.bannerImage}
                           alt={webinar.title}
-                          className="object-cover h-full w-full group-hover:scale-105 transition-transform duration-500"
+                          className="object-contain h-full w-full"
                         />
                       ) : (
                         <div className="text-center text-primary/30 flex flex-col items-center">
@@ -266,33 +266,36 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                           >
                             <div className="h-9 w-9 rounded-full bg-pink-100 flex items-center justify-center font-black text-primary overflow-hidden shrink-0 border border-pink-200">
                               {webinar.speakerImage ? (
-                                <img src={webinar.speakerImage} alt={webinar.speakerName} className="object-cover h-full w-full" />
+                                <img src={webinar.speakerImage} alt={webinar.speakerName} className="object-contain h-full w-full" />
                               ) : (
                                 webinar.speakerName.charAt(0)
                               )}
                             </div>
                             <div>
                               <p className="font-extrabold text-slate-800 leading-tight group-hover/doc:underline">
-                                Dr. {webinar.speakerName.replace(/^Dr\.\s*/i, "")}
+                                {webinar.speakerName}
                               </p>
                               <span className="text-[10px] text-emerald-600 font-bold inline-flex items-center gap-1">
-                                <ShieldCheck className="h-3 w-3" /> Verified Doctor
+                                <ShieldCheck className="h-3 w-3" /> Verified Person
                               </span>
                             </div>
                           </button>
                         </div>
 
                         {/* Specialization & Hospital */}
-                        <div className="grid grid-cols-2 gap-2 text-[10px] bg-slate-50/55 rounded-xl p-2.5 border border-slate-100/50">
-                          <div>
-                            <span className="block text-slate-400 font-bold uppercase text-[8px]">Specialization</span>
-                            <span className="text-slate-700 truncate block mt-0.5">{webinar.speakerSpecialization || "Cancer Specialist"}</span>
+                        {(webinar.speakerQualification || webinar.speakerSpecialization || webinar.speakerHospital) && (
+                          <div className="flex flex-wrap gap-2 text-[10px] bg-slate-50/55 rounded-xl p-2.5 border border-slate-100/50">
+                            {webinar.speakerQualification && (
+                              <span className="text-slate-700">{webinar.speakerQualification}</span>
+                            )}
+                            {webinar.speakerSpecialization && (
+                              <span className="text-slate-700">{webinar.speakerSpecialization}</span>
+                            )}
+                            {webinar.speakerHospital && (
+                              <span className="text-slate-700">{webinar.speakerHospital}</span>
+                            )}
                           </div>
-                          <div>
-                            <span className="block text-slate-400 font-bold uppercase text-[8px]">Affiliation</span>
-                            <span className="text-slate-700 truncate block mt-0.5">{webinar.speakerHospital || "GRS Healthcare"}</span>
-                          </div>
-                        </div>
+                        )}
 
                         {/* Duration & Language info */}
                         <div className="flex gap-4 text-[10px] font-bold text-slate-500 pt-0.5">

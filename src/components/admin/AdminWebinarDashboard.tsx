@@ -15,7 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import {
   Calendar, Clock, MapPin, Users, Award, ShieldCheck, Video,
-  Trash2, Edit, Plus, FileText, CheckCircle, HelpCircle, Download, 
+  Trash2, Edit, Plus, FileText, CheckCircle, HelpCircle, Download,
   ExternalLink, Loader2, Upload, BookOpen, Languages, ShieldAlert,
   Tag, AlertCircle, Sparkles, CheckCircle2, XCircle, Info, User, Building2
 } from "lucide-react";
@@ -152,7 +152,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
       title, description, fullContent, bannerImage, speakerName,
       speakerImage, speakerBio, date, startTime: `${date}T${startTime}`,
       endTime: `${date}T${endTime}`, venue, city, state, country,
-      webinarMode, meetingLink, maxSeats, category, status,
+      webinarMode, meetingLink, maxSeats: Number(maxSeats), category, status,
       speakerQualification, speakerSpecialization, speakerHospital,
       language, meetingPlatform, learningOutcomes, eligibility
     };
@@ -226,7 +226,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
       title, description, fullContent, bannerImage, speakerName,
       speakerImage, speakerBio, date, startTime: `${date}T${startTime}`,
       endTime: `${date}T${endTime}`, venue, city, state, country,
-      webinarMode, meetingLink, maxSeats, category, status,
+      webinarMode, meetingLink, maxSeats: Number(maxSeats), category, status,
       speakerQualification, speakerSpecialization, speakerHospital,
       language, meetingPlatform, learningOutcomes, eligibility
     };
@@ -328,7 +328,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
   const handleTriggerCertificate = async (userId: string, webinarId: string) => {
     if (!confirm("Are you sure you want to manually trigger certificate generation for this user? This overrides standard percentage validations!")) return;
-    
+
     setIsPending(true);
     try {
       const res = await generateCertificateForUser(userId, webinarId);
@@ -429,11 +429,10 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
               <button
                 type="button"
                 onClick={() => setFilterApprovalStatus("ALL")}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
-                  filterApprovalStatus === "ALL"
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${filterApprovalStatus === "ALL"
                     ? "bg-slate-800 text-white shadow-xs"
                     : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
-                }`}
+                  }`}
               >
                 All Webinars ({webinars.length})
               </button>
@@ -441,13 +440,12 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
               <button
                 type="button"
                 onClick={() => setFilterApprovalStatus("PENDING_APPROVAL")}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                  filterApprovalStatus === "PENDING_APPROVAL"
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${filterApprovalStatus === "PENDING_APPROVAL"
                     ? "bg-amber-500 text-white shadow-xs ring-2 ring-amber-300"
                     : pendingCount > 0
-                    ? "bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 font-extrabold"
-                    : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
-                }`}
+                      ? "bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 font-extrabold"
+                      : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
+                  }`}
               >
                 <Clock className="h-3.5 w-3.5" />
                 <span>Pending Approval</span>
@@ -459,11 +457,10 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
               <button
                 type="button"
                 onClick={() => setFilterApprovalStatus("APPROVED")}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                  filterApprovalStatus === "APPROVED"
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${filterApprovalStatus === "APPROVED"
                     ? "bg-emerald-600 text-white shadow-xs"
                     : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
-                }`}
+                  }`}
               >
                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
                 <span>Approved ({approvedCount})</span>
@@ -472,11 +469,10 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
               <button
                 type="button"
                 onClick={() => setFilterApprovalStatus("REJECTED")}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                  filterApprovalStatus === "REJECTED"
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${filterApprovalStatus === "REJECTED"
                     ? "bg-red-600 text-white shadow-xs"
                     : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
-                }`}
+                  }`}
               >
                 <XCircle className="h-3.5 w-3.5 text-red-500" />
                 <span>Rejected ({rejectedCount})</span>
@@ -490,8 +486,8 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                 {filterApprovalStatus === "PENDING_APPROVAL"
                   ? "No paid webinars currently pending approval."
                   : filterApprovalStatus === "REJECTED"
-                  ? "No webinars currently rejected."
-                  : "No webinars found."}
+                    ? "No webinars currently rejected."
+                    : "No webinars found."}
               </Card>
             ) : (
               filteredWebinars.map((webinar) => {
@@ -499,15 +495,14 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                 const totalAttendance = webinar.attendance?.length || 0;
                 const isPendingApproval = webinar.approvalStatus === "PENDING_APPROVAL";
                 const doctorName = webinar.doctor?.user?.name || webinar.speakerName;
-                const doctorSpecialty = webinar.speakerSpecialization || webinar.doctor?.specialty || "Specialist";
-                const doctorHospital = webinar.speakerHospital || webinar.doctor?.hospitalAffiliation || "Medical Center";
+                const doctorSpecialty = webinar.speakerSpecialization || webinar.doctor?.specialty || "";
+                const doctorHospital = webinar.speakerHospital || webinar.doctor?.hospitalAffiliation || "";
 
                 return (
-                  <Card key={webinar.id} className={`rounded-3xl border shadow-sm overflow-hidden bg-white transition-all ${
-                    isPendingApproval ? "border-amber-300 ring-2 ring-amber-100" : "border-pink-50 hover:border-pink-200/50"
-                  }`}>
+                  <Card key={webinar.id} className={`rounded-3xl border shadow-sm overflow-hidden bg-white transition-all ${isPendingApproval ? "border-amber-300 ring-2 ring-amber-100" : "border-pink-50 hover:border-pink-200/50"
+                    }`}>
                     <div className="p-6 grid grid-cols-1 md:grid-cols-4 gap-6 items-start text-xs font-semibold text-slate-655">
-                      
+
                       {/* Left: Metadata */}
                       <div className="md:col-span-2 space-y-3">
                         <div className="flex flex-wrap gap-2 items-center">
@@ -538,13 +533,12 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                           )}
 
                           {/* Lifecycle Status Badge */}
-                          <span className={`text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full tracking-wider border ${
-                            webinar.status === "PUBLISHED"
+                          <span className={`text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full tracking-wider border ${webinar.status === "PUBLISHED"
                               ? "bg-emerald-50 text-emerald-600 border-emerald-100"
                               : webinar.status === "COMPLETED"
                                 ? "bg-slate-100 text-slate-500 border-slate-200"
                                 : "bg-amber-50 text-amber-500 border-amber-100"
-                          }`}>
+                            }`}>
                             {webinar.status}
                           </span>
                         </div>
@@ -556,7 +550,10 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                         <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-[11px] text-slate-700 flex items-center gap-2">
                           <User className="h-3.5 w-3.5 text-primary shrink-0" />
                           <span>
-                            <strong>Dr. {doctorName}</strong> ({doctorSpecialty}) • <span className="text-slate-500">{doctorHospital}</span>
+                            <strong>{doctorName}</strong>
+                            {doctorSpecialty ? ` (${doctorSpecialty})` : ""}
+                            {doctorHospital ? ` • ` : ""}
+                            {doctorHospital && <span className="text-slate-500">{doctorHospital}</span>}
                           </span>
                         </div>
 
@@ -613,11 +610,10 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                         {/* Admin Review & Approve Button */}
                         <Button
                           onClick={() => setReviewingWebinar(webinar)}
-                          className={`w-full rounded-xl text-[10px] uppercase font-bold py-2 h-auto cursor-pointer flex items-center justify-center gap-1 ${
-                            isPendingApproval
+                          className={`w-full rounded-xl text-[10px] uppercase font-bold py-2 h-auto cursor-pointer flex items-center justify-center gap-1 ${isPendingApproval
                               ? "bg-amber-500 hover:bg-amber-600 text-white shadow-xs"
                               : "bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200"
-                          }`}
+                            }`}
                         >
                           <Sparkles className="h-3.5 w-3.5" />
                           {isPendingApproval ? "Review & Approve" : "Review Details"}
@@ -750,8 +746,8 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                                           onChange={(e) => setManualMinutes(prev => ({ ...prev, [reg.userId]: e.target.value }))}
                                           className="w-16 bg-slate-50 border border-border rounded-lg px-1.5 py-1 text-center font-mono text-slate-800"
                                         />
-                                        <Button 
-                                          size="sm" 
+                                        <Button
+                                          size="sm"
                                           onClick={() => handleAdjustAttendance(reg.userId, webinar.id)}
                                           className="bg-primary text-white hover:bg-primary/95 text-[9px] h-7 rounded-lg"
                                         >
@@ -921,7 +917,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                         required
                         value={speakerName}
                         onChange={(e) => setSpeakerName(e.target.value)}
-                        placeholder="Dr. Shikha Yaduvanshi"
+                        placeholder="e.g. Renu Kulshreshtha"
                         className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3.5 py-2 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none text-slate-800"
                       />
                     </div>
@@ -1235,20 +1231,18 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                 <Sparkles className="h-5 w-5 text-purple-600 shrink-0" /> Admin Webinar Review
               </DialogTitle>
               <div className="flex items-center gap-2">
-                <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border ${
-                  reviewingWebinar?.webinarType === "PAID"
+                <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border ${reviewingWebinar?.webinarType === "PAID"
                     ? "bg-purple-50 text-purple-700 border-purple-200"
                     : "bg-slate-100 text-slate-700 border-slate-200"
-                }`}>
+                  }`}>
                   {reviewingWebinar?.webinarType === "PAID" ? `PAID • ₹${reviewingWebinar.registrationPrice}` : "FREE"}
                 </span>
-                <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border ${
-                  reviewingWebinar?.approvalStatus === "APPROVED" || !reviewingWebinar?.approvalStatus
+                <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border ${reviewingWebinar?.approvalStatus === "APPROVED" || !reviewingWebinar?.approvalStatus
                     ? "bg-emerald-50 text-emerald-600 border-emerald-200"
                     : reviewingWebinar?.approvalStatus === "PENDING_APPROVAL"
-                    ? "bg-amber-50 text-amber-700 border-amber-200"
-                    : "bg-red-50 text-red-600 border-red-200"
-                }`}>
+                      ? "bg-amber-50 text-amber-700 border-amber-200"
+                      : "bg-red-50 text-red-600 border-red-200"
+                  }`}>
                   {reviewingWebinar?.approvalStatus || "APPROVED"}
                 </span>
               </div>
@@ -1283,10 +1277,10 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                 <User className="h-3.5 w-3.5 text-primary" /> Doctor Information
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                <div><strong className="text-slate-700">Doctor Name:</strong> Dr. {reviewingWebinar?.doctor?.user?.name || reviewingWebinar?.speakerName || "Medical Specialist"}</div>
-                <div><strong className="text-slate-700">Doctor ID:</strong> <span className="font-mono">{reviewingWebinar?.doctor?.doctorId || reviewingWebinar?.doctorId || "DOC-VERIFIED"}</span></div>
-                <div><strong className="text-slate-700">Specialty:</strong> {reviewingWebinar?.speakerSpecialization || reviewingWebinar?.doctor?.specialty || "Oncology Specialist"}</div>
-                <div><strong className="text-slate-700">Hospital / Org:</strong> {reviewingWebinar?.speakerHospital || reviewingWebinar?.doctor?.hospitalAffiliation || "Specialist Care Hospital"}</div>
+                <div><strong className="text-slate-700">Doctor Name:</strong> {reviewingWebinar?.doctor?.user?.name || reviewingWebinar?.speakerName || "N/A"}</div>
+                <div><strong className="text-slate-700">Doctor ID:</strong> <span className="font-mono">{reviewingWebinar?.doctor?.doctorId || reviewingWebinar?.doctorId || "N/A"}</span></div>
+                <div><strong className="text-slate-700">Specialty:</strong> {reviewingWebinar?.speakerSpecialization || reviewingWebinar?.doctor?.specialty || "N/A"}</div>
+                <div><strong className="text-slate-700">Hospital / Org:</strong> {reviewingWebinar?.speakerHospital || reviewingWebinar?.doctor?.hospitalAffiliation || "N/A"}</div>
               </div>
             </div>
 

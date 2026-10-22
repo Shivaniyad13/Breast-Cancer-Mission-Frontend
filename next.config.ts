@@ -1,10 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "16mb",
-    },
+  serverActions: {
+    bodySizeLimit: "16mb",
   },
   eslint: {
     ignoreDuringBuilds: true,
@@ -22,7 +20,6 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "www.1mg.com",
       },
-      // ⬇️ YE ADD KARO — Cloudinary ke liye
       {
         protocol: "https",
         hostname: "res.cloudinary.com",

@@ -345,7 +345,7 @@ export async function registerForWebinarAction(
     throw new Error(resData.message || "Failed to register for webinar.");
   }
 
-  const { isAlreadyRegistered, registration: reg, webinar } = resData.data || {};
+  const { isAlreadyRegistered, confirmationEmailSent } = resData.data || {};
 
   if (isAlreadyRegistered) {
     return { success: true, message: "Already registered for this webinar." };
@@ -353,7 +353,12 @@ export async function registerForWebinarAction(
 
   revalidatePath(`/webinars/${webinarId}`);
   revalidatePath("/dashboard");
-  return { success: true, message: "Successfully registered! A confirmation email has been sent." };
+  return {
+    success: true,
+    message: confirmationEmailSent
+      ? "Successfully registered! A confirmation email has been sent."
+      : "Successfully registered, but the confirmation email could not be sent. Please contact the administrator.",
+  };
 }
 
 // Get or Create Webinar by Title
@@ -379,13 +384,21 @@ export async function getOrCreateWebinarByTitleAction(title: string) {
 export async function sendReminderAction(webinarId: string) {
   await requireAdmin();
 
-  const res = await apiClient(`/webinars/${webinarId}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Webinar not found.");
+  const res = await apiClient(`/webinars/${webinarId}/reminders`, {
+    method: "POST",
+    cache: "no-store",
+  });
   const resData = await res.json();
-  const webinar = resData.data;
-
-  const count = webinar.registrations?.length || 0;
-  return { success: true, count, message: `Successfully sent reminders to ${count} registered participants.` };
+  if (!res.ok || !resData.success) {
+    throw new Error(resData.message || "Failed to send webinar reminders.");
+  }
+  const { count, sent, failed } = resData.data;
+  const message = count === 0
+    ? "There are no registered participants to notify."
+    : failed > 0
+      ? `Sent ${sent} of ${count} reminders. ${failed} could not be sent; check SMTP settings and recipient email addresses.`
+      : `Successfully sent reminders to ${sent} registered participants.`;
+  return { success: true, count, sent, failed, message };
 }
 
 // User Joins Meeting Room - Attendance Start

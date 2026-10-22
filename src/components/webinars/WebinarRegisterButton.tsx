@@ -36,6 +36,7 @@ export default function WebinarRegisterButton({
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [resolvedWebinarId, setResolvedWebinarId] = useState(webinarId);
   const [resolvedWebinarTitle, setResolvedWebinarTitle] = useState(webinarTitle);
@@ -113,6 +114,7 @@ export default function WebinarRegisterButton({
 
       if (res.success) {
         setIsSuccess(true);
+        setSuccessMessage(res.message || "Successfully registered.");
         router.refresh();
       } else {
         setErrorMsg(res.message || "Registration failed.");
@@ -131,8 +133,8 @@ export default function WebinarRegisterButton({
       </Button>
 
       {isOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
-          <div className="bg-white/90 backdrop-blur-md border border-pink-100 rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in zoom-in-95 duration-200 text-slate-700">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex justify-end z-50 animate-in fade-in duration-200">
+          <div className="bg-white border-l border-pink-100 w-full sm:max-w-xl h-full overflow-y-auto p-5 sm:p-8 space-y-6 shadow-2xl relative animate-in slide-in-from-right duration-200 text-slate-700">
             
             {/* Close Button */}
             {!isPending && (
@@ -152,7 +154,7 @@ export default function WebinarRegisterButton({
                 </div>
                 <div className="space-y-2">
                   <h3 className="font-heading text-2xl font-black text-slate-800">✅ Registration Successful</h3>
-                  <p className="text-xs text-muted-foreground">You have successfully registered for</p>
+                  <p className="text-xs text-muted-foreground">{successMessage}</p>
                   <p className="font-heading text-lg font-bold text-primary px-4 py-2 bg-pink-50 rounded-2xl inline-block max-w-full truncate">
                     {resolvedWebinarTitle}
                   </p>
@@ -178,7 +180,7 @@ export default function WebinarRegisterButton({
               <div className="space-y-4">
                 <div className="border-b border-pink-50 pb-3">
                   <h3 className="font-heading text-xl font-black text-slate-800">Register for Webinar</h3>
-                  <p className="text-xs text-muted-foreground mt-1">Fill in the fields below to secure your seat for: <span className="font-semibold text-primary">{resolvedWebinarTitle}</span></p>
+                  <p className="text-sm text-muted-foreground mt-1">Fill in the fields below to secure your seat for: <span className="font-semibold text-primary break-words">{resolvedWebinarTitle}</span></p>
                 </div>
 
                 {errorMsg && (
@@ -194,10 +196,10 @@ export default function WebinarRegisterButton({
                     <p className="text-xs text-muted-foreground font-semibold">Linking to campaign event...</p>
                   </div>
                 ) : (
-                  <form onSubmit={handleRegister} className="space-y-4 text-xs font-semibold">
+                  <form onSubmit={handleRegister} className="space-y-4 text-sm font-semibold">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-[10px] text-slate-500 uppercase tracking-wider">Full Name *</label>
+                        <label className="text-xs text-slate-600 uppercase tracking-wider">Full Name *</label>
                         <input
                           type="text"
                           required
@@ -208,7 +210,7 @@ export default function WebinarRegisterButton({
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] text-slate-500 uppercase tracking-wider">Email *</label>
+                        <label className="text-xs text-slate-600 uppercase tracking-wider">Email *</label>
                         <input
                           type="email"
                           required
@@ -220,9 +222,9 @@ export default function WebinarRegisterButton({
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-[10px] text-slate-500 uppercase tracking-wider">Mobile Number *</label>
+                        <label className="text-xs text-slate-600 uppercase tracking-wider">Mobile Number *</label>
                         <input
                           type="tel"
                           required
@@ -233,12 +235,12 @@ export default function WebinarRegisterButton({
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] text-slate-500 uppercase tracking-wider">Gender *</label>
+                        <label className="text-xs text-slate-600 uppercase tracking-wider">Gender *</label>
                         <select
                           required
                           value={gender}
                           onChange={(e) => setGender(e.target.value)}
-                          className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3 py-2.5 outline-none focus:border-primary/50 text-slate-800 text-xs"
+                          className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3 py-2.5 outline-none focus:border-primary/50 text-slate-800 text-sm"
                         >
                           <option value="">Select Gender</option>
                           <option value="Female">Female</option>
@@ -248,7 +250,7 @@ export default function WebinarRegisterButton({
                         </select>
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] text-slate-500 uppercase tracking-wider">Age *</label>
+                        <label className="text-xs text-slate-600 uppercase tracking-wider">Age *</label>
                         <input
                           type="number"
                           required
@@ -260,9 +262,9 @@ export default function WebinarRegisterButton({
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-[10px] text-slate-500 uppercase tracking-wider">City *</label>
+                        <label className="text-xs text-slate-600 uppercase tracking-wider">City *</label>
                         <input
                           type="text"
                           required
@@ -273,7 +275,7 @@ export default function WebinarRegisterButton({
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] text-slate-500 uppercase tracking-wider">State *</label>
+                        <label className="text-xs text-slate-600 uppercase tracking-wider">State *</label>
                         <input
                           type="text"
                           required
@@ -284,7 +286,7 @@ export default function WebinarRegisterButton({
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] text-slate-500 uppercase tracking-wider">Occupation *</label>
+                        <label className="text-xs text-slate-600 uppercase tracking-wider">Occupation *</label>
                         <input
                           type="text"
                           required
@@ -297,7 +299,7 @@ export default function WebinarRegisterButton({
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] text-slate-500 uppercase tracking-wider">Emergency Contact (Mobile / Relation) *</label>
+                      <label className="text-xs text-slate-600 uppercase tracking-wider">Emergency Contact (Mobile / Relation) *</label>
                       <input
                         type="text"
                         required
@@ -309,7 +311,7 @@ export default function WebinarRegisterButton({
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] text-slate-500 uppercase tracking-wider">Why do you want to attend? *</label>
+                      <label className="text-xs text-slate-600 uppercase tracking-wider">Why do you want to attend? *</label>
                       <textarea
                         required
                         rows={3}
