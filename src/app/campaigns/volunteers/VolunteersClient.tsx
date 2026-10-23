@@ -119,52 +119,6 @@ const whyVolunteerList = [
   }
 ];
 
-// Opportunities List
-const opportunitiesList = [
-  {
-    title: "Community Awareness Volunteer",
-    description: "Distribute visual guides, talk about early self-exams in schools, and coordinate regional outreach programmes.",
-    location: "Field Outreach",
-    commitment: "Event Based",
-    interestKey: "outreach"
-  },
-  {
-    title: "Health Camp Volunteer",
-    description: "Manage queues, register patients, and coordinate diagnostics schedules alongside licensed doctors during free camps.",
-    location: "Medical Camps",
-    commitment: "Part Time",
-    interestKey: "camps"
-  },
-  {
-    title: "Campaign Event Coordinator",
-    description: "Lead the logistical planning for Pink Ribbon walks, seminar locations, and coordinate with NGO support teams.",
-    location: "City Headquarters",
-    commitment: "Full Time",
-    interestKey: "events"
-  },
-  {
-    title: "Social Media Awareness Advocate",
-    description: "Create infographics, write patient recovery articles, and amplify webinar registrations online.",
-    location: "Remote / Online",
-    commitment: "Part Time",
-    interestKey: "media"
-  },
-  {
-    title: "Fundraising Volunteer",
-    description: "Help connect patients needing treatment to donors, manage ledger updates, and coordinate with verifying NGOs.",
-    location: "Regional Centers",
-    commitment: "Part Time",
-    interestKey: "fundraising"
-  },
-  {
-    title: "Educational Workshop Presenter",
-    description: "Train volunteers and distribute Khushi Tactile Care kits. Guide participants through clinical self-exam rules.",
-    location: "Institutions & Centers",
-    commitment: "Event Based",
-    interestKey: "workshops"
-  }
-];
-
 const interestToRole: Record<string, string> = {
   outreach: "Community Outreach Volunteer",
   camps: "Health Camp Volunteer",
@@ -207,17 +161,6 @@ const faqsList = [
   }
 ];
 
-// TODO: Remove FALLBACK_GALLERY once enough real submissions exist
-const FALLBACK_GALLERY: GalleryItem[] = [
-  { src: "/images/11.png", title: "Global Ribbons Drive" },
-  { src: "/images/12.png", title: "Clinic Diagnostics Camp" },
-  { src: "/images/13.png", title: "Support Group Circle" },
-  { src: "/images/14.png", title: "Walkathon Mobilization" },
-  { src: "/images/15.png", title: "Interactive Workshop Session" },
-  { src: "/images/16.png", title: "Survivor Support Network" },
-  { src: "/images/17.png", title: "Wellness Daily Advocacy" }
-];
-
 export default function VolunteersClient({
   initialSession = null,
   initialFeedback = [],
@@ -230,7 +173,8 @@ export default function VolunteersClient({
   const [session, setSession] = useState<VolunteerSession>(initialSession);
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
 
-  const galleryItems = initialGallery.length > 0 ? initialGallery : FALLBACK_GALLERY;
+  // Gallery is now solely driven by verified backend submissions (no hardcoded fallback)
+  const galleryItems = initialGallery;
   const [lightboxImage, setLightboxImage] = useState<GalleryItem | null>(null);
   const [applyingEventId, setApplyingEventId] = useState<string | null>(null);
 
@@ -611,14 +555,6 @@ export default function VolunteersClient({
               >
                 Get Started
               </Button>
-              <a href="#opportunities">
-                <Button
-                  variant="outline"
-                  className="border-pink-200 text-primary bg-white hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
-                >
-                  View Roles
-                </Button>
-              </a>
             </motion.div>
           </div>
         </div>
@@ -663,56 +599,6 @@ export default function VolunteersClient({
               </motion.div>
             ))}
           </motion.div>
-
-        </div>
-      </section>
-
-      {/* ================= VOLUNTEER OPPORTUNITIES ================= */}
-      <section id="opportunities" className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20 scroll-mt-6">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-16">
-
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="h-3.5 w-3.5" /> Active Openings
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
-              Volunteer Opportunities
-            </h2>
-            <p className="text-slate-500 text-sm sm:text-base font-medium">
-              Explore open volunteer roles matching your expertise, location preference, and weekly availability.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {opportunitiesList.map((opp, idx) => (
-              <Card key={idx} className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl flex flex-col justify-between group hover:border-pink-300 hover:-translate-y-1">
-                <CardHeader className="p-6 pb-2">
-                  <div className="flex justify-between items-start">
-                    <span className="text-[10px] font-bold text-primary uppercase tracking-widest bg-pink-50 px-2.5 py-1 rounded-md border border-pink-100/40">
-                      {opp.commitment}
-                    </span>
-                    <span className="text-[10px] text-slate-400 font-semibold flex items-center gap-1">
-                      <MapPin className="h-3 w-3 text-primary" /> {opp.location}
-                    </span>
-                  </div>
-                  <CardTitle className="font-heading text-lg font-bold mt-4 text-slate-800 group-hover:text-primary transition-colors leading-tight">
-                    {opp.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 pt-2 space-y-4">
-                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
-                    {opp.description}
-                  </p>
-                  <Button
-                    onClick={() => scrollToForm(opp.interestKey)}
-                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 transition-all text-xs cursor-pointer active:scale-95 shadow-md shadow-pink-100"
-                  >
-                    Apply Now
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
 
         </div>
       </section>
@@ -1217,39 +1103,58 @@ export default function VolunteersClient({
             )}
           </div>
 
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-          >
-            {galleryItems.map((item, idx) => (
-              <motion.div
-                key={item.id || idx}
-                variants={fadeInUp}
-                onClick={() => setLightboxImage(item)}
-                className="relative aspect-square rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer border border-pink-100/60 bg-slate-100"
-              >
-                <Image
-                  src={item.src}
-                  alt={item.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end">
-                  <h4 className="text-white font-heading font-bold text-sm leading-snug">
-                    {item.title}
-                  </h4>
-                  {item.submittedBy && (
-                    <p className="text-[11px] text-pink-100 mt-1 font-medium">
-                      Submitted by {item.submittedBy}
-                    </p>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+          {galleryItems.length > 0 ? (
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+            >
+              {galleryItems.map((item, idx) => (
+                <motion.div
+                  key={item.id || idx}
+                  variants={fadeInUp}
+                  onClick={() => setLightboxImage(item)}
+                  className="relative aspect-square rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer border border-pink-100/60 bg-slate-100"
+                >
+                  <Image
+                    src={item.src}
+                    alt={item.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end">
+                    <h4 className="text-white font-heading font-bold text-sm leading-snug">
+                      {item.title}
+                    </h4>
+                    {item.submittedBy && (
+                      <p className="text-[11px] text-pink-100 mt-1 font-medium">
+                        Submitted by {item.submittedBy}
+                      </p>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <div className="border-2 border-dashed border-pink-200 bg-pink-50/30 rounded-3xl p-10 flex flex-col items-center justify-center text-center gap-3 max-w-xl mx-auto">
+              <Video className="h-8 w-8 text-pink-400" />
+              <h3 className="font-heading font-bold text-lg text-slate-700">No photos yet</h3>
+              <p className="text-xs text-slate-500 max-w-sm font-medium">
+                Verified volunteers can upload their campaign photos. Approved submissions will appear here.
+              </p>
+              {initialSession?.volunteerStatus === "VERIFIED" && (
+                <Button
+                  onClick={() => setShowGalleryModal(true)}
+                  className="mt-2 bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full px-5 py-2.5 active:scale-95 transition-all cursor-pointer shadow-md shadow-pink-100"
+                >
+                  <Upload className="h-3.5 w-3.5 mr-1.5" />
+                  Upload First Photo
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </section>
 

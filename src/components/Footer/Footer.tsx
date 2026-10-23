@@ -1,14 +1,12 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import {
   Phone,
   Mail,
   MapPin,
-  ArrowUp,
   ShieldCheck,
 } from "lucide-react";
+import BackToTopButton from "./BackToTopButton";
 
 const FacebookIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -59,10 +57,6 @@ const MAP_EMBED_SRC =
   "https://www.google.com/maps?q=Sector%2064%2C%20Noida%2C%20Uttar%20Pradesh%20201309&output=embed";
 
 export default function Footer() {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <footer className="relative">
       {/* ============ CLINICAL DISCLAIMER SECTION (Top) ============ */}
@@ -164,12 +158,7 @@ export default function Footer() {
                   </li>
                 ))}
                 <li>
-                  <button
-                    onClick={scrollToTop}
-                    className="w-full text-left text-sm font-semibold text-slate-700 hover:text-primary hover:bg-pink-50 rounded-lg px-3 py-1.5 -mx-3 transition-colors duration-150 cursor-pointer"
-                  >
-                    Back to Top
-                  </button>
+                  <BackToTopButton variant="link" />
                 </li>
               </ul>
             </div>
@@ -250,13 +239,7 @@ export default function Footer() {
                 Terms of Use
               </Link>
 
-              <button
-                onClick={scrollToTop}
-                aria-label="Back to top"
-                className="flex items-center justify-center h-7 w-7 rounded-full bg-pink-500 hover:bg-pink-600 text-white transition-all duration-200 shadow-sm shadow-pink-500/20 cursor-pointer"
-              >
-                <ArrowUp className="h-3.5 w-3.5" />
-              </button>
+              <BackToTopButton variant="icon" />
             </div>
           </div>
         </div>

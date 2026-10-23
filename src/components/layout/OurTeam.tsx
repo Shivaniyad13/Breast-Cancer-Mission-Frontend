@@ -6,9 +6,8 @@ import { motion } from "framer-motion";
 
 // Team members — name + qualification + image only
 const TEAM = [
-
   {
-    name: " Patrons & chief  Prof. G. K. Rath ",
+    name: "Patrons & chief Prof. G. K. Rath",
     qualification: "M.D.",
     image: "/images/GK.png",
   },
@@ -27,29 +26,24 @@ const TEAM = [
     qualification: "MD, Fellow CSD & PMR",
     image: "/images/team3.jpg",
   },
-
-
   {
     name: "Mukta Sharma",
-    qualification: "PG Diploma Biotechnology , PG Diploma in Bioinformatics",
+    qualification: "PG Diploma Biotechnology, PG Diploma in Bioinformatics",
     image: "/images/10.png",
   },
-
   {
     name: "Kritika Singh",
     qualification: "B.Pharma",
     image: "/images/head.jpg",
   },
-
-   {
+  {
     name: "Shivani Yadav",
     qualification: "B.Tech",
     image: "/images/shivani.jpg",
   },
-
-   {
+  {
     name: "Krishna Mishra",
-    qualification: "B.tech",
+    qualification: "B.Tech",
     image: "/images/krishna.jpeg",
   },
 ];
@@ -78,10 +72,10 @@ export default function OurTeam() {
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-pink-200/20 dark:bg-pink-900/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-200/20 dark:bg-blue-900/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="container mx-auto max-w-7xl relative z-10">
+      <div className="container mx-auto max-w-6xl relative z-10">
         {/* Section Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -93,9 +87,9 @@ export default function OurTeam() {
           </h2>
         </motion.div>
 
-        {/* Team Grid */}
+        {/* Team Grid — equal height cards, equal size photos */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 items-stretch"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -105,31 +99,28 @@ export default function OurTeam() {
             <motion.article
               key={member.name}
               variants={fadeUpVariants}
-              whileHover={{ y: -6 }}
-              className="group overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:border-pink-300/60 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-pink-800/60"
+              whileHover={{ y: -4 }}
+              className="group flex h-full flex-col overflow-hidden rounded-xl border border-slate-200/70 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:border-pink-300/60 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-pink-800/60"
             >
-              {/* Professional Image */}
-              <div className="relative aspect-[4/5] w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+              {/* Image — fixed square, object-cover for uniform visual size */}
+              <div className="relative aspect-square w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
                 <Image
                   src={member.image}
                   alt={member.name}
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                  priority={index < 2}
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 22vw"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  priority={index < 4}
                 />
-
-                {/* Subtle hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/25 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               </div>
 
-              {/* Minimal Content */}
-              <div className="px-4 py-5 text-center">
-                <h3 className="font-heading text-base font-bold text-slate-900 dark:text-white">
+              {/* Content — flex-1 so all cards equal height */}
+              <div className="flex flex-1 flex-col items-center justify-start px-3 py-3 text-center">
+                <h3 className="font-heading line-clamp-2 text-sm font-bold leading-snug text-slate-900 dark:text-white">
                   {member.name}
                 </h3>
 
-                <p className="mt-1 text-sm font-medium text-pink-600 dark:text-pink-400">
+                <p className="mt-1 line-clamp-2 text-xs font-medium leading-snug text-pink-600 dark:text-pink-400">
                   {member.qualification}
                 </p>
               </div>
@@ -140,3 +131,5 @@ export default function OurTeam() {
     </section>
   );
 }
+
+
