@@ -314,17 +314,18 @@ export default function Home() {
             <div className="group bg-white rounded-xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-lg hover:border-pink-300 transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
               <div className="h-28 sm:h-32 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-4">
                 <img
-                  src="/images/corporation.jpeg"
-                  alt="GRS India Corporation"
+                  src="/images/corporation.png"
+                  alt="Department of Social work "
                   className="max-h-16 sm:max-h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
               <div className="flex flex-col flex-1 p-3 sm:p-4 text-center items-center">
                 <h3 className="text-sm sm:text-base font-bold text-slate-900 mb-1 leading-snug">
-                  GRS India Corporation
+                  Department of Social Work
+                  University of Delhi
                 </h3>
                 <a
-                  href="https://grsindiacorporation.com/"
+                  href="https://www.du.ac.in/index.php?page=department-of-social-work"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-auto pt-2 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700 text-xs sm:text-sm"
