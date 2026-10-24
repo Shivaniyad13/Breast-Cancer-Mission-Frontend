@@ -112,6 +112,31 @@ export async function createCashfreeDonationOrderAction(data: {
       return { success: false, error: cfData.message || "Failed to initialize Cashfree payment" };
     }
 
+    const donationRes = await apiClient("/donations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        campaignId: data.campaignId || undefined,
+        donorId: donorId || undefined,
+        donorName: data.donorName || session?.user?.name || undefined,
+        donorEmail: data.donorEmail || session?.user?.email || undefined,
+        donorPhone: data.donorPhone || undefined,
+        amount: Number(cfData.order_amount),
+        currency: cfData.order_currency || "INR",
+        paymentGatewayId: cfData.order_id,
+        isAnonymous: data.isAnonymous || false,
+        message: data.message || undefined,
+      }),
+    });
+    const donationData = await donationRes.json();
+    if (!donationRes.ok || !donationData.success) {
+      console.error("[Donation Persistence Error]:", donationData);
+      return {
+        success: false,
+        error: donationData.message || "Unable to save donation before payment. Please try again.",
+      };
+    }
+
     return {
       success: true,
       data: {
@@ -264,6 +289,7 @@ export async function createDonationAction(data: {
 export async function getPublicDonationsAction(params?: {
   limit?: number;
   page?: number;
+  sortBy?: "amount" | "recent";
   status?: string;
   search?: string;
 }) {
@@ -271,6 +297,7 @@ export async function getPublicDonationsAction(params?: {
     const query = new URLSearchParams();
     if (params?.limit) query.set("limit", params.limit.toString());
     if (params?.page) query.set("page", params.page.toString());
+    if (params?.sortBy) query.set("sortBy", params.sortBy);
     if (params?.status) query.set("status", params.status);
     if (params?.search) query.set("search", params.search);
 
@@ -280,45 +307,66 @@ export async function getPublicDonationsAction(params?: {
 
     if (res.ok && data.data) {
       const donationsList = Array.isArray(data.data) ? data.data : (data.data.donations || []);
-      const formatted = donationsList.map((d: any) => {
-        const isCompleted =
+      const formatted = donationsList
+        .filter((d: { status?: string }) =>
           d.status === DonationStatus.SUCCESSFUL ||
-          d.status === DonationStatus.COMPLETED;
-        return {
-          id: d.id,
-          name: d.isAnonymous ? "Anonymous" : d.donorName || d.donor?.name || "Anonymous Supporter",
-          donorName: d.donorName,
-          email: d.donorEmail || d.donor?.email || "",
-          donorEmail: d.donorEmail,
-          organization: undefined,
-          amount: Number(d.amount),
-          message: d.message || undefined,
-          is_anonymous: d.isAnonymous,
-          isAnonymous: d.isAnonymous,
-          created_at: d.createdAt ? new Date(d.createdAt).toISOString() : new Date().toISOString(),
-          createdAt: d.createdAt ? new Date(d.createdAt).toISOString() : new Date().toISOString(),
-          status: d.status,
-          payment_status: isCompleted ? "completed" : (d.status ? d.status.toLowerCase() : "pending"),
-          user_id: d.donorId || undefined,
-          user: d.donor
-            ? {
+          d.status === DonationStatus.COMPLETED
+        )
+        .map((d: any) => {
+          return {
+            id: d.id,
+            name: d.isAnonymous ? "Anonymous" : d.donorName || d.donor?.name || "Anonymous Supporter",
+            donorName: d.donorName,
+            email: d.donorEmail || d.donor?.email || "",
+            donorEmail: d.donorEmail,
+            organization: undefined,
+            amount: Number(d.amount),
+            message: d.message || undefined,
+            is_anonymous: d.isAnonymous,
+            isAnonymous: d.isAnonymous,
+            created_at: d.createdAt ? new Date(d.createdAt).toISOString() : new Date().toISOString(),
+            createdAt: d.createdAt ? new Date(d.createdAt).toISOString() : new Date().toISOString(),
+            status: d.status,
+            payment_status: "completed",
+            user_id: d.donorId || undefined,
+            user: d.donor
+              ? {
                 id: d.donor.id,
                 name: d.donor.name || "Anonymous",
                 email: d.donor.email || "",
                 image: d.donor.image || undefined,
-              }
-            : undefined,
-          campaign: d.campaign,
-        };
-      });
+                }
+              : undefined,
+            campaign: d.campaign,
+          };
+        });
 
-      return { success: true, donations: formatted };
+      return {
+        success: true,
+        donations: formatted,
+        pagination: data.data.pagination || {
+          total: formatted.length,
+          page: params?.page || 1,
+          limit: params?.limit || formatted.length,
+          pages: 1,
+        },
+      };
     }
 
-    return { success: false, donations: [], error: data.message || "Failed to fetch donations" };
+    return {
+      success: false,
+      donations: [],
+      pagination: { total: 0, page: params?.page || 1, limit: params?.limit || 25, pages: 0 },
+      error: data.message || "Failed to fetch donations",
+    };
   } catch (error: any) {
     console.error("Error fetching public donations:", error);
-    return { success: false, donations: [], error: error.message };
+    return {
+      success: false,
+      donations: [],
+      pagination: { total: 0, page: params?.page || 1, limit: params?.limit || 25, pages: 0 },
+      error: error.message,
+    };
   }
 }
 

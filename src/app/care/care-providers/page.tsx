@@ -112,9 +112,9 @@ interface FAQItem {
 // ----------------------------------------------------------------------
 
 const GALLERY_ITEMS = [
-  { name: "Dr. G K Rath", dept: "Medical Oncology", img: "/gkr.jpg" },
-  { name: "Dr. Anurag Srivastav", dept: "Medical Oncology", img: "/team8.jpg" },
-  { name: "Dr. Navneet Kaur", dept: "Genetics Lab", img: "/photo.jpg" },
+  { name: "Dr. G K Ratnam", dept: "Medical Oncology", img: "/gkr.jpg" },
+  { name: "Dr.Anurag Srivastav", dept: "Medical Oncology", img: "/team8.jpg" },
+  { name: "Dr.Navneet Kaur", dept: "Genetics Lab", img: "/photo.jpg" },
   { name: "Dr. Rahul Bhardavaj", dept: "Patient Support", img: "/photo.jpg" },
 
   { name: "Dr. Nandani Bhojraj", dept: "Operations & HR", img: "/photo.jpg" },
@@ -709,7 +709,7 @@ export default function CareProvidersPage() {
               Our Team
             </span>
             <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
-              Meet Our Expert Team
+              Meet Our Bharat-Cancer Expert Team
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
               Dedicated specialists committed to your care – from diagnosis to recovery and beyond.

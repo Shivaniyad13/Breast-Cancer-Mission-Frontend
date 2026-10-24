@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Heart, Trophy, Clock, Shield, Building2 } from 'lucide-react'
 
@@ -27,15 +27,24 @@ export interface SupporterItem {
 interface SupportersWallProps {
   supporters: SupporterItem[]
   isLoading?: boolean
+  pagination?: {
+    page: number
+    pages: number
+    total: number
+  }
+  onPageChange?: (page: number) => void
+  sortBy?: 'amount' | 'recent'
+  onSortChange?: (sortBy: 'amount' | 'recent') => void
 }
 
 export const SupportersWall: React.FC<SupportersWallProps> = ({
   supporters = [],
   isLoading = false,
+  pagination,
+  onPageChange,
+  sortBy = 'recent',
+  onSortChange,
 }) => {
-  const [activeTab, setActiveTab] = useState<'recent' | 'top'>('recent')
-
-  // Format and parse supporters
   const normalizedSupporters = supporters.map((s) => ({
     id: s.id,
     name:
@@ -49,13 +58,6 @@ export const SupportersWall: React.FC<SupportersWallProps> = ({
     date: s.createdAt || s.created_at || new Date().toISOString(),
     image: s.user?.image || null,
   }))
-
-  const sortedSupporters = [...normalizedSupporters].sort((a, b) => {
-    if (activeTab === 'top') {
-      return b.amount - a.amount
-    }
-    return new Date(b.date).getTime() - new Date(a.date).getTime()
-  })
 
   return (
     <section className="mb-12">
@@ -73,9 +75,9 @@ export const SupportersWall: React.FC<SupportersWallProps> = ({
         {/* Filter Tabs */}
         <div className="flex items-center p-1.5 bg-slate-100 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 self-start sm:self-auto">
           <button
-            onClick={() => setActiveTab('recent')}
+            onClick={() => onSortChange?.('recent')}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-              activeTab === 'recent'
+              sortBy === 'recent'
                 ? 'bg-white dark:bg-slate-900 text-pink-600 dark:text-pink-400 shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
@@ -84,9 +86,9 @@ export const SupportersWall: React.FC<SupportersWallProps> = ({
             <span>Recent Donors</span>
           </button>
           <button
-            onClick={() => setActiveTab('top')}
+            onClick={() => onSortChange?.('amount')}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-              activeTab === 'top'
+              sortBy === 'amount'
                 ? 'bg-white dark:bg-slate-900 text-amber-600 dark:text-amber-400 shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
@@ -98,15 +100,13 @@ export const SupportersWall: React.FC<SupportersWallProps> = ({
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[1, 2, 3, 4, 5, 6].map((n) => (
-            <div
-              key={n}
-              className="h-32 rounded-2xl bg-slate-100 dark:bg-slate-800/60 animate-pulse border border-slate-200 dark:border-slate-700"
-            />
+        <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700">
+          <div className="h-12 bg-slate-100 dark:bg-slate-800 animate-pulse" />
+          {[1, 2, 3, 4].map((n) => (
+            <div key={n} className="h-14 border-t border-slate-100 dark:border-slate-800 animate-pulse" />
           ))}
         </div>
-      ) : sortedSupporters.length === 0 ? (
+      ) : normalizedSupporters.length === 0 ? (
         <div className="text-center py-12 px-4 rounded-3xl bg-pink-50/50 dark:bg-slate-800/40 border border-pink-200 dark:border-pink-900/50">
           <Heart className="h-12 w-12 text-pink-400 mx-auto mb-3 animate-pulse" />
           <h3 className="text-lg font-bold text-slate-800 dark:text-white">
@@ -117,68 +117,95 @@ export const SupportersWall: React.FC<SupportersWallProps> = ({
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <AnimatePresence mode="popLayout">
-            {sortedSupporters.map((supporter, idx) => (
-              <motion.div
-                key={supporter.id + idx}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3, delay: idx * 0.04 }}
-                className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 p-5 border border-pink-200 dark:border-pink-800/60 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-start justify-between gap-3 mb-2">
-                    <div className="flex items-center gap-3">
-                      {supporter.isAnonymous ? (
-                        <div className="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/40 text-pink-600 dark:text-pink-400 flex items-center justify-center font-bold text-sm">
-                          <Shield className="h-5 w-5" />
+        <div className="overflow-hidden rounded-2xl border border-pink-200 dark:border-pink-800/60 bg-white dark:bg-slate-900 shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[640px] text-left">
+              <thead className="bg-pink-50/70 dark:bg-slate-800/80">
+                <tr className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  <th className="px-5 py-4 font-bold">Donor</th>
+                  <th className="px-5 py-4 font-bold">Amount</th>
+                  <th className="px-5 py-4 font-bold">Message</th>
+                  <th className="px-5 py-4 font-bold">Date</th>
+                  <th className="px-5 py-4 font-bold">Payment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <AnimatePresence mode="popLayout">
+                  {normalizedSupporters.map((supporter) => (
+                    <motion.tr
+                      key={supporter.id}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="border-t border-slate-100 dark:border-slate-800"
+                    >
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-bold ${supporter.isAnonymous ? 'bg-pink-100 text-pink-600 dark:bg-pink-900/40 dark:text-pink-400' : 'bg-gradient-to-br from-pink-500 to-rose-600 text-white'}`}>
+                            {supporter.isAnonymous
+                              ? <Shield className="h-4 w-4" />
+                              : supporter.name.charAt(0).toUpperCase()}
+                          </div>
+                          <div>
+                            <p className="font-bold text-slate-900 dark:text-white">{supporter.name}</p>
+                            {supporter.organization && !supporter.isAnonymous && (
+                              <p className="mt-0.5 flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+                                <Building2 className="h-3 w-3" />
+                                {supporter.organization}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      ) : (
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 text-white flex items-center justify-center font-bold text-base shadow-md">
-                          {supporter.name.charAt(0).toUpperCase()}
-                        </div>
-                      )}
-
-                      <div>
-                        <h4 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base leading-tight">
-                          {supporter.name}
-                        </h4>
-                        {supporter.organization && !supporter.isAnonymous && (
-                          <p className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
-                            <Building2 className="h-3 w-3" />
-                            <span>{supporter.organization}</span>
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    <span className="font-extrabold text-rose-600 dark:text-rose-400 text-base sm:text-lg">
-                      ₹{supporter.amount.toLocaleString('en-IN')}
-                    </span>
-                  </div>
-
-                  {supporter.message && (
-                    <p className="text-xs text-slate-600 dark:text-slate-300 italic bg-pink-50/50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-pink-100 dark:border-pink-900/40 my-2 leading-relaxed">
-                      &quot;{supporter.message}&quot;
-                    </p>
-                  )}
-                </div>
-
-                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500">
-                  <span>Verified Supporter</span>
-                  <span>
-                    {new Date(supporter.date).toLocaleDateString('en-IN', {
-                      day: 'numeric',
-                      month: 'short',
-                      year: 'numeric',
-                    })}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+                      </td>
+                      <td className="px-5 py-4 font-extrabold text-rose-600 dark:text-rose-400">
+                        ₹{supporter.amount.toLocaleString('en-IN')}
+                      </td>
+                      <td className="max-w-xs px-5 py-4 text-sm text-slate-600 dark:text-slate-300">
+                        {supporter.message || '—'}
+                      </td>
+                      <td className="whitespace-nowrap px-5 py-4 text-sm text-slate-500 dark:text-slate-400">
+                        {new Date(supporter.date).toLocaleDateString('en-IN', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                        })}
+                      </td>
+                      <td className="px-5 py-4">
+                        <span className="inline-flex rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+                          Successful
+                        </span>
+                      </td>
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
+              </tbody>
+            </table>
+          </div>
+          {pagination && pagination.pages > 1 && onPageChange && (
+            <div className="flex flex-col gap-3 border-t border-slate-100 px-5 py-4 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                Page {pagination.page} of {pagination.pages} · {pagination.total.toLocaleString('en-IN')} successful donations
+              </p>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => onPageChange(pagination.page - 1)}
+                  disabled={pagination.page <= 1}
+                  className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-700 dark:text-slate-200"
+                >
+                  Previous
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onPageChange(pagination.page + 1)}
+                  disabled={pagination.page >= pagination.pages}
+                  className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-700 dark:text-slate-200"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </section>

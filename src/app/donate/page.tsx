@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import {
   createDonationAction,
@@ -17,7 +17,6 @@ import { QRModal } from '@/components/donate/QRModal'
 import { SuccessReceipt, SuccessReceiptData } from '@/components/donate/SuccessReceipt'
 import { SupportersWall, SupporterItem } from '@/components/donate/SupportersWall'
 import { TransparencyFaq } from '@/components/donate/TransparencyFaq'
-import { ChevronDown, ChevronUp } from 'lucide-react'
 import { DonationStatus } from "@/types/enums"
 
 
@@ -28,6 +27,13 @@ export default function DonatePage() {
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState<Record<string, number>>({})
   const [supporters, setSupporters] = useState<SupporterItem[]>([])
+  const [donationPage, setDonationPage] = useState(1)
+  const [donationSort, setDonationSort] = useState<'amount' | 'recent'>('recent')
+  const [donationPagination, setDonationPagination] = useState({
+    page: 1,
+    pages: 1,
+    total: 0,
+  })
 
   // Modal & Form state
   const [isQrModalOpen, setIsQrModalOpen] = useState(false)
@@ -39,16 +45,12 @@ export default function DonatePage() {
   // Success view state
   const [successReceipt, setSuccessReceipt] = useState<SuccessReceiptData | null>(null)
 
-  // Supporters Wall display state
-  const [showAllSupporters, setShowAllSupporters] = useState(false)
-  const INITIAL_SUPPORTERS_COUNT = 3
-
   // Fetch initial backend stats & supporters
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       const [statsRes, supportersRes] = await Promise.all([
         getDonationStatsAction(),
-        getPublicDonationsAction({ limit: 100 }),
+        getPublicDonationsAction({ limit: 25, page: donationPage, sortBy: donationSort }),
       ])
 
       if (statsRes.success) {
@@ -57,16 +59,25 @@ export default function DonatePage() {
 
       if (supportersRes.success && Array.isArray(supportersRes.donations)) {
         setSupporters(supportersRes.donations as unknown as SupporterItem[])
+        setDonationPagination(supportersRes.pagination)
       }
     } catch (err) {
       console.error('Error fetching donation data:', err)
     } finally {
       setLoading(false)
     }
-  }
+  }, [donationPage, donationSort])
 
   useEffect(() => {
-    loadData()
+    void loadData()
+
+    const refreshVisiblePage = () => {
+      if (document.visibilityState === 'visible') {
+        void loadData()
+      }
+    }
+    const refreshInterval = window.setInterval(refreshVisiblePage, 30_000)
+    window.addEventListener('focus', refreshVisiblePage)
 
     // Handle return from Cashfree if redirected with order_id in query
     if (typeof window !== 'undefined') {
@@ -88,17 +99,32 @@ export default function DonatePage() {
                 date: donation?.createdAt || new Date().toISOString(),
                 status: 'SUCCESSFUL',
               })
-              loadData()
+              void loadData()
               window.history.replaceState({}, '', window.location.pathname)
             }
           })
           .catch((err) => console.error('Redirect verification error:', err))
       }
     }
-  }, [])
+    return () => {
+      window.clearInterval(refreshInterval)
+      window.removeEventListener('focus', refreshVisiblePage)
+    }
+  }, [loadData])
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  const handleDonationPageChange = (page: number) => {
+    setLoading(true)
+    setDonationPage(page)
+  }
+
+  const handleDonationSortChange = (sortBy: 'amount' | 'recent') => {
+    setLoading(true)
+    setDonationPage(1)
+    setDonationSort(sortBy)
   }
 
   const handleInitiatePayment = async (
@@ -165,7 +191,7 @@ export default function DonatePage() {
         }
         setSuccessReceipt(newReceipt)
         setActiveFormData(null)
-        loadData()
+        void loadData()
       } else {
         console.log('[Cashfree] Modal closed or payment pending verification:', verifyRes)
       }
@@ -217,7 +243,7 @@ export default function DonatePage() {
     setIsQrModalOpen(false)
     setActiveFormData(null)
 
-    loadData()
+    void loadData()
   }
 
   const handleDonateAgain = () => {
@@ -234,7 +260,7 @@ export default function DonatePage() {
           <HeroSection onDonateClick={scrollToForm} />
 
           {/* Live Statistics Section */}
-          <LiveStats stats={stats} uniqueDonorsCount={supporters.length} />
+          <LiveStats stats={stats} />
 
           {/* Main Action Area */}
           <div ref={formRef} className="scroll-mt-8">
@@ -258,35 +284,13 @@ export default function DonatePage() {
           {/* Supporters Wall Section */}
           <div className="space-y-6">
             <SupportersWall
-              supporters={
-                showAllSupporters
-                  ? supporters
-                  : supporters.slice(0, INITIAL_SUPPORTERS_COUNT)
-              }
+              supporters={supporters}
               isLoading={loading}
+              pagination={donationPagination}
+              onPageChange={handleDonationPageChange}
+              sortBy={donationSort}
+              onSortChange={handleDonationSortChange}
             />
-
-            {!loading && supporters.length > INITIAL_SUPPORTERS_COUNT && (
-              <div className="text-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => setShowAllSupporters((prev) => !prev)}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border-2 border-pink-300 text-pink-700 font-bold text-sm shadow-md hover:bg-pink-50 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
-                >
-                  {showAllSupporters ? (
-                    <>
-                      <ChevronUp className="h-4 w-4" />
-                      Show Less
-                    </>
-                  ) : (
-                    <>
-                      <ChevronDown className="h-4 w-4" />
-                      See More ({supporters.length - INITIAL_SUPPORTERS_COUNT} more donors)
-                    </>
-                  )}
-                </button>
-              </div>
-            )}
           </div>
 
           {/* Transparency & FAQs Section */}
