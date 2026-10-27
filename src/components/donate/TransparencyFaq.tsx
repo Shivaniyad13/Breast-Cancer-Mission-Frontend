@@ -49,11 +49,11 @@ export const TransparencyFaq: React.FC = () => {
   }
 
   return (
-    <section className="mb-12">
+    <section className="mb-8">
       {/* Frequently Asked Questions */}
-      <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 border border-pink-200 dark:border-pink-800 shadow-xl space-y-6">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-pink-200 dark:border-pink-800 shadow-md space-y-6">
         <div className="text-center space-y-2 max-w-xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white flex items-center justify-center gap-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white flex items-center justify-center gap-2">
             <HelpCircle className="h-7 w-7 text-pink-600 dark:text-pink-400" />
             Frequently Asked Questions
           </h2>
@@ -92,7 +92,7 @@ export const TransparencyFaq: React.FC = () => {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <div className="px-4 pb-5 sm:px-5 sm:pb-5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed border-t border-pink-100 dark:border-pink-900/40 pt-3">
+                      <div className="px-4 pb-5 sm:px-5 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed border-t border-pink-100 dark:border-pink-900/40 pt-3">
                         {faq.answer}
                       </div>
                     </motion.div>

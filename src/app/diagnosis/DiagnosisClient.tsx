@@ -576,7 +576,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
       {/* ========================================================
           1. HERO SECTION
           ======================================================== */}
-      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
+      <section className="relative min-h-[50vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-10 md:py-14 overflow-hidden border-b border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
           <div className="space-y-6 text-center">
 
@@ -584,9 +584,9 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold shadow-sm"
             >
-              <Ribbon className="h-3.5 w-3.5 text-primary animate-pulse" />
+              <Ribbon className="h-3.5 w-3.5 text-primary " />
               Clinical Diagnostic Directory
             </motion.div>
 
@@ -594,7 +594,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-800 leading-[1.1]"
             >
               Breast Cancer <br />
               <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
@@ -618,12 +618,12 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
               className="pt-4 flex flex-wrap justify-center gap-4"
             >
               <a href="#diagnosis-modalities">
-                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-6 py-5 transition-all text-sm tracking-wide cursor-pointer">
                   Explore Diagnosis Methods
                 </Button>
               </a>
               <a href="#video-library">
-                <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-lg px-6 py-5 transition-all text-sm tracking-wide cursor-pointer">
                   Watch Videos
                 </Button>
               </a>
@@ -635,16 +635,16 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
       {/* ========================================================
           2. DIAGNOSTIC MODALITIES TABBED LAYOUT
           ======================================================== */}
-      <section id="diagnosis-modalities" className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
+      <section id="diagnosis-modalities" className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-10">
 
           {/* Header */}
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <Stethoscope className="h-3.5 w-3.5" />
               Clinical Standards
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Breast Cancer Diagnosis Options
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -656,8 +656,8 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
 
             {/* Left Column: Vertical/Horizontal Tabs */}
-            <div className="lg:col-span-4 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible gap-2.5 pb-3 lg:pb-0 max-w-full no-scrollbar shrink-0">
-              <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 px-1 lg:block hidden">
+            <div className="lg:col-span-4 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible gap-2.5 pb-0 max-w-full no-scrollbar shrink-0">
+              <h4 className="font-heading text-xs font-bold text-slate-400 mb-1 px-1 lg:block hidden">
                 Diagnostic Modalities
               </h4>
               {(Object.keys(diagnosisMethods) as Array<keyof typeof diagnosisMethods>).map((key) => (
@@ -684,13 +684,13 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
             </div>
 
             {/* Right Column: Tab Content */}
-            <Card className="lg:col-span-8 border-pink-100/60 bg-gradient-to-br from-pink-500/5 to-rose-500/5 p-6 sm:p-8 rounded-3xl flex flex-col justify-between space-y-6 shadow-sm">
+            <Card className="lg:col-span-8 border-pink-100/60 bg-gradient-to-br from-pink-500/5 to-rose-500/5 p-6 rounded-2xl flex flex-col justify-between space-y-6 shadow-sm">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
                 <div className="md:col-span-7 space-y-4">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-100/50 text-pink-700 text-[10px] font-bold uppercase tracking-wider border border-pink-100/60">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-pink-100/50 text-pink-700 text-[11px] font-bold border border-pink-100/60">
                     {activeDiagTab === "biopsy" ? "Invasive Diagnostic" : "Non-Invasive Imaging"}
                   </span>
-                  <h3 className="font-heading text-2xl font-black text-slate-800 tracking-tight">
+                  <h3 className="font-heading text-2xl font-bold text-slate-800 tracking-tight">
                     {diagnosisMethods[activeDiagTab as keyof typeof diagnosisMethods].title}
                   </h3>
                   <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
@@ -698,7 +698,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
                   </p>
 
                   <div className="p-4 rounded-xl bg-amber-50/50 border border-amber-100/60 space-y-1">
-                    <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest flex items-center gap-1">
+                    <p className="text-[11px] font-bold text-amber-700 flex items-center gap-1">
                       <Info className="h-3.5 w-3.5" /> Clinical Recommendation Criteria
                     </p>
                     <p className="text-xs text-slate-500 leading-relaxed font-medium">
@@ -720,7 +720,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
 
               {/* Benefits Checklist */}
               <div className="space-y-3 pt-2">
-                <h4 className="font-heading text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <h4 className="font-heading text-[11px] font-bold text-slate-400">
                   Key Benefits & Clinical Value
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -743,15 +743,15 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
       {/* ========================================================
           3. CLINICAL VIDEO WALKTHROUGHS — BOTH VIDEOS SIDE BY SIDE
           ======================================================== */}
-      <section id="video-library" className="py-20 md:py-28 bg-white border-t border-rose-100/20">
+      <section id="video-library" className="py-12 md:py-16 bg-white border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-10">
 
           <div className="space-y-3 text-center">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <Video className="h-3.5 w-3.5" />
               Clinical Video Walkthroughs
             </span>
-            <h3 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h3 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Early Screening & Consultation Video Guides
             </h3>
             <p className="text-slate-500 text-sm sm:text-base font-medium max-w-2xl mx-auto">
@@ -764,7 +764,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
             {diagnosisVideos.map((vid, idx) => (
               <div
                 key={idx}
-                className="bg-white border border-pink-100/60 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col"
+                className="bg-white border border-pink-100/60 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col"
               >
                 <div className="relative aspect-video bg-black w-full overflow-hidden">
                   <video
@@ -781,7 +781,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
                   </video>
 
                   {/* Auto-playing badge */}
-                  <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-full text-white text-[10px] font-bold uppercase tracking-wider pointer-events-none">
+                  <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-full text-white text-[11px] font-bold pointer-events-none">
                     <span className="h-1.5 w-1.5 rounded-full bg-pink-400 animate-pulse" />
                     Auto Playing
                   </div>
@@ -789,7 +789,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
 
                 <div className="p-5 sm:p-6 space-y-3 bg-white flex-1 flex flex-col">
                   <div className="flex flex-wrap gap-2 items-center justify-between">
-                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-pink-600 uppercase tracking-widest bg-pink-50/60 px-2.5 py-1 rounded-md border border-pink-100/40">
+                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-pink-600 bg-pink-50/60 px-2.5 py-1 rounded-md border border-pink-100/40">
                       Walkthrough #{idx + 1}
                     </span>
                     <span className="text-xs text-slate-400 flex items-center gap-1 font-medium">
@@ -820,14 +820,14 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
           4. OVERVIEW STORY — "YOU ARE NOT FIGHTING ALONE"
           (Just below the videos)
           ======================================================== */}
-      <section id="overview-story" className="py-20 md:py-28 bg-gradient-to-b from-rose-50/30 to-white border-t border-rose-100/20">
+      <section id="overview-story" className="py-12 md:py-16 bg-gradient-to-b from-rose-50/30 to-white border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
 
             {/* Left Column: Large Emotional Image */}
             <div className="lg:col-span-6 relative">
-              <div className="absolute -inset-2 bg-gradient-to-br from-pink-400 to-purple-400 rounded-3xl opacity-20 blur-xl -z-10" />
-              <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-3xl overflow-hidden shadow-sm border border-pink-100/60">
+              <div className="absolute -inset-2 bg-pink-600 rounded-2xl opacity-20 blur-xl -z-10" />
+              <div className="relative aspect-[4/3] sm:aspect-[16/11] rounded-2xl overflow-hidden shadow-sm border border-pink-100/60">
                 <Image
                   src="/images/image.png"
                   alt="Compassionate patient support care"
@@ -841,17 +841,17 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
 
             {/* Right Column: Narrative */}
             <div className="lg:col-span-6 space-y-6">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
                 Our Philosophy
               </span>
-              <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black text-slate-800 leading-tight tracking-tight">
+              <h2 className="font-heading text-3xl sm:text-4xl lg:text-4xl font-bold text-slate-800 leading-tight tracking-tight">
                 You Are Not Fighting <span className="text-primary">Alone.</span>
               </h2>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
                 Facing a breast cancer diagnosis is a profound and emotional journey that impacts the entire family structure. We walk by your side at every step. We integrate advanced clinical research with deeply supportive, patient-first care pathways to maximize healing capacity.
               </p>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
-                By nurturing emotional health, providing evidence-based wellness guidelines, and introducing holistic support mechanisms, we aim to build resilience, restore vitality, and keep the flame of hope burning brightly.
+                By supporting emotional health and offering evidence-based wellness guidelines, we aim to help people build resilience and recover their strength.
               </p>
 
               {/* Animated Quote Card */}
@@ -863,7 +863,7 @@ export default function DiagnosisClient({ initialTechnologies }: DiagnosisClient
                 <p className="text-pink-700 italic font-semibold text-sm sm:text-base">
                   &ldquo;Cancer may change your life, but it doesn&apos;t define your future.&rdquo;
                 </p>
-                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider block mt-2">
+                <span className="text-[11px] text-slate-400 font-bold block mt-2">
                   Supportive Care Core
                 </span>
               </motion.div>

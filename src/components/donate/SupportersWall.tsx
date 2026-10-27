@@ -60,10 +60,10 @@ export const SupportersWall: React.FC<SupportersWallProps> = ({
   }))
 
   return (
-    <section className="mb-12">
+    <section className="mb-8">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 px-1">
         <div>
-          <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
             <Trophy className="h-6 w-6 text-amber-500" />
             Our Community of Hope
           </h2>
@@ -107,8 +107,8 @@ export const SupportersWall: React.FC<SupportersWallProps> = ({
           ))}
         </div>
       ) : normalizedSupporters.length === 0 ? (
-        <div className="text-center py-12 px-4 rounded-3xl bg-pink-50/50 dark:bg-slate-800/40 border border-pink-200 dark:border-pink-900/50">
-          <Heart className="h-12 w-12 text-pink-400 mx-auto mb-3 animate-pulse" />
+        <div className="text-center py-12 px-4 rounded-2xl bg-pink-50/50 dark:bg-slate-800/40 border border-pink-200 dark:border-pink-900/50">
+          <Heart className="h-12 w-12 text-pink-400 mx-auto mb-3 " />
           <h3 className="text-lg font-bold text-slate-800 dark:text-white">
             Be the First Hope Champion
           </h3>
@@ -121,7 +121,7 @@ export const SupportersWall: React.FC<SupportersWallProps> = ({
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px] text-left">
               <thead className="bg-pink-50/70 dark:bg-slate-800/80">
-                <tr className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                <tr className="text-xs tracking-wide text-slate-500 dark:text-slate-400">
                   <th className="px-5 py-4 font-bold">Donor</th>
                   <th className="px-5 py-4 font-bold">Amount</th>
                   <th className="px-5 py-4 font-bold">Message</th>
@@ -141,7 +141,7 @@ export const SupportersWall: React.FC<SupportersWallProps> = ({
                     >
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
-                          <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-bold ${supporter.isAnonymous ? 'bg-pink-100 text-pink-600 dark:bg-pink-900/40 dark:text-pink-400' : 'bg-gradient-to-br from-pink-500 to-rose-600 text-white'}`}>
+                          <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-bold ${supporter.isAnonymous ? 'bg-pink-100 text-pink-600 dark:bg-pink-900/40 dark:text-pink-400' : 'bg-pink-600 text-white'}`}>
                             {supporter.isAnonymous
                               ? <Shield className="h-4 w-4" />
                               : supporter.name.charAt(0).toUpperCase()}
@@ -157,7 +157,7 @@ export const SupportersWall: React.FC<SupportersWallProps> = ({
                           </div>
                         </div>
                       </td>
-                      <td className="px-5 py-4 font-extrabold text-rose-600 dark:text-rose-400">
+                      <td className="px-5 py-4 font-bold text-rose-600 dark:text-rose-400">
                         ₹{supporter.amount.toLocaleString('en-IN')}
                       </td>
                       <td className="max-w-xs px-5 py-4 text-sm text-slate-600 dark:text-slate-300">

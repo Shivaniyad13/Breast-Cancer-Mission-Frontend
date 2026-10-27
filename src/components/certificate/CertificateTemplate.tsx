@@ -121,7 +121,7 @@ export default function CertificateTemplate({
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-6 sm:w-10 h-[1px] bg-[#e11d48]/40" />
-                <span className="text-[9px] sm:text-[11px] font-extrabold uppercase tracking-widest text-[#be185d]">
+                <span className="text-[9px] sm:text-[11px] font-bold uppercase tracking-widest text-[#be185d]">
                   Together For Awareness • Together For A Cure
                 </span>
                 <div className="w-6 sm:w-10 h-[1px] bg-[#e11d48]/40" />
@@ -145,7 +145,7 @@ export default function CertificateTemplate({
           <div className="flex flex-col items-center text-center my-auto space-y-2 sm:space-y-3">
             
             {/* Title: CERTIFICATE */}
-            <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-widest text-[#8b1c43] uppercase drop-shadow-xs">
+            <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl font-bold tracking-widest text-[#8b1c43] uppercase drop-shadow-xs">
               Certificate
             </h1>
 
@@ -160,7 +160,7 @@ export default function CertificateTemplate({
 
             {/* Pink Ribbon Banner: PROUDLY PRESENTED TO */}
             <div className="relative my-1 sm:my-2">
-              <div className="bg-gradient-to-r from-[#ec4899] via-[#e0528e] to-[#db2777] text-white font-sans text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] px-8 sm:px-12 py-1 sm:py-1.5 shadow-md clip-ribbon">
+              <div className="bg-gradient-to-r from-[#ec4899] via-[#e0528e] to-[#db2777] text-white font-sans text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] px-8 sm:px-12 py-1 sm:py-1.5 shadow-md clip-ribbon">
                 Proudly Presented To
               </div>
             </div>
@@ -185,7 +185,7 @@ export default function CertificateTemplate({
             </p>
 
             {/* QUIZ / PROGRAM TITLE */}
-            <h2 className="font-serif text-sm sm:text-lg md:text-xl font-extrabold text-[#8b1c43] tracking-wide">
+            <h2 className="font-serif text-sm sm:text-lg md:text-xl font-bold text-[#8b1c43] tracking-wide">
               {quizName}
             </h2>
 
@@ -210,7 +210,7 @@ export default function CertificateTemplate({
                 </span>
               </div>
               <div className="w-28 sm:w-36 h-[1px] bg-slate-300 my-1" />
-              <span className="text-[10px] sm:text-xs font-extrabold text-slate-800 tracking-wider uppercase">
+              <span className="text-[10px] sm:text-xs font-bold text-slate-800 tracking-wider uppercase">
                 Santosh Aggarwal
               </span>
               <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
@@ -223,7 +223,7 @@ export default function CertificateTemplate({
               <div className="relative w-14 sm:w-20 h-14 sm:h-20 rounded-full bg-gradient-to-tr from-[#9a7b2c] via-[#f5d77f] to-[#b8860b] p-1 shadow-lg flex items-center justify-center border border-[#785b18]">
                 {/* Serrated Edge Ring */}
                 <div className="w-full h-full rounded-full border-2 border-dashed border-[#785b18]/60 bg-gradient-to-br from-[#fef08a] via-[#eab308] to-[#ca8a04] flex flex-col items-center justify-center text-center p-1 shadow-inner">
-                  <span className="text-[7px] sm:text-[9px] font-black tracking-tighter text-[#713f12] uppercase leading-none">
+                  <span className="text-[7px] sm:text-[9px] font-bold tracking-tighter text-[#713f12] uppercase leading-none">
                     GRS
                   </span>
                   <span className="text-[6px] sm:text-[7px] font-bold text-[#854d0e] uppercase leading-tight">
@@ -246,7 +246,7 @@ export default function CertificateTemplate({
                 </span>
               </div>
               <div className="w-28 sm:w-36 h-[1px] bg-slate-300 my-1" />
-              <span className="text-[10px] sm:text-xs font-extrabold text-slate-800 tracking-wider uppercase">
+              <span className="text-[10px] sm:text-xs font-bold text-slate-800 tracking-wider uppercase">
                 Khushi Centre
               </span>
               <span className="text-[9px] sm:text-[10px] text-slate-500 font-medium">
@@ -258,7 +258,7 @@ export default function CertificateTemplate({
           {/* BOTTOM FOOTER: CERTIFICATE ID & DATE */}
           <div className="flex items-center justify-between text-[9px] sm:text-[11px] font-bold text-slate-600 pt-1">
             <div className="flex items-center gap-1">
-              <span className="text-[#be185d] font-black uppercase">Certificate ID:</span>
+              <span className="text-[#be185d] font-bold uppercase">Certificate ID:</span>
               <span className="font-mono text-slate-800">{certificateId}</span>
             </div>
 
@@ -268,7 +268,7 @@ export default function CertificateTemplate({
             </div>
 
             <div className="flex items-center gap-1">
-              <span className="text-[#be185d] font-black uppercase">Date:</span>
+              <span className="text-[#be185d] font-bold uppercase">Date:</span>
               <span className="text-slate-800">{date}</span>
             </div>
           </div>

@@ -179,10 +179,10 @@ export default function PartnershipsAdminClient({
       {/* Header section */}
       <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 border-b border-pink-100 pb-6">
         <div className="space-y-1">
-          <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+          <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
             <ShieldCheck className="h-2.5 w-2.5" /> Command Center
           </span>
-          <h1 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+          <h1 className="font-heading text-3xl font-bold tracking-tight text-slate-800 flex items-center gap-2">
             <Handshake className="h-8 w-8 text-primary" /> Partnerships Manager
           </h1>
           <p className="text-muted-foreground text-sm">
@@ -245,10 +245,10 @@ export default function PartnershipsAdminClient({
 
       {/* Main Request Grid */}
       {filteredRequests.length === 0 ? (
-        <div className="text-center py-20 bg-slate-50 border border-dashed rounded-3xl space-y-3">
+        <div className="text-center py-12 bg-slate-50 border border-dashed rounded-2xl space-y-3">
           <Handshake className="h-12 w-12 text-slate-300 mx-auto" />
           <h3 className="font-heading text-lg font-bold text-slate-800">No requests found</h3>
-          <p className="text-xs text-slate-450 font-medium">Try widening your filters or check back later.</p>
+          <p className="text-xs text-slate-500 font-medium">Try widening your filters or check back later.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -258,7 +258,7 @@ export default function PartnershipsAdminClient({
             return (
               <Card
                 key={req.id}
-                className="border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl overflow-hidden flex flex-col justify-between"
+                className="border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden flex flex-col justify-between"
               >
                 <div className="p-6 space-y-4">
                   <div className="flex justify-between items-start gap-2">
@@ -268,12 +268,12 @@ export default function PartnershipsAdminClient({
                         <Image src={req.logoUrl} alt={req.organizationName} fill className="object-cover" />
                       </div>
                     ) : (
-                      <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-400 text-white flex items-center justify-center font-heading font-black text-lg shadow-sm shrink-0">
+                      <div className="h-12 w-12 rounded-xl bg-pink-600 text-white flex items-center justify-center font-heading font-bold text-lg shadow-sm shrink-0">
                         {initials}
                       </div>
                     )}
                     <div className="flex flex-col items-end gap-1.5">
-                      <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border ${getStatusBadge(req.status)}`}>
+                      <span className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${getStatusBadge(req.status)}`}>
                         {req.status}
                       </span>
                       {req.isPublished && req.status === "APPROVED" && (
@@ -285,10 +285,10 @@ export default function PartnershipsAdminClient({
                   </div>
 
                   <div className="space-y-1.5">
-                    <span className="text-[9px] font-black text-slate-450 uppercase tracking-widest">
+                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">
                       {req.category}
                     </span>
-                    <h3 className="font-heading text-base font-extrabold text-slate-800 line-clamp-1">
+                    <h3 className="font-heading text-base font-bold text-slate-800 line-clamp-1">
                       {req.organizationName}
                     </h3>
                     <p className="text-slate-500 text-xs font-semibold flex items-center gap-1">
@@ -351,7 +351,7 @@ export default function PartnershipsAdminClient({
               initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
-              className="bg-white max-w-2xl w-full rounded-3xl shadow-2xl relative border border-slate-100 p-6 md:p-8 cursor-default max-h-[90vh] overflow-y-auto space-y-6"
+              className="bg-white max-w-2xl w-full rounded-2xl shadow-lg relative border border-slate-100 p-6 cursor-default max-h-[90vh] overflow-y-auto space-y-6"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -370,15 +370,15 @@ export default function PartnershipsAdminClient({
                     <Image src={selectedRequest.logoUrl} alt={selectedRequest.organizationName} fill className="object-cover" />
                   </div>
                 ) : (
-                  <div className="h-16 w-16 rounded-xl bg-gradient-to-br from-pink-500 to-rose-400 text-white flex items-center justify-center font-heading font-black text-xl shadow-md shrink-0">
+                  <div className="h-16 w-16 rounded-xl bg-pink-600 text-white flex items-center justify-center font-heading font-bold text-xl shadow-md shrink-0">
                     {getInitials(selectedRequest.organizationName)}
                   </div>
                 )}
                 <div>
-                  <span className="text-[10px] font-black text-primary uppercase tracking-widest bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100/50">
+                  <span className="text-[10px] font-bold text-primary uppercase tracking-widest bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100/50">
                     {selectedRequest.category}
                   </span>
-                  <h3 className="font-heading text-xl font-black text-slate-800 pt-1.5 leading-tight">
+                  <h3 className="font-heading text-xl font-bold text-slate-800 pt-1.5 leading-tight">
                     {selectedRequest.organizationName}
                   </h3>
                   <p className="text-slate-500 text-xs font-semibold flex items-center gap-1 pt-0.5">
@@ -399,14 +399,14 @@ export default function PartnershipsAdminClient({
                 
                 {/* Contact person */}
                 <div className="space-y-1.5">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Primary Contact</span>
-                  <p className="font-extrabold text-slate-800">{selectedRequest.contactPersonName}</p>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Primary Contact</span>
+                  <p className="font-bold text-slate-800">{selectedRequest.contactPersonName}</p>
                   <p className="text-xs text-slate-500 font-bold">{selectedRequest.designation || "No designation listed"}</p>
                 </div>
 
                 {/* Email and Phone */}
                 <div className="space-y-1.5">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Contact Information</span>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Contact Information</span>
                   <p className="font-semibold text-slate-700 flex items-center gap-1.5">
                     <Mail className="h-3.5 w-3.5 text-slate-400" /> {selectedRequest.email}
                   </p>
@@ -418,7 +418,7 @@ export default function PartnershipsAdminClient({
                 {/* Website */}
                 {selectedRequest.website && (
                   <div className="space-y-1.5 sm:col-span-2">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Website URL</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Website URL</span>
                     <a
                       href={selectedRequest.website}
                       target="_blank"
@@ -433,7 +433,7 @@ export default function PartnershipsAdminClient({
                 {/* Documents URL */}
                 {selectedRequest.documentUrl && (
                   <div className="space-y-1.5 sm:col-span-2">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Application Documents</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Application Documents</span>
                     <a
                       href={selectedRequest.documentUrl}
                       target="_blank"
@@ -448,7 +448,7 @@ export default function PartnershipsAdminClient({
                 {/* Description */}
                 {selectedRequest.description && (
                   <div className="space-y-1.5 sm:col-span-2">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Organization Overview</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Organization Overview</span>
                     <p className="text-slate-600 leading-relaxed font-medium bg-slate-50 p-4 border rounded-2xl">
                       {selectedRequest.description}
                     </p>
@@ -458,7 +458,7 @@ export default function PartnershipsAdminClient({
                 {/* Motivation statement */}
                 {selectedRequest.reason && (
                   <div className="space-y-1.5 sm:col-span-2">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block">Collaboration Intent</span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Collaboration Intent</span>
                     <p className="text-slate-600 leading-relaxed font-medium bg-slate-50 p-4 border rounded-2xl">
                       {selectedRequest.reason}
                     </p>
@@ -471,7 +471,7 @@ export default function PartnershipsAdminClient({
                     <Calendar className="h-3.5 w-3.5" /> Applied on: {new Date(selectedRequest.createdAt).toLocaleDateString()}
                   </span>
                   <span className="flex items-center gap-1 font-bold">
-                    <Info className="h-3.5 w-3.5" /> Application Status: <span className="font-extrabold text-slate-600">{selectedRequest.status}</span>
+                    <Info className="h-3.5 w-3.5" /> Application Status: <span className="font-bold text-slate-600">{selectedRequest.status}</span>
                   </span>
                 </div>
 
@@ -479,7 +479,7 @@ export default function PartnershipsAdminClient({
 
               {/* Status Update Remarks Input */}
               <div className="space-y-2 border-t pt-6">
-                <label className="text-xs font-black text-slate-700 uppercase tracking-wider block">
+                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
                   Remarks / Notes (Sent to applicant via simulated email)
                 </label>
                 <textarea

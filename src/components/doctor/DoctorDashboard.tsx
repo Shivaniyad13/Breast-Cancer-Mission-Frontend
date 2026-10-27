@@ -397,7 +397,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
     <div className="space-y-8 font-sans">
       
       {/* 1. DOCTOR PROFILE BANNER & QUICK ACTIONS */}
-      <div className="bg-gradient-to-r from-slate-900 via-pink-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-pink-900/40 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-slate-900 via-pink-950 to-slate-900 text-white rounded-2xl p-6 shadow-md border border-pink-900/40 relative overflow-hidden">
         
         {/* Background glow graphics */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -413,19 +413,19 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="font-heading text-2xl sm:text-3xl font-black tracking-tight text-white">
+                <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-white">
                   Dr. {data.doctor.name}
                 </h1>
                 {data.doctor.verificationStatus === "VERIFIED" ? (
-                  <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                  <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
                     <ShieldCheck className="h-3 w-3" /> VERIFIED DOCTOR
                   </span>
                 ) : data.doctor.verificationStatus === "PENDING" ? (
-                  <span className="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                  <span className="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
                     <Clock className="h-3 w-3" /> PENDING VERIFICATION
                   </span>
                 ) : (
-                  <span className="bg-red-500/20 text-red-300 border border-red-500/40 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                  <span className="bg-red-500/20 text-red-300 border border-red-500/40 text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" /> VERIFICATION REJECTED
                   </span>
                 )}
@@ -494,8 +494,8 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="font-extrabold text-sm text-amber-800 uppercase tracking-wider">Verification Pending</span>
-                <span className="bg-amber-200 text-amber-900 text-[10px] font-black px-2 py-0.5 rounded-full">UNDER REVIEW</span>
+                <span className="font-bold text-sm text-amber-800 ">Verification Pending</span>
+                <span className="bg-amber-200 text-amber-900 text-[11px] font-bold px-2 py-0.5 rounded-full">UNDER REVIEW</span>
               </div>
               <p className="text-xs sm:text-sm font-medium text-slate-700 leading-relaxed">
                 Your professional credentials are under review. Webinar creation will become available once your account is verified by our administration team.
@@ -513,8 +513,8 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
             </div>
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="font-extrabold text-sm text-red-700 uppercase tracking-wider">Verification Rejected</span>
-                <span className="bg-red-200 text-red-900 text-[10px] font-black px-2 py-0.5 rounded-full">ACTION REQUIRED</span>
+                <span className="font-bold text-sm text-red-700 ">Verification Rejected</span>
+                <span className="bg-red-200 text-red-900 text-[11px] font-bold px-2 py-0.5 rounded-full">ACTION REQUIRED</span>
               </div>
               <p className="text-xs text-red-800 font-medium">
                 <strong>Reason for Rejection:</strong> "{data.doctor.rejectionReason || "Please review and correct your professional license details."}"
@@ -540,7 +540,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
             <ShieldCheck className="h-5 w-5" />
           </div>
           <div className="space-y-0.5">
-            <p className="font-extrabold text-xs text-emerald-800 uppercase tracking-wider">Account Verified</p>
+            <p className="font-bold text-xs text-emerald-800 ">Account Verified</p>
             <p className="text-xs sm:text-sm font-medium text-slate-700">
               Your professional credentials have been verified. You can now create and manage webinars.
             </p>
@@ -554,60 +554,60 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
         {/* Counter 1: Total Articles Published */}
         <Card className="rounded-2xl border-pink-100/80 bg-white/80 backdrop-blur-md p-4 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Articles Published</span>
+            <span className="text-[11px] font-bold text-slate-400">Articles Published</span>
             <BookOpen className="h-4 w-4 text-primary" />
           </div>
           <div className="mt-2 flex items-baseline gap-1">
-            <span className="font-heading text-2xl font-black text-slate-800">{data.stats.totalArticlesPublished}</span>
-            <span className="text-[10px] text-emerald-600 font-bold">Published</span>
+            <span className="font-heading text-2xl font-bold text-slate-800">{data.stats.totalArticlesPublished}</span>
+            <span className="text-[11px] text-emerald-600 font-bold">Published</span>
           </div>
         </Card>
 
         {/* Counter 2: Total Webinars Created */}
         <Card className="rounded-2xl border-pink-100/80 bg-white/80 backdrop-blur-md p-4 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Webinars Created</span>
+            <span className="text-[11px] font-bold text-slate-400">Webinars Created</span>
             <Video className="h-4 w-4 text-rose-500" />
           </div>
           <div className="mt-2 flex items-baseline gap-1">
-            <span className="font-heading text-2xl font-black text-slate-800">{data.stats.totalWebinarsCreated}</span>
-            <span className="text-[10px] text-slate-400 font-medium">Total</span>
+            <span className="font-heading text-2xl font-bold text-slate-800">{data.stats.totalWebinarsCreated}</span>
+            <span className="text-[11px] text-slate-400 font-medium">Total</span>
           </div>
         </Card>
 
         {/* Counter 3: Upcoming Webinars */}
         <Card className="rounded-2xl border-pink-100/80 bg-white/80 backdrop-blur-md p-4 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Upcoming Webinars</span>
+            <span className="text-[11px] font-bold text-slate-400">Upcoming Webinars</span>
             <Calendar className="h-4 w-4 text-amber-500" />
           </div>
           <div className="mt-2 flex items-baseline gap-1">
-            <span className="font-heading text-2xl font-black text-slate-800">{data.stats.upcomingWebinars}</span>
-            <span className="text-[10px] text-amber-600 font-bold">Scheduled</span>
+            <span className="font-heading text-2xl font-bold text-slate-800">{data.stats.upcomingWebinars}</span>
+            <span className="text-[11px] text-amber-600 font-bold">Scheduled</span>
           </div>
         </Card>
 
         {/* Counter 4: Completed Webinars */}
         <Card className="rounded-2xl border-pink-100/80 bg-white/80 backdrop-blur-md p-4 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Completed Webinars</span>
+            <span className="text-[11px] font-bold text-slate-400">Completed Webinars</span>
             <CheckCircle className="h-4 w-4 text-emerald-500" />
           </div>
           <div className="mt-2 flex items-baseline gap-1">
-            <span className="font-heading text-2xl font-black text-slate-800">{data.stats.completedWebinars}</span>
-            <span className="text-[10px] text-emerald-600 font-bold">Finished</span>
+            <span className="font-heading text-2xl font-bold text-slate-800">{data.stats.completedWebinars}</span>
+            <span className="text-[11px] text-emerald-600 font-bold">Finished</span>
           </div>
         </Card>
 
         {/* Counter 5: Draft Articles */}
         <Card className="rounded-2xl border-pink-100/80 bg-white/80 backdrop-blur-md p-4 shadow-sm hover:shadow-md transition-shadow col-span-2 md:col-span-1">
           <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Draft Articles</span>
+            <span className="text-[11px] font-bold text-slate-400">Draft Articles</span>
             <FileText className="h-4 w-4 text-slate-400" />
           </div>
           <div className="mt-2 flex items-baseline gap-1">
-            <span className="font-heading text-2xl font-black text-slate-800">{data.stats.draftArticles}</span>
-            <span className="text-[10px] text-slate-500 font-medium">Pending</span>
+            <span className="font-heading text-2xl font-bold text-slate-800">{data.stats.draftArticles}</span>
+            <span className="text-[11px] text-slate-500 font-medium">Pending</span>
           </div>
         </Card>
 
@@ -616,23 +616,23 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
       {/* 3. DOCTOR HISTORY TAB SYSTEM (REQUIREMENT 5) */}
       <Tabs defaultValue="articles" className="space-y-6">
         <TabsList className="bg-pink-50/60 border border-pink-100 p-1.5 rounded-2xl flex overflow-x-auto whitespace-nowrap justify-start w-full sm:w-auto">
-          <TabsTrigger value="articles" className="font-bold text-xs uppercase py-2 px-5 rounded-xl data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-xs">
+          <TabsTrigger value="articles" className="font-bold text-xs py-2 px-5 rounded-xl data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-xs">
             <BookOpen className="h-4 w-4 mr-1.5" /> My Articles ({data.myArticles.length})
           </TabsTrigger>
-          <TabsTrigger value="webinars" className="font-bold text-xs uppercase py-2 px-5 rounded-xl data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-xs">
+          <TabsTrigger value="webinars" className="font-bold text-xs py-2 px-5 rounded-xl data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-xs">
             <Video className="h-4 w-4 mr-1.5" /> My Webinars ({data.myWebinars.length})
           </TabsTrigger>
-          <TabsTrigger value="activity" className="font-bold text-xs uppercase py-2 px-5 rounded-xl data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-xs">
+          <TabsTrigger value="activity" className="font-bold text-xs py-2 px-5 rounded-xl data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-xs">
             <Activity className="h-4 w-4 mr-1.5" /> Recent Activity
           </TabsTrigger>
         </TabsList>
 
         {/* TAB 1: MY ARTICLES HISTORY (REQUIREMENT 5.A) */}
         <TabsContent value="articles">
-          <Card className="rounded-3xl border border-pink-100 shadow-sm bg-white overflow-hidden">
+          <Card className="rounded-2xl border border-pink-100 shadow-sm bg-white overflow-hidden">
             <CardHeader className="border-b border-pink-50 p-6 bg-slate-50/40 flex flex-row items-center justify-between">
               <div>
-                <CardTitle className="font-heading text-lg font-black text-slate-800">My Clinical Articles &amp; Publications</CardTitle>
+                <CardTitle className="font-heading text-lg font-bold text-slate-800">My Clinical Articles &amp; Publications</CardTitle>
                 <CardDescription className="text-xs text-slate-500">Manage, edit, or publish oncology articles authored under your doctor profile.</CardDescription>
               </div>
               <Button onClick={openNewArticleModal} size="sm" className="bg-primary text-white font-bold rounded-xl text-xs py-2 px-4 shadow-sm flex items-center gap-1">
@@ -651,7 +651,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
               ) : (
                 <table className="w-full text-xs text-left text-slate-600 border-collapse min-w-[700px]">
                   <thead>
-                    <tr className="border-b border-slate-100 text-[10px] uppercase text-slate-400 font-black bg-slate-50/80">
+                    <tr className="border-b border-slate-100 text-[11px] text-slate-400 font-bold bg-slate-50/80">
                       <th className="p-4">Title</th>
                       <th className="p-4">Category</th>
                       <th className="p-4">Publish Date</th>
@@ -664,16 +664,16 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                       <tr key={art.id} className="hover:bg-pink-50/30 transition-colors">
                         <td className="p-4 font-bold text-slate-800 max-w-xs">
                           <p className="line-clamp-1">{art.title}</p>
-                          <p className="text-[10px] text-slate-400 font-normal line-clamp-1 mt-0.5">{art.excerpt}</p>
+                          <p className="text-[11px] text-slate-400 font-normal line-clamp-1 mt-0.5">{art.excerpt}</p>
                         </td>
                         <td className="p-4">
-                          <span className="bg-pink-50 text-primary border border-pink-100 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                          <span className="bg-pink-50 text-primary border border-pink-100 text-[11px] font-bold px-2.5 py-0.5 rounded-full ">
                             {art.category}
                           </span>
                         </td>
                         <td className="p-4 text-slate-500 font-medium">{art.publishDate}</td>
                         <td className="p-4 text-center">
-                          <span className={`inline-block px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider ${
+                          <span className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
                             art.status === "APPROVED" || art.status === "PUBLISHED"
                               ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
                               : art.status === "REJECTED"
@@ -685,7 +685,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                             {art.status === "PENDING" ? "PENDING REVIEW" : art.status}
                           </span>
                           {art.status === "REJECTED" && art.rejectionReason && (
-                            <p className="text-[9px] text-red-500 italic mt-0.5 line-clamp-1" title={art.rejectionReason}>
+                            <p className="text-[11px] text-red-500 italic mt-0.5 line-clamp-1" title={art.rejectionReason}>
                               {art.rejectionReason}
                             </p>
                           )}
@@ -732,10 +732,10 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
         {/* TAB 2: MY WEBINARS HISTORY (REQUIREMENT 5.B) */}
         <TabsContent value="webinars">
-          <Card className="rounded-3xl border border-pink-100 shadow-sm bg-white overflow-hidden">
+          <Card className="rounded-2xl border border-pink-100 shadow-sm bg-white overflow-hidden">
             <CardHeader className="border-b border-pink-50 p-6 bg-slate-50/40 flex flex-row items-center justify-between">
               <div>
-                <CardTitle className="font-heading text-lg font-black text-slate-800">My Hosted Webinars</CardTitle>
+                <CardTitle className="font-heading text-lg font-bold text-slate-800">My Hosted Webinars</CardTitle>
                 <CardDescription className="text-xs text-slate-500">Manage live streams, scheduled sessions, and attendee counts.</CardDescription>
               </div>
               <Button onClick={openNewWebinarModal} size="sm" className="bg-primary text-white font-bold rounded-xl text-xs py-2 px-4 shadow-sm flex items-center gap-1">
@@ -754,7 +754,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
               ) : (
                 <table className="w-full text-xs text-left text-slate-600 border-collapse min-w-[850px]">
                   <thead>
-                    <tr className="border-b border-slate-100 text-[10px] uppercase text-slate-400 font-black bg-slate-50/80">
+                    <tr className="border-b border-slate-100 text-[11px] text-slate-400 font-bold bg-slate-50/80">
                       <th className="p-4">Webinar Title</th>
                       <th className="p-4">Access Type</th>
                       <th className="p-4">Date &amp; Time</th>
@@ -769,15 +769,15 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                       <tr key={web.id} className="hover:bg-pink-50/30 transition-colors">
                         <td className="p-4 font-bold text-slate-800 max-w-xs">
                           <p className="line-clamp-1">{web.title}</p>
-                          <span className="text-[9px] text-slate-400 uppercase font-semibold">{web.category}</span>
+                          <span className="text-[11px] text-slate-400 font-semibold">{web.category}</span>
                         </td>
                         <td className="p-4">
                           {web.webinarType === "PAID" ? (
-                            <span className="bg-purple-50 text-purple-700 border border-purple-200 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1 shadow-xs">
+                            <span className="bg-purple-50 text-purple-700 border border-purple-200 text-[11px] font-bold px-2.5 py-1 rounded-full inline-flex items-center gap-1 shadow-xs">
                               <Tag className="h-3 w-3" /> PAID • ₹{web.registrationPrice}
                             </span>
                           ) : (
-                            <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                            <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[11px] font-bold px-2.5 py-1 rounded-full inline-flex items-center gap-1">
                               FREE
                             </span>
                           )}
@@ -786,7 +786,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                           <div className="flex items-center gap-1 text-slate-700 font-semibold">
                             <Calendar className="h-3 w-3 text-primary shrink-0" /> {web.date}
                           </div>
-                          <div className="flex items-center gap-1 text-[10px] text-slate-400 mt-0.5">
+                          <div className="flex items-center gap-1 text-[11px] text-slate-400 mt-0.5">
                             <Clock className="h-2.5 w-2.5 shrink-0" /> {web.startTime} - {web.endTime}
                           </div>
                         </td>
@@ -806,15 +806,15 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                         </td>
                         <td className="p-4 text-center">
                           {web.approvalStatus === "APPROVED" ? (
-                            <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                            <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
                               <CheckCircle className="h-3 w-3 text-emerald-600" /> APPROVED
                             </span>
                           ) : web.approvalStatus === "PENDING_APPROVAL" ? (
-                            <span className="bg-amber-50 text-amber-700 border border-amber-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1" title="Awaiting platform approval">
+                            <span className="bg-amber-50 text-amber-700 border border-amber-200 text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1" title="Awaiting platform approval">
                               <Clock className="h-3 w-3 text-amber-500" /> PENDING APPROVAL
                             </span>
                           ) : (
-                            <span className="bg-red-50 text-red-700 border border-red-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                            <span className="bg-red-50 text-red-700 border border-red-200 text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
                               <AlertCircle className="h-3 w-3 text-red-500" /> REJECTED
                             </span>
                           )}
@@ -861,8 +861,8 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
         {/* TAB 3: RECENT ACTIVITY */}
         <TabsContent value="activity">
-          <Card className="rounded-3xl border border-pink-100 shadow-sm bg-white p-6 space-y-4">
-            <h3 className="font-heading text-lg font-black text-slate-800">Recent Publishing &amp; Webinar Activity</h3>
+          <Card className="rounded-2xl border border-pink-100 shadow-sm bg-white p-6 space-y-4">
+            <h3 className="font-heading text-lg font-bold text-slate-800">Recent Publishing &amp; Webinar Activity</h3>
             {data.recentActivity.length === 0 ? (
               <p className="text-xs text-slate-400 italic">No recent activity recorded.</p>
             ) : (
@@ -875,10 +875,10 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                       </div>
                       <div>
                         <p className="font-bold text-slate-800">{act.title}</p>
-                        <p className="text-[10px] text-slate-400 uppercase font-semibold">{act.type} • Status: {act.status}</p>
+                        <p className="text-[11px] text-slate-400 font-semibold">{act.type} • Status: {act.status}</p>
                       </div>
                     </div>
-                    <span className="text-[10px] text-slate-400 font-mono">
+                    <span className="text-[11px] text-slate-400 font-mono">
                       {new Date(act.date).toLocaleDateString()}
                     </span>
                   </div>
@@ -891,9 +891,9 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
       {/* ----------------MODAL 1: WRITE / EDIT ARTICLE---------------- */}
       <Dialog open={isArticleModalOpen} onOpenChange={setIsArticleModalOpen}>
-        <DialogContent className="max-w-2xl bg-white rounded-3xl p-6 border border-pink-100 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl bg-white rounded-2xl p-6 border border-pink-100 shadow-lg space-y-4 max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
+            <DialogTitle className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
               <BookOpen className="h-5 w-5 text-primary" /> {editingArticle ? "Edit Article / Resource" : "Upload Article / Educational Resource"}
             </DialogTitle>
           </DialogHeader>
@@ -901,7 +901,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
           <div className="space-y-4 text-xs">
             {/* Title */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Article Title *</label>
+              <label className="font-bold text-[11px] text-slate-500 ">Article Title *</label>
               <input
                 type="text"
                 placeholder="e.g. Breast Self-Examination Guide & Early Detection"
@@ -914,7 +914,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
             {/* Specialty & Category */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1">
-                <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Category</label>
+                <label className="font-bold text-[11px] text-slate-500 ">Category</label>
                 <select
                   value={articleForm.category}
                   onChange={(e) => setArticleForm({ ...articleForm, category: e.target.value })}
@@ -930,7 +930,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
               </div>
 
               <div className="space-y-1">
-                <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Doctor Specialty</label>
+                <label className="font-bold text-[11px] text-slate-500 ">Doctor Specialty</label>
                 <input
                   type="text"
                   placeholder="e.g. Surgical Oncology Specialist"
@@ -943,7 +943,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
             {/* Author Name Display */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Author Name (Verified Doctor)</label>
+              <label className="font-bold text-[11px] text-slate-500 ">Author Name (Verified Doctor)</label>
               <input
                 type="text"
                 disabled
@@ -954,7 +954,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
             {/* PDF / Document Upload */}
             <div className="space-y-2 p-3 bg-pink-50/30 border border-pink-100 rounded-2xl">
-              <label className="font-black uppercase text-[10px] text-pink-700 tracking-wider flex items-center justify-between">
+              <label className="font-bold text-[11px] text-pink-700 flex items-center justify-between">
                 <span>PDF / Document Attachment</span>
                 {articleForm.fileUrl && <span className="text-emerald-600 flex items-center gap-1 font-bold"><CheckCircle className="h-3 w-3" /> Attached</span>}
               </label>
@@ -992,7 +992,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
             {/* Short Summary / Excerpt */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Short Description / Summary *</label>
+              <label className="font-bold text-[11px] text-slate-500 ">Short Description / Summary *</label>
               <input
                 type="text"
                 placeholder="Brief 1-2 sentence overview shown on the resource card."
@@ -1004,7 +1004,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
             {/* Optional Cover Image */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Optional Cover Image URL</label>
+              <label className="font-bold text-[11px] text-slate-500 ">Optional Cover Image URL</label>
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -1034,7 +1034,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
             {/* Content */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">Full Article Content / Notes</label>
+              <label className="font-bold text-[11px] text-slate-500 ">Full Article Content / Notes</label>
               <textarea
                 rows={5}
                 placeholder="Type detailed medical guidelines, research findings, or clinical advice here..."
@@ -1074,9 +1074,9 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
       {/* ----------------MODAL 2: CREATE / EDIT WEBINAR---------------- */}
       <Dialog open={isWebinarModalOpen} onOpenChange={setIsWebinarModalOpen}>
-        <DialogContent className="w-[95vw] sm:w-full max-w-2xl max-h-[92vh] sm:max-h-[85vh] bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-pink-100 shadow-2xl flex flex-col gap-0 overflow-hidden">
+        <DialogContent className="w-[95vw] sm:w-full max-w-2xl max-h-[92vh] sm:max-h-[85vh] bg-white rounded-2xl sm:rounded-2xl p-4 sm:p-6 border border-pink-100 shadow-lg flex flex-col gap-0 overflow-hidden">
           <DialogHeader className="pb-3 sm:pb-4 border-b border-pink-50 shrink-0">
-            <DialogTitle className="font-heading text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
+            <DialogTitle className="font-heading text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
               <Video className="h-4 sm:h-5 w-4 sm:w-5 text-primary shrink-0" />
               <span className="truncate">{editingWebinar ? "Edit Webinar" : "Create New Live Webinar"}</span>
             </DialogTitle>
@@ -1085,7 +1085,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
           <div className="flex-1 overflow-y-auto py-3 sm:py-4 pr-1 sm:pr-2 space-y-4 text-xs sm:text-sm custom-scrollbar">
             {editingWebinar?.approvalStatus === "REJECTED" && editingWebinar?.approvalRejectionReason && (
               <div className="p-3 bg-red-50 border border-red-200 rounded-2xl text-xs space-y-1 text-red-800">
-                <p className="font-bold uppercase text-[10px] text-red-600 flex items-center gap-1">
+                <p className="font-bold text-[11px] text-red-600 flex items-center gap-1">
                   <AlertCircle className="h-3.5 w-3.5" /> Resubmission Notice
                 </p>
                 <p className="font-medium">Previous Rejection Reason: "{editingWebinar.approvalRejectionReason}"</p>
@@ -1096,7 +1096,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
             {/* 1. WEBINAR ACCESS TYPE */}
             <div className="space-y-2 p-3 sm:p-4 bg-pink-50/40 rounded-2xl border border-pink-100">
               <div className="flex flex-wrap items-center justify-between gap-1">
-                <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Webinar Access Type *</label>
+                <label className="font-bold text-[11px] sm:text-xs text-slate-500 ">Webinar Access Type *</label>
                 <span className="text-pink-600 font-bold tracking-normal text-[11px] sm:text-xs font-mono">
                   {webinarForm.webinarType === "FREE" ? "Free Access" : `Paid Access (Min ₹${platformMinimumPrice})`}
                 </span>
@@ -1113,7 +1113,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                 >
                   <div className="pr-2">
                     <p className="font-bold text-xs sm:text-sm">FREE Webinar</p>
-                    <p className="text-[10px] sm:text-[11px] text-slate-400 leading-tight">Open to all users with instant approval</p>
+                    <p className="text-[11px] sm:text-[11px] text-slate-400 leading-tight">Open to all users with instant approval</p>
                   </div>
                   <div className={`h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${webinarForm.webinarType === "FREE" ? "border-primary bg-primary text-white" : "border-slate-300"}`}>
                     {webinarForm.webinarType === "FREE" && <Check className="h-3 w-3 stroke-[3]" />}
@@ -1137,7 +1137,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                 >
                   <div className="pr-2">
                     <p className="font-bold text-xs sm:text-sm text-purple-700">PAID Webinar</p>
-                    <p className="text-[10px] sm:text-[11px] text-slate-400 leading-tight">Paid entry, requires platform approval</p>
+                    <p className="text-[11px] sm:text-[11px] text-slate-400 leading-tight">Paid entry, requires platform approval</p>
                   </div>
                   <div className={`h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${webinarForm.webinarType === "PAID" ? "border-purple-600 bg-purple-600 text-white" : "border-slate-300"}`}>
                     {webinarForm.webinarType === "PAID" && <Check className="h-3 w-3 stroke-[3]" />}
@@ -1153,24 +1153,24 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                   <span className="font-bold text-xs sm:text-sm text-purple-900 flex items-center gap-1.5">
                     <Sparkles className="h-3.5 w-3.5 text-purple-600 shrink-0" /> Pricing &amp; Duration Policy
                   </span>
-                  <span className={`text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full ${isTimeInvalid ? "bg-red-100 text-red-600" : "bg-purple-100 text-purple-700"}`}>
+                  <span className={`text-[11px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full ${isTimeInvalid ? "bg-red-100 text-red-600" : "bg-purple-100 text-purple-700"}`}>
                     {isTimeInvalid ? "Invalid Time Selection" : `Duration: ${humanDurationStr}`}
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-1">
                   <div className="space-y-1">
-                    <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">
+                    <label className="font-bold text-[11px] sm:text-xs text-slate-500 ">
                       Platform Minimum Price
                     </label>
-                    <div className="px-3 py-2 bg-purple-100/70 border border-purple-200 rounded-xl text-xs sm:text-sm font-black text-purple-900 flex items-center justify-between min-h-[42px]">
+                    <div className="px-3 py-2 bg-purple-100/70 border border-purple-200 rounded-xl text-xs sm:text-sm font-bold text-purple-900 flex items-center justify-between min-h-[42px]">
                       <span>Policy Minimum</span>
-                      <span className="text-sm sm:text-base font-extrabold">₹{platformMinimumPrice}</span>
+                      <span className="text-sm sm:text-base font-bold">₹{platformMinimumPrice}</span>
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">
+                    <label className="font-bold text-[11px] sm:text-xs text-slate-500 ">
                       Registration Price (₹) *
                     </label>
                     <input
@@ -1212,7 +1212,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
             {/* Title */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Webinar Title *</label>
+              <label className="font-bold text-[11px] sm:text-xs text-slate-500 ">Webinar Title *</label>
               <input
                 type="text"
                 placeholder="e.g. Modern Surgical Advances in Breast Reconstruction"
@@ -1225,8 +1225,8 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
             {/* Date & Time */}
             <div className="space-y-1">
               <div className="flex flex-wrap items-center justify-between gap-1">
-                <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Scheduled Date &amp; Time *</label>
-                <span className={`text-[10px] sm:text-xs font-bold ${isTimeInvalid ? "text-red-500" : "text-slate-500"}`}>
+                <label className="font-bold text-[11px] sm:text-xs text-slate-500 ">Scheduled Date &amp; Time *</label>
+                <span className={`text-[11px] sm:text-xs font-bold ${isTimeInvalid ? "text-red-500" : "text-slate-500"}`}>
                   {humanDurationStr}
                 </span>
               </div>
@@ -1263,7 +1263,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
             {/* Category & Max Seats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-1">
-                <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Category</label>
+                <label className="font-bold text-[11px] sm:text-xs text-slate-500 ">Category</label>
                 <select
                   value={webinarForm.category}
                   onChange={(e) => setWebinarForm({ ...webinarForm, category: e.target.value })}
@@ -1277,7 +1277,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
               </div>
 
               <div className="space-y-1">
-                <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Max Attendees</label>
+                <label className="font-bold text-[11px] sm:text-xs text-slate-500 ">Max Attendees</label>
                 <input
                   type="number"
                   value={webinarForm.maxSeats}
@@ -1289,7 +1289,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
             {/* Meeting Link */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Meeting Room / Link</label>
+              <label className="font-bold text-[11px] sm:text-xs text-slate-500 ">Meeting Room / Link</label>
               <input
                 type="text"
                 placeholder="https://zoom.us/j/123456789"
@@ -1301,7 +1301,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
             {/* Description */}
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] sm:text-xs text-slate-500 tracking-wider">Webinar Overview</label>
+              <label className="font-bold text-[11px] sm:text-xs text-slate-500 ">Webinar Overview</label>
               <textarea
                 rows={3}
                 placeholder="Describe key learning outcomes and agenda for attendees..."
@@ -1333,14 +1333,14 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
       {/* ----------------MODAL 3: VIEW ARTICLE DETAILS---------------- */}
       <Dialog open={!!viewingArticle} onOpenChange={() => setViewingArticle(null)}>
-        <DialogContent className="max-w-2xl bg-white rounded-3xl p-6 border border-pink-100 shadow-2xl space-y-4">
+        <DialogContent className="max-w-2xl bg-white rounded-2xl p-6 border border-pink-100 shadow-lg space-y-4">
           {viewingArticle && (
             <>
               <DialogHeader>
-                <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 bg-pink-50 text-primary border border-pink-100 rounded-full w-fit">
+                <span className="text-[11px] font-bold px-2.5 py-0.5 bg-pink-50 text-primary border border-pink-100 rounded-full w-fit">
                   {viewingArticle.category}
                 </span>
-                <DialogTitle className="font-heading text-xl font-black text-slate-800 mt-2">
+                <DialogTitle className="font-heading text-xl font-bold text-slate-800 mt-2">
                   {viewingArticle.title}
                 </DialogTitle>
                 <div className="text-xs text-slate-400 flex items-center gap-3 pt-1">
@@ -1371,14 +1371,14 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
       {/* ----------------MODAL 4: VIEW WEBINAR DETAILS---------------- */}
       <Dialog open={!!viewingWebinar} onOpenChange={() => setViewingWebinar(null)}>
-        <DialogContent className="max-w-xl bg-white rounded-3xl p-6 border border-pink-100 shadow-2xl space-y-4">
+        <DialogContent className="max-w-xl bg-white rounded-2xl p-6 border border-pink-100 shadow-lg space-y-4">
           {viewingWebinar && (
             <>
               <DialogHeader>
-                <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 bg-rose-50 text-rose-600 border border-rose-100 rounded-full w-fit">
+                <span className="text-[11px] font-bold px-2.5 py-0.5 bg-rose-50 text-rose-600 border border-rose-100 rounded-full w-fit">
                   {viewingWebinar.category}
                 </span>
-                <DialogTitle className="font-heading text-lg font-black text-slate-800 mt-2">
+                <DialogTitle className="font-heading text-lg font-bold text-slate-800 mt-2">
                   {viewingWebinar.title}
                 </DialogTitle>
               </DialogHeader>
@@ -1407,14 +1407,14 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-slate-800">Approval Status:</span>
-                    <span className={`font-bold uppercase ${viewingWebinar.approvalStatus === "APPROVED" ? "text-emerald-600" : viewingWebinar.approvalStatus === "PENDING_APPROVAL" ? "text-amber-600" : "text-red-600"}`}>
+                    <span className={`font-bold ${viewingWebinar.approvalStatus === "APPROVED" ? "text-emerald-600" : viewingWebinar.approvalStatus === "PENDING_APPROVAL" ? "text-amber-600" : "text-red-600"}`}>
                       {viewingWebinar.approvalStatus}
                     </span>
                   </div>
 
                   {viewingWebinar.approvalStatus === "REJECTED" && viewingWebinar.approvalRejectionReason && (
                     <div className="p-3 bg-red-50 border border-red-100 rounded-xl space-y-1 text-xs text-red-700">
-                      <p className="font-bold uppercase text-[10px] text-red-600 flex items-center gap-1">
+                      <p className="font-bold text-[11px] text-red-600 flex items-center gap-1">
                         <AlertCircle className="h-3.5 w-3.5" /> Rejection Reason from Platform Admin:
                       </p>
                       <p className="font-medium bg-white/70 p-2 rounded-lg border border-red-100">{viewingWebinar.approvalRejectionReason}</p>
@@ -1435,7 +1435,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                 </div>
 
                 <div className="space-y-1">
-                  <p className="font-bold text-slate-800 uppercase text-[10px] text-slate-400">Overview</p>
+                  <p className="font-bold text-slate-800 text-[11px] text-slate-400">Overview</p>
                   <p className="leading-relaxed bg-pink-50/20 p-3 rounded-xl border border-pink-50">{viewingWebinar.description || "No overview provided."}</p>
                 </div>
               </div>
@@ -1464,9 +1464,9 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
       {/* ----------------MODAL 5: RESUBMIT VERIFICATION DETAILS---------------- */}
       <Dialog open={isResubmitModalOpen} onOpenChange={setIsResubmitModalOpen}>
-        <DialogContent className="max-w-lg bg-white rounded-3xl p-6 border border-pink-100 shadow-2xl space-y-4">
+        <DialogContent className="max-w-lg bg-white rounded-2xl p-6 border border-pink-100 shadow-lg space-y-4">
           <DialogHeader>
-            <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
+            <DialogTitle className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
               <ShieldCheck className="h-5 w-5 text-primary" /> Update &amp; Resubmit Verification Credentials
             </DialogTitle>
           </DialogHeader>

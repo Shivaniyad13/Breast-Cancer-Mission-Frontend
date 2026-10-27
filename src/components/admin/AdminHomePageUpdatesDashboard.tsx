@@ -291,7 +291,7 @@ export default function AdminHomePageUpdatesDashboard({ initialUpdates }: AdminH
       {/* Stats and Action Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 rounded-2xl shadow-sm">
         <div>
-          <h3 className="font-extrabold text-sm text-slate-850 dark:text-white">Active Homepage Slider Updates</h3>
+          <h3 className="font-bold text-sm text-slate-800 dark:text-white">Active Homepage Slider Updates</h3>
           <p className="text-xs text-muted-foreground">Manage sliding widgets displayed in the right column of the Hero panel.</p>
         </div>
 
@@ -300,18 +300,18 @@ export default function AdminHomePageUpdatesDashboard({ initialUpdates }: AdminH
             resetForm();
             setIsAddOpen(true);
           }}
-          className="bg-pink-600 hover:bg-pink-700 text-white font-extrabold shadow rounded-xl text-xs py-4.5 cursor-pointer flex items-center gap-1"
+          className="bg-pink-600 hover:bg-pink-700 text-white font-bold shadow rounded-xl text-xs py-4.5 cursor-pointer flex items-center gap-1"
         >
           <Plus className="h-4 w-4" /> Add Homepage Update
         </Button>
       </div>
 
       {/* Main List Table */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-3xl overflow-hidden shadow-md">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-sm">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-850/50 border-b border-slate-100 dark:border-slate-800 text-slate-500 font-bold">
+              <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 text-slate-500 font-bold">
                 <th className="p-4 pl-6 w-16 text-center">Order</th>
                 <th className="p-4">Update Details</th>
                 <th className="p-4">Destination Link</th>
@@ -322,13 +322,13 @@ export default function AdminHomePageUpdatesDashboard({ initialUpdates }: AdminH
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {updates.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center p-12 text-muted-foreground">
+                  <td colSpan={5} className="text-center p-8 text-muted-foreground">
                     No homepage updates found. Click Add to create one!
                   </td>
                 </tr>
               ) : (
                 updates.map((update, index) => (
-                  <tr key={update.id} className={`hover:bg-slate-50/40 dark:hover:bg-slate-850/30 transition-colors ${!update.isActive && 'opacity-65'}`}>
+                  <tr key={update.id} className={`hover:bg-slate-50/40 dark:hover:bg-slate-800/30 transition-colors ${!update.isActive && 'opacity-65'}`}>
                     
                     {/* Order index column with move tools */}
                     <td className="p-4 pl-6 text-center">
@@ -340,7 +340,7 @@ export default function AdminHomePageUpdatesDashboard({ initialUpdates }: AdminH
                         >
                           <ArrowUp className="h-3.5 w-3.5 mx-auto" />
                         </button>
-                        <span className="text-xs font-black text-slate-700 dark:text-slate-350">{index + 1}</span>
+                        <span className="text-xs font-bold text-slate-700 dark:text-slate-400">{index + 1}</span>
                         <button
                           onClick={() => handleMove(index, "DOWN")}
                           disabled={index === updates.length - 1}
@@ -364,7 +364,7 @@ export default function AdminHomePageUpdatesDashboard({ initialUpdates }: AdminH
 
                       <div className="space-y-0.5 min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-[10px] bg-pink-100 dark:bg-pink-950/20 text-pink-700 dark:text-pink-400 px-2 py-0.5 rounded font-black uppercase border border-pink-200/50">
+                          <span className="text-[10px] bg-pink-100 dark:bg-pink-950/20 text-pink-700 dark:text-pink-400 px-2 py-0.5 rounded font-bold uppercase border border-pink-200/50">
                             {update.category}
                           </span>
                           {update.eventDate && (
@@ -374,7 +374,7 @@ export default function AdminHomePageUpdatesDashboard({ initialUpdates }: AdminH
                             </span>
                           )}
                         </div>
-                        <h4 className="font-extrabold text-sm text-slate-800 dark:text-slate-100 truncate max-w-sm">
+                        <h4 className="font-bold text-sm text-slate-800 dark:text-slate-100 truncate max-w-sm">
                           {update.title}
                         </h4>
                         <p className="text-xs text-muted-foreground truncate max-w-sm">{update.shortDescription}</p>

@@ -184,7 +184,7 @@ export const ScreenshotUpload: React.FC<ScreenshotUploadProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-pink-300 dark:border-pink-800 hover:border-pink-500 dark:hover:border-pink-600 rounded-2xl p-6 sm:p-8 text-center bg-pink-50/30 dark:bg-slate-800/40 hover:bg-pink-50/80 dark:hover:bg-slate-800/80 transition-all cursor-pointer group"
+            className="border-2 border-dashed border-pink-300 dark:border-pink-800 hover:border-pink-500 dark:hover:border-pink-600 rounded-2xl p-6 text-center bg-pink-50/30 dark:bg-slate-800/40 hover:bg-pink-50/80 dark:hover:bg-slate-800/80 transition-all cursor-pointer group"
           >
             <div className="w-12 h-12 rounded-2xl bg-pink-100 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
               <UploadCloud className="h-6 w-6" />

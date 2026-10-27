@@ -134,7 +134,7 @@ export default function WebinarRegisterButton({
 
       {isOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex justify-end z-50 animate-in fade-in duration-200">
-          <div className="bg-white border-l border-pink-100 w-full sm:max-w-xl h-full overflow-y-auto p-5 sm:p-8 space-y-6 shadow-2xl relative animate-in slide-in-from-right duration-200 text-slate-700">
+          <div className="bg-white border-l border-pink-100 w-full sm:max-w-xl h-full overflow-y-auto p-5 sm:p-6 space-y-6 shadow-lg relative animate-in slide-in-from-right duration-200 text-slate-700">
             
             {/* Close Button */}
             {!isPending && (
@@ -150,10 +150,10 @@ export default function WebinarRegisterButton({
               /* Success Screen */
               <div className="text-center space-y-6 py-6">
                 <div className="flex justify-center">
-                  <CheckCircle2 className="h-16 w-16 text-emerald-500 stroke-[1.5] animate-bounce" />
+                  <CheckCircle2 className="h-16 w-16 text-emerald-500 stroke-[1.5] " />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="font-heading text-2xl font-black text-slate-800">✅ Registration Successful</h3>
+                  <h3 className="font-heading text-2xl font-bold text-slate-800">✅ Registration Successful</h3>
                   <p className="text-xs text-muted-foreground">{successMessage}</p>
                   <p className="font-heading text-lg font-bold text-primary px-4 py-2 bg-pink-50 rounded-2xl inline-block max-w-full truncate">
                     {resolvedWebinarTitle}
@@ -179,7 +179,7 @@ export default function WebinarRegisterButton({
               /* Form Screen */
               <div className="space-y-4">
                 <div className="border-b border-pink-50 pb-3">
-                  <h3 className="font-heading text-xl font-black text-slate-800">Register for Webinar</h3>
+                  <h3 className="font-heading text-xl font-bold text-slate-800">Register for Webinar</h3>
                   <p className="text-sm text-muted-foreground mt-1">Fill in the fields below to secure your seat for: <span className="font-semibold text-primary break-words">{resolvedWebinarTitle}</span></p>
                 </div>
 
@@ -199,7 +199,7 @@ export default function WebinarRegisterButton({
                   <form onSubmit={handleRegister} className="space-y-4 text-sm font-semibold">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-xs text-slate-600 uppercase tracking-wider">Full Name *</label>
+                        <label className="text-xs text-slate-600 ">Full Name *</label>
                         <input
                           type="text"
                           required
@@ -210,7 +210,7 @@ export default function WebinarRegisterButton({
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-xs text-slate-600 uppercase tracking-wider">Email *</label>
+                        <label className="text-xs text-slate-600 ">Email *</label>
                         <input
                           type="email"
                           required
@@ -224,7 +224,7 @@ export default function WebinarRegisterButton({
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-xs text-slate-600 uppercase tracking-wider">Mobile Number *</label>
+                        <label className="text-xs text-slate-600 ">Mobile Number *</label>
                         <input
                           type="tel"
                           required
@@ -235,7 +235,7 @@ export default function WebinarRegisterButton({
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-xs text-slate-600 uppercase tracking-wider">Gender *</label>
+                        <label className="text-xs text-slate-600 ">Gender *</label>
                         <select
                           required
                           value={gender}
@@ -250,7 +250,7 @@ export default function WebinarRegisterButton({
                         </select>
                       </div>
                       <div className="space-y-1">
-                        <label className="text-xs text-slate-600 uppercase tracking-wider">Age *</label>
+                        <label className="text-xs text-slate-600 ">Age *</label>
                         <input
                           type="number"
                           required
@@ -264,7 +264,7 @@ export default function WebinarRegisterButton({
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-xs text-slate-600 uppercase tracking-wider">City *</label>
+                        <label className="text-xs text-slate-600 ">City *</label>
                         <input
                           type="text"
                           required
@@ -275,7 +275,7 @@ export default function WebinarRegisterButton({
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-xs text-slate-600 uppercase tracking-wider">State *</label>
+                        <label className="text-xs text-slate-600 ">State *</label>
                         <input
                           type="text"
                           required
@@ -286,7 +286,7 @@ export default function WebinarRegisterButton({
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-xs text-slate-600 uppercase tracking-wider">Occupation *</label>
+                        <label className="text-xs text-slate-600 ">Occupation *</label>
                         <input
                           type="text"
                           required
@@ -299,7 +299,7 @@ export default function WebinarRegisterButton({
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-xs text-slate-600 uppercase tracking-wider">Emergency Contact (Mobile / Relation) *</label>
+                      <label className="text-xs text-slate-600 ">Emergency Contact (Mobile / Relation) *</label>
                       <input
                         type="text"
                         required
@@ -311,7 +311,7 @@ export default function WebinarRegisterButton({
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-xs text-slate-600 uppercase tracking-wider">Why do you want to attend? *</label>
+                      <label className="text-xs text-slate-600 ">Why do you want to attend? *</label>
                       <textarea
                         required
                         rows={3}

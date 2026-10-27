@@ -200,25 +200,25 @@ export default function AdminDonationDashboard({ initialDonations = [] }: AdminD
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="rounded-2xl border-pink-100 bg-white p-5 space-y-2">
           <p className="text-[10px] text-pink-600 font-bold uppercase tracking-wider">Total Raised (Cleared)</p>
-          <p className="text-2xl font-black text-slate-800">₹{totalAmount.toLocaleString()}</p>
+          <p className="text-2xl font-bold text-slate-800">₹{totalAmount.toLocaleString()}</p>
           <p className="text-xs text-slate-400 font-medium">Successful &amp; Completed funds</p>
         </Card>
 
         <Card className="rounded-2xl border-slate-100 bg-white p-5 space-y-2">
           <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Total Transactions</p>
-          <p className="text-2xl font-black text-slate-800">{filteredDonations.length}</p>
+          <p className="text-2xl font-bold text-slate-800">{filteredDonations.length}</p>
           <p className="text-xs text-slate-400 font-medium">Matching search &amp; filter</p>
         </Card>
 
         <Card className="rounded-2xl border-purple-100 bg-purple-50/30 p-5 space-y-2">
           <p className="text-[10px] text-purple-600 font-bold uppercase tracking-wider">General Donations</p>
-          <p className="text-2xl font-black text-purple-900">{generalDonationsCount}</p>
+          <p className="text-2xl font-bold text-purple-900">{generalDonationsCount}</p>
           <p className="text-xs text-purple-500 font-medium">Unlinked general awareness funds</p>
         </Card>
 
         <Card className="rounded-2xl border-cyan-100 bg-cyan-50/30 p-5 space-y-2">
           <p className="text-[10px] text-cyan-600 font-bold uppercase tracking-wider">Campaign Donations</p>
-          <p className="text-2xl font-black text-cyan-900">{campaignDonationsCount}</p>
+          <p className="text-2xl font-bold text-cyan-900">{campaignDonationsCount}</p>
           <p className="text-xs text-cyan-500 font-medium">Linked to specific campaigns</p>
         </Card>
       </div>
@@ -340,7 +340,7 @@ export default function AdminDonationDashboard({ initialDonations = [] }: AdminD
 
                       {/* Amount */}
                       <td className="py-3.5 px-4">
-                        <span className="font-black text-slate-900 font-heading text-sm">
+                        <span className="font-bold text-slate-900 font-heading text-sm">
                           ₹{Number(donation.amount).toLocaleString()}
                         </span>
                       </td>
@@ -434,7 +434,7 @@ export default function AdminDonationDashboard({ initialDonations = [] }: AdminD
               initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
-              className="relative w-full max-w-4xl bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-pink-200 dark:border-pink-800 shadow-2xl my-8 overflow-hidden"
+              className="relative w-full max-w-4xl bg-white dark:bg-slate-900 rounded-2xl p-6 border border-pink-200 dark:border-pink-800 shadow-lg my-8 overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Header */}
@@ -444,7 +444,7 @@ export default function AdminDonationDashboard({ initialDonations = [] }: AdminD
                     <Heart className="h-5 w-5 fill-pink-500 text-pink-500" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                       Donation Details
                       {getStatusBadge(selectedDonation.status)}
                     </h3>
@@ -475,7 +475,7 @@ export default function AdminDonationDashboard({ initialDonations = [] }: AdminD
                         <span className="text-[10px] font-bold uppercase tracking-wider text-pink-600 dark:text-pink-400">
                           Amount Donated
                         </span>
-                        <h4 className="text-3xl font-black text-slate-900 dark:text-white">
+                        <h4 className="text-3xl font-bold text-slate-900 dark:text-white">
                           ₹{Number(selectedDonation.amount).toLocaleString('en-IN')}{" "}
                           <span className="text-sm font-semibold text-slate-500">{selectedDonation.currency || "INR"}</span>
                         </h4>
@@ -503,7 +503,7 @@ export default function AdminDonationDashboard({ initialDonations = [] }: AdminD
 
                   {/* Donor Information */}
                   <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 space-y-3">
-                    <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                       <User className="h-4 w-4 text-pink-500" /> Donor Profile
                     </h4>
 
@@ -549,7 +549,7 @@ export default function AdminDonationDashboard({ initialDonations = [] }: AdminD
 
                   {/* Transaction & Campaign Details */}
                   <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 space-y-3">
-                    <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                       <CreditCard className="h-4 w-4 text-pink-500" /> Transaction &amp; Purpose
                     </h4>
 
@@ -604,7 +604,7 @@ export default function AdminDonationDashboard({ initialDonations = [] }: AdminD
                 <div className="lg:col-span-5 space-y-4">
                   <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 h-full flex flex-col justify-between">
                     <div>
-                      <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center justify-between mb-3">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between mb-3">
                         <span className="flex items-center gap-1.5">
                           <FileText className="h-4 w-4 text-pink-500" /> Payment Screenshot / Proof
                         </span>
@@ -623,7 +623,7 @@ export default function AdminDonationDashboard({ initialDonations = [] }: AdminD
 
                         if (!proofUrl) {
                           return (
-                            <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-8 text-center space-y-3 bg-white dark:bg-slate-900 my-auto">
+                            <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-6 text-center space-y-3 bg-white dark:bg-slate-900 my-auto">
                               <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto">
                                 <ImageOff className="h-6 w-6" />
                               </div>

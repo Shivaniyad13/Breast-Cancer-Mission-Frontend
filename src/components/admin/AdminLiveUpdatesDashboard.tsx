@@ -327,7 +327,7 @@ export default function AdminLiveUpdatesDashboard({ initialUpdates }: AdminLiveU
       {/* Stats and Action Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 rounded-2xl shadow-sm">
         <div>
-          <h3 className="font-extrabold text-sm text-slate-850 dark:text-white">Active Homepage Live Updates</h3>
+          <h3 className="font-bold text-sm text-slate-800 dark:text-white">Active Homepage Live Updates</h3>
           <p className="text-xs text-muted-foreground">Manage active webinars, walkathons, camps, campaigns, or innovation news inside the left sidebar widgets.</p>
         </div>
 
@@ -336,14 +336,14 @@ export default function AdminLiveUpdatesDashboard({ initialUpdates }: AdminLiveU
             resetForm();
             setIsAddOpen(true);
           }}
-          className="bg-pink-600 hover:bg-pink-700 text-white font-extrabold shadow rounded-xl text-xs py-4.5 cursor-pointer flex items-center gap-1"
+          className="bg-pink-600 hover:bg-pink-700 text-white font-bold shadow rounded-xl text-xs py-4.5 cursor-pointer flex items-center gap-1"
         >
           <Plus className="h-4 w-4" /> Add Live Update
         </Button>
       </div>
 
       {/* Main List Table */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-3xl overflow-hidden shadow-md">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-sm">
             <thead>
@@ -359,7 +359,7 @@ export default function AdminLiveUpdatesDashboard({ initialUpdates }: AdminLiveU
             <tbody className="divide-y divide-slate-100">
               {updates.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="text-center p-12 text-muted-foreground">
+                  <td colSpan={6} className="text-center p-8 text-muted-foreground">
                     No live updates found. Click Add to create one!
                   </td>
                 </tr>
@@ -377,7 +377,7 @@ export default function AdminLiveUpdatesDashboard({ initialUpdates }: AdminLiveU
                         >
                           <ArrowUp className="h-3.5 w-3.5 mx-auto" />
                         </button>
-                        <span className="text-xs font-black text-slate-700">{index + 1}</span>
+                        <span className="text-xs font-bold text-slate-700">{index + 1}</span>
                         <button
                           onClick={() => handleMove(index, "DOWN")}
                           disabled={index === updates.length - 1}
@@ -400,11 +400,11 @@ export default function AdminLiveUpdatesDashboard({ initialUpdates }: AdminLiveU
 
                       <div className="space-y-0.5 min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-[9px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded font-black uppercase border border-pink-200/50">
+                          <span className="text-[9px] bg-pink-100 text-pink-700 px-2 py-0.5 rounded font-bold uppercase border border-pink-200/50">
                             {item.category}
                           </span>
                         </div>
-                        <h4 className="font-extrabold text-sm text-slate-800 truncate max-w-xs">
+                        <h4 className="font-bold text-sm text-slate-800 truncate max-w-xs">
                           {item.title}
                         </h4>
                         <p className="text-xs text-muted-foreground truncate max-w-xs">{item.shortDescription}</p>
@@ -432,7 +432,7 @@ export default function AdminLiveUpdatesDashboard({ initialUpdates }: AdminLiveU
                     {/* Column 4: Featured */}
                     <td className="p-4 text-xs">
                       {item.isFeatured ? (
-                        <span className="text-xs font-extrabold text-amber-600 inline-flex items-center gap-0.5">
+                        <span className="text-xs font-bold text-amber-600 inline-flex items-center gap-0.5">
                           <Sparkles className="h-3 w-3 fill-amber-500 text-amber-500" /> Featured
                         </span>
                       ) : (

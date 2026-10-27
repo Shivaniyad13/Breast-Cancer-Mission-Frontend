@@ -11,9 +11,9 @@ export default async function SuccessStoriesPage() {
   const stories = result.success && result.stories ? result.stories : [];
 
   return (
-    <div className="min-h-screen bg-slate-50/50 pb-20">
+    <div className="min-h-screen bg-slate-50/50 pb-8">
       {/* Header Banner */}
-      <section className="bg-gradient-to-b from-pink-50 via-white to-slate-50/50 py-12 sm:py-16 border-b border-pink-100">
+      <section className="bg-gradient-to-b from-pink-50 via-white to-slate-50/50 py-8 border-b border-pink-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 max-w-3xl">
           <Link
             href="/"
@@ -23,13 +23,13 @@ export default async function SuccessStoriesPage() {
           </Link>
 
           <div className="flex justify-center">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100 text-pink-700 text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100 text-pink-700 text-xs font-bold ">
               <Sparkles className="h-3.5 w-3.5" />
               Community Triumphs &amp; Courage
             </span>
           </div>
 
-          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+          <h1 className="font-heading font-bold tracking-tight text-slate-900 leading-tight text-3xl sm:text-4xl">
             Cancer Survivor &amp; Fighter Stories
           </h1>
 
@@ -43,7 +43,7 @@ export default async function SuccessStoriesPage() {
                 size="lg"
                 className="bg-primary hover:bg-primary/95 text-white font-bold rounded-xl shadow-md px-6 sm:px-8 h-12 cursor-pointer"
               >
-                Share Your Story <Heart className="ml-2 h-4 w-4 fill-white text-white animate-pulse" />
+                Share Your Story <Heart className="ml-2 h-4 w-4 fill-white text-white " />
               </Button>
             </Link>
           </div>
@@ -57,9 +57,9 @@ export default async function SuccessStoriesPage() {
 
       {/* All Stories Grid if there are multiple stories */}
       {stories.length > 1 && (
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12">
+        <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-8">
           <div className="mb-6">
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
               All Community Stories
             </h2>
             <p className="text-sm text-slate-500">
@@ -75,7 +75,7 @@ export default async function SuccessStoriesPage() {
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-emerald-600 uppercase tracking-wider">
+                    <span className="font-bold text-emerald-600 ">
                       {story.roleType || "Survivor"}
                     </span>
                     <span className="text-slate-400 flex items-center gap-1">

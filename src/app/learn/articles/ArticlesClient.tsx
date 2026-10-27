@@ -74,7 +74,7 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
   };
 
   return (
-    <div className="space-y-10 relative">
+    <div className="space-y-8 relative">
       
       {/* Doctor Profile View Modal */}
       <DoctorProfileModal
@@ -85,11 +85,11 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
 
       {/* Header */}
       <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-700 text-xs font-bold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-700 text-xs font-bold ">
           <BookOpen className="h-4 w-4 text-primary" />
           Medical Publications
         </div>
-        <h1 className="font-heading text-3xl sm:text-4xl font-black text-slate-800">
+        <h1 className="font-heading font-bold text-slate-800 text-3xl sm:text-4xl">
           Awareness <span className="text-primary">Articles &amp; Blogs</span>
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm max-w-2xl mx-auto">
@@ -112,7 +112,7 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
         {/* TAB 1: BROWSE ARTICLES (REQUIREMENT 6) */}
         <TabsContent value="browse" className="space-y-6">
           {articles.length === 0 ? (
-            <div className="text-center py-16 bg-white/60 rounded-3xl border border-pink-100 p-8 space-y-3">
+            <div className="text-center py-8 bg-white/60 rounded-2xl border border-pink-100 p-6 space-y-3">
               <BookOpen className="h-12 w-12 text-pink-300 mx-auto" />
               <h3 className="font-heading text-lg font-bold text-slate-700">No Articles Published Yet</h3>
               <p className="text-xs text-slate-500 max-w-md mx-auto">
@@ -122,9 +122,9 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {articles.map((art) => (
-                <Card key={art.id} className="group bg-white/80 backdrop-blur-md border border-pink-50 hover:border-pink-200 hover:shadow-lg transition-all duration-300 rounded-3xl overflow-hidden flex flex-col justify-between">
+                <Card key={art.id} className="group bg-white/80 backdrop-blur-md border border-pink-50 hover:border-pink-200 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden flex flex-col justify-between">
                   <CardHeader className="p-6 pb-0 space-y-2">
-                    <span className="bg-pink-50 border border-pink-100 text-primary text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider w-fit">
+                    <span className="bg-pink-50 border border-pink-100 text-primary text-[11px] font-bold px-2.5 py-0.5 rounded-full w-fit">
                       {art.category}
                     </span>
                     <h4 className="font-heading text-base font-bold text-slate-800 group-hover:text-primary transition-colors line-clamp-2">
@@ -138,22 +138,22 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
                     
                     {/* REQUIREMENT 6: WRITTEN BY DR. {NAME} (VERIFIED DOCTOR) */}
                     <div className="border-t border-slate-100 pt-3 flex flex-col gap-1 text-[11px]">
-                      <div className="text-slate-500 text-[10px] uppercase font-bold tracking-wider">
+                      <div className="text-slate-500 text-[11px] font-bold ">
                         Written by:
                       </div>
                       <button
                         onClick={() => art.doctorId && setSelectedDoctorId(art.doctorId)}
-                        className="flex items-center gap-1.5 font-extrabold text-slate-800 hover:text-primary transition-colors text-left group/doc cursor-pointer"
+                        className="flex items-center gap-1.5 font-bold text-slate-800 hover:text-primary transition-colors text-left group/doc cursor-pointer"
                       >
                         <Stethoscope className="h-3.5 w-3.5 text-primary shrink-0" />
                         <span className="group-hover/doc:underline">Dr. {art.doctorName}</span>
                       </button>
                       
-                      <div className="flex items-center gap-1 text-emerald-600 font-bold text-[10px] mt-0.5">
+                      <div className="flex items-center gap-1 text-emerald-600 font-bold text-[11px] mt-0.5">
                         <ShieldCheck className="h-3 w-3" /> Verified Doctor
                       </div>
 
-                      <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-50 text-[10px] text-slate-400">
+                      <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-50 text-[11px] text-slate-400">
                         <span className="flex items-center gap-1"><Calendar className="h-3 w-3 shrink-0" /> {art.publishDate}</span>
                         <span className="flex items-center gap-1 font-semibold text-slate-500"><Bookmark className="h-3 w-3 shrink-0" /> {art.readTime}</span>
                       </div>
@@ -174,7 +174,7 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
         {/* TAB 2: PUBLISH ARTICLE FORM (REQUIREMENT 3) */}
         <TabsContent value="publish">
           {!isDoctorOrAdmin ? (
-            <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-xl rounded-3xl p-8 max-w-lg mx-auto text-center space-y-6">
+            <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-md rounded-2xl p-6 max-w-lg mx-auto text-center space-y-6">
               <div className="h-14 w-14 bg-pink-50 text-primary rounded-2xl flex items-center justify-center border border-pink-100 mx-auto">
                 <ShieldAlert className="h-8 w-8" />
               </div>
@@ -186,7 +186,7 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
               </div>
               <div className="flex flex-col gap-2 pt-2">
                 {user ? (
-                  <p className="text-xs text-slate-500">Your current role: <strong className="text-primary uppercase">{user.role}</strong>. Only Doctors can publish articles.</p>
+                  <p className="text-xs text-slate-500">Your current role: <strong className="text-primary ">{user.role}</strong>. Only Doctors can publish articles.</p>
                 ) : (
                   <Link href={`/login?callbackUrl=${encodeURIComponent("/learn/articles")}`} className="w-full">
                     <Button className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-xl shadow-md py-2.5 h-auto text-sm">
@@ -200,9 +200,9 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
               </div>
             </Card>
           ) : (
-            <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-xl rounded-3xl max-w-2xl mx-auto overflow-hidden">
+            <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-md rounded-2xl max-w-2xl mx-auto overflow-hidden">
               <CardHeader className="p-6 border-b border-pink-50 bg-white/40">
-                <CardTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
+                <CardTitle className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
                   <PenTool className="h-5 w-5 text-primary" /> Publish Medical Guide
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-500">
@@ -213,7 +213,7 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
                 
                 {/* Article Title Input */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black uppercase text-slate-500 tracking-wider">Article Title *</label>
+                  <label className="text-[11px] font-bold text-slate-500 ">Article Title *</label>
                   <input 
                     type="text" 
                     placeholder="e.g. Early Screening Protocols for Hereditary Breast Cancer" 
@@ -226,7 +226,7 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
                 {/* Category & Auto-linked Author */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-black uppercase text-slate-500 tracking-wider">Category</label>
+                    <label className="text-[11px] font-bold text-slate-500 ">Category</label>
                     <select 
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
@@ -241,7 +241,7 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-black uppercase text-slate-500 tracking-wider">Author (Auto-linked Session)</label>
+                    <label className="text-[11px] font-bold text-slate-500 ">Author (Auto-linked Session)</label>
                     <input 
                       type="text" 
                       disabled
@@ -253,7 +253,7 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
 
                 {/* Article Excerpt */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black uppercase text-slate-500 tracking-wider">Brief Summary / Excerpt</label>
+                  <label className="text-[11px] font-bold text-slate-500 ">Brief Summary / Excerpt</label>
                   <input 
                     type="text" 
                     placeholder="A short 1-2 sentence description summarizing the article." 
@@ -265,7 +265,7 @@ export default function ArticlesClient({ initialArticles, user }: ArticlesClient
 
                 {/* Article Body */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-black uppercase text-slate-500 tracking-wider">Full Content (Markdown Supported) *</label>
+                  <label className="text-[11px] font-bold text-slate-500 ">Full Content (Markdown Supported) *</label>
                   <textarea 
                     rows={8}
                     placeholder="Type clinical guidelines, screening tips, or treatment options here..." 

@@ -232,7 +232,7 @@ export default function AdminFeedbackPage() {
       {/* Toast Notification */}
       {toast && (
         <div
-          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-2xl shadow-xl border text-sm font-semibold flex items-center gap-2 transition-all ${
+          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-2xl shadow-md border text-sm font-semibold flex items-center gap-2 transition-all ${
             toast.type === "success"
               ? "bg-emerald-50 border-emerald-200 text-emerald-800"
               : "bg-rose-50 border-rose-200 text-rose-800"
@@ -246,10 +246,10 @@ export default function AdminFeedbackPage() {
       {/* Header section */}
       <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 border-b border-pink-100 pb-6">
         <div className="space-y-1">
-          <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+          <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
             <ShieldCheck className="h-2.5 w-2.5" /> Command Center
           </span>
-          <h1 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+          <h1 className="font-heading text-3xl font-bold tracking-tight text-slate-800 flex items-center gap-2">
             <MessageSquare className="h-8 w-8 text-primary" /> Community Feedback Management
           </h1>
           <p className="text-muted-foreground text-sm">
@@ -272,7 +272,7 @@ export default function AdminFeedbackPage() {
           }`}
         >
           ALL
-          <span className="px-2 py-0.5 rounded-full text-[10px] bg-slate-200 text-slate-700 font-extrabold">
+          <span className="px-2 py-0.5 rounded-full text-[10px] bg-slate-200 text-slate-700 font-bold">
             {allCount}
           </span>
         </button>
@@ -286,7 +286,7 @@ export default function AdminFeedbackPage() {
           }`}
         >
           PENDING
-          <span className="px-2 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800 font-extrabold">
+          <span className="px-2 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800 font-bold">
             {pendingCount}
           </span>
         </button>
@@ -300,7 +300,7 @@ export default function AdminFeedbackPage() {
           }`}
         >
           VERIFIED
-          <span className="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-extrabold">
+          <span className="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-bold">
             {verifiedCount}
           </span>
         </button>
@@ -314,14 +314,14 @@ export default function AdminFeedbackPage() {
           }`}
         >
           REJECTED
-          <span className="px-2 py-0.5 rounded-full text-[10px] bg-rose-100 text-rose-800 font-extrabold">
+          <span className="px-2 py-0.5 rounded-full text-[10px] bg-rose-100 text-rose-800 font-bold">
             {rejectedCount}
           </span>
         </button>
       </div>
 
       {/* Search Input */}
-      <div className="bg-white p-4 sm:p-6 rounded-3xl border border-slate-100 shadow-sm">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm">
         <div className="relative max-w-md">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
           <input
@@ -338,7 +338,7 @@ export default function AdminFeedbackPage() {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="bg-white rounded-3xl p-6 border border-slate-100 animate-pulse space-y-4">
+            <div key={i} className="bg-white rounded-2xl p-6 border border-slate-100 animate-pulse space-y-4">
               <div className="flex items-center justify-between">
                 <div className="h-5 w-1/3 bg-slate-200 rounded-lg" />
                 <div className="h-4 w-1/4 bg-slate-100 rounded-full" />
@@ -350,7 +350,7 @@ export default function AdminFeedbackPage() {
           ))}
         </div>
       ) : error ? (
-        <div className="py-16 text-center space-y-4 bg-rose-50 rounded-3xl border border-rose-200 p-6">
+        <div className="py-10 text-center space-y-4 bg-rose-50 rounded-2xl border border-rose-200 p-6">
           <AlertCircle className="h-12 w-12 text-rose-500 mx-auto" />
           <h3 className="font-heading text-lg font-bold text-rose-800">Error Loading Feedback</h3>
           <p className="text-slate-600 text-sm max-w-md mx-auto">{error}</p>
@@ -362,9 +362,9 @@ export default function AdminFeedbackPage() {
           </button>
         </div>
       ) : filteredFeedback.length === 0 ? (
-        <div className="py-20 text-center space-y-4 bg-white rounded-3xl border-2 border-dashed border-slate-200 p-8">
+        <div className="py-12 text-center space-y-4 bg-white rounded-2xl border-2 border-dashed border-slate-200 p-6">
           <MessageSquare className="h-14 w-14 text-slate-300 mx-auto" />
-          <h3 className="font-heading text-xl font-extrabold text-slate-700">{getEmptyMessage()}</h3>
+          <h3 className="font-heading text-xl font-bold text-slate-700">{getEmptyMessage()}</h3>
           <p className="text-slate-400 text-sm max-w-md mx-auto">
             Submissions made by users on the membership page will appear here for verification.
           </p>
@@ -380,7 +380,7 @@ export default function AdminFeedbackPage() {
                 {/* Header: Name + Role Badge */}
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <h4 className="font-heading font-extrabold text-slate-800 text-base leading-tight">
+                    <h4 className="font-heading font-bold text-slate-800 text-base leading-tight">
                       {item.name}
                     </h4>
                     <p className="text-xs text-slate-400 font-sans mt-0.5 flex items-center gap-1">
@@ -409,7 +409,7 @@ export default function AdminFeedbackPage() {
                   </div>
 
                   <span
-                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                       item.status === "VERIFIED"
                         ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
                         : item.status === "REJECTED"
@@ -521,14 +521,14 @@ export default function AdminFeedbackPage() {
       {/* Details Modal */}
       {selectedFeedback && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6 border border-slate-100">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-lg space-y-6 border border-slate-100">
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-pink-600 font-heading">
                   Feedback Submission Details
                 </span>
-                <h3 className="font-heading text-xl font-extrabold text-slate-800 flex items-center gap-2">
+                <h3 className="font-heading text-xl font-bold text-slate-800 flex items-center gap-2">
                   <User className="h-5 w-5 text-primary" />
                   {selectedFeedback.name}
                 </h3>
@@ -548,7 +548,7 @@ export default function AdminFeedbackPage() {
                   <span className="text-slate-400 font-bold block uppercase tracking-wider text-[10px]">
                     Role
                   </span>
-                  <span className="font-extrabold text-slate-800 text-sm">{selectedFeedback.role}</span>
+                  <span className="font-bold text-slate-800 text-sm">{selectedFeedback.role}</span>
                 </div>
                 <div>
                   <span className="text-slate-400 font-bold block uppercase tracking-wider text-[10px]">
@@ -594,7 +594,7 @@ export default function AdminFeedbackPage() {
                     Public Consent
                   </span>
                   <span
-                    className={`font-extrabold ${
+                    className={`font-bold ${
                       selectedFeedback.consent ? "text-emerald-700" : "text-slate-500"
                     }`}
                   >

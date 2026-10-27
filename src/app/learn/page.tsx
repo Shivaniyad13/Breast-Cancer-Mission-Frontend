@@ -5,19 +5,19 @@ import { Award, BookOpen, Heart, Ribbon, Timer, ChevronRight, HelpCircle, Shield
 
 export default function AwarenessHubPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-pink-50 via-white to-rose-50/30 py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-tr from-pink-50 via-white to-rose-50/30 py-8 px-4 sm:px-6 lg:px-8">
       {/* Decorative background blur blobs */}
       <div className="absolute top-20 right-10 w-72 h-72 bg-pink-200/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-[40%] left-5 w-60 h-60 bg-rose-200/25 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto space-y-16 relative">
+      <div className="max-w-6xl mx-auto space-y-8 relative">
         {/* Hero Header */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-700 text-xs font-bold uppercase tracking-wider">
-            <Ribbon className="h-4 w-4 animate-pulse" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-700 text-xs font-bold ">
+            <Ribbon className="h-4 w-4 " />
             Knowledge is Power
           </div>
-          <h1 className="font-heading text-4xl sm:text-5xl font-black text-slate-800 leading-tight">
+          <h1 className="font-heading font-bold text-slate-800 leading-tight text-3xl sm:text-4xl">
             Breast Cancer <span className="text-primary">Awareness Hub</span>
           </h1>
           <p className="text-slate-600 text-base sm:text-lg">
@@ -29,7 +29,7 @@ export default function AwarenessHubPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           {/* Card 1: BSE Guide */}
-          <Card className="group bg-white/70 backdrop-blur-md border border-pink-100/50 hover:border-pink-200 hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden flex flex-col justify-between">
+          <Card className="group bg-white/70 backdrop-blur-md border border-pink-100/50 hover:border-pink-200 hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden flex flex-col justify-between">
             <CardHeader className="p-6 pb-0">
               <div className="h-12 w-12 rounded-2xl bg-pink-50 text-primary flex items-center justify-center border border-pink-100 group-hover:scale-110 transition-transform duration-300">
                 <Timer className="h-6 w-6" />
@@ -46,7 +46,7 @@ export default function AwarenessHubPage() {
                 Learn the clinical steps for performing a Breast Self-Examination (BSE) at home. Familiarize yourself with normal breast tissue layout and check for warning signs.
               </p>
               <Link href="/learn/bse-guide" className="block w-full">
-                <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs py-2 h-auto flex items-center justify-center gap-1.5 shadow-sm group-hover:-translate-y-0.5 transition-all">
+                <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs py-2 h-auto flex items-center justify-center gap-1.5 shadow-sm transition-all">
                   Launch BSE Guide <ChevronRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -54,7 +54,7 @@ export default function AwarenessHubPage() {
           </Card>
 
           {/* Card 2: Quiz Engine */}
-          <Card className="group bg-white/70 backdrop-blur-md border border-pink-200 hover:border-pink-300 hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden flex flex-col justify-between ring-1 ring-pink-100">
+          <Card className="group bg-white/70 backdrop-blur-md border border-pink-200 hover:border-pink-300 hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden flex flex-col justify-between ring-1 ring-pink-100">
             <CardHeader className="p-6 pb-0">
               <div className="h-12 w-12 rounded-2xl bg-pink-100 text-primary flex items-center justify-center border border-pink-200 group-hover:scale-110 transition-transform duration-300 relative">
                 <Award className="h-6 w-6" />
@@ -72,7 +72,7 @@ export default function AwarenessHubPage() {
                 Answer 10 clinically reviewed questions on breast cancer staging, risk factors, screening, and prevention. Score 80% or more to unlock a QR-verified downloadable PDF certificate.
               </p>
               <Link href="/learn/quiz" className="block w-full">
-                <Button className="w-full bg-primary hover:bg-primary/95 text-white rounded-xl text-xs py-2 h-auto flex items-center justify-center gap-1.5 shadow-md group-hover:-translate-y-0.5 transition-all">
+                <Button className="w-full bg-primary hover:bg-primary/95 text-white rounded-xl text-xs py-2 h-auto flex items-center justify-center gap-1.5 shadow-md transition-all">
                   Start Quiz Engine <ChevronRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -80,7 +80,7 @@ export default function AwarenessHubPage() {
           </Card>
 
           {/* Card 3: Webinars */}
-          <Card className="group bg-white/70 backdrop-blur-md border border-pink-100/50 hover:border-pink-200 hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden flex flex-col justify-between">
+          <Card className="group bg-white/70 backdrop-blur-md border border-pink-100/50 hover:border-pink-200 hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden flex flex-col justify-between">
             <CardHeader className="p-6 pb-0">
               <div className="h-12 w-12 rounded-2xl bg-pink-50 text-primary flex items-center justify-center border border-pink-100 group-hover:scale-110 transition-transform duration-300">
                 <BookOpen className="h-6 w-6" />
@@ -97,7 +97,7 @@ export default function AwarenessHubPage() {
                 Participate in live digital webinars organized by strategic partners and NGOs. Learn from oncology experts and ask questions in real-time.
               </p>
               <Link href="/webinars" className="block w-full">
-                <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs py-2 h-auto flex items-center justify-center gap-1.5 shadow-sm group-hover:-translate-y-0.5 transition-all">
+                <Button className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs py-2 h-auto flex items-center justify-center gap-1.5 shadow-sm transition-all">
                   Browse Webinars <ChevronRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -107,9 +107,9 @@ export default function AwarenessHubPage() {
         </div>
 
         {/* Myth Busters Accordion / Cards */}
-        <div className="bg-white/80 backdrop-blur-md border border-pink-100 rounded-3xl p-8 md:p-12 shadow-sm space-y-8">
+        <div className="bg-white/80 backdrop-blur-md border border-pink-100 rounded-2xl p-6 md:p-8 shadow-sm space-y-8">
           <div className="text-center space-y-2 max-w-xl mx-auto">
-            <h2 className="font-heading text-2xl md:text-3xl font-black text-slate-800">
+            <h2 className="font-heading text-2xl md:text-3xl font-bold text-slate-800">
               Myth vs. Fact Database
             </h2>
             <p className="text-xs text-muted-foreground">

@@ -147,12 +147,12 @@ export default function CelebrityTestimonials({
   return (
     <div className="relative overflow-hidden bg-[#2d0a20]/95 backdrop-blur-xl border border-pink-900/60 rounded-3xl p-4 shadow-xl flex flex-col justify-between min-h-[260px] group text-white">
       {/* Top accent line */}
-      <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-pink-500 to-rose-400" />
+      <div className="absolute top-0 inset-x-0 h-0.5 bg-pink-300" />
 
       <div className="space-y-3">
         {/* Header */}
         <div className="flex justify-between items-center pb-1.5 border-b border-pink-900/40">
-          <span className="text-[10px] font-black uppercase tracking-widest text-pink-400 flex items-center gap-1">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-pink-400 flex items-center gap-1">
             <Star className="h-3 w-3 fill-pink-400 text-pink-400" /> Celebrity
             Testimonial
           </span>
@@ -216,7 +216,7 @@ export default function CelebrityTestimonials({
         {/* Metadata */}
         <div className="space-y-1">
           <div className="flex items-baseline gap-1.5">
-            <h4 className="font-extrabold text-xs text-white truncate">
+            <h4 className="font-bold text-xs text-white truncate">
               {activeTestimonial.name}
             </h4>
             <span className="text-[9px] text-pink-300 font-semibold shrink-0 truncate">
@@ -233,7 +233,7 @@ export default function CelebrityTestimonials({
       {/* Bottom — playlist thumbnails */}
       {testimonials.length > 1 && (
         <div className="pt-2 border-t border-slate-800 space-y-1.5">
-          <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest block">
+          <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest block">
             More Testimonials
           </span>
           <div className="flex gap-2 overflow-x-auto no-scrollbar">

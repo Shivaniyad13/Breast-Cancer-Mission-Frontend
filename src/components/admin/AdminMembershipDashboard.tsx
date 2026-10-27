@@ -316,7 +316,7 @@ export default function AdminMembershipDashboard({
               <tbody className="divide-y divide-slate-50 font-medium">
                 {filteredList.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="p-12 text-center text-slate-400 italic">
+                    <td colSpan={5} className="p-8 text-center text-slate-400 italic">
                       No applications found.
                     </td>
                   </tr>
@@ -397,15 +397,15 @@ export default function AdminMembershipDashboard({
       {/* Detail Overlay Modal */}
       {selectedApp && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-hidden flex flex-col shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-200 text-slate-800">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden flex flex-col shadow-lg border border-slate-100 animate-in fade-in zoom-in-95 duration-200 text-slate-800">
             
             {/* Header */}
             <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
               <div>
-                <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider inline-block">
+                <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider inline-block">
                   {activeTab === "NGO" ? "NGO Application Review" : "Corporate Application Review"}
                 </span>
-                <h3 className="font-heading font-black text-xl text-slate-800 mt-1">
+                <h3 className="font-heading font-bold text-xl text-slate-800 mt-1">
                   {activeTab === "NGO" ? selectedApp.organizationName : selectedApp.companyName}
                 </h3>
               </div>
@@ -597,15 +597,15 @@ export default function AdminMembershipDashboard({
       {/* EDIT MODAL */}
       {editingApp && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-200 text-slate-800">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-lg border border-slate-100 animate-in fade-in zoom-in-95 duration-200 text-slate-800">
             
             {/* Header */}
             <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
               <div>
-                <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wider inline-block">
+                <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider inline-block">
                   {activeTab === "NGO" ? "Edit Organization Application" : "Edit Corporate Partner Application"}
                 </span>
-                <h3 className="font-heading font-black text-xl text-slate-800 mt-1">
+                <h3 className="font-heading font-bold text-xl text-slate-800 mt-1">
                   {activeTab === "NGO" ? editingApp.organizationName : editingApp.companyName}
                 </h3>
               </div>

@@ -34,7 +34,7 @@ export default async function AdminVolunteersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50/50 p-6 md:p-10 space-y-8">
+    <div className="min-h-screen bg-slate-50/50 p-6 space-y-8">
       <div className="space-y-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">

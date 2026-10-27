@@ -94,7 +94,7 @@ const treatmentJourneySteps = [
 const trustPillars = [
   { title: "Research Focus", desc: "Continuous research in Ayurvedic oncology formulations.", icon: ShieldCheck },
   { title: "Traditional Knowledge", desc: "Authentic formulations rooted in text-based herbology.", icon: Leaf },
-  { title: "Quality Manufacturing", desc: "State-of-the-art GMP certified facilities.", icon: CheckCircle2 },
+  { title: "Quality Manufacturing", desc: "GMP certified facilities.", icon: CheckCircle2 },
   { title: "Patient Support", desc: "Dedicated counselor lines and doctor connects.", icon: HeartHandshake },
   { title: "Natural Ingredients", desc: "Organically grown, pure herbs tested for heavy metals.", icon: Sparkles },
   { title: "Continuous Innovation", desc: "Evolving products for enhanced cellular absorption.", icon: Activity },
@@ -129,7 +129,7 @@ export default function TreatmentPage() {
       {/* ================================================
           SECTION 1 - HERO (Clean Background)
          ================================================ */}
-      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
+      <section className="relative min-h-[50vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-10 md:py-14 overflow-hidden border-b border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
           <div className="space-y-6 text-center">
 
@@ -137,9 +137,9 @@ export default function TreatmentPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold shadow-sm"
             >
-              <Ribbon className="h-3.5 w-3.5 text-primary animate-pulse" />
+              <Ribbon className="h-3.5 w-3.5 text-primary " />
               Integrative Healthcare
             </motion.div>
 
@@ -147,7 +147,7 @@ export default function TreatmentPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-800 leading-[1.1]"
             >
               Every Life Deserves <br />
               <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
@@ -171,7 +171,7 @@ export default function TreatmentPage() {
               className="pt-4 flex flex-wrap justify-center gap-4"
             >
               <a href="#treatment-overview">
-                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-6 py-5 transition-all text-sm tracking-wide cursor-pointer">
                   Learn About Treatment
                   <ArrowRight className="h-4 w-4 ml-1.5" />
                 </Button>
@@ -179,7 +179,7 @@ export default function TreatmentPage() {
               <a href="#contact-specialist">
                 <Button
                   variant="outline"
-                  className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
+                  className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-lg px-6 py-5 transition-all text-sm tracking-wide cursor-pointer"
                 >
                   Talk to Our Expert
                 </Button>
@@ -198,14 +198,14 @@ export default function TreatmentPage() {
       {/* ================================================
           SECTION 6 - WHY PATIENTS TRUST US
          ================================================ */}
-      <section className="py-20 md:py-28 bg-white border-t border-rose-100/20">
+      <section className="py-12 md:py-16 bg-white border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <Sparkles className="h-3.5 w-3.5" />
               Our Core Pillars
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Why Patients Trust Us
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -220,12 +220,12 @@ export default function TreatmentPage() {
                 <motion.div
                   key={idx}
                   whileHover={{ y: -5, scale: 1.02 }}
-                  className="p-6 rounded-3xl border border-pink-100/60 bg-gradient-to-br from-pink-500/5 to-rose-500/5 shadow-sm hover:shadow-md transition-all duration-300"
+                  className="p-6 rounded-2xl border border-pink-100/60 bg-gradient-to-br from-pink-500/5 to-rose-500/5 shadow-sm hover:shadow-md transition-all duration-300"
                 >
                   <div className="h-11 w-11 rounded-xl bg-white text-pink-500 flex items-center justify-center mb-4 shadow-sm border border-pink-100/40">
                     <Icon className="h-5.5 w-5.5" />
                   </div>
-                  <h4 className="text-base font-extrabold text-slate-800 mb-2 font-heading">
+                  <h4 className="text-base font-bold text-slate-800 mb-2 font-heading">
                     {item.title}
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
@@ -241,14 +241,14 @@ export default function TreatmentPage() {
       {/* ================================================
           SECTION 7 - TREATMENT JOURNEY
          ================================================ */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl overflow-hidden">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wider border border-purple-100/60">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-purple-50 text-purple-700 text-xs font-bold border border-purple-100/60">
               <Activity className="h-3.5 w-3.5" />
               Workflow Steps
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Patient Journey Workflow
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -271,7 +271,7 @@ export default function TreatmentPage() {
                   <span className="h-7 w-7 rounded-lg bg-primary text-white text-xs font-bold flex items-center justify-center">
                     {item.step}
                   </span>
-                  <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-widest">
+                  <span className="text-[11px] text-slate-400 font-semibold ">
                     Step {idx + 1}
                   </span>
                 </div>
@@ -292,18 +292,18 @@ export default function TreatmentPage() {
       {/* ================================================
           SECTION 7.5 - PATIENTS SUCCESS STORIES
          ================================================ */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-slate-900 to-purple-950 text-white relative overflow-hidden">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-slate-900 to-purple-950 text-white relative overflow-hidden">
         {/* Background blobs */}
         <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl relative z-10">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider border border-pink-500/20">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold border border-pink-500/20">
               <HeartHandshake className="h-3.5 w-3.5" />
               Collaboration Impact
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
               Patients Success Stories
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-medium">
@@ -312,7 +312,7 @@ export default function TreatmentPage() {
           </div>
 
           {/* Autoplay Slider */}
-          <div className="relative bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 md:p-12 pb-16 sm:pb-8 md:pb-12 backdrop-blur-lg shadow-2xl overflow-hidden min-h-[480px] flex items-center">
+          <div className="relative bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 pb-8 md:pb-12 backdrop-blur-lg shadow-lg overflow-hidden min-h-[480px] flex items-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeStoryIdx}
@@ -324,14 +324,14 @@ export default function TreatmentPage() {
               >
                 {/* Event Image */}
                 <div className="lg:col-span-5 flex justify-center">
-                  <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden border-3 border-pink-500/30 shadow-2xl group">
+                  <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden border-3 border-pink-500/30 shadow-lg group">
                     <img
                       src={successStoriesData[activeStoryIdx].eventImage}
                       alt={successStoriesData[activeStoryIdx].orgName}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                    <span className="absolute bottom-4 left-4 bg-pink-600 text-white font-bold text-xs uppercase px-3 py-1 rounded-md tracking-wider shadow-md font-heading">
+                    <span className="absolute bottom-4 left-4 bg-pink-600 text-white font-bold text-xs px-3 py-1 rounded-md shadow-md font-heading">
                       Featured Impact
                     </span>
                   </div>
@@ -340,10 +340,10 @@ export default function TreatmentPage() {
                 {/* Info & Quote */}
                 <div className="lg:col-span-7 space-y-6 text-left">
                   <div className="space-y-1">
-                    <p className="text-xs font-bold text-pink-400 uppercase tracking-widest font-heading">
+                    <p className="text-xs font-bold text-pink-400 font-heading">
                       Alliance Success
                     </p>
-                    <h3 className="font-heading text-2xl font-extrabold text-white">
+                    <h3 className="font-heading text-2xl font-bold text-white">
                       {successStoriesData[activeStoryIdx].orgName}
                     </h3>
                   </div>
@@ -354,13 +354,13 @@ export default function TreatmentPage() {
 
                   {/* Impact Badges */}
                   <div className="flex flex-wrap gap-2 pt-2">
-                    <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-lg">
+                    <span className="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-lg">
                       {successStoriesData[activeStoryIdx].screenedCount}
                     </span>
-                    <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-lg">
+                    <span className="text-[11px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-lg">
                       {successStoriesData[activeStoryIdx].patientsHelped}
                     </span>
-                    <span className="text-[10px] font-bold text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-lg">
+                    <span className="text-[11px] font-bold text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-lg">
                       {successStoriesData[activeStoryIdx].eventsCount}
                     </span>
                   </div>
@@ -369,7 +369,7 @@ export default function TreatmentPage() {
                     <p className="text-pink-300 font-serif text-sm leading-relaxed">
                       &ldquo;{successStoriesData[activeStoryIdx].quote}&rdquo;
                     </p>
-                    <p className="text-slate-400 text-xs font-bold font-heading mt-2 uppercase tracking-wide">
+                    <p className="text-slate-400 text-xs font-bold font-heading mt-2 tracking-wide">
                       — {successStoriesData[activeStoryIdx].directorName}
                     </p>
                   </div>
@@ -396,14 +396,14 @@ export default function TreatmentPage() {
       {/* ================================================
           SECTION 8 - FREQUENTLY ASKED QUESTIONS
          ================================================ */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <MessageCircle className="h-3.5 w-3.5" />
               Common Inquiries
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Frequently Asked Questions
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -412,7 +412,7 @@ export default function TreatmentPage() {
           </div>
 
           {/* Custom Accordion */}
-          <div className="bg-white/80 border border-pink-100/60 rounded-3xl p-5 sm:p-8 shadow-sm space-y-4">
+          <div className="bg-white/80 border border-pink-100/60 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
             {[
               {
                 q: "Who should consult before taking this product?",
@@ -486,7 +486,7 @@ export default function TreatmentPage() {
       <section className="bg-gradient-to-b from-white to-rose-50/30 py-12 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
-            <Ribbon className="h-5 w-5 text-pink-500 animate-pulse" />
+            <Ribbon className="h-5 w-5 text-pink-500 " />
             <span className="font-heading font-bold text-sm text-slate-800">
               Healthcare Core Values:
             </span>

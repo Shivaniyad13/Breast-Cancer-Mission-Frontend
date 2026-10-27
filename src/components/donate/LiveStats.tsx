@@ -133,7 +133,7 @@ export const LiveStats: React.FC<LiveStatsProps> = ({ stats, uniqueDonorsCount }
   ]
 
   return (
-    <section className="mb-10">
+    <section className="mb-8">
       <div className="flex items-center justify-between mb-4 px-1">
         <h2 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-pink-500 animate-ping" />
@@ -152,14 +152,14 @@ export const LiveStats: React.FC<LiveStatsProps> = ({ stats, uniqueDonorsCount }
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: idx * 0.08 }}
-              className={`relative overflow-hidden rounded-2xl p-4 sm:p-5 border ${card.borderColor} ${card.bgLight} shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group`}
+              className={`relative overflow-hidden rounded-2xl p-4 sm:p-5 border ${card.borderColor} ${card.bgLight} shadow-sm hover:shadow-md transition-all duration-300 group`}
             >
               <div className="flex items-center justify-between mb-2">
                 <div className={`p-2.5 rounded-xl bg-gradient-to-r ${card.color} text-white shadow-md group-hover:scale-110 transition-transform duration-300`}>
                   <Icon className="h-5 w-5" />
                 </div>
               </div>
-              <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mt-2">
+              <p className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight mt-2">
                 <AnimatedCounter value={card.value} prefix={card.prefix} suffix={card.suffix} />
               </p>
               <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mt-1">

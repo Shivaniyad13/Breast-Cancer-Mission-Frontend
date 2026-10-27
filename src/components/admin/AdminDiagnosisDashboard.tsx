@@ -521,7 +521,7 @@ export default function AdminDiagnosisDashboard({
           <div className="grid grid-cols-1 gap-4">
             {technologies.length === 0 ? (
               <div className="text-center py-12 bg-white rounded-2xl border border-slate-100">
-                <FolderOpen className="h-12 w-12 text-slate-300 mx-auto mb-2 animate-bounce" />
+                <FolderOpen className="h-12 w-12 text-slate-300 mx-auto mb-2 " />
                 <h4 className="font-bold text-slate-700">No technologies found</h4>
                 <p className="text-xs text-slate-400 mt-1">Click "Add Technology" to start populating the diagnostic resource page.</p>
               </div>
@@ -719,9 +719,9 @@ export default function AdminDiagnosisDashboard({
           MODAL DIALOG: ADD/EDIT TECHNOLOGY FORM
           ======================================================== */}
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-        <DialogContent className="w-full h-full max-w-full max-h-full sm:max-w-4xl sm:max-h-[85vh] sm:w-[calc(100%-2rem)] sm:h-auto overflow-y-auto rounded-none sm:rounded-3xl p-4 sm:p-6">
+        <DialogContent className="w-full h-full max-w-full max-h-full sm:max-w-4xl sm:max-h-[85vh] sm:w-[calc(100%-2rem)] sm:h-auto overflow-y-auto rounded-none sm:rounded-2xl p-4 sm:p-6">
           <DialogHeader>
-            <DialogTitle className="text-xl font-heading font-extrabold text-slate-800 flex items-center gap-2">
+            <DialogTitle className="text-xl font-heading font-bold text-slate-800 flex items-center gap-2">
               <Settings className="h-6 w-6 text-pink-600" />
               {editingTech ? "Modify Diagnostic Technology" : "Register Diagnostic Technology"}
             </DialogTitle>
@@ -1190,9 +1190,9 @@ export default function AdminDiagnosisDashboard({
           MODAL DIALOG: COLLABORATION REQUEST DETAILS
           ======================================================== */}
       <Dialog open={isRequestDetailOpen} onOpenChange={setIsRequestDetailOpen}>
-        <DialogContent className="w-full h-full max-w-full max-h-full sm:max-w-2xl sm:max-h-[85vh] sm:w-[calc(100%-2rem)] sm:h-auto overflow-y-auto rounded-none sm:rounded-3xl p-4 sm:p-6">
+        <DialogContent className="w-full h-full max-w-full max-h-full sm:max-w-2xl sm:max-h-[85vh] sm:w-[calc(100%-2rem)] sm:h-auto overflow-y-auto rounded-none sm:rounded-2xl p-4 sm:p-6">
           <DialogHeader>
-            <DialogTitle className="text-xl font-heading font-extrabold text-slate-800 flex items-center gap-2">
+            <DialogTitle className="text-xl font-heading font-bold text-slate-800 flex items-center gap-2">
               <Briefcase className="h-6 w-6 text-pink-600" />
               Collaboration Proposal details
             </DialogTitle>

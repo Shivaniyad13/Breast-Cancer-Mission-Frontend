@@ -45,12 +45,12 @@ export default async function VerifyCertificatePage(
         {!cert ? (
           <div>
             <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-600 to-rose-400 flex items-center justify-center shadow-lg shadow-rose-500/20">
+              <div className="w-16 h-16 rounded-2xl bg-pink-600 flex items-center justify-center shadow-lg shadow-rose-500/20">
                 <XCircle className="h-9 w-9 text-white" />
               </div>
             </div>
 
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
               Certificate Not Found
             </h1>
             <div className="mt-2 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-mono font-bold">
@@ -63,7 +63,7 @@ export default async function VerifyCertificatePage(
               </p>
               <Link
                 href="/campaigns/volunteers"
-                className="inline-flex justify-center items-center w-full py-3 bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-700 hover:to-rose-600 text-white font-bold rounded-xl text-sm transition-all shadow-md shadow-pink-500/20"
+                className="inline-flex justify-center items-center w-full py-3 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl text-sm transition-all shadow-md shadow-pink-500/20"
               >
                 Return to Volunteer Center
               </Link>
@@ -78,7 +78,7 @@ export default async function VerifyCertificatePage(
               </div>
             </div>
 
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
               Certificate Revoked
             </h1>
             <div className="mt-2 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-mono font-bold">
@@ -123,7 +123,7 @@ export default async function VerifyCertificatePage(
               </div>
             </div>
 
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
               Valid Certificate
             </h1>
             <p className="text-slate-500 text-xs font-medium mt-1">

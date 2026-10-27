@@ -143,7 +143,7 @@ export const SuccessReceipt: React.FC<SuccessReceiptProps> = ({ receipt, onDonat
         className="max-w-2xl mx-auto my-8 bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 border border-pink-200 dark:border-pink-800 shadow-2xl space-y-8 relative overflow-hidden"
       >
         {/* Decorative Ribbon Accent */}
-        <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600" />
+        <div className="absolute top-0 left-0 right-0 h-3 bg-pink-300" />
 
         {/* ===== SIRF YE HISSA DOWNLOAD HOGA ===== */}
         <div ref={printRef} id="print-receipt-root" className="space-y-8">
@@ -153,11 +153,11 @@ export const SuccessReceipt: React.FC<SuccessReceiptProps> = ({ receipt, onDonat
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-              className="w-20 h-20 bg-gradient-to-br from-pink-500 via-rose-500 to-purple-600 text-white rounded-full flex items-center justify-center mx-auto shadow-xl shadow-pink-500/30"
+              className="w-20 h-20 bg-pink-600 text-white rounded-full flex items-center justify-center mx-auto shadow-xl shadow-pink-500/30"
             >
               <CheckCircle2 className="h-10 w-10 text-white" />
             </motion.div>
-            <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
               Thank You for Saving Lives!
             </h1>
             <p className="text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto">
@@ -216,7 +216,7 @@ export const SuccessReceipt: React.FC<SuccessReceiptProps> = ({ receipt, onDonat
                 <span className="text-slate-500 dark:text-slate-400 block font-medium">
                   Amount Donated
                 </span>
-                <span className="font-extrabold text-rose-600 dark:text-rose-400 text-base">
+                <span className="font-bold text-rose-600 dark:text-rose-400 text-base">
                   ₹{receipt.amount.toLocaleString('en-IN')} {receipt.currency || 'INR'}
                 </span>
               </div>

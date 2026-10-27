@@ -71,7 +71,7 @@ export default async function DashboardPage() {
       <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 min-h-screen text-slate-800 bg-slate-50 font-sans">
 
         {/* Welcome Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-pink-100 pb-6 bg-white p-6 rounded-3xl shadow-xs w-full min-w-0">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-pink-100 pb-6 bg-white p-6 rounded-2xl shadow-xs w-full min-w-0">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full min-w-0">
             {institutionData?.organizationLogoUrl || institutionData?.companyLogoUrl ? (
               <div className="relative h-16 w-16 rounded-2xl overflow-hidden border border-slate-100 shrink-0 shadow-sm bg-slate-50 flex items-center justify-center p-1">
@@ -88,10 +88,10 @@ export default async function DashboardPage() {
             )}
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="font-heading text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
+                <h1 className="font-heading text-2xl sm:text-3xl font-bold text-slate-900 leading-tight">
                   {user.role === "ORGANIZATION_MEMBER" ? institutionData?.organizationName : institutionData?.companyName}
                 </h1>
-                <span className="bg-emerald-50 text-emerald-600 border border-emerald-100 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                <span className="bg-emerald-50 text-emerald-600 border border-emerald-100 text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
                   <CheckCircle className="h-3 w-3" /> Certified Partner
                 </span>
               </div>
@@ -115,7 +115,7 @@ export default async function DashboardPage() {
 
           {/* Partnership Certificate Card (Left 2 columns) */}
           <div className="lg:col-span-2">
-            <Card className="border-pink-100 bg-white shadow-lg rounded-3xl p-6 sm:p-10 relative overflow-hidden flex flex-col justify-between h-full group hover:shadow-xl transition-all duration-300">
+            <Card className="border-pink-100 bg-white shadow-lg rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between h-full group hover:shadow-md transition-all duration-300">
 
               {/* Certificate Outer Border */}
               <div className="absolute inset-4 border-2 border-dashed border-pink-200 rounded-2xl pointer-events-none" />
@@ -127,14 +127,14 @@ export default async function DashboardPage() {
 
               <div className="space-y-6 relative z-10 text-center py-6">
                 <div className="flex justify-center mb-2">
-                  <Ribbon className="h-10 w-10 text-primary animate-pulse" />
+                  <Ribbon className="h-10 w-10 text-primary " />
                 </div>
 
-                <h2 className="font-heading text-2xl font-black text-slate-800 tracking-wider">
+                <h2 className="font-heading text-2xl font-bold text-slate-800 ">
                   CERTIFICATE OF STRATEGIC PARTNERSHIP
                 </h2>
 
-                <p className="text-slate-500 font-semibold italic text-xs uppercase tracking-widest border-y border-pink-100 py-2 max-w-sm mx-auto">
+                <p className="text-slate-500 font-semibold italic text-xs border-y border-pink-100 py-2 max-w-sm mx-auto">
                   GRS Breast Cancer Awareness Mission
                 </p>
 
@@ -142,7 +142,7 @@ export default async function DashboardPage() {
                   This certificate is proudly issued to honor our valued institutional collaborator:
                 </p>
 
-                <h3 className="font-heading text-3xl font-black text-slate-900 tracking-tight my-4">
+                <h3 className="font-heading text-3xl font-bold text-slate-900 tracking-tight my-4">
                   {user.role === "ORGANIZATION_MEMBER" ? institutionData?.organizationName : institutionData?.companyName}
                 </h3>
 
@@ -152,7 +152,7 @@ export default async function DashboardPage() {
               </div>
 
               {/* Certificate Bottom sign-offs */}
-              <div className="relative z-10 grid grid-cols-3 items-end pt-8 border-t border-slate-100 text-[10px] text-slate-500 font-semibold max-w-lg mx-auto w-full text-center">
+              <div className="relative z-10 grid grid-cols-3 items-end pt-8 border-t border-slate-100 text-[11px] text-slate-500 font-semibold max-w-lg mx-auto w-full text-center">
                 <div>
                   <span className="block border-b border-slate-200 pb-1 mb-1 font-bold text-slate-700">
                     {institutionData?.ngoRegistrationNumber || institutionData?.gstNumber}
@@ -160,7 +160,7 @@ export default async function DashboardPage() {
                   ID REGISTERED
                 </div>
                 <div className="flex justify-center">
-                  <div className="h-12 w-12 rounded-full border border-pink-100 bg-pink-50/50 flex items-center justify-center text-[10px] font-bold text-primary font-heading shadow-xs">
+                  <div className="h-12 w-12 rounded-full border border-pink-100 bg-pink-50/50 flex items-center justify-center text-[11px] font-bold text-primary font-heading shadow-xs">
                     GRS SEAL
                   </div>
                 </div>
@@ -173,7 +173,7 @@ export default async function DashboardPage() {
                   <span className="block border-b border-slate-200 pb-1 mb-1 font-bold font-heading text-slate-700">
                     Saket Mani Trivedi
                   </span>
-                  <span className="text-[9px] tracking-wider">
+                  <span className="text-[11px] ">
                     GRS COORDINATOR
                   </span>
                 </div>
@@ -185,9 +185,9 @@ export default async function DashboardPage() {
           <div className="col-span-1 space-y-6">
 
             {/* Institution Profile Info */}
-            <Card className="border-slate-100 rounded-3xl bg-white shadow-sm p-6 space-y-4">
+            <Card className="border-slate-100 rounded-2xl bg-white shadow-sm p-6 space-y-4">
               <div className="border-b border-slate-100 pb-3">
-                <h3 className="font-heading font-black text-lg text-slate-800 flex items-center gap-1.5">
+                <h3 className="font-heading font-bold text-lg text-slate-800 flex items-center gap-1.5">
                   <Activity className="h-5 w-5 text-primary" /> Institution Data
                 </h3>
               </div>
@@ -195,35 +195,35 @@ export default async function DashboardPage() {
               <div className="space-y-3.5 text-xs">
                 {user.role === "ORGANIZATION_MEMBER" ? (
                   <>
-                    <div><span className="text-slate-400 font-bold block uppercase text-[9px]">NGO Registration Number</span><strong>{institutionData?.ngoRegistrationNumber}</strong></div>
-                    <div><span className="text-slate-400 font-bold block uppercase text-[9px]">Established Year</span><strong>{institutionData?.yearEstablished}</strong></div>
-                    <div><span className="text-slate-400 font-bold block uppercase text-[9px]">Organization Type</span><strong>{institutionData?.organizationType}</strong></div>
-                    <div><span className="text-slate-400 font-bold block uppercase text-[9px]">Volunteer Strength</span><strong>{institutionData?.numberOfVolunteers} Volunteers</strong></div>
-                    <div><span className="text-slate-400 font-bold block uppercase text-[9px]">Primary Areas of Work</span><strong>{institutionData?.areasOfWork}</strong></div>
+                    <div><span className="text-slate-400 font-bold block text-[11px]">NGO Registration Number</span><strong>{institutionData?.ngoRegistrationNumber}</strong></div>
+                    <div><span className="text-slate-400 font-bold block text-[11px]">Established Year</span><strong>{institutionData?.yearEstablished}</strong></div>
+                    <div><span className="text-slate-400 font-bold block text-[11px]">Organization Type</span><strong>{institutionData?.organizationType}</strong></div>
+                    <div><span className="text-slate-400 font-bold block text-[11px]">Volunteer Strength</span><strong>{institutionData?.numberOfVolunteers} Volunteers</strong></div>
+                    <div><span className="text-slate-400 font-bold block text-[11px]">Primary Areas of Work</span><strong>{institutionData?.areasOfWork}</strong></div>
                   </>
                 ) : (
                   <>
-                    <div><span className="text-slate-400 font-bold block uppercase text-[9px]">GST Number</span><strong>{institutionData?.gstNumber}</strong></div>
-                    {institutionData?.cinNumber && <div><span className="text-slate-400 font-bold block uppercase text-[9px]">CIN Number</span><strong>{institutionData?.cinNumber}</strong></div>}
-                    <div><span className="text-slate-400 font-bold block uppercase text-[9px]">Industry Segment</span><strong>{institutionData?.industry}</strong></div>
-                    <div><span className="text-slate-400 font-bold block uppercase text-[9px]">Employee Strength</span><strong>{institutionData?.employeeStrength} Employees</strong></div>
-                    <div><span className="text-slate-400 font-bold block uppercase text-[9px]">CSR Budget Category</span><strong>{institutionData?.csrBudgetCategory}</strong></div>
+                    <div><span className="text-slate-400 font-bold block text-[11px]">GST Number</span><strong>{institutionData?.gstNumber}</strong></div>
+                    {institutionData?.cinNumber && <div><span className="text-slate-400 font-bold block text-[11px]">CIN Number</span><strong>{institutionData?.cinNumber}</strong></div>}
+                    <div><span className="text-slate-400 font-bold block text-[11px]">Industry Segment</span><strong>{institutionData?.industry}</strong></div>
+                    <div><span className="text-slate-400 font-bold block text-[11px]">Employee Strength</span><strong>{institutionData?.employeeStrength} Employees</strong></div>
+                    <div><span className="text-slate-400 font-bold block text-[11px]">CSR Budget Category</span><strong>{institutionData?.csrBudgetCategory}</strong></div>
                   </>
                 )}
 
                 <div>
-                  <span className="text-slate-400 font-bold block uppercase text-[9px]">Partner Email</span>
+                  <span className="text-slate-400 font-bold block text-[11px]">Partner Email</span>
                   <strong>{institutionData?.email}</strong>
                 </div>
 
                 <div>
-                  <span className="text-slate-400 font-bold block uppercase text-[9px]">HQ Address</span>
+                  <span className="text-slate-400 font-bold block text-[11px]">HQ Address</span>
                   <strong>{user.role === "ORGANIZATION_MEMBER" ? institutionData?.completeAddress : institutionData?.companyAddress}</strong>
                 </div>
 
                 {institutionData?.remarks && (
                   <div className="bg-pink-50/50 border border-pink-100 p-3 rounded-xl">
-                    <span className="text-pink-700 font-bold block uppercase text-[9px]">Coordinator Remarks</span>
+                    <span className="text-pink-700 font-bold block text-[11px]">Coordinator Remarks</span>
                     <p className="mt-1 italic text-slate-600">{institutionData.remarks}</p>
                   </div>
                 )}
@@ -235,7 +235,7 @@ export default async function DashboardPage() {
         {/* Collaboration Hub / Initiative Center */}
         <div className="space-y-4 pt-4">
           <div className="space-y-1">
-            <h3 className="font-heading font-black text-xl text-slate-800">
+            <h3 className="font-heading font-bold text-xl text-slate-800">
               Partnership Initiative Hub
             </h3>
             <p className="text-slate-500 text-xs sm:text-sm font-medium">
@@ -333,7 +333,7 @@ export default async function DashboardPage() {
   certificates.forEach(c => {
     notifications.push({
       title: "Certificate Ready",
-      message: `Congratulations! Your cryptographic attendance certificate for "${c.eventName}" is ready to download.`,
+      message: `Your attendance certificate for "${c.eventName}" is ready to download.`,
       date: new Date(c.createdAt),
       type: "CERTIFICATE"
     });
@@ -348,11 +348,11 @@ export default async function DashboardPage() {
       {/* Welcome Banner */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-pink-100 pb-6">
         <div>
-          <h1 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800">
+          <h1 className="font-heading text-3xl font-bold tracking-tight text-slate-800">
             Welcome back, {user.name}
           </h1>
           <p className="text-muted-foreground text-sm">
-            Manage your cancer mukt bharat abhiyan dashboard as a <span className="text-primary font-bold uppercase tracking-wider">{user.role}</span>
+            Manage your cancer mukt bharat abhiyan dashboard as a <span className="text-primary font-bold ">{user.role}</span>
           </p>
         </div>
         <div className="flex gap-2">
@@ -374,25 +374,25 @@ export default async function DashboardPage() {
       {/* Main Tab System */}
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList className="bg-pink-50/50 border border-pink-100/50 p-1 rounded-xl flex overflow-x-auto whitespace-nowrap no-scrollbar justify-start w-full">
-          <TabsTrigger value="overview" className="font-bold text-xs uppercase py-2">
+          <TabsTrigger value="overview" className="font-bold text-xs py-2">
             <ListTodo className="h-4 w-4" /> Activity Overview
           </TabsTrigger>
-          <TabsTrigger value="webinars" className="font-bold text-xs uppercase py-2">
+          <TabsTrigger value="webinars" className="font-bold text-xs py-2">
             <Video className="h-4 w-4" /> Webinars ({registrations.length})
           </TabsTrigger>
-          <TabsTrigger value="certificates" className="font-bold text-xs uppercase py-2">
+          <TabsTrigger value="certificates" className="font-bold text-xs py-2">
             <Award className="h-4 w-4" /> Certificates ({certificates.length})
           </TabsTrigger>
-          <TabsTrigger value="donations" className="font-bold text-xs uppercase py-2">
+          <TabsTrigger value="donations" className="font-bold text-xs py-2">
             <Heart className="h-4 w-4" /> My Donations ({userDonations.length})
           </TabsTrigger>
-          <TabsTrigger value="attendance" className="font-bold text-xs uppercase py-2">
+          <TabsTrigger value="attendance" className="font-bold text-xs py-2">
             <Activity className="h-4 w-4" /> Attendance Logs
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="font-bold text-xs uppercase py-2 relative">
+          <TabsTrigger value="notifications" className="font-bold text-xs py-2 relative">
             <Bell className="h-4 w-4" /> Alerts
             {notifications.length > 0 && (
-              <span className="absolute -top-1 -right-1 h-4 w-4 bg-primary text-white text-[8px] font-black rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 h-4 w-4 bg-primary text-white text-[8px] font-bold rounded-full flex items-center justify-center">
                 {notifications.length}
               </span>
             )}
@@ -401,7 +401,7 @@ export default async function DashboardPage() {
 
         {/* Tab 1: Overview */}
         <TabsContent value="overview" className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="md:col-span-2 rounded-3xl border border-pink-50 shadow-sm">
+          <Card className="md:col-span-2 rounded-2xl border border-pink-50 shadow-sm">
             <CardHeader>
               <CardTitle>Activity Overview</CardTitle>
               <CardDescription>View your records, notifications, and approvals.</CardDescription>
@@ -440,7 +440,7 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="rounded-3xl border border-pink-50 shadow-sm">
+          <Card className="rounded-2xl border border-pink-50 shadow-sm">
             <CardHeader>
               <CardTitle>Support & Assistance</CardTitle>
               <CardDescription>Support center & guidelines.</CardDescription>
@@ -458,7 +458,7 @@ export default async function DashboardPage() {
 
         {/* Tab 2: Webinars Sub-dashboard */}
         <TabsContent value="webinars" className="space-y-6">
-          <Card className="rounded-3xl border border-pink-50 shadow-sm bg-white/50 backdrop-blur-xs">
+          <Card className="rounded-2xl border border-pink-50 shadow-sm bg-white/50 backdrop-blur-xs">
             <CardHeader className="border-b border-pink-50 pb-5">
               <CardTitle>My Registered Webinars</CardTitle>
               <CardDescription>Track upcoming live timers, join meetings, and access completed records.</CardDescription>
@@ -475,7 +475,7 @@ export default async function DashboardPage() {
 
         {/* Tab 3: Certificates Center */}
         <TabsContent value="certificates">
-          <Card className="rounded-3xl border border-pink-50 shadow-sm">
+          <Card className="rounded-2xl border border-pink-50 shadow-sm">
             <CardHeader>
               <CardTitle>My Certificates</CardTitle>
               <CardDescription>View, download, or verify your verifiably signed attendance credentials.</CardDescription>
@@ -485,7 +485,7 @@ export default async function DashboardPage() {
                 <div className="text-center py-10 space-y-2">
                   <Award className="h-10 w-10 text-pink-200 mx-auto stroke-[1.5]" />
                   <p className="text-xs text-slate-500">You haven't earned any certificates yet.</p>
-                  <p className="text-[11px] text-muted-foreground max-w-xs mx-auto">Attend a certified live webinar for at least 80% duration to unlock your cryptographic certificate here.</p>
+                  <p className="text-[11px] text-muted-foreground max-w-xs mx-auto">Attend a certified live webinar for at least 80% duration to unlock your certificate here.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -498,22 +498,22 @@ export default async function DashboardPage() {
                       </div>
 
                       <div>
-                        <span className="bg-emerald-50 text-emerald-600 border border-emerald-100 text-[8px] font-black px-2.5 py-0.5 rounded uppercase tracking-wider">
+                        <span className="bg-emerald-50 text-emerald-600 border border-emerald-100 text-[8px] font-bold px-2.5 py-0.5 rounded ">
                           QR Verified
                         </span>
                         <h4 className="font-bold text-slate-800 text-sm mt-2 line-clamp-1">{cert.eventName}</h4>
-                        <p className="text-[10px] text-slate-500 mt-1">Speaker: {cert.speakerName || "Medical Expert"}</p>
-                        <p className="text-[10px] text-muted-foreground mt-0.5">ID: {cert.certificateIdString}</p>
+                        <p className="text-[11px] text-slate-500 mt-1">Speaker: {cert.speakerName || "Medical Expert"}</p>
+                        <p className="text-[11px] text-muted-foreground mt-0.5">ID: {cert.certificateIdString}</p>
                       </div>
 
                       <div className="flex gap-2 border-t border-slate-100 pt-3">
                         <Link href={`/api/certificates/webinar/${cert.id}/download`}>
-                          <Button size="sm" className="bg-primary hover:bg-primary/95 text-white rounded-xl text-[10px] uppercase font-bold py-1.5 h-auto px-4 shadow-sm flex items-center gap-1">
+                          <Button size="sm" className="bg-primary hover:bg-primary/95 text-white rounded-xl text-[11px] font-bold py-1.5 h-auto px-4 shadow-sm flex items-center gap-1">
                             <Download className="h-3 w-3" /> Download PDF
                           </Button>
                         </Link>
                         <Link href={`/verify/webinar/${cert.certificateIdString}`} target="_blank">
-                          <Button size="sm" variant="outline" className="border-pink-200 text-slate-700 hover:bg-pink-50 rounded-xl text-[10px] uppercase font-semibold py-1.5 h-auto px-3 flex items-center gap-1">
+                          <Button size="sm" variant="outline" className="border-pink-200 text-slate-700 hover:bg-pink-50 rounded-xl text-[11px] font-semibold py-1.5 h-auto px-3 flex items-center gap-1">
                             <ExternalLink className="h-3 w-3" /> Verify QR
                           </Button>
                         </Link>
@@ -528,7 +528,7 @@ export default async function DashboardPage() {
 
         {/* Tab 4: Attendance Logs */}
         <TabsContent value="attendance">
-          <Card className="rounded-3xl border border-pink-50 shadow-sm">
+          <Card className="rounded-2xl border border-pink-50 shadow-sm">
             <CardHeader>
               <CardTitle>Attendance History & Credit Logs</CardTitle>
               <CardDescription>Review your join time, duration percentages, and verification states.</CardDescription>
@@ -539,7 +539,7 @@ export default async function DashboardPage() {
               ) : (
                 <table className="w-full text-xs text-left text-slate-500 border-collapse min-w-[500px]">
                   <thead>
-                    <tr className="border-b border-slate-200 text-[10px] uppercase text-slate-400 font-bold">
+                    <tr className="border-b border-slate-200 text-[11px] text-slate-400 font-bold">
                       <th className="py-2.5">Webinar Name</th>
                       <th className="py-2.5">Join Time</th>
                       <th className="py-2.5">Leave Time</th>
@@ -557,7 +557,7 @@ export default async function DashboardPage() {
                         <td className="py-3 text-center">{(log.durationMinutes || 0).toFixed(1)} mins</td>
                         <td className="py-3 text-center font-mono font-bold text-slate-700">{(log.attendancePercentage || 0).toFixed(0)}%</td>
                         <td className="py-3 text-right">
-                          <span className={`inline-block px-2.5 py-0.5 rounded font-bold text-[9px] uppercase tracking-wider ${log.status === "PRESENT" || log.status === "Completed"
+                          <span className={`inline-block px-2.5 py-0.5 rounded font-bold text-[11px] ${log.status === "PRESENT" || log.status === "Completed"
                             ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
                             : "bg-red-50 text-red-500 border border-red-100"
                             }`}>
@@ -575,7 +575,7 @@ export default async function DashboardPage() {
 
         {/* Tab: My Donations */}
         <TabsContent value="donations">
-          <Card className="rounded-3xl border border-pink-50 shadow-sm">
+          <Card className="rounded-2xl border border-pink-50 shadow-sm">
             <CardHeader>
               <CardTitle>My Donation History</CardTitle>
               <CardDescription>View your past direct contributions to Breast Cancer Awareness &amp; campaigns.</CardDescription>
@@ -595,7 +595,7 @@ export default async function DashboardPage() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-xs text-left text-slate-600 border-collapse min-w-[600px]">
                     <thead>
-                      <tr className="border-b border-slate-200 text-[10px] uppercase text-slate-400 font-bold">
+                      <tr className="border-b border-slate-200 text-[11px] text-slate-400 font-bold">
                         <th className="py-2.5">Donation Type</th>
                         <th className="py-2.5">Campaign Name</th>
                         <th className="py-2.5">Amount</th>
@@ -609,11 +609,11 @@ export default async function DashboardPage() {
                         <tr key={d.id} className="hover:bg-slate-50/50">
                           <td className="py-3 font-bold text-slate-800">
                             {d.campaignId ? (
-                              <span className="bg-cyan-50 text-cyan-700 border border-cyan-100 text-[9px] px-2 py-0.5 rounded-full font-bold">
+                              <span className="bg-cyan-50 text-cyan-700 border border-cyan-100 text-[11px] px-2 py-0.5 rounded-full font-bold">
                                 Campaign Donation
                               </span>
                             ) : (
-                              <span className="bg-purple-50 text-purple-700 border border-purple-100 text-[9px] px-2 py-0.5 rounded-full font-bold">
+                              <span className="bg-purple-50 text-purple-700 border border-purple-100 text-[11px] px-2 py-0.5 rounded-full font-bold">
                                 General Donation
                               </span>
                             )}
@@ -621,14 +621,14 @@ export default async function DashboardPage() {
                           <td className="py-3 font-semibold text-slate-800">
                             {d.campaignId ? d.campaign?.title : "General Donation"}
                           </td>
-                          <td className="py-3 font-black text-slate-900">
+                          <td className="py-3 font-bold text-slate-900">
                             ₹{Number(d.amount).toLocaleString()}
                           </td>
-                          <td className="py-3 font-mono text-[10px] text-slate-500">
+                          <td className="py-3 font-mono text-[11px] text-slate-500">
                             {d.paymentGatewayId}
                           </td>
                           <td className="py-3">
-                            <span className={`inline-block px-2 py-0.5 rounded text-[9px] font-bold uppercase ${d.status === "SUCCESSFUL" || d.status === "COMPLETED"
+                            <span className={`inline-block px-2 py-0.5 rounded text-[11px] font-bold ${d.status === "SUCCESSFUL" || d.status === "COMPLETED"
                               ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
                               : d.status === "PENDING"
                                 ? "bg-amber-50 text-amber-600 border border-amber-100"
@@ -637,7 +637,7 @@ export default async function DashboardPage() {
                               {d.status}
                             </span>
                           </td>
-                          <td className="py-3 text-right text-slate-400 text-[10px]">
+                          <td className="py-3 text-right text-slate-400 text-[11px]">
                             {new Date(d.createdAt).toLocaleDateString("en-US")}
                           </td>
                         </tr>
@@ -652,7 +652,7 @@ export default async function DashboardPage() {
 
         {/* Tab 5: Alerts / Notifications */}
         <TabsContent value="notifications">
-          <Card className="rounded-3xl border border-pink-50 shadow-sm">
+          <Card className="rounded-2xl border border-pink-50 shadow-sm">
             <CardHeader>
               <CardTitle>System Notifications & Alerts</CardTitle>
               <CardDescription>Track webinar times, certificates ready, and registration approvals.</CardDescription>
@@ -672,7 +672,7 @@ export default async function DashboardPage() {
                         </div>
                         <p className="text-slate-500 pl-4">{notif.message}</p>
                       </div>
-                      <span className="text-[10px] text-muted-foreground whitespace-nowrap">{new Date(notif.date).toLocaleDateString("en-US")}</span>
+                      <span className="text-[11px] text-muted-foreground whitespace-nowrap">{new Date(notif.date).toLocaleDateString("en-US")}</span>
                     </div>
                   ))}
                 </div>

@@ -24,7 +24,7 @@ export default function Home() {
       <HomeBanner />
 
       {/* ============ HERO SECTION ============ */}
-      <section className="relative overflow-hidden pt-2 sm:pt-4 md:pt-6 lg:pt-8 pb-12 sm:pb-16 md:pb-24 lg:pb-32 min-h-[85vh] sm:min-h-[90vh] flex items-center justify-center">
+      <section className="relative overflow-hidden pt-2 sm:pt-4 md:pt-6 lg:pt-8 pb-10 md:pb-14 lg:pb-20 min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center">
         <video
           autoPlay
           muted
@@ -48,29 +48,28 @@ export default function Home() {
 
             {/* CENTER — HERO CONTENT */}
             <div className="col-span-12 md:col-span-6 text-center space-y-5 sm:space-y-6 max-w-xl mx-auto flex flex-col justify-center items-center px-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/20 backdrop-blur-md border border-pink-300/20 text-pink-100 text-[10px] sm:text-xs font-semibold tracking-wider uppercase">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-pink-200 text-pink-700 text-xs font-medium tracking-wide">
                 <Ribbon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 <span>Cancer Mukt Bharat Abhiyan</span>
               </div>
 
-              <h1 className="font-heading text-[26px] leading-[1.15] sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+              <h1 className="font-heading text-[26px] leading-[1.15] sm:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900">
                 Break the Silence, Beat the Cancer:{" "}
-                <span className="text-pink-300 block sm:inline">
+                <span className="text-pink-600 block sm:inline">
                   A Cancer Mukt Bharat.
                 </span>
               </h1>
 
-              <p className="text-xs sm:text-sm text-gray-200 leading-relaxed max-w-md px-2">
-                A trusted unified healthcare portal. Spreading early physical
-                diagnosis knowledge, hosting expert webinars, and coordinating
-                verified crowdfunding support for patients.
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-md px-2">
+                A trusted healthcare portal for early detection guidance, expert
+                webinars, and verified crowdfunding support for patients.
               </p>
 
               <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 pt-2 w-full max-w-sm mx-auto px-2">
                 <Link href="/webinars" className="w-full sm:w-auto">
                   <Button
                     size="lg"
-                    className="w-full bg-pink-600 hover:bg-pink-700 text-white shadow-xl cursor-pointer text-sm sm:text-base"
+                    className="w-full bg-pink-600 hover:bg-pink-700 text-white shadow-sm cursor-pointer text-sm sm:text-base"
                   >
                     Join Webinar
                     <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
@@ -81,7 +80,7 @@ export default function Home() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full border-white text-white bg-white/10 backdrop-blur-md hover:bg-white/20 cursor-pointer text-sm sm:text-base"
+                    className="w-full border-pink-300 text-pink-700 bg-white hover:bg-pink-50 cursor-pointer text-sm sm:text-base"
                   >
                     Support Patients
                   </Button>
@@ -100,7 +99,7 @@ export default function Home() {
       {/* ============ MOBILE-ONLY PANELS ============ */}
       <div className="block md:hidden px-4 py-8 bg-pink-50/50 space-y-8 border-b border-pink-100">
         <div className="space-y-3">
-          <h3 className="text-xs font-black text-pink-600 uppercase tracking-widest px-1 flex items-center gap-1.5">
+          <h3 className="text-sm font-semibold text-pink-700 tracking-wide px-1 flex items-center gap-1.5">
             <Radio className="h-3.5 w-3.5 text-pink-600 shrink-0" />
             <span>Live Breast Cancer Updates</span>
           </h3>
@@ -110,7 +109,7 @@ export default function Home() {
         </div>
 
         <div className="space-y-3">
-          <h3 className="text-xs font-black text-pink-600 uppercase tracking-widest px-1 flex items-center gap-1.5">
+          <h3 className="text-sm font-semibold text-pink-700 tracking-wide px-1 flex items-center gap-1.5">
             <Heart className="h-3.5 w-3.5 text-pink-600 shrink-0" />
             <span>Celebrity Testimonials</span>
           </h3>
@@ -122,23 +121,22 @@ export default function Home() {
       {/* ============ SHARE SUCCESS STORY CTA ============ */}
       <section className="py-10 sm:py-12 bg-white border-b border-pink-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden bg-gradient-to-r from-pink-600 via-rose-600 to-pink-700 rounded-2xl sm:rounded-3xl shadow-xl text-white py-8 sm:py-10 px-5 sm:px-8 md:px-12">
-            <div className="absolute -top-32 -left-32 w-72 h-72 sm:w-80 sm:h-80 bg-white/10 rounded-full blur-3xl" />
-            <div className="absolute -bottom-32 -right-32 w-72 h-72 sm:w-80 sm:h-80 bg-white/15 rounded-full blur-3xl" />
+          <div className="relative overflow-hidden bg-pink-50 border border-pink-100 rounded-2xl sm:rounded-2xl shadow-sm text-slate-800 py-8 sm:py-10 px-5 sm:px-8 md:px-12">
+            <div className="absolute -top-32 -left-32 w-72 h-72 sm:w-80 sm:h-80 bg-pink-100/60 rounded-full blur-3xl" />
+            <div className="absolute -bottom-32 -right-32 w-72 h-72 sm:w-80 sm:h-80 bg-pink-100/70 rounded-full blur-3xl" />
 
             <div className="relative z-10 max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
               <div className="space-y-3 sm:space-y-4 text-center md:text-left">
-                <span className="inline-block px-3 py-1 bg-white/15 backdrop-blur rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider">
+                <span className="inline-block px-3 py-1 bg-white border border-pink-100 text-pink-700 rounded-full text-xs font-medium tracking-wide">
                   Share Your Success Story
                 </span>
-                <h2 className="font-heading text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
+                <h2 className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight leading-tight text-slate-900">
                   Has Cancer Awareness Touched Your Life?
                 </h2>
-                <p className="text-pink-100 max-w-xl text-xs sm:text-sm leading-relaxed">
-                  Every battle fought is a reminder of hope. Whether you are a
-                  survivor or a supportive family member, sharing your journey
-                  of recovery can inspire thousands of others to detect early
-                  and seek timely medical care.
+                <p className="text-slate-600 max-w-xl text-sm leading-relaxed">
+                  Whether you are a survivor or a family member, sharing your
+                  journey can encourage others to get checked early and seek
+                  timely medical care.
                 </p>
               </div>
 
@@ -148,10 +146,10 @@ export default function Home() {
               >
                 <Button
                   size="lg"
-                  className="w-full md:w-auto bg-white hover:bg-pink-50 text-pink-700 font-extrabold shadow-lg hover:shadow-xl active:scale-95 transition-all text-sm px-6 sm:px-8 h-11 sm:h-12 rounded-xl cursor-pointer"
+                  className="w-full md:w-auto bg-pink-600 hover:bg-pink-700 text-white font-medium shadow-sm transition-colors text-sm px-6 sm:px-8 h-11 sm:h-12 rounded-lg cursor-pointer"
                 >
                   Share Your Story
-                  <Heart className="ml-2 h-4 w-4 fill-pink-600 text-pink-600 animate-pulse" />
+                  <Heart className="ml-2 h-4 w-4 fill-white text-white" />
                 </Button>
               </Link>
             </div>
@@ -163,10 +161,10 @@ export default function Home() {
       <SurvivorStoryCardSection />
 
       {/* ============ MODULE OVERVIEW CARDS ============ */}
-      <section className="py-14 sm:py-20 md:py-28 container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
+      <section className="py-12 md:py-16 container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center space-y-3 sm:space-y-4 mb-8 sm:mb-10">
           <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900 px-2 leading-tight">
-            A Unified Platform For Awareness &amp; Care
+            One Platform for Awareness &amp; Care
           </h2>
           <p className="text-slate-600 max-w-xl mx-auto text-sm sm:text-base px-2">
             Bringing together patients, medical experts, verified NGOs, and
@@ -175,24 +173,24 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
-          <div className="p-5 sm:p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-3 sm:space-y-4">
+          <div className="p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-[box-shadow,border-color] duration-200 flex flex-col space-y-3 sm:space-y-4">
             <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 shrink-0">
               <BookOpen className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+            <h3 className="font-heading text-lg sm:text-xl font-semibold text-slate-900">
               Awareness Hub
             </h3>
             <p className="text-sm text-slate-600 flex-1 leading-relaxed">
-              Access early detection physical test timers, interactive quizzes,
-              and verified medical blogs written by licensed oncologists.
+              Guided self-exam timers, interactive quizzes, and medical articles
+              written by licensed oncologists.
             </p>
           </div>
 
-          <div className="p-5 sm:p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-3 sm:space-y-4">
+          <div className="p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-[box-shadow,border-color] duration-200 flex flex-col space-y-3 sm:space-y-4">
             <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 shrink-0">
               <Heart className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+            <h3 className="font-heading text-lg sm:text-xl font-semibold text-slate-900">
               FundLife Crowdfunding
             </h3>
             <p className="text-sm text-slate-600 flex-1 leading-relaxed">
@@ -201,29 +199,29 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="p-5 sm:p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-3 sm:space-y-4">
+          <div className="p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-[box-shadow,border-color] duration-200 flex flex-col space-y-3 sm:space-y-4">
             <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 shrink-0">
               <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+            <h3 className="font-heading text-lg sm:text-xl font-semibold text-slate-900">
               NGO &amp; Doctor Connect
             </h3>
             <p className="text-sm text-slate-600 flex-1 leading-relaxed">
-              Every campaign undergoes direct document reviews by registered
-              NGOs, ensuring transparent fundraising channels.
+              Registered NGOs review the documents of every campaign, keeping
+              fundraising transparent.
             </p>
           </div>
 
-          <div className="p-5 sm:p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col space-y-3 sm:space-y-4">
+          <div className="p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-[box-shadow,border-color] duration-200 flex flex-col space-y-3 sm:space-y-4">
             <div className="h-11 w-11 sm:h-12 sm:w-12 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 shrink-0">
               <Award className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+            <h3 className="font-heading text-lg sm:text-xl font-semibold text-slate-900">
               QR Certifications
             </h3>
             <p className="text-sm text-slate-600 flex-1 leading-relaxed">
-              Receive cryptographically signed PDF certificates upon quiz
-              completions and webinar attendance with instant QR verification.
+              Earn PDF certificates for quiz completions and webinar attendance,
+              with instant QR verification.
             </p>
           </div>
         </div>
@@ -233,16 +231,16 @@ export default function Home() {
       {/* { <OurTeam />  } */}
 
       {/* ============ PARTNER ORGANIZATIONS ============ */}
-      <section className="py-14 sm:py-20 md:py-28 bg-gradient-to-b from-pink-50/40 via-white to-pink-50/30">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-pink-50/40 via-white to-pink-50/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-3 sm:space-y-4 mb-10 sm:mb-16">
+          <div className="text-center space-y-3 sm:space-y-4 mb-8 sm:mb-10">
             <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900 px-2 leading-tight">
               Our Partner Organizations
             </h2>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 max-w-6xl mx-auto">
-            <div className="group bg-white rounded-xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-lg hover:border-pink-300 transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+            <div className="group bg-white rounded-xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-lg hover:border-pink-300 transition-[box-shadow,border-color] duration-200 flex flex-col h-full">
               <div className="h-28 sm:h-32 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-4">
                 <img
                   src="/images/grs-group-logo.jpeg"
@@ -251,21 +249,21 @@ export default function Home() {
                 />
               </div>
               <div className="flex flex-col flex-1 p-3 sm:p-4 text-center items-center">
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 mb-1 leading-snug">
+                <h3 className="font-heading text-sm sm:text-base font-semibold text-slate-900 mb-1 leading-snug">
                   GRS India Private Limited
                 </h3>
                 <a
                   href="https://www.grsgroup.in/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-auto pt-2 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700 text-xs sm:text-sm"
+                  className="mt-auto pt-2 inline-flex items-center text-pink-600 font-medium hover:text-pink-800 text-xs sm:text-sm"
                 >
                   Visit Website →
                 </a>
               </div>
             </div>
 
-            <div className="group bg-white rounded-xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-lg hover:border-pink-300 transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+            <div className="group bg-white rounded-xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-lg hover:border-pink-300 transition-[box-shadow,border-color] duration-200 flex flex-col h-full">
               <div className="h-28 sm:h-32 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-4">
                 <img
                   src="/images/mission-bharat.png"
@@ -274,21 +272,21 @@ export default function Home() {
                 />
               </div>
               <div className="flex flex-col flex-1 p-3 sm:p-4 text-center items-center">
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 mb-1 leading-snug">
+                <h3 className="font-heading text-sm sm:text-base font-semibold text-slate-900 mb-1 leading-snug">
                   Mission Bharat
                 </h3>
                 <a
                   href="https://missionbharat.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-auto pt-2 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700 text-xs sm:text-sm"
+                  className="mt-auto pt-2 inline-flex items-center text-pink-600 font-medium hover:text-pink-800 text-xs sm:text-sm"
                 >
                   Visit Website →
                 </a>
               </div>
             </div>
 
-            <div className="group bg-white rounded-xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-lg hover:border-pink-300 transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+            <div className="group bg-white rounded-xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-lg hover:border-pink-300 transition-[box-shadow,border-color] duration-200 flex flex-col h-full">
               <div className="h-28 sm:h-32 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-4">
                 <img
                   src="/images/khushi-logo.jpg"
@@ -297,21 +295,21 @@ export default function Home() {
                 />
               </div>
               <div className="flex flex-col flex-1 p-3 sm:p-4 text-center items-center">
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 mb-1 leading-snug">
+                <h3 className="font-heading text-sm sm:text-base font-semibold text-slate-900 mb-1 leading-snug">
                   Khushi Centre for Rehabilitation &amp; Research
                 </h3>
                 <a
                   href="https://khushicentre.in/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-auto pt-2 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700 text-xs sm:text-sm"
+                  className="mt-auto pt-2 inline-flex items-center text-pink-600 font-medium hover:text-pink-800 text-xs sm:text-sm"
                 >
                   Visit Website →
                 </a>
               </div>
             </div>
 
-            <div className="group bg-white rounded-xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-lg hover:border-pink-300 transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+            <div className="group bg-white rounded-xl overflow-hidden border border-pink-100 shadow-sm hover:shadow-lg hover:border-pink-300 transition-[box-shadow,border-color] duration-200 flex flex-col h-full">
               <div className="h-28 sm:h-32 flex items-center justify-center bg-pink-50/30 border-b border-pink-100 p-4">
                 <img
                   src="/images/corporation.png"
@@ -320,7 +318,7 @@ export default function Home() {
                 />
               </div>
               <div className="flex flex-col flex-1 p-3 sm:p-4 text-center items-center">
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 mb-1 leading-snug">
+                <h3 className="font-heading text-sm sm:text-base font-semibold text-slate-900 mb-1 leading-snug">
                   Department of Social Work
                   University of Delhi
                 </h3>
@@ -328,7 +326,7 @@ export default function Home() {
                   href="https://www.du.ac.in/index.php?page=department-of-social-work"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-auto pt-2 inline-flex items-center text-pink-600 font-semibold hover:text-pink-700 text-xs sm:text-sm"
+                  className="mt-auto pt-2 inline-flex items-center text-pink-600 font-medium hover:text-pink-800 text-xs sm:text-sm"
                 >
                   Visit Website →
                 </a>

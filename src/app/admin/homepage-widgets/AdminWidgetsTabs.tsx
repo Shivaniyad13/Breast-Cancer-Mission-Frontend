@@ -19,7 +19,7 @@ export default function AdminWidgetsTabs({ banners, testimonials }: AdminWidgets
           onClick={() => setTab("SPONSORS")}
           className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
             tab === "SPONSORS"
-              ? "bg-pink-650 text-white shadow-sm"
+              ? "bg-pink-600 text-white shadow-sm"
               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
           }`}
         >
@@ -29,7 +29,7 @@ export default function AdminWidgetsTabs({ banners, testimonials }: AdminWidgets
           onClick={() => setTab("CELEBRITIES")}
           className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
             tab === "CELEBRITIES"
-              ? "bg-pink-650 text-white shadow-sm"
+              ? "bg-pink-600 text-white shadow-sm"
               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
           }`}
         >

@@ -29,36 +29,36 @@ export default function ContactPage() {
       <div className="min-h-screen bg-gradient-to-b from-pink-50/60 via-white to-pink-50/30 text-slate-800">
 
         {/* ── Hero Banner ── */}
-        <section className="relative overflow-hidden pt-32 pb-20 text-center">
+        <section className="relative overflow-hidden pt-8 pb-8 text-center">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(219,39,119,0.08)_0%,_transparent_60%)] pointer-events-none" />
 
-          <h1 className="relative z-10 font-heading text-4xl sm:text-5xl font-extrabold tracking-tight text-pink-600 mb-4">
-            Contact <span className="text-slate-900">US</span>
+          <h1 className="relative z-10 font-heading font-bold tracking-tight text-pink-600 mb-3 text-3xl sm:text-4xl">
+            Contact <span className="text-slate-900">Us</span>
           </h1>
-          <p className="relative z-10 text-white max-w-xl mx-auto text-lg px-4">
-            Have a question, want to collaborate, or need support? We're here to help. Reach out and our team will respond within 24 hours.
+          <p className="relative z-10 text-slate-600 max-w-xl mx-auto text-base px-4">
+            Have a question, want to collaborate, or need support? We are here to help. Reach out and our team will respond within 24 hours.
           </p>
         </section>
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 max-w-6xl mx-auto">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-14">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
 
             {/* ── Left: Contact Info Cards ── */}
             <div className="lg:col-span-2 flex flex-col gap-6">
 
               {/* Info Card */}
               <div className="rounded-2xl border border-pink-100 bg-white shadow-md p-7 space-y-6 text-slate-800">
-                <h2 className="text-sm font-bold uppercase tracking-widest text-pink-700">Contact Details</h2>
+                <h2 className="text-sm font-bold text-pink-700">Contact Details</h2>
 
                 <a
-                  href="tel:+9217396124"
+                  href="tel:+919217396124"
                   className="flex items-start gap-4 group"
                 >
                   <div className="h-10 w-10 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center flex-shrink-0 group-hover:bg-pink-100 transition-colors">
                     <Phone className="h-5 w-5 text-pink-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500 uppercase tracking-widest mb-0.5">Phone</p>
+                    <p className="text-xs text-slate-500 mb-0.5">Phone</p>
                     <p className="text-slate-900 font-semibold group-hover:text-pink-600 transition-colors">+91 9217396124</p>
                   </div>
                 </a>
@@ -71,7 +71,7 @@ export default function ContactPage() {
                     <Mail className="h-5 w-5 text-pink-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500 uppercase tracking-widest mb-0.5">Email</p>
+                    <p className="text-xs text-slate-500 mb-0.5">Email</p>
                     <p className="text-slate-900 font-semibold group-hover:text-pink-600 transition-colors"> admin@cmba.in</p>
                   </div>
                 </a>
@@ -81,7 +81,7 @@ export default function ContactPage() {
                     <MapPin className="h-5 w-5 text-pink-600" />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500 uppercase tracking-widest mb-0.5">Head Office</p>
+                    <p className="text-xs text-slate-500 mb-0.5">Head Office</p>
                     <p className="text-slate-900 font-semibold leading-relaxed">
                       B-14, Sector 64,  Noida,<br />Uttar Pradesh, India – 201309
                     </p>
@@ -91,7 +91,7 @@ export default function ContactPage() {
 
               {/* Collaboration badge */}
               <div className="rounded-2xl border border-pink-200 bg-pink-50/70 p-5 text-center space-y-1">
-                <p className="text-xs text-pink-700 font-semibold uppercase tracking-widest">
+                <p className="text-xs text-pink-700 font-semibold ">
                   An Initiative of
                 </p>
 
@@ -112,9 +112,9 @@ export default function ContactPage() {
 
             {/* ── Right: Contact Form ── */}
             <div className="lg:col-span-3">
-              <div className="rounded-2xl border border-pink-100 bg-white shadow-xl p-8 text-slate-800">
+              <div className="rounded-2xl border border-pink-100 bg-white shadow-md p-6 text-slate-800">
                 {submitted ? (
-                  <div className="flex flex-col items-center justify-center py-16 space-y-4 text-center">
+                  <div className="flex flex-col items-center justify-center py-10 space-y-4 text-center">
                     <div className="h-16 w-16 rounded-full bg-pink-100 border border-pink-300 flex items-center justify-center">
                       <CheckCircle className="h-8 w-8 text-pink-600" />
                     </div>
@@ -135,7 +135,7 @@ export default function ContactPage() {
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div className="space-y-1.5">
-                          <label htmlFor="name" className="text-xs font-semibold uppercase tracking-widest text-slate-600">Full Name *</label>
+                          <label htmlFor="name" className="text-xs font-semibold text-slate-600">Full Name *</label>
                           <input
                             id="name"
                             name="name"
@@ -148,7 +148,7 @@ export default function ContactPage() {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <label htmlFor="email" className="text-xs font-semibold uppercase tracking-widest text-slate-600">Email Address *</label>
+                          <label htmlFor="email" className="text-xs font-semibold text-slate-600">Email Address *</label>
                           <input
                             id="email"
                             name="email"
@@ -164,7 +164,7 @@ export default function ContactPage() {
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div className="space-y-1.5">
-                          <label htmlFor="phone" className="text-xs font-semibold uppercase tracking-widest text-slate-600">Phone Number</label>
+                          <label htmlFor="phone" className="text-xs font-semibold text-slate-600">Phone Number</label>
                           <input
                             id="phone"
                             name="phone"
@@ -176,7 +176,7 @@ export default function ContactPage() {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <label htmlFor="subject" className="text-xs font-semibold uppercase tracking-widest text-slate-600">Subject *</label>
+                          <label htmlFor="subject" className="text-xs font-semibold text-slate-600">Subject *</label>
                           <select
                             id="subject"
                             name="subject"
@@ -197,7 +197,7 @@ export default function ContactPage() {
                       </div>
 
                       <div className="space-y-1.5">
-                        <label htmlFor="message" className="text-xs font-semibold uppercase tracking-widest text-slate-600">Message *</label>
+                        <label htmlFor="message" className="text-xs font-semibold text-slate-600">Message *</label>
                         <textarea
                           id="message"
                           name="message"

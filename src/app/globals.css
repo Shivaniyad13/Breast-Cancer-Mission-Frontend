@@ -4,12 +4,82 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ==========================================================
+   DESIGN TOKENS
+   Soft blush · white · muted rose. The brand pink (hue ~350)
+   is kept; chroma is lowered so large surfaces stay calm.
+   Overriding the pink / rose / purple / slate scales here
+   retunes every existing utility class (bg-pink-600,
+   text-slate-800, border-pink-100 …) without touching markup.
+   ========================================================== */
+@theme {
+  /* Brand pink — muted */
+  --color-pink-50: oklch(0.985 0.007 355);
+  --color-pink-100: oklch(0.966 0.016 355);
+  --color-pink-200: oklch(0.932 0.032 355);
+  --color-pink-300: oklch(0.875 0.058 352);
+  --color-pink-400: oklch(0.79 0.092 350);
+  --color-pink-500: oklch(0.69 0.125 350);
+  --color-pink-600: oklch(0.59 0.135 350);
+  --color-pink-700: oklch(0.5 0.12 350);
+  --color-pink-800: oklch(0.41 0.095 350);
+  --color-pink-900: oklch(0.34 0.07 350);
+  --color-pink-950: oklch(0.25 0.05 350);
+
+  /* Rose accent — dusty, slightly warmer */
+  --color-rose-50: oklch(0.985 0.007 10);
+  --color-rose-100: oklch(0.965 0.016 10);
+  --color-rose-200: oklch(0.93 0.03 10);
+  --color-rose-300: oklch(0.87 0.055 8);
+  --color-rose-400: oklch(0.78 0.09 7);
+  --color-rose-500: oklch(0.67 0.125 8);
+  --color-rose-600: oklch(0.58 0.14 8);
+  --color-rose-700: oklch(0.49 0.12 8);
+  --color-rose-800: oklch(0.41 0.095 8);
+  --color-rose-900: oklch(0.34 0.07 8);
+  --color-rose-950: oklch(0.25 0.05 8);
+
+  /* Purple used as a secondary accent → dusty mauve */
+  --color-purple-50: oklch(0.975 0.01 335);
+  --color-purple-100: oklch(0.95 0.02 335);
+  --color-purple-200: oklch(0.91 0.035 335);
+  --color-purple-300: oklch(0.85 0.055 335);
+  --color-purple-400: oklch(0.75 0.085 335);
+  --color-purple-500: oklch(0.65 0.1 335);
+  --color-purple-600: oklch(0.56 0.105 335);
+  --color-purple-700: oklch(0.48 0.095 335);
+  --color-purple-800: oklch(0.4 0.08 335);
+  --color-purple-900: oklch(0.33 0.065 335);
+
+  /* Neutral text / surface scale, warmed toward the brand hue */
+  --color-slate-50: oklch(0.986 0.004 350);
+  --color-slate-100: oklch(0.968 0.007 350);
+  --color-slate-200: oklch(0.93 0.011 350);
+  --color-slate-300: oklch(0.87 0.015 350);
+  --color-slate-400: oklch(0.72 0.02 350);
+  --color-slate-500: oklch(0.57 0.025 350);
+  --color-slate-600: oklch(0.47 0.03 350);
+  --color-slate-700: oklch(0.38 0.035 350);
+  --color-slate-800: oklch(0.3 0.035 350);
+  --color-slate-900: oklch(0.24 0.035 350);
+  --color-slate-950: oklch(0.18 0.03 350);
+
+  /* Softer, rose-tinted elevation */
+  --shadow-2xs: 0 1px 1px 0 oklch(0.3 0.04 350 / 0.04);
+  --shadow-xs: 0 1px 2px 0 oklch(0.3 0.04 350 / 0.05);
+  --shadow-sm: 0 1px 3px 0 oklch(0.3 0.04 350 / 0.06), 0 1px 2px -1px oklch(0.3 0.04 350 / 0.05);
+  --shadow-md: 0 4px 10px -2px oklch(0.3 0.04 350 / 0.07), 0 2px 4px -2px oklch(0.3 0.04 350 / 0.05);
+  --shadow-lg: 0 10px 20px -6px oklch(0.3 0.04 350 / 0.09), 0 4px 8px -4px oklch(0.3 0.04 350 / 0.05);
+  --shadow-xl: 0 16px 32px -10px oklch(0.3 0.04 350 / 0.11), 0 6px 12px -6px oklch(0.3 0.04 350 / 0.05);
+  --shadow-2xl: 0 24px 48px -16px oklch(0.3 0.04 350 / 0.16);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-inter), "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono);
-  --font-heading: "Outfit", system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-lora), "Lora", Georgia, "Times New Roman", serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,97 +119,105 @@
 }
 
 /* ==========================================
-   LIGHT THEME — very light blush pink
+   LIGHT THEME — blush, white, muted rose
    ========================================== */
 :root {
-  --background: oklch(0.995 0.005 350);             /* barely-there pink-white */
-  --foreground: oklch(0.28 0.03 350);
+  --background: oklch(0.992 0.005 355);            /* warm white with a blush undertone */
+  --foreground: oklch(0.28 0.035 350);             /* deep plum-maroon text */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.28 0.03 350);
+  --card-foreground: oklch(0.28 0.035 350);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.28 0.03 350);
+  --popover-foreground: oklch(0.28 0.035 350);
 
-  --primary: oklch(0.68 0.17 350);
+  --primary: oklch(0.59 0.135 350);                /* muted brand rose-pink */
   --primary-foreground: oklch(1 0 0);
 
-  --secondary: oklch(0.98 0.012 350);
+  --secondary: oklch(0.972 0.012 355);             /* blush */
   --secondary-foreground: oklch(0.4 0.09 350);
 
-  --muted: oklch(0.985 0.008 350);
-  --muted-foreground: oklch(0.52 0.04 350);
+  --muted: oklch(0.977 0.008 355);
+  --muted-foreground: oklch(0.5 0.03 350);
 
-  --accent: oklch(0.975 0.018 350);
-  --accent-foreground: oklch(0.42 0.1 350);
+  --accent: oklch(0.966 0.016 355);
+  --accent-foreground: oklch(0.4 0.095 350);
 
-  --destructive: oklch(0.577 0.245 27.325);
+  --destructive: oklch(0.55 0.2 27);
 
-  --border: oklch(0.955 0.015 350);
-  --input: oklch(0.955 0.015 350);
-  --ring: oklch(0.68 0.17 350);
+  --border: oklch(0.93 0.017 355);
+  --input: oklch(0.91 0.02 355);
+  --ring: oklch(0.69 0.125 350);
 
-  --chart-1: oklch(0.68 0.17 350);
-  --chart-2: oklch(0.9 0.05 350);
+  --chart-1: oklch(0.59 0.135 350);
+  --chart-2: oklch(0.87 0.058 352);
   --chart-3: oklch(0.5 0.12 350);
-  --chart-4: oklch(0.8 0.09 350);
-  --chart-5: oklch(0.38 0.08 350);
+  --chart-4: oklch(0.79 0.092 350);
+  --chart-5: oklch(0.34 0.07 350);
 
-  --radius: 0.625rem;
+  --radius: 0.75rem;
 
   --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.28 0.03 350);
-  --sidebar-primary: oklch(0.68 0.17 350);
+  --sidebar-foreground: oklch(0.28 0.035 350);
+  --sidebar-primary: oklch(0.59 0.135 350);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.98 0.012 350);
+  --sidebar-accent: oklch(0.972 0.012 355);
   --sidebar-accent-foreground: oklch(0.4 0.09 350);
-  --sidebar-border: oklch(0.955 0.015 350);
-  --sidebar-ring: oklch(0.68 0.17 350);
+  --sidebar-border: oklch(0.93 0.017 355);
+  --sidebar-ring: oklch(0.69 0.125 350);
+
+  /* Reusable surface tokens */
+  --blush: oklch(0.985 0.007 355);
+  --blush-strong: oklch(0.966 0.016 355);
+  --hairline: oklch(0.93 0.017 355);
 }
 
 /* ==========================================
    DARK THEME — softened
    ========================================== */
 .dark {
-  --background: oklch(0.23 0.025 350);
+  --background: oklch(0.22 0.025 350);
   --foreground: oklch(0.97 0.008 350);
-  --card: oklch(0.27 0.03 350);
+  --card: oklch(0.26 0.03 350);
   --card-foreground: oklch(0.97 0.008 350);
-  --popover: oklch(0.27 0.03 350);
+  --popover: oklch(0.26 0.03 350);
   --popover-foreground: oklch(0.97 0.008 350);
 
-  --primary: oklch(0.74 0.15 350);
+  --primary: oklch(0.74 0.12 350);
   --primary-foreground: oklch(0.2 0.03 350);
 
-  --secondary: oklch(0.32 0.035 350);
+  --secondary: oklch(0.31 0.035 350);
   --secondary-foreground: oklch(0.96 0.015 350);
 
-  --muted: oklch(0.32 0.035 350);
+  --muted: oklch(0.31 0.035 350);
   --muted-foreground: oklch(0.78 0.025 350);
 
-  --accent: oklch(0.32 0.035 350);
+  --accent: oklch(0.31 0.035 350);
   --accent-foreground: oklch(0.96 0.015 350);
 
   --destructive: oklch(0.704 0.191 22.216);
 
-  --border: oklch(0.38 0.04 350);
-  --input: oklch(0.38 0.04 350);
-  --ring: oklch(0.74 0.15 350);
+  --border: oklch(0.37 0.04 350);
+  --input: oklch(0.37 0.04 350);
+  --ring: oklch(0.74 0.12 350);
 
-  --chart-1: oklch(0.74 0.15 350);
+  --chart-1: oklch(0.74 0.12 350);
   --chart-2: oklch(0.82 0.08 350);
   --chart-3: oklch(0.9 0.05 350);
   --chart-4: oklch(0.55 0.11 350);
   --chart-5: oklch(0.4 0.07 350);
 
-  --sidebar: oklch(0.27 0.03 350);
+  --sidebar: oklch(0.26 0.03 350);
   --sidebar-foreground: oklch(0.97 0.008 350);
-  --sidebar-primary: oklch(0.74 0.15 350);
+  --sidebar-primary: oklch(0.74 0.12 350);
   --sidebar-primary-foreground: oklch(0.2 0.03 350);
-  --sidebar-accent: oklch(0.32 0.035 350);
+  --sidebar-accent: oklch(0.31 0.035 350);
   --sidebar-accent-foreground: oklch(0.97 0.008 350);
-  --sidebar-border: oklch(0.38 0.04 350);
-  --sidebar-ring: oklch(0.74 0.15 350);
+  --sidebar-border: oklch(0.37 0.04 350);
+  --sidebar-ring: oklch(0.74 0.12 350);
 }
 
+/* ==========================================
+   BASE — typography, focus, motion
+   ========================================== */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -147,10 +225,54 @@
 
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply bg-background text-foreground;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-pink-200);
+    color: var(--color-pink-950);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-pink-400);
+    outline-offset: 2px;
+  }
+}
+
+/* Serif display face: lighter weight and slightly tighter tracking
+   reads as elegant rather than heavy. */
+.font-heading {
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -242,6 +364,7 @@
 }
 
 .grs-whatsapp-pulse {
+  display: none;
   position: absolute;
   width: 56px;
   height: 56px;
@@ -314,57 +437,57 @@
 div[class*="2d0a20"] {
   background-color: #ffffff !important;
   background-image: none !important;
-  border-color: #fce7f3 !important;
-  box-shadow: 0 6px 24px -8px rgba(219, 39, 119, 0.06),
+  border-color: var(--color-pink-100) !important;
+  box-shadow: 0 6px 24px -8px oklch(0.3 0.04 350 / 0.06),
               0 2px 6px -2px rgba(0, 0, 0, 0.02) !important;
-  color: #1f2937 !important;
+  color: var(--color-slate-800) !important;
 }
 
 div[class*="2d0a20"] > div[class*="h-0.5"] {
-  background: linear-gradient(to right, #f9a8d4, #fbcfe8) !important;
+  background: linear-gradient(to right, var(--color-pink-300), var(--color-pink-200)) !important;
 }
 
 div[class*="2d0a20"] div[class*="border-b"] {
-  border-color: #fdf2f8 !important;
+  border-color: var(--color-pink-50) !important;
 }
 
 div[class*="2d0a20"] span[class*="text-pink-400"] {
-  color: #db2777 !important;
+  color: var(--color-pink-600) !important;
   font-weight: 800 !important;
 }
 
 div[class*="2d0a20"] span[class*="bg-pink-500/20"] {
-  background-color: #fdf2f8 !important;
-  color: #be185d !important;
-  border-color: #fce7f3 !important;
+  background-color: var(--color-pink-50) !important;
+  color: var(--color-pink-700) !important;
+  border-color: var(--color-pink-100) !important;
   font-weight: 700 !important;
 }
 
 div[class*="2d0a20"] span[class*="bg-slate-800"] {
   background-color: #f8fafc !important;
-  color: #64748b !important;
+  color: var(--color-slate-500) !important;
   border-color: #eef2f7 !important;
 }
 
 div[class*="2d0a20"] div[class*="aspect-video"] {
-  background-color: #fdf2f8 !important;
-  border-color: #fce7f3 !important;
+  background-color: var(--color-pink-50) !important;
+  border-color: var(--color-pink-100) !important;
 }
 
 div[class*="2d0a20"] button[class*="bg-slate-800"] {
   background-color: #ffffff !important;
-  color: #475569 !important;
-  border: 1px solid #fce7f3 !important;
+  color: var(--color-slate-600) !important;
+  border: 1px solid var(--color-pink-100) !important;
 }
 div[class*="2d0a20"] button[class*="bg-slate-800"]:hover {
-  background-color: #fdf2f8 !important;
-  color: #db2777 !important;
-  border-color: #fbcfe8 !important;
+  background-color: var(--color-pink-50) !important;
+  color: var(--color-pink-600) !important;
+  border-color: var(--color-pink-200) !important;
 }
 
 div[class*="2d0a20"] h4,
 div[class*="2d0a20"] .text-white {
-  color: #1f2937 !important;
+  color: var(--color-slate-800) !important;
 }
 
 div[class*="2d0a20"] p[class*="text-pink-100"],
@@ -372,19 +495,19 @@ div[class*="2d0a20"] p[class*="text-slate-300"],
 div[class*="2d0a20"] p[class*="text-pink-100/90"],
 div[class*="2d0a20"] div[class*="text-pink-300"],
 div[class*="2d0a20"] span[class*="text-pink-300"] {
-  color: #6b7280 !important;
+  color: var(--color-slate-500) !important;
 }
 
 div[class*="2d0a20"] div[class*="text-[9px]"],
 div[class*="2d0a20"] span[class*="text-[9px]"] {
-  color: #9ca3af !important;
+  color: var(--color-slate-400) !important;
 }
 
 div[class*="2d0a20"] p[class*="border-t"],
 div[class*="2d0a20"] p[class*="border-l"],
 div[class*="2d0a20"] div[class*="border-l"],
 div[class*="2d0a20"] div[class*="border-t"] {
-  border-color: #fdf2f8 !important;
+  border-color: var(--color-pink-50) !important;
 }
 
 div[class*="2d0a20"] span[class*="bg-emerald-500/20"] {
@@ -394,7 +517,7 @@ div[class*="2d0a20"] span[class*="bg-emerald-500/20"] {
 }
 div[class*="2d0a20"] span[class*="bg-rose-500/20"] {
   background-color: #fff1f2 !important;
-  color: #e11d48 !important;
+  color: var(--color-rose-600) !important;
   border-color: #ffe4e6 !important;
 }
 div[class*="2d0a20"] span[class*="bg-sky-500/20"] {
@@ -418,95 +541,95 @@ div[class*="2d0a20"] button[class*="bg-slate-700"] {
 }
 
 div[class*="2d0a20"] span[class*="text-slate-400"] {
-  color: #9ca3af !important;
+  color: var(--color-slate-400) !important;
 }
 
 div[class*="2d0a20"] button[class*="border-slate-700"] {
-  border-color: #fce7f3 !important;
+  border-color: var(--color-pink-100) !important;
   background-color: #ffffff !important;
 }
 
 div[class*="2d0a20"] button[class*="bg-pink-600"] {
-  background-color: #ec4899 !important;
+  background-color: var(--color-pink-500) !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2) !important;
+  box-shadow: 0 4px 12px oklch(0.45 0.1 350 / 0.18) !important;
 }
 div[class*="2d0a20"] button[class*="bg-pink-600"]:hover {
-  background-color: #db2777 !important;
+  background-color: var(--color-pink-600) !important;
 }
 
 /* Live Updates Feed Overrides */
 h3[class*="text-pink-300"] {
-  color: #db2777 !important;
+  color: var(--color-pink-600) !important;
   font-weight: 800 !important;
 }
 
 button[aria-label="Previous item"],
 button[aria-label="Next item"] {
   background-color: #ffffff !important;
-  color: #475569 !important;
-  border: 1px solid #fce7f3 !important;
+  color: var(--color-slate-600) !important;
+  border: 1px solid var(--color-pink-100) !important;
 }
 button[aria-label="Previous item"]:hover,
 button[aria-label="Next item"]:hover {
-  background-color: #fdf2f8 !important;
-  color: #db2777 !important;
-  border-color: #fbcfe8 !important;
+  background-color: var(--color-pink-50) !important;
+  color: var(--color-pink-600) !important;
+  border-color: var(--color-pink-200) !important;
 }
 
 div[class*="bg-pink-950/50"] {
-  background-color: #fff5f9 !important;
-  border-color: #fce7f3 !important;
-  box-shadow: inset 0 2px 4px rgba(219, 39, 119, 0.03) !important;
+  background-color: var(--blush) !important;
+  border-color: var(--color-pink-100) !important;
+  box-shadow: inset 0 2px 4px oklch(0.3 0.04 350 / 0.03) !important;
 }
 div[class*="bg-pink-950/50"] div,
 div[class*="bg-pink-950/50"] span:not([class*="bg-pink-600"]) {
-  color: #1f2937 !important;
+  color: var(--color-slate-800) !important;
   font-weight: 700 !important;
 }
 
 a[class*="from-slate-900"] {
   background: #ffffff !important;
-  border-color: #fce7f3 !important;
-  box-shadow: 0 6px 22px -8px rgba(219, 39, 119, 0.06),
+  border-color: var(--color-pink-100) !important;
+  box-shadow: 0 6px 22px -8px oklch(0.3 0.04 350 / 0.06),
               0 2px 6px -2px rgba(0, 0, 0, 0.02) !important;
 }
 a[class*="from-slate-900"]:hover {
-  background: #fff5f9 !important;
-  border-color: #fbcfe8 !important;
+  background: var(--blush) !important;
+  border-color: var(--color-pink-200) !important;
 }
 
 a[class*="from-slate-900"] span[class*="text-pink-400"] {
-  color: #db2777 !important;
+  color: var(--color-pink-600) !important;
 }
 a[class*="from-slate-900"] span[class*="text-slate-400"] {
-  color: #9ca3af !important;
+  color: var(--color-slate-400) !important;
 }
 
 a[class*="from-slate-900"] h4 {
-  color: #1f2937 !important;
+  color: var(--color-slate-800) !important;
 }
 a[class*="from-slate-900"]:hover h4 {
-  color: #db2777 !important;
+  color: var(--color-pink-600) !important;
 }
 
 a[class*="from-slate-900"] div[class*="text-pink-400"] {
-  color: #db2777 !important;
+  color: var(--color-pink-600) !important;
 }
 
 button[aria-label^="Go to slide"] {
   background-color: #f1f5f9 !important;
 }
 button[aria-label^="Go to slide"][class*="bg-pink-500"] {
-  background-color: #ec4899 !important;
+  background-color: var(--color-pink-500) !important;
 }
 span[class*="text-slate-400"] {
-  color: #9ca3af !important;
+  color: var(--color-slate-400) !important;
 }
 
 div[class*="bg-pink-50/50"] {
-  background-color: #fff8fb !important;
-  border-color: #fce7f3 !important;
+  background-color: var(--blush) !important;
+  border-color: var(--color-pink-100) !important;
 }
 
 body {
@@ -521,8 +644,8 @@ section.relative.overflow-hidden {
   background: radial-gradient(
     circle at 50% 30%,
     #ffffff 0%,
-    #fff8fb 45%,
-    #fdf2f8 100%
+    var(--blush) 45%,
+    var(--color-pink-50) 100%
   ) !important;
 }
 
@@ -551,7 +674,7 @@ section.relative.overflow-hidden [class*="text-slate-200"],
 section.relative.overflow-hidden [class*="text-slate-300"],
 section.relative.overflow-hidden [class*="text-gray-200"],
 section.relative.overflow-hidden [class*="text-gray-300"] {
-  color: #4a1030 !important;
+  color: var(--color-pink-950) !important;
 }
 
 section.relative.overflow-hidden [class*="bg-pink-600"],
@@ -571,6 +694,6 @@ section.relative.overflow-hidden [class*="bg-primary"] {
   }
   .cert-print-clean {
     box-shadow: none !important;
-    border-color: #fce7f3 !important;
+    border-color: var(--color-pink-100) !important;
   }
 }

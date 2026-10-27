@@ -20,7 +20,7 @@ export default function AwarenessCarousel() {
       src: "/images/awareness_ribbon.png",
       tag: "Hope & Unity",
       title: "The Pink Ribbon Symbol",
-      subtitle: "A Beacon of Awareness & Solidarity",
+      subtitle: "Awareness & Solidarity",
       description:
         "The universal symbol of hope, courage, and collective support for breast cancer patients, survivors, and their families around the globe.",
       icon: <Heart className="h-4 w-4 text-primary" />,
@@ -193,13 +193,13 @@ export default function AwarenessCarousel() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
 
         {/* Section Header */}
-        <div className="text-center space-y-3 mb-10">
-          <span className="text-xs font-bold text-white tracking-widest uppercase bg-primary px-3 py-1 rounded-full inline-flex items-center gap-1.5">
+        <div className="text-center space-y-3 mb-8">
+          <span className="text-xs font-bold text-white bg-primary px-3 py-1 rounded-full inline-flex items-center gap-1.5">
             <Heart className="h-3 w-3 fill-white text-white" />
             Visual Inspiration
           </span>
-          <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
-            Empowerment through Awareness & Action
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground tracking-tight">
+            Awareness & Action
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base">
             Explore the core pillars of our campaign. From clinical diagnosis and cancer research to survivors&apos; recovery journeys and crowdfunding support.
@@ -208,7 +208,7 @@ export default function AwarenessCarousel() {
 
         {/* Main Carousel Viewport — aspect-video (16:9) */}
         <div
-          className="relative group rounded-3xl overflow-hidden border border-border shadow-xl bg-black aspect-video w-full"
+          className="relative group rounded-2xl overflow-hidden border border-border shadow-md bg-black aspect-video w-full"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
@@ -296,7 +296,7 @@ export default function AwarenessCarousel() {
         {/* Thumbnail Gallery */}
         <div className="mt-6 flex flex-col space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+            <span className="text-xs font-bold text-muted-foreground ">
               Slide Gallery ({currentIndex + 1} of {slides.length})
             </span>
             <div className="hidden sm:flex gap-1">

@@ -35,10 +35,10 @@ export default async function WebinarsPage({ searchParams }: WebinarsPageProps) 
     <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 space-y-8 min-h-screen">
       {/* Page Header */}
       <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-pink-100 text-primary border border-pink-200 uppercase tracking-widest">
-          <Video className="h-3 w-3 animate-pulse" /> Certified Learning & Events
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-pink-100 text-primary border border-pink-200 ">
+          <Video className="h-3 w-3 " /> Certified Learning & Events
         </span>
-        <h1 className="font-heading text-4xl md:text-5xl font-extrabold text-slate-805 tracking-tight">
+        <h1 className="font-heading font-bold text-slate-800 tracking-tight text-3xl sm:text-4xl">
           Breast Cancer Awareness <span className="text-primary bg-gradient-to-r from-primary to-rose-400 bg-clip-text text-transparent">Webinars</span>
         </h1>
         <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">

@@ -236,7 +236,7 @@ export default function EducationClient() {
       <div className="absolute bottom-1/4 right-5 w-96 h-96 bg-pink-50/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
+      <section className="relative min-h-[50vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-10 md:py-14 overflow-hidden border-b border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
           <div className="space-y-6 text-center">
 
@@ -244,9 +244,9 @@ export default function EducationClient() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold shadow-sm"
             >
-              <Ribbon className="h-3.5 w-3.5 text-primary animate-pulse" />
+              <Ribbon className="h-3.5 w-3.5 text-primary " />
               Educational Resources
             </motion.div>
 
@@ -254,7 +254,7 @@ export default function EducationClient() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-800 leading-[1.1]"
             >
               Breast Cancer <br />
               <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
@@ -278,12 +278,12 @@ export default function EducationClient() {
               className="pt-4 flex flex-wrap justify-center gap-4"
             >
               <a href="#what-is-breast-cancer">
-                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-6 py-5 transition-all text-sm tracking-wide cursor-pointer">
                   Start Learning
                 </Button>
               </a>
               <a href="#video-library">
-                <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-lg px-6 py-5 transition-all text-sm tracking-wide cursor-pointer">
                   Watch Videos
                 </Button>
               </a>
@@ -293,14 +293,14 @@ export default function EducationClient() {
       </section>
 
       {/* ================= WHAT IS BREAST CANCER? ================= */}
-      <section id="what-is-breast-cancer" className="py-20 md:py-28 bg-white scroll-mt-6">
+      <section id="what-is-breast-cancer" className="py-12 md:py-16 bg-white scroll-mt-6">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
           <div className="space-y-6">
 
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold ">
               <Info className="h-3.5 w-3.5" /> Core Overview
             </div>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 leading-tight tracking-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 leading-tight tracking-tight">
               What is Breast Cancer?
             </h2>
             <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
@@ -320,14 +320,14 @@ export default function EducationClient() {
       </section>
 
       {/* ================= INTERACTIVE EDUCATION JOURNEY FLOWCHART ================= */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-8">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <Sparkles className="h-3.5 w-3.5" /> Clinical Pillars
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Breast Cancer Education Journey
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -377,17 +377,17 @@ export default function EducationClient() {
                   >
                     <Icon className="h-6 w-6" />
 
-                    <span className={`absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full text-[10px] font-bold flex items-center justify-center ${isActive || isCompleted ? "bg-primary text-white" : "bg-slate-100 text-slate-500 border border-slate-200"
+                    <span className={`absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full text-[11px] font-bold flex items-center justify-center ${isActive || isCompleted ? "bg-primary text-white" : "bg-slate-100 text-slate-500 border border-slate-200"
                       }`}>
                       {idx + 1}
                     </span>
                   </motion.div>
 
                   <div className="text-center mt-3 max-w-[120px]">
-                    <p className={`text-xs font-bold transition-colors ${isActive ? "text-primary font-black" : "text-slate-700 group-hover:text-slate-900"}`}>
+                    <p className={`text-xs font-bold transition-colors ${isActive ? "text-primary font-bold" : "text-slate-700 group-hover:text-slate-900"}`}>
                       {step.title}
                     </p>
-                    <p className="text-[9px] font-semibold text-slate-400 mt-0.5">
+                    <p className="text-[11px] font-semibold text-slate-400 mt-0.5">
                       {step.subtitle}
                     </p>
                   </div>
@@ -419,7 +419,7 @@ export default function EducationClient() {
                     <p className={`text-xs font-bold ${isActive ? "text-primary" : "text-slate-700"}`}>
                       Step {idx + 1}: {step.title}
                     </p>
-                    <p className="text-[10px] text-slate-400 font-semibold">{step.subtitle}</p>
+                    <p className="text-[11px] text-slate-400 font-semibold">{step.subtitle}</p>
                   </div>
                   <ChevronRight className={`h-4 w-4 text-slate-400 transition-transform ${isActive ? "rotate-90 text-primary" : ""}`} />
                 </button>
@@ -436,7 +436,7 @@ export default function EducationClient() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white border border-pink-100/50 rounded-3xl p-6 sm:p-8 shadow-sm relative overflow-hidden"
+                className="bg-white border border-pink-100/50 rounded-2xl p-6 shadow-sm relative overflow-hidden"
               >
                 {activeStep === 0 && (
                   <div className="space-y-6">
@@ -505,7 +505,7 @@ export default function EducationClient() {
                     <div className="bg-pink-50/40 border border-pink-100/50 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 items-center justify-between mt-4">
                       <div className="space-y-1 text-center sm:text-left">
                         <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5 justify-center sm:justify-start">
-                          <Ribbon className="h-4 w-4 text-primary animate-pulse" />
+                          <Ribbon className="h-4 w-4 text-primary " />
                           Have family history or concerns?
                         </h4>
                         <p className="text-[11px] text-slate-500 font-medium">Consult with certified genetic counselors to evaluate BRCA1 or BRCA2 mutations.</p>
@@ -535,7 +535,7 @@ export default function EducationClient() {
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                       {/* Checklist */}
                       <div className="lg:col-span-7 space-y-4">
-                        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Daily Wellness Checklist</h4>
+                        <h4 className="text-xs font-bold text-slate-700 ">Daily Wellness Checklist</h4>
                         <p className="text-xs text-slate-500 font-medium">Tick off the protective actions you are actively incorporating into your routine to track your preventive alignment.</p>
 
                         <div className="space-y-2.5">
@@ -564,7 +564,7 @@ export default function EducationClient() {
                                   <p className={`text-xs font-bold ${isChecked ? "text-primary" : "text-slate-700"}`}>
                                     {item.text}
                                   </p>
-                                  <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed font-medium">{item.desc}</p>
+                                  <p className="text-[11px] text-slate-400 mt-0.5 leading-relaxed font-medium">{item.desc}</p>
                                 </div>
                               </label>
                             );
@@ -573,11 +573,11 @@ export default function EducationClient() {
                       </div>
 
                       {/* Progress Tracker Card */}
-                      <div className="lg:col-span-5 bg-gradient-to-tr from-pink-500/5 via-rose-500/[0.01] to-transparent border border-pink-100 p-6 rounded-3xl text-center space-y-5">
+                      <div className="lg:col-span-5 bg-gradient-to-tr from-pink-500/5 via-rose-500/[0.01] to-transparent border border-pink-100 p-6 rounded-2xl text-center space-y-5">
                         <div className="mx-auto w-16 h-16 rounded-full bg-pink-100 flex items-center justify-center text-primary relative border border-pink-100/60">
-                          <Sparkles className="h-8 w-8 animate-pulse" />
+                          <Sparkles className="h-8 w-8 " />
                           {Object.values(preventionChecklist).every(Boolean) && (
-                            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-white text-[10px] font-bold flex items-center justify-center animate-bounce">
+                            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-white text-[11px] font-bold flex items-center justify-center ">
                               ✓
                             </span>
                           )}
@@ -662,11 +662,11 @@ export default function EducationClient() {
                           >
                             <div className="space-y-2">
                               <div className="flex items-center justify-between">
-                                <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${isSelected ? "bg-rose-100 text-rose-800" : "bg-pink-50 text-primary group-hover:bg-pink-100"
+                                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${isSelected ? "bg-rose-100 text-rose-800" : "bg-pink-50 text-primary group-hover:bg-pink-100"
                                   }`}>
                                   Symptom 0{idx + 1}
                                 </span>
-                                <span className="text-[10px] font-semibold text-primary underline opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="text-[11px] font-semibold text-primary underline opacity-0 group-hover:opacity-100 transition-opacity">
                                   {isSelected ? "Hide Tip" : "View Tip"}
                                 </span>
                               </div>
@@ -682,7 +682,7 @@ export default function EducationClient() {
                                   exit={{ height: 0, opacity: 0 }}
                                   className="overflow-hidden border-t border-rose-100 mt-3 pt-2"
                                 >
-                                  <p className="text-[10px] text-rose-800 leading-relaxed font-medium bg-rose-50/50 p-2 rounded-lg">
+                                  <p className="text-[11px] text-rose-800 leading-relaxed font-medium bg-rose-50/50 p-2 rounded-lg">
                                     <strong>Oncology Tip:</strong> {symptom.tip}
                                   </p>
                                 </motion.div>
@@ -694,7 +694,7 @@ export default function EducationClient() {
                     </div>
 
                     <div className="bg-rose-50 border border-rose-100 rounded-2xl p-4 flex gap-3 items-start mt-4">
-                      <AlertCircle className="h-5 w-5 text-rose-600 shrink-0 mt-0.5 animate-pulse" />
+                      <AlertCircle className="h-5 w-5 text-rose-600 shrink-0 mt-0.5 " />
                       <div className="space-y-1">
                         <h4 className="text-xs font-bold text-rose-800">Critical Warning Guidelines</h4>
                         <p className="text-[11px] text-rose-700 leading-relaxed font-medium">
@@ -750,11 +750,11 @@ export default function EducationClient() {
                     {(() => {
                       const currentType = cancerTypesData.find((t) => t.id === activeTypeTab) || cancerTypesData[0];
                       return (
-                        <div className="bg-slate-50/50 border border-slate-100 rounded-3xl p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div className="bg-slate-50/50 border border-slate-100 rounded-2xl p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
                           <div className="lg:col-span-2 space-y-4">
                             <div className="flex items-center gap-2.5">
                               <h4 className="font-heading text-base font-bold text-slate-800">{currentType.name}</h4>
-                              <span className={`text-[9px] font-bold border px-2 py-0.5 rounded-full uppercase shrink-0 ${currentType.badgeColor}`}>
+                              <span className={`text-[11px] font-bold border px-2 py-0.5 rounded-full shrink-0 ${currentType.badgeColor}`}>
                                 {currentType.category}
                               </span>
                             </div>
@@ -762,7 +762,7 @@ export default function EducationClient() {
                             <div className="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
                               <p>{currentType.desc}</p>
                               <div className="bg-white border border-slate-100 rounded-2xl p-4 space-y-1.5 shadow-sm">
-                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Clinical Outlook</span>
+                                <span className="text-[11px] font-bold text-slate-400 block">Clinical Outlook</span>
                                 <p className="text-xs text-slate-600 font-medium">{currentType.outlook}</p>
                               </div>
                             </div>
@@ -770,24 +770,24 @@ export default function EducationClient() {
 
                           {/* Diagnostic Journey Sidebar */}
                           <div className="bg-white border border-pink-100/50 rounded-2xl p-5 shadow-sm space-y-4">
-                            <h5 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Diagnostic Pathway</h5>
+                            <h5 className="text-[11px] font-bold text-slate-400 ">Diagnostic Pathway</h5>
                             <p className="text-[11px] text-slate-500 leading-relaxed font-medium">If cells show suspicious characteristics, oncologists use a standardized workflow to diagnose:</p>
 
                             <div className="relative pl-6 space-y-3.5 border-l-2 border-pink-100 text-[11px]">
                               <div className="relative">
                                 <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-primary border-2 border-white shadow-sm" />
                                 <span className="font-bold text-slate-800 block">1. Self-Exam / CBE</span>
-                                <span className="text-slate-400 font-semibold block text-[10px]">Initial tactile detection</span>
+                                <span className="text-slate-400 font-semibold block text-[11px]">Initial tactile detection</span>
                               </div>
                               <div className="relative">
                                 <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-pink-200 border-2 border-white shadow-sm" />
                                 <span className="font-bold text-slate-800 block">2. Imaging (Mammogram/US)</span>
-                                <span className="text-slate-400 font-semibold block text-[10px]">Internal structural confirmation</span>
+                                <span className="text-slate-400 font-semibold block text-[11px]">Internal structural confirmation</span>
                               </div>
                               <div className="relative">
                                 <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-pink-200 border-2 border-white shadow-sm" />
                                 <span className="font-bold text-slate-800 block">3. Biopsy Test</span>
-                                <span className="text-slate-400 font-semibold block text-[10px]">Definitive cellular pathology check</span>
+                                <span className="text-slate-400 font-semibold block text-[11px]">Definitive cellular pathology check</span>
                               </div>
                             </div>
                           </div>
@@ -803,7 +803,7 @@ export default function EducationClient() {
                         Back to Start
                       </button>
                       <Link href="/diagnosis">
-                        <Button className="bg-primary hover:bg-primary/95 text-white font-bold text-xs py-2.5 px-5 rounded-full shadow-sm transition-all flex items-center gap-1 cursor-pointer">
+                        <Button className="bg-primary hover:bg-primary/95 text-white font-bold text-xs py-2.5 px-5 rounded-lg shadow-sm transition-all flex items-center gap-1 cursor-pointer">
                           Explore Diagnostics Hub <ArrowRight className="h-4 w-4" />
                         </Button>
                       </Link>
@@ -818,22 +818,22 @@ export default function EducationClient() {
       </section>
 
       {/* ================= BREAST SELF-EXAMINATION (BSE) ================= */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-          <div className="bg-gradient-to-tr from-pink-500/5 via-rose-500/[0.02] to-transparent border border-pink-100 rounded-3xl p-6 sm:p-10 shadow-sm relative overflow-hidden group">
+          <div className="bg-gradient-to-tr from-pink-500/5 via-rose-500/[0.02] to-transparent border border-pink-100 rounded-2xl p-6 shadow-sm relative overflow-hidden group">
 
             <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 rounded-full filter blur-3xl -z-10 group-hover:scale-105 transition-transform duration-500" />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
               <div className="lg:col-span-8 space-y-6">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
                   <Clock className="h-3.5 w-3.5" />
                   Paced Self-Screening
                 </span>
 
                 <div className="space-y-3">
-                  <h2 className="font-heading text-3xl font-extrabold text-slate-800 tracking-tight">
+                  <h2 className="font-heading text-3xl font-bold text-slate-800 tracking-tight">
                     Breast Self-Examination (BSE)
                   </h2>
                   <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
@@ -860,13 +860,13 @@ export default function EducationClient() {
 
                 <div className="pt-4 flex flex-wrap gap-3">
                   <Link href="/learn/bse-guide">
-                    <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 text-xs py-6 h-auto px-6 flex items-center gap-1.5 active:scale-95 transition-all">
+                    <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg shadow-md shadow-pink-100 text-xs py-5 h-auto px-6 flex items-center gap-1.5 transition-all">
                       Launch Interactive Guide
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </Link>
                   <Link href="/learn/quiz">
-                    <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full text-xs py-6 h-auto px-6 active:scale-95 transition-all">
+                    <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-lg text-xs py-5 h-auto px-6 transition-all">
                       Test Your Knowledge
                     </Button>
                   </Link>
@@ -875,13 +875,13 @@ export default function EducationClient() {
 
               {/* Graphical Visual */}
               <div className="lg:col-span-4 flex items-center justify-center p-4">
-                <div className="relative p-6 rounded-3xl bg-white border border-pink-100/60 shadow-sm w-full max-w-xs text-center space-y-4">
+                <div className="relative p-6 rounded-2xl bg-white border border-pink-100/60 shadow-sm w-full max-w-xs text-center space-y-4">
                   <div className="h-14 w-14 rounded-full bg-pink-50 flex items-center justify-center text-primary mx-auto animate-pulse border border-pink-100/40">
                     <Ribbon className="h-7 w-7" />
                   </div>
                   <div className="space-y-1">
                     <p className="font-bold text-slate-800">Interactive Walkthrough</p>
-                    <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-widest">Self-Exam Timers Included</p>
+                    <p className="text-[11px] text-slate-400 font-semibold ">Self-Exam Timers Included</p>
                   </div>
                   <p className="text-xs text-slate-500 leading-relaxed px-2 font-medium">
                     Features visual instruction segments and a pacing timer for each side.
@@ -895,14 +895,14 @@ export default function EducationClient() {
       </section>
 
       {/* ================= EARLY DETECTION ================= */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-8">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <Stethoscope className="h-3.5 w-3.5" /> Screening Guidelines
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Early Detection Methods
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -913,12 +913,12 @@ export default function EducationClient() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             {/* Mammography Card */}
-            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl flex flex-col justify-between hover:border-pink-300">
-              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-3xl">
+            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-pink-300">
+              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-2xl">
                 <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40">
                   <Layers className="h-5 w-5" />
                 </div>
-                <span className="text-[9px] text-pink-400 uppercase font-bold tracking-widest">Imaging Scan</span>
+                <span className="text-[11px] text-pink-400 font-bold ">Imaging Scan</span>
               </div>
               <CardHeader className="space-y-1.5 p-5">
                 <CardTitle className="font-heading text-lg font-bold text-slate-800">Mammography</CardTitle>
@@ -936,12 +936,12 @@ export default function EducationClient() {
             </Card>
 
             {/* CBE Card */}
-            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl flex flex-col justify-between hover:border-pink-300">
-              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-3xl">
+            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-pink-300">
+              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-2xl">
                 <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40">
                   <Stethoscope className="h-5 w-5" />
                 </div>
-                <span className="text-[9px] text-pink-400 uppercase font-bold tracking-widest">Physical Exam</span>
+                <span className="text-[11px] text-pink-400 font-bold ">Physical Exam</span>
               </div>
               <CardHeader className="space-y-1.5 p-5">
                 <CardTitle className="font-heading text-lg font-bold text-slate-800">Clinical Breast Exam</CardTitle>
@@ -959,12 +959,12 @@ export default function EducationClient() {
             </Card>
 
             {/* Ultrasound Card */}
-            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl flex flex-col justify-between hover:border-pink-300">
-              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-3xl">
+            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-pink-300">
+              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-2xl">
                 <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40">
                   <Activity className="h-5 w-5" />
                 </div>
-                <span className="text-[9px] text-pink-400 uppercase font-bold tracking-widest">Sonic Imaging</span>
+                <span className="text-[11px] text-pink-400 font-bold ">Sonic Imaging</span>
               </div>
               <CardHeader className="space-y-1.5 p-5">
                 <CardTitle className="font-heading text-lg font-bold text-slate-800">Ultrasound</CardTitle>
@@ -982,12 +982,12 @@ export default function EducationClient() {
             </Card>
 
             {/* MRI Card */}
-            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl flex flex-col justify-between hover:border-pink-300">
-              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-3xl">
+            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-pink-300">
+              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-2xl">
                 <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
-                <span className="text-[9px] text-pink-400 uppercase font-bold tracking-widest">Magnetic Resonance</span>
+                <span className="text-[11px] text-pink-400 font-bold ">Magnetic Resonance</span>
               </div>
               <CardHeader className="space-y-1.5 p-5">
                 <CardTitle className="font-heading text-lg font-bold text-slate-800">MRI Scan</CardTitle>
@@ -1005,12 +1005,12 @@ export default function EducationClient() {
             </Card>
 
             {/* Biopsy Card */}
-            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl flex flex-col justify-between hover:border-pink-300">
-              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-3xl">
+            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-pink-300">
+              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-2xl">
                 <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40">
                   <FileText className="h-5 w-5" />
                 </div>
-                <span className="text-[9px] text-pink-400 uppercase font-bold tracking-widest">Pathology test</span>
+                <span className="text-[11px] text-pink-400 font-bold ">Pathology test</span>
               </div>
               <CardHeader className="space-y-1.5 p-5">
                 <CardTitle className="font-heading text-lg font-bold text-slate-800">Biopsy</CardTitle>
@@ -1031,7 +1031,7 @@ export default function EducationClient() {
 
           <div className="text-center pt-2">
             <Link href="/diagnosis">
-              <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full text-xs py-6 h-auto px-6 shadow-md shadow-pink-100 flex items-center gap-1.5 mx-auto active:scale-95 transition-all cursor-pointer">
+              <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg text-xs py-5 h-auto px-6 shadow-md shadow-pink-100 flex items-center gap-1.5 mx-auto transition-all cursor-pointer">
                 View Comprehensive Diagnosis Roadmap
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -1042,15 +1042,15 @@ export default function EducationClient() {
       </section>
 
       {/* ================= EDUCATIONAL VIDEO PLAYLIST ================= */}
-      <section id="video-library" className="py-20 md:py-28 bg-white border-b border-rose-100/20">
+      <section id="video-library" className="py-12 md:py-16 bg-white border-b border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-10">
 
           <div className="space-y-3 text-center">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <Video className="h-3.5 w-3.5" />
               Educational Video Library
             </span>
-            <h3 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h3 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Interactive Video Guides
             </h3>
             <p className="text-slate-500 text-sm sm:text-base font-medium max-w-2xl mx-auto">
@@ -1061,7 +1061,7 @@ export default function EducationClient() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
             {/* Video Player */}
-            <div className="lg:col-span-8 bg-white border border-pink-100/60 rounded-3xl overflow-hidden shadow-sm flex flex-col">
+            <div className="lg:col-span-8 bg-white border border-pink-100/60 rounded-2xl overflow-hidden shadow-sm flex flex-col">
               <div className="relative aspect-video bg-black w-full overflow-hidden">
                 {educationalVideos[activeVideoIdx].src ? (
                   <video
@@ -1081,7 +1081,7 @@ export default function EducationClient() {
                   </video>
                 ) : (
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-950 p-6 text-center text-zinc-400 space-y-4">
-                    <Video className="h-16 w-16 text-pink-500/80 animate-pulse" />
+                    <Video className="h-16 w-16 text-pink-500/80 " />
                     <div className="space-y-2">
                       <p className="text-white font-semibold text-lg">Insight Video Unavailable</p>
                       <p className="text-xs text-zinc-500 max-w-sm font-medium">This video is currently being prepared for streaming. Check back soon for clinical expert details.</p>
@@ -1091,7 +1091,7 @@ export default function EducationClient() {
               </div>
               <div className="p-6 space-y-3">
                 <div className="flex flex-wrap gap-2 items-center justify-between">
-                  <span className="inline-flex items-center gap-1 text-[10px] font-bold text-primary uppercase tracking-widest bg-pink-50 px-2.5 py-1 rounded-md border border-pink-100/40">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-primary bg-pink-50 px-2.5 py-1 rounded-md border border-pink-100/40">
                     Now Playing
                   </span>
                   <span className="text-xs text-slate-500 flex items-center gap-1 font-semibold">
@@ -1111,10 +1111,10 @@ export default function EducationClient() {
             {/* Playlist Sidebar */}
             <div className="lg:col-span-4 space-y-3">
               <div className="p-4 bg-pink-50/30 rounded-2xl border border-pink-100/40">
-                <span className="text-xs font-bold text-slate-600 uppercase tracking-widest block mb-1">
+                <span className="text-xs font-bold text-slate-600 block mb-1">
                   Playlist Walkthroughs
                 </span>
-                <span className="text-[10px] text-slate-400 font-semibold">Select a video below to start playing</span>
+                <span className="text-[11px] text-slate-400 font-semibold">Select a video below to start playing</span>
               </div>
 
               <div className="space-y-3">
@@ -1137,7 +1137,7 @@ export default function EducationClient() {
                       </div>
                       <div className="space-y-1 flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-1">
-                          <span className="text-[9px] font-semibold text-slate-400 flex items-center gap-0.5">
+                          <span className="text-[11px] font-semibold text-slate-400 flex items-center gap-0.5">
                             <Clock className="h-2.5 w-2.5" />
                             {video.duration}
                           </span>
@@ -1148,7 +1148,7 @@ export default function EducationClient() {
                         <p className={`text-xs font-bold truncate ${isActive ? "text-primary" : "text-slate-800"}`}>
                           {video.title}
                         </p>
-                        <p className="text-[10px] text-slate-400 line-clamp-2 font-medium">
+                        <p className="text-[11px] text-slate-400 line-clamp-2 font-medium">
                           {video.description}
                         </p>
                       </div>
@@ -1163,14 +1163,14 @@ export default function EducationClient() {
       </section>
 
       {/* ================= FREQUENTLY ASKED QUESTIONS ================= */}
-      <section className="py-20 md:py-28 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-12">
+      <section className="py-12 md:py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-8">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <HelpCircle className="h-3.5 w-3.5" /> FAQ Accordion
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Frequently Asked Questions
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -1178,7 +1178,7 @@ export default function EducationClient() {
             </p>
           </div>
 
-          <div className="bg-white/80 border border-pink-100/60 rounded-3xl p-5 sm:p-8 shadow-sm space-y-4">
+          <div className="bg-white/80 border border-pink-100/60 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
             {faqsList.map((faq, idx) => {
               const isOpen = openFaqIdx === idx;
               return (
@@ -1217,18 +1217,18 @@ export default function EducationClient() {
       </section>
 
       {/* ================= CALL TO ACTION ================= */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-pink-500 to-rose-600 text-white relative overflow-hidden">
+      <section className="py-10 md:py-14 bg-pink-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[5%] w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center space-y-8 relative z-10">
-          <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider">
-            <Ribbon className="h-3.5 w-3.5 fill-white text-pink-600 animate-pulse" />
-            Empowerment Initiative
+          <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/20 text-white text-xs font-bold ">
+            <Ribbon className="h-3.5 w-3.5 fill-white text-pink-600 " />
+            Education Initiative
           </span>
 
           <div className="space-y-4">
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-pink-500">
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight leading-tight text-pink-500">
               Early Education Saves Lives
             </h2>
             <p className="text-pink-100 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">
@@ -1238,17 +1238,17 @@ export default function EducationClient() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto pt-2">
             <Link href="/diagnosis">
-              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-4 shadow-lg active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer">
+              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-lg py-5 px-4 shadow-lg transition-all text-xs cursor-pointer">
                 Learn About Diagnosis
               </Button>
             </Link>
             <Link href="/campaigns/breast-cancer">
-              <Button variant="outline" className="w-full border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full py-6 px-4 active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer">
+              <Button variant="outline" className="w-full border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-lg py-5 px-4 transition-all text-xs cursor-pointer">
                 Join Awareness Campaign
               </Button>
             </Link>
             <Link href="/webinars">
-              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-4 shadow-lg active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer">
+              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-lg py-5 px-4 shadow-lg transition-all text-xs cursor-pointer">
                 Register for Webinar
               </Button>
             </Link>

@@ -122,40 +122,40 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
 
       {/* KPI Counters */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-5 rounded-3xl bg-white border border-pink-100 shadow-xs flex items-center justify-between">
+        <Card className="p-5 rounded-2xl bg-white border border-pink-100 shadow-xs flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">Total Submissions</p>
-            <p className="text-3xl font-heading font-black text-slate-800">{articles.length}</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Submissions</p>
+            <p className="text-3xl font-heading font-bold text-slate-800">{articles.length}</p>
           </div>
           <div className="h-12 w-12 rounded-2xl bg-pink-50 text-primary flex items-center justify-center">
             <BookOpen className="h-6 w-6" />
           </div>
         </Card>
 
-        <Card className="p-5 rounded-3xl bg-white border border-amber-100 shadow-xs flex items-center justify-between">
+        <Card className="p-5 rounded-2xl bg-white border border-amber-100 shadow-xs flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-[10px] font-black uppercase tracking-wider text-amber-600 font-bold">Pending Review</p>
-            <p className="text-3xl font-heading font-black text-amber-600">{pendingCount}</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-amber-600 font-bold">Pending Review</p>
+            <p className="text-3xl font-heading font-bold text-amber-600">{pendingCount}</p>
           </div>
           <div className="h-12 w-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
             <Clock className="h-6 w-6" />
           </div>
         </Card>
 
-        <Card className="p-5 rounded-3xl bg-white border border-emerald-100 shadow-xs flex items-center justify-between">
+        <Card className="p-5 rounded-2xl bg-white border border-emerald-100 shadow-xs flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-[10px] font-black uppercase tracking-wider text-emerald-600 font-bold">Approved & Live</p>
-            <p className="text-3xl font-heading font-black text-emerald-600">{approvedCount}</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 font-bold">Approved & Live</p>
+            <p className="text-3xl font-heading font-bold text-emerald-600">{approvedCount}</p>
           </div>
           <div className="h-12 w-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
             <CheckCircle2 className="h-6 w-6" />
           </div>
         </Card>
 
-        <Card className="p-5 rounded-3xl bg-white border border-red-100 shadow-xs flex items-center justify-between">
+        <Card className="p-5 rounded-2xl bg-white border border-red-100 shadow-xs flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-[10px] font-black uppercase tracking-wider text-red-500 font-bold">Rejected</p>
-            <p className="text-3xl font-heading font-black text-red-500">{rejectedCount}</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-red-500 font-bold">Rejected</p>
+            <p className="text-3xl font-heading font-bold text-red-500">{rejectedCount}</p>
           </div>
           <div className="h-12 w-12 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center">
             <XCircle className="h-6 w-6" />
@@ -164,8 +164,8 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
       </div>
 
       {/* Control Bar: Filters & Search */}
-      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between bg-white p-4 rounded-3xl border border-slate-100 shadow-xs">
-        <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
+      <div className="flex flex-col sm:flex-row gap-4 items-center justify-between bg-white p-4 rounded-2xl border border-slate-100 shadow-xs">
+        <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-0 ">
           <button
             onClick={() => setFilterStatus("ALL")}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
@@ -225,10 +225,10 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
       </div>
 
       {/* Main Table */}
-      <Card className="rounded-3xl border border-pink-100 shadow-sm bg-white overflow-hidden">
+      <Card className="rounded-2xl border border-pink-100 shadow-sm bg-white overflow-hidden">
         <div className="overflow-x-auto">
           {filteredArticles.length === 0 ? (
-            <div className="text-center py-16 space-y-3">
+            <div className="text-center py-10 space-y-3">
               <BookOpen className="h-10 w-10 text-slate-300 mx-auto" />
               <p className="text-sm font-bold text-slate-600">No doctor articles match your criteria.</p>
               <p className="text-xs text-slate-400 max-w-sm mx-auto">
@@ -238,7 +238,7 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
           ) : (
             <table className="w-full text-xs text-left text-slate-600 border-collapse min-w-[850px]">
               <thead>
-                <tr className="border-b border-slate-100 text-[10px] uppercase text-slate-400 font-black bg-slate-50/80">
+                <tr className="border-b border-slate-100 text-[10px] uppercase text-slate-400 font-bold bg-slate-50/80">
                   <th className="p-4">Article Title &amp; Category</th>
                   <th className="p-4">Doctor / Author</th>
                   <th className="p-4">Specialty</th>
@@ -256,7 +256,7 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
                       <div className="space-y-1">
                         <p className="font-bold text-slate-800 line-clamp-1">{art.title}</p>
                         <div className="flex items-center gap-2">
-                          <span className="bg-pink-50 text-primary border border-pink-100 text-[9px] font-black px-2 py-0.5 rounded-md uppercase">
+                          <span className="bg-pink-50 text-primary border border-pink-100 text-[9px] font-bold px-2 py-0.5 rounded-md uppercase">
                             {art.category}
                           </span>
                           {art.fileUrl && (
@@ -271,7 +271,7 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
                     {/* Doctor */}
                     <td className="p-4">
                       <div className="space-y-0.5">
-                        <p className="font-extrabold text-slate-800 flex items-center gap-1.5">
+                        <p className="font-bold text-slate-800 flex items-center gap-1.5">
                           <Stethoscope className="h-3.5 w-3.5 text-pink-500 shrink-0" />
                           {art.doctorName}
                         </p>
@@ -287,22 +287,22 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
                     {/* Status Badge */}
                     <td className="p-4 text-center">
                       {art.status === "PENDING" && (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black uppercase bg-amber-50 text-amber-700 border border-amber-200">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-amber-50 text-amber-700 border border-amber-200">
                           <Clock className="h-3 w-3" /> PENDING
                         </span>
                       )}
                       {(art.status === "APPROVED" || art.status === "PUBLISHED") && (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">
                           <CheckCircle2 className="h-3 w-3" /> APPROVED
                         </span>
                       )}
                       {art.status === "REJECTED" && (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black uppercase bg-red-50 text-red-700 border border-red-200">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-red-50 text-red-700 border border-red-200">
                           <XCircle className="h-3 w-3" /> REJECTED
                         </span>
                       )}
                       {art.status === "DRAFT" && (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-600 border border-slate-200">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-bold uppercase bg-slate-100 text-slate-600 border border-slate-200">
                           DRAFT
                         </span>
                       )}
@@ -381,9 +381,9 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
 
       {/* ----------------MODAL 1: VIEW ARTICLE DETAILS---------------- */}
       <Dialog open={!!viewingArticle} onOpenChange={() => setViewingArticle(null)}>
-        <DialogContent className="max-w-2xl bg-white rounded-3xl p-6 border border-pink-100 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl bg-white rounded-2xl p-6 border border-pink-100 shadow-lg space-y-4 max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
+            <DialogTitle className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
               <BookOpen className="h-5 w-5 text-primary" /> Review Doctor Article
             </DialogTitle>
           </DialogHeader>
@@ -394,22 +394,22 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
               {/* Status Header */}
               <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
                 <div className="space-y-0.5">
-                  <p className="text-[10px] font-black uppercase text-slate-400">Current Approval Status</p>
+                  <p className="text-[10px] font-bold uppercase text-slate-400">Current Approval Status</p>
                   <p className="font-bold text-slate-800">{viewingArticle.status}</p>
                 </div>
                 <div>
                   {viewingArticle.status === "PENDING" && (
-                    <span className="px-3 py-1 rounded-full text-xs font-black bg-amber-100 text-amber-800 uppercase">
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 uppercase">
                       Pending Review
                     </span>
                   )}
                   {(viewingArticle.status === "APPROVED" || viewingArticle.status === "PUBLISHED") && (
-                    <span className="px-3 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800 uppercase">
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 uppercase">
                       Approved
                     </span>
                   )}
                   {viewingArticle.status === "REJECTED" && (
-                    <span className="px-3 py-1 rounded-full text-xs font-black bg-red-100 text-red-800 uppercase">
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800 uppercase">
                       Rejected
                     </span>
                   )}
@@ -421,7 +421,7 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
                 <span className="inline-block px-2.5 py-0.5 rounded bg-pink-50 text-pink-600 text-[10px] font-bold uppercase tracking-wider">
                   {viewingArticle.category}
                 </span>
-                <h3 className="font-heading text-xl font-extrabold text-slate-900 leading-tight">
+                <h3 className="font-heading text-xl font-bold text-slate-900 leading-tight">
                   {viewingArticle.title}
                 </h3>
                 <div className="flex flex-wrap items-center gap-4 text-slate-500 font-medium text-xs pt-1">
@@ -522,9 +522,9 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
 
       {/* ----------------MODAL 2: APPROVE CONFIRMATION---------------- */}
       <Dialog open={!!approveConfirmArticle} onOpenChange={() => setApproveConfirmArticle(null)}>
-        <DialogContent className="max-w-md bg-white rounded-3xl p-6 border border-pink-100 shadow-2xl space-y-4">
+        <DialogContent className="max-w-md bg-white rounded-2xl p-6 border border-pink-100 shadow-lg space-y-4">
           <DialogHeader>
-            <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
+            <DialogTitle className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-emerald-600" /> Approve Doctor Article
             </DialogTitle>
           </DialogHeader>
@@ -564,9 +564,9 @@ export default function AdminArticlesDashboard({ articles }: AdminArticlesDashbo
 
       {/* ----------------MODAL 3: REJECT WITH REASON---------------- */}
       <Dialog open={!!rejectArticle} onOpenChange={() => setRejectArticle(null)}>
-        <DialogContent className="max-w-md bg-white rounded-3xl p-6 border border-pink-100 shadow-2xl space-y-4">
+        <DialogContent className="max-w-md bg-white rounded-2xl p-6 border border-pink-100 shadow-lg space-y-4">
           <DialogHeader>
-            <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2 text-red-600">
+            <DialogTitle className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2 text-red-600">
               <XCircle className="h-5 w-5 text-red-600" /> Reject Doctor Article
             </DialogTitle>
           </DialogHeader>

@@ -293,7 +293,7 @@ export default function AdminVideoStoriesPage() {
       {/* Toast Notification */}
       {toast && (
         <div
-          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-2xl shadow-xl border text-sm font-semibold flex items-center gap-2 transition-all ${
+          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-2xl shadow-md border text-sm font-semibold flex items-center gap-2 transition-all ${
             toast.type === "success"
               ? "bg-emerald-50 border-emerald-200 text-emerald-800"
               : "bg-rose-50 border-rose-200 text-rose-800"
@@ -307,10 +307,10 @@ export default function AdminVideoStoriesPage() {
       {/* Header section */}
       <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 border-b border-pink-100 pb-6">
         <div className="space-y-1">
-          <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+          <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
             <ShieldCheck className="h-2.5 w-2.5" /> Command Center
           </span>
-          <h1 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+          <h1 className="font-heading text-3xl font-bold tracking-tight text-slate-800 flex items-center gap-2">
             <Video className="h-8 w-8 text-primary" /> Video Stories Management
           </h1>
           <p className="text-muted-foreground text-sm">
@@ -343,7 +343,7 @@ export default function AdminVideoStoriesPage() {
         >
           <Video className="h-3.5 w-3.5 text-pink-600" />
           Manual Uploads
-          <span className="px-2 py-0.5 rounded-full text-[10px] bg-pink-100 text-pink-700 font-extrabold">
+          <span className="px-2 py-0.5 rounded-full text-[10px] bg-pink-100 text-pink-700 font-bold">
             {adminCount}
           </span>
         </button>
@@ -358,14 +358,14 @@ export default function AdminVideoStoriesPage() {
         >
           <BadgeCheck className="h-3.5 w-3.5 text-purple-600" />
           From Success Stories
-          <span className="px-2 py-0.5 rounded-full text-[10px] bg-purple-100 text-purple-700 font-extrabold">
+          <span className="px-2 py-0.5 rounded-full text-[10px] bg-purple-100 text-purple-700 font-bold">
             {successCount}
           </span>
         </button>
       </div>
 
       {/* Search Input Bar */}
-      <div className="bg-white p-4 sm:p-6 rounded-3xl border border-slate-100 shadow-sm">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm">
         <div className="relative max-w-md">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
           <input
@@ -382,7 +382,7 @@ export default function AdminVideoStoriesPage() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-white rounded-3xl p-6 border border-slate-100 animate-pulse space-y-4">
+            <div key={i} className="bg-white rounded-2xl p-6 border border-slate-100 animate-pulse space-y-4">
               <div className="aspect-[16/10] w-full bg-slate-200 rounded-2xl" />
               <div className="h-5 w-3/4 bg-slate-200 rounded" />
               <div className="h-4 w-1/2 bg-slate-100 rounded" />
@@ -390,7 +390,7 @@ export default function AdminVideoStoriesPage() {
           ))}
         </div>
       ) : error ? (
-        <div className="py-16 text-center space-y-4 bg-rose-50 rounded-3xl border border-rose-200 p-6">
+        <div className="py-10 text-center space-y-4 bg-rose-50 rounded-2xl border border-rose-200 p-6">
           <AlertCircle className="h-12 w-12 text-rose-500 mx-auto" />
           <h3 className="font-heading text-lg font-bold text-rose-800">Error Loading Video Stories</h3>
           <p className="text-slate-600 text-sm max-w-md mx-auto">{error}</p>
@@ -402,9 +402,9 @@ export default function AdminVideoStoriesPage() {
           </button>
         </div>
       ) : filteredStories.length === 0 ? (
-        <div className="py-20 text-center space-y-4 bg-white rounded-3xl border border-slate-100 p-8">
+        <div className="py-12 text-center space-y-4 bg-white rounded-2xl border border-slate-100 p-6">
           <Video className="h-14 w-14 text-slate-300 mx-auto" />
-          <h3 className="font-heading text-xl font-extrabold text-slate-700">No Video Stories Found</h3>
+          <h3 className="font-heading text-xl font-bold text-slate-700">No Video Stories Found</h3>
           <p className="text-slate-400 text-sm max-w-md mx-auto">
             {activeTab === "ADMIN"
               ? "No manual videos yet. Click 'Add New Video' to upload your first documentary or interview."
@@ -424,7 +424,7 @@ export default function AdminVideoStoriesPage() {
           {filteredStories.map((story) => (
             <div
               key={story.id}
-              className="group bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-xl hover:border-pink-200 transition-all duration-300 flex flex-col justify-between"
+              className="group bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col justify-between"
             >
               <div>
                 {/* Thumbnail Image + Play Overlay */}
@@ -460,12 +460,12 @@ export default function AdminVideoStoriesPage() {
 
                   <div className="absolute top-3 right-3 flex items-center gap-1.5">
                     {story.sourceType === "SUCCESS_STORY" && (
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-purple-600 text-white uppercase tracking-wider flex items-center gap-1 shadow-sm">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-600 text-white uppercase tracking-wider flex items-center gap-1 shadow-sm">
                         <BadgeCheck className="h-3 w-3" /> From Success Story
                       </span>
                     )}
                     <span
-                      className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                         story.isActive ? "bg-emerald-500 text-white" : "bg-slate-700 text-slate-200"
                       }`}
                     >
@@ -476,7 +476,7 @@ export default function AdminVideoStoriesPage() {
 
                 {/* Content Info */}
                 <div className="p-5 space-y-3">
-                  <h4 className="font-heading font-extrabold text-slate-800 text-base leading-snug line-clamp-2">
+                  <h4 className="font-heading font-bold text-slate-800 text-base leading-snug line-clamp-2">
                     {story.title}
                   </h4>
 
@@ -553,9 +553,9 @@ export default function AdminVideoStoriesPage() {
       {/* Modal for Add / Edit Video */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6 border border-slate-100">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-lg space-y-6 border border-slate-100">
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <h3 className="font-heading text-xl font-extrabold text-slate-800 flex items-center gap-2">
+              <h3 className="font-heading text-xl font-bold text-slate-800 flex items-center gap-2">
                 <Video className="h-6 w-6 text-pink-600" />
                 {editingStory ? "Edit Video Story" : "Add New Video Story"}
               </h3>
@@ -737,13 +737,13 @@ export default function AdminVideoStoriesPage() {
       {/* Video Preview Lightbox Modal */}
       {previewVideo && (
         <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="relative bg-slate-900 rounded-3xl max-w-3xl w-full p-4 sm:p-6 border border-slate-800 shadow-2xl space-y-4">
+          <div className="relative bg-slate-900 rounded-2xl max-w-3xl w-full p-4 sm:p-6 border border-slate-800 shadow-lg space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-pink-400 block font-heading">
                   {previewVideo.category}
                 </span>
-                <h3 className="font-heading text-lg font-extrabold text-white leading-tight">
+                <h3 className="font-heading text-lg font-bold text-white leading-tight">
                   {previewVideo.title}
                 </h3>
               </div>

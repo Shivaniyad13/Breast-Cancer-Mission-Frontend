@@ -176,17 +176,17 @@ export const QRModal: React.FC<QRModalProps> = ({
           initial={{ scale: 0.95, y: 20 }}
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.95, y: 20 }}
-          className="relative w-full max-w-xl bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-pink-200 dark:border-pink-800 shadow-2xl my-8 overflow-hidden"
+          className="relative w-full max-w-xl bg-white dark:bg-slate-900 rounded-2xl p-6 border border-pink-200 dark:border-pink-800 shadow-lg my-8 overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
           <div className="flex items-center justify-between pb-4 border-b border-pink-100 dark:border-pink-900/50">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white shadow-md">
+              <div className="w-10 h-10 rounded-2xl bg-pink-600 flex items-center justify-center text-white shadow-md">
                 <Ribbon className="h-5 w-5" />
               </div>
               <div>
-                <h3 className="text-lg font-extrabold text-slate-800 dark:text-white">
+                <h3 className="text-lg font-bold text-slate-800 dark:text-white">
                   UPI Payment & Verification
                 </h3>
                 <p className="text-xs text-pink-600 dark:text-pink-400 font-medium">
@@ -207,10 +207,10 @@ export const QRModal: React.FC<QRModalProps> = ({
             {/* Amount Banner */}
             <div className="bg-gradient-to-r from-pink-50 via-rose-50 to-purple-50 dark:from-pink-950/40 dark:via-rose-950/40 dark:to-purple-950/40 rounded-2xl p-4 border border-pink-200 dark:border-pink-800/60 flex items-center justify-between">
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold ">
                   Donation Amount
                 </p>
-                <p className="text-2xl sm:text-3xl font-extrabold text-rose-600 dark:text-rose-400">
+                <p className="text-2xl sm:text-3xl font-bold text-rose-600 dark:text-rose-400">
                   ₹{amount.toLocaleString('en-IN')}
                 </p>
               </div>
@@ -338,7 +338,7 @@ export const QRModal: React.FC<QRModalProps> = ({
                 type="button"
                 onClick={handleSubmit}
                 disabled={isSubmitting || !screenshotUrl}
-                className="order-1 sm:order-2 flex-1 bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-bold py-3 rounded-xl shadow-lg flex items-center justify-center gap-2"
+                className="order-1 sm:order-2 flex-1 bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 rounded-xl shadow-lg flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>

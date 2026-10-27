@@ -189,7 +189,7 @@ export default function WebinarMeetingPlayer({
     return (
       <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white space-y-4">
         <Loader2 className="h-10 w-10 text-primary animate-spin" />
-        <p className="text-sm font-semibold tracking-wider uppercase text-slate-400">Connecting to secure stream server...</p>
+        <p className="text-sm font-semibold text-slate-400">Connecting to secure stream server...</p>
       </div>
     );
   }
@@ -200,7 +200,7 @@ export default function WebinarMeetingPlayer({
       {/* Header bar */}
       <header className="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between z-10 shrink-0">
         <div>
-          <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[9px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse inline-flex items-center gap-1">
+          <span className="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[11px] font-bold px-2.5 py-0.5 rounded-full animate-pulse inline-flex items-center gap-1">
             <Sparkles className="h-2.5 w-2.5" /> Live Stream
           </span>
           <h1 className="font-heading text-base md:text-lg font-bold truncate max-w-md mt-1">{webinarTitle}</h1>
@@ -216,7 +216,7 @@ export default function WebinarMeetingPlayer({
           {/* Dev Simulate 80% Button */}
           <Button
             onClick={handleSimulate80Stay}
-            className="bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white font-bold text-xs rounded-xl shadow-md px-4 py-1.5 h-auto transition-transform active:scale-95 cursor-pointer"
+            className="bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs rounded-xl shadow-md px-4 py-1.5 h-auto transition-transform cursor-pointer"
           >
             Dev Bypass: Simulate 80% Stay
           </Button>
@@ -229,7 +229,7 @@ export default function WebinarMeetingPlayer({
         {/* Left Side: Video Stream Screen */}
         <div className="flex-1 bg-slate-950 p-6 flex flex-col justify-center items-center relative group">
           
-          <div className="w-full max-w-4xl aspect-video bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden relative shadow-2xl flex items-center justify-center">
+          <div className="w-full max-w-4xl aspect-video bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden relative shadow-lg flex items-center justify-center">
             {videoActive ? (
               youtubeId ? (
                 // YouTube embed
@@ -241,15 +241,15 @@ export default function WebinarMeetingPlayer({
                 />
               ) : (
                 // Zoom or Google Meet landing launcher
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 space-y-6 text-center bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900">
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 space-y-6 text-center bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900">
                   <div className="relative h-20 w-20 flex items-center justify-center bg-pink-500/10 border border-pink-500/30 rounded-2xl animate-pulse">
                     <Video className="h-10 w-10 text-primary" />
                   </div>
 
                   <div className="space-y-2.5 max-w-md">
-                    <h3 className="text-xl font-bold text-white uppercase tracking-wider">Launch External Stream</h3>
+                    <h3 className="text-xl font-bold text-white ">Launch External Stream</h3>
                     <p className="text-xs text-slate-400 leading-relaxed font-medium">
-                      This webinar meeting is conducted via <strong className="text-pink-300 uppercase">{meetingLink.includes("zoom") ? "Zoom" : meetingLink.includes("meet.google") ? "Google Meet" : "External Platform"}</strong>. Click below to launch the video room.
+                      This webinar meeting is conducted via <strong className="text-pink-300 ">{meetingLink.includes("zoom") ? "Zoom" : meetingLink.includes("meet.google") ? "Google Meet" : "External Platform"}</strong>. Click below to launch the video room.
                     </p>
                   </div>
 
@@ -263,7 +263,7 @@ export default function WebinarMeetingPlayer({
 
                   <Button
                     onClick={handleLaunchExternal}
-                    className="bg-primary hover:bg-primary/95 text-white font-bold rounded-2xl shadow-lg px-8 py-3.5 h-auto text-sm transition-transform active:scale-95 flex items-center gap-1.5 cursor-pointer"
+                    className="bg-primary hover:bg-primary/95 text-white font-bold rounded-2xl shadow-lg px-6 py-3.5 h-auto text-sm transition-transform flex items-center gap-1.5 cursor-pointer"
                   >
                     Launch Meeting Room
                     <ExternalLink className="h-4.5 w-4.5" />
@@ -278,7 +278,7 @@ export default function WebinarMeetingPlayer({
             )}
 
             {/* Float speaker metadata label */}
-            <div className="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm border border-slate-800 rounded-xl px-3 py-1.5 text-[10px] font-bold text-slate-300 flex items-center gap-1.5 z-10">
+            <div className="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm border border-slate-800 rounded-xl px-3 py-1.5 text-[11px] font-bold text-slate-300 flex items-center gap-1.5 z-10">
               <span className="h-2 w-2 rounded-full bg-emerald-500" /> Presenter: {speakerName} (Oncologist)
             </div>
           </div>
@@ -288,10 +288,10 @@ export default function WebinarMeetingPlayer({
         {showChat && (
           <div className="w-80 bg-slate-900 border-l border-slate-800 flex flex-col shrink-0">
             <div className="px-4 py-3.5 border-b border-slate-800 flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <span className="text-xs font-bold text-slate-400 flex items-center gap-1.5">
                 <MessageSquare className="h-4 w-4" /> Live Chat Box
               </span>
-              <span className="bg-slate-850 px-2 py-0.5 rounded text-[10px] text-slate-400 font-mono font-bold">
+              <span className="bg-slate-800 px-2 py-0.5 rounded text-[11px] text-slate-400 font-mono font-bold">
                 Online: {chatMessages.length + 12}
               </span>
             </div>
@@ -304,7 +304,7 @@ export default function WebinarMeetingPlayer({
                 return (
                   <div key={i} className={`space-y-0.5 ${isSystem ? "text-center py-1.5" : ""}`}>
                     {isSystem ? (
-                      <span className="bg-slate-800 text-slate-400 px-2.5 py-1 rounded text-[9px] font-semibold border border-slate-700/50">
+                      <span className="bg-slate-800 text-slate-400 px-2.5 py-1 rounded text-[11px] font-semibold border border-slate-700/50">
                         {msg.text}
                       </span>
                     ) : (
@@ -314,17 +314,17 @@ export default function WebinarMeetingPlayer({
                             {msg.sender}
                           </span>
                           {isSpeaker && (
-                            <span className="bg-primary/25 text-primary text-[8px] font-black uppercase px-1 rounded tracking-wider">
+                            <span className="bg-primary/25 text-primary text-[8px] font-bold px-1 rounded ">
                               Speaker
                             </span>
                           )}
                           {msg.sender === "You" && (
-                            <span className="bg-blue-500/20 text-blue-400 text-[8px] font-black uppercase px-1 rounded tracking-wider">
+                            <span className="bg-blue-500/20 text-blue-400 text-[8px] font-bold px-1 rounded ">
                               You
                             </span>
                           )}
                         </div>
-                        <p className="text-slate-400 leading-relaxed bg-slate-850 p-2 rounded-xl border border-slate-800/20">
+                        <p className="text-slate-400 leading-relaxed bg-slate-800 p-2 rounded-xl border border-slate-800/20">
                           {msg.text}
                         </p>
                       </>
@@ -404,7 +404,7 @@ export default function WebinarMeetingPlayer({
       {/* Certificate Ready Modal Alert */}
       {certReadyModal && (
         <div className="fixed inset-0 bg-black/85 flex items-center justify-center p-4 z-50 animate-fade-in">
-          <div className="bg-white text-slate-800 rounded-3xl border border-pink-100 p-8 max-w-md w-full text-center space-y-6 shadow-2xl relative">
+          <div className="bg-white text-slate-800 rounded-2xl border border-pink-100 p-6 max-w-md w-full text-center space-y-6 shadow-lg relative">
             <div className="absolute top-4 right-4 flex items-center gap-1 opacity-5">
               <Award className="h-24 w-24 text-rose-600" />
             </div>
@@ -414,22 +414,22 @@ export default function WebinarMeetingPlayer({
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-heading text-xl md:text-2xl font-black text-slate-800">Certificate Generated!</h3>
+              <h3 className="font-heading text-xl md:text-2xl font-bold text-slate-800">Certificate Generated!</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Congratulations! You successfully maintained a stay duration over 80% during the live webinar. Your cryptographic QR certificate has been issued and stored.
+                You attended over 80% of the live webinar. Your QR certificate has been issued and saved.
               </p>
             </div>
 
             <div className="bg-pink-50/50 border border-pink-100 rounded-2xl p-4 text-xs space-y-1.5 text-left text-slate-700">
-              <p><span className="font-bold text-slate-655">Webinar:</span> {webinarTitle}</p>
-              <p><span className="font-bold text-slate-655">Instructor:</span> {speakerName}</p>
-              <p><span className="font-bold text-slate-655">System Log:</span> PRESENT (100% attendance credits)</p>
+              <p><span className="font-bold text-slate-600">Webinar:</span> {webinarTitle}</p>
+              <p><span className="font-bold text-slate-600">Instructor:</span> {speakerName}</p>
+              <p><span className="font-bold text-slate-600">System Log:</span> PRESENT (100% attendance credits)</p>
             </div>
 
             <div className="flex gap-2.5">
               <button
                 onClick={() => router.push(`/api/certificates/webinar/${certReadyModal.id}/download`)}
-                className="flex-1 bg-primary hover:bg-primary/95 text-white font-bold text-sm py-3 rounded-2xl shadow-md transition-all active:scale-95 cursor-pointer"
+                className="flex-1 bg-primary hover:bg-primary/95 text-white font-bold text-sm py-3 rounded-2xl shadow-md transition-all cursor-pointer"
               >
                 Download PDF
               </button>

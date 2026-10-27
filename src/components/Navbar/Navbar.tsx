@@ -38,7 +38,7 @@ function HoverDropdown({
       {href ? (
         <Link
           href={href}
-          className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-primary cursor-pointer select-none outline-none"
+          className="flex items-center gap-1 text-sm font-medium text-slate-600 transition-colors hover:text-pink-700 cursor-pointer select-none outline-none"
         >
           {label}
           <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
@@ -46,7 +46,7 @@ function HoverDropdown({
       ) : (
         <button
           type="button"
-          className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-primary cursor-pointer select-none outline-none"
+          className="flex items-center gap-1 text-sm font-medium text-slate-600 transition-colors hover:text-pink-700 cursor-pointer select-none outline-none"
         >
           {label}
           <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
@@ -57,12 +57,12 @@ function HoverDropdown({
       <div
         className={`absolute top-full left-0 pt-2 z-50 ${width} opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 ease-out`}
       >
-        <div className="bg-white border border-pink-100 rounded-md shadow-xl shadow-pink-900/10 p-1">
+        <div className="bg-white border border-pink-100 rounded-xl shadow-lg p-1.5">
           {items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="block px-3 py-2 text-sm text-slate-800 rounded-sm hover:bg-pink-50 focus:bg-pink-50 hover:text-primary transition-colors"
+              className="block px-3 py-2 text-sm text-slate-700 rounded-lg hover:bg-pink-50 focus:bg-pink-50 hover:text-pink-700 transition-colors"
             >
               {item.label}
             </Link>
@@ -162,10 +162,10 @@ export default function Navbar() {
 
   const headerClass = isCampaignPage
     ? `fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 h-20 ${isScrolled
-      ? "bg-white/95 border-b border-pink-100 shadow-md backdrop-blur supports-[backdrop-filter]:bg-white/90 text-slate-800"
+      ? "bg-white/90 border-b border-pink-100 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-white/80 text-slate-800"
       : "bg-transparent border-b border-transparent text-slate-800"
     }`
-    : "fixed top-0 left-0 right-0 w-full z-50 h-20 border-b border-pink-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90 text-slate-800 shadow-xs";
+    : "fixed top-0 left-0 right-0 w-full z-50 h-20 border-b border-pink-100 bg-white/90 backdrop-blur-md supports-[backdrop-filter]:bg-white/80 text-slate-800";
 
   return (
     <header className={headerClass}>
@@ -183,14 +183,14 @@ export default function Navbar() {
                   className="h-5 w-5 sm:h-6 sm:w-6 object-contain shrink-0"
                   priority
                 />
-                <span className="font-heading text-xs sm:text-sm font-extrabold tracking-tight text-slate-900">
+                <span className="font-heading text-xs sm:text-sm font-bold tracking-tight text-slate-900">
                   Khushi <span className="text-primary">Centre</span>
                 </span>
-                <span className="text-pink-600 text-[10px] sm:text-xs font-semibold px-1.5 border-l border-pink-200 hidden min-[360px]:inline-block">
+                <span className="text-pink-600 text-[11px] sm:text-xs font-semibold px-1.5 border-l border-pink-200 hidden min-[360px]:inline-block">
                   Campaign
                 </span>
               </div>
-              <span className="hidden xl:inline-block text-[10px] text-pink-700 font-bold tracking-wider uppercase bg-pink-100/60 px-2 py-1 rounded-md">
+              <span className="hidden xl:inline-block text-[11px] text-pink-700 font-bold bg-pink-100/60 px-2 py-1 rounded-md">
                 An Initiative by Khushi Centre
               </span>
             </Link>
@@ -216,19 +216,19 @@ export default function Navbar() {
         <nav className="hidden lg:flex items-center gap-3 lg:gap-5 xl:gap-7 absolute left-1/2 -translate-x-1/2 z-0">
           {isCampaignPage ? (
             <>
-              <a href="#hero" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Home</a>
-              <a href="#about" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">About</a>
-              <a href="#breast-cancer-info" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Breast Cancer</a>
-              <a href="#doctors" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Doctors</a>
-              <a href="#research" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Research</a>
-              <a href="#events" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Events</a>
-              <a href="#volunteer" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Volunteer</a>
-              <Link href="/donate" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Support</Link>
-              <a href="#contact" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Contact</a>
+              <a href="#hero" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Home</a>
+              <a href="#about" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">About</a>
+              <a href="#breast-cancer-info" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Breast Cancer</a>
+              <a href="#doctors" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Doctors</a>
+              <a href="#research" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Research</a>
+              <a href="#events" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Events</a>
+              <a href="#volunteer" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Volunteer</a>
+              <Link href="/donate" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Support</Link>
+              <a href="#contact" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Contact</a>
             </>
           ) : (
             <>
-              <Link href="/" className="text-sm font-semibold text-slate-700 transition-colors hover:text-primary">Home</Link>
+              <Link href="/" className="text-sm font-medium text-slate-600 transition-colors hover:text-pink-700">Home</Link>
 
               {/* Hover dropdowns — open on hover, no click needed */}
               <HoverDropdown label="Campaign" href="/campaigns/delhi-university" items={campaignItems} width="w-56" />
@@ -239,14 +239,14 @@ export default function Navbar() {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="border-pink-600 text-pink-600 hover:bg-pink-600 hover:text-white font-semibold transition-all duration-300 active:scale-95 cursor-pointer rounded-lg h-9 px-4 bg-transparent"
+                  className="border-pink-300 text-pink-700 bg-pink-50/60 hover:bg-pink-100 hover:text-pink-800 font-medium transition-colors cursor-pointer rounded-lg h-9 px-4"
                 >
                   Support Us
                 </Button>
               </Link>
 
-              <Link href="/about" className="text-sm font-semibold text-slate-700 transition-colors hover:text-primary">About</Link>
-              <Link href="/contact" className="text-sm font-semibold text-slate-700 transition-colors hover:text-primary">Contact</Link>
+              <Link href="/about" className="text-sm font-medium text-slate-600 transition-colors hover:text-pink-700">About</Link>
+              <Link href="/contact" className="text-sm font-medium text-slate-600 transition-colors hover:text-pink-700">Contact</Link>
             </>
           )}
         </nav>
@@ -259,14 +259,14 @@ export default function Navbar() {
               <div className="h-10 w-32 bg-slate-100 animate-pulse rounded-full" />
             ) : user ? (
               <DropdownMenu>
-                <DropdownMenuTrigger className="relative inline-flex items-center justify-center h-10 rounded-full px-3 text-sm font-semibold text-slate-700 hover:bg-pink-50 hover:text-pink-700 border border-pink-200 cursor-pointer transition-colors bg-transparent select-none">
+                <DropdownMenuTrigger className="relative inline-flex items-center justify-center h-10 rounded-full px-3 text-sm font-semibold text-slate-700 hover:bg-pink-50 hover:text-pink-700 border border-pink-200 cursor-pointer transition-colors bg-white select-none">
                   {user.name || user.email}
-                  <span className="ml-2 text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">
+                  <span className="ml-2 text-[11px] bg-pink-50 text-pink-700 border border-pink-100 px-1.5 py-0.5 rounded-md font-semibold ">
                     {user.role}
                   </span>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  className="w-56 bg-white border-pink-100 text-slate-800 shadow-xl shadow-pink-900/10"
+                  className="w-56 bg-white border-pink-100 text-slate-800 shadow-lg"
                   align="end"
                 >
                   <DropdownMenuGroup>
@@ -303,7 +303,7 @@ export default function Navbar() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-slate-700 hover:text-pink-600 hover:bg-pink-50 h-10 px-4 font-semibold uppercase tracking-wider text-xs"
+                    className="text-slate-600 hover:text-pink-700 hover:bg-pink-50 h-10 px-4 font-medium text-sm"
                   >
                     Login
                   </Button>
@@ -313,7 +313,7 @@ export default function Navbar() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="border-pink-300 text-slate-700 hover:bg-pink-50 h-10 px-4 font-semibold uppercase tracking-wider text-xs bg-transparent"
+                      className="border-pink-200 text-pink-700 hover:bg-pink-50 h-10 px-4 font-medium text-sm bg-white"
                     >
                       Register
                     </Button>
@@ -322,7 +322,7 @@ export default function Navbar() {
                   <Link href="/register">
                     <Button
                       size="sm"
-                      className="bg-primary hover:bg-primary/95 text-white font-bold shadow-md shadow-pink-600/20 transition-transform active:scale-95 h-10 px-4"
+                      className="bg-primary hover:bg-pink-700 text-white font-medium shadow-sm h-10 px-5"
                     >
                       Sign Up
                     </Button>
@@ -333,7 +333,7 @@ export default function Navbar() {
 
             {isCampaignPage && !authLoading && (
               <Link href="/donate">
-                <Button className="bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs uppercase px-4 py-2 h-10 shadow-md shadow-pink-600/20">
+                <Button className="bg-pink-600 hover:bg-pink-700 text-white font-medium text-sm px-5 py-2 h-10 shadow-sm">
                   Donate Now
                 </Button>
               </Link>
@@ -348,7 +348,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="h-[2px] w-full bg-gradient-to-r from-pink-500/40 via-pink-400 to-pink-500/40 shadow-[0_1px_10px_rgba(236,72,153,0.3)]" />
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-pink-300/70 to-transparent" />
     </header>
   );
 }

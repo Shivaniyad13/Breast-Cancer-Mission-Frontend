@@ -102,12 +102,12 @@ export function StoryPlayerWidget({ stories }: { stories: SuccessStory[] }) {
     <div className="relative overflow-hidden bg-[#2d0a20]/95 backdrop-blur-xl border border-pink-900/60 rounded-3xl p-4 shadow-xl flex flex-col justify-between min-h-[260px] group text-white">
 
       {/* Pink Accent Line */}
-      <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-pink-500 to-purple-500" />
+      <div className="absolute top-0 inset-x-0 h-0.5 bg-pink-300" />
 
       <div className="space-y-3">
         {/* Header Title */}
         <div className="flex items-center justify-between pb-1.5 border-b border-pink-900/40">
-          <span className="text-[10px] font-black uppercase tracking-widest text-pink-400 flex items-center gap-1">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-pink-400 flex items-center gap-1">
             <Sparkles className="h-3.5 w-3.5 animate-pulse fill-pink-400 text-pink-400" /> Patient Story
           </span>
           <span className="text-[9px] bg-pink-500/20 text-pink-300 border border-pink-500/30 px-2 py-0.5 rounded font-bold">
@@ -145,7 +145,7 @@ export function StoryPlayerWidget({ stories }: { stories: SuccessStory[] }) {
 
         {/* Info */}
         <div className="space-y-1">
-          <h4 className="font-extrabold text-xs text-white">{activeStory.fullName}</h4>
+          <h4 className="font-bold text-xs text-white">{activeStory.fullName}</h4>
           <div className="flex items-center gap-1 text-[9px] text-pink-300 font-medium">
             <MapPin className="h-2.5 w-2.5 text-pink-400" />
             <span>{activeStory.city}, {activeStory.state}</span>
@@ -159,7 +159,7 @@ export function StoryPlayerWidget({ stories }: { stories: SuccessStory[] }) {
       {/* Button */}
       <Button
         onClick={() => router.push(`/success-stories/${activeStory.id}`)}
-        className="w-full bg-pink-600 hover:bg-pink-700 text-white font-extrabold border-none rounded-xl text-[10px] h-7.5 cursor-pointer mt-2 transition-all active:scale-95 flex items-center justify-center gap-1 shadow-md shadow-pink-600/30"
+        className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold border-none rounded-xl text-[10px] h-7.5 cursor-pointer mt-2 transition-all active:scale-95 flex items-center justify-center gap-1 shadow-md shadow-pink-600/30"
       >
         View Story
         <ArrowRight className="h-3 w-3" />
@@ -198,7 +198,7 @@ function LiveCountdownTimer({ targetDate }: { targetDate: Date }) {
   }, [targetDate]);
 
   return (
-    <span className="text-[9px] bg-pink-500/20 border border-pink-500/30 text-pink-300 px-2 py-0.5 rounded font-black tracking-wide flex items-center gap-0.5">
+    <span className="text-[9px] bg-pink-500/20 border border-pink-500/30 text-pink-300 px-2 py-0.5 rounded font-bold tracking-wide flex items-center gap-0.5">
       <Clock className="h-2.5 w-2.5 text-pink-400" />
       {timeLeft}
     </span>
@@ -307,7 +307,7 @@ export function LiveUpdatesWidget({ updates }: { updates: LiveUpdate[] }) {
       <div className="space-y-3">
         {/* Header with tags and arrows */}
         <div className="flex justify-between items-center pb-1.5 border-b border-slate-800">
-          <span className="text-[10px] font-black uppercase tracking-widest text-pink-400">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-pink-400">
             Live Updates Hub
           </span>
           {updates.length > 1 && (
@@ -340,20 +340,20 @@ export function LiveUpdatesWidget({ updates }: { updates: LiveUpdate[] }) {
           >
             {/* Category Badges, Live, New indicators */}
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-black uppercase border tracking-wide ${getCategoryTagStyle(activeUpdate.category)}`}>
+              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase border tracking-wide ${getCategoryTagStyle(activeUpdate.category)}`}>
                 {activeUpdate.category}
               </span>
 
               {/* LIVE indicator */}
               {isEventLive(activeUpdate.eventDate) && (
-                <span className="bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider flex items-center gap-0.5 animate-pulse">
+                <span className="bg-red-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider flex items-center gap-0.5 animate-pulse">
                   <Radio className="h-2.5 w-2.5" /> Live
                 </span>
               )}
 
               {/* NEW indicator */}
               {isNewUpdate(activeUpdate.createdAt) && (
-                <span className="bg-blue-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider">
+                <span className="bg-blue-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">
                   New
                 </span>
               )}
@@ -372,7 +372,7 @@ export function LiveUpdatesWidget({ updates }: { updates: LiveUpdate[] }) {
                 </div>
               )}
               <div className="flex-1 min-w-0 space-y-0.5">
-                <h4 className="font-extrabold text-xs text-white line-clamp-1">
+                <h4 className="font-bold text-xs text-white line-clamp-1">
                   {activeUpdate.title}
                 </h4>
                 <p className="text-[10px] text-slate-300 leading-relaxed line-clamp-2">
@@ -420,7 +420,7 @@ export function LiveUpdatesWidget({ updates }: { updates: LiveUpdate[] }) {
             ))}
           </div>
 
-          <span className={`text-[8.5px] font-black uppercase px-2 py-0.5 rounded border ${statusText === "Completed" ? "bg-slate-800 text-slate-400 border-slate-700" : "bg-pink-500/20 text-pink-300 border-pink-500/30"
+          <span className={`text-[8.5px] font-bold uppercase px-2 py-0.5 rounded border ${statusText === "Completed" ? "bg-slate-800 text-slate-400 border-slate-700" : "bg-pink-500/20 text-pink-300 border-pink-500/30"
             }`}>
             Status: {statusText}
           </span>
@@ -429,7 +429,7 @@ export function LiveUpdatesWidget({ updates }: { updates: LiveUpdate[] }) {
         <Button
           onClick={handleAction}
           disabled={isClosed}
-          className={`w-full text-[10px] h-7.5 rounded-xl cursor-pointer transition-all active:scale-95 flex items-center justify-center gap-1 font-extrabold ${isClosed
+          className={`w-full text-[10px] h-7.5 rounded-xl cursor-pointer transition-all active:scale-95 flex items-center justify-center gap-1 font-bold ${isClosed
               ? "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700"
               : "bg-pink-600 hover:bg-pink-700 text-white border-none shadow-md shadow-pink-600/30"
             }`}

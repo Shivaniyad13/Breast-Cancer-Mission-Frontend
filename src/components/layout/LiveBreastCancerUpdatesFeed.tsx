@@ -69,12 +69,12 @@ export default function LiveBreastCancerUpdatesFeed() {
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Top accent line */}
-      <div className="absolute top-0 inset-x-0 h-0.5 bg-gradient-to-r from-pink-500 to-rose-400" />
+      <div className="absolute top-0 inset-x-0 h-0.5 bg-pink-300" />
 
       <div className="space-y-3">
         {/* Header — Live label + Left/Right arrows */}
         <div className="flex justify-between items-center pb-1.5 border-b border-pink-900/40">
-          <span className="text-[10px] font-black uppercase tracking-widest text-pink-400 flex items-center gap-1">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-pink-400 flex items-center gap-1">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-80"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
@@ -123,11 +123,11 @@ export default function LiveBreastCancerUpdatesFeed() {
               {/* Top badge */}
               <div className="absolute top-2 left-2">
                 {currentItem.type === "video" ? (
-                  <span className="bg-pink-600 text-white text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded flex items-center gap-1">
+                  <span className="bg-pink-600 text-white text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded flex items-center gap-1">
                     <Play className="h-2.5 w-2.5 fill-white" /> Video
                   </span>
                 ) : (
-                  <span className="bg-white/95 backdrop-blur text-pink-700 text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded flex items-center gap-1">
+                  <span className="bg-white/95 backdrop-blur text-pink-700 text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded flex items-center gap-1">
                     <Newspaper className="h-2.5 w-2.5" /> News
                   </span>
                 )}
@@ -139,7 +139,7 @@ export default function LiveBreastCancerUpdatesFeed() {
         {/* Metadata — matches testimonial layout exactly */}
         <div className="space-y-1">
           <div className="flex items-baseline gap-1.5">
-            <h4 className="font-extrabold text-xs text-white truncate">
+            <h4 className="font-bold text-xs text-white truncate">
               {currentItem.source}
             </h4>
             <span className="text-[9px] text-pink-300 font-semibold shrink-0">

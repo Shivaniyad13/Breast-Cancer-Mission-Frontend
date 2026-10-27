@@ -115,9 +115,9 @@ export default function PatientSuccessStoriesSection({ initialStories }: Patient
   const firstSentence = activeStory.completeStory.split(/[.!?]/)[0] + ".";
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-10">
       {/* Video Showcase Card */}
-      <div className="relative overflow-hidden bg-white/70 dark:bg-slate-900/70 backdrop-blur-md rounded-3xl border border-pink-100 dark:border-pink-950 shadow-2xl p-6 sm:p-8">
+      <div className="relative overflow-hidden bg-white/70 dark:bg-slate-900/70 backdrop-blur-md rounded-2xl border border-pink-100 dark:border-pink-950 shadow-lg p-6 ">
         
         {/* Decorative elements */}
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-pink-300/10 dark:bg-pink-900/10 rounded-full blur-3xl" />
@@ -129,7 +129,7 @@ export default function PatientSuccessStoriesSection({ initialStories }: Patient
           <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
             
             {/* Player Container */}
-            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-950 shadow-xl border border-slate-800 group">
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-950 shadow-md border border-slate-800 group">
               <AnimatePresence mode="wait">
                 {activeStory.videoUrl ? (
                   <motion.video
@@ -148,7 +148,7 @@ export default function PatientSuccessStoriesSection({ initialStories }: Patient
                   />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 bg-slate-900">
-                    <Video className="h-16 w-16 text-pink-500 animate-pulse mb-3" />
+                    <Video className="h-16 w-16 text-pink-500 mb-3" />
                     <p className="text-sm font-semibold">Video preview not available</p>
                   </div>
                 )}
@@ -168,14 +168,14 @@ export default function PatientSuccessStoriesSection({ initialStories }: Patient
                 <div className="flex justify-between items-center">
                   <button 
                     onClick={togglePlay}
-                    className="h-10 w-10 flex items-center justify-center bg-white/20 hover:bg-white/30 text-white rounded-full backdrop-blur transition-all active:scale-95 cursor-pointer"
+                    className="h-10 w-10 flex items-center justify-center bg-white/20 hover:bg-white/30 text-white rounded-full backdrop-blur transition-all cursor-pointer"
                   >
                     {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 fill-white" />}
                   </button>
 
                   <button 
                     onClick={toggleMute}
-                    className="h-10 w-10 flex items-center justify-center bg-white/20 hover:bg-white/30 text-white rounded-full backdrop-blur transition-all active:scale-95 cursor-pointer"
+                    className="h-10 w-10 flex items-center justify-center bg-white/20 hover:bg-white/30 text-white rounded-full backdrop-blur transition-all cursor-pointer"
                   >
                     {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
                   </button>
@@ -194,7 +194,7 @@ export default function PatientSuccessStoriesSection({ initialStories }: Patient
 
               <div className="flex flex-wrap items-center justify-between gap-4 border-t border-pink-50 dark:border-pink-950/40 pt-4">
                 <div>
-                  <h3 className="font-heading text-xl font-extrabold text-slate-800 dark:text-slate-100">
+                  <h3 className="font-heading text-xl font-bold text-slate-800 dark:text-slate-100">
                     {activeStory.fullName}
                   </h3>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
@@ -215,7 +215,7 @@ export default function PatientSuccessStoriesSection({ initialStories }: Patient
 
                 <Button
                   onClick={() => router.push(`/success-stories/${activeStory.id}`)}
-                  className="bg-pink-600 hover:bg-pink-700 text-white shadow-md active:scale-95 transition-all"
+                  className="bg-pink-600 hover:bg-pink-700 text-white shadow-md transition-all"
                 >
                   Read Full Story
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -227,7 +227,7 @@ export default function PatientSuccessStoriesSection({ initialStories }: Patient
 
           {/* RIGHT side - Vertical Stories List (5 Cols) */}
           <div className="lg:col-span-5 flex flex-col h-[520px]">
-            <h3 className="text-sm font-bold text-pink-600 uppercase tracking-widest mb-4 flex items-center gap-1.5">
+            <h3 className="text-sm font-bold text-pink-600 mb-4 flex items-center gap-1.5">
               <Heart className="h-4 w-4 fill-pink-600 text-pink-600" /> More Inspiring Journeys
             </h3>
 
@@ -241,11 +241,11 @@ export default function PatientSuccessStoriesSection({ initialStories }: Patient
                     className={`group relative flex gap-4 p-4 rounded-2xl border transition-all duration-300 cursor-pointer ${
                       isActive
                         ? "bg-gradient-to-r from-pink-50 to-purple-50/50 dark:from-pink-950/20 dark:to-purple-950/10 border-pink-200 dark:border-pink-900 shadow-md"
-                        : "bg-white/50 dark:bg-slate-850/50 hover:bg-white dark:hover:bg-slate-850 border-slate-100 dark:border-slate-800 hover:border-pink-100 hover:shadow"
+                        : "bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 border-slate-100 dark:border-slate-800 hover:border-pink-100 hover:shadow"
                     }`}
                   >
                     {/* Fake Thumbnail/Gradient Cover */}
-                    <div className="relative h-20 w-28 rounded-xl overflow-hidden bg-gradient-to-br from-pink-400 to-purple-500 shadow-inner flex-shrink-0 flex items-center justify-center text-white">
+                    <div className="relative h-20 w-28 rounded-xl overflow-hidden bg-pink-600 shadow-inner flex-shrink-0 flex items-center justify-center text-white">
                       {story.videoUrl ? (
                         <div className="absolute inset-0 bg-black/25 flex items-center justify-center">
                           <Play className={`h-6 w-6 transition-transform group-hover:scale-110 ${isActive ? 'text-pink-300' : 'text-white'}`} />
@@ -261,7 +261,7 @@ export default function PatientSuccessStoriesSection({ initialStories }: Patient
                         <h4 className={`font-bold text-sm truncate ${isActive ? "text-pink-700 dark:text-pink-400" : "text-slate-800 dark:text-slate-100"}`}>
                           {story.fullName}
                         </h4>
-                        <span className="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded-full font-medium">
+                        <span className="text-[11px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded-full font-medium">
                           {story.roleType === "Patient" ? "Survivor" : "Family"}
                         </span>
                       </div>
@@ -288,17 +288,17 @@ export default function PatientSuccessStoriesSection({ initialStories }: Patient
       </div>
 
       {/* Share Your Success Story CTA Section */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-pink-600 to-purple-600 rounded-3xl shadow-xl text-white py-12 px-8 sm:px-12">
+      <section className="relative overflow-hidden bg-pink-600 rounded-2xl shadow-md text-white py-12 px-8 sm:px-12">
         {/* Glow circles */}
         <div className="absolute -top-32 -left-32 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
         <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-white/15 rounded-full blur-3xl" />
 
         <div className="relative z-10 max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="space-y-4 text-center md:text-left">
-            <span className="inline-block px-3 py-1 bg-white/10 backdrop-blur rounded-full text-xs font-bold uppercase tracking-wider">
+            <span className="inline-block px-3 py-1 bg-white/10 backdrop-blur rounded-full text-xs font-bold ">
               Share Your Success Story
             </span>
-            <h2 className="font-heading text-3xl md:text-4xl font-extrabold tracking-tight">
+            <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tight">
               Has Cancer Awareness Touched Your Life?
             </h2>
             <p className="text-pink-100 max-w-xl text-sm md:text-base leading-relaxed">
@@ -309,10 +309,10 @@ export default function PatientSuccessStoriesSection({ initialStories }: Patient
           <Button
             onClick={() => router.push("/success-stories/share")}
             size="lg"
-            className="w-full md:w-auto bg-white hover:bg-slate-100 text-pink-700 font-extrabold shadow-lg hover:shadow-xl active:scale-95 transition-all text-base px-8 h-14 rounded-xl flex-shrink-0 cursor-pointer"
+            className="w-full md:w-auto bg-white hover:bg-slate-100 text-pink-700 font-bold shadow-lg hover:shadow-md transition-all text-base px-8 h-14 rounded-xl flex-shrink-0 cursor-pointer"
           >
             Share Your Story
-            <Heart className="ml-2 h-5 w-5 fill-pink-600 text-pink-600 animate-pulse" />
+            <Heart className="ml-2 h-5 w-5 fill-pink-600 text-pink-600 " />
           </Button>
         </div>
       </section>

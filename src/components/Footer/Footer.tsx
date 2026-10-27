@@ -67,7 +67,7 @@ export default function Footer() {
               <ShieldCheck className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              <strong className="text-slate-900 font-bold">
+              <strong className="text-slate-900 font-semibold">
                 Clinical Disclaimer:
               </strong>{" "}
               The educational details shared on this portal are designed to
@@ -89,10 +89,10 @@ export default function Footer() {
         }}
       >
         {/* Top pink accent line */}
-        <div className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-pink-300 via-pink-400 to-pink-300" />
+        <div className="absolute inset-x-0 top-0 h-px bg-pink-200" />
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* ── Col 1 · Brand ── */}
             <div className="space-y-5">
               <div className="flex items-center gap-3">
@@ -117,7 +117,7 @@ export default function Footer() {
                 </div>
               </div>
 
-              <p className="text-sm font-medium text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 A trusted unified healthcare portal spreading early detection
                 knowledge, hosting expert webinars, and coordinating verified
                 crowdfunding support for breast cancer patients.
@@ -132,7 +132,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="flex items-center justify-center h-9 w-9 rounded-full bg-pink-500 text-white hover:bg-pink-600 transition-all duration-200 shadow-sm shadow-pink-500/20"
+                    className="flex items-center justify-center h-9 w-9 rounded-full bg-white border border-pink-200 text-pink-600 hover:bg-pink-600 hover:border-pink-600 hover:text-white transition-colors duration-200"
                   >
                     <Icon className="h-4 w-4" />
                   </a>
@@ -142,7 +142,7 @@ export default function Footer() {
 
             {/* ── Col 2 · Quick Links ── */}
             <div className="space-y-5">
-              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-pink-600">
+              <h3 className="font-heading text-base font-semibold text-slate-900">
                 Quick Links
               </h3>
 
@@ -151,7 +151,7 @@ export default function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="block text-sm font-semibold text-slate-700 hover:text-primary hover:bg-pink-50 rounded-lg px-3 py-1.5 -mx-3 transition-colors duration-150"
+                      className="block text-sm font-medium text-slate-600 hover:text-pink-700 hover:bg-pink-50 rounded-lg px-3 py-1.5 -mx-3 transition-colors duration-150"
                     >
                       {link.label}
                     </Link>
@@ -165,12 +165,12 @@ export default function Footer() {
 
             {/* ── Col 3 · Location + Contact ── */}
             <div className="space-y-5">
-              <h3 className="text-[10px] font-bold tracking-[0.2em] uppercase text-pink-600">
+              <h3 className="font-heading text-base font-semibold text-slate-900">
                 Get In Touch
               </h3>
 
               {/* Map embed */}
-              <div className="rounded-xl overflow-hidden border border-pink-100 shadow-sm shadow-pink-900/5 bg-white">
+              <div className="rounded-xl overflow-hidden border border-pink-100 shadow-sm bg-white">
                 <iframe
                   title="Cancer Mukt Bharat Abhiyan Location"
                   src={MAP_EMBED_SRC}
@@ -188,23 +188,23 @@ export default function Footer() {
               <div className="space-y-2.5">
                 <a
                   href="tel:+919217396124"
-                  className="flex items-center gap-2.5 text-sm font-semibold text-slate-700 hover:text-primary transition-colors group"
+                  className="flex items-center gap-2.5 text-sm font-medium text-slate-600 hover:text-pink-700 transition-colors group"
                 >
-                  <Phone className="h-4 w-4 text-pink-500 group-hover:scale-110 transition-transform" />
+                  <Phone className="h-4 w-4 text-pink-500" />
                   +91 9217396124
                 </a>
 
                 <a
                   href="mailto:admin@cmba.in"
-                  className="flex items-center gap-2.5 text-sm font-semibold text-slate-700 hover:text-primary transition-colors group"
+                  className="flex items-center gap-2.5 text-sm font-medium text-slate-600 hover:text-pink-700 transition-colors group"
                 >
-                  <Mail className="h-4 w-4 text-pink-500 group-hover:scale-110 transition-transform" />
+                  <Mail className="h-4 w-4 text-pink-500" />
                   admin@cmba.in
                 </a>
               </div>
 
               {/* Address */}
-              <div className="flex items-start gap-2 text-sm font-semibold text-slate-700">
+              <div className="flex items-start gap-2 text-sm font-medium text-slate-600">
                 <MapPin className="h-4 w-4 text-pink-500 mt-0.5 flex-shrink-0" />
                 <span>{HEAD_OFFICE_ADDRESS}</span>
               </div>
@@ -212,13 +212,13 @@ export default function Footer() {
           </div>
 
           {/* Divider */}
-          <div className="mt-12 border-t border-pink-100" />
+          <div className="mt-8 border-t border-pink-100" />
 
           {/* Bottom bar */}
           <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-xs font-medium text-slate-500 text-center sm:text-left">
               © {new Date().getFullYear()}{" "}
-              <span className="text-slate-900 font-bold">
+              <span className="text-slate-900 font-semibold">
                 Cancer Mukt Bharat Abhiyan
               </span>{" "}
               All rights reserved.
@@ -227,14 +227,14 @@ export default function Footer() {
             <div className="flex items-center gap-4 text-xs font-medium text-slate-500">
               <Link
                 href="/privacy"
-                className="font-semibold hover:text-primary transition-colors"
+                className="font-medium hover:text-pink-700 transition-colors"
               >
                 Privacy Policy
               </Link>
 
               <Link
                 href="/terms"
-                className="font-semibold hover:text-primary transition-colors"
+                className="font-medium hover:text-pink-700 transition-colors"
               >
                 Terms of Use
               </Link>

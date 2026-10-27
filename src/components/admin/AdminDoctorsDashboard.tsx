@@ -122,13 +122,13 @@ export default function AdminDoctorsDashboard({ doctors }: AdminDoctorsDashboard
               filterStatus === "PENDING"
                 ? "bg-amber-500 text-white shadow-xs ring-2 ring-amber-300"
                 : pendingCount > 0
-                ? "bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 font-extrabold"
+                ? "bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 font-bold"
                 : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
             }`}
           >
             <Clock className="h-3.5 w-3.5" />
             <span>Pending Verification</span>
-            <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${filterStatus === "PENDING" ? "bg-amber-700 text-white" : "bg-amber-200 text-amber-900"}`}>
+            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${filterStatus === "PENDING" ? "bg-amber-700 text-white" : "bg-amber-200 text-amber-900"}`}>
               {pendingCount}
             </span>
           </button>
@@ -176,7 +176,7 @@ export default function AdminDoctorsDashboard({ doctors }: AdminDoctorsDashboard
       {/* DOCTORS GRID LIST */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredDoctors.length === 0 ? (
-          <Card className="col-span-full rounded-3xl border border-pink-100/50 p-12 text-center text-slate-500">
+          <Card className="col-span-full rounded-2xl border border-pink-100/50 p-8 text-center text-slate-500">
             {filterStatus === "PENDING"
               ? "No doctor accounts currently pending verification."
               : filterStatus === "REJECTED"
@@ -191,7 +191,7 @@ export default function AdminDoctorsDashboard({ doctors }: AdminDoctorsDashboard
             return (
               <Card
                 key={doc.id}
-                className={`rounded-3xl border shadow-xs overflow-hidden bg-white transition-all flex flex-col justify-between ${
+                className={`rounded-2xl border shadow-xs overflow-hidden bg-white transition-all flex flex-col justify-between ${
                   isPending ? "border-amber-300 ring-2 ring-amber-100" : "border-pink-50 hover:border-pink-200"
                 }`}
               >
@@ -203,21 +203,21 @@ export default function AdminDoctorsDashboard({ doctors }: AdminDoctorsDashboard
                         <Stethoscope className="h-6 w-6 text-pink-600" />
                       </div>
                       <div>
-                        <h3 className="font-heading text-base font-black text-slate-800 line-clamp-1">{doc.name}</h3>
+                        <h3 className="font-heading text-base font-bold text-slate-800 line-clamp-1">{doc.name}</h3>
                         <p className="text-[11px] text-slate-500 font-mono">ID: {doc.doctorId}</p>
                       </div>
                     </div>
 
                     {isVerified ? (
-                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1 shrink-0">
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1 shrink-0">
                         <CheckCircle2 className="h-3 w-3 text-emerald-600" /> VERIFIED
                       </span>
                     ) : isPending ? (
-                      <span className="bg-amber-50 text-amber-700 border border-amber-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1 shrink-0 animate-pulse">
+                      <span className="bg-amber-50 text-amber-700 border border-amber-200 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1 shrink-0 animate-pulse">
                         <Clock className="h-3 w-3 text-amber-500" /> PENDING
                       </span>
                     ) : (
-                      <span className="bg-red-50 text-red-700 border border-red-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1 shrink-0">
+                      <span className="bg-red-50 text-red-700 border border-red-200 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1 shrink-0">
                         <XCircle className="h-3 w-3 text-red-500" /> REJECTED
                       </span>
                     )}
@@ -275,13 +275,13 @@ export default function AdminDoctorsDashboard({ doctors }: AdminDoctorsDashboard
 
       {/* ----------------MODAL 1: ADMIN DOCTOR REVIEW MODAL---------------- */}
       <Dialog open={!!reviewingDoctor} onOpenChange={() => { setReviewingDoctor(null); setIsVerifyConfirmOpen(false); setIsRejectModalOpen(false); }}>
-        <DialogContent className="w-[95vw] sm:w-full max-w-xl max-h-[92vh] bg-white rounded-3xl p-6 border border-purple-100 shadow-2xl flex flex-col gap-0 overflow-hidden">
+        <DialogContent className="w-[95vw] sm:w-full max-w-xl max-h-[92vh] bg-white rounded-2xl p-6 border border-purple-100 shadow-lg flex flex-col gap-0 overflow-hidden">
           <DialogHeader className="pb-3 border-b border-purple-50 shrink-0">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
+              <DialogTitle className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
                 <Stethoscope className="h-5 w-5 text-primary shrink-0" /> Doctor Credentials Inspection
               </DialogTitle>
-              <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border ${
+              <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase border ${
                 reviewingDoctor?.verificationStatus === "VERIFIED"
                   ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                   : reviewingDoctor?.verificationStatus === "PENDING"
@@ -297,7 +297,7 @@ export default function AdminDoctorsDashboard({ doctors }: AdminDoctorsDashboard
             
             {/* DOCTOR PERSONAL & PROFESSIONAL DETAILS */}
             <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-3">
-              <h4 className="font-black text-xs uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
                 <User className="h-3.5 w-3.5 text-primary" /> Doctor Identity &amp; Info
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
@@ -310,7 +310,7 @@ export default function AdminDoctorsDashboard({ doctors }: AdminDoctorsDashboard
 
             {/* MEDICAL CREDENTIALS */}
             <div className="p-4 bg-pink-50/40 rounded-2xl border border-pink-100 space-y-3">
-              <h4 className="font-black text-xs uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-primary" /> Professional Medical License
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
@@ -322,7 +322,7 @@ export default function AdminDoctorsDashboard({ doctors }: AdminDoctorsDashboard
 
             {/* VERIFICATION DOCUMENT ATTACHMENT */}
             <div className="p-4 bg-purple-50/40 rounded-2xl border border-purple-100 space-y-2">
-              <h4 className="font-black text-xs uppercase tracking-wider text-purple-800 flex items-center gap-1.5">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-purple-800 flex items-center gap-1.5">
                 <FileText className="h-3.5 w-3.5 text-purple-600" /> Supporting Verification Document
               </h4>
               {reviewingDoctor?.verificationDocument ? (
@@ -383,9 +383,9 @@ export default function AdminDoctorsDashboard({ doctors }: AdminDoctorsDashboard
 
       {/* ----------------MODAL 2: VERIFY CONFIRMATION DIALOG---------------- */}
       <Dialog open={isVerifyConfirmOpen} onOpenChange={setIsVerifyConfirmOpen}>
-        <DialogContent className="max-w-md bg-white rounded-3xl p-6 border border-emerald-100 shadow-2xl space-y-4">
+        <DialogContent className="max-w-md bg-white rounded-2xl p-6 border border-emerald-100 shadow-lg space-y-4">
           <DialogHeader>
-            <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
+            <DialogTitle className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
               <CheckCircle2 className="h-6 w-6 text-emerald-600 shrink-0" /> Verify Doctor Credentials?
             </DialogTitle>
           </DialogHeader>
@@ -412,9 +412,9 @@ export default function AdminDoctorsDashboard({ doctors }: AdminDoctorsDashboard
 
       {/* ----------------MODAL 3: REJECT REASON DIALOG---------------- */}
       <Dialog open={isRejectModalOpen} onOpenChange={setIsRejectModalOpen}>
-        <DialogContent className="max-w-md bg-white rounded-3xl p-6 border border-red-100 shadow-2xl space-y-4">
+        <DialogContent className="max-w-md bg-white rounded-2xl p-6 border border-red-100 shadow-lg space-y-4">
           <DialogHeader>
-            <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
+            <DialogTitle className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
               <XCircle className="h-6 w-6 text-red-600 shrink-0" /> Reject Doctor Verification
             </DialogTitle>
           </DialogHeader>
@@ -425,7 +425,7 @@ export default function AdminDoctorsDashboard({ doctors }: AdminDoctorsDashboard
             </p>
 
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">
+              <label className="font-bold uppercase text-[10px] text-slate-500 tracking-wider">
                 Reason for rejection *
               </label>
               <textarea

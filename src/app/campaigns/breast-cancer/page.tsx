@@ -124,7 +124,7 @@ export default function BreastCancerCampaignPage() {
   const slides = [
     {
       title: "Together We Can Fight Breast Cancer",
-      subtitle: "Early Detection Saves Lives. Empower yourself with guidelines, diagnostics, and support networks.",
+      subtitle: "Early detection saves lives. Find guidelines, diagnostics, and support networks.",
       tag: "Campaign & Khushi Collaboration",
       imageText: "Pink Ribbon Hope",
       primaryBtn: "Join Campaign",
@@ -157,7 +157,7 @@ export default function BreastCancerCampaignPage() {
     },
     {
       title: "Support Financially Weak Patients",
-      subtitle: "100% audited donations routed straight to associated hospital clearing bank accounts. No personal channel fraud.",
+      subtitle: "Audited donations are routed straight to the associated hospital bank accounts, never to personal accounts.",
       tag: "Transparent Crowdfunding",
       imageText: "Community Fundraising Drive",
       primaryBtn: "Donate to Hospital Fund",
@@ -215,7 +215,7 @@ export default function BreastCancerCampaignPage() {
     },
     {
       q: "How can I obtain the verified digital certificate?",
-      a: "Once you attend our scheduled awareness webinars or volunteer walks, or clear our cancer screening quizzes with a score of 80% or above, a unique, cryptographically signed certificate with a validation QR code will be sent to your email."
+      a: "Once you attend our scheduled awareness webinars or volunteer walks, or clear our cancer screening quizzes with a score of 80% or above, a unique certificate with a validation QR code will be sent to your email."
     },
     {
       q: "Can I donate anonymously and qualify for tax exemptions?",
@@ -256,7 +256,7 @@ export default function BreastCancerCampaignPage() {
                     initial={{ y: -15, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2 }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 text-primary border border-primary/30 text-xs font-bold uppercase tracking-wider"
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 text-primary border border-primary/30 text-xs font-bold "
                   >
                     <Sparkles className="h-3.5 w-3.5" />
                     {slides[currentSlide].tag}
@@ -266,7 +266,7 @@ export default function BreastCancerCampaignPage() {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.3 }}
-                    className="font-heading text-2xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15]"
+                    className="font-heading text-2xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.15]"
                   >
                     {slides[currentSlide].title}
                   </motion.h2>
@@ -306,13 +306,13 @@ export default function BreastCancerCampaignPage() {
                     initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.4 }}
-                    className="relative w-full max-w-sm aspect-square rounded-3xl bg-white/5 border border-white/10 flex flex-col items-center justify-center p-8 text-center space-y-4 shadow-2xl backdrop-blur-md"
+                    className="relative w-full max-w-sm aspect-square rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center justify-center p-6 text-center space-y-4 shadow-lg backdrop-blur-md"
                   >
                     <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-emerald-500 animate-ping" />
-                    <Ribbon className="h-16 w-16 text-primary animate-pulse" />
+                    <Ribbon className="h-16 w-16 text-primary " />
                     <div className="space-y-1">
                       <p className="font-heading text-lg font-bold">{slides[currentSlide].imageText}</p>
-                      <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Medical Support Graph</p>
+                      <p className="text-[11px] text-slate-400 font-medium ">Medical Support Graph</p>
                     </div>
                     <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
                       <div className="h-full bg-primary animate-loading-bar" style={{ width: "80%" }} />
@@ -351,8 +351,8 @@ export default function BreastCancerCampaignPage() {
               { val: `₹${(collected / 100000).toFixed(1)}L`, label: "Funds Raised" }
             ].map((stat, idx) => (
               <div key={idx} className="space-y-1">
-                <p className="text-3xl font-extrabold text-primary font-heading tracking-tight">{stat.val}</p>
-                <p className="text-[10px] sm:text-xs text-muted-foreground uppercase font-bold tracking-wider">{stat.label}</p>
+                <p className="text-3xl font-bold text-primary font-heading tracking-tight">{stat.val}</p>
+                <p className="text-[11px] sm:text-xs text-muted-foreground font-bold ">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -360,13 +360,13 @@ export default function BreastCancerCampaignPage() {
       </section>
 
       {/* 4. ABOUT CAMPAIGN */}
-      <section className="py-20 bg-card border-b border-border" id="about">
+      <section className="py-12 bg-card border-b border-border" id="about">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
             {/* Visual Graphic Representation */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-sm aspect-square rounded-2xl bg-gradient-to-br from-primary/10 via-purple-500/10 to-transparent border border-border flex flex-col items-center justify-center p-8 text-center space-y-4 shadow-inner">
+              <div className="relative w-full max-w-sm aspect-square rounded-2xl bg-gradient-to-br from-primary/10 via-purple-500/10 to-transparent border border-border flex flex-col items-center justify-center p-6 text-center space-y-4 shadow-inner">
                 <Users className="h-16 w-16 text-primary" />
                 <div className="space-y-1">
                   <p className="font-heading font-bold text-foreground text-lg">Khushi & Partners Synergy</p>
@@ -381,7 +381,7 @@ export default function BreastCancerCampaignPage() {
             {/* Campaign Core Mission / Vision */}
             <div className="lg:col-span-7 space-y-6">
               <div className="space-y-2">
-                <span className="text-xs text-primary font-bold uppercase tracking-wider">About Joint Platform</span>
+                <span className="text-xs text-primary font-bold ">About Joint Platform</span>
                 <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
                   Why Breast Cancer Awareness Matters
                 </h2>
@@ -419,8 +419,8 @@ export default function BreastCancerCampaignPage() {
       </section>
 
       {/* 5. WHY THIS CAMPAIGN */}
-      <section className="py-20 bg-muted/15 border-b border-border">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-12">
+      <section className="py-12 bg-muted/15 border-b border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
           <div className="space-y-2 max-w-2xl mx-auto">
             <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground">Pillars of Action</h2>
             <p className="text-sm text-muted-foreground">Six operational frameworks driving our collaborative campaign.</p>
@@ -430,7 +430,7 @@ export default function BreastCancerCampaignPage() {
             {[
               { title: "Spread Awareness", desc: "Coordinating rural wellness camps and distributing monthly self-check guides.", icon: Ribbon },
               { title: "Early Detection", desc: "Hosting self-screening guides and training quizzes to ensure zero-stage diagnostic warnings.", icon: ShieldCheck },
-              { title: "Patient Support", desc: "Routing 100% audited donations directly to designated hospital accounts.", icon: Heart },
+              { title: "Patient Support", desc: "Donations are routed directly to designated hospital accounts.", icon: Heart },
               { title: "Research Collaboration", desc: "Publishing statistical trends and clinical staging reports with oncologists.", icon: BookOpen },
               { title: "Doctor Network", desc: "Connecting verified medical practitioners to schedule webinars and review records.", icon: Users },
               { title: "Community Engagement", desc: "Enrolling volunteers to lead awareness webinars and local walking campaigns.", icon: Activity },
@@ -451,8 +451,8 @@ export default function BreastCancerCampaignPage() {
       </section>
 
       {/* 6. BREAST CANCER INFORMATION */}
-      <section className="py-20 bg-card border-b border-border" id="breast-cancer-info">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <section className="py-12 bg-card border-b border-border" id="breast-cancer-info">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="text-center space-y-2 max-w-2xl mx-auto">
             <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground">Breast Cancer Hub & Staging</h2>
             <p className="text-sm text-muted-foreground">Understand warning signs and screening diagnostics to protect yourself and your family.</p>
@@ -475,7 +475,7 @@ export default function BreastCancerCampaignPage() {
                     <div className="h-10 w-10 rounded-lg bg-background flex items-center justify-center text-primary shadow-xs">
                       <Icon className="h-5 w-5" />
                     </div>
-                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">Medical Guide</span>
+                    <span className="text-[11px] text-muted-foreground font-bold ">Medical Guide</span>
                   </div>
                   <CardHeader className="space-y-2">
                     <CardTitle className="font-heading text-lg font-bold text-foreground">{infoItem.title}</CardTitle>
@@ -496,8 +496,8 @@ export default function BreastCancerCampaignPage() {
       </section>
 
       {/* 7. MEET OUR DOCTORS */}
-      <section className="py-20 bg-muted/15 border-b border-border" id="doctors">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <section className="py-12 bg-muted/15 border-b border-border" id="doctors">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="text-center space-y-2 max-w-2xl mx-auto">
             <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground">Meet Our Specialist Panel</h2>
             <p className="text-sm text-muted-foreground">Peer-reviewed surgical oncologists guiding early screening camp modules.</p>
@@ -539,7 +539,7 @@ export default function BreastCancerCampaignPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-card w-full max-w-md p-6 rounded-2xl border border-border shadow-xl space-y-4"
+                className="bg-card w-full max-w-md p-6 rounded-2xl border border-border shadow-md space-y-4"
               >
                 <div className="flex justify-between items-center border-b border-border pb-3">
                   <h3 className="font-heading font-bold text-lg text-foreground">Register Webinar Seat</h3>
@@ -567,7 +567,7 @@ export default function BreastCancerCampaignPage() {
                         required
                       />
                     </div>
-                    <Button type="submit" className="w-full bg-primary text-white text-xs font-bold uppercase py-5">
+                    <Button type="submit" className="w-full bg-primary text-white text-xs font-bold py-5">
                       Confirm Webinar Slot
                     </Button>
                   </form>
@@ -579,8 +579,8 @@ export default function BreastCancerCampaignPage() {
       </section>
 
       {/* 8. RESEARCH SECTION */}
-      <section className="py-20 bg-card border-b border-border" id="research">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <section className="py-12 bg-card border-b border-border" id="research">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="text-center space-y-2 max-w-2xl mx-auto">
             <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground">Latest Clinical Publications</h2>
             <p className="text-sm text-muted-foreground">Read peer-reviewed oncology studies and medical materials co-published by campaign researchers.</p>
@@ -594,7 +594,7 @@ export default function BreastCancerCampaignPage() {
             ].map((pub, idx) => (
               <div key={idx} className="p-5 rounded-2xl border border-border bg-muted/20 space-y-4 shadow-xs flex flex-col justify-between">
                 <div className="space-y-2">
-                  <span className="inline-flex px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 text-[9px] font-bold uppercase">
+                  <span className="inline-flex px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-600 text-[11px] font-bold ">
                     {pub.type}
                   </span>
                   <h4 className="font-heading font-bold text-base text-foreground leading-snug">{pub.title}</h4>
@@ -611,8 +611,8 @@ export default function BreastCancerCampaignPage() {
       </section>
 
       {/* 9. EVENTS SECTION */}
-      <section className="py-20 bg-muted/15 border-b border-border" id="events">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <section className="py-12 bg-muted/15 border-b border-border" id="events">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="text-center space-y-2 max-w-2xl mx-auto">
             <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground">Upcoming Webinars & Camps</h2>
             <p className="text-sm text-muted-foreground">Register to join walkathons, webinars, and free rural screening camps.</p>
@@ -627,7 +627,7 @@ export default function BreastCancerCampaignPage() {
             ].map((evt, idx) => (
               <div key={idx} className="p-5 rounded-2xl border border-border bg-card space-y-4 shadow-xs flex flex-col justify-between">
                 <div className="space-y-3">
-                  <span className="inline-flex px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
+                  <span className="inline-flex px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-bold ">
                     {evt.type}
                   </span>
                   <h4 className="font-heading font-bold text-base text-foreground">{evt.title}</h4>
@@ -654,12 +654,12 @@ export default function BreastCancerCampaignPage() {
 
 
       {/* 11. VOLUNTEER SECTION */}
-      <section className="py-20 bg-muted/15 border-b border-border" id="volunteer">
+      <section className="py-12 bg-muted/15 border-b border-border" id="volunteer">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
             <div className="lg:col-span-7 space-y-6">
-              <span className="text-xs text-primary font-bold uppercase tracking-wider">Join Advocacy</span>
+              <span className="text-xs text-primary font-bold ">Join Advocacy</span>
               <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
                 Become an Active Advocate
               </h2>
@@ -705,7 +705,7 @@ export default function BreastCancerCampaignPage() {
                       <Label htmlFor="volPhone">Phone Number</Label>
                       <Input id="volPhone" placeholder="+91 99999 99999" required className="bg-background" />
                     </div>
-                    <Button type="submit" className="w-full bg-primary hover:bg-primary/95 text-white font-bold uppercase text-xs py-5">
+                    <Button type="submit" className="w-full bg-primary hover:bg-primary/95 text-white font-bold text-xs py-5">
                       Submit Volunteer Code
                     </Button>
                   </form>
@@ -718,22 +718,22 @@ export default function BreastCancerCampaignPage() {
       </section>
 
       {/* 12. CERTIFICATE SECTION */}
-      <section className="py-20 bg-card border-b border-border" id="certificate">
+      <section className="py-12 bg-card border-b border-border" id="certificate">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
             {/* Visual Glassmorphic Certificate Preview */}
             <div className="lg:col-span-6 flex justify-center">
-              <div className="relative w-full max-w-lg p-6 sm:p-8 rounded-2xl border-4 border-double border-primary/30 bg-card shadow-lg text-center space-y-6 relative">
-                <Ribbon className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-44 w-44 text-primary/3 -z-10 animate-pulse" />
+              <div className="relative w-full max-w-lg p-6 rounded-2xl border-4 border-double border-primary/30 bg-card shadow-lg text-center space-y-6 relative">
+                <Ribbon className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-44 w-44 text-primary/3 -z-10 " />
 
                 <div className="space-y-2">
-                  <p className="text-[10px] uppercase font-bold tracking-widest text-primary">Certificate of Excellence</p>
+                  <p className="text-[11px] font-bold text-primary">Certificate of Excellence</p>
                   <h3 className="font-heading font-serif text-xl sm:text-2xl text-foreground italic">Breast Cancer Awareness Ambassador</h3>
                 </div>
 
                 <div className="space-y-1">
-                  <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wide">Presented to</p>
+                  <p className="text-[11px] text-muted-foreground font-bold tracking-wide">Presented to</p>
                   <p className="font-heading text-lg font-bold text-foreground border-b border-border/80 max-w-xs mx-auto pb-1 italic">Jane Doe</p>
                 </div>
 
@@ -741,7 +741,7 @@ export default function BreastCancerCampaignPage() {
                   For completing the Khushi Centre physical examination webinar and volunteer quizzes, verifying high-stage awareness skills.
                 </p>
 
-                <div className="flex justify-between items-end pt-4 text-[9px] text-muted-foreground font-bold">
+                <div className="flex justify-between items-end pt-4 text-[11px] text-muted-foreground font-bold">
                   <div className="text-left space-y-0.5">
                     <p className="text-foreground">Dr. Ananya Roy</p>
                     <p className="border-t border-border pt-0.5">Medical Director</p>
@@ -768,7 +768,7 @@ export default function BreastCancerCampaignPage() {
               </p>
 
               <div className="space-y-3 text-xs sm:text-sm text-muted-foreground font-semibold">
-                <p className="flex items-center gap-1.5"><Award className="h-4.5 w-4.5 text-primary animate-pulse" /> Cryptographically signed SHA-256 validation hashes.</p>
+                <p className="flex items-center gap-1.5"><Award className="h-4.5 w-4.5 text-primary " /> SHA-256 validation hash on every certificate.</p>
                 <p className="flex items-center gap-1.5"><Download className="h-4.5 w-4.5 text-primary" /> Downloadable PDF formats with dynamic name overlays.</p>
                 <p className="flex items-center gap-1.5"><Share2 className="h-4.5 w-4.5 text-primary" /> Direct metadata references for LinkedIn records.</p>
               </div>
@@ -779,8 +779,8 @@ export default function BreastCancerCampaignPage() {
       </section>
 
       {/* 13. SUCCESS STORIES */}
-      <section className="py-20 bg-muted/15 border-b border-border">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-12">
+      <section className="py-12 bg-muted/15 border-b border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-8">
           <div className="text-center space-y-2">
             <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground">Stories of Hope & Resilience</h2>
             <p className="text-sm text-muted-foreground">True testimonials from patients, advocates, and surgeons using our unified hub.</p>
@@ -793,7 +793,7 @@ export default function BreastCancerCampaignPage() {
                 <button
                   key={tab}
                   onClick={() => setActiveStoryTab(tab)}
-                  className={`px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider border-b-2 transition-colors cursor-pointer ${activeStoryTab === tab
+                  className={`px-4 py-2 text-xs sm:text-sm font-bold border-b-2 transition-colors cursor-pointer ${activeStoryTab === tab
                       ? "border-primary text-primary"
                       : "border-transparent text-muted-foreground hover:text-foreground"
                     }`}
@@ -804,8 +804,8 @@ export default function BreastCancerCampaignPage() {
             </div>
 
             {/* Testimonial panels */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border shadow-xs text-center space-y-4">
-              <span className="inline-flex px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
+            <div className="p-6 rounded-2xl bg-card border border-border shadow-xs text-center space-y-4">
+              <span className="inline-flex px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-bold ">
                 {stories[activeStoryTab].badge}
               </span>
               <p className="text-sm sm:text-base text-foreground italic leading-relaxed max-w-2xl mx-auto">
@@ -821,8 +821,8 @@ export default function BreastCancerCampaignPage() {
       </section>
 
       {/* 14. FAQ ACCORDION */}
-      <section className="py-20 bg-card border-b border-border">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl space-y-12">
+      <section className="py-12 bg-card border-b border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl space-y-8">
           <div className="text-center space-y-2">
             <h2 className="font-heading text-3xl font-bold tracking-tight text-foreground">Frequently Asked Questions</h2>
             <p className="text-sm text-muted-foreground">Find answers regarding diagnostic camps, verified certifications, and payout channels.</p>
@@ -863,7 +863,7 @@ export default function BreastCancerCampaignPage() {
       </section>
 
       {/* 15. CONTACT SECTION */}
-      <section className="py-20 bg-muted/15 border-b border-border" id="contact">
+      <section className="py-12 bg-muted/15 border-b border-border" id="contact">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
 
@@ -913,7 +913,7 @@ export default function BreastCancerCampaignPage() {
                       <Label htmlFor="contactMsg">Message</Label>
                       <textarea id="contactMsg" rows={3} placeholder="How can we help you?" required className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring" />
                     </div>
-                    <Button type="submit" className="w-full bg-primary hover:bg-primary/95 text-white font-bold uppercase text-xs py-5 flex items-center justify-center gap-1.5">
+                    <Button type="submit" className="w-full bg-primary hover:bg-primary/95 text-white font-bold text-xs py-5 flex items-center justify-center gap-1.5">
                       <Send className="h-4 w-4" />
                       Send Message
                     </Button>
@@ -927,14 +927,14 @@ export default function BreastCancerCampaignPage() {
       </section>
 
       {/* 16. FOOTER DETAILS */}
-      <footer className="border-t border-slate-800 bg-slate-950 text-slate-200 py-16">
+      <footer className="border-t border-slate-800 bg-slate-950 text-slate-200 py-10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
 
             <div className="space-y-4 md:col-span-2">
               <div className="flex items-center gap-2">
-                <Ribbon className="h-6 w-6 text-primary animate-pulse" />
-                <span className="font-heading text-lg font-extrabold tracking-tight">
+                <Ribbon className="h-6 w-6 text-primary " />
+                <span className="font-heading text-lg font-bold tracking-tight">
                   Khushi Centre
                 </span>
               </div>
@@ -948,7 +948,7 @@ export default function BreastCancerCampaignPage() {
             </div>
 
             <div className="space-y-3">
-              <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-primary">Emergency Helpline</h4>
+              <h4 className="font-heading text-xs font-bold text-primary">Emergency Helpline</h4>
               <p className="text-xs text-slate-400">National Oncology Support Direct Dial:</p>
               <p className="text-xl font-bold text-slate-100">1800-22-1995</p>
               <div className="flex gap-3 text-xs text-slate-400 font-bold pt-2">
@@ -958,7 +958,7 @@ export default function BreastCancerCampaignPage() {
             </div>
 
             <div className="space-y-3">
-              <h4 className="font-heading text-xs font-bold uppercase tracking-wider text-primary">Newsletter</h4>
+              <h4 className="font-heading text-xs font-bold text-primary">Newsletter</h4>
               <p className="text-xs text-slate-400">Receive monthly clinical self-screening guidelines.</p>
               <div className="flex gap-2">
                 <Input type="email" placeholder="you@example.com" className="bg-slate-900 border-slate-800 text-slate-100 placeholder:text-slate-500 h-9 text-xs" />
@@ -968,7 +968,7 @@ export default function BreastCancerCampaignPage() {
 
           </div>
 
-          <div className="mt-12 pt-8 border-t border-slate-900 text-center text-xs text-slate-500">
+          <div className="mt-8 pt-8 border-t border-slate-900 text-center text-xs text-slate-500">
             © {new Date().getFullYear()} Khushi Centre. All rights reserved. Peer-reviewed medical disclaimers apply.
           </div>
         </div>

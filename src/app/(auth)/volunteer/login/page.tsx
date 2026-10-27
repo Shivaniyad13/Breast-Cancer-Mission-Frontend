@@ -45,19 +45,19 @@ export default function VolunteerLoginPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md z-10">
         <Link
           href="/campaigns/volunteers"
-          className="inline-flex items-center text-xs font-bold uppercase tracking-wider text-pink-600 hover:text-pink-700 transition-colors mb-6 group"
+          className="inline-flex items-center text-xs font-bold text-pink-600 hover:text-pink-700 transition-colors mb-6 group"
         >
           <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
           Back to Volunteers
         </Link>
 
         <div className="flex justify-center mb-3">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-pink-500 to-rose-400 flex items-center justify-center shadow-lg shadow-pink-500/20">
+          <div className="w-14 h-14 rounded-2xl bg-pink-600 flex items-center justify-center shadow-lg shadow-pink-500/20">
             <Ribbon className="h-8 w-8 text-white" />
           </div>
         </div>
 
-        <h2 className="text-center text-3xl font-extrabold text-slate-900 tracking-tight">
+        <h2 className="text-center text-3xl font-bold text-slate-900 tracking-tight">
           Volunteer Login
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600">
@@ -70,7 +70,7 @@ export default function VolunteerLoginPage() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="bg-white/90 backdrop-blur-md py-8 px-6 sm:px-10 shadow-xl rounded-2xl border border-pink-100/60 hover:border-pink-300 transition-colors"
+          className="bg-white/90 backdrop-blur-md py-8 px-6 sm:px-10 shadow-md rounded-2xl border border-pink-100/60 hover:border-pink-300 transition-colors"
         >
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
@@ -83,7 +83,7 @@ export default function VolunteerLoginPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+                className="block text-xs font-bold text-slate-700 mb-2"
               >
                 Email Address
               </label>
@@ -108,7 +108,7 @@ export default function VolunteerLoginPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2"
+                className="block text-xs font-bold text-slate-700 mb-2"
               >
                 Password
               </label>
@@ -134,7 +134,7 @@ export default function VolunteerLoginPage() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full py-6 bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-700 hover:to-rose-600 text-white font-bold rounded-xl shadow-lg shadow-pink-500/25 transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2"
+                className="w-full py-5 bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl shadow-lg shadow-pink-500/25 transition-all text-sm flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>

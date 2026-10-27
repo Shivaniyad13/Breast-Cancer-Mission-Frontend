@@ -275,7 +275,7 @@ export default function AdminCareProvidersDashboard({ initialData }: AdminCarePr
       {/* Toast Notification */}
       {toastMessage && (
         <div
-          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-2xl shadow-xl border text-sm font-semibold flex items-center gap-2 transition-all ${
+          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-2xl shadow-md border text-sm font-semibold flex items-center gap-2 transition-all ${
             toastMessage.type === "success"
               ? "bg-emerald-50 border-emerald-200 text-emerald-800"
               : "bg-rose-50 border-rose-200 text-rose-800"
@@ -287,7 +287,7 @@ export default function AdminCareProvidersDashboard({ initialData }: AdminCarePr
       )}
 
       {/* Control Bar: Search, Category Filter & Add Button */}
-      <div className="bg-white p-4 sm:p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
         <div className="flex flex-col sm:flex-row gap-3 flex-1">
           {/* Search Input */}
           <div className="relative flex-1">
@@ -330,28 +330,28 @@ export default function AdminCareProvidersDashboard({ initialData }: AdminCarePr
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-xs">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Listed</p>
-          <p className="text-2xl font-black text-slate-800 mt-1">{providers.length}</p>
+          <p className="text-2xl font-bold text-slate-800 mt-1">{providers.length}</p>
         </div>
         <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-xs">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Published</p>
-          <p className="text-2xl font-black text-emerald-600 mt-1">{providers.filter((p) => p.isPublished).length}</p>
+          <p className="text-2xl font-bold text-emerald-600 mt-1">{providers.filter((p) => p.isPublished).length}</p>
         </div>
         <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-xs">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Hidden / Draft</p>
-          <p className="text-2xl font-black text-amber-600 mt-1">{providers.filter((p) => !p.isPublished).length}</p>
+          <p className="text-2xl font-bold text-amber-600 mt-1">{providers.filter((p) => !p.isPublished).length}</p>
         </div>
         <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-xs">
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Verified</p>
-          <p className="text-2xl font-black text-pink-600 mt-1">{providers.filter((p) => p.isVerified).length}</p>
+          <p className="text-2xl font-bold text-pink-600 mt-1">{providers.filter((p) => p.isVerified).length}</p>
         </div>
       </div>
 
       {/* Desktop Table View */}
-      <div className="hidden md:block bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+      <div className="hidden md:block bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-100 text-[11px] font-black uppercase tracking-wider text-slate-400">
+              <tr className="bg-slate-50 border-b border-slate-100 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                 <th className="py-4 px-6">Name & Specialization</th>
                 <th className="py-4 px-4">Category</th>
                 <th className="py-4 px-4">City</th>
@@ -391,7 +391,7 @@ export default function AdminCareProvidersDashboard({ initialData }: AdminCarePr
                     <td className="py-4 px-4 text-slate-600 font-mono text-xs">{provider.phone}</td>
                     <td className="py-4 px-4 text-center">
                       <span
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider ${
+                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                           provider.isPublished
                             ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
                             : "bg-amber-100 text-amber-800 border border-amber-200"
@@ -457,14 +457,14 @@ export default function AdminCareProvidersDashboard({ initialData }: AdminCarePr
       {/* Mobile Card View */}
       <div className="md:hidden space-y-4">
         {filteredProviders.length === 0 ? (
-          <div className="bg-white p-8 text-center rounded-3xl border border-slate-100 text-slate-400 font-medium">
+          <div className="bg-white p-6 text-center rounded-2xl border border-slate-100 text-slate-400 font-medium">
             No care providers found matching your search.
           </div>
         ) : (
           filteredProviders.map((provider) => (
             <div
               key={provider.id}
-              className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm space-y-4 flex flex-col justify-between"
+              className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4 flex flex-col justify-between"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
@@ -472,7 +472,7 @@ export default function AdminCareProvidersDashboard({ initialData }: AdminCarePr
                     {provider.category}
                   </span>
                   <span
-                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                       provider.isPublished ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"
                     }`}
                   >
@@ -480,7 +480,7 @@ export default function AdminCareProvidersDashboard({ initialData }: AdminCarePr
                   </span>
                 </div>
 
-                <h4 className="font-heading font-extrabold text-slate-800 text-base">{provider.name}</h4>
+                <h4 className="font-heading font-bold text-slate-800 text-base">{provider.name}</h4>
                 <p className="text-xs text-pink-600 font-semibold">{provider.specialization}</p>
 
                 <div className="text-xs text-slate-500 space-y-1 pt-2 border-t border-slate-100">
@@ -535,9 +535,9 @@ export default function AdminCareProvidersDashboard({ initialData }: AdminCarePr
       {/* Add / Edit Care Provider Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-6 my-8 border border-slate-100">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-lg space-y-6 my-8 border border-slate-100">
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <h3 className="font-heading text-xl font-extrabold text-slate-800 flex items-center gap-2">
+              <h3 className="font-heading text-xl font-bold text-slate-800 flex items-center gap-2">
                 <Building2 className="h-6 w-6 text-pink-600" />
                 {editingProvider ? "Edit Care Provider" : "Add New Care Provider"}
               </h3>

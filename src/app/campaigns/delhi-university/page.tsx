@@ -65,12 +65,12 @@ export default function DelhiUniversityCampaignPage() {
       <section className="relative overflow-hidden border-b border-pink-100 bg-white">
         <div className="absolute -right-24 -top-28 h-80 w-80 rounded-full bg-pink-100/70 blur-3xl" />
         <div className="absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-rose-100/70 blur-3xl" />
-        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:px-8 lg:py-24">
+        <div className="relative mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:px-8 lg:py-14">
           <div>
-            <div className="mb-5 text-sm font-bold uppercase tracking-[0.12em] text-pink-700">
+            <div className="mb-5 text-sm font-bold text-pink-700">
               Be a part of the movement – Register now!
             </div>
-            <h1 className="font-heading text-4xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+            <h1 className="font-heading font-bold leading-tight tracking-tight text-slate-900 text-3xl sm:text-4xl">
               Cancer Mukt Delhi University Abhiyan
               <span className="mt-3 block text-xl font-semibold italic text-rose-800 sm:text-2xl">
                 “Leaving No Woman Behind”
@@ -91,7 +91,7 @@ export default function DelhiUniversityCampaignPage() {
                 href={registrationUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-pink-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:bg-pink-700"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-pink-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-pink-200 transition hover:bg-pink-700"
               >
                 Register now <ArrowUpRight className="h-4 w-4" />
               </a>
@@ -102,7 +102,7 @@ export default function DelhiUniversityCampaignPage() {
           </div>
 
           <div className="relative">
-            <div className="overflow-hidden rounded-[2rem] border-8 border-white shadow-2xl shadow-pink-200/70">
+            <div className="overflow-hidden rounded-2xl border-8 border-white shadow-lg shadow-pink-200/70">
               <Image
                 src="/images/awareness3.png"
                 alt="Community members coming together for breast cancer awareness"
@@ -112,8 +112,8 @@ export default function DelhiUniversityCampaignPage() {
                 priority
               />
             </div>
-            <div className="absolute -bottom-5 left-4 right-4 rounded-2xl border border-pink-100 bg-white/95 p-4 shadow-xl backdrop-blur sm:left-8 sm:right-8">
-              <p className="text-center text-sm font-extrabold text-rose-800 sm:text-base">
+            <div className="absolute -bottom-5 left-4 right-4 rounded-2xl border border-pink-100 bg-white/95 p-4 shadow-md backdrop-blur sm:left-8 sm:right-8">
+              <p className="text-center text-sm font-bold text-rose-800 sm:text-base">
                 Healthy Women <span className="text-pink-500">•</span> Healthy
                 Families <span className="text-pink-500">•</span> Healthy Bharat
               </p>
@@ -125,7 +125,7 @@ export default function DelhiUniversityCampaignPage() {
       {/* ─────────────── SECTION 2 : GUESTS & PATRONS ─────────────── */}
       <section className="border-b border-pink-100 bg-gradient-to-b from-white to-pink-50/70 py-10 sm:py-14">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <h1 className="mb-8 text-center font-serif text-3xl font-bold text-rose-900 sm:text-4xl">
+          <h1 className="mb-8 text-center font-serif font-bold text-rose-900 text-3xl sm:text-4xl">
             Our Distinguished Guests &amp; Patrons
           </h1>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -159,21 +159,21 @@ export default function DelhiUniversityCampaignPage() {
         <div className="flex gap-4 rounded-2xl border border-pink-100 bg-white p-5 shadow-sm">
           <CalendarDays className="mt-1 h-6 w-6 shrink-0 text-pink-600" />
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-pink-600">Date</p>
+            <p className="text-xs font-bold text-pink-600">Date</p>
             <p className="mt-1 font-bold">Saturday, 31st October 2026</p>
           </div>
         </div>
         <div className="flex gap-4 rounded-2xl border border-pink-100 bg-white p-5 shadow-sm">
           <Clock3 className="mt-1 h-6 w-6 shrink-0 text-pink-600" />
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-pink-600">Time</p>
+            <p className="text-xs font-bold text-pink-600">Time</p>
             <p className="mt-1 font-bold">2:30 PM – 5:30 PM</p>
           </div>
         </div>
         <div className="flex gap-4 rounded-2xl border border-pink-100 bg-white p-5 shadow-sm">
           <MapPin className="mt-1 h-6 w-6 shrink-0 text-pink-600" />
           <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-pink-600">Venue</p>
+            <p className="text-xs font-bold text-pink-600">Venue</p>
             <p className="mt-1 font-bold">Dr. B.R. Ambedkar Auditorium</p>
             <p className="mt-1 text-sm text-slate-600">Department of Social Work, University of Delhi, North Campus, Delhi</p>
           </div>

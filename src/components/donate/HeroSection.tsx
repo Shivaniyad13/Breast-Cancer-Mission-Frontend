@@ -11,7 +11,7 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick }) => {
   return (
-    <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-pink-500 via-rose-500 to-purple-700 text-white shadow-2xl p-6 sm:p-10 md:p-14 mb-10">
+    <section className="relative overflow-hidden rounded-2xl bg-pink-600 text-white shadow-lg p-6 md:p-14 mb-8">
       {/* Background Decorative Ribbon Shapes & Glows */}
       <div className="absolute inset-0 pointer-events-none opacity-20">
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-white rounded-full blur-3xl" />
@@ -29,7 +29,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick }) => {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-xs sm:text-sm font-medium text-pink-100 shadow-inner"
           >
-            <Ribbon className="h-4 w-4 text-pink-200 animate-pulse" />
+            <Ribbon className="h-4 w-4 text-pink-200 " />
             <span>Official Cancer Mukt Bharat Abhiyan</span>
             <Sparkles className="h-3.5 w-3.5 text-yellow-300 ml-0.5" />
           </motion.div>
@@ -39,7 +39,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick }) => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-pink-500"
+            className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight text-pink-500"
           >
             Together We Can <br className="hidden sm:inline" />
             <span>
@@ -88,9 +88,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick }) => {
             <Button
               onClick={onDonateClick}
               size="lg"
-              className="bg-white text-pink-700 hover:bg-pink-50 hover:text-pink-800 font-bold px-8 py-6 rounded-2xl shadow-xl shadow-pink-900/20 text-base sm:text-lg transition-all duration-300 hover:scale-105"
+              className="bg-white text-pink-700 hover:bg-pink-50 hover:text-pink-800 font-bold px-6 py-5 rounded-2xl shadow-md shadow-pink-900/20 text-base sm:text-lg transition-all duration-300 hover:scale-105"
             >
-              <HeartPulse className="h-5 w-5 mr-2 text-rose-600 animate-bounce" />
+              <HeartPulse className="h-5 w-5 mr-2 text-rose-600 " />
               Donate Now
             </Button>
             <div className="flex items-center gap-2 text-xs sm:text-sm text-pink-100/80 font-medium">
@@ -106,7 +106,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick }) => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="relative w-full max-w-sm sm:max-w-md bg-white/15 backdrop-blur-xl border border-white/30 rounded-3xl p-6 shadow-2xl text-white space-y-5"
+            className="relative w-full max-w-sm sm:max-w-md bg-white/15 backdrop-blur-xl border border-white/30 rounded-2xl p-6 shadow-lg text-white space-y-5"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -118,7 +118,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onDonateClick }) => {
                   <p className="text-xs text-pink-200">Breast Cancer Fighting Mission</p>
                 </div>
               </div>
-              <span className="px-2.5 py-1 rounded-full bg-pink-400/30 text-[11px] font-semibold tracking-wider uppercase border border-pink-300/40">
+              <span className="px-2.5 py-1 rounded-full bg-pink-400/30 text-[11px] font-semibold border border-pink-300/40">
                 Action Today
               </span>
             </div>

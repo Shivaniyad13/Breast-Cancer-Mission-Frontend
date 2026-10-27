@@ -209,16 +209,16 @@ export default function QuizClient({ user }: QuizClientProps) {
         
         {/* START SCREEN */}
         {screen === "start" && (
-          <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-2xl rounded-3xl overflow-hidden">
-            <CardHeader className="p-8 text-center space-y-4">
+          <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-lg rounded-2xl overflow-hidden">
+            <CardHeader className="p-6 text-center space-y-4">
               <div className="h-14 w-14 bg-pink-50 text-primary rounded-2xl flex items-center justify-center border border-pink-100 mx-auto">
                 <Award className="h-8 w-8" />
               </div>
               <div className="space-y-1">
-                <CardTitle className="font-heading text-3xl font-black text-slate-800">
+                <CardTitle className="font-heading text-3xl font-bold text-slate-800">
                   Breast Cancer Awareness Quiz
                 </CardTitle>
-                <CardDescription className="text-xs text-muted-foreground uppercase font-black tracking-widest text-primary/80 pt-1">
+                <CardDescription className="text-xs text-muted-foreground font-bold text-primary/80 pt-1">
                   Certified Knowledge Check
                 </CardDescription>
               </div>
@@ -229,7 +229,7 @@ export default function QuizClient({ user }: QuizClientProps) {
                   Welcome to the Breast Cancer Awareness Quiz. This knowledge check is designed to test your understanding of risk reduction, early screening clinical guidelines, staging, and common breast cancer myths.
                 </p>
                 
-                <h5 className="font-bold text-slate-800 text-xs uppercase tracking-wider">Quiz Rules & Guidelines:</h5>
+                <h5 className="font-bold text-slate-800 text-xs ">Quiz Rules & Guidelines:</h5>
                 <ul className="list-disc pl-5 space-y-2 text-xs text-muted-foreground">
                   <li>Total Questions: <strong>10 Multiple Choice Questions</strong>.</li>
                   <li>No time limit per question—read and evaluate carefully.</li>
@@ -241,7 +241,7 @@ export default function QuizClient({ user }: QuizClientProps) {
               <div className="flex flex-col gap-3 pt-2">
                 <Button 
                   onClick={handleStart} 
-                  className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-xl shadow-md py-3.5 h-auto text-sm transition-all duration-200 active:scale-[0.98]"
+                  className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-xl shadow-md py-3.5 h-auto text-sm transition-all duration-200 "
                 >
                   Start Quiz Now
                 </Button>
@@ -255,10 +255,10 @@ export default function QuizClient({ user }: QuizClientProps) {
 
         {/* ACTIVE QUIZ SCREEN */}
         {screen === "quiz" && (
-          <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-2xl rounded-3xl overflow-hidden flex flex-col justify-between min-h-[480px]">
+          <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-lg rounded-2xl overflow-hidden flex flex-col justify-between min-h-[480px]">
             {/* Header / Progress */}
             <div className="p-6 border-b border-pink-50 bg-white/40 flex justify-between items-center text-xs">
-              <div className="font-bold text-slate-500 uppercase tracking-wider">
+              <div className="font-bold text-slate-500 ">
                 Question {currentIdx + 1} of {totalQuestions}
               </div>
               <div className="font-bold text-primary bg-pink-50 border border-pink-100 px-2.5 py-0.5 rounded-full">
@@ -275,7 +275,7 @@ export default function QuizClient({ user }: QuizClientProps) {
             </div>
 
             {/* Body */}
-            <CardContent className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-6">
+            <CardContent className="p-6 flex-1 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <h3 className="font-heading text-lg sm:text-xl font-bold text-slate-800 leading-snug">
                   {currentQuestion.text}
@@ -311,7 +311,7 @@ export default function QuizClient({ user }: QuizClientProps) {
                 {/* Explanation Block */}
                 {isSubmitted && (
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 text-xs sm:text-sm space-y-1.5 animate-fadeIn">
-                    <p className="font-bold text-slate-800 uppercase tracking-wider text-[10px]">Medical Explanation:</p>
+                    <p className="font-bold text-slate-800 text-[11px]">Medical Explanation:</p>
                     <p className="text-slate-600 leading-relaxed">{currentQuestion.explanation}</p>
                   </div>
                 )}
@@ -342,13 +342,13 @@ export default function QuizClient({ user }: QuizClientProps) {
 
         {/* RESULTS SCREEN */}
         {screen === "result" && (
-          <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-2xl rounded-3xl overflow-hidden">
-            <div className="p-8 text-center space-y-6">
+          <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-lg rounded-2xl overflow-hidden">
+            <div className="p-6 text-center space-y-6">
               
               {/* Graphic Icon */}
               <div className="flex justify-center">
                 {isPassed ? (
-                  <div className="h-20 w-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center border border-emerald-100 animate-bounce">
+                  <div className="h-20 w-20 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center border border-emerald-100 ">
                     <ShieldCheck className="h-12 w-12" />
                   </div>
                 ) : (
@@ -360,10 +360,10 @@ export default function QuizClient({ user }: QuizClientProps) {
 
               {/* Header details */}
               <div className="space-y-2">
-                <h1 className="font-heading text-3xl font-black text-slate-800">
+                <h1 className="font-heading text-3xl font-bold text-slate-800">
                   {isPassed ? "Congratulations!" : "Keep Learning!"}
                 </h1>
-                <p className="text-xs text-muted-foreground uppercase font-black tracking-widest text-primary/80">
+                <p className="text-xs text-muted-foreground font-bold text-primary/80">
                   Quiz Completion Report
                 </p>
               </div>
@@ -371,7 +371,7 @@ export default function QuizClient({ user }: QuizClientProps) {
               {/* Score breakdown card */}
               <div className="max-w-sm mx-auto p-6 rounded-2xl bg-white border border-pink-50 shadow-xs space-y-3">
                 <div className="text-xs font-semibold text-slate-400">YOUR TOTAL SCORE</div>
-                <div className="text-4xl font-extrabold text-slate-800 font-heading">
+                <div className="text-4xl font-bold text-slate-800 font-heading">
                   {score} <span className="text-lg text-slate-400 font-normal">/ {totalQuestions}</span>
                 </div>
                 <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden mt-2">
@@ -390,7 +390,7 @@ export default function QuizClient({ user }: QuizClientProps) {
                 {isPassed ? (
                   <div className="space-y-4">
                     <p className="text-xs text-slate-500 leading-relaxed">
-                      Amazing! You have demonstrated exceptional knowledge about breast cancer awareness and prevention guidelines. Claim your certified PDF credential below.
+                      Well done! You have shown strong knowledge of breast cancer awareness and prevention guidelines. Claim your certified PDF credential below.
                     </p>
 
                     {/* Claim Button & Result */}
@@ -455,7 +455,7 @@ export default function QuizClient({ user }: QuizClientProps) {
                     </p>
                     <Button 
                       onClick={handleStart}
-                      className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-xl shadow-md py-3.5 h-auto text-sm transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2"
+                      className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-xl shadow-md py-3.5 h-auto text-sm transition-all duration-200 flex items-center justify-center gap-2"
                     >
                       <RotateCcw className="h-4 w-4" /> Retake Quiz
                     </Button>

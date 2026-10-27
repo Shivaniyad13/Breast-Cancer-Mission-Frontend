@@ -296,16 +296,16 @@ export default function AdminCelebrityDashboard({ initialTestimonials }: AdminCe
       {/* Header bar */}
       <div className="flex justify-between items-center bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 rounded-2xl">
         <div>
-          <h3 className="font-extrabold text-sm text-slate-850 dark:text-white">Celebrity Testimonial Videos</h3>
+          <h3 className="font-bold text-sm text-slate-800 dark:text-white">Celebrity Testimonial Videos</h3>
           <p className="text-xs text-muted-foreground">Manage loops, names, professions, quotes, and video durations inside the bottom Hero widget.</p>
         </div>
-        <Button onClick={() => { resetForm(); setIsAddOpen(true); }} className="bg-pink-600 hover:bg-pink-700 text-white font-extrabold text-xs">
+        <Button onClick={() => { resetForm(); setIsAddOpen(true); }} className="bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs">
           <Plus className="h-4 w-4 mr-1" /> Add Celebrity Video
         </Button>
       </div>
 
       {/* List Table */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-sm">
             <thead>
@@ -320,7 +320,7 @@ export default function AdminCelebrityDashboard({ initialTestimonials }: AdminCe
             <tbody className="divide-y divide-slate-100">
               {testimonials.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center p-8 text-muted-foreground">No celebrity testimonials found. Click Add to create one!</td>
+                  <td colSpan={5} className="text-center p-6 text-muted-foreground">No celebrity testimonials found. Click Add to create one!</td>
                 </tr>
               ) : (
                 testimonials.map((t, index) => (
@@ -328,7 +328,7 @@ export default function AdminCelebrityDashboard({ initialTestimonials }: AdminCe
                     <td className="p-4 pl-6 text-center">
                       <div className="flex flex-col items-center gap-0.5">
                         <button onClick={() => handleMove(index, "UP")} disabled={index === 0} className="h-5 w-5 rounded hover:bg-slate-100 disabled:opacity-30"><ArrowUp className="h-3.5 w-3.5 mx-auto" /></button>
-                        <span className="text-xs font-black">{index + 1}</span>
+                        <span className="text-xs font-bold">{index + 1}</span>
                         <button onClick={() => handleMove(index, "DOWN")} disabled={index === testimonials.length - 1} className="h-5 w-5 rounded hover:bg-slate-100 disabled:opacity-30"><ArrowDown className="h-3.5 w-3.5 mx-auto" /></button>
                       </div>
                     </td>
@@ -337,11 +337,11 @@ export default function AdminCelebrityDashboard({ initialTestimonials }: AdminCe
                         {t.thumbnailUrl ? <img src={t.thumbnailUrl} alt="thumbnail" className="w-full h-full object-cover" /> : <FileImage className="h-5 w-5 text-slate-400" />}
                       </div>
                       <div className="space-y-0.5 min-w-0">
-                        <h4 className="font-extrabold text-sm text-slate-800 truncate max-w-sm">{t.name}</h4>
+                        <h4 className="font-bold text-sm text-slate-800 truncate max-w-sm">{t.name}</h4>
                         <p className="text-xs text-muted-foreground truncate max-w-sm">{t.profession} {t.duration && `• ${t.duration}`}</p>
                       </div>
                     </td>
-                    <td className="p-4 max-w-xs truncate text-slate-650 italic">
+                    <td className="p-4 max-w-xs truncate text-slate-600 italic">
                       "{t.quote}"
                     </td>
                     <td className="p-4">

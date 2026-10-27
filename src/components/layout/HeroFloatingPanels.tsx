@@ -97,14 +97,14 @@ export function HeroLeftPanel({ stories }: { stories: SuccessStory[] }) {
     <div className="w-full bg-white/10 dark:bg-slate-900/30 backdrop-blur-lg border border-white/20 dark:border-slate-800/40 rounded-3xl p-4 shadow-2xl relative overflow-hidden group">
       
       {/* Pink Top Accent Glow */}
-      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-pink-500 to-purple-600" />
+      <div className="absolute top-0 inset-x-0 h-1 bg-pink-300" />
       
       <div className="space-y-4">
         
         {/* Title */}
         <div className="flex items-center gap-1.5 text-pink-300">
           <Sparkles className="h-4 w-4 animate-pulse fill-pink-300" />
-          <span className="text-xs font-black uppercase tracking-widest text-white/95">Survivor Story</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-white/95">Survivor Story</span>
         </div>
 
         {/* Small Video Box */}
@@ -146,7 +146,7 @@ export function HeroLeftPanel({ stories }: { stories: SuccessStory[] }) {
         {/* Metadata & Quote */}
         <div className="space-y-2 text-white/90">
           <div className="flex items-center justify-between">
-            <h4 className="font-extrabold text-sm text-pink-200 truncate">
+            <h4 className="font-bold text-sm text-pink-200 truncate">
               {activeStory.fullName}
             </h4>
             <span className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-white/80 border border-white/5 font-semibold">
@@ -254,7 +254,7 @@ export function HeroRightPanel({ updates }: { updates: UpdateItem[] }) {
 
       {/* Header controls */}
       <div className="flex justify-between items-center pb-2 border-b border-white/10">
-        <span className="text-xs font-black uppercase tracking-widest text-white/95">Dynamic Updates</span>
+        <span className="text-xs font-bold uppercase tracking-widest text-white/95">Dynamic Updates</span>
         
         {/* Next/Prev buttons */}
         <div className="flex gap-1">
@@ -286,7 +286,7 @@ export function HeroRightPanel({ updates }: { updates: UpdateItem[] }) {
           >
             {/* Tag / Type badge */}
             <div className="flex items-center gap-2">
-              <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wide border ${getUpdateTagStyle(activeUpdate.type)}`}>
+              <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${getUpdateTagStyle(activeUpdate.type)}`}>
                 {getUpdateIcon(activeUpdate.type)}
                 {activeUpdate.type}
               </span>
@@ -305,7 +305,7 @@ export function HeroRightPanel({ updates }: { updates: UpdateItem[] }) {
 
             {/* Title & Description */}
             <div className="space-y-1">
-              <h4 className="font-extrabold text-sm text-pink-200 line-clamp-1 leading-snug">
+              <h4 className="font-bold text-sm text-pink-200 line-clamp-1 leading-snug">
                 {activeUpdate.title}
               </h4>
               <p className="text-xs text-white/80 leading-relaxed line-clamp-3">

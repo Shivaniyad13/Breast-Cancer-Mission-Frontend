@@ -352,7 +352,7 @@ export default function PartnerOrganizationsPage() {
   };
 
   return (
-    <div className="flex-1 w-full bg-slate-50 text-slate-805 selection:bg-pink-105 selection:text-pink-700 overflow-x-hidden">
+    <div className="flex-1 w-full bg-slate-50 text-slate-800 selection:bg-pink-105 selection:text-pink-700 overflow-x-hidden">
 
       {/* ----------------------------------------------------------------------
           1. HERO SECTION (Looping Background Video)
@@ -361,7 +361,7 @@ export default function PartnerOrganizationsPage() {
   {/* White Hero Background */}
   <div className="absolute inset-0 z-0 bg-white" />
 
-  <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl relative z-10 py-24 text-center">
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl relative z-10 py-14 text-center">
     <div className="flex items-center justify-center">
       {/* Centered Hero Content */}
       <div className="w-full max-w-4xl mx-auto space-y-6 flex flex-col items-center">
@@ -370,7 +370,7 @@ export default function PartnerOrganizationsPage() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-50 border border-pink-200 text-pink-600 text-xs font-bold uppercase tracking-wider"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-50 border border-pink-200 text-pink-600 text-xs font-bold "
         >
           <Handshake className="h-4 w-4 text-pink-500" />
           Collaborative Impact Network
@@ -380,7 +380,7 @@ export default function PartnerOrganizationsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight"
+          className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-tight"
         >
           Together We Create <br />
 
@@ -409,7 +409,7 @@ export default function PartnerOrganizationsPage() {
         >
           <Button
             onClick={() => setPartnerFormOpen(true)}
-            className="bg-pink-600 hover:bg-pink-500 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-pink-600/25 transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
+            className="bg-pink-600 hover:bg-pink-500 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-pink-600/25 transition-all hover:scale-105 cursor-pointer text-base"
           >
             Become a Partner
             <ArrowRight className="h-5 w-5 ml-1.5" />
@@ -418,7 +418,7 @@ export default function PartnerOrganizationsPage() {
           <Button
             variant="outline"
             onClick={() => scrollToId("partner-network-directory")}
-            className="border-pink-500 text-pink-600 hover:bg-pink-50 hover:text-pink-700 font-bold px-8 py-6 rounded-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
+            className="border-pink-500 text-pink-600 hover:bg-pink-50 hover:text-pink-700 font-bold px-8 py-6 rounded-2xl transition-all hover:scale-105 cursor-pointer text-base"
           >
             Explore Our Network
           </Button>
@@ -432,17 +432,17 @@ export default function PartnerOrganizationsPage() {
       {/* ----------------------------------------------------------------------
           2. WHY PARTNERSHIPS MATTER
           ---------------------------------------------------------------------- */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-14 bg-white relative overflow-hidden">
         <div className="absolute top-10 right-0 w-80 h-80 bg-pink-100/30 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-10 left-0 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 max-w-6xl relative z-10">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100">
+          <div className="text-center space-y-4 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold border border-pink-100">
               <Shield className="h-4 w-4" />
               Strategic Alliances
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 leading-tight">
               Why Collaborative Partnership Matters
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
@@ -504,13 +504,13 @@ export default function PartnerOrganizationsPage() {
               <motion.div
                 key={idx}
                 whileHover={{ y: -6 }}
-                className="p-6 rounded-3xl bg-slate-50 border border-slate-200/50 shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                className="p-6 rounded-2xl bg-slate-50 border border-slate-200/50 shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   <div className={`h-11 w-11 rounded-xl flex items-center justify-center ${item.color} border shadow-2xs`}>
                     {React.createElement(item.icon, { className: "h-5.5 w-5.5" })}
                   </div>
-                  <h4 className="font-heading text-sm font-extrabold text-slate-800 mt-6 leading-tight">
+                  <h4 className="font-heading text-sm font-bold text-slate-800 mt-6 leading-tight">
                     {item.title}
                   </h4>
                   <p className="text-slate-500 text-xs mt-2.5 leading-relaxed font-sans">
@@ -526,14 +526,14 @@ export default function PartnerOrganizationsPage() {
       {/* ----------------------------------------------------------------------
           3. OUR PARTNER NETWORK (DIRECTORY)
           ---------------------------------------------------------------------- */}
-      <section id="partner-network-directory" className="py-24 bg-gradient-to-b from-slate-50 to-pink-50/20">
+      <section id="partner-network-directory" className="py-14 bg-gradient-to-b from-slate-50 to-pink-50/20">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider border border-blue-100">
+          <div className="text-center space-y-4 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100">
               <Search className="h-4 w-4" />
               Member Directory
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
               Explore Our Collaborative Network
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
@@ -542,7 +542,7 @@ export default function PartnerOrganizationsPage() {
           </div>
 
           {/* Search Panel */}
-          <div className="bg-white rounded-3xl p-6 border border-slate-200/50 shadow-md mb-12 space-y-6">
+          <div className="bg-white rounded-2xl p-6 border border-slate-200/50 shadow-md mb-8 space-y-6">
             <div className="relative">
               <Search className="absolute left-4.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
               <Input
@@ -561,7 +561,7 @@ export default function PartnerOrganizationsPage() {
                   onClick={() => setSelectedCategory(cat.value)}
                   className={`px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-all cursor-pointer select-none ${selectedCategory === cat.value
                     ? "bg-pink-600 border-pink-600 text-white shadow-sm"
-                    : "bg-slate-50 border-slate-200 hover:border-slate-350 text-slate-650"
+                    : "bg-slate-50 border-slate-200 hover:border-slate-400 text-slate-600"
                     }`}
                 >
                   {cat.label}
@@ -574,11 +574,11 @@ export default function PartnerOrganizationsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
               {directory.length === 0 ? (
-                <div className="bg-white rounded-3xl border-2 border-dashed border-pink-200 p-12 text-center max-w-xl mx-auto space-y-4 shadow-sm col-span-full">
+                <div className="bg-white rounded-2xl border-2 border-dashed border-pink-200 p-8 text-center max-w-xl mx-auto space-y-4 shadow-sm col-span-full">
                   <div className="h-16 w-16 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto text-pink-500">
                     <Building2 className="h-12 w-12 text-pink-300" />
                   </div>
-                  <h3 className="font-heading text-xl font-extrabold text-slate-800">
+                  <h3 className="font-heading text-xl font-bold text-slate-800">
                     Partner Directory Coming Soon
                   </h3>
                   <p className="text-slate-500 text-sm leading-relaxed font-sans max-w-md mx-auto">
@@ -594,7 +594,7 @@ export default function PartnerOrganizationsPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.3 }}
-                    className="group bg-white hover:bg-slate-50 rounded-3xl p-5 border border-slate-200/40 shadow-xs hover:shadow-lg hover:border-pink-300 transition-all duration-300 flex flex-col justify-between"
+                    className="group bg-white hover:bg-slate-50 rounded-2xl p-5 border border-slate-200/40 shadow-xs hover:shadow-lg hover:border-pink-300 transition-all duration-300 flex flex-col justify-between"
                   >
                     <div>
                       {/* Logo and Badge */}
@@ -606,7 +606,7 @@ export default function PartnerOrganizationsPage() {
                             <Building2 className="h-5.5 w-5.5" />
                           )}
                         </div>
-                        <span className="px-2.5 py-0.5 rounded bg-slate-100 text-slate-500 text-[9px] font-bold uppercase tracking-wider font-heading">
+                        <span className="px-2.5 py-0.5 rounded bg-slate-100 text-slate-500 text-[11px] font-bold font-heading">
                           {partner.subcategory || partner.category}
                         </span>
                       </div>
@@ -628,7 +628,7 @@ export default function PartnerOrganizationsPage() {
                       </div>
 
                       {/* Header */}
-                      <h4 className="font-heading text-base font-extrabold text-slate-800 leading-snug pr-2 group-hover:text-pink-600 transition-colors">
+                      <h4 className="font-heading text-base font-bold text-slate-800 leading-snug pr-2 group-hover:text-pink-600 transition-colors">
                         {partner.name}
                       </h4>
                       <p className="text-slate-500 text-xs leading-relaxed font-sans mt-3 line-clamp-3">
@@ -654,7 +654,7 @@ export default function PartnerOrganizationsPage() {
                             Website
                           </a>
                         ) : (
-                          <span className="text-[10px] text-slate-300 font-semibold">
+                          <span className="text-[11px] text-slate-300 font-semibold">
                             Verified Network
                           </span>
                         )}
@@ -670,8 +670,8 @@ export default function PartnerOrganizationsPage() {
                   </motion.div>
                 ))
               ) : (
-                <div className="col-span-full py-16 text-center space-y-4">
-                  <AlertCircle className="h-12 w-12 text-slate-350 mx-auto" />
+                <div className="col-span-full py-10 text-center space-y-4">
+                  <AlertCircle className="h-12 w-12 text-slate-400 mx-auto" />
                   <h3 className="font-heading text-lg font-bold text-slate-700">
                     No Partners Found
                   </h3>
@@ -703,14 +703,14 @@ export default function PartnerOrganizationsPage() {
       {/* ----------------------------------------------------------------------
           7. GALLERY (Masonry Grid with Lightbox)
           ---------------------------------------------------------------------- */}
-      <section className="py-24 bg-white relative">
+      <section className="py-14 bg-white relative">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100">
+          <div className="text-center space-y-4 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold border border-pink-100">
               <ImageIcon className="h-4 w-4" />
               Event Gallery
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
               Breast Cancer Alliance Event Gallery
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
@@ -724,16 +724,16 @@ export default function PartnerOrganizationsPage() {
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className="rounded-3xl border border-slate-100 bg-slate-100 aspect-4/3 animate-pulse"
+                  className="rounded-2xl border border-slate-100 bg-slate-100 aspect-4/3 animate-pulse"
                 />
               ))}
             </div>
           ) : galleryItems.length === 0 ? (
-            <div className="bg-white rounded-3xl border-2 border-dashed border-pink-200 p-12 text-center max-w-xl mx-auto space-y-4 shadow-sm">
+            <div className="bg-white rounded-2xl border-2 border-dashed border-pink-200 p-8 text-center max-w-xl mx-auto space-y-4 shadow-sm">
               <div className="h-16 w-16 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto text-pink-500">
                 <ImageIcon className="h-12 w-12 text-pink-300" />
               </div>
-              <h3 className="font-heading text-xl font-extrabold text-slate-800">
+              <h3 className="font-heading text-xl font-bold text-slate-800">
                 Event Gallery Coming Soon
               </h3>
               <p className="text-slate-500 text-sm leading-relaxed font-sans max-w-md mx-auto">
@@ -746,7 +746,7 @@ export default function PartnerOrganizationsPage() {
                 <div
                   key={item.id}
                   onClick={() => setLightboxImage(item)}
-                  className="relative rounded-3xl overflow-hidden border border-slate-200/50 bg-slate-100 aspect-4/3 shadow-2xs hover:shadow-md cursor-pointer group transition-shadow"
+                  className="relative rounded-2xl overflow-hidden border border-slate-200/50 bg-slate-100 aspect-4/3 shadow-2xs hover:shadow-md cursor-pointer group transition-shadow"
                 >
                   <img
                     src={item.imageUrl}
@@ -755,7 +755,7 @@ export default function PartnerOrganizationsPage() {
                   />
                   {/* Overlay details */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 text-white">
-                    <span className="px-2 py-0.5 rounded bg-pink-600 text-[8px] font-bold uppercase tracking-wider self-start mb-2 font-heading">
+                    <span className="px-2 py-0.5 rounded bg-pink-600 text-[8px] font-bold self-start mb-2 font-heading">
                       {item.category}
                     </span>
                     <p className="text-xs font-bold font-sans line-clamp-2">
@@ -772,14 +772,14 @@ export default function PartnerOrganizationsPage() {
       {/* ----------------------------------------------------------------------
           8. VIDEO STORIES
           ---------------------------------------------------------------------- */}
-      <section className="py-24 bg-gradient-to-tr from-pink-50/40 via-purple-50/15 to-blue-50/30 border-y border-slate-200/55">
+      <section className="py-14 bg-gradient-to-tr from-pink-50/40 via-purple-50/15 to-blue-50/30 border-y border-slate-200/55">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider border border-blue-100">
+          <div className="text-center space-y-4 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100">
               <Video className="h-4 w-4" />
               Oncology Broadcasts
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
               Partner Video Stories
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-sans">
@@ -793,7 +793,7 @@ export default function PartnerOrganizationsPage() {
               {[1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="bg-white rounded-3xl overflow-hidden border border-slate-100 p-4 animate-pulse space-y-3"
+                  className="bg-white rounded-2xl overflow-hidden border border-slate-100 p-4 animate-pulse space-y-3"
                 >
                   <div className="h-44 bg-slate-200 rounded-2xl w-full" />
                   <div className="h-4 bg-slate-200 rounded w-1/3" />
@@ -802,11 +802,11 @@ export default function PartnerOrganizationsPage() {
               ))}
             </div>
           ) : videoStories.length === 0 ? (
-            <div className="bg-white rounded-3xl border-2 border-dashed border-pink-200 p-12 text-center max-w-xl mx-auto space-y-4 shadow-sm">
+            <div className="bg-white rounded-2xl border-2 border-dashed border-pink-200 p-8 text-center max-w-xl mx-auto space-y-4 shadow-sm">
               <div className="h-16 w-16 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto text-pink-500">
                 <Video className="h-12 w-12 text-pink-300" />
               </div>
-              <h3 className="font-heading text-xl font-extrabold text-slate-800">
+              <h3 className="font-heading text-xl font-bold text-slate-800">
                 Video Stories Coming Soon
               </h3>
               <p className="text-slate-500 text-sm leading-relaxed font-sans max-w-md mx-auto">
@@ -818,7 +818,7 @@ export default function PartnerOrganizationsPage() {
               {videoStories.map((vid) => (
                 <div
                   key={vid.id}
-                  className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-shadow group"
+                  className="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-shadow group"
                 >
                   {/* Thumbnail with overlay play */}
                   <div className="relative h-44 bg-slate-950">
@@ -831,7 +831,7 @@ export default function PartnerOrganizationsPage() {
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 flex flex-col items-center justify-center text-slate-400 gap-2">
                         <Video className="h-10 w-10 text-slate-500" />
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        <span className="text-[11px] font-bold text-slate-400 ">
                           Video Broadcast
                         </span>
                       </div>
@@ -839,7 +839,7 @@ export default function PartnerOrganizationsPage() {
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                       <button
                         onClick={() => setActivePlayVideo(vid)}
-                        className="p-3.5 rounded-full bg-white/90 text-pink-600 hover:scale-110 active:scale-95 transition-all shadow-md cursor-pointer flex items-center justify-center"
+                        className="p-3.5 rounded-full bg-white/90 text-pink-600 hover:scale-110 transition-all shadow-md cursor-pointer flex items-center justify-center"
                       >
                         <Play className="h-5 w-5 fill-current ml-0.5" />
                       </button>
@@ -847,10 +847,10 @@ export default function PartnerOrganizationsPage() {
                   </div>
 
                   <div className="p-4 font-sans space-y-1">
-                    <span className="text-[9px] font-bold text-pink-650 uppercase tracking-wider font-heading">
+                    <span className="text-[11px] font-bold text-pink-600 font-heading">
                       {vid.category}
                     </span>
-                    <h4 className="font-heading text-xs sm:text-sm font-extrabold text-slate-800 line-clamp-2 leading-snug group-hover:text-pink-600 transition-colors">
+                    <h4 className="font-heading text-xs sm:text-sm font-bold text-slate-800 line-clamp-2 leading-snug group-hover:text-pink-600 transition-colors">
                       {vid.title}
                     </h4>
                   </div>
@@ -869,14 +869,14 @@ export default function PartnerOrganizationsPage() {
       {/* ----------------------------------------------------------------------
           10. PARTNERSHIP BENEFITS
           ---------------------------------------------------------------------- */}
-      <section className="py-24 bg-white relative">
+      <section className="py-14 bg-white relative">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100">
+          <div className="text-center space-y-4 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold border border-pink-100">
               <Award className="h-4 w-4" />
               Member Benefits
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
               Partnership Benefits Overview
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
@@ -899,13 +899,13 @@ export default function PartnerOrganizationsPage() {
             ].map((benefit, idx) => (
               <div
                 key={idx}
-                className="bg-slate-50 border border-slate-205/50 rounded-3xl p-5 hover:bg-white hover:shadow-md hover:border-pink-300 transition-all duration-300 flex flex-col justify-between"
+                className="bg-slate-50 border border-slate-205/50 rounded-2xl p-5 hover:bg-white hover:shadow-md hover:border-pink-300 transition-all duration-300 flex flex-col justify-between"
               >
                 <div className="h-9 w-9 rounded-lg bg-pink-50 border border-pink-100 flex items-center justify-center text-pink-600 shrink-0 mb-5">
                   {React.createElement(benefit.icon, { className: "h-4.5 w-4.5" })}
                 </div>
                 <div>
-                  <h4 className="font-heading text-xs sm:text-sm font-extrabold text-slate-800 leading-tight">
+                  <h4 className="font-heading text-xs sm:text-sm font-bold text-slate-800 leading-tight">
                     {benefit.title}
                   </h4>
                   <p className="text-slate-500 text-[11px] mt-2 leading-relaxed font-sans">
@@ -921,14 +921,14 @@ export default function PartnerOrganizationsPage() {
       {/* ----------------------------------------------------------------------
           12. PARTNERSHIP APPLICATION
           ---------------------------------------------------------------------- */}
-      <section id="partnership-application-section" className="py-24 bg-white relative">
+      <section id="partnership-application-section" className="py-14 bg-white relative">
         <div className="container mx-auto px-4 max-w-3xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100">
+          <div className="text-center space-y-4 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold border border-pink-100">
               <Building2 className="h-4 w-4" />
               Onboarding Form
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
               Partnership Request Application
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
@@ -936,13 +936,13 @@ export default function PartnerOrganizationsPage() {
             </p>
           </div>
 
-          <div className="bg-slate-50 rounded-3xl p-6 sm:p-10 border border-slate-205/50 shadow-md">
+          <div className="bg-slate-50 rounded-2xl p-6 border border-slate-205/50 shadow-md">
             {!formSuccess ? (
               <form onSubmit={handleAppSubmit} className="space-y-6 font-sans">
                 {/* Organization details */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                    <label className="text-[11px] font-bold text-slate-400 font-heading">
                       Organization Name
                     </label>
                     <Input
@@ -955,7 +955,7 @@ export default function PartnerOrganizationsPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                    <label className="text-[11px] font-bold text-slate-400 font-heading">
                       Organization Type
                     </label>
                     <select
@@ -974,7 +974,7 @@ export default function PartnerOrganizationsPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                    <label className="text-[11px] font-bold text-slate-400 font-heading">
                       Official Website URL
                     </label>
                     <Input
@@ -986,7 +986,7 @@ export default function PartnerOrganizationsPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                    <label className="text-[11px] font-bold text-slate-400 font-heading">
                       Contact Representative
                     </label>
                     <Input
@@ -1002,7 +1002,7 @@ export default function PartnerOrganizationsPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                    <label className="text-[11px] font-bold text-slate-400 font-heading">
                       Representative Title
                     </label>
                     <Input
@@ -1014,7 +1014,7 @@ export default function PartnerOrganizationsPage() {
                     />
                   </div>
                   <div className="space-y-1 col-span-2">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                    <label className="text-[11px] font-bold text-slate-400 font-heading">
                       Official Email ID
                     </label>
                     <Input
@@ -1030,7 +1030,7 @@ export default function PartnerOrganizationsPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                    <label className="text-[11px] font-bold text-slate-400 font-heading">
                       Phone Number
                     </label>
                     <Input
@@ -1043,7 +1043,7 @@ export default function PartnerOrganizationsPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                    <label className="text-[11px] font-bold text-slate-400 font-heading">
                       City
                     </label>
                     <Input
@@ -1055,7 +1055,7 @@ export default function PartnerOrganizationsPage() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                    <label className="text-[11px] font-bold text-slate-400 font-heading">
                       State
                     </label>
                     <Input
@@ -1070,7 +1070,7 @@ export default function PartnerOrganizationsPage() {
 
                 {/* Checklist of areas */}
                 <div className="space-y-3 pt-2">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block font-heading">
+                  <label className="text-[11px] font-bold text-slate-400 block font-heading">
                     Areas of Collaboration
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -1105,7 +1105,7 @@ export default function PartnerOrganizationsPage() {
 
                 {/* Real file upload */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block font-heading">
+                  <label className="text-[11px] font-bold text-slate-400 block font-heading">
                     Upload Organization Profile (PDF)
                   </label>
                   <div className="border border-dashed border-slate-300 rounded-xl p-4 bg-white text-center">
@@ -1125,7 +1125,7 @@ export default function PartnerOrganizationsPage() {
                       ) : (
                         <Upload className="h-5 w-5 text-slate-400 mx-auto mb-2" />
                       )}
-                      <p className="text-[10px] font-bold text-slate-500 font-heading">
+                      <p className="text-[11px] font-bold text-slate-500 font-heading">
                         {uploadedDocUrl
                           ? "Uploaded ✔"
                           : "Choose File or Drag & Drop"}
@@ -1139,7 +1139,7 @@ export default function PartnerOrganizationsPage() {
 
                 {/* Message */}
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                  <label className="text-[11px] font-bold text-slate-400 font-heading">
                     Collaboration Intent / Message
                   </label>
                   <textarea
@@ -1168,7 +1168,7 @@ export default function PartnerOrganizationsPage() {
             ) : (
               <div className="text-center py-6 space-y-4">
                 <div className="h-14 w-14 rounded-full bg-emerald-50 border-2 border-emerald-250 text-emerald-600 flex items-center justify-center mx-auto">
-                  <Check className="h-7 w-7 animate-pulse" />
+                  <Check className="h-7 w-7 " />
                 </div>
                 <h3 className="font-heading text-lg font-bold text-slate-800">
                   Proposal Transmitted
@@ -1195,14 +1195,14 @@ export default function PartnerOrganizationsPage() {
       {/* ----------------------------------------------------------------------
           13. FAQ
           ---------------------------------------------------------------------- */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-14 bg-slate-50">
         <div className="container mx-auto px-4 max-w-4xl">
-          <div className="text-center space-y-4 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold uppercase tracking-wider border border-pink-100">
+          <div className="text-center space-y-4 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-700 text-xs font-bold border border-pink-100">
               <MessageSquare className="h-4 w-4" />
               Onboarding FAQ
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
               Partnership FAQ
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-sans">
@@ -1220,7 +1220,7 @@ export default function PartnerOrganizationsPage() {
                 >
                   <button
                     onClick={() => setActiveFaq(isOpen ? null : idx)}
-                    className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer font-bold text-slate-805 hover:text-pink-600 transition-colors font-heading"
+                    className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer font-bold text-slate-800 hover:text-pink-600 transition-colors font-heading"
                   >
                     <span className="text-sm sm:text-base tracking-tight leading-tight">
                       {faq.question}
@@ -1247,7 +1247,7 @@ export default function PartnerOrganizationsPage() {
                         transition={{ duration: 0.25 }}
                         className="overflow-hidden"
                       >
-                        <div className="px-6 pb-6 pt-1 text-slate-550 text-xs sm:text-sm leading-relaxed border-t border-slate-200/40 font-sans">
+                        <div className="px-6 pb-6 pt-1 text-slate-500 text-xs sm:text-sm leading-relaxed border-t border-slate-200/40 font-sans">
                           {faq.answer}
                         </div>
                       </motion.div>
@@ -1263,7 +1263,7 @@ export default function PartnerOrganizationsPage() {
       {/* ----------------------------------------------------------------------
           14. FINAL CTA (Background Video Loop)
           ---------------------------------------------------------------------- */}
-      <section className="py-28 bg-slate-950 text-white relative overflow-hidden">
+      <section className="py-16 bg-slate-950 text-white relative overflow-hidden">
         {/* Static CTA Background */}
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-950 via-slate-900 to-pink-950">
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-pink-950/50" />
@@ -1274,17 +1274,17 @@ export default function PartnerOrganizationsPage() {
             initial={{ scale: 0.95, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider border border-pink-500/20"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold border border-pink-500/20"
           >
-            <Heart className="h-4 w-4 text-pink-400 fill-pink-400 animate-pulse" />
+            <Heart className="h-4 w-4 text-pink-400 fill-pink-400 " />
             Unite for Cure
           </motion.div>
 
-          <h2 className="font-heading text-4xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+          <h2 className="font-heading text-4xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
             Together, We Can Save More Lives.
           </h2>
 
-          <p className="text-slate-350 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed font-sans">
+          <p className="text-slate-400 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed font-sans">
             Every partnership strengthens our mission to reduce the burden of breast cancer through awareness, research, innovation, treatment, and compassionate care.
           </p>
 
@@ -1294,7 +1294,7 @@ export default function PartnerOrganizationsPage() {
                 setPartnerFormOpen(true);
                 scrollToId("partnership-application-section");
               }}
-              className="w-full sm:w-auto bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-450 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-pink-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
+              className="w-full sm:w-auto bg-pink-600 hover:from-pink-500 hover:to-rose-500 text-white font-bold px-8 py-6 rounded-2xl shadow-lg shadow-pink-600/30 transition-all hover:scale-105 cursor-pointer text-base"
             >
               Become a Partner
             </Button>
@@ -1305,7 +1305,7 @@ export default function PartnerOrganizationsPage() {
                 setPartnerFormOpen(true);
                 scrollToId("partnership-application-section");
               }}
-              className="w-full sm:w-auto border-slate-500 text-pink-600 to-rose-500 hover:bg-pink/10 font-bold px-8 py-6 rounded-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer text-base"
+              className="w-full sm:w-auto border-slate-500 text-pink-600 to-rose-500 hover:bg-pink/10 font-bold px-8 py-6 rounded-2xl transition-all hover:scale-105 cursor-pointer text-base"
             >
               Contact Partnership Team
             </Button>
@@ -1333,7 +1333,7 @@ export default function PartnerOrganizationsPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ duration: 0.3 }}
-              className="relative bg-white rounded-3xl max-w-xl w-full p-6 border border-slate-200 shadow-2xl z-10"
+              className="relative bg-white rounded-2xl max-w-xl w-full p-6 border border-slate-200 shadow-lg z-10"
             >
               <button
                 onClick={() => setDetailsModal(null)}
@@ -1343,26 +1343,26 @@ export default function PartnerOrganizationsPage() {
               </button>
 
               <div className="flex items-center justify-between mb-3">
-                <span className="px-2.5 py-0.5 rounded bg-pink-50 text-pink-650 text-[10px] font-bold uppercase tracking-wider font-heading">
+                <span className="px-2.5 py-0.5 rounded bg-pink-50 text-pink-600 text-[11px] font-bold font-heading">
                   {detailsModal.subcategory}
                 </span>
-                <span className="text-[10px] text-slate-400 font-bold font-sans flex items-center gap-1">
+                <span className="text-[11px] text-slate-400 font-bold font-sans flex items-center gap-1">
                   <MapPin className="h-3 w-3" />
                   {detailsModal.city}
                 </span>
               </div>
 
-              <h3 className="font-heading text-lg sm:text-xl font-extrabold text-slate-800 leading-tight">
+              <h3 className="font-heading text-lg sm:text-xl font-bold text-slate-800 leading-tight">
                 {detailsModal.name}
               </h3>
 
-              <div className="mt-4 space-y-4 font-sans text-slate-650">
+              <div className="mt-4 space-y-4 font-sans text-slate-600">
                 <p className="text-xs sm:text-sm leading-relaxed">
                   {detailsModal.desc}
                 </p>
 
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-2">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">
+                  <p className="text-[11px] font-bold text-slate-400 font-heading">
                     Onboarding Target Areas
                   </p>
                   <p className="text-xs leading-relaxed text-slate-600">
@@ -1390,7 +1390,7 @@ export default function PartnerOrganizationsPage() {
                       setPartnerFormOpen(true);
                       scrollToId("partnership-application-section");
                     }}
-                    className="w-full rounded-xl border-slate-200 text-slate-750 font-bold h-10 cursor-pointer"
+                    className="w-full rounded-xl border-slate-200 text-slate-700 font-bold h-10 cursor-pointer"
                   >
                     Contact Partner
                   </Button>
@@ -1424,7 +1424,7 @@ export default function PartnerOrganizationsPage() {
               >
                 <X className="h-5 w-5" />
               </button>
-              <div className="rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-black max-h-[75vh] w-full">
+              <div className="rounded-2xl overflow-hidden border border-white/20 shadow-lg bg-black max-h-[75vh] w-full">
                 <img
                   src={lightboxImage.imageUrl}
                   alt={lightboxImage.caption}
@@ -1454,7 +1454,7 @@ export default function PartnerOrganizationsPage() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative max-w-2xl w-full z-10 bg-black rounded-3xl overflow-hidden border border-white/10 shadow-2xl"
+              className="relative max-w-2xl w-full z-10 bg-black rounded-2xl overflow-hidden border border-white/10 shadow-lg"
             >
               <button
                 onClick={() => setActivePlayVideo(null)}
@@ -1474,7 +1474,7 @@ export default function PartnerOrganizationsPage() {
                 </video>
               </div>
               <div className="p-4 bg-slate-900 text-white font-sans space-y-1">
-                <span className="text-[10px] text-pink-400 font-bold uppercase tracking-wider font-heading">
+                <span className="text-[11px] text-pink-400 font-bold font-heading">
                   {activePlayVideo.category}
                 </span>
                 <h4 className="text-sm font-bold font-heading">

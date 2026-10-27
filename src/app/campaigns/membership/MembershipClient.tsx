@@ -651,7 +651,7 @@ export default function MembershipClient() {
       <div className="absolute bottom-1/4 right-5 w-96 h-96 bg-pink-50/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
+      <section className="relative min-h-[50vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-10 md:py-14 overflow-hidden border-b border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
           <div className="space-y-6 text-center">
 
@@ -661,7 +661,7 @@ export default function MembershipClient() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-800 leading-[1.1]"
             >
               Become a Members<br />
               <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
@@ -686,14 +686,14 @@ export default function MembershipClient() {
             >
               <Button
                 onClick={() => scrollToForm("individual", "volunteer")}
-                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
+                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 transition-all text-sm tracking-wide cursor-pointer"
               >
                 Join as Individual
               </Button>
               <Button
                 onClick={() => scrollToForm("institution")}
                 variant="outline"
-                className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
+                className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 transition-all text-sm tracking-wide cursor-pointer"
               >
                 Become Institution Partner
               </Button>
@@ -703,14 +703,14 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= MEMBERSHIP BENEFITS ================= */}
-      <section id="membership-benefits" className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20 scroll-mt-6">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-16">
+      <section id="membership-benefits" className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20 scroll-mt-6">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-10">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <Sparkles className="h-3.5 w-3.5" /> Perks & Support
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Membership Benefits
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -720,7 +720,7 @@ export default function MembershipClient() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {membershipBenefits.map((benefit, idx) => (
-              <Card key={idx} className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl flex flex-col justify-between group hover:border-pink-300 hover:-translate-y-1">
+              <Card key={idx} className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between group hover:border-pink-300">
                 <CardHeader className="p-6 pb-2">
                   <div className="h-11 w-11 rounded-2xl bg-pink-50 flex items-center justify-center border border-pink-100/40 group-hover:scale-105 transition-transform duration-300">
                     {benefit.icon}
@@ -742,14 +742,14 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= MEMBERSHIP CATEGORIES ================= */}
-      <section className="py-20 md:py-28 bg-white relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
+      <section className="py-12 md:py-16 bg-white relative">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-10">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold ">
               <Users className="h-3.5 w-3.5" /> Options
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Choose Your Membership Category
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -760,8 +760,8 @@ export default function MembershipClient() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
 
             {/* Card 1: Institution Partner */}
-            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-lg transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between space-y-6 group hover:border-pink-300 text-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-gradient-to-l from-primary to-rose-500 text-white text-[9px] font-bold uppercase tracking-wider px-3.5 py-1 rounded-bl-xl shadow-sm">
+            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between space-y-6 group hover:border-pink-300 text-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-gradient-to-l from-primary to-rose-500 text-white text-[11px] font-bold px-3.5 py-1 rounded-bl-xl shadow-sm">
                 Partner Hub
               </div>
               <div className="space-y-4">
@@ -777,14 +777,14 @@ export default function MembershipClient() {
               </div>
               <Button
                 onClick={() => scrollToForm("institution")}
-                className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 active:scale-95 transition-all cursor-pointer shadow-md shadow-pink-100"
+                className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 transition-all cursor-pointer shadow-md shadow-pink-100"
               >
                 Register Organization
               </Button>
             </Card>
 
             {/* Card 2: Individual Member */}
-            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-lg transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between space-y-6 group hover:border-pink-300 text-center relative overflow-hidden">
+            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between space-y-6 group hover:border-pink-300 text-center relative overflow-hidden">
               <div className="space-y-4">
                 <div className="h-14 w-14 rounded-full bg-pink-50 text-primary flex items-center justify-center border border-pink-100/40 mx-auto group-hover:scale-105 transition-transform duration-300">
                   <Heart className="h-7 w-7 text-primary fill-pink-500/20" />
@@ -798,7 +798,7 @@ export default function MembershipClient() {
               </div>
               <Button
                 onClick={() => scrollToForm("individual", "volunteer")}
-                className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 active:scale-95 transition-all cursor-pointer shadow-md shadow-pink-100"
+                className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 transition-all cursor-pointer shadow-md shadow-pink-100"
               >
                 Join as Individual
               </Button>
@@ -809,16 +809,16 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= COMMUNITY FEEDBACK ================= */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-10">
 
           {/* Public Feedback Display */}
           <div className="space-y-8">
             <div className="text-center space-y-3 max-w-2xl mx-auto">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
                 <MessageSquare className="h-3.5 w-3.5" /> Community Feedback
               </span>
-              <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
                 What Our Members Say
               </h2>
               <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -829,7 +829,7 @@ export default function MembershipClient() {
             {feedbackLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="rounded-3xl border border-pink-100/60 bg-white p-6 shadow-sm animate-pulse space-y-3">
+                  <div key={i} className="rounded-2xl border border-pink-100/60 bg-white p-6 shadow-sm animate-pulse space-y-3">
                     <div className="h-4 w-1/2 bg-slate-200 rounded" />
                     <div className="h-3 w-1/3 bg-slate-100 rounded" />
                     <div className="h-12 w-full bg-slate-100 rounded" />
@@ -837,7 +837,7 @@ export default function MembershipClient() {
                 ))}
               </div>
             ) : approvedFeedback.length === 0 ? (
-              <Card className="rounded-3xl border border-pink-100/60 bg-white p-8 shadow-sm text-center max-w-xl mx-auto space-y-3">
+              <Card className="rounded-2xl border border-pink-100/60 bg-white p-6 shadow-sm text-center max-w-xl mx-auto space-y-3">
                 <MessageSquare className="h-10 w-10 text-pink-300 mx-auto" />
                 <p className="text-sm text-slate-600 font-semibold">
                   No feedback yet. Be the first to share your experience!
@@ -846,17 +846,17 @@ export default function MembershipClient() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {approvedFeedback.map((item) => (
-                  <Card key={item.id} className="rounded-3xl border border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] p-6 shadow-sm hover:shadow-md transition-shadow space-y-4 flex flex-col justify-between hover:border-pink-300">
+                  <Card key={item.id} className="rounded-2xl border border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] p-6 shadow-sm hover:shadow-md transition-shadow space-y-4 flex flex-col justify-between hover:border-pink-300">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between gap-2">
                         <div>
                           <h4 className="font-bold text-slate-800 text-sm leading-tight">{item.name}</h4>
-                          <span className="text-[10px] text-pink-700 font-semibold bg-pink-50 px-2 py-0.5 rounded border border-pink-100 inline-block mt-0.5">
+                          <span className="text-[11px] text-pink-700 font-semibold bg-pink-50 px-2 py-0.5 rounded border border-pink-100 inline-block mt-0.5">
                             {item.role}
                           </span>
                         </div>
                         {item.city && (
-                          <span className="text-[10px] text-slate-400 font-medium">
+                          <span className="text-[11px] text-slate-400 font-medium">
                             {item.city}
                           </span>
                         )}
@@ -880,7 +880,7 @@ export default function MembershipClient() {
                       </p>
                     </div>
 
-                    <div className="text-[10px] text-slate-400 font-medium pt-2 border-t border-pink-50">
+                    <div className="text-[11px] text-slate-400 font-medium pt-2 border-t border-pink-50">
                       {new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                     </div>
                   </Card>
@@ -891,12 +891,12 @@ export default function MembershipClient() {
 
           {/* Feedback Submission Form */}
           <div className="max-w-2xl mx-auto pt-8 border-t border-pink-100/40">
-            <Card className="rounded-3xl border border-pink-100 bg-white p-6 sm:p-10 shadow-lg space-y-6">
+            <Card className="rounded-2xl border border-pink-100 bg-white p-6 shadow-lg space-y-6">
               <div className="text-center space-y-2">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
                   <Sparkles className="h-3.5 w-3.5 text-primary" /> Share Your Experience
                 </span>
-                <h3 className="font-heading text-2xl font-black text-slate-900">Submit Your Feedback</h3>
+                <h3 className="font-heading text-2xl font-bold text-slate-900">Submit Your Feedback</h3>
                 <p className="text-slate-500 text-xs sm:text-sm font-medium">
                   Your feedback helps us improve and inspire others. Submissions appear after admin approval.
                 </p>
@@ -940,7 +940,7 @@ export default function MembershipClient() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Full Name */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase text-slate-600 tracking-wider">
+                      <label className="text-xs font-bold text-slate-600 ">
                         Full Name <span className="text-rose-500">*</span>
                       </label>
                       <input
@@ -955,7 +955,7 @@ export default function MembershipClient() {
 
                     {/* Email */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase text-slate-600 tracking-wider">
+                      <label className="text-xs font-bold text-slate-600 ">
                         Email Address <span className="text-rose-500">*</span>
                       </label>
                       <input
@@ -972,7 +972,7 @@ export default function MembershipClient() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Role Dropdown */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase text-slate-600 tracking-wider">
+                      <label className="text-xs font-bold text-slate-600 ">
                         Your Role <span className="text-rose-500">*</span>
                       </label>
                       <select
@@ -992,7 +992,7 @@ export default function MembershipClient() {
 
                     {/* City */}
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold uppercase text-slate-600 tracking-wider">
+                      <label className="text-xs font-bold text-slate-600 ">
                         City (Optional)
                       </label>
                       <input
@@ -1007,7 +1007,7 @@ export default function MembershipClient() {
 
                   {/* Rating 1-5 Stars */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase text-slate-600 tracking-wider block">
+                    <label className="text-xs font-bold text-slate-600 block">
                       Rating <span className="text-rose-500">*</span>
                     </label>
                     <div className="flex items-center gap-1.5 cursor-pointer">
@@ -1035,10 +1035,10 @@ export default function MembershipClient() {
                   {/* Feedback Message */}
                   <div className="space-y-1.5">
                     <div className="flex justify-between items-center">
-                      <label className="text-xs font-bold uppercase text-slate-600 tracking-wider">
+                      <label className="text-xs font-bold text-slate-600 ">
                         Feedback Text <span className="text-rose-500">*</span>
                       </label>
-                      <span className="text-[10px] font-semibold text-slate-400">
+                      <span className="text-[11px] font-semibold text-slate-400">
                         {feedbackForm.message.length} / 500 chars
                       </span>
                     </div>
@@ -1071,7 +1071,7 @@ export default function MembershipClient() {
                   <Button
                     type="submit"
                     disabled={feedbackSubmitting}
-                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 text-sm shadow-md shadow-pink-100 active:scale-95 transition-all cursor-pointer"
+                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-lg py-5 text-sm shadow-md shadow-pink-100 transition-all cursor-pointer"
                   >
                     {feedbackSubmitting ? "Submitting..." : "Submit Feedback"}
                   </Button>
@@ -1084,16 +1084,16 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= VERIFIED MEMBERS SECTION ================= */}
-      <section className="py-20 md:py-28 bg-white border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-16">
+      <section className="py-12 md:py-16 bg-white border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-10">
 
           {/* Heading */}
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <CheckCircle2 className="h-3.5 w-3.5" />
               Verified Members
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Our Growing Community
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -1105,7 +1105,7 @@ export default function MembershipClient() {
           {verifiedLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="rounded-3xl border border-pink-100/60 bg-white p-6 shadow-sm animate-pulse space-y-3">
+                <div key={i} className="rounded-2xl border border-pink-100/60 bg-white p-6 shadow-sm animate-pulse space-y-3">
                   <div className="h-12 w-12 rounded-full bg-slate-200" />
                   <div className="h-4 w-1/2 bg-slate-200 rounded" />
                   <div className="h-3 w-3/4 bg-slate-100 rounded" />
@@ -1113,7 +1113,7 @@ export default function MembershipClient() {
               ))}
             </div>
           ) : verifiedMembers.length === 0 ? (
-            <Card className="rounded-3xl border-2 border-dashed border-pink-200 bg-white p-12 shadow-sm text-center max-w-xl mx-auto space-y-3">
+            <Card className="rounded-2xl border-2 border-dashed border-pink-200 bg-white p-8 shadow-sm text-center max-w-xl mx-auto space-y-3">
               <Users className="h-10 w-10 text-pink-300 mx-auto" />
               <p className="text-sm text-slate-600 font-semibold">
                 No verified members yet.
@@ -1125,7 +1125,7 @@ export default function MembershipClient() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {verifiedMembers.map((member) => (
-                <Card key={member.id} className="rounded-3xl border border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] p-6 shadow-sm hover:shadow-md transition-shadow space-y-4 flex flex-col justify-between hover:border-pink-300">
+                <Card key={member.id} className="rounded-2xl border border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] p-6 shadow-sm hover:shadow-md transition-shadow space-y-4 flex flex-col justify-between hover:border-pink-300">
 
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
@@ -1136,7 +1136,7 @@ export default function MembershipClient() {
                         <h4 className="font-bold text-slate-800 text-sm leading-tight truncate">
                           {member.displayName}
                         </h4>
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded border border-pink-100 bg-pink-50 text-pink-700 inline-block mt-1">
+                        <span className="text-[11px] font-semibold px-2 py-0.5 rounded border border-pink-100 bg-pink-50 text-pink-700 inline-block mt-1">
                           {member.category}
                         </span>
                       </div>
@@ -1156,7 +1156,7 @@ export default function MembershipClient() {
                     )}
                   </div>
 
-                  <div className="pt-3 border-t border-pink-50 text-[10px] text-slate-400 font-medium flex items-center gap-1">
+                  <div className="pt-3 border-t border-pink-50 text-[11px] text-slate-400 font-medium flex items-center gap-1">
                     <CheckCircle2 className="h-3 w-3 text-emerald-500" />
                     Verified Member
                   </div>
@@ -1168,7 +1168,7 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= DYNAMIC FORMS SECTION ================= */}
-      <section ref={formSectionRef} className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20 scroll-mt-6">
+      <section ref={formSectionRef} className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20 scroll-mt-6">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl space-y-8">
 
           <AnimatePresence mode="wait">
@@ -1178,10 +1178,10 @@ export default function MembershipClient() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="text-center py-12 p-8 bg-white border border-pink-100 rounded-3xl space-y-4 max-w-xl mx-auto shadow-sm"
+                className="text-center py-12 p-6 bg-white border border-pink-100 rounded-2xl space-y-4 max-w-xl mx-auto shadow-sm"
               >
                 <Award className="h-12 w-12 text-pink-400 mx-auto stroke-[1.2]" />
-                <h3 className="font-heading text-2xl font-black text-slate-900">Start Your Membership</h3>
+                <h3 className="font-heading text-2xl font-bold text-slate-900">Start Your Membership</h3>
                 <p className="text-slate-500 text-sm font-medium">Select a category above or choose an onboarding workflow below to load the registration form.</p>
                 <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
                   <Button onClick={() => scrollToForm("individual", "volunteer")} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full text-xs py-6 px-6">Individual Member</Button>
@@ -1199,16 +1199,16 @@ export default function MembershipClient() {
                 className="space-y-6"
               >
                 <div className="text-center space-y-3">
-                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
                     <Users className="h-3.5 w-3.5" /> Individual Registration Form
                   </span>
-                  <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">
+                  <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-800">
                     Apply for Membership
                   </h2>
                   <p className="text-slate-500 text-sm font-medium">Provide your details below to request community member registration.</p>
                 </div>
 
-                <Card className="border-pink-100/60 bg-white shadow-xl rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+                <Card className="border-pink-100/60 bg-white shadow-md rounded-2xl p-6 relative overflow-hidden">
                   <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-rose-500 to-pink-600" />
 
                   <AnimatePresence mode="wait">
@@ -1224,7 +1224,7 @@ export default function MembershipClient() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                           {/* Full Name */}
                           <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Full Name</label>
+                            <label className="text-xs font-bold text-slate-500 ">Full Name</label>
                             <input
                               type="text"
                               name="fullName"
@@ -1234,12 +1234,12 @@ export default function MembershipClient() {
                                 }`}
                               placeholder="Jane Doe"
                             />
-                            {individualErrors.fullName && <p className="text-[10px] text-rose-500 font-bold">{individualErrors.fullName}</p>}
+                            {individualErrors.fullName && <p className="text-[11px] text-rose-500 font-bold">{individualErrors.fullName}</p>}
                           </div>
 
                           {/* Email */}
                           <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Email Address</label>
+                            <label className="text-xs font-bold text-slate-500 ">Email Address</label>
                             <input
                               type="email"
                               name="email"
@@ -1249,14 +1249,14 @@ export default function MembershipClient() {
                                 }`}
                               placeholder="jane@example.com"
                             />
-                            {individualErrors.email && <p className="text-[10px] text-rose-500 font-bold">{individualErrors.email}</p>}
+                            {individualErrors.email && <p className="text-[11px] text-rose-500 font-bold">{individualErrors.email}</p>}
                           </div>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                           {/* Mobile Number */}
                           <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Mobile Number</label>
+                            <label className="text-xs font-bold text-slate-500 ">Mobile Number</label>
                             <input
                               type="tel"
                               name="mobile"
@@ -1266,12 +1266,12 @@ export default function MembershipClient() {
                                 }`}
                               placeholder="+91 9876543210"
                             />
-                            {individualErrors.mobile && <p className="text-[10px] text-rose-500 font-bold">{individualErrors.mobile}</p>}
+                            {individualErrors.mobile && <p className="text-[11px] text-rose-500 font-bold">{individualErrors.mobile}</p>}
                           </div>
 
                           {/* Category Selection */}
                           <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Membership Category</label>
+                            <label className="text-xs font-bold text-slate-500 ">Membership Category</label>
                             <select
                               name="category"
                               value={individualFormData.category}
@@ -1287,7 +1287,7 @@ export default function MembershipClient() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                           {/* City */}
                           <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">City</label>
+                            <label className="text-xs font-bold text-slate-500 ">City</label>
                             <input
                               type="text"
                               name="city"
@@ -1297,12 +1297,12 @@ export default function MembershipClient() {
                                 }`}
                               placeholder="Mumbai"
                             />
-                            {individualErrors.city && <p className="text-[10px] text-rose-500 font-bold">{individualErrors.city}</p>}
+                            {individualErrors.city && <p className="text-[11px] text-rose-500 font-bold">{individualErrors.city}</p>}
                           </div>
 
                           {/* State */}
                           <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">State</label>
+                            <label className="text-xs font-bold text-slate-500 ">State</label>
                             <input
                               type="text"
                               name="state"
@@ -1312,13 +1312,13 @@ export default function MembershipClient() {
                                 }`}
                               placeholder="Maharashtra"
                             />
-                            {individualErrors.state && <p className="text-[10px] text-rose-500 font-bold">{individualErrors.state}</p>}
+                            {individualErrors.state && <p className="text-[11px] text-rose-500 font-bold">{individualErrors.state}</p>}
                           </div>
                         </div>
 
                         {/* Why Join */}
                         <div className="space-y-2">
-                          <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Why do you want to join?</label>
+                          <label className="text-xs font-bold text-slate-500 ">Why do you want to join?</label>
                           <textarea
                             name="whyJoin"
                             rows={4}
@@ -1328,13 +1328,13 @@ export default function MembershipClient() {
                               }`}
                             placeholder="Share your goals or how you would like to contribute..."
                           />
-                          {individualErrors.whyJoin && <p className="text-[10px] text-rose-500 font-bold">{individualErrors.whyJoin}</p>}
+                          {individualErrors.whyJoin && <p className="text-[11px] text-rose-500 font-bold">{individualErrors.whyJoin}</p>}
                         </div>
 
                         {/* Action Info Note */}
                         <div className="flex gap-2 p-4 rounded-xl bg-pink-50/40 text-slate-500 border border-pink-100/50">
                           <Info className="h-4 w-4 shrink-0 text-primary mt-0.5" />
-                          <p className="text-[10px] leading-relaxed font-semibold">
+                          <p className="text-[11px] leading-relaxed font-semibold">
                             Your details are kept confidential under platform privacy terms. System processes verify inputs before approval alerts are emailed.
                           </p>
                         </div>
@@ -1347,7 +1347,7 @@ export default function MembershipClient() {
                         <Button
                           type="submit"
                           disabled={isPending}
-                          className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-pink-100"
+                          className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-lg py-5 transition-all text-sm cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-pink-100"
                         >
                           {isPending ? (
                             <>
@@ -1367,13 +1367,13 @@ export default function MembershipClient() {
                         exit={{ opacity: 0 }}
                         className="text-center py-8 space-y-6"
                       >
-                        <div className="h-16 w-16 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto border border-emerald-100 animate-bounce">
+                        <div className="h-16 w-16 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto border border-emerald-100 ">
                           <Check className="h-8 w-8" />
                         </div>
                         <div className="space-y-2">
-                          <h3 className="font-heading text-2xl font-black text-slate-800">Application Submitted!</h3>
+                          <h3 className="font-heading text-2xl font-bold text-slate-800">Application Submitted!</h3>
                           <p className="text-sm text-slate-500 max-w-sm mx-auto font-medium">
-                            Thank you, <strong className="text-slate-800">{individualFormData.fullName}</strong>. We have received your request for the <strong className="text-slate-800 uppercase">{individualFormData.category}</strong> membership tier.
+                            Thank you, <strong className="text-slate-800">{individualFormData.fullName}</strong>. We have received your request for the <strong className="text-slate-800 ">{individualFormData.category}</strong> membership tier.
                           </p>
                         </div>
                         <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
@@ -1382,14 +1382,14 @@ export default function MembershipClient() {
                         <div className="pt-4 flex gap-3 justify-center">
                           <Button
                             onClick={resetIndividualForm}
-                            className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 px-6 active:scale-95 transition-all text-xs uppercase shadow-md shadow-pink-100"
+                            className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg py-5 px-6 transition-all text-xs shadow-md shadow-pink-100"
                           >
                             Submit Another
                           </Button>
                           <Link href="/">
                             <Button
                               variant="outline"
-                              className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full py-6 px-6 active:scale-95 transition-all text-xs uppercase"
+                              className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-lg py-5 px-6 transition-all text-xs "
                             >
                               Return Home
                             </Button>
@@ -1412,10 +1412,10 @@ export default function MembershipClient() {
               >
                 {/* flowchart layout */}
                 <div className="text-center space-y-3">
-                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
                     <Building2 className="h-3.5 w-3.5" /> Institution Partner Hub
                   </span>
-                  <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                  <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
                     Become an Institution Partner
                   </h2>
                   <p className="text-slate-500 text-sm font-medium max-w-lg mx-auto">
@@ -1424,10 +1424,10 @@ export default function MembershipClient() {
                 </div>
 
                 {/* Diagram */}
-                <div className="relative max-w-2xl mx-auto pt-2 pb-6 border border-pink-100 bg-white rounded-3xl shadow-sm">
+                <div className="relative max-w-2xl mx-auto pt-2 pb-6 border border-pink-100 bg-white rounded-2xl shadow-sm">
 
                   {/* Top Node */}
-                  <div className="inline-flex flex-col items-center mt-6 p-4 px-6 bg-gradient-to-r from-primary via-rose-500 to-pink-600 text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-md border border-white/20 select-none">
+                  <div className="inline-flex flex-col items-center mt-6 p-4 px-6 bg-gradient-to-r from-primary via-rose-500 to-pink-600 text-white font-bold text-xs sm:text-sm rounded-2xl shadow-md border border-white/20 select-none">
                     <Building2 className="h-5 w-5 mb-1" />
                     Institution Member
                   </div>
@@ -1435,7 +1435,7 @@ export default function MembershipClient() {
                   {/* Lines */}
                   <div className="w-0.5 h-6 border-l-2 border-dashed border-pink-300 mx-auto" />
 
-                  <div className="inline-block px-4 py-1.5 bg-pink-50 text-pink-700 border border-pink-100 rounded-full font-bold text-[10px] uppercase tracking-wide shadow-sm select-none">
+                  <div className="inline-block px-4 py-1.5 bg-pink-50 text-pink-700 border border-pink-100 rounded-full font-bold text-[11px] tracking-wide shadow-sm select-none">
                     Choose Membership Type
                   </div>
 
@@ -1463,7 +1463,7 @@ export default function MembershipClient() {
                         <h4 className="font-heading text-sm font-bold text-slate-800 group-hover:text-primary transition-colors">Organization Member</h4>
                         <p className="text-[10.5px] text-slate-500 leading-normal font-medium">For NGOs, Trusts, Foundations, Hospitals, Educational Groups, and Welfare Units.</p>
                       </div>
-                      <Button className={`w-full font-bold rounded-full text-[10px] py-2 h-auto cursor-pointer ${selectedFlow === "NGO" ? "bg-primary text-white" : "bg-slate-50 text-slate-600 hover:bg-pink-50"
+                      <Button className={`w-full font-bold rounded-lg text-[11px] py-2 h-auto cursor-pointer ${selectedFlow === "NGO" ? "bg-primary text-white" : "bg-slate-50 text-slate-600 hover:bg-pink-50"
                         }`}>
                         Register NGO Flow
                       </Button>
@@ -1482,7 +1482,7 @@ export default function MembershipClient() {
                         <h4 className="font-heading text-sm font-bold text-slate-800 group-hover:text-primary transition-colors">Corporate Partner</h4>
                         <p className="text-[10.5px] text-slate-500 leading-normal font-medium">For Corporate, CSR Provider to support and spread the cost for maximum outreach.</p>
                       </div>
-                      <Button className={`w-full font-bold rounded-full text-[10px] py-2 h-auto cursor-pointer ${selectedFlow === "CORPORATE" ? "bg-primary text-white" : "bg-slate-50 text-slate-600 hover:bg-pink-50"
+                      <Button className={`w-full font-bold rounded-lg text-[11px] py-2 h-auto cursor-pointer ${selectedFlow === "CORPORATE" ? "bg-primary text-white" : "bg-slate-50 text-slate-600 hover:bg-pink-50"
                         }`}>
                         Register Corporate
                       </Button>
@@ -1509,7 +1509,7 @@ export default function MembershipClient() {
                           <div key={step} className="flex items-center">
                             <button
                               type="button" onClick={() => step < ngoFormStep && setNgoFormStep(step)}
-                              className={`h-6 w-6 rounded-full font-bold text-[10px] flex items-center justify-center transition-all ${ngoFormStep === step
+                              className={`h-6 w-6 rounded-full font-bold text-[11px] flex items-center justify-center transition-all ${ngoFormStep === step
                                 ? "bg-primary text-white ring-2 ring-pink-100"
                                 : ngoFormStep > step
                                   ? "bg-emerald-500 text-white"
@@ -1523,7 +1523,7 @@ export default function MembershipClient() {
                         ))}
                       </div>
 
-                      <Card className="border-pink-100 bg-white shadow-xl rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+                      <Card className="border-pink-100 bg-white shadow-md rounded-2xl p-6 relative overflow-hidden">
                         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-rose-500 to-pink-600" />
 
                         {!ngoSubmitted ? (
@@ -1531,21 +1531,21 @@ export default function MembershipClient() {
 
                             {ngoFormStep === 1 && (
                               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                                <h3 className="font-heading font-black text-base text-slate-800">Organization profile</h3>
+                                <h3 className="font-heading font-bold text-base text-slate-800">Organization profile</h3>
                                 <div className="space-y-4">
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Organization Name</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Organization Name</label>
                                     <input
                                       type="text" name="organizationName" value={ngoData.organizationName} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.organizationName ? "border-rose-500" : "border-slate-200 focus:border-primary"}`}
                                       placeholder="Care for All Foundation"
                                     />
-                                    {formErrors.organizationName && <p className="text-[10px] text-rose-500 font-bold">{formErrors.organizationName}</p>}
+                                    {formErrors.organizationName && <p className="text-[11px] text-rose-500 font-bold">{formErrors.organizationName}</p>}
                                   </div>
 
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Organization Type</label>
+                                      <label className="text-xs font-bold text-slate-500 ">Organization Type</label>
                                       <select
                                         name="organizationType" value={ngoData.organizationType} onChange={handleNgoInputChange}
                                         className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white focus:outline-none"
@@ -1561,24 +1561,24 @@ export default function MembershipClient() {
                                       </select>
                                     </div>
                                     <div className="space-y-2">
-                                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Year Established</label>
+                                      <label className="text-xs font-bold text-slate-500 ">Year Established</label>
                                       <input
                                         type="text" name="yearEstablished" value={ngoData.yearEstablished} onChange={handleNgoInputChange}
                                         className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.yearEstablished ? "border-rose-500" : "border-slate-200"}`}
                                         placeholder="2018"
                                       />
-                                      {formErrors.yearEstablished && <p className="text-[10px] text-rose-500 font-bold">{formErrors.yearEstablished}</p>}
+                                      {formErrors.yearEstablished && <p className="text-[11px] text-rose-500 font-bold">{formErrors.yearEstablished}</p>}
                                     </div>
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">NGO Registration / Darpan ID</label>
+                                    <label className="text-xs font-bold text-slate-500 ">NGO Registration / Darpan ID</label>
                                     <input
                                       type="text" name="ngoRegistrationNumber" value={ngoData.ngoRegistrationNumber} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.ngoRegistrationNumber ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="NGO/2023/00123"
                                     />
-                                    {formErrors.ngoRegistrationNumber && <p className="text-[10px] text-rose-500 font-bold">{formErrors.ngoRegistrationNumber}</p>}
+                                    {formErrors.ngoRegistrationNumber && <p className="text-[11px] text-rose-500 font-bold">{formErrors.ngoRegistrationNumber}</p>}
                                   </div>
                                 </div>
 
@@ -1592,50 +1592,50 @@ export default function MembershipClient() {
 
                             {ngoFormStep === 2 && (
                               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                                <h3 className="font-heading font-black text-base text-slate-800">Contact details</h3>
+                                <h3 className="font-heading font-bold text-base text-slate-800">Contact details</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                   <div className="space-y-2 col-span-1 sm:col-span-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Contact Person Name</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Contact Person Name</label>
                                     <input
                                       type="text" name="contactPersonName" value={ngoData.contactPersonName} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.contactPersonName ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Rajesh Patel"
                                     />
-                                    {formErrors.contactPersonName && <p className="text-[10px] text-rose-500 font-bold">{formErrors.contactPersonName}</p>}
+                                    {formErrors.contactPersonName && <p className="text-[11px] text-rose-500 font-bold">{formErrors.contactPersonName}</p>}
                                   </div>
 
                                   <div className="space-y-2 col-span-1 sm:col-span-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Designation</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Designation</label>
                                     <input
                                       type="text" name="designation" value={ngoData.designation} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.designation ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Managing Trustee"
                                     />
-                                    {formErrors.designation && <p className="text-[10px] text-rose-500 font-bold">{formErrors.designation}</p>}
+                                    {formErrors.designation && <p className="text-[11px] text-rose-500 font-bold">{formErrors.designation}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Email Address</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Email Address</label>
                                     <input
                                       type="email" name="email" value={ngoData.email} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.email ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="contact@foundation.org"
                                     />
-                                    {formErrors.email && <p className="text-[10px] text-rose-500 font-bold">{formErrors.email}</p>}
+                                    {formErrors.email && <p className="text-[11px] text-rose-500 font-bold">{formErrors.email}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Mobile Number</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Mobile Number</label>
                                     <input
                                       type="tel" name="mobileNumber" value={ngoData.mobileNumber} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.mobileNumber ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="+91 9876543210"
                                     />
-                                    {formErrors.mobileNumber && <p className="text-[10px] text-rose-500 font-bold">{formErrors.mobileNumber}</p>}
+                                    {formErrors.mobileNumber && <p className="text-[11px] text-rose-500 font-bold">{formErrors.mobileNumber}</p>}
                                   </div>
 
                                   <div className="space-y-2 col-span-1 sm:col-span-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Website URL</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Website URL</label>
                                     <input
                                       type="url" name="website" value={ngoData.website} onChange={handleNgoInputChange}
                                       className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none"
@@ -1657,56 +1657,56 @@ export default function MembershipClient() {
 
                             {ngoFormStep === 3 && (
                               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                                <h3 className="font-heading font-black text-base text-slate-800">Address Details</h3>
+                                <h3 className="font-heading font-bold text-base text-slate-800">Address Details</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                   <div className="space-y-2 col-span-1 sm:col-span-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Complete Address</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Complete Address</label>
                                     <input
                                       type="text" name="completeAddress" value={ngoData.completeAddress} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.completeAddress ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Address line 1"
                                     />
-                                    {formErrors.completeAddress && <p className="text-[10px] text-rose-500 font-bold">{formErrors.completeAddress}</p>}
+                                    {formErrors.completeAddress && <p className="text-[11px] text-rose-500 font-bold">{formErrors.completeAddress}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">State</label>
+                                    <label className="text-xs font-bold text-slate-500 ">State</label>
                                     <input
                                       type="text" name="state" value={ngoData.state} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.state ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Maharashtra"
                                     />
-                                    {formErrors.state && <p className="text-[10px] text-rose-500 font-bold">{formErrors.state}</p>}
+                                    {formErrors.state && <p className="text-[11px] text-rose-500 font-bold">{formErrors.state}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">District</label>
+                                    <label className="text-xs font-bold text-slate-500 ">District</label>
                                     <input
                                       type="text" name="district" value={ngoData.district} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.district ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Pune"
                                     />
-                                    {formErrors.district && <p className="text-[10px] text-rose-500 font-bold">{formErrors.district}</p>}
+                                    {formErrors.district && <p className="text-[11px] text-rose-500 font-bold">{formErrors.district}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">City</label>
+                                    <label className="text-xs font-bold text-slate-500 ">City</label>
                                     <input
                                       type="text" name="city" value={ngoData.city} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.city ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Pune"
                                     />
-                                    {formErrors.city && <p className="text-[10px] text-rose-500 font-bold">{formErrors.city}</p>}
+                                    {formErrors.city && <p className="text-[11px] text-rose-500 font-bold">{formErrors.city}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Pincode</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Pincode</label>
                                     <input
                                       type="text" name="pincode" value={ngoData.pincode} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.pincode ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="411001"
                                     />
-                                    {formErrors.pincode && <p className="text-[10px] text-rose-500 font-bold">{formErrors.pincode}</p>}
+                                    {formErrors.pincode && <p className="text-[11px] text-rose-500 font-bold">{formErrors.pincode}</p>}
                                   </div>
                                 </div>
 
@@ -1723,52 +1723,52 @@ export default function MembershipClient() {
 
                             {ngoFormStep === 4 && (
                               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                                <h3 className="font-heading font-black text-base text-slate-800">Experience & Uploads</h3>
+                                <h3 className="font-heading font-bold text-base text-slate-800">Experience & Uploads</h3>
                                 <div className="space-y-4">
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Number of Volunteers</label>
+                                      <label className="text-xs font-bold text-slate-500 ">Number of Volunteers</label>
                                       <input
                                         type="text" name="numberOfVolunteers" value={ngoData.numberOfVolunteers} onChange={handleNgoInputChange}
                                         className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.numberOfVolunteers ? "border-rose-500" : "border-slate-200"}`}
                                         placeholder="25"
                                       />
-                                      {formErrors.numberOfVolunteers && <p className="text-[10px] text-rose-500 font-bold">{formErrors.numberOfVolunteers}</p>}
+                                      {formErrors.numberOfVolunteers && <p className="text-[11px] text-rose-500 font-bold">{formErrors.numberOfVolunteers}</p>}
                                     </div>
                                     <div className="space-y-2">
-                                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Areas of Work</label>
+                                      <label className="text-xs font-bold text-slate-500 ">Areas of Work</label>
                                       <input
                                         type="text" name="areasOfWork" value={ngoData.areasOfWork} onChange={handleNgoInputChange}
                                         className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.areasOfWork ? "border-rose-500" : "border-slate-200"}`}
                                         placeholder="Healthcare, Rural outreach"
                                       />
-                                      {formErrors.areasOfWork && <p className="text-[10px] text-rose-500 font-bold">{formErrors.areasOfWork}</p>}
+                                      {formErrors.areasOfWork && <p className="text-[11px] text-rose-500 font-bold">{formErrors.areasOfWork}</p>}
                                     </div>
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Previous awareness campaigns</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Previous awareness campaigns</label>
                                     <textarea
                                       name="previousExperience" rows={2} value={ngoData.previousExperience} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none resize-none ${formErrors.previousExperience ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Summary of previous work..."
                                     />
-                                    {formErrors.previousExperience && <p className="text-[10px] text-rose-500 font-bold">{formErrors.previousExperience}</p>}
+                                    {formErrors.previousExperience && <p className="text-[11px] text-rose-500 font-bold">{formErrors.previousExperience}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Expected Collaboration</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Expected Collaboration</label>
                                     <textarea
                                       name="expectedCollaboration" rows={2} value={ngoData.expectedCollaboration} onChange={handleNgoInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none resize-none ${formErrors.expectedCollaboration ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Expected collaboration..."
                                     />
-                                    {formErrors.expectedCollaboration && <p className="text-[10px] text-rose-500 font-bold">{formErrors.expectedCollaboration}</p>}
+                                    {formErrors.expectedCollaboration && <p className="text-[11px] text-rose-500 font-bold">{formErrors.expectedCollaboration}</p>}
                                   </div>
 
                                   {/* UPLOADS */}
                                   <div className="space-y-3 p-4 bg-pink-50/40 rounded-2xl border border-pink-100/50">
-                                    <span className="text-[10px] font-bold uppercase text-slate-700 tracking-wider">Supporting Scans</span>
+                                    <span className="text-[11px] font-bold text-slate-700 ">Supporting Scans</span>
 
                                     <div className="space-y-2">
                                       <span className="text-xs text-slate-600 block">Registration Certificate</span>
@@ -1777,7 +1777,7 @@ export default function MembershipClient() {
                                         <label htmlFor="ngoCertFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
                                         {renderUploadStatus(ngoCertificateUpload)}
                                       </div>
-                                      {formErrors.ngoCertificate && <p className="text-[10px] text-rose-500 font-bold">{formErrors.ngoCertificate}</p>}
+                                      {formErrors.ngoCertificate && <p className="text-[11px] text-rose-500 font-bold">{formErrors.ngoCertificate}</p>}
                                     </div>
 
                                     <div className="space-y-2">
@@ -1787,7 +1787,7 @@ export default function MembershipClient() {
                                         <label htmlFor="ngoLogoFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm transition-colors"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
                                         {renderUploadStatus(ngoLogoUpload)}
                                       </div>
-                                      {formErrors.ngoLogo && <p className="text-[10px] text-rose-500 font-bold">{formErrors.ngoLogo}</p>}
+                                      {formErrors.ngoLogo && <p className="text-[11px] text-rose-500 font-bold">{formErrors.ngoLogo}</p>}
                                     </div>
 
                                     <div className="space-y-2">
@@ -1797,7 +1797,7 @@ export default function MembershipClient() {
                                         <label htmlFor="ngoDocsFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm transition-colors"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
                                         {renderUploadStatus(ngoDocsUpload)}
                                       </div>
-                                      {formErrors.supportingDocs && <p className="text-[10px] text-rose-500 font-bold">{formErrors.supportingDocs}</p>}
+                                      {formErrors.supportingDocs && <p className="text-[11px] text-rose-500 font-bold">{formErrors.supportingDocs}</p>}
                                     </div>
                                   </div>
 
@@ -1805,7 +1805,7 @@ export default function MembershipClient() {
                                     <input type="checkbox" id="ngoIsDeclared" name="isDeclared" checked={ngoData.isDeclared} onChange={handleNgoInputChange} className="mt-1 h-4 w-4 accent-primary" />
                                     <label htmlFor="ngoIsDeclared" className="text-xs text-slate-500 cursor-pointer font-medium">I hereby declare that the details provided are correct and our organization commits to coordinating breast cancer awareness campaigns.</label>
                                   </div>
-                                  {formErrors.isDeclared && <p className="text-[10px] text-rose-500 font-bold">{formErrors.isDeclared}</p>}
+                                  {formErrors.isDeclared && <p className="text-[11px] text-rose-500 font-bold">{formErrors.isDeclared}</p>}
                                 </div>
 
                                 <div className="flex flex-col gap-3 pt-4 border-t border-pink-50">
@@ -1818,7 +1818,7 @@ export default function MembershipClient() {
                                     <Button type="button" onClick={() => setNgoFormStep(3)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
                                       Back
                                     </Button>
-                                    <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3.5 cursor-pointer shadow-md shadow-pink-100">
+                                    <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg px-6 py-3.5 cursor-pointer shadow-md shadow-pink-100">
                                       {isPending ? "Submitting..." : "Apply for Organization Membership"}
                                     </Button>
                                   </div>
@@ -1830,7 +1830,7 @@ export default function MembershipClient() {
                         ) : (
                           <div className="text-center py-6 space-y-4">
                             <div className="h-14 w-14 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto"><Check className="h-7 w-7" /></div>
-                            <h3 className="font-heading font-black text-xl text-slate-900">Application Submitted!</h3>
+                            <h3 className="font-heading font-bold text-xl text-slate-900">Application Submitted!</h3>
                             <p className="text-xs text-slate-500">Thank you, NGO application for **{ngoData.organizationName}** has been registered. Coordination managers will review details shortly.</p>
                             <Button onClick={() => { setNgoSubmitted(false); setNgoFormStep(1); }} className="bg-primary text-white rounded-full text-xs py-3 px-6 cursor-pointer shadow-md shadow-pink-100">Submit Another</Button>
                           </div>
@@ -1853,7 +1853,7 @@ export default function MembershipClient() {
                           <div key={step} className="flex items-center">
                             <button
                               type="button" onClick={() => step < corpFormStep && setCorpFormStep(step)}
-                              className={`h-6 w-6 rounded-full font-bold text-[10px] flex items-center justify-center transition-all ${corpFormStep === step
+                              className={`h-6 w-6 rounded-full font-bold text-[11px] flex items-center justify-center transition-all ${corpFormStep === step
                                 ? "bg-primary text-white ring-2 ring-pink-100"
                                 : corpFormStep > step
                                   ? "bg-emerald-500 text-white"
@@ -1867,7 +1867,7 @@ export default function MembershipClient() {
                         ))}
                       </div>
 
-                      <Card className="border-pink-100 bg-white shadow-xl rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+                      <Card className="border-pink-100 bg-white shadow-md rounded-2xl p-6 relative overflow-hidden">
                         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-rose-500 to-pink-600" />
 
                         {!corpSubmitted ? (
@@ -1875,21 +1875,21 @@ export default function MembershipClient() {
 
                             {corpFormStep === 1 && (
                               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                                <h3 className="font-heading font-black text-base text-slate-800">Corporate profile</h3>
+                                <h3 className="font-heading font-bold text-base text-slate-800">Corporate profile</h3>
                                 <div className="space-y-4">
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Company Name</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Company Name</label>
                                     <input
                                       type="text" name="companyName" value={corpData.companyName} onChange={handleCorpInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.companyName ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Zenith Technologies"
                                     />
-                                    {formErrors.companyName && <p className="text-[10px] text-rose-500 font-bold">{formErrors.companyName}</p>}
+                                    {formErrors.companyName && <p className="text-[11px] text-rose-500 font-bold">{formErrors.companyName}</p>}
                                   </div>
 
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Industry</label>
+                                      <label className="text-xs font-bold text-slate-500 ">Industry</label>
                                       <select
                                         name="industry" value={corpData.industry} onChange={handleCorpInputChange}
                                         className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white focus:outline-none"
@@ -1904,18 +1904,18 @@ export default function MembershipClient() {
                                       </select>
                                     </div>
                                     <div className="space-y-2">
-                                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">GST Number</label>
+                                      <label className="text-xs font-bold text-slate-500 ">GST Number</label>
                                       <input
                                         type="text" name="gstNumber" value={corpData.gstNumber} onChange={handleCorpInputChange}
                                         className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.gstNumber ? "border-rose-500" : "border-slate-200"}`}
                                         placeholder="27AAAAA1111A1Z1"
                                       />
-                                      {formErrors.gstNumber && <p className="text-[10px] text-rose-500 font-bold">{formErrors.gstNumber}</p>}
+                                      {formErrors.gstNumber && <p className="text-[11px] text-rose-500 font-bold">{formErrors.gstNumber}</p>}
                                     </div>
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">CIN Number (Optional)</label>
+                                    <label className="text-xs font-bold text-slate-500 ">CIN Number (Optional)</label>
                                     <input
                                       type="text" name="cinNumber" value={corpData.cinNumber} onChange={handleCorpInputChange}
                                       className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none"
@@ -1934,50 +1934,50 @@ export default function MembershipClient() {
 
                             {corpFormStep === 2 && (
                               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                                <h3 className="font-heading font-black text-base text-slate-800">Contact Details</h3>
+                                <h3 className="font-heading font-bold text-base text-slate-800">Contact Details</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                   <div className="space-y-2 col-span-1 sm:col-span-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Contact Person Name</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Contact Person Name</label>
                                     <input
                                       type="text" name="contactPersonName" value={corpData.contactPersonName} onChange={handleCorpInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.contactPersonName ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Sarah Jenkins"
                                     />
-                                    {formErrors.contactPersonName && <p className="text-[10px] text-rose-500 font-bold">{formErrors.contactPersonName}</p>}
+                                    {formErrors.contactPersonName && <p className="text-[11px] text-rose-500 font-bold">{formErrors.contactPersonName}</p>}
                                   </div>
 
                                   <div className="space-y-2 col-span-1 sm:col-span-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Designation</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Designation</label>
                                     <input
                                       type="text" name="designation" value={corpData.designation} onChange={handleCorpInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.designation ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="CSR Lead"
                                     />
-                                    {formErrors.designation && <p className="text-[10px] text-rose-500 font-bold">{formErrors.designation}</p>}
+                                    {formErrors.designation && <p className="text-[11px] text-rose-500 font-bold">{formErrors.designation}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Email Address</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Email Address</label>
                                     <input
                                       type="email" name="email" value={corpData.email} onChange={handleCorpInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.email ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="sarah@company.com"
                                     />
-                                    {formErrors.email && <p className="text-[10px] text-rose-500 font-bold">{formErrors.email}</p>}
+                                    {formErrors.email && <p className="text-[11px] text-rose-500 font-bold">{formErrors.email}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Mobile Number</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Mobile Number</label>
                                     <input
                                       type="tel" name="mobileNumber" value={corpData.mobileNumber} onChange={handleCorpInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.mobileNumber ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="+91 9999988888"
                                     />
-                                    {formErrors.mobileNumber && <p className="text-[10px] text-rose-500 font-bold">{formErrors.mobileNumber}</p>}
+                                    {formErrors.mobileNumber && <p className="text-[11px] text-rose-500 font-bold">{formErrors.mobileNumber}</p>}
                                   </div>
 
                                   <div className="space-y-2 col-span-1 sm:col-span-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Company Website URL</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Company Website URL</label>
                                     <input
                                       type="url" name="website" value={corpData.website} onChange={handleCorpInputChange}
                                       className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none"
@@ -1999,46 +1999,46 @@ export default function MembershipClient() {
 
                             {corpFormStep === 3 && (
                               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                                <h3 className="font-heading font-black text-base text-slate-800">Company Location</h3>
+                                <h3 className="font-heading font-bold text-base text-slate-800">Company Location</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                   <div className="space-y-2 col-span-1 sm:col-span-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Company Address</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Company Address</label>
                                     <input
                                       type="text" name="companyAddress" value={corpData.companyAddress} onChange={handleCorpInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.companyAddress ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Corporate office HQ Address"
                                     />
-                                    {formErrors.companyAddress && <p className="text-[10px] text-rose-500 font-bold">{formErrors.companyAddress}</p>}
+                                    {formErrors.companyAddress && <p className="text-[11px] text-rose-500 font-bold">{formErrors.companyAddress}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">State</label>
+                                    <label className="text-xs font-bold text-slate-500 ">State</label>
                                     <input
                                       type="text" name="state" value={corpData.state} onChange={handleCorpInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.state ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Karnataka"
                                     />
-                                    {formErrors.state && <p className="text-[10px] text-rose-500 font-bold">{formErrors.state}</p>}
+                                    {formErrors.state && <p className="text-[11px] text-rose-500 font-bold">{formErrors.state}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">City</label>
+                                    <label className="text-xs font-bold text-slate-500 ">City</label>
                                     <input
                                       type="text" name="city" value={corpData.city} onChange={handleCorpInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.city ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="Bengaluru"
                                     />
-                                    {formErrors.city && <p className="text-[10px] text-rose-500 font-bold">{formErrors.city}</p>}
+                                    {formErrors.city && <p className="text-[11px] text-rose-500 font-bold">{formErrors.city}</p>}
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Pincode</label>
+                                    <label className="text-xs font-bold text-slate-500 ">Pincode</label>
                                     <input
                                       type="text" name="pincode" value={corpData.pincode} onChange={handleCorpInputChange}
                                       className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.pincode ? "border-rose-500" : "border-slate-200"}`}
                                       placeholder="560001"
                                     />
-                                    {formErrors.pincode && <p className="text-[10px] text-rose-500 font-bold">{formErrors.pincode}</p>}
+                                    {formErrors.pincode && <p className="text-[11px] text-rose-500 font-bold">{formErrors.pincode}</p>}
                                   </div>
                                 </div>
 
@@ -2055,20 +2055,20 @@ export default function MembershipClient() {
 
                             {corpFormStep === 4 && (
                               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                                <h3 className="font-heading font-black text-base text-slate-800">CSR & Uploads</h3>
+                                <h3 className="font-heading font-bold text-base text-slate-800">CSR & Uploads</h3>
                                 <div className="space-y-4">
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Employee Strength</label>
+                                      <label className="text-xs font-bold text-slate-500 ">Employee Strength</label>
                                       <input
                                         type="text" name="employeeStrength" value={corpData.employeeStrength} onChange={handleCorpInputChange}
                                         className={`w-full border rounded-xl px-4 py-3 text-sm focus:outline-none transition-all ${formErrors.employeeStrength ? "border-rose-500" : "border-slate-200"}`}
                                         placeholder="250"
                                       />
-                                      {formErrors.employeeStrength && <p className="text-[10px] text-rose-500 font-bold">{formErrors.employeeStrength}</p>}
+                                      {formErrors.employeeStrength && <p className="text-[11px] text-rose-500 font-bold">{formErrors.employeeStrength}</p>}
                                     </div>
                                     <div className="space-y-2">
-                                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">CSR Budget Category</label>
+                                      <label className="text-xs font-bold text-slate-500 ">CSR Budget Category</label>
                                       <select
                                         name="csrBudgetCategory" value={corpData.csrBudgetCategory} onChange={handleCorpInputChange}
                                         className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white focus:outline-none"
@@ -2083,7 +2083,7 @@ export default function MembershipClient() {
                                   </div>
 
                                   <div className="space-y-2">
-                                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider block">Collaboration Interest</label>
+                                    <label className="text-xs font-bold text-slate-500 block">Collaboration Interest</label>
                                     <div className="grid grid-cols-2 gap-2 p-3 bg-pink-50/40 border border-pink-100/50 rounded-2xl">
                                       {["Awareness Campaigns", "Employee Wellness", "Sponsorships", "Screening Camps", "Fundraising"].map((item) => (
                                         <div key={item} className="flex items-center gap-2">
@@ -2097,12 +2097,12 @@ export default function MembershipClient() {
                                         </div>
                                       ))}
                                     </div>
-                                    {formErrors.collaborationInterest && <p className="text-[10px] text-rose-500 font-bold">{formErrors.collaborationInterest}</p>}
+                                    {formErrors.collaborationInterest && <p className="text-[11px] text-rose-500 font-bold">{formErrors.collaborationInterest}</p>}
                                   </div>
 
                                   {/* UPLOADS */}
                                   <div className="space-y-3 p-4 bg-pink-50/40 rounded-2xl border border-pink-100/50">
-                                    <span className="text-[10px] font-bold uppercase text-slate-700 tracking-wider">Branding Documents</span>
+                                    <span className="text-[11px] font-bold text-slate-700 ">Branding Documents</span>
 
                                     <div className="space-y-2">
                                       <span className="text-xs text-slate-600 block">Company Logo</span>
@@ -2111,7 +2111,7 @@ export default function MembershipClient() {
                                         <label htmlFor="corpLogoFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm transition-colors"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
                                         {renderUploadStatus(corpLogoUpload)}
                                       </div>
-                                      {formErrors.companyLogo && <p className="text-[10px] text-rose-500 font-bold">{formErrors.companyLogo}</p>}
+                                      {formErrors.companyLogo && <p className="text-[11px] text-rose-500 font-bold">{formErrors.companyLogo}</p>}
                                     </div>
 
                                     <div className="space-y-2">
@@ -2130,7 +2130,7 @@ export default function MembershipClient() {
                                         <label htmlFor="corpDocsFile" className="bg-white border border-pink-100 rounded-full px-4 py-1.5 text-xs font-bold text-slate-600 hover:text-primary cursor-pointer shadow-sm transition-colors"><UploadCloud className="h-3.5 w-3.5 inline mr-1" /> Choose File</label>
                                         {renderUploadStatus(corpDocsUpload)}
                                       </div>
-                                      {formErrors.supportingDocs && <p className="text-[10px] text-rose-500 font-bold">{formErrors.supportingDocs}</p>}
+                                      {formErrors.supportingDocs && <p className="text-[11px] text-rose-500 font-bold">{formErrors.supportingDocs}</p>}
                                     </div>
                                   </div>
 
@@ -2138,7 +2138,7 @@ export default function MembershipClient() {
                                     <input type="checkbox" id="corpIsDeclared" name="isDeclared" checked={corpData.isDeclared} onChange={handleCorpInputChange} className="mt-1 h-4 w-4 accent-primary" />
                                     <label htmlFor="corpIsDeclared" className="text-xs text-slate-500 cursor-pointer font-medium">I declare that corporate details are correct and we comply with statutory CSR rules.</label>
                                   </div>
-                                  {formErrors.isDeclared && <p className="text-[10px] text-rose-500 font-bold">{formErrors.isDeclared}</p>}
+                                  {formErrors.isDeclared && <p className="text-[11px] text-rose-500 font-bold">{formErrors.isDeclared}</p>}
                                 </div>
 
                                 <div className="flex flex-col gap-3 pt-4 border-t border-pink-50">
@@ -2151,7 +2151,7 @@ export default function MembershipClient() {
                                     <Button type="button" onClick={() => setCorpFormStep(3)} variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 rounded-full px-6 py-3 cursor-pointer">
                                       Back
                                     </Button>
-                                    <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-3.5 cursor-pointer shadow-md shadow-pink-100">
+                                    <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg px-6 py-3.5 cursor-pointer shadow-md shadow-pink-100">
                                       {isPending ? "Submitting..." : "Become Corporate Partner"}
                                     </Button>
                                   </div>
@@ -2163,7 +2163,7 @@ export default function MembershipClient() {
                         ) : (
                           <div className="text-center py-6 space-y-4">
                             <div className="h-14 w-14 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mx-auto"><Check className="h-7 w-7" /></div>
-                            <h3 className="font-heading font-black text-xl text-slate-900">Application Submitted!</h3>
+                            <h3 className="font-heading font-bold text-xl text-slate-900">Application Submitted!</h3>
                             <p className="text-xs text-slate-500">Thank you, corporate application for **{corpData.companyName}** has been registered. Audits will be finalized shortly.</p>
                             <Button onClick={() => { setCorpSubmitted(false); setCorpFormStep(1); }} className="bg-primary text-white rounded-full text-xs py-3 px-6 cursor-pointer shadow-md shadow-pink-100">Submit Another</Button>
                           </div>
@@ -2181,14 +2181,14 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= FREQUENTLY ASKED QUESTIONS ================= */}
-      <section className="py-20 md:py-28 bg-white border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-12">
+      <section className="py-12 md:py-16 bg-white border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-8">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <HelpCircle className="h-3.5 w-3.5" /> FAQ Accordion
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Frequently Asked Questions
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -2200,7 +2200,7 @@ export default function MembershipClient() {
             {faqsList.map((faq, idx) => {
               const isOpen = openFaqIdx === idx;
               return (
-                <div key={idx} className="border border-pink-100/60 rounded-3xl bg-white overflow-hidden shadow-sm hover:border-pink-300 transition-all">
+                <div key={idx} className="border border-pink-100/60 rounded-2xl bg-white overflow-hidden shadow-sm hover:border-pink-300 transition-all">
                   <button
                     onClick={() => setOpenFaqIdx(isOpen ? null : idx)}
                     className="w-full flex items-center justify-between p-5 text-left font-heading font-bold text-sm sm:text-base text-slate-800 hover:text-primary transition-colors cursor-pointer select-none"
@@ -2231,14 +2231,14 @@ export default function MembershipClient() {
       </section>
 
       {/* ================= CALL TO ACTION ================= */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-pink-500 to-rose-600 text-white relative overflow-hidden">
+      <section className="py-10 md:py-14 bg-pink-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[5%] w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center space-y-8 relative z-10">
 
           <div className="space-y-4">
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-pink-500">
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight leading-tight text-pink-500">
               Together We Can Build a Breast Cancer Aware Community
             </h2>
             <p className="text-pink-100 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">
@@ -2249,14 +2249,14 @@ export default function MembershipClient() {
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <Button
               onClick={() => scrollToForm("individual", "volunteer")}
-              className="w-full sm:w-auto bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-8 shadow-lg active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer"
+              className="w-full sm:w-auto bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-8 shadow-lg transition-all text-sm cursor-pointer"
             >
               Join as Volunteer
             </Button>
             <Button
               onClick={() => scrollToForm("institution")}
               variant="outline"
-              className="w-full sm:w-auto border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full py-6 px-8 active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer"
+              className="w-full sm:w-auto border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full py-6 px-8 transition-all text-sm cursor-pointer"
             >
               Become Partner
             </Button>

@@ -104,10 +104,10 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
         <div className="flex gap-2 p-1 bg-pink-50/50 border border-pink-100/50 rounded-2xl shadow-sm overflow-x-auto no-scrollbar whitespace-nowrap max-w-full">
           <button
             onClick={() => setActiveTab("live")}
-            className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
               activeTab === "live"
                 ? "bg-primary text-white shadow-md scale-105"
-                : "text-slate-655 hover:text-primary hover:bg-pink-50"
+                : "text-slate-600 hover:text-primary hover:bg-pink-50"
             }`}
           >
             <span className="relative flex h-2 w-2">
@@ -119,10 +119,10 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
 
           <button
             onClick={() => setActiveTab("upcoming")}
-            className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
               activeTab === "upcoming"
                 ? "bg-primary text-white shadow-md scale-105"
-                : "text-slate-655 hover:text-primary hover:bg-pink-50"
+                : "text-slate-600 hover:text-primary hover:bg-pink-50"
             }`}
           >
             <Calendar className="h-4 w-4" />
@@ -131,10 +131,10 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
 
           <button
             onClick={() => setActiveTab("completed")}
-            className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
               activeTab === "completed"
                 ? "bg-primary text-white shadow-md scale-105"
-                : "text-slate-655 hover:text-primary hover:bg-pink-50"
+                : "text-slate-600 hover:text-primary hover:bg-pink-50"
             }`}
           >
             <Award className="h-4 w-4" />
@@ -156,7 +156,7 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
           {currentList.length === 0 ? (
             <motion.div 
               variants={itemVariants} 
-              className="col-span-full text-center bg-white border border-pink-100 rounded-3xl p-16 shadow-sm space-y-4 max-w-lg mx-auto"
+              className="col-span-full text-center bg-white border border-pink-100 rounded-2xl p-16 shadow-sm space-y-4 max-w-lg mx-auto"
             >
               <div className="text-pink-300 flex justify-center">
                 <Video className="h-14 w-14 stroke-[1.5]" />
@@ -200,7 +200,7 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                   whileHover={{ y: -6 }}
                   className="flex"
                 >
-                  <Card className="group flex flex-col bg-white hover:shadow-xl transition-all duration-300 rounded-3xl border border-pink-50/50 overflow-hidden relative w-full justify-between">
+                  <Card className="group flex flex-col bg-white hover:shadow-md transition-all duration-300 rounded-2xl border border-pink-50/50 overflow-hidden relative w-full justify-between">
                     
                     {/* Header Banner */}
                     <div className="relative h-44 w-full bg-gradient-to-br from-pink-100 via-pink-50 to-rose-100 flex items-center justify-center overflow-hidden shrink-0">
@@ -213,24 +213,24 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                       ) : (
                         <div className="text-center text-primary/30 flex flex-col items-center">
                           <Award className="h-14 w-14 stroke-[1.2] mb-1 text-primary/45" />
-                          <span className="text-[9px] uppercase font-extrabold tracking-widest text-primary/60">Awareness Module</span>
+                          <span className="text-[11px] font-bold text-primary/60">Awareness Module</span>
                         </div>
                       )}
 
                       {/* Mode Badge & Platform */}
                       <div className="absolute top-4 left-4 flex gap-1.5 items-center">
-                        <span className="bg-white/90 backdrop-blur-md border border-pink-100/50 text-[9px] font-black text-primary px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs flex items-center gap-1">
+                        <span className="bg-white/90 backdrop-blur-md border border-pink-100/50 text-[11px] font-bold text-primary px-2.5 py-1 rounded-full shadow-xs flex items-center gap-1">
                           <Globe className="h-3 w-3" /> {webinar.webinarMode}
                         </span>
                         {webinar.meetingPlatform && (
-                          <span className="bg-slate-900/80 backdrop-blur-md text-white text-[9px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs flex items-center gap-1">
+                          <span className="bg-slate-900/80 backdrop-blur-md text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-xs flex items-center gap-1">
                             <Video className="h-3 w-3 text-pink-300" /> {webinar.meetingPlatform}
                           </span>
                         )}
                       </div>
 
                       <div className="absolute top-4 right-4">
-                        <span className="bg-primary/95 text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-xs">
+                        <span className="bg-primary/95 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-xs">
                           {webinar.category}
                         </span>
                       </div>
@@ -244,7 +244,7 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                         <Clock className="h-3.5 w-3.5" /> {startTimeStr} - {endTimeStr}
                       </div>
 
-                      <CardTitle className="text-lg font-black text-slate-800 line-clamp-1 group-hover:text-primary transition-colors mt-2">
+                      <CardTitle className="text-lg font-bold text-slate-800 line-clamp-1 group-hover:text-primary transition-colors mt-2">
                         {webinar.title}
                       </CardTitle>
 
@@ -256,15 +256,15 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                     {/* Card Content Details */}
                     <CardContent className="p-5 pt-0 flex-1 flex flex-col justify-between space-y-4">
                       {/* Hosted by Doctor Profile block */}
-                      <div className="space-y-3.5 border-y border-pink-50/50 py-3.5 text-xs text-slate-655 font-semibold">
+                      <div className="space-y-3.5 border-y border-pink-50/50 py-3.5 text-xs text-slate-600 font-semibold">
                         <div className="space-y-1">
-                          <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Hosted by:</span>
+                          <span className="text-[11px] font-bold text-slate-400 block">Hosted by:</span>
                           <button
                             type="button"
                             onClick={() => (webinar as any).doctor?.doctorId ? setSelectedDoctorId((webinar as any).doctor.doctorId) : (webinar as any).doctorId ? setSelectedDoctorId((webinar as any).doctorId) : null}
-                            className="flex items-center gap-2 font-extrabold text-slate-800 hover:text-primary transition-colors text-left cursor-pointer group/doc"
+                            className="flex items-center gap-2 font-bold text-slate-800 hover:text-primary transition-colors text-left cursor-pointer group/doc"
                           >
-                            <div className="h-9 w-9 rounded-full bg-pink-100 flex items-center justify-center font-black text-primary overflow-hidden shrink-0 border border-pink-200">
+                            <div className="h-9 w-9 rounded-full bg-pink-100 flex items-center justify-center font-bold text-primary overflow-hidden shrink-0 border border-pink-200">
                               {webinar.speakerImage ? (
                                 <img src={webinar.speakerImage} alt={webinar.speakerName} className="object-contain h-full w-full" />
                               ) : (
@@ -272,10 +272,10 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                               )}
                             </div>
                             <div>
-                              <p className="font-extrabold text-slate-800 leading-tight group-hover/doc:underline">
+                              <p className="font-bold text-slate-800 leading-tight group-hover/doc:underline">
                                 {webinar.speakerName}
                               </p>
-                              <span className="text-[10px] text-emerald-600 font-bold inline-flex items-center gap-1">
+                              <span className="text-[11px] text-emerald-600 font-bold inline-flex items-center gap-1">
                                 <ShieldCheck className="h-3 w-3" /> Verified Person
                               </span>
                             </div>
@@ -284,7 +284,7 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
 
                         {/* Specialization & Hospital */}
                         {(webinar.speakerQualification || webinar.speakerSpecialization || webinar.speakerHospital) && (
-                          <div className="flex flex-wrap gap-2 text-[10px] bg-slate-50/55 rounded-xl p-2.5 border border-slate-100/50">
+                          <div className="flex flex-wrap gap-2 text-[11px] bg-slate-50/55 rounded-xl p-2.5 border border-slate-100/50">
                             {webinar.speakerQualification && (
                               <span className="text-slate-700">{webinar.speakerQualification}</span>
                             )}
@@ -298,7 +298,7 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                         )}
 
                         {/* Duration & Language info */}
-                        <div className="flex gap-4 text-[10px] font-bold text-slate-500 pt-0.5">
+                        <div className="flex gap-4 text-[11px] font-bold text-slate-500 pt-0.5">
                           <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5 text-primary shrink-0" /> {durationMin} Mins</span>
                           <span className="flex items-center gap-1"><Languages className="h-3.5 w-3.5 text-primary shrink-0" /> {webinar.language || "English"}</span>
                         </div>
@@ -308,9 +308,9 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                       <div className="space-y-3 pt-2">
                         {/* Seats Capacity bar */}
                         {activeTab !== "completed" && (
-                          <div className="space-y-1.5 text-[10px] font-bold text-slate-500">
+                          <div className="space-y-1.5 text-[11px] font-bold text-slate-500">
                             <div className="flex justify-between">
-                              <span>Seats remaining: <strong className="text-slate-850">{remainingSeats}</strong> / {webinar.maxSeats}</span>
+                              <span>Seats remaining: <strong className="text-slate-800">{remainingSeats}</strong> / {webinar.maxSeats}</span>
                               <span>{seatsFilledPercent.toFixed(0)}% filled</span>
                             </div>
                             <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
@@ -326,7 +326,7 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                           <Link href={`/webinars/${webinar.id}`} className="flex-1">
                             <Button 
                               variant="outline" 
-                              className="w-full border-pink-200 text-slate-755 hover:bg-pink-50 rounded-xl text-xs font-bold py-2.5 h-auto cursor-pointer"
+                              className="w-full border-pink-200 text-slate-700 hover:bg-pink-50 rounded-xl text-xs font-bold py-2.5 h-auto cursor-pointer"
                             >
                               View Details
                             </Button>

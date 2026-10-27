@@ -245,7 +245,7 @@ export default function AdminGalleryPage() {
       {/* Toast Notification */}
       {toast && (
         <div
-          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-2xl shadow-xl border text-sm font-semibold flex items-center gap-2 transition-all ${
+          className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-2xl shadow-md border text-sm font-semibold flex items-center gap-2 transition-all ${
             toast.type === "success"
               ? "bg-emerald-50 border-emerald-200 text-emerald-800"
               : "bg-rose-50 border-rose-200 text-rose-800"
@@ -259,10 +259,10 @@ export default function AdminGalleryPage() {
       {/* Header section */}
       <div className="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 border-b border-pink-100 pb-6">
         <div className="space-y-1">
-          <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+          <span className="bg-primary/10 text-primary border border-primary/20 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
             <ShieldCheck className="h-2.5 w-2.5" /> Command Center
           </span>
-          <h1 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+          <h1 className="font-heading text-3xl font-bold tracking-tight text-slate-800 flex items-center gap-2">
             <ImageIcon className="h-8 w-8 text-primary" /> Event Gallery Management
           </h1>
           <p className="text-muted-foreground text-sm">
@@ -275,7 +275,7 @@ export default function AdminGalleryPage() {
       <AdminNavTabs />
 
       {/* Controls Bar */}
-      <div className="bg-white p-4 sm:p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
+      <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
         <div className="flex flex-col sm:flex-row gap-3 flex-1">
           {/* Search */}
           <div className="relative flex-1">
@@ -316,12 +316,12 @@ export default function AdminGalleryPage() {
 
       {/* Main Content Area */}
       {loading ? (
-        <div className="py-20 text-center space-y-4 bg-white rounded-3xl border border-slate-100">
+        <div className="py-12 text-center space-y-4 bg-white rounded-2xl border border-slate-100">
           <Loader2 className="h-10 w-10 text-pink-600 animate-spin mx-auto" />
           <p className="text-slate-500 text-sm font-semibold">Loading gallery items...</p>
         </div>
       ) : error ? (
-        <div className="py-16 text-center space-y-4 bg-rose-50 rounded-3xl border border-rose-200 p-6">
+        <div className="py-10 text-center space-y-4 bg-rose-50 rounded-2xl border border-rose-200 p-6">
           <AlertCircle className="h-12 w-12 text-rose-500 mx-auto" />
           <h3 className="font-heading text-lg font-bold text-rose-800">Error Loading Gallery</h3>
           <p className="text-slate-600 text-sm max-w-md mx-auto">{error}</p>
@@ -333,9 +333,9 @@ export default function AdminGalleryPage() {
           </button>
         </div>
       ) : filteredItems.length === 0 ? (
-        <div className="py-20 text-center space-y-4 bg-white rounded-3xl border border-slate-100 p-8">
+        <div className="py-12 text-center space-y-4 bg-white rounded-2xl border border-slate-100 p-6">
           <ImageIcon className="h-14 w-14 text-slate-300 mx-auto" />
-          <h3 className="font-heading text-xl font-extrabold text-slate-700">No Gallery Items Found</h3>
+          <h3 className="font-heading text-xl font-bold text-slate-700">No Gallery Items Found</h3>
           <p className="text-slate-400 text-sm max-w-md mx-auto">
             {searchQuery || selectedCategory !== "all"
               ? "No items match your filter criteria. Try clearing search filters."
@@ -353,7 +353,7 @@ export default function AdminGalleryPage() {
           {filteredItems.map((item) => (
             <div
               key={item.id}
-              className="group bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-xl hover:border-pink-200 transition-all duration-300 flex flex-col justify-between"
+              className="group bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col justify-between"
             >
               <div>
                 {/* Thumbnail Image */}
@@ -370,7 +370,7 @@ export default function AdminGalleryPage() {
                   </div>
                   <div className="absolute top-3 right-3">
                     <span
-                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                      className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                         item.isActive ? "bg-emerald-500 text-white" : "bg-slate-700 text-slate-200"
                       }`}
                     >
@@ -381,7 +381,7 @@ export default function AdminGalleryPage() {
 
                 {/* Content Info */}
                 <div className="p-5 space-y-3">
-                  <h4 className="font-heading font-extrabold text-slate-800 text-base leading-snug line-clamp-2">
+                  <h4 className="font-heading font-bold text-slate-800 text-base leading-snug line-clamp-2">
                     {item.caption}
                   </h4>
 
@@ -454,9 +454,9 @@ export default function AdminGalleryPage() {
       {/* Modal for Add / Edit */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6 border border-slate-100">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-lg space-y-6 border border-slate-100">
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-              <h3 className="font-heading text-xl font-extrabold text-slate-800 flex items-center gap-2">
+              <h3 className="font-heading text-xl font-bold text-slate-800 flex items-center gap-2">
                 <ImageIcon className="h-6 w-6 text-pink-600" />
                 {editingItem ? "Edit Gallery Item" : "Add Gallery Item"}
               </h3>

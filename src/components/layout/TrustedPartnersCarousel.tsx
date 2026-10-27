@@ -42,18 +42,18 @@ export default function TrustedPartnersCarousel() {
   const duplicatedPartners = [...TRUSTED_PARTNERS, ...TRUSTED_PARTNERS];
 
   return (
-    <section className="py-20 bg-white border-t border-b border-pink-100 overflow-hidden relative">
+    <section className="py-12 bg-white border-t border-b border-pink-100 overflow-hidden relative">
       {/* Radial glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(219,39,119,0.04)_0%,_transparent_70%)] pointer-events-none" />
 
       {/* Header */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 relative z-10 text-center space-y-4">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-pink-100 text-pink-700 border border-pink-200 text-xs font-semibold uppercase tracking-wider">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-8 relative z-10 text-center space-y-4">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-pink-100 text-pink-700 border border-pink-200 text-xs font-semibold ">
           <ShieldCheck className="h-4 w-4 text-pink-600" />
           Collaborative Healthcare Network
         </div>
 
-        <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+        <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
           Trusted Healthcare &amp; Support Organizations
         </h2>
 
@@ -76,7 +76,7 @@ export default function TrustedPartnersCarousel() {
           {duplicatedPartners.map((partner, idx) => (
             <div
               key={`${partner.id}-${idx}`}
-              className="group relative flex-shrink-0 w-44 h-28 sm:w-52 sm:h-32 bg-white rounded-2xl border border-pink-100 shadow-sm hover:shadow-xl hover:border-pink-300 hover:-translate-y-1.5 transition-all duration-300 flex items-center justify-center p-4"
+              className="group relative flex-shrink-0 w-44 h-28 sm:w-52 sm:h-32 bg-white rounded-2xl border border-pink-100 shadow-sm hover:shadow-md hover:border-pink-300.5 transition-all duration-300 flex items-center justify-center p-4"
             >
               <img
                 src={partner.logo}

@@ -67,7 +67,7 @@ export default function WebinarFilters({ cities, categories }: WebinarFiltersPro
         <div className="flex gap-2 p-1 bg-pink-50/50 border border-pink-100/50 rounded-xl">
           <button
             onClick={() => handleModeToggle("upcoming")}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all uppercase tracking-wider ${
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
               mode === "upcoming"
                 ? "bg-primary text-white shadow-sm"
                 : "text-muted-foreground hover:text-primary"
@@ -77,7 +77,7 @@ export default function WebinarFilters({ cities, categories }: WebinarFiltersPro
           </button>
           <button
             onClick={() => handleModeToggle("past")}
-            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all uppercase tracking-wider ${
+            className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
               mode === "past"
                 ? "bg-primary text-white shadow-sm"
                 : "text-muted-foreground hover:text-primary"
@@ -96,7 +96,7 @@ export default function WebinarFilters({ cities, categories }: WebinarFiltersPro
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* Search */}
         <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+          <label className="text-xs font-semibold text-slate-500 flex items-center gap-1.5">
             <Search className="h-3.5 w-3.5" /> Search
           </label>
           <input
@@ -111,7 +111,7 @@ export default function WebinarFilters({ cities, categories }: WebinarFiltersPro
 
         {/* Category */}
         <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+          <label className="text-xs font-semibold text-slate-500 flex items-center gap-1.5">
             <BookOpen className="h-3.5 w-3.5" /> Category
           </label>
           <select
@@ -130,7 +130,7 @@ export default function WebinarFilters({ cities, categories }: WebinarFiltersPro
 
         {/* City */}
         <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+          <label className="text-xs font-semibold text-slate-500 flex items-center gap-1.5">
             <MapPin className="h-3.5 w-3.5" /> City
           </label>
           <select
@@ -149,7 +149,7 @@ export default function WebinarFilters({ cities, categories }: WebinarFiltersPro
 
         {/* Date */}
         <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+          <label className="text-xs font-semibold text-slate-500 flex items-center gap-1.5">
             <Calendar className="h-3.5 w-3.5" /> Specific Date
           </label>
           <input

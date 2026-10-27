@@ -73,7 +73,7 @@ function ResetForm() {
 
   return (
     <div className="flex-1 flex items-center justify-center min-h-[calc(100vh-8rem)] px-4 py-12 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-      <Card className="w-full max-w-md border-border bg-card/60 backdrop-blur-md shadow-xl">
+      <Card className="w-full max-w-md border-border bg-card/60 backdrop-blur-md shadow-md">
         <CardHeader className="space-y-2 text-center">
           <div className="flex justify-center mb-2">
             <Ribbon className="h-10 w-10 text-primary" />
@@ -154,7 +154,7 @@ function ResetForm() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-primary hover:bg-primary/95 text-white py-6 text-base font-semibold"
+                className="w-full bg-primary hover:bg-primary/95 text-white py-5 text-base font-semibold"
               >
                 {loading ? (
                   <>

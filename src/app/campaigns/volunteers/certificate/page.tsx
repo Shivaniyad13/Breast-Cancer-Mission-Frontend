@@ -109,7 +109,7 @@ export default async function VolunteerCertificatePage() {
 
             {/* Certificate Title */}
             <div>
-              <h1 className="font-heading text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">
+              <h1 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight">
                 Certificate of Volunteer Service
               </h1>
               <p className="text-sm text-slate-500 mt-6 italic">
@@ -118,7 +118,7 @@ export default async function VolunteerCertificatePage() {
             </div>
 
             {/* Volunteer Name */}
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-pink-600 tracking-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-pink-600 tracking-tight">
               {volunteer.fullName}
             </h2>
 

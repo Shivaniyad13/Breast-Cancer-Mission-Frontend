@@ -20,7 +20,7 @@ export default async function AdminRegistrationVerificationsPage() {
         <span className="inline-flex items-center gap-1 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-0.5 text-[10px] font-bold uppercase text-primary">
           <ShieldCheck className="h-3 w-3" /> Admin Review
         </span>
-        <h1 className="font-heading text-3xl font-extrabold text-slate-800">Account Verifications</h1>
+        <h1 className="font-heading text-3xl font-bold text-slate-800">Account Verifications</h1>
         <p className="text-sm text-muted-foreground">Review submitted identity, professional, and organization proofs before enabling account access.</p>
       </header>
       <AdminNavTabs />

@@ -232,7 +232,7 @@ export default function VideoUpload({ value, onChange, disabled }: VideoUploadPr
             {/* Progress Bar */}
             <div className="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-pink-500 to-rose-600 transition-all duration-200"
+                className="h-full bg-pink-600 transition-all duration-200"
                 style={{ width: `${progress}%` }}
               />
             </div>

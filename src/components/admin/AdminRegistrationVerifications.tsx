@@ -69,7 +69,7 @@ export default function AdminRegistrationVerifications({ registrations }: { regi
     <section className="space-y-4">
       {error && <p role="alert" className="rounded-md border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
       {registrations.length === 0 ? (
-        <Card className="rounded-lg p-8 text-center text-sm text-muted-foreground">No registration requests are waiting for review.</Card>
+        <Card className="rounded-lg p-6 text-center text-sm text-muted-foreground">No registration requests are waiting for review.</Card>
       ) : registrations.map((request) => (
         <Card key={request.id} className="rounded-lg border-border p-5">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">

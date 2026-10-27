@@ -27,10 +27,10 @@ export default function SingleArticleClient({ article }: SingleArticleClientProp
       )}
 
       {/* Article Header Card */}
-      <Card className="p-6 sm:p-10 rounded-3xl bg-white/90 backdrop-blur-md border border-pink-100 shadow-xl space-y-6">
+      <Card className="p-6 rounded-2xl bg-white/90 backdrop-blur-md border border-pink-100 shadow-md space-y-6">
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="bg-pink-50 text-primary border border-pink-100 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full">
+            <span className="bg-pink-50 text-primary border border-pink-100 text-[11px] font-bold px-3 py-1 rounded-full">
               {article.category}
             </span>
             <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
@@ -38,7 +38,7 @@ export default function SingleArticleClient({ article }: SingleArticleClientProp
             </span>
           </div>
 
-          <h1 className="font-heading text-2xl sm:text-4xl font-black text-slate-800 leading-tight">
+          <h1 className="font-heading text-2xl sm:text-4xl font-bold text-slate-800 leading-tight">
             {article.title}
           </h1>
 
@@ -55,13 +55,13 @@ export default function SingleArticleClient({ article }: SingleArticleClientProp
                 <Stethoscope className="h-6 w-6" />
               </div>
               <div>
-                <p className="text-[10px] font-black uppercase text-slate-400 tracking-wider">Written by:</p>
+                <p className="text-[11px] font-bold text-slate-400 ">Written by:</p>
                 <button
                   onClick={() => setIsDoctorModalOpen(true)}
-                  className="font-heading font-black text-slate-800 text-sm sm:text-base hover:text-primary transition-colors text-left flex items-center gap-1.5 cursor-pointer group"
+                  className="font-heading font-bold text-slate-800 text-sm sm:text-base hover:text-primary transition-colors text-left flex items-center gap-1.5 cursor-pointer group"
                 >
                   <span className="group-hover:underline">Dr. {article.doctor.name}</span>
-                  <span className="bg-emerald-100 text-emerald-700 text-[9px] font-black uppercase px-2 py-0.5 rounded-full border border-emerald-200 inline-flex items-center gap-0.5">
+                  <span className="bg-emerald-100 text-emerald-700 text-[11px] font-bold px-2 py-0.5 rounded-full border border-emerald-200 inline-flex items-center gap-0.5">
                     <ShieldCheck className="h-2.5 w-2.5" /> Verified Doctor
                   </span>
                 </button>
@@ -86,7 +86,7 @@ export default function SingleArticleClient({ article }: SingleArticleClientProp
       </Card>
 
       {/* Article Content */}
-      <Card className="p-6 sm:p-10 rounded-3xl bg-white border border-pink-100 shadow-md">
+      <Card className="p-6 rounded-2xl bg-white border border-pink-100 shadow-md">
         <div className="prose prose-pink max-w-none text-slate-700 leading-relaxed text-sm sm:text-base whitespace-pre-wrap">
           {article.content}
         </div>

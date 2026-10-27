@@ -461,7 +461,7 @@ export default function CareProvidersPage() {
       <div className="absolute bottom-1/4 right-5 w-96 h-96 bg-pink-50/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* ==================== 1. HERO SECTION ==================== */}
-      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
+      <section className="relative min-h-[50vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-10 md:py-14 overflow-hidden border-b border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
           <div className="space-y-6 text-center">
 
@@ -469,9 +469,9 @@ export default function CareProvidersPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold shadow-sm"
             >
-              <Ribbon className="h-3.5 w-3.5 text-primary animate-pulse" />
+              <Ribbon className="h-3.5 w-3.5 text-primary " />
               Trusted Care Network
             </motion.div>
 
@@ -479,7 +479,7 @@ export default function CareProvidersPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-800 leading-[1.1]"
             >
               Find the Right Care, <br />
               <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
@@ -504,7 +504,7 @@ export default function CareProvidersPage() {
             >
               <Button
                 onClick={() => scrollToId("care-services-directory")}
-                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
+                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 transition-all text-sm tracking-wide cursor-pointer"
               >
                 Find a Care Provider
                 <ArrowRight className="h-4 w-4 ml-1.5" />
@@ -512,7 +512,7 @@ export default function CareProvidersPage() {
               <Button
                 variant="outline"
                 onClick={() => scrollToId("support-services-section")}
-                className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
+                className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 transition-all text-sm tracking-wide cursor-pointer"
               >
                 Get Support
               </Button>
@@ -522,15 +522,15 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 2. WHY CHOICE MATTERS ==================== */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <ShieldCheck className="h-3.5 w-3.5" />
               Why Choice Matters
             </span>
 
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 leading-tight tracking-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 leading-tight tracking-tight">
               Coordinated Care Improves Survival Outcomes
             </h2>
 
@@ -539,55 +539,55 @@ export default function CareProvidersPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-gradient-to-br from-pink-500/5 to-rose-500/5 border border-pink-100/60 shadow-sm flex flex-col justify-between">
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-2xl bg-gradient-to-br from-pink-500/5 to-rose-500/5 border border-pink-100/60 shadow-sm flex flex-col justify-between">
                 <div className="h-12 w-12 rounded-2xl bg-white border border-pink-100/60 flex items-center justify-center shadow-sm">
                   <Activity className="h-6 w-6 text-pink-600" />
                 </div>
                 <div className="mt-8">
-                  <h4 className="text-4xl font-black text-slate-800 tracking-tight">90%+</h4>
-                  <p className="text-xs font-bold text-pink-600 uppercase tracking-widest mt-1">Survival Rate</p>
+                  <h4 className="text-4xl font-bold text-slate-800 tracking-tight">90%+</h4>
+                  <p className="text-xs font-bold text-pink-600 mt-1">Survival Rate</p>
                   <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">With early stage clinical diagnostics and local screenings.</p>
                 </div>
               </motion.div>
 
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-gradient-to-br from-purple-500/5 to-indigo-500/5 border border-purple-100/60 shadow-sm flex flex-col justify-between">
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-2xl bg-gradient-to-br from-purple-500/5 to-indigo-500/5 border border-purple-100/60 shadow-sm flex flex-col justify-between">
                 <div className="h-12 w-12 rounded-2xl bg-white border border-purple-100/60 flex items-center justify-center shadow-sm">
                   <Users2 className="h-6 w-6 text-purple-600" />
                 </div>
                 <div className="mt-8">
-                  <h4 className="text-4xl font-black text-slate-800 tracking-tight">30%</h4>
-                  <p className="text-xs font-bold text-purple-600 uppercase tracking-widest mt-1">Better Outcome</p>
+                  <h4 className="text-4xl font-bold text-slate-800 tracking-tight">30%</h4>
+                  <p className="text-xs font-bold text-purple-600 mt-1">Better Outcome</p>
                   <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">Observed in patients treated under formal multidisciplinary tumor boards.</p>
                 </div>
               </motion.div>
 
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-gradient-to-br from-blue-500/5 to-sky-500/5 border border-blue-100/60 shadow-sm flex flex-col justify-between">
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/5 to-sky-500/5 border border-blue-100/60 shadow-sm flex flex-col justify-between">
                 <div className="h-12 w-12 rounded-2xl bg-white border border-blue-100/60 flex items-center justify-center shadow-sm">
                   <HeartHandshake className="h-6 w-6 text-blue-600" />
                 </div>
                 <div className="mt-8">
-                  <h4 className="text-4xl font-black text-slate-800 tracking-tight">24/7</h4>
-                  <p className="text-xs font-bold text-blue-600 uppercase tracking-widest mt-1">Patient Support</p>
+                  <h4 className="text-4xl font-bold text-slate-800 tracking-tight">24/7</h4>
+                  <p className="text-xs font-bold text-blue-600 mt-1">Patient Support</p>
                   <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">Continuous navigation mapping support from diagnosis to survivorship.</p>
                 </div>
               </motion.div>
 
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-3xl bg-gradient-to-br from-cyan-500/5 to-teal-500/5 border border-cyan-100/60 shadow-sm flex flex-col justify-between">
+              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-2xl bg-gradient-to-br from-cyan-500/5 to-teal-500/5 border border-cyan-100/60 shadow-sm flex flex-col justify-between">
                 <div className="h-12 w-12 rounded-2xl bg-white border border-cyan-100/60 flex items-center justify-center shadow-sm">
                   <ShieldAlert className="h-6 w-6 text-cyan-600" />
                 </div>
                 <div className="mt-8">
-                  <h4 className="text-4xl font-black text-slate-800 tracking-tight">Zero</h4>
-                  <p className="text-xs font-bold text-cyan-600 uppercase tracking-widest mt-1">Stigma Care</p>
+                  <h4 className="text-4xl font-bold text-slate-800 tracking-tight">Zero</h4>
+                  <p className="text-xs font-bold text-cyan-600 mt-1">Stigma Care</p>
                   <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">Compassionate mental counseling focusing strictly on patient comfort.</p>
                 </div>
               </motion.div>
             </div>
 
             <div className="lg:col-span-7 space-y-6">
-              <h3 className="font-heading text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">
+              <h3 className="font-heading text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">
                 A Unified Front Against Breast Cancer
               </h3>
               <p className="text-slate-600 leading-relaxed text-sm sm:text-base font-medium">
@@ -617,14 +617,14 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 3. MULTIDISCIPLINARY CARE TEAM ==================== */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wider border border-purple-100/60">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-purple-50 text-purple-700 text-xs font-bold border border-purple-100/60">
               <Users2 className="h-3.5 w-3.5" />
               The Care Specialist Team
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Meet Your Multidisciplinary Care Team
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -633,7 +633,7 @@ export default function CareProvidersPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-5 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible gap-2 pb-4 lg:pb-0 scrollbar-none max-h-[500px] lg:overflow-y-auto pr-0 lg:pr-3">
+            <div className="lg:col-span-5 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible gap-2 pb-0 scrollbar-none max-h-[500px] lg:overflow-y-auto pr-0 lg:pr-3">
               {specialistsData.map((spec) => {
                 const SpecIcon = spec.icon;
                 const isSelected = selectedSpecialist === spec.id;
@@ -643,7 +643,7 @@ export default function CareProvidersPage() {
                     onClick={() => setSelectedSpecialist(spec.id)}
                     className={`flex items-center gap-3.5 px-4 py-3 rounded-2xl border text-left cursor-pointer transition-all shrink-0 select-none ${isSelected
                       ? "bg-pink-50/40 border-primary/50 shadow-sm scale-[1.02]"
-                      : "bg-white border-slate-100 hover:border-pink-200/50 hover:bg-pink-50/10 text-slate-650"
+                      : "bg-white border-slate-100 hover:border-pink-200/50 hover:bg-pink-50/10 text-slate-600"
                       }`}
                   >
                     <div className={`p-2 rounded-xl shrink-0 ${isSelected ? "bg-pink-100 text-pink-600" : "bg-slate-50 text-slate-400"}`}>
@@ -663,7 +663,7 @@ export default function CareProvidersPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white rounded-3xl p-8 border border-pink-100/60 shadow-sm relative overflow-hidden"
+                  className="bg-white rounded-2xl p-6 border border-pink-100/60 shadow-sm relative overflow-hidden"
                 >
                   <div className="absolute -top-12 -right-12 w-32 h-32 bg-pink-100/20 rounded-full blur-2xl pointer-events-none" />
 
@@ -672,19 +672,19 @@ export default function CareProvidersPage() {
                       {React.createElement(currentSpecialist.icon, { className: "h-8 w-8" })}
                     </div>
                     <div>
-                      <h3 className="font-heading text-2xl font-black text-slate-800">{currentSpecialist.name}</h3>
-                      <span className="text-xs font-bold text-pink-600 uppercase tracking-widest font-heading">Core Care Unit</span>
+                      <h3 className="font-heading text-2xl font-bold text-slate-800">{currentSpecialist.name}</h3>
+                      <span className="text-xs font-bold text-pink-600 font-heading">Core Care Unit</span>
                     </div>
                   </div>
 
                   <div className="space-y-6">
                     <div>
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 font-heading">Specialty Focus</h4>
+                      <h4 className="text-xs font-bold text-slate-400 mb-2 font-heading">Specialty Focus</h4>
                       <p className="text-slate-600 text-sm leading-relaxed font-medium">{currentSpecialist.desc}</p>
                     </div>
 
                     <div className="p-5 rounded-2xl bg-slate-50/50 border border-slate-100">
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5 font-heading">Key Responsibilities</h4>
+                      <h4 className="text-xs font-bold text-slate-400 mb-2.5 font-heading">Key Responsibilities</h4>
                       <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-medium">{currentSpecialist.role}</p>
                     </div>
 
@@ -701,14 +701,14 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 4. MEET OUR EXPERT TEAM (GALLERY) ==================== */}
-      <section id="expert-team-gallery" className="py-20 md:py-28 bg-white border-t border-rose-100/20">
+      <section id="expert-team-gallery" className="py-12 md:py-16 bg-white border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <Users2 className="h-3.5 w-3.5" />
               Our Team
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Meet Our Bharat-Cancer Expert Team
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -767,7 +767,7 @@ export default function CareProvidersPage() {
           </div>
 
           {GALLERY_ITEMS.length > 8 && (
-            <div className="mt-12 flex justify-center">
+            <div className="mt-8 flex justify-center">
               <Button
                 type="button"
                 onClick={() => {
@@ -796,14 +796,14 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 5. CARE SERVICES DIRECTORY ==================== */}
-      <section id="care-services-directory" className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+      <section id="care-services-directory" className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <Search className="h-3.5 w-3.5" />
               Provider Search
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Verified Breast Cancer Care Directory
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -818,7 +818,7 @@ export default function CareProvidersPage() {
             </p>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 border border-pink-100/60 shadow-sm mb-12 space-y-6">
+          <div className="bg-white rounded-2xl p-6 border border-pink-100/60 shadow-sm mb-8 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
               <div className="md:col-span-8 relative">
                 <Search className="absolute left-4.5 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
@@ -848,7 +848,7 @@ export default function CareProvidersPage() {
             </div>
 
             <div className="border-t border-pink-100/40 pt-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-3 font-heading">Filter by Category</span>
+              <span className="text-xs font-bold text-slate-400 block mb-3 font-heading">Filter by Category</span>
               <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
                   <button
@@ -856,7 +856,7 @@ export default function CareProvidersPage() {
                     onClick={() => setSelectedCategory(cat.value)}
                     className={`px-4 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer select-none ${selectedCategory === cat.value
                       ? "bg-primary border-primary text-white shadow-sm"
-                      : "bg-white border-slate-100 hover:border-pink-200/50 hover:bg-pink-50/10 text-slate-650"
+                      : "bg-white border-slate-100 hover:border-pink-200/50 hover:bg-pink-50/10 text-slate-600"
                       }`}
                   >
                     {cat.label}
@@ -870,7 +870,7 @@ export default function CareProvidersPage() {
             {providersLoading ? (
               <div className="col-span-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="bg-white rounded-3xl p-6 border border-pink-100/40 animate-pulse space-y-4">
+                  <div key={i} className="bg-white rounded-2xl p-6 border border-pink-100/40 animate-pulse space-y-4">
                     <div className="h-4 w-20 bg-slate-200 rounded" />
                     <div className="h-6 w-3/4 bg-slate-200 rounded" />
                     <div className="h-12 w-full bg-slate-100 rounded" />
@@ -878,9 +878,9 @@ export default function CareProvidersPage() {
                 ))}
               </div>
             ) : careProviders.length === 0 ? (
-              <div className="col-span-full py-16 text-center bg-gradient-to-br from-pink-50/50 to-white rounded-3xl border-2 border-dashed border-pink-200/60 space-y-3 p-8">
+              <div className="col-span-full py-10 text-center bg-gradient-to-br from-pink-50/50 to-white rounded-2xl border-2 border-dashed border-pink-200/60 space-y-3 p-6">
                 <Building2 className="h-12 w-12 text-pink-400 mx-auto mb-2" />
-                <h3 className="font-heading text-xl font-extrabold text-slate-800">Directory Coming Soon</h3>
+                <h3 className="font-heading text-xl font-bold text-slate-800">Directory Coming Soon</h3>
                 <p className="text-sm text-slate-500 max-w-md mx-auto leading-relaxed font-medium">
                   We are building a verified list of breast cancer care centers across India. Real hospitals, diagnostics, and support services will appear here soon.
                 </p>
@@ -896,21 +896,21 @@ export default function CareProvidersPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.3 }}
-                      className="group bg-white hover:bg-pink-50/10 rounded-3xl p-6 border border-pink-100/60 shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col justify-between"
+                      className="group bg-white hover:bg-pink-50/10 rounded-2xl p-6 border border-pink-100/60 shadow-sm hover:shadow-md hover:border-pink-200 transition-all duration-300 flex flex-col justify-between"
                     >
                       <div>
                         <div className="flex items-center justify-between mb-4">
-                          <span className="px-3 py-1 rounded-full bg-slate-100/50 text-slate-600 text-[10px] font-bold uppercase tracking-wider group-hover:bg-pink-100/60 group-hover:text-pink-700 border border-transparent font-heading">
+                          <span className="px-3 py-1 rounded-full bg-slate-100/50 text-slate-600 text-[11px] font-bold group-hover:bg-pink-100/60 group-hover:text-pink-700 border border-transparent font-heading">
                             {service.category.toUpperCase()}
                           </span>
                           <div className="flex items-center gap-1">
                             <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
                             <span className="text-xs font-bold text-slate-800">{service.rating}</span>
-                            <span className="text-[10px] text-slate-400 font-medium">({service.reviews})</span>
+                            <span className="text-[11px] text-slate-400 font-medium">({service.reviews})</span>
                           </div>
                         </div>
 
-                        <h4 className="font-heading text-lg font-extrabold text-slate-800 group-hover:text-pink-600 transition-colors leading-snug line-clamp-2">
+                        <h4 className="font-heading text-lg font-bold text-slate-800 group-hover:text-pink-600 transition-colors leading-snug line-clamp-2">
                           {service.name}
                         </h4>
                         <p className="text-xs font-semibold text-slate-500 mt-1 flex items-center gap-1.5 font-sans">
@@ -947,7 +947,7 @@ export default function CareProvidersPage() {
                     </motion.div>
                   ))
                 ) : (
-                  <div className="col-span-full py-16 text-center space-y-4">
+                  <div className="col-span-full py-10 text-center space-y-4">
                     <AlertCircle className="h-12 w-12 text-slate-300 mx-auto" />
                     <h3 className="font-heading text-lg font-bold text-slate-700">No Providers Found</h3>
                     <p className="text-slate-400 text-sm max-w-md mx-auto font-medium">
@@ -972,17 +972,17 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 6. TREATMENT JOURNEY TIMELINE ==================== */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-slate-900 to-purple-950 text-white overflow-hidden relative">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-slate-900 to-purple-950 text-white overflow-hidden relative">
         <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider border border-pink-500/20">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold border border-pink-500/20">
               <Activity className="h-3.5 w-3.5" />
               Patient Path Roadmap
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight text-white leading-tight">
               Breast Cancer Treatment Journey
             </h2>
             <p className="text-slate-300 text-sm sm:text-base font-medium">
@@ -990,7 +990,7 @@ export default function CareProvidersPage() {
             </p>
           </div>
 
-          <div className="relative mb-10 pb-4 overflow-x-auto scrollbar-none">
+          <div className="relative mb-8 pb-4 overflow-x-auto scrollbar-none">
             <div className="hidden md:block absolute top-7 left-8 right-8 h-1 bg-white/10 z-0" />
 
             <div className="flex md:justify-between items-center min-w-[1000px] md:min-w-0 relative z-10 px-4">
@@ -1011,7 +1011,7 @@ export default function CareProvidersPage() {
                     >
                       <StepIcon className="h-5 w-5" />
                     </div>
-                    <span className={`text-[10px] font-bold tracking-wider uppercase ${isSelected ? "text-pink-400" : "text-slate-500"} font-heading`}>
+                    <span className={`text-[11px] font-bold ${isSelected ? "text-pink-400" : "text-slate-500"} font-heading`}>
                       Step {stepItem.step}
                     </span>
                     <span className={`text-xs font-bold text-center max-w-[90px] truncate ${isSelected ? "text-white" : "text-slate-400"} font-heading`}>
@@ -1030,9 +1030,9 @@ export default function CareProvidersPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="bg-white/5 border border-white/10 backdrop-blur-md rounded-3xl p-8 md:p-10 shadow-2xl relative overflow-hidden"
+              className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-6 shadow-lg relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 p-8 text-pink-500/10 font-black text-8xl md:text-9xl pointer-events-none select-none">
+              <div className="absolute top-0 right-0 p-6 text-pink-500/10 font-bold text-8xl md:text-9xl pointer-events-none select-none">
                 {journeyStepsData[activeJourneyStep].step}
               </div>
 
@@ -1041,8 +1041,8 @@ export default function CareProvidersPage() {
                   {React.createElement(journeyStepsData[activeJourneyStep].icon, { className: "h-7 w-7" })}
                 </div>
                 <div>
-                  <span className="text-pink-400 text-xs font-bold uppercase tracking-widest font-heading">Journey Milestone</span>
-                  <h3 className="font-heading text-xl sm:text-2xl font-extrabold text-white">{journeyStepsData[activeJourneyStep].title}</h3>
+                  <span className="text-pink-400 text-xs font-bold font-heading">Journey Milestone</span>
+                  <h3 className="font-heading text-xl sm:text-2xl font-bold text-white">{journeyStepsData[activeJourneyStep].title}</h3>
                 </div>
               </div>
 
@@ -1074,14 +1074,14 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 7. SUPPORT SERVICES ==================== */}
-      <section id="support-services-section" className="py-20 md:py-28 bg-white">
+      <section id="support-services-section" className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <HeartHandshake className="h-3.5 w-3.5" />
               Integrated Support
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Compassionate Patient Support Services
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -1096,14 +1096,14 @@ export default function CareProvidersPage() {
                 <motion.div
                   key={idx}
                   whileHover={{ y: -5, scale: 1.02 }}
-                  className={`p-6 rounded-3xl border bg-gradient-to-br ${support.gradientClass} shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between`}
+                  className={`p-6 rounded-2xl border bg-gradient-to-br ${support.gradientClass} shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between`}
                 >
                   <div className="space-y-4">
                     <div className="h-11 w-11 rounded-xl bg-white flex items-center justify-center shadow-sm border border-pink-100/40">
                       <SupportIcon className="h-5.5 w-5.5" />
                     </div>
                     <div>
-                      <h4 className="font-heading text-base font-extrabold text-slate-800 leading-tight">{support.title}</h4>
+                      <h4 className="font-heading text-base font-bold text-slate-800 leading-tight">{support.title}</h4>
                       <p className="text-xs text-slate-500 mt-2 leading-relaxed font-medium">{support.desc}</p>
                     </div>
                   </div>
@@ -1124,14 +1124,14 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 8. DOCTOR ARTICLES & RESOURCES ==================== */}
-      <section id="doctor-articles-section" className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-y border-rose-100/20">
+      <section id="doctor-articles-section" className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-y border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="text-center space-y-3 max-w-3xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+          <div className="text-center space-y-3 max-w-3xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <FileText className="h-3.5 w-3.5 text-pink-600" />
               Verified Expert Advice
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Doctor Articles &amp; Resources
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -1142,7 +1142,7 @@ export default function CareProvidersPage() {
           {articlesLoading && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-white rounded-3xl p-6 border border-pink-100/40 shadow-sm animate-pulse space-y-4">
+                <div key={i} className="bg-white rounded-2xl p-6 border border-pink-100/40 shadow-sm animate-pulse space-y-4">
                   <div className="flex justify-between items-center">
                     <div className="h-4 w-20 bg-slate-200 rounded" />
                     <div className="h-3 w-16 bg-slate-100 rounded" />
@@ -1163,7 +1163,7 @@ export default function CareProvidersPage() {
           )}
 
           {!articlesLoading && articlesError && (
-            <div className="bg-white rounded-3xl p-8 border border-red-100/60 text-center space-y-3 max-w-md mx-auto shadow-sm">
+            <div className="bg-white rounded-2xl p-6 border border-red-100/60 text-center space-y-3 max-w-md mx-auto shadow-sm">
               <AlertCircle className="h-10 w-10 text-red-500 mx-auto" />
               <h3 className="font-heading text-base font-bold text-slate-800">Notice</h3>
               <p className="text-xs text-slate-500 font-medium">{articlesError}</p>
@@ -1171,11 +1171,11 @@ export default function CareProvidersPage() {
           )}
 
           {!articlesLoading && !articlesError && doctorArticles.length === 0 && (
-            <div className="bg-white rounded-3xl p-12 border border-pink-100/60 text-center space-y-4 max-w-xl mx-auto shadow-sm">
+            <div className="bg-white rounded-2xl p-8 border border-pink-100/60 text-center space-y-4 max-w-xl mx-auto shadow-sm">
               <div className="h-16 w-16 rounded-full bg-pink-50/60 border border-pink-100/40 text-pink-600 flex items-center justify-center mx-auto">
                 <Stethoscope className="h-8 w-8" />
               </div>
-              <h3 className="font-heading text-lg sm:text-xl font-extrabold text-slate-800">
+              <h3 className="font-heading text-lg sm:text-xl font-bold text-slate-800">
                 No doctor articles are available yet.
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
@@ -1189,18 +1189,18 @@ export default function CareProvidersPage() {
               {doctorArticles.map((art) => (
                 <div
                   key={art.id}
-                  className="bg-white rounded-3xl p-6 border border-pink-100/60 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow group relative"
+                  className="bg-white rounded-2xl p-6 border border-pink-100/60 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow group relative"
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-pink-50/60 text-pink-700 text-[10px] font-bold uppercase tracking-wider font-heading border border-pink-100/40">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded bg-pink-50/60 text-pink-700 text-[11px] font-bold font-heading border border-pink-100/40">
                         {art.fileUrl ? <FileText className="h-3 w-3" /> : <BookOpen className="h-3 w-3" />}
                         {art.fileUrl ? "PDF ARTICLE" : "DOCTOR ARTICLE"}
                       </span>
-                      <span className="text-[10px] text-slate-400 font-semibold font-sans">{art.publishDate}</span>
+                      <span className="text-[11px] text-slate-400 font-semibold font-sans">{art.publishDate}</span>
                     </div>
 
-                    <h4 className="font-heading text-lg font-extrabold text-slate-800 leading-snug group-hover:text-pink-600 transition-colors line-clamp-2">
+                    <h4 className="font-heading text-lg font-bold text-slate-800 leading-snug group-hover:text-pink-600 transition-colors line-clamp-2">
                       {art.title}
                     </h4>
 
@@ -1213,8 +1213,8 @@ export default function CareProvidersPage() {
                         <Stethoscope className="h-4.5 w-4.5" />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-xs font-extrabold text-slate-800 truncate font-heading">{art.doctorName}</p>
-                        <p className="text-[10px] text-slate-400 font-medium truncate font-sans">{art.doctorSpecialty}</p>
+                        <p className="text-xs font-bold text-slate-800 truncate font-heading">{art.doctorName}</p>
+                        <p className="text-[11px] text-slate-400 font-medium truncate font-sans">{art.doctorSpecialty}</p>
                       </div>
                     </div>
                   </div>
@@ -1228,7 +1228,7 @@ export default function CareProvidersPage() {
                         rel="noreferrer"
                         className="w-full inline-block"
                       >
-                        <Button className="w-full bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 text-white font-bold text-xs py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-sm">
+                        <Button className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs py-3 rounded-xl cursor-pointer flex items-center justify-center gap-2 transition-all shadow-sm">
                           <Download className="h-4 w-4 shrink-0" />
                           Download Doctor Article
                         </Button>
@@ -1251,14 +1251,14 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 9. FAQ ==================== */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <MessageSquare className="h-3.5 w-3.5" />
               FAQ Help Desk
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Care Provider FAQ
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -1266,7 +1266,7 @@ export default function CareProvidersPage() {
             </p>
           </div>
 
-          <div className="bg-white/80 border border-pink-100/60 rounded-3xl p-5 sm:p-8 shadow-sm space-y-4">
+          <div className="bg-white/80 border border-pink-100/60 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
             {faqsData.map((faq, idx) => {
               const isOpen = activeFaq === idx;
               return (
@@ -1312,18 +1312,18 @@ export default function CareProvidersPage() {
       </section>
 
       {/* ==================== 10. EMERGENCY & HELPLINE ==================== */}
-      <section id="emergency-helpline-section" className="py-16 md:py-24 bg-gradient-to-br from-pink-500 to-rose-600 text-white relative overflow-hidden">
+      <section id="emergency-helpline-section" className="py-10 md:py-14 bg-pink-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[5%] w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-6">
-              <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/20 text-white text-xs font-bold uppercase tracking-wider">
-                <AlertCircle className="h-3.5 w-3.5 animate-bounce" />
+              <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/20 text-white text-xs font-bold ">
+                <AlertCircle className="h-3.5 w-3.5 " />
                 Emergency Contact
               </span>
-              <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+              <h2 className="font-heading text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight text-white leading-tight">
                 Need Immediate Care Assistance?
               </h2>
               <p className="text-pink-100 text-sm sm:text-base font-medium leading-relaxed">
@@ -1336,9 +1336,9 @@ export default function CareProvidersPage() {
                     <Phone className="h-6 w-6" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] text-pink-100 uppercase tracking-widest font-bold font-heading">Cancer Care Helpline</p>
-                    <p className="text-lg font-black text-white tracking-tight font-heading">1800-203-1066</p>
-                    <p className="text-[10px] text-pink-100 font-medium">Apollo Cancer Centres • 24×7</p>
+                    <p className="text-[11px] text-pink-100 font-bold font-heading">Cancer Care Helpline</p>
+                    <p className="text-lg font-bold text-white tracking-tight font-heading">1800-203-1066</p>
+                    <p className="text-[11px] text-pink-100 font-medium">Apollo Cancer Centres • 24×7</p>
                   </div>
                 </a>
 
@@ -1347,25 +1347,25 @@ export default function CareProvidersPage() {
                     <HeartPulse className="h-6 w-6" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[10px] text-pink-100 uppercase tracking-widest font-bold font-heading">Breast Cancer Helpline</p>
-                    <p className="text-lg font-black text-white tracking-tight font-heading">95996 87085</p>
-                    <p className="text-[10px] text-pink-100 font-medium">Cancer Mukt Bharat • 24×7</p>
+                    <p className="text-[11px] text-pink-100 font-bold font-heading">Breast Cancer Helpline</p>
+                    <p className="text-lg font-bold text-white tracking-tight font-heading">95996 87085</p>
+                    <p className="text-[11px] text-pink-100 font-medium">Cancer Mukt Bharat • 24×7</p>
                   </div>
                 </a>
               </div>
 
               <div className="pt-4 border-t border-white/20">
-                <p className="text-[11px] text-pink-100 uppercase tracking-widest font-bold font-heading mb-3">Additional Support</p>
+                <p className="text-[11px] text-pink-100 font-bold font-heading mb-3">Additional Support</p>
                 <div className="flex flex-wrap gap-3">
                   <a href="tel:9355520202" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-xs text-white hover:bg-white/20 transition-colors">
                     <Phone className="h-3.5 w-3.5 shrink-0" />
                     <span className="font-semibold">93555 20202</span>
-                    <span className="text-[10px] text-pink-100">• National Cancer</span>
+                    <span className="text-[11px] text-pink-100">• National Cancer</span>
                   </a>
                   <a href="tel:14416" className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-xs text-white hover:bg-white/20 transition-colors">
                     <Brain className="h-3.5 w-3.5 shrink-0" />
                     <span className="font-semibold">14416</span>
-                    <span className="text-[10px] text-pink-100">• Tele MANAS (Mental Health)</span>
+                    <span className="text-[11px] text-pink-100">• Tele MANAS (Mental Health)</span>
                   </a>
                 </div>
               </div>
@@ -1373,7 +1373,7 @@ export default function CareProvidersPage() {
 
             <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-4">
               <a href="tel:18002031066" className="w-full">
-                <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-6 shadow-lg active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer">
+                <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-lg py-5 px-6 shadow-lg transition-all text-xs cursor-pointer">
                   <Phone className="h-4 w-4 mr-2 shrink-0" />
                   Call Helpline Now
                 </Button>
@@ -1385,14 +1385,14 @@ export default function CareProvidersPage() {
                   setSelectedCategory("hospitals");
                   scrollToId("care-services-directory");
                 }}
-                className="w-full border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full py-6 px-6 active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer"
+                className="w-full border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full py-6 px-6 transition-all text-xs cursor-pointer"
               >
                 Find Nearest Hospital
               </Button>
 
               <Button
                 onClick={() => setHelpRequestOpen(true)}
-                className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-6 shadow-lg active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer"
+                className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-6 shadow-lg transition-all text-xs cursor-pointer"
               >
                 Request Care Assistance
               </Button>
@@ -1420,7 +1420,7 @@ export default function CareProvidersPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ duration: 0.3 }}
-              className="relative bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-pink-100/60 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
+              className="relative bg-white rounded-2xl max-w-2xl w-full p-6 border border-pink-100/60 shadow-lg z-10 max-h-[90vh] overflow-y-auto"
             >
               <button
                 onClick={() => setDetailsModal(null)}
@@ -1429,11 +1429,11 @@ export default function CareProvidersPage() {
                 <X className="h-5 w-5" />
               </button>
 
-              <span className="inline-block px-2.5 py-0.5 rounded bg-pink-50/60 text-pink-700 text-[10px] font-bold uppercase tracking-wider mb-3 font-heading border border-pink-100/40">
+              <span className="inline-block px-2.5 py-0.5 rounded bg-pink-50/60 text-pink-700 text-[11px] font-bold mb-3 font-heading border border-pink-100/40">
                 {detailsModal.category.toUpperCase()}
               </span>
 
-              <h3 className="font-heading text-xl sm:text-2xl font-extrabold text-slate-800 pr-8 leading-tight">
+              <h3 className="font-heading text-xl sm:text-2xl font-bold text-slate-800 pr-8 leading-tight">
                 {detailsModal.name}
               </h3>
               <p className="text-xs font-semibold text-slate-500 mt-1 flex items-center gap-1.5 font-sans">
@@ -1443,7 +1443,7 @@ export default function CareProvidersPage() {
 
               <div className="mt-6 space-y-4 font-sans">
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 font-heading">About the Provider</h4>
+                  <h4 className="text-xs font-bold text-slate-400 font-heading">About the Provider</h4>
                   <p className="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed font-medium">
                     {detailsModal.about}
                   </p>
@@ -1458,14 +1458,14 @@ export default function CareProvidersPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
                   <div className="space-y-1">
-                    <h5 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Operational Hours</h5>
+                    <h5 className="text-[11px] font-bold text-slate-400 font-heading">Operational Hours</h5>
                     <p className="text-slate-700 text-xs font-medium flex items-center gap-1.5">
                       <Clock className="h-3.5 w-3.5 text-slate-400" />
                       {detailsModal.hours}
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <h5 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Address Location</h5>
+                    <h5 className="text-[11px] font-bold text-slate-400 font-heading">Address Location</h5>
                     <p className="text-slate-700 text-xs font-medium flex items-center gap-1.5">
                       <MapPin className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                       <span className="line-clamp-1">{detailsModal.address}</span>
@@ -1474,10 +1474,10 @@ export default function CareProvidersPage() {
                 </div>
 
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 font-heading">Available Facilities</h4>
+                  <h4 className="text-xs font-bold text-slate-400 mb-2 font-heading">Available Facilities</h4>
                   <div className="flex flex-wrap gap-1.5">
                     {detailsModal.facilities.map((fac, i) => (
-                      <span key={i} className="px-2.5 py-1 rounded-lg bg-pink-500/5 text-pink-700 border border-pink-500/10 text-[10px] font-bold flex items-center gap-1.5">
+                      <span key={i} className="px-2.5 py-1 rounded-lg bg-pink-500/5 text-pink-700 border border-pink-500/10 text-[11px] font-bold flex items-center gap-1.5">
                         <CheckCircle2 className="h-3 w-3 text-pink-600" />
                         {fac}
                       </span>
@@ -1522,7 +1522,7 @@ export default function CareProvidersPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ duration: 0.3 }}
-              className="relative bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 border border-pink-100/60 shadow-2xl z-10"
+              className="relative bg-white rounded-2xl max-w-md w-full p-6 border border-pink-100/60 shadow-lg z-10"
             >
               <button
                 onClick={resetHelpForm}
@@ -1533,7 +1533,7 @@ export default function CareProvidersPage() {
 
               {!helpSuccess ? (
                 <>
-                  <h3 className="font-heading text-xl font-extrabold text-slate-800 leading-tight">
+                  <h3 className="font-heading text-xl font-bold text-slate-800 leading-tight">
                     Request Care Assistance
                   </h3>
                   <p className="text-xs text-slate-500 mt-1 font-medium">
@@ -1542,7 +1542,7 @@ export default function CareProvidersPage() {
 
                   <form onSubmit={handleHelpSubmit} className="space-y-4 mt-6 font-sans">
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Your Name</label>
+                      <label className="text-[11px] font-bold text-slate-400 font-heading">Your Name</label>
                       <Input
                         type="text"
                         required
@@ -1554,7 +1554,7 @@ export default function CareProvidersPage() {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Phone Number</label>
+                      <label className="text-[11px] font-bold text-slate-400 font-heading">Phone Number</label>
                       <Input
                         type="tel"
                         required
@@ -1566,7 +1566,7 @@ export default function CareProvidersPage() {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-heading">Brief Message / Needs</label>
+                      <label className="text-[11px] font-bold text-slate-400 font-heading">Brief Message / Needs</label>
                       <textarea
                         required
                         placeholder="Describe what help you require (e.g. screening camps, diagnostic funding, counseling)"
@@ -1579,7 +1579,7 @@ export default function CareProvidersPage() {
                     <Button
                       type="submit"
                       disabled={helpLoading}
-                      className="w-full bg-primary hover:bg-primary/95 text-white font-bold h-11 rounded-xl cursor-pointer mt-2 shadow-md shadow-pink-100 active:scale-95 transition-all"
+                      className="w-full bg-primary hover:bg-primary/95 text-white font-bold h-11 rounded-xl cursor-pointer mt-2 shadow-md shadow-pink-100 transition-all"
                     >
                       {helpLoading ? (
                         <>
@@ -1595,7 +1595,7 @@ export default function CareProvidersPage() {
               ) : (
                 <div className="text-center py-6 space-y-4">
                   <div className="h-14 w-14 rounded-full bg-emerald-50 border-2 border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
-                    <Check className="h-7 w-7 animate-pulse" />
+                    <Check className="h-7 w-7 " />
                   </div>
                   <h3 className="font-heading text-lg font-bold text-slate-800">Request Received</h3>
                   <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed font-medium">

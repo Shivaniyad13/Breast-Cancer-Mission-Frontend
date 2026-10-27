@@ -116,14 +116,14 @@ export const DonationForm: React.FC<DonationFormProps> = ({
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 md:p-10 border border-pink-200 dark:border-pink-800 shadow-xl relative overflow-hidden">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-pink-200 dark:border-pink-800 shadow-md relative overflow-hidden">
       {/* Decorative top ribbon gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600" />
+      <div className="absolute top-0 left-0 right-0 h-2 bg-pink-300" />
 
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-extrabold text-slate-800 dark:text-white flex items-center gap-2">
-            <HeartPulse className="h-6 w-6 text-pink-600 dark:text-pink-400 animate-pulse" />
+          <h2 className="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
+            <HeartPulse className="h-6 w-6 text-pink-600 dark:text-pink-400 " />
             Make Your Contribution
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
@@ -174,7 +174,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({
                   }}
                   className={`py-3 px-2 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-200 border cursor-pointer flex items-center justify-center ${
                     isSelected
-                      ? 'bg-gradient-to-r from-pink-500 to-rose-600 text-white border-pink-600 shadow-md scale-105'
+                      ? 'bg-pink-600 text-white border-pink-600 shadow-md scale-105'
                       : 'bg-pink-50/50 dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 border-pink-200 dark:border-slate-700 hover:border-pink-400 hover:bg-pink-100/50 dark:hover:bg-slate-700'
                   }`}
                 >
@@ -194,7 +194,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({
               }}
               className={`py-3 px-2 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-200 border cursor-pointer flex items-center justify-center gap-1 ${
                 isCustom
-                  ? 'bg-gradient-to-r from-pink-500 to-rose-600 text-white border-pink-600 shadow-md scale-105'
+                  ? 'bg-pink-600 text-white border-pink-600 shadow-md scale-105'
                   : 'bg-pink-100/70 dark:bg-pink-950/40 text-pink-700 dark:text-pink-300 border-pink-300 dark:border-pink-800 hover:bg-pink-200/70'
               }`}
             >
@@ -250,7 +250,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({
               <span>
                 {isCustom && formData.amount > 0
                   ? `Your custom contribution of ₹${formData.amount.toLocaleString('en-IN')} will directly support life-saving breast cancer awareness & care!`
-                  : 'Contribute whatever amount you wish. Every single rupee helps save lives!'}
+                  : 'Contribute whatever amount you wish. Every rupee counts.'}
               </span>
             </p>
           </div>
@@ -389,7 +389,7 @@ export const DonationForm: React.FC<DonationFormProps> = ({
           <Button
             type="submit"
             disabled={isSubmitting || formData.amount <= 0}
-            className="w-full bg-gradient-to-r from-pink-500 via-rose-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-6 rounded-2xl shadow-xl shadow-pink-500/25 text-base sm:text-lg flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.01] cursor-pointer"
+            className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold py-5 rounded-2xl shadow-md shadow-pink-500/25 text-base sm:text-lg flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.01] cursor-pointer"
           >
             <CreditCard className="h-5 w-5 text-white" />
             <span>Pay with Cashfree (₹{formData.amount.toLocaleString('en-IN')})</span>

@@ -74,22 +74,22 @@ export default async function SuccessStoryDetailPage({ params }: SuccessStoryPag
           </Link>
 
           <span className="text-xs font-semibold px-3 py-1 rounded-full bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300 flex items-center gap-1">
-            <Sparkles className="h-3.5 w-3.5 animate-pulse" /> Verified Story
+            <Sparkles className="h-3.5 w-3.5 " /> Verified Story
           </span>
         </div>
 
         {/* Hero Header Card */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-pink-600 to-purple-700 rounded-3xl text-white shadow-xl p-8 md:p-12">
+        <div className="relative overflow-hidden bg-pink-600 rounded-2xl text-white shadow-md p-6 md:p-8">
           {/* Background circles */}
           <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
           <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/15 rounded-full blur-3xl" />
 
           <div className="relative z-10 space-y-6">
-            <span className="inline-block px-3 py-1 bg-white/15 backdrop-blur rounded-full text-xs font-black uppercase tracking-wider">
+            <span className="inline-block px-3 py-1 bg-white/15 backdrop-blur rounded-full text-xs font-bold ">
               {story.roleType === "Patient" ? "Survivor Journey" : "Family Member Testimony"}
             </span>
 
-            <h1 className="font-heading text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
+            <h1 className="font-heading text-3xl md:text-5xl font-bold tracking-tight leading-tight">
               {story.storyTitle}
             </h1>
 
@@ -121,7 +121,7 @@ export default async function SuccessStoryDetailPage({ params }: SuccessStoryPag
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Left Column: Full Journey & Media (8 Cols) */}
-          <div className="lg:col-span-8 space-y-8 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 p-6 md:p-8 rounded-3xl shadow-sm">
+          <div className="lg:col-span-8 space-y-8 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 p-6 rounded-2xl shadow-sm">
             
             {/* Quote box */}
             {paragraphs[0] && (
@@ -186,7 +186,7 @@ export default async function SuccessStoryDetailPage({ params }: SuccessStoryPag
           {/* Right Column: Recovery Timeline (4 Cols) */}
           <div className="lg:col-span-4 space-y-6">
             
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 p-6 rounded-3xl shadow-sm">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 p-6 rounded-2xl shadow-sm">
               <h3 className="font-heading text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 mb-6">
                 <Calendar className="h-5 w-5 text-pink-600" /> Timeline of Recovery
               </h3>
@@ -214,7 +214,7 @@ export default async function SuccessStoryDetailPage({ params }: SuccessStoryPag
             </div>
 
             {/* Help Callout */}
-            <div className="bg-pink-50/50 dark:bg-pink-950/10 border border-pink-100 dark:border-pink-950/60 p-6 rounded-3xl space-y-4">
+            <div className="bg-pink-50/50 dark:bg-pink-950/10 border border-pink-100 dark:border-pink-950/60 p-6 rounded-2xl space-y-4">
               <h4 className="font-bold text-sm text-pink-800 dark:text-pink-400">Need support or want to make a difference?</h4>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                 If you or a loved one is currently navigating breast cancer, we provide verified fundraising tools, connection with registered NGOs, and oncology checkups.

@@ -83,7 +83,7 @@ export default function WebinarJoinWidget({
     return (
       <div className="bg-pink-50/50 border border-pink-100 rounded-2xl p-6 text-center space-y-4 shadow-sm">
         <div className="flex justify-center text-primary">
-          <Clock className="h-10 w-10 stroke-[1.5] animate-pulse" />
+          <Clock className="h-10 w-10 stroke-[1.5] " />
         </div>
         <div>
           <h3 className="font-heading text-lg font-bold text-slate-800">Secure Your Slot</h3>
@@ -132,7 +132,7 @@ export default function WebinarJoinWidget({
         </div>
         <Button
           onClick={handleJoin}
-          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition-all uppercase tracking-wider"
+          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition-all "
         >
           Join Live Webinar
         </Button>
@@ -147,7 +147,7 @@ export default function WebinarJoinWidget({
         <Clock className="h-10 w-10 stroke-[1.5]" />
       </div>
       <div>
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-pink-100 text-primary border border-pink-200 uppercase tracking-widest">
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-pink-100 text-primary border border-pink-200 ">
           <ShieldCheck className="h-3 w-3" /> Reservation Locked
         </span>
         <h3 className="font-heading text-base font-bold text-slate-800 mt-2.5">Webinar starts in:</h3>
@@ -156,16 +156,16 @@ export default function WebinarJoinWidget({
       {timeLeft && (
         <div className="grid grid-cols-3 gap-2 max-w-xs mx-auto">
           <div className="bg-white border border-pink-100/60 rounded-xl p-2.5 shadow-sm">
-            <span className="block text-2xl font-black text-primary font-mono">{timeLeft.hours.toString().padStart(2, "0")}</span>
-            <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Hours</span>
+            <span className="block text-2xl font-bold text-primary font-mono">{timeLeft.hours.toString().padStart(2, "0")}</span>
+            <span className="text-[11px] font-bold text-muted-foreground ">Hours</span>
           </div>
           <div className="bg-white border border-pink-100/60 rounded-xl p-2.5 shadow-sm">
-            <span className="block text-2xl font-black text-primary font-mono">{timeLeft.minutes.toString().padStart(2, "0")}</span>
-            <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Mins</span>
+            <span className="block text-2xl font-bold text-primary font-mono">{timeLeft.minutes.toString().padStart(2, "0")}</span>
+            <span className="text-[11px] font-bold text-muted-foreground ">Mins</span>
           </div>
           <div className="bg-white border border-pink-100/60 rounded-xl p-2.5 shadow-sm">
-            <span className="block text-2xl font-black text-primary font-mono">{timeLeft.seconds.toString().padStart(2, "0")}</span>
-            <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Secs</span>
+            <span className="block text-2xl font-bold text-primary font-mono">{timeLeft.seconds.toString().padStart(2, "0")}</span>
+            <span className="text-[11px] font-bold text-muted-foreground ">Secs</span>
           </div>
         </div>
       )}

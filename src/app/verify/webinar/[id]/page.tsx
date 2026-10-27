@@ -48,7 +48,7 @@ export default async function VerifyWebinarCertificatePage({ params }: VerifyPag
               <div className="h-16 w-16 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center border border-emerald-100 animate-bounce">
                 <ShieldCheck className="h-10 w-10" />
               </div>
-              <h1 className="font-heading text-2xl md:text-3xl font-extrabold text-slate-800">
+              <h1 className="font-heading text-2xl md:text-3xl font-bold text-slate-800">
                 Authentic Certificate Verified
               </h1>
               <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 uppercase tracking-widest">
@@ -143,7 +143,7 @@ export default async function VerifyWebinarCertificatePage({ params }: VerifyPag
               <div className="h-16 w-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center border border-red-100 animate-pulse">
                 <ShieldAlert className="h-10 w-10" />
               </div>
-              <h1 className="font-heading text-2xl md:text-3xl font-extrabold text-slate-800">
+              <h1 className="font-heading text-2xl md:text-3xl font-bold text-slate-800">
                 Invalid Certificate
               </h1>
               <span className="px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-200 uppercase tracking-widest">

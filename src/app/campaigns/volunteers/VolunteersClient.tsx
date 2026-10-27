@@ -447,7 +447,7 @@ export default function VolunteersClient({
       <div className="absolute bottom-1/4 right-5 w-96 h-96 bg-pink-50/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* ================= HERO SECTION (centered, no background color) ================= */}
-      <section className="relative min-h-[75vh] flex items-center py-20 overflow-hidden bg-white">
+      <section className="relative min-h-[75vh] flex items-center py-12 overflow-hidden bg-white">
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
 
@@ -460,9 +460,9 @@ export default function VolunteersClient({
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-100/60 border border-pink-200/50 text-primary text-xs font-bold uppercase tracking-wider"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-100/60 border border-pink-200/50 text-primary text-xs font-bold "
               >
-                <Activity className="h-4 w-4 text-primary animate-pulse" />
+                <Activity className="h-4 w-4 text-primary " />
                 Join the Movement
               </motion.div>
 
@@ -471,32 +471,32 @@ export default function VolunteersClient({
                 <Link href="/volunteer/login">
                   <Button
                     variant="ghost"
-                    className="text-xs font-bold uppercase tracking-wider text-white bg-primary hover:bg-pink-600 hover:text-white border border-primary rounded-full px-4 py-1.5 transition-all"
+                    className="text-xs font-bold text-white bg-primary hover:bg-pink-600 hover:text-white border border-primary rounded-lg px-4 py-1.5 transition-all"
                   >
                     Login as Volunteer
                   </Button>
                 </Link>
               ) : session.volunteerStatus === "PENDING" ? (
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-50 border border-pink-200 text-primary text-xs font-bold uppercase tracking-wider">
-                  <AlertTriangle className="h-4 w-4 text-primary animate-bounce" />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pink-50 border border-pink-200 text-primary text-xs font-bold ">
+                  <AlertTriangle className="h-4 w-4 text-primary " />
                   Your volunteer application is under review
                 </div>
               ) : session.volunteerStatus === "VERIFIED" ? (
                 <div className="flex flex-wrap items-center justify-center gap-2">
-                  <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 border border-pink-200/50 text-primary text-xs font-bold uppercase tracking-wider">
+                  <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 border border-pink-200/50 text-primary text-xs font-bold ">
                     <ShieldCheck className="h-4 w-4 text-primary" />
                     Verified Volunteer
                   </div>
                   <Button
                     onClick={() => setShowFeedbackModal(true)}
-                    className="bg-primary hover:bg-primary/95 text-white text-xs font-bold uppercase tracking-wider rounded-full px-3.5 py-1.5"
+                    className="bg-primary hover:bg-primary/95 text-white text-xs font-bold rounded-full px-3.5 py-1.5"
                   >
                     <MessageSquare className="h-3.5 w-3.5 mr-1.5" />
                     Submit Feedback
                   </Button>
                   <Button
                     onClick={() => setShowGalleryModal(true)}
-                    className="bg-primary hover:bg-primary/95 text-white text-xs font-bold uppercase tracking-wider rounded-full px-3.5 py-1.5"
+                    className="bg-primary hover:bg-primary/95 text-white text-xs font-bold rounded-full px-3.5 py-1.5"
                   >
                     <Upload className="h-3.5 w-3.5 mr-1.5" />
                     Upload to Gallery
@@ -504,7 +504,7 @@ export default function VolunteersClient({
                   {session.certificateCode && (
                     <Link
                       href="/campaigns/volunteers/certificate"
-                      className="inline-flex items-center bg-white hover:bg-pink-50 text-primary text-xs font-bold uppercase tracking-wider border border-pink-200 rounded-full px-3.5 py-1.5 transition-all"
+                      className="inline-flex items-center bg-white hover:bg-pink-50 text-primary text-xs font-bold border border-pink-200 rounded-full px-3.5 py-1.5 transition-all"
                     >
                       <Download className="h-3.5 w-3.5 mr-1.5" />
                       Download Certificate
@@ -516,7 +516,7 @@ export default function VolunteersClient({
                       window.location.href = "/";
                     }}
                     variant="ghost"
-                    className="text-xs font-bold uppercase tracking-wider text-slate-600 hover:text-primary border border-slate-200 rounded-full px-3 py-1.5"
+                    className="text-xs font-bold text-slate-600 hover:text-primary border border-slate-200 rounded-full px-3 py-1.5"
                   >
                     <LogOut className="h-3.5 w-3.5 mr-1" />
                     Logout
@@ -529,7 +529,7 @@ export default function VolunteersClient({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.5 }}
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-800 leading-[1.1]"
             >
               Become a <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">Volunteer</span>
             </motion.h1>
@@ -551,7 +551,7 @@ export default function VolunteersClient({
             >
               <Button
                 onClick={() => scrollToForm()}
-                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer"
+                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 transition-all text-sm tracking-wide cursor-pointer"
               >
                 Get Started
               </Button>
@@ -561,14 +561,14 @@ export default function VolunteersClient({
       </section>
 
       {/* ================= WHY VOLUNTEER? ================= */}
-      <section className="py-20 md:py-28 bg-white relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
+      <section className="py-12 md:py-16 bg-white relative">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-10">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold ">
               <Info className="h-3.5 w-3.5" /> Our Mission
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Why Volunteer With Us?
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -585,7 +585,7 @@ export default function VolunteersClient({
           >
             {whyVolunteerList.map((item, idx) => (
               <motion.div key={idx} variants={fadeInUp}>
-                <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl p-8 hover:border-pink-300 group">
+                <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl p-6 hover:border-pink-300 group">
                   <div className="h-14 w-14 rounded-2xl bg-pink-50 flex items-center justify-center border border-pink-100/40 group-hover:scale-105 transition-transform duration-300">
                     {item.icon}
                   </div>
@@ -604,17 +604,17 @@ export default function VolunteersClient({
       </section>
 
       {/* ================= VOLUNTEER IMPACT ================= */}
-      <section className="py-20 md:py-28 bg-gradient-to-br from-pink-500 to-rose-600 text-white relative overflow-hidden">
+      <section className="py-12 md:py-16 bg-pink-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[5%] w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12 relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-8 relative z-10">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/20 border border-white/10 text-white text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/20 border border-white/10 text-white text-xs font-bold ">
               <TrendingUp className="h-3.5 w-3.5 text-pink-200" /> Community Milestones
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight leading-tight">
               Our Collective Volunteer Impact
             </h2>
             <p className="text-pink-100 text-sm sm:text-base font-medium">
@@ -624,20 +624,20 @@ export default function VolunteersClient({
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center space-y-2">
-              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">{formatStat(initialStats.volunteers)}</div>
-              <h4 className="text-xs sm:text-sm font-bold text-pink-100 uppercase tracking-widest">Volunteers</h4>
+              <div className="text-4xl sm:text-5xl font-bold text-white tracking-tight">{formatStat(initialStats.volunteers)}</div>
+              <h4 className="text-xs sm:text-sm font-bold text-pink-100 ">Volunteers</h4>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">{formatStat(initialStats.campaigns)}</div>
-              <h4 className="text-xs sm:text-sm font-bold text-pink-100 uppercase tracking-widest">Campaigns</h4>
+              <div className="text-4xl sm:text-5xl font-bold text-white tracking-tight">{formatStat(initialStats.campaigns)}</div>
+              <h4 className="text-xs sm:text-sm font-bold text-pink-100 ">Campaigns</h4>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">{formatStat(initialStats.reached)}</div>
-              <h4 className="text-xs sm:text-sm font-bold text-pink-100 uppercase tracking-widest">People Reached</h4>
+              <div className="text-4xl sm:text-5xl font-bold text-white tracking-tight">{formatStat(initialStats.reached)}</div>
+              <h4 className="text-xs sm:text-sm font-bold text-pink-100 ">People Reached</h4>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">{formatStat(initialStats.events)}</div>
-              <h4 className="text-xs sm:text-sm font-bold text-pink-100 uppercase tracking-widest">Events Organized</h4>
+              <div className="text-4xl sm:text-5xl font-bold text-white tracking-tight">{formatStat(initialStats.events)}</div>
+              <h4 className="text-xs sm:text-sm font-bold text-pink-100 ">Events Organized</h4>
             </div>
           </div>
         </div>
@@ -645,13 +645,13 @@ export default function VolunteersClient({
 
       {/* ================= OPEN VOLUNTEER CALLS (UPCOMING EVENTS) ================= */}
       {initialEvents.length > 0 && (
-        <section className="py-20 md:py-28 bg-gradient-to-b from-rose-50/30 to-white border-t border-rose-100/20">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
+        <section className="py-12 md:py-16 bg-gradient-to-b from-rose-50/30 to-white border-t border-rose-100/20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-8">
             <div className="text-center space-y-3 max-w-2xl mx-auto">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold ">
                 <Calendar className="h-3.5 w-3.5" /> Upcoming Events
               </span>
-              <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-800">
                 Open Volunteer Calls
               </h2>
               <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -671,7 +671,7 @@ export default function VolunteersClient({
 
                 return (
                   <motion.div key={event.id} variants={fadeInUp}>
-                    <Card className={`border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md rounded-3xl p-6 flex h-full group hover:border-pink-300 transition-all hover:-translate-y-1 ${initialEvents.length === 1 ? "flex-col md:flex-row md:items-center md:gap-8 md:p-8" : "flex-col justify-between"}`}>
+                    <Card className={`border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md rounded-2xl p-6 flex h-full group hover:border-pink-300 transition-all ${initialEvents.length === 1 ? "flex-col md:flex-row md:items-center md:gap-8 md:p-6" : "flex-col justify-between"}`}>
                       <div className={`space-y-3 ${initialEvents.length === 1 ? "md:flex-1" : ""}`}>
                         <h3 className="font-heading font-bold text-lg text-slate-800 group-hover:text-primary transition-colors leading-snug">
                           {event.title}
@@ -679,7 +679,7 @@ export default function VolunteersClient({
                         <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
                           {event.description}
                         </p>
-                        <div className="flex flex-wrap gap-3 text-[10px] text-slate-400 font-semibold pt-2">
+                        <div className="flex flex-wrap gap-3 text-[11px] text-slate-400 font-semibold pt-2">
                           <span className="flex items-center gap-1">
                             <MapPin className="h-3 w-3 text-primary" /> {event.location}
                           </span>
@@ -702,7 +702,7 @@ export default function VolunteersClient({
                           <Link href="/volunteer/login">
                             <Button
                               variant="outline"
-                              className="w-full border-pink-200 text-primary hover:bg-pink-50/60 font-bold text-xs rounded-full py-5"
+                              className="w-full border-pink-200 text-primary hover:bg-pink-50/60 font-bold text-xs rounded-lg py-5"
                             >
                               Login to Apply
                             </Button>
@@ -710,7 +710,7 @@ export default function VolunteersClient({
                         ) : session.volunteerStatus === "PENDING" ? (
                           <Button
                             disabled
-                            className="w-full bg-slate-100 text-slate-400 font-bold text-xs rounded-full py-5 cursor-not-allowed border border-slate-200"
+                            className="w-full bg-slate-100 text-slate-400 font-bold text-xs rounded-lg py-5 cursor-not-allowed border border-slate-200"
                           >
                             Awaiting Verification
                           </Button>
@@ -726,7 +726,7 @@ export default function VolunteersClient({
                           <Button
                             onClick={() => handleEventApply(event.id)}
                             disabled={applyingEventId === event.id}
-                            className="w-full bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full py-5 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-pink-100"
+                            className="w-full bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full py-5 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-pink-100"
                           >
                             {applyingEventId === event.id ? (
                               <>
@@ -749,13 +749,13 @@ export default function VolunteersClient({
       )}
 
       {/* ================= VOLUNTEER TESTIMONIALS / FEEDBACK ================= */}
-      <section className="py-20 md:py-28 bg-white border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-12">
+      <section className="py-12 md:py-16 bg-white border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-8">
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <MessageSquare className="h-3.5 w-3.5" /> Community Feedback
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-800">
               Voices of Our Volunteers
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -773,7 +773,7 @@ export default function VolunteersClient({
             >
               {initialFeedback.map((fb) => (
                 <motion.div key={fb.id} variants={fadeInUp}>
-                  <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl p-6 flex flex-col justify-between h-full hover:border-pink-300 group">
+                  <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between h-full hover:border-pink-300 group">
                     <div className="space-y-4">
                       <div className="flex items-center gap-1">
                         {Array.from({ length: 5 }).map((_, i) => (
@@ -806,7 +806,7 @@ export default function VolunteersClient({
               ))}
             </motion.div>
           ) : (
-            <div className="border-2 border-dashed border-pink-200 bg-pink-50/30 rounded-3xl p-10 flex flex-col items-center justify-center text-center gap-3 max-w-xl mx-auto">
+            <div className="border-2 border-dashed border-pink-200 bg-pink-50/30 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-3 max-w-xl mx-auto">
               <MessageSquare className="h-8 w-8 text-pink-400" />
               <h3 className="font-heading font-bold text-lg text-slate-700">No stories yet</h3>
               <p className="text-xs text-slate-500 max-w-sm font-medium">
@@ -815,7 +815,7 @@ export default function VolunteersClient({
               {initialSession?.volunteerStatus === "VERIFIED" && (
                 <Button
                   onClick={() => setShowFeedbackModal(true)}
-                  className="mt-2 bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full px-5 py-2.5 active:scale-95 transition-all cursor-pointer shadow-md shadow-pink-100"
+                  className="mt-2 bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full px-5 py-2.5 transition-all cursor-pointer shadow-md shadow-pink-100"
                 >
                   Share Your Story
                 </Button>
@@ -826,14 +826,14 @@ export default function VolunteersClient({
       </section>
 
       {/* ================= VOLUNTEER REGISTRATION FORM ================= */}
-      <section ref={formRef} className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20 scroll-mt-6">
+      <section ref={formRef} className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20 scroll-mt-6">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl space-y-10">
 
           <div className="text-center space-y-3 max-w-xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <Sparkles className="h-3.5 w-3.5" /> Registration Form
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-800">
               Apply to Volunteer
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -841,7 +841,7 @@ export default function VolunteersClient({
             </p>
           </div>
 
-          <Card className="border-pink-100/60 bg-white shadow-xl rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+          <Card className="border-pink-100/60 bg-white shadow-md rounded-2xl p-6 relative overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-primary via-rose-500 to-pink-600" />
             <AnimatePresence mode="wait">
               {!formSubmitted ? (
@@ -862,7 +862,7 @@ export default function VolunteersClient({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {/* Full Name */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Full Name</label>
+                      <label className="text-xs font-bold text-slate-500 ">Full Name</label>
                       <input
                         type="text"
                         name="fullName"
@@ -872,12 +872,12 @@ export default function VolunteersClient({
                           }`}
                         placeholder="Jane Doe"
                       />
-                      {errors.fullName && <p className="text-[10px] text-rose-500 font-bold">{errors.fullName}</p>}
+                      {errors.fullName && <p className="text-[11px] text-rose-500 font-bold">{errors.fullName}</p>}
                     </div>
 
                     {/* Email */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Email Address</label>
+                      <label className="text-xs font-bold text-slate-500 ">Email Address</label>
                       <input
                         type="email"
                         name="email"
@@ -887,14 +887,14 @@ export default function VolunteersClient({
                           }`}
                         placeholder="jane@example.com"
                       />
-                      {errors.email && <p className="text-[10px] text-rose-500 font-bold">{errors.email}</p>}
+                      {errors.email && <p className="text-[11px] text-rose-500 font-bold">{errors.email}</p>}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {/* Phone Number */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Phone Number</label>
+                      <label className="text-xs font-bold text-slate-500 ">Phone Number</label>
                       <input
                         type="tel"
                         name="phone"
@@ -904,12 +904,12 @@ export default function VolunteersClient({
                           }`}
                         placeholder="+91 9876543210"
                       />
-                      {errors.phone && <p className="text-[10px] text-rose-500 font-bold">{errors.phone}</p>}
+                      {errors.phone && <p className="text-[11px] text-rose-500 font-bold">{errors.phone}</p>}
                     </div>
 
                     {/* City */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">City</label>
+                      <label className="text-xs font-bold text-slate-500 ">City</label>
                       <input
                         type="text"
                         name="city"
@@ -919,14 +919,14 @@ export default function VolunteersClient({
                           }`}
                         placeholder="Pune"
                       />
-                      {errors.city && <p className="text-[10px] text-rose-500 font-bold">{errors.city}</p>}
+                      {errors.city && <p className="text-[11px] text-rose-500 font-bold">{errors.city}</p>}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {/* Age */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Age</label>
+                      <label className="text-xs font-bold text-slate-500 ">Age</label>
                       <input
                         type="number"
                         name="age"
@@ -938,12 +938,12 @@ export default function VolunteersClient({
                         min="16"
                         max="100"
                       />
-                      {errors.age && <p className="text-[10px] text-rose-500 font-bold">{errors.age}</p>}
+                      {errors.age && <p className="text-[11px] text-rose-500 font-bold">{errors.age}</p>}
                     </div>
 
                     {/* Occupation */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Occupation</label>
+                      <label className="text-xs font-bold text-slate-500 ">Occupation</label>
                       <input
                         type="text"
                         name="occupation"
@@ -953,14 +953,14 @@ export default function VolunteersClient({
                           }`}
                         placeholder="Student / Working Professional"
                       />
-                      {errors.occupation && <p className="text-[10px] text-rose-500 font-bold">{errors.occupation}</p>}
+                      {errors.occupation && <p className="text-[11px] text-rose-500 font-bold">{errors.occupation}</p>}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {/* Areas of Interest */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Areas of Interest</label>
+                      <label className="text-xs font-bold text-slate-500 ">Areas of Interest</label>
                       <select
                         name="interest"
                         value={formData.interest}
@@ -978,7 +978,7 @@ export default function VolunteersClient({
 
                     {/* Availability Selection */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Availability</label>
+                      <label className="text-xs font-bold text-slate-500 ">Availability</label>
                       <select
                         name="availability"
                         value={formData.availability}
@@ -996,7 +996,7 @@ export default function VolunteersClient({
 
                   {/* Motivation */}
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase text-slate-500 tracking-wider">Why do you want to volunteer?</label>
+                    <label className="text-xs font-bold text-slate-500 ">Why do you want to volunteer?</label>
                     <textarea
                       name="motivation"
                       rows={4}
@@ -1006,13 +1006,13 @@ export default function VolunteersClient({
                         }`}
                       placeholder="Share your goals or why you want to join our volunteer crew..."
                     />
-                    {errors.motivation && <p className="text-[10px] text-rose-500 font-bold">{errors.motivation}</p>}
+                    {errors.motivation && <p className="text-[11px] text-rose-500 font-bold">{errors.motivation}</p>}
                   </div>
 
                   {/* Action Info Note */}
                   <div className="flex gap-2 p-4 rounded-xl bg-pink-50/40 text-slate-500 border border-pink-100/50">
                     <Info className="h-4 w-4 shrink-0 text-primary mt-0.5" />
-                    <p className="text-[10px] leading-relaxed font-semibold">
+                    <p className="text-[11px] leading-relaxed font-semibold">
                       Your inputs will be synced with our databases for audit verification. Coordinators will notify you about orientation webinar slots shortly.
                     </p>
                   </div>
@@ -1021,7 +1021,7 @@ export default function VolunteersClient({
                   <Button
                     type="submit"
                     disabled={formSubmitting}
-                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-pink-100"
+                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-lg py-5 transition-all text-sm cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-pink-100"
                   >
                     {formSubmitting ? (
                       <>
@@ -1041,13 +1041,13 @@ export default function VolunteersClient({
                   exit={{ opacity: 0 }}
                   className="text-center py-8 space-y-6"
                 >
-                  <div className="h-16 w-16 rounded-full bg-pink-50 text-primary flex items-center justify-center mx-auto border border-pink-100 animate-bounce">
+                  <div className="h-16 w-16 rounded-full bg-pink-50 text-primary flex items-center justify-center mx-auto border border-pink-100 ">
                     <Check className="h-8 w-8" />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="font-heading text-2xl font-black text-slate-800">Application Received!</h3>
+                    <h3 className="font-heading text-2xl font-bold text-slate-800">Application Received!</h3>
                     <p className="text-sm text-slate-500 max-w-sm mx-auto font-medium">
-                      Thank you, <strong className="text-slate-800">{formData.fullName}</strong>. Your volunteer application for <strong className="text-slate-800 uppercase">{formData.interest}</strong> has been logged.
+                      Thank you, <strong className="text-slate-800">{formData.fullName}</strong>. Your volunteer application for <strong className="text-slate-800 ">{formData.interest}</strong> has been logged.
                     </p>
                   </div>
                   <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
@@ -1056,14 +1056,14 @@ export default function VolunteersClient({
                   <div className="pt-4 flex gap-3 justify-center">
                     <Button
                       onClick={resetForm}
-                      className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 px-6 active:scale-95 transition-all text-xs uppercase cursor-pointer shadow-md shadow-pink-100"
+                      className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg py-5 px-6 transition-all text-xs cursor-pointer shadow-md shadow-pink-100"
                     >
                       Submit Another
                     </Button>
                     <Link href="/">
                       <Button
                         variant="outline"
-                        className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full py-6 px-6 active:scale-95 transition-all text-xs uppercase"
+                        className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-lg py-5 px-6 transition-all text-xs "
                       >
                         Return Home
                       </Button>
@@ -1078,14 +1078,14 @@ export default function VolunteersClient({
       </section>
 
       {/* ================= VOLUNTEER GALLERY / MEDIA ARCHIVE ================= */}
-      <section className="py-20 md:py-28 bg-white border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-12">
+      <section className="py-12 md:py-16 bg-white border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div className="space-y-3 max-w-2xl">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
                 <Video className="h-3.5 w-3.5" /> Media Archive
               </span>
-              <h2 className="font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-800">
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-800">
                 Volunteer Gallery
               </h2>
               <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -1095,7 +1095,7 @@ export default function VolunteersClient({
             {initialSession?.volunteerStatus === "VERIFIED" && (
               <Button
                 onClick={() => setShowGalleryModal(true)}
-                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-6 text-xs uppercase tracking-wider flex items-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer active:scale-95 transition-all shadow-md shadow-pink-100"
+                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-6 text-xs flex items-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer transition-all shadow-md shadow-pink-100"
               >
                 <Upload className="h-4 w-4" />
                 Upload Photo
@@ -1116,7 +1116,7 @@ export default function VolunteersClient({
                   key={item.id || idx}
                   variants={fadeInUp}
                   onClick={() => setLightboxImage(item)}
-                  className="relative aspect-square rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer border border-pink-100/60 bg-slate-100"
+                  className="relative aspect-square rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer border border-pink-100/60 bg-slate-100"
                 >
                   <Image
                     src={item.src}
@@ -1138,7 +1138,7 @@ export default function VolunteersClient({
               ))}
             </motion.div>
           ) : (
-            <div className="border-2 border-dashed border-pink-200 bg-pink-50/30 rounded-3xl p-10 flex flex-col items-center justify-center text-center gap-3 max-w-xl mx-auto">
+            <div className="border-2 border-dashed border-pink-200 bg-pink-50/30 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-3 max-w-xl mx-auto">
               <Video className="h-8 w-8 text-pink-400" />
               <h3 className="font-heading font-bold text-lg text-slate-700">No photos yet</h3>
               <p className="text-xs text-slate-500 max-w-sm font-medium">
@@ -1147,7 +1147,7 @@ export default function VolunteersClient({
               {initialSession?.volunteerStatus === "VERIFIED" && (
                 <Button
                   onClick={() => setShowGalleryModal(true)}
-                  className="mt-2 bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full px-5 py-2.5 active:scale-95 transition-all cursor-pointer shadow-md shadow-pink-100"
+                  className="mt-2 bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full px-5 py-2.5 transition-all cursor-pointer shadow-md shadow-pink-100"
                 >
                   <Upload className="h-3.5 w-3.5 mr-1.5" />
                   Upload First Photo
@@ -1166,7 +1166,7 @@ export default function VolunteersClient({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative border border-pink-100"
+              className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-lg relative border border-pink-100"
             >
               <button
                 onClick={() => {
@@ -1217,7 +1217,7 @@ export default function VolunteersClient({
                   )}
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
                       Star Rating
                     </label>
                     <div className="flex gap-2">
@@ -1240,7 +1240,7 @@ export default function VolunteersClient({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
                       Your Experience Message
                     </label>
                     <textarea
@@ -1255,7 +1255,7 @@ export default function VolunteersClient({
                   <Button
                     type="submit"
                     disabled={feedbackSubmitting}
-                    className="w-full py-6 bg-primary hover:bg-primary/95 text-white font-bold rounded-full text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-pink-100"
+                    className="w-full py-5 bg-primary hover:bg-primary/95 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 shadow-md shadow-pink-100"
                   >
                     {feedbackSubmitting ? (
                       <>
@@ -1281,7 +1281,7 @@ export default function VolunteersClient({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative border border-pink-100"
+              className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-lg relative border border-pink-100"
             >
               <button
                 onClick={() => {
@@ -1332,7 +1332,7 @@ export default function VolunteersClient({
                   )}
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
                       Photo Title
                     </label>
                     <input
@@ -1346,7 +1346,7 @@ export default function VolunteersClient({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
                       Select Image (Max 5MB, JPG/PNG/WEBP)
                     </label>
                     <input
@@ -1372,7 +1372,7 @@ export default function VolunteersClient({
                   <Button
                     type="submit"
                     disabled={gallerySubmitting}
-                    className="w-full py-6 bg-primary hover:bg-primary/95 text-white font-bold rounded-full text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-pink-100"
+                    className="w-full py-5 bg-primary hover:bg-primary/95 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 shadow-md shadow-pink-100"
                   >
                     {gallerySubmitting ? (
                       <>
@@ -1398,7 +1398,7 @@ export default function VolunteersClient({
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="relative max-w-3xl w-full bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-white/10"
+              className="relative max-w-3xl w-full bg-slate-900 rounded-2xl overflow-hidden shadow-lg border border-white/10"
             >
               <button
                 onClick={() => setLightboxImage(null)}
@@ -1430,14 +1430,14 @@ export default function VolunteersClient({
       </AnimatePresence>
 
       {/* ================= FREQUENTLY ASKED QUESTIONS ================= */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-12">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-8">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <HelpCircle className="h-3.5 w-3.5" /> FAQ Accordion
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Frequently Asked Questions
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -1449,7 +1449,7 @@ export default function VolunteersClient({
             {faqsList.map((faq, idx) => {
               const isOpen = openFaqIdx === idx;
               return (
-                <div key={idx} className="border border-pink-100/60 rounded-3xl bg-white overflow-hidden shadow-sm hover:border-pink-300 transition-all">
+                <div key={idx} className="border border-pink-100/60 rounded-2xl bg-white overflow-hidden shadow-sm hover:border-pink-300 transition-all">
                   <button
                     onClick={() => toggleFaq(idx)}
                     className="w-full flex items-center justify-between p-5 text-left font-heading font-bold text-sm sm:text-base text-slate-800 hover:text-primary transition-colors cursor-pointer select-none"
@@ -1480,14 +1480,14 @@ export default function VolunteersClient({
       </section>
 
       {/* ================= CALL TO ACTION ================= */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-pink-500 to-rose-600 text-white relative overflow-hidden">
+      <section className="py-10 md:py-14 bg-pink-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[5%] w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center space-y-8 relative z-10">
 
           <div className="space-y-4">
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-pink-500">
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight leading-tight text-pink-500">
               Ready to Make a Difference?
             </h2>
             <p className="text-pink-100 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">
@@ -1498,14 +1498,14 @@ export default function VolunteersClient({
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <Button
               onClick={() => scrollToForm()}
-              className="w-full sm:w-auto bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-8 shadow-lg active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer"
+              className="w-full sm:w-auto bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-8 shadow-lg transition-all text-sm cursor-pointer"
             >
               Become a Volunteer
             </Button>
             <Link href="/donate" className="w-full sm:w-auto">
               <Button
                 variant="outline"
-                className="w-full sm:w-auto border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full py-6 px-8 active:scale-95 transition-all text-sm uppercase tracking-wider cursor-pointer"
+                className="w-full sm:w-auto border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-lg py-5 px-6 transition-all text-sm cursor-pointer"
               >
                 Support Our Cause
               </Button>

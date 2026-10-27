@@ -255,7 +255,7 @@ export default function DonatePage() {
 
   return (
     <div className="min-h-screen bg-white py-8 px-4 sm:px-6 lg:px-8 selection:bg-pink-500 selection:text-white">
-        <div className="max-w-7xl mx-auto space-y-10">
+        <div className="max-w-7xl mx-auto space-y-8">
           {/* Hero Section */}
           <HeroSection onDonateClick={scrollToForm} />
 

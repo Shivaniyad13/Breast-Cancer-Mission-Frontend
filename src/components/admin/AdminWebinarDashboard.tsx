@@ -443,13 +443,13 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                 className={`px-3.5 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 cursor-pointer ${filterApprovalStatus === "PENDING_APPROVAL"
                     ? "bg-amber-500 text-white shadow-xs ring-2 ring-amber-300"
                     : pendingCount > 0
-                      ? "bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 font-extrabold"
+                      ? "bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 font-bold"
                       : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
                   }`}
               >
                 <Clock className="h-3.5 w-3.5" />
                 <span>Pending Approval</span>
-                <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${filterApprovalStatus === "PENDING_APPROVAL" ? "bg-amber-700 text-white" : "bg-amber-200 text-amber-900"}`}>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${filterApprovalStatus === "PENDING_APPROVAL" ? "bg-amber-700 text-white" : "bg-amber-200 text-amber-900"}`}>
                   {pendingCount}
                 </span>
               </button>
@@ -482,7 +482,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
           <div className="grid grid-cols-1 gap-6">
             {filteredWebinars.length === 0 ? (
-              <Card className="rounded-3xl border border-pink-100/50 p-12 text-center text-slate-500">
+              <Card className="rounded-2xl border border-pink-100/50 p-8 text-center text-slate-500">
                 {filterApprovalStatus === "PENDING_APPROVAL"
                   ? "No paid webinars currently pending approval."
                   : filterApprovalStatus === "REJECTED"
@@ -499,41 +499,41 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                 const doctorHospital = webinar.speakerHospital || webinar.doctor?.hospitalAffiliation || "";
 
                 return (
-                  <Card key={webinar.id} className={`rounded-3xl border shadow-sm overflow-hidden bg-white transition-all ${isPendingApproval ? "border-amber-300 ring-2 ring-amber-100" : "border-pink-50 hover:border-pink-200/50"
+                  <Card key={webinar.id} className={`rounded-2xl border shadow-sm overflow-hidden bg-white transition-all ${isPendingApproval ? "border-amber-300 ring-2 ring-amber-100" : "border-pink-50 hover:border-pink-200/50"
                     }`}>
-                    <div className="p-6 grid grid-cols-1 md:grid-cols-4 gap-6 items-start text-xs font-semibold text-slate-655">
+                    <div className="p-6 grid grid-cols-1 md:grid-cols-4 gap-6 items-start text-xs font-semibold text-slate-600">
 
                       {/* Left: Metadata */}
                       <div className="md:col-span-2 space-y-3">
                         <div className="flex flex-wrap gap-2 items-center">
                           {/* Approval Status Badge */}
                           {webinar.approvalStatus === "APPROVED" || !webinar.approvalStatus ? (
-                            <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                            <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
                               <CheckCircle2 className="h-3 w-3 text-emerald-600" /> APPROVED
                             </span>
                           ) : webinar.approvalStatus === "PENDING_APPROVAL" ? (
-                            <span className="bg-amber-50 text-amber-700 border border-amber-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                            <span className="bg-amber-50 text-amber-700 border border-amber-200 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
                               <Clock className="h-3 w-3 text-amber-500" /> PENDING APPROVAL
                             </span>
                           ) : (
-                            <span className="bg-red-50 text-red-700 border border-red-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                            <span className="bg-red-50 text-red-700 border border-red-200 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
                               <XCircle className="h-3 w-3 text-red-500" /> REJECTED
                             </span>
                           )}
 
                           {/* Access Type Badge */}
                           {webinar.webinarType === "PAID" ? (
-                            <span className="bg-purple-50 text-purple-700 border border-purple-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                            <span className="bg-purple-50 text-purple-700 border border-purple-200 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
                               <Tag className="h-3 w-3 text-purple-600" /> PAID • ₹{webinar.registrationPrice}
                             </span>
                           ) : (
-                            <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                            <span className="bg-slate-100 text-slate-700 border border-slate-200 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                               FREE
                             </span>
                           )}
 
                           {/* Lifecycle Status Badge */}
-                          <span className={`text-[9px] font-black uppercase px-2.5 py-0.5 rounded-full tracking-wider border ${webinar.status === "PUBLISHED"
+                          <span className={`text-[9px] font-bold uppercase px-2.5 py-0.5 rounded-full tracking-wider border ${webinar.status === "PUBLISHED"
                               ? "bg-emerald-50 text-emerald-600 border-emerald-100"
                               : webinar.status === "COMPLETED"
                                 ? "bg-slate-100 text-slate-500 border-slate-200"
@@ -543,7 +543,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                           </span>
                         </div>
 
-                        <h3 className="font-heading text-lg font-black text-slate-800">{webinar.title}</h3>
+                        <h3 className="font-heading text-lg font-bold text-slate-800">{webinar.title}</h3>
                         <p className="text-[11px] text-muted-foreground line-clamp-2">{webinar.description}</p>
 
                         {/* Doctor info line */}
@@ -557,7 +557,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4 pt-1 text-[11px] text-slate-550">
+                        <div className="grid grid-cols-2 gap-4 pt-1 text-[11px] text-slate-500">
                           <div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-primary shrink-0" /> {new Date(webinar.date).toLocaleDateString("en-US")}</div>
                           <div className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-primary shrink-0" /> {new Date(webinar.startTime).toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' })}</div>
                           <div className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-primary shrink-0" /> {webinar.city || "Online"}</div>
@@ -678,14 +678,14 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                           <Button
                             onClick={() => { setSelectedWebinar(webinar); setInputUrl(webinar.recordingUrl || ""); setShowRecordingModal(true); }}
                             variant="outline"
-                            className="border-pink-200 rounded-xl text-[8px] uppercase font-extrabold p-1.5 h-auto text-slate-750 hover:bg-pink-50 cursor-pointer"
+                            className="border-pink-200 rounded-xl text-[8px] uppercase font-bold p-1.5 h-auto text-slate-700 hover:bg-pink-50 cursor-pointer"
                           >
                             Upload Video
                           </Button>
                           <Button
                             onClick={() => { setSelectedWebinar(webinar); setInputUrl(webinar.materialsUrl || ""); setShowMaterialsModal(true); }}
                             variant="outline"
-                            className="border-pink-200 rounded-xl text-[8px] uppercase font-extrabold p-1.5 h-auto text-slate-750 hover:bg-pink-50 cursor-pointer"
+                            className="border-pink-200 rounded-xl text-[8px] uppercase font-bold p-1.5 h-auto text-slate-700 hover:bg-pink-50 cursor-pointer"
                           >
                             Upload Resource
                           </Button>
@@ -702,7 +702,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                         <div className="overflow-x-auto rounded-xl border border-slate-100 max-h-[30rem] overflow-y-auto">
                           <table className="w-full text-left border-collapse text-[11px] text-slate-600 font-medium">
                             <thead>
-                              <tr className="bg-slate-50 text-[10px] text-slate-400 uppercase font-black border-b border-slate-100">
+                              <tr className="bg-slate-50 text-[10px] text-slate-400 uppercase font-bold border-b border-slate-100">
                                 <th className="p-3">Attendee Name</th>
                                 <th className="p-3">Email Address</th>
                                 <th className="p-3">Logged Stay</th>
@@ -728,7 +728,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                                     <td className="p-3 font-mono font-bold text-slate-700">{percent}%</td>
                                     <td className="p-3 text-center">
                                       {isEligible ? (
-                                        <span className="inline-flex items-center gap-0.5 bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-0.5 rounded-full text-[9px] font-black uppercase">
+                                        <span className="inline-flex items-center gap-0.5 bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase">
                                           Eligible
                                         </span>
                                       ) : (
@@ -780,12 +780,12 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
         {/* Tab 2: Create / Edit Form Wizard */}
         <TabsContent value="create">
-          <Card className="rounded-3xl border border-pink-50 shadow-sm max-w-4xl mx-auto">
+          <Card className="rounded-2xl border border-pink-50 shadow-sm max-w-4xl mx-auto">
             <CardHeader className="border-b border-pink-50 pb-5">
               <CardTitle>{isEditMode ? "Edit Webinar Details" : "Create New Webinar"}</CardTitle>
               <CardDescription>Enter metadata details, speaker parameters, dates, and locations.</CardDescription>
             </CardHeader>
-            <CardContent className="p-6 md:p-8">
+            <CardContent className="p-6 ">
               <form onSubmit={isEditMode ? handleUpdate : handleCreate} className="space-y-6 text-sm text-slate-700">
 
                 {/* Section: Main Meta */}
@@ -794,7 +794,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Webinar Title *</label>
+                      <label className="text-xs font-bold text-slate-600">Webinar Title *</label>
                       <input
                         type="text"
                         required
@@ -806,7 +806,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Category *</label>
+                      <label className="text-xs font-bold text-slate-600">Category *</label>
                       <input
                         type="text"
                         required
@@ -819,7 +819,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-655">Short Description *</label>
+                    <label className="text-xs font-bold text-slate-600">Short Description *</label>
                     <textarea
                       required
                       value={description}
@@ -831,7 +831,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-655">Full Content / Full Description</label>
+                    <label className="text-xs font-bold text-slate-600">Full Content / Full Description</label>
                     <textarea
                       value={fullContent}
                       onChange={(e) => setFullContent(e.target.value)}
@@ -843,7 +843,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Banner Image URL / File Upload</label>
+                      <label className="text-xs font-bold text-slate-600">Banner Image URL / File Upload</label>
                       <div className="flex gap-2">
                         <input
                           type="text"
@@ -868,7 +868,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Max Seats Available *</label>
+                      <label className="text-xs font-bold text-slate-600">Max Seats Available *</label>
                       <input
                         type="number"
                         required
@@ -882,7 +882,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                   {/* Learning Outcomes and Eligibility textareas */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Learning Outcomes (One outcome per line)</label>
+                      <label className="text-xs font-bold text-slate-600">Learning Outcomes (One outcome per line)</label>
                       <textarea
                         value={learningOutcomes}
                         onChange={(e) => setLearningOutcomes(e.target.value)}
@@ -893,7 +893,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Webinar Eligibility Rules</label>
+                      <label className="text-xs font-bold text-slate-600">Webinar Eligibility Rules</label>
                       <textarea
                         value={eligibility}
                         onChange={(e) => setEligibility(e.target.value)}
@@ -911,7 +911,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Speaker Name *</label>
+                      <label className="text-xs font-bold text-slate-600">Speaker Name *</label>
                       <input
                         type="text"
                         required
@@ -922,7 +922,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Speaker Photo URL / File Upload</label>
+                      <label className="text-xs font-bold text-slate-600">Speaker Photo URL / File Upload</label>
                       <div className="flex gap-2">
                         <input
                           type="text"
@@ -949,7 +949,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Speaker Qualification</label>
+                      <label className="text-xs font-bold text-slate-600">Speaker Qualification</label>
                       <input
                         type="text"
                         value={speakerQualification}
@@ -959,7 +959,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Speaker Specialization</label>
+                      <label className="text-xs font-bold text-slate-600">Speaker Specialization</label>
                       <input
                         type="text"
                         value={speakerSpecialization}
@@ -969,7 +969,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Speaker Hospital / Association</label>
+                      <label className="text-xs font-bold text-slate-600">Speaker Hospital / Association</label>
                       <input
                         type="text"
                         value={speakerHospital}
@@ -981,7 +981,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-655">Speaker Bio</label>
+                    <label className="text-xs font-bold text-slate-600">Speaker Bio</label>
                     <textarea
                       value={speakerBio}
                       onChange={(e) => setSpeakerBio(e.target.value)}
@@ -998,7 +998,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Webinar Date *</label>
+                      <label className="text-xs font-bold text-slate-600">Webinar Date *</label>
                       <input
                         type="date"
                         required
@@ -1009,7 +1009,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Start Time *</label>
+                      <label className="text-xs font-bold text-slate-600">Start Time *</label>
                       <input
                         type="time"
                         required
@@ -1020,7 +1020,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">End Time *</label>
+                      <label className="text-xs font-bold text-slate-600">End Time *</label>
                       <input
                         type="time"
                         required
@@ -1038,7 +1038,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Webinar Mode *</label>
+                      <label className="text-xs font-bold text-slate-600">Webinar Mode *</label>
                       <select
                         value={webinarMode}
                         onChange={(e) => setWebinarMode(e.target.value)}
@@ -1051,7 +1051,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Language *</label>
+                      <label className="text-xs font-bold text-slate-600">Language *</label>
                       <input
                         type="text"
                         required
@@ -1062,7 +1062,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Meeting Platform *</label>
+                      <label className="text-xs font-bold text-slate-600">Meeting Platform *</label>
                       <select
                         value={meetingPlatform}
                         onChange={(e) => setMeetingPlatform(e.target.value)}
@@ -1076,7 +1076,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Meeting Room Link *</label>
+                      <label className="text-xs font-bold text-slate-600">Meeting Room Link *</label>
                       <input
                         type="text"
                         required
@@ -1090,7 +1090,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Venue (Address)</label>
+                      <label className="text-xs font-bold text-slate-600">Venue (Address)</label>
                       <input
                         type="text"
                         value={venue}
@@ -1100,7 +1100,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">City</label>
+                      <label className="text-xs font-bold text-slate-600">City</label>
                       <input
                         type="text"
                         value={city}
@@ -1110,7 +1110,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">State</label>
+                      <label className="text-xs font-bold text-slate-600">State</label>
                       <input
                         type="text"
                         value={state}
@@ -1120,7 +1120,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-655">Country</label>
+                      <label className="text-xs font-bold text-slate-600">Country</label>
                       <input
                         type="text"
                         value={country}
@@ -1134,7 +1134,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
                 {/* Status selection */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-655">Status *</label>
+                  <label className="text-xs font-bold text-slate-600">Status *</label>
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
@@ -1179,8 +1179,8 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
       {/* Upload Recording URL Modal */}
       {showRecordingModal && selectedWebinar && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl border border-pink-100 p-6 max-w-md w-full space-y-4 text-slate-800 shadow-2xl">
-            <h3 className="font-heading text-lg font-black text-slate-800">Upload Webinar Recording</h3>
+          <div className="bg-white rounded-2xl border border-pink-100 p-6 max-w-md w-full space-y-4 text-slate-800 shadow-lg">
+            <h3 className="font-heading text-lg font-bold text-slate-800">Upload Webinar Recording</h3>
             <p className="text-xs text-muted-foreground">Provide the public recording address (e.g. YouTube/Vimeo link) for attendees.</p>
 
             <input
@@ -1202,8 +1202,8 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
       {/* Upload Materials URL Modal */}
       {showMaterialsModal && selectedWebinar && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl border border-pink-100 p-6 max-w-md w-full space-y-4 text-slate-800 shadow-2xl">
-            <h3 className="font-heading text-lg font-black text-slate-800">Upload Webinar Materials</h3>
+          <div className="bg-white rounded-2xl border border-pink-100 p-6 max-w-md w-full space-y-4 text-slate-800 shadow-lg">
+            <h3 className="font-heading text-lg font-bold text-slate-800">Upload Webinar Materials</h3>
             <p className="text-xs text-muted-foreground">Provide resource download folder, slides, or PDF worksheet document link.</p>
 
             <input
@@ -1224,20 +1224,20 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
       {/* ----------------PHASE 2: ADMIN REVIEW & APPROVAL MODAL---------------- */}
       <Dialog open={!!reviewingWebinar} onOpenChange={() => { setReviewingWebinar(null); setIsApproveConfirmOpen(false); setIsRejectModalOpen(false); }}>
-        <DialogContent className="w-[95vw] sm:w-full max-w-2xl max-h-[92vh] sm:max-h-[88vh] bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-purple-100 shadow-2xl flex flex-col gap-0 overflow-hidden">
+        <DialogContent className="w-[95vw] sm:w-full max-w-2xl max-h-[92vh] sm:max-h-[88vh] bg-white rounded-2xl sm:rounded-2xl p-4 sm:p-6 border border-purple-100 shadow-lg flex flex-col gap-0 overflow-hidden">
           <DialogHeader className="pb-3 border-b border-purple-50 shrink-0">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <DialogTitle className="font-heading text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
+              <DialogTitle className="font-heading text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
                 <Sparkles className="h-5 w-5 text-purple-600 shrink-0" /> Admin Webinar Review
               </DialogTitle>
               <div className="flex items-center gap-2">
-                <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border ${reviewingWebinar?.webinarType === "PAID"
+                <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase border ${reviewingWebinar?.webinarType === "PAID"
                     ? "bg-purple-50 text-purple-700 border-purple-200"
                     : "bg-slate-100 text-slate-700 border-slate-200"
                   }`}>
                   {reviewingWebinar?.webinarType === "PAID" ? `PAID • ₹${reviewingWebinar.registrationPrice}` : "FREE"}
                 </span>
-                <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase border ${reviewingWebinar?.approvalStatus === "APPROVED" || !reviewingWebinar?.approvalStatus
+                <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase border ${reviewingWebinar?.approvalStatus === "APPROVED" || !reviewingWebinar?.approvalStatus
                     ? "bg-emerald-50 text-emerald-600 border-emerald-200"
                     : reviewingWebinar?.approvalStatus === "PENDING_APPROVAL"
                       ? "bg-amber-50 text-amber-700 border-amber-200"
@@ -1252,7 +1252,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
           <div className="flex-1 overflow-y-auto py-4 space-y-4 text-xs sm:text-sm custom-scrollbar pr-1">
             {/* SECTION 1: WEBINAR INFORMATION */}
             <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 space-y-2">
-              <h4 className="font-black text-xs uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
                 <Video className="h-3.5 w-3.5 text-primary" /> Webinar Information
               </h4>
               <div className="space-y-1.5">
@@ -1273,7 +1273,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
             {/* SECTION 2: DOCTOR INFORMATION */}
             <div className="p-3.5 bg-pink-50/40 rounded-2xl border border-pink-100 space-y-2">
-              <h4 className="font-black text-xs uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
                 <User className="h-3.5 w-3.5 text-primary" /> Doctor Information
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
@@ -1286,32 +1286,32 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
             {/* SECTION 3: PRICING INFORMATION */}
             <div className="p-3.5 bg-purple-50/50 rounded-2xl border border-purple-100 space-y-2">
-              <h4 className="font-black text-xs uppercase tracking-wider text-purple-800 flex items-center gap-1.5">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-purple-800 flex items-center gap-1.5">
                 <Tag className="h-3.5 w-3.5 text-purple-600" /> Pricing Information
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
                 <div className="p-2.5 bg-white rounded-xl border border-purple-100">
                   <p className="text-[10px] uppercase font-bold text-slate-400">Webinar Access Type</p>
-                  <p className="font-black text-slate-800 text-sm mt-0.5">{reviewingWebinar?.webinarType || "FREE"}</p>
+                  <p className="font-bold text-slate-800 text-sm mt-0.5">{reviewingWebinar?.webinarType || "FREE"}</p>
                 </div>
                 <div className="p-2.5 bg-white rounded-xl border border-purple-100">
                   <p className="text-[10px] uppercase font-bold text-slate-400">Registration Price</p>
-                  <p className="font-black text-purple-700 text-sm mt-0.5">₹{reviewingWebinar?.registrationPrice || 0}</p>
+                  <p className="font-bold text-purple-700 text-sm mt-0.5">₹{reviewingWebinar?.registrationPrice || 0}</p>
                 </div>
                 <div className="p-2.5 bg-white rounded-xl border border-purple-100">
                   <p className="text-[10px] uppercase font-bold text-slate-400">Platform Policy Minimum</p>
-                  <p className="font-black text-purple-900 text-sm mt-0.5">₹{reviewingWebinar?.minimumAllowedPrice || 0}</p>
+                  <p className="font-bold text-purple-900 text-sm mt-0.5">₹{reviewingWebinar?.minimumAllowedPrice || 0}</p>
                 </div>
               </div>
             </div>
 
             {/* SECTION 4: APPROVAL INFORMATION */}
             <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 space-y-1.5">
-              <h4 className="font-black text-xs uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
                 <ShieldCheck className="h-3.5 w-3.5 text-primary" /> Approval Status &amp; History
               </h4>
               <p className="text-xs text-slate-700">
-                Current Status: <strong className="uppercase font-extrabold text-slate-800">{reviewingWebinar?.approvalStatus || "APPROVED"}</strong>
+                Current Status: <strong className="uppercase font-bold text-slate-800">{reviewingWebinar?.approvalStatus || "APPROVED"}</strong>
               </p>
               {reviewingWebinar?.approvalRejectionReason && (
                 <div className="p-2.5 bg-red-50 border border-red-100 rounded-xl text-xs text-red-700 space-y-1 mt-1">
@@ -1350,9 +1350,9 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
       {/* APPROVAL CONFIRMATION DIALOG */}
       <Dialog open={isApproveConfirmOpen} onOpenChange={setIsApproveConfirmOpen}>
-        <DialogContent className="max-w-md bg-white rounded-3xl p-6 border border-emerald-100 shadow-2xl space-y-4">
+        <DialogContent className="max-w-md bg-white rounded-2xl p-6 border border-emerald-100 shadow-lg space-y-4">
           <DialogHeader>
-            <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
+            <DialogTitle className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
               <CheckCircle2 className="h-6 w-6 text-emerald-600 shrink-0" /> Approve Paid Webinar?
             </DialogTitle>
           </DialogHeader>
@@ -1382,9 +1382,9 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
       {/* REJECTION REASON DIALOG */}
       <Dialog open={isRejectModalOpen} onOpenChange={setIsRejectModalOpen}>
-        <DialogContent className="max-w-md bg-white rounded-3xl p-6 border border-red-100 shadow-2xl space-y-4">
+        <DialogContent className="max-w-md bg-white rounded-2xl p-6 border border-red-100 shadow-lg space-y-4">
           <DialogHeader>
-            <DialogTitle className="font-heading text-lg font-black text-slate-800 flex items-center gap-2">
+            <DialogTitle className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
               <XCircle className="h-6 w-6 text-red-600 shrink-0" /> Reject Paid Webinar
             </DialogTitle>
           </DialogHeader>
@@ -1395,7 +1395,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
             </p>
 
             <div className="space-y-1">
-              <label className="font-black uppercase text-[10px] text-slate-500 tracking-wider">
+              <label className="font-bold uppercase text-[10px] text-slate-500 tracking-wider">
                 Reason for rejection *
               </label>
               <textarea

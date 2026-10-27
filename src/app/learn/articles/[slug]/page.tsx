@@ -24,7 +24,7 @@ export default async function SingleArticlePage({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-pink-50 via-white to-rose-50/30 py-16 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="min-h-screen bg-gradient-to-tr from-pink-50 via-white to-rose-50/30 py-10 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-4xl mx-auto space-y-8 relative">
         
         {/* Navigation back */}

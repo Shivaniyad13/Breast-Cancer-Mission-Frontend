@@ -114,7 +114,7 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
             </div>
           </div>
           <div className="mt-4 space-y-1">
-            <p className="text-3xl font-extrabold text-slate-900 font-heading">
+            <p className="text-3xl font-bold text-slate-900 font-heading">
               {visits.totalVisits.toLocaleString()}
             </p>
             <p className="text-xs text-slate-500 font-medium">Total Website Page Visits</p>
@@ -133,7 +133,7 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
           </div>
           <div className="mt-4 space-y-1">
             <div className="flex items-baseline gap-2">
-              <p className="text-3xl font-extrabold text-slate-900 font-heading">
+              <p className="text-3xl font-bold text-slate-900 font-heading">
                 {users.totalUsers.toLocaleString()}
               </p>
               {users.newUsersThisMonth > 0 && (
@@ -158,7 +158,7 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
           </div>
           <div className="mt-4 space-y-1">
             <div className="flex items-baseline gap-2">
-              <p className="text-3xl font-extrabold text-slate-900 font-heading">
+              <p className="text-3xl font-bold text-slate-900 font-heading">
                 {webinars.totalRegistrations.toLocaleString()}
               </p>
               <span className="text-xs font-bold text-pink-600 bg-pink-100/80 px-2 py-0.5 rounded-full">
@@ -182,7 +182,7 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
             </div>
           </div>
           <div className="mt-4 space-y-1">
-            <p className="text-3xl font-extrabold text-slate-900 font-heading">
+            <p className="text-3xl font-bold text-slate-900 font-heading">
               ₹{donations.totalDonationAmount.toLocaleString()}
             </p>
             <p className="text-xs text-slate-500 font-medium">
@@ -204,7 +204,7 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
                 </div>
               </div>
               <div className="mt-4 space-y-1">
-                <p className="text-3xl font-extrabold text-slate-900 font-heading">
+                <p className="text-3xl font-bold text-slate-900 font-heading">
                   {individualMembers.total.toLocaleString()}
                 </p>
                 <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-medium text-slate-500 pt-1">
@@ -292,22 +292,22 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="p-4 rounded-xl bg-pink-50/50 border border-pink-100 text-slate-800">
             <p className="text-[10px] font-bold text-pink-600 uppercase tracking-wider">Total Registrations</p>
-            <p className="text-2xl font-black mt-1">{webinars.totalRegistrations}</p>
+            <p className="text-2xl font-bold mt-1">{webinars.totalRegistrations}</p>
           </div>
 
           <div className="p-4 rounded-xl bg-purple-50/50 border border-purple-100 text-slate-800">
             <p className="text-[10px] font-bold text-purple-600 uppercase tracking-wider">Actual Attendees</p>
-            <p className="text-2xl font-black mt-1">{webinars.totalAttendees}</p>
+            <p className="text-2xl font-bold mt-1">{webinars.totalAttendees}</p>
           </div>
 
           <div className="p-4 rounded-xl bg-indigo-50/50 border border-indigo-100 text-slate-800">
             <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-wider">Attendance Rate</p>
-            <p className="text-2xl font-black mt-1">{webinars.attendanceRate}%</p>
+            <p className="text-2xl font-bold mt-1">{webinars.attendanceRate}%</p>
           </div>
 
           <div className="p-4 rounded-xl bg-emerald-50/50 border border-emerald-100 text-slate-800">
             <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Certificates Issued</p>
-            <p className="text-2xl font-black mt-1">{webinars.totalCertificatesIssued}</p>
+            <p className="text-2xl font-bold mt-1">{webinars.totalCertificatesIssued}</p>
           </div>
         </div>
 
@@ -350,7 +350,7 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
                             })
                           : "Scheduled"}
                       </td>
-                      <td className="py-3 px-4 text-center font-black text-slate-900">
+                      <td className="py-3 px-4 text-center font-bold text-slate-900">
                         {webinar.registrationsCount} / {webinar.maxSeats}
                       </td>
                       <td className="py-3 px-4 text-center font-bold text-purple-700">
@@ -417,7 +417,7 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
                       <span>{art.readTime}</span>
                     </div>
                   </div>
-                  <span className="text-xs font-black text-slate-900 font-heading bg-white px-2.5 py-1 rounded-lg border border-slate-200 shadow-2xs whitespace-nowrap">
+                  <span className="text-xs font-bold text-slate-900 font-heading bg-white px-2.5 py-1 rounded-lg border border-slate-200 shadow-2xs whitespace-nowrap">
                     {art.views.toLocaleString()} reads
                   </span>
                 </div>
@@ -459,7 +459,7 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
                       {video.category}
                     </span>
                   </div>
-                  <span className="text-xs font-black text-pink-700 font-heading bg-white px-2.5 py-1 rounded-lg border border-pink-200 shadow-2xs whitespace-nowrap">
+                  <span className="text-xs font-bold text-pink-700 font-heading bg-white px-2.5 py-1 rounded-lg border border-pink-200 shadow-2xs whitespace-nowrap">
                     {video.playCount.toLocaleString()} plays
                   </span>
                 </div>
@@ -487,21 +487,21 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="p-4 rounded-xl bg-emerald-50/40 border border-emerald-100">
             <p className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider">Total Raised (Cleared)</p>
-            <p className="text-2xl font-black text-emerald-950 mt-1">
+            <p className="text-2xl font-bold text-emerald-950 mt-1">
               ₹{donations.totalDonationAmount.toLocaleString()}
             </p>
           </div>
 
           <div className="p-4 rounded-xl bg-cyan-50/40 border border-cyan-100">
             <p className="text-[10px] font-bold text-cyan-700 uppercase tracking-wider">Successful Transactions</p>
-            <p className="text-2xl font-black text-cyan-950 mt-1">
+            <p className="text-2xl font-bold text-cyan-950 mt-1">
               {donations.successfulDonationsCount}
             </p>
           </div>
 
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
             <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Average Donation Size</p>
-            <p className="text-2xl font-black text-slate-900 mt-1">
+            <p className="text-2xl font-bold text-slate-900 mt-1">
               ₹
               {donations.successfulDonationsCount > 0
                 ? Math.round(donations.totalDonationAmount / donations.successfulDonationsCount).toLocaleString()
@@ -558,7 +558,7 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
                         <td className="py-3 px-4 font-bold text-slate-800">
                           ₹{campaign.fundingGoal.toLocaleString()}
                         </td>
-                        <td className="py-3 px-4 font-black text-emerald-700">
+                        <td className="py-3 px-4 font-bold text-emerald-700">
                           ₹{campaign.amountRaised.toLocaleString()}
                         </td>
                         <td className="py-3 px-4 min-w-[140px]">

@@ -159,7 +159,7 @@ export default function AdminHealthcareDashboard({ initialData }: AdminDashboard
           <BookOpen className="w-4 h-4" />
           <span>Article Submissions</span>
           {pendingArticles > 0 && (
-            <span className="px-2 py-0.5 rounded-full bg-amber-400 text-slate-900 text-xs font-extrabold">
+            <span className="px-2 py-0.5 rounded-full bg-amber-400 text-slate-900 text-xs font-bold">
               {pendingArticles}
             </span>
           )}
@@ -176,7 +176,7 @@ export default function AdminHealthcareDashboard({ initialData }: AdminDashboard
           <FileText className="w-4 h-4" />
           <span>Resource Submissions</span>
           {pendingResources > 0 && (
-            <span className="px-2 py-0.5 rounded-full bg-amber-400 text-slate-900 text-xs font-extrabold">
+            <span className="px-2 py-0.5 rounded-full bg-amber-400 text-slate-900 text-xs font-bold">
               {pendingResources}
             </span>
           )}
@@ -193,7 +193,7 @@ export default function AdminHealthcareDashboard({ initialData }: AdminDashboard
           <Building2 className="w-4 h-4" />
           <span>Partner & Volunteer Requests</span>
           {pendingRequestsTab3 > 0 && (
-            <span className="px-2 py-0.5 rounded-full bg-amber-400 text-slate-900 text-xs font-extrabold">
+            <span className="px-2 py-0.5 rounded-full bg-amber-400 text-slate-900 text-xs font-bold">
               {pendingRequestsTab3}
             </span>
           )}
@@ -612,7 +612,7 @@ export default function AdminHealthcareDashboard({ initialData }: AdminDashboard
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl relative border border-slate-200 my-8"
+            className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-lg relative border border-slate-200 my-8"
           >
             <button
               onClick={() => setSelectedItem(null)}

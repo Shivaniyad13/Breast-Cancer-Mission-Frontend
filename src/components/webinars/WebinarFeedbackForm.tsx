@@ -70,7 +70,7 @@ export default function WebinarFeedbackForm({
 
       {/* Star Selector */}
       <div className="flex items-center gap-1.5">
-        <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Rating:</span>
+        <span className="text-[11px] text-muted-foreground font-bold ">Rating:</span>
         <div className="flex gap-1">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
@@ -105,7 +105,7 @@ export default function WebinarFeedbackForm({
       <Button
         type="submit"
         disabled={isPending || rating === 0}
-        className="w-full bg-primary hover:bg-primary/90 text-white font-bold text-[10px] uppercase py-1.5 h-auto rounded-xl"
+        className="w-full bg-primary hover:bg-primary/90 text-white font-bold text-[11px] py-1.5 h-auto rounded-xl"
       >
         {isPending ? "Submitting..." : "Submit Feedback"}
       </Button>

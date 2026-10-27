@@ -67,7 +67,7 @@ export default function OurTeam() {
   };
 
   return (
-    <section className="relative py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-pink-50/20 to-slate-50 dark:from-slate-900 dark:via-pink-950/5 dark:to-slate-950 overflow-hidden border-t border-slate-100 dark:border-slate-800">
+    <section className="relative py-14 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-pink-50/20 to-slate-50 dark:from-slate-900 dark:via-pink-950/5 dark:to-slate-950 overflow-hidden border-t border-slate-100 dark:border-slate-800">
       {/* Ambient decorations */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-pink-200/20 dark:bg-pink-900/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-200/20 dark:bg-blue-900/10 rounded-full blur-3xl pointer-events-none" />
@@ -75,13 +75,13 @@ export default function OurTeam() {
       <div className="container mx-auto max-w-6xl relative z-10">
         {/* Section Header */}
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-8"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUpVariants}
         >
-          <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+          <h2 className="font-heading text-3xl sm:text-4xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
             Our{" "}
             <span className="text-pink-600 dark:text-pink-400">Team</span>
           </h2>

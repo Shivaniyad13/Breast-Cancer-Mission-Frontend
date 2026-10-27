@@ -203,13 +203,13 @@ export default function AdminSuccessStoriesDashboard({ stories: initialStories }
         <Card className="bg-gradient-to-br from-pink-500/10 to-purple-500/10 border-pink-100/50">
           <CardHeader className="py-4">
             <CardDescription className="text-xs font-bold uppercase tracking-wider text-pink-600">Total Stories</CardDescription>
-            <CardTitle className="text-3xl font-black">{stories.length}</CardTitle>
+            <CardTitle className="text-3xl font-bold">{stories.length}</CardTitle>
           </CardHeader>
         </Card>
         <Card className="bg-yellow-50 dark:bg-yellow-950/10 border-yellow-200/40">
           <CardHeader className="py-4">
             <CardDescription className="text-xs font-bold uppercase tracking-wider text-yellow-600 dark:text-yellow-400">Pending Approval</CardDescription>
-            <CardTitle className="text-3xl font-black text-yellow-700 dark:text-yellow-300">
+            <CardTitle className="text-3xl font-bold text-yellow-700 dark:text-yellow-300">
               {stories.filter(s => s.status === "PENDING").length}
             </CardTitle>
           </CardHeader>
@@ -217,7 +217,7 @@ export default function AdminSuccessStoriesDashboard({ stories: initialStories }
         <Card className="bg-emerald-50 dark:bg-emerald-950/10 border-emerald-200/40">
           <CardHeader className="py-4">
             <CardDescription className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Approved Stories</CardDescription>
-            <CardTitle className="text-3xl font-black text-emerald-700 dark:text-emerald-300">
+            <CardTitle className="text-3xl font-bold text-emerald-700 dark:text-emerald-300">
               {stories.filter(s => s.status === "VERIFIED").length}
             </CardTitle>
           </CardHeader>
@@ -225,7 +225,7 @@ export default function AdminSuccessStoriesDashboard({ stories: initialStories }
         <Card className="bg-rose-50 dark:bg-rose-950/10 border-rose-200/40">
           <CardHeader className="py-4">
             <CardDescription className="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">Rejected Stories</CardDescription>
-            <CardTitle className="text-3xl font-black text-rose-700 dark:text-rose-300">
+            <CardTitle className="text-3xl font-bold text-rose-700 dark:text-rose-300">
               {stories.filter(s => s.status === "REJECTED").length}
             </CardTitle>
           </CardHeader>
@@ -264,11 +264,11 @@ export default function AdminSuccessStoriesDashboard({ stories: initialStories }
       </div>
 
       {/* Story moderation table */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-3xl overflow-hidden shadow-md">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl overflow-hidden shadow-md">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-sm">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-850/50 border-b border-slate-100 dark:border-slate-800 text-slate-500 font-bold">
+              <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 text-slate-500 font-bold">
                 <th className="p-4 pl-6">Patient / Submitter</th>
                 <th className="p-4">Story Title</th>
                 <th className="p-4">Location</th>
@@ -279,13 +279,13 @@ export default function AdminSuccessStoriesDashboard({ stories: initialStories }
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {filteredStories.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center p-12 text-muted-foreground">
+                  <td colSpan={5} className="text-center p-8 text-muted-foreground">
                     No success stories match the selected criteria.
                   </td>
                 </tr>
               ) : (
                 filteredStories.map((story) => (
-                  <tr key={story.id} className="hover:bg-slate-50/40 dark:hover:bg-slate-850/30 transition-colors">
+                  <tr key={story.id} className="hover:bg-slate-50/40 dark:hover:bg-slate-800/30 transition-colors">
                     
                     {/* Column 1: Patient details */}
                     <td className="p-4 pl-6 space-y-1">
@@ -320,7 +320,7 @@ export default function AdminSuccessStoriesDashboard({ stories: initialStories }
 
                     {/* Column 4: Status badge */}
                     <td className="p-4">
-                      <span className={`inline-block px-2.5 py-0.5 text-[10px] font-extrabold uppercase rounded-full ${
+                      <span className={`inline-block px-2.5 py-0.5 text-[10px] font-bold uppercase rounded-full ${
                         story.status === "PENDING"
                           ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-950/20 dark:text-yellow-400"
                           : story.status === "VERIFIED"
@@ -417,14 +417,14 @@ export default function AdminSuccessStoriesDashboard({ stories: initialStories }
 
           {selectedStory && (
             <div className="space-y-4 pt-2">
-              <div className="p-3.5 bg-slate-50 dark:bg-slate-850 rounded-xl space-y-1.5 border border-slate-100 dark:border-slate-800">
+              <div className="p-3.5 bg-slate-50 dark:bg-slate-800 rounded-xl space-y-1.5 border border-slate-100 dark:border-slate-800">
                 <span className="text-xs font-bold text-pink-600 uppercase tracking-widest leading-none block">Title</span>
-                <p className="font-extrabold text-base text-slate-800 dark:text-slate-100">
+                <p className="font-bold text-base text-slate-800 dark:text-slate-100">
                   {selectedStory.storyTitle}
                 </p>
               </div>
 
-              <div className="p-3.5 bg-slate-50 dark:bg-slate-850 rounded-xl space-y-1.5 border border-slate-100 dark:border-slate-800">
+              <div className="p-3.5 bg-slate-50 dark:bg-slate-800 rounded-xl space-y-1.5 border border-slate-100 dark:border-slate-800">
                 <span className="text-xs font-bold text-pink-600 uppercase tracking-widest leading-none block">Journey details</span>
                 <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
                   {selectedStory.completeStory}
@@ -432,7 +432,7 @@ export default function AdminSuccessStoriesDashboard({ stories: initialStories }
               </div>
 
               {selectedStory.treatmentHospital && (
-                <div className="p-3.5 bg-slate-50 dark:bg-slate-850 rounded-xl space-y-1 border border-slate-100 dark:border-slate-800">
+                <div className="p-3.5 bg-slate-50 dark:bg-slate-800 rounded-xl space-y-1 border border-slate-100 dark:border-slate-800">
                   <span className="text-xs font-bold text-pink-600 uppercase tracking-widest leading-none block">Hospital</span>
                   <p className="text-sm text-slate-700 dark:text-slate-300">
                     {selectedStory.treatmentHospital}
@@ -441,7 +441,7 @@ export default function AdminSuccessStoriesDashboard({ stories: initialStories }
               )}
 
               {selectedStory.videoUrl && (
-                <div className="p-3.5 bg-slate-50 dark:bg-slate-850 rounded-xl space-y-1 border border-slate-100 dark:border-slate-800">
+                <div className="p-3.5 bg-slate-50 dark:bg-slate-800 rounded-xl space-y-1 border border-slate-100 dark:border-slate-800">
                   <span className="text-xs font-bold text-pink-600 uppercase tracking-widest leading-none block">Video Testimonial URL</span>
                   <a 
                     href={selectedStory.videoUrl} 
@@ -455,7 +455,7 @@ export default function AdminSuccessStoriesDashboard({ stories: initialStories }
               )}
 
               {selectedStory.imageUrls.length > 0 && (
-                <div className="p-3.5 bg-slate-50 dark:bg-slate-850 rounded-xl space-y-2 border border-slate-100 dark:border-slate-800">
+                <div className="p-3.5 bg-slate-50 dark:bg-slate-800 rounded-xl space-y-2 border border-slate-100 dark:border-slate-800">
                   <span className="text-xs font-bold text-pink-600 uppercase tracking-widest leading-none block">Submitted Images</span>
                   <div className="grid grid-cols-3 gap-2">
                     {selectedStory.imageUrls.map((url, idx) => (

@@ -113,7 +113,7 @@ const activitiesData = [
   },
   {
     title: "Mammography Screening Drives",
-    description: "Partnering with state-of-the-art mobile screening vans to offer low-income families and rural women direct access to mammograms.",
+    description: "Partnering with mobile screening vans to offer low-income families and rural women direct access to mammograms.",
     icon: HeartPulse,
     color: "from-pink-600 to-purple-500"
   },
@@ -143,7 +143,7 @@ const activitiesData = [
   },
   {
     title: "Survivor Support Programs",
-    description: "Empowering recovery with survivor-led peer networks, post-operative care consultation, prosthetics coordination, and mental therapy.",
+    description: "Supporting recovery with survivor-led peer networks, post-operative care consultation, prosthetics coordination, and mental therapy.",
     icon: Heart,
     color: "from-red-500 to-pink-500"
   },
@@ -389,7 +389,7 @@ export default function AwarenessClient() {
       <div className="absolute bottom-1/4 right-5 w-96 h-96 bg-pink-50/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* ================= 1. HERO SECTION ================= */}
-      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-16 md:py-24 overflow-hidden border-b border-rose-100/20">
+      <section className="relative min-h-[50vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-10 md:py-14 overflow-hidden border-b border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
           <div className="space-y-6 text-center">
 
@@ -397,7 +397,7 @@ export default function AwarenessClient() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold uppercase tracking-wider shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold shadow-sm"
             >
               <Sparkles className="h-3.5 w-3.5 text-primary" />
               Our Activities & Awareness
@@ -407,7 +407,7 @@ export default function AwarenessClient() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-[1.1]"
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-800 leading-[1.1]"
             >
               Creating Awareness, <br />
               <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
@@ -431,12 +431,12 @@ export default function AwarenessClient() {
               className="pt-4 flex flex-wrap justify-center gap-4"
             >
               <Link href="/register">
-                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-6 py-5 transition-all text-sm tracking-wide cursor-pointer">
                   Join Our Campaign
                 </Button>
               </Link>
               <Link href="/campaigns/volunteers">
-                <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-full px-8 py-6 active:scale-95 transition-all text-sm tracking-wide cursor-pointer">
+                <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-lg px-6 py-5 transition-all text-sm tracking-wide cursor-pointer">
                   Become a Volunteer
                 </Button>
               </Link>
@@ -446,8 +446,8 @@ export default function AwarenessClient() {
       </section>
 
       {/* ================= UPCOMING FEATURED EVENT ================= */}
-      <section className="bg-white px-4 py-12 sm:px-6 md:py-16 lg:px-8">
-        <div className="mx-auto grid max-w-6xl overflow-hidden rounded-3xl border border-pink-200 bg-gradient-to-r from-rose-50 via-white to-pink-50 shadow-lg md:grid-cols-[0.8fr_1.2fr]">
+      <section className="bg-white px-4 py-10 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-6xl overflow-hidden rounded-2xl border border-pink-200 bg-gradient-to-r from-rose-50 via-white to-pink-50 shadow-lg md:grid-cols-[0.8fr_1.2fr]">
           <div className="relative min-h-56 sm:min-h-72">
             <Image
               src="/images/awareness3.png"
@@ -457,15 +457,15 @@ export default function AwarenessClient() {
               className="absolute inset-0 h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-rose-950/40 to-transparent" />
-            <span className="absolute bottom-4 left-4 rounded-full bg-white/95 px-3 py-1 text-xs font-bold uppercase tracking-wider text-pink-700">
+            <span className="absolute bottom-4 left-4 rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-pink-700">
               Upcoming campaign event
             </span>
           </div>
-          <div className="flex flex-col items-start justify-center p-6 sm:p-9 lg:p-12">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-pink-600">
+          <div className="flex flex-col items-start justify-center p-6 sm:p-8 ">
+            <p className="text-xs font-bold text-pink-600">
               Saturday, 31 October 2026 · University of Delhi
             </p>
-            <h2 className="mt-3 font-heading text-2xl font-black leading-tight text-slate-900 sm:text-3xl">
+            <h2 className="mt-3 font-heading text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
               Cancer Mukt Delhi University Abhiyan
             </h2>
             <p className="mt-2 font-semibold italic text-rose-800">
@@ -478,7 +478,7 @@ export default function AwarenessClient() {
               register online.
             </p>
             <Link href="/campaigns/delhi-university" className="mt-6">
-              <Button className="rounded-full bg-pink-600 px-6 font-bold text-white hover:bg-pink-700">
+              <Button className="rounded-lg bg-pink-600 px-6 font-bold text-white hover:bg-pink-700">
                 View event details &amp; register
               </Button>
             </Link>
@@ -487,13 +487,13 @@ export default function AwarenessClient() {
       </section>
 
       {/* ================= 2. OUR MISSION ================= */}
-      <section className="py-20 md:py-28 bg-white relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
+      <section className="py-12 md:py-16 bg-white relative">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-10">
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold ">
               <ShieldCheck className="h-3.5 w-3.5" /> Compassion in Action
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Our Core Mission
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -502,7 +502,7 @@ export default function AwarenessClient() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl p-8 hover:border-pink-300 group">
+            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl p-6 hover:border-pink-300 group">
               <div className="h-14 w-14 rounded-2xl bg-pink-50 text-primary flex items-center justify-center border border-pink-100/40 group-hover:scale-105 transition-transform duration-300">
                 <HeartPulse className="h-7 w-7" />
               </div>
@@ -512,7 +512,7 @@ export default function AwarenessClient() {
               </p>
             </Card>
 
-            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-3xl p-8 hover:border-pink-300 group">
+            <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl p-6 hover:border-pink-300 group">
               <div className="h-14 w-14 rounded-2xl bg-rose-50 text-rose-500 flex items-center justify-center border border-rose-100/40 group-hover:scale-105 transition-transform duration-300">
                 <Users className="h-7 w-7" />
               </div>
@@ -526,13 +526,13 @@ export default function AwarenessClient() {
       </section>
 
       {/* ================= 3. OUR ACTIVITIES ================= */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-16">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-10">
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
               <Activity className="h-3.5 w-3.5" /> What We Do
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               Our Activities & Initiatives
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -553,7 +553,7 @@ export default function AwarenessClient() {
                 <motion.div
                   key={idx}
                   variants={fadeInUp}
-                  className="group bg-white/70 backdrop-blur-md border border-white/60 shadow-sm rounded-3xl p-6 hover:shadow-lg hover:border-pink-200 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 cursor-default relative overflow-hidden"
+                  className="group bg-white/70 backdrop-blur-md border border-white/60 shadow-sm rounded-2xl p-6 hover:shadow-lg hover:border-pink-200 transition-all duration-300 flex flex-col justify-between cursor-default relative overflow-hidden"
                 >
                   {/* Subtle hover gradient circle in background */}
                   <div className={`absolute -right-6 -bottom-6 w-20 h-20 bg-gradient-to-tr ${act.color} opacity-0 group-hover:opacity-5 rounded-full transition-opacity duration-300`} />
@@ -581,13 +581,13 @@ export default function AwarenessClient() {
       {/* ================= 4. OUR IMPACT ================= */}
 
       {/* ================= 5. AWARENESS JOURNEY ================= */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-10">
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold ">
               <Calendar className="h-3.5 w-3.5" /> Chronological Path
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight">
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
               The Awareness Journey
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
@@ -602,10 +602,10 @@ export default function AwarenessClient() {
 
             <div className="grid grid-cols-1 lg:grid-cols-6 gap-8 relative z-10">
               {timelineSteps.map((step, idx) => (
-                <div key={idx} className="flex lg:flex-col items-center lg:items-start text-left lg:text-center space-y-0 lg:space-y-4 gap-4 lg:gap-0 group">
+                <div key={idx} className="flex lg:flex-col items-center lg:items-start text-left lg:text-center space-y-0 lg:space-y-4 gap-0 group">
 
                   {/* Step Marker */}
-                  <div className="relative shrink-0 flex items-center justify-center w-12 h-12 rounded-2xl bg-white border-2 border-pink-200 text-primary font-heading font-black text-lg shadow-sm group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-300 lg:mx-auto">
+                  <div className="relative shrink-0 flex items-center justify-center w-12 h-12 rounded-2xl bg-white border-2 border-pink-200 text-primary font-heading font-bold text-lg shadow-sm group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-300 lg:mx-auto">
                     {step.number}
                   </div>
 
@@ -626,19 +626,19 @@ export default function AwarenessClient() {
       </section>
 
       {/* ================= 6. VOLUNTEER WITH US ================= */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-          <Card className="border-pink-200/60 bg-gradient-to-br from-white via-pink-50/10 to-rose-50/20 shadow-xl rounded-3xl p-8 md:p-12 relative overflow-hidden group">
+          <Card className="border-pink-200/60 bg-gradient-to-br from-white via-pink-50/10 to-rose-50/20 shadow-md rounded-2xl p-6 md:p-8 relative overflow-hidden group">
             {/* Decorative vector */}
             <div className="absolute top-[-20%] right-[-10%] w-72 h-72 bg-pink-400/10 rounded-full blur-3xl pointer-events-none group-hover:scale-105 transition-transform duration-700" />
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
               <div className="md:col-span-8 space-y-6">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/80 text-primary text-xs font-bold uppercase tracking-wider">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/80 text-primary text-xs font-bold ">
                   <Users className="h-3.5 w-3.5" /> Joint Mission
                 </span>
 
-                <h3 className="font-heading text-3xl font-black text-slate-800 tracking-tight leading-tight">
+                <h3 className="font-heading text-3xl font-bold text-slate-800 tracking-tight leading-tight">
                   Volunteer With Us
                 </h3>
 
@@ -670,7 +670,7 @@ export default function AwarenessClient() {
 
               <div className="md:col-span-4 flex justify-center md:justify-end">
                 <Link href="/campaigns/volunteers">
-                  <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-6 px-8 shadow-lg shadow-pink-100 hover:shadow-xl active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer">
+                  <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg py-5 px-6 shadow-lg shadow-pink-100 hover:shadow-md transition-all text-xs cursor-pointer">
                     Become a Volunteer
                   </Button>
                 </Link>
@@ -681,16 +681,16 @@ export default function AwarenessClient() {
       </section>
 
       {/* ================= 7. PARTNER ORGANIZATIONS ================= */}
-      <section className="py-20 md:py-28 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-16">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-10">
 
           {/* Enhanced Header Section with Become Our Partner button */}
           <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6 pb-6 border-b border-pink-50">
             <div className="space-y-3 text-left">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold ">
                 <Building2 className="h-3.5 w-3.5" /> Institutional Network
               </span>
-              <h2 className="font-heading text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight leading-tight animate-fade-in">
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight animate-fade-in">
                 Partner Organizations
               </h2>
               <p className="text-slate-500 text-sm sm:text-base font-medium max-w-xl">
@@ -700,7 +700,7 @@ export default function AwarenessClient() {
             <div className="shrink-0">
               <Button
                 onClick={() => setIsFormOpen(true)}
-                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-5 px-6 shadow-md hover:shadow-lg hover:shadow-pink-200/40 active:scale-95 transition-all text-xs uppercase tracking-wider flex items-center gap-2 cursor-pointer"
+                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-5 px-6 shadow-md hover:shadow-lg hover:shadow-pink-200/40 transition-all text-xs flex items-center gap-2 cursor-pointer"
               >
                 <Handshake className="h-4.5 w-4.5" /> Become Our Partner
               </Button>
@@ -710,7 +710,7 @@ export default function AwarenessClient() {
           {/* Grid Displaying Approved Partners (DB only) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
             {combinedPartners.length === 0 ? (
-              <div className="col-span-full text-center py-16 bg-white/60 backdrop-blur-sm rounded-3xl border-2 border-dashed border-pink-200">
+              <div className="col-span-full text-center py-10 bg-white/60 backdrop-blur-sm rounded-2xl border-2 border-dashed border-pink-200">
                 <Building2 className="h-12 w-12 text-pink-300 mx-auto mb-4" />
                 <h3 className="font-heading text-xl font-bold text-slate-700 mb-2">
                   No Partners Yet
@@ -726,19 +726,19 @@ export default function AwarenessClient() {
                 return (
                   <div
                     key={partner.id || idx}
-                    className="bg-white/80 backdrop-blur-sm border border-pink-100/40 hover:border-pink-300 rounded-3xl p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:shadow-pink-50/40 transition-all duration-300 group cursor-default relative overflow-hidden"
+                    className="bg-white/80 backdrop-blur-sm border border-pink-100/40 hover:border-pink-300 rounded-2xl p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:shadow-pink-50/40 transition-all duration-300 group cursor-default relative overflow-hidden"
                   >
                     <div className="flex flex-col items-center text-center space-y-4">
                       {/* Initials Fallback Logo */}
-                      <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-400 text-white flex items-center justify-center font-heading font-black text-xl shadow-md shrink-0 group-hover:scale-105 transition-transform duration-200">
+                      <div className="h-16 w-16 rounded-2xl bg-pink-600 text-white flex items-center justify-center font-heading font-bold text-xl shadow-md shrink-0 group-hover:scale-105 transition-transform duration-200">
                         {initials}
                       </div>
 
                       <div className="space-y-1">
-                        <span className="text-[9px] font-black text-primary uppercase tracking-widest bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100/50">
+                        <span className="text-[11px] font-bold text-primary bg-pink-50 px-2.5 py-0.5 rounded-full border border-pink-100/50">
                           {partner.category}
                         </span>
-                        <h4 className="font-heading font-black text-slate-800 text-sm leading-tight group-hover:text-primary transition-colors pt-2.5">
+                        <h4 className="font-heading font-bold text-slate-800 text-sm leading-tight group-hover:text-primary transition-colors pt-2.5">
                           {partner.name}
                         </h4>
                         <p className="text-xs text-slate-500 leading-relaxed font-medium line-clamp-3 pt-1">
@@ -749,7 +749,7 @@ export default function AwarenessClient() {
 
                     {/* Badge & Official Action Footer */}
                     <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
-                      <span className="bg-emerald-50 text-emerald-700 text-[9px] font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider flex items-center gap-1">
+                      <span className="bg-emerald-50 text-emerald-700 text-[11px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
                         <Check className="h-2.5 w-2.5" /> Official Partner
                       </span>
                       {partner.website && (
@@ -757,7 +757,7 @@ export default function AwarenessClient() {
                           href={partner.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[10px] font-bold text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
+                          className="text-[11px] font-bold text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
                         >
                           Visit <Globe className="h-3 w-3" />
                         </a>
@@ -785,7 +785,7 @@ export default function AwarenessClient() {
               initial={{ scale: 0.95, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
-              className="bg-white max-w-2xl w-full rounded-3xl shadow-2xl relative border border-slate-100 p-6 md:p-8 cursor-default max-h-[90vh] overflow-y-auto"
+              className="bg-white max-w-2xl w-full rounded-2xl shadow-lg relative border border-slate-100 p-6 cursor-default max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal Close Button */}
@@ -800,7 +800,7 @@ export default function AwarenessClient() {
               <div className="space-y-4">
                 <div className="flex items-center gap-2.5 text-primary">
                   <Handshake className="h-6 w-6" />
-                  <h3 className="font-heading text-2xl font-black text-slate-800">Become Our Partner</h3>
+                  <h3 className="font-heading text-2xl font-bold text-slate-800">Become Our Partner</h3>
                 </div>
                 <p className="text-slate-500 text-xs sm:text-sm font-medium">
                   Apply to register your entity as an official Cancer Mukt Bharat Abhiyan partner organization.
@@ -837,7 +837,7 @@ export default function AwarenessClient() {
 
                   {/* Section 1: Org details */}
                   <div className="space-y-4">
-                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b pb-1">1. Organization Profile</h4>
+                    <h4 className="text-xs font-bold text-slate-400 border-b pb-1">1. Organization Profile</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-slate-700">Organization Name *</label>
@@ -872,7 +872,7 @@ export default function AwarenessClient() {
 
                   {/* Section 2: Contact info */}
                   <div className="space-y-4">
-                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b pb-1">2. Primary Contact</h4>
+                    <h4 className="text-xs font-bold text-slate-400 border-b pb-1">2. Primary Contact</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-slate-700">Contact Person Name *</label>
@@ -924,7 +924,7 @@ export default function AwarenessClient() {
 
                   {/* Section 3: Location and website */}
                   <div className="space-y-4">
-                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b pb-1">3. Address & Web Presence</h4>
+                    <h4 className="text-xs font-bold text-slate-400 border-b pb-1">3. Address & Web Presence</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-slate-700">City</label>
@@ -971,7 +971,7 @@ export default function AwarenessClient() {
 
                   {/* Section 4: Category and files */}
                   <div className="space-y-4">
-                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b pb-1">4. Partnership Details</h4>
+                    <h4 className="text-xs font-bold text-slate-400 border-b pb-1">4. Partnership Details</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-slate-700">Partnership Category *</label>
@@ -1007,7 +1007,7 @@ export default function AwarenessClient() {
                             {uploadingLogo ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
                             Upload Logo
                           </label>
-                          <span className="text-slate-400 text-[10px] truncate max-w-xs">
+                          <span className="text-slate-400 text-[11px] truncate max-w-xs">
                             {formData.logoUrl ? "Uploaded successfully ✔" : "PNG / JPG format"}
                           </span>
                         </div>
@@ -1031,7 +1031,7 @@ export default function AwarenessClient() {
                           {uploadingDoc ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Upload className="h-3.5 w-3.5" />}
                           Upload Document
                         </label>
-                        <span className="text-slate-400 text-[10px] truncate max-w-xs">
+                        <span className="text-slate-400 text-[11px] truncate max-w-xs">
                           {formData.documentUrl ? "Uploaded successfully ✔" : "PDF or DOC format"}
                         </span>
                       </div>
@@ -1040,7 +1040,7 @@ export default function AwarenessClient() {
 
                   {/* Section 5: Written responses */}
                   <div className="space-y-4">
-                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest border-b pb-1">5. Statements</h4>
+                    <h4 className="text-xs font-bold text-slate-400 border-b pb-1">5. Statements</h4>
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-700">Organization Description</label>
                       <textarea
@@ -1104,14 +1104,14 @@ export default function AwarenessClient() {
       </AnimatePresence>
 
       {/* ================= 8. CALL TO ACTION ================= */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-pink-500 to-rose-600 text-white relative overflow-hidden">
+      <section className="py-10 md:py-14 bg-pink-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[5%] w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center space-y-8 relative z-10">
 
           <div className="space-y-4">
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-pink-500">
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight leading-tight text-pink-500">
               Support Our Activities Today
             </h2>
             <p className="text-pink-100 max-w-2xl mx-auto text-base sm:text-lg font-medium leading-relaxed">
@@ -1121,25 +1121,25 @@ export default function AwarenessClient() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
             <Link href="/register">
-              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-4 shadow-lg active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer">
+              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-lg py-5 px-4 shadow-lg transition-all text-xs cursor-pointer">
                 Join Campaign
               </Button>
             </Link>
 
             <Link href="/donate">
-              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-full py-6 px-4 shadow-lg active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer">
+              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-lg py-5 px-4 shadow-lg transition-all text-xs cursor-pointer">
                 Donate Now
               </Button>
             </Link>
 
             <Link href="/campaigns/volunteers">
-              <Button className="w-full border border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full py-6 px-4 active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer">
+              <Button className="w-full border border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-lg py-5 px-4 transition-all text-xs cursor-pointer">
                 Volunteer
               </Button>
             </Link>
 
             <Link href="/webinars">
-              <Button className="w-full border border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full py-6 px-4 active:scale-95 transition-all text-xs uppercase tracking-wider cursor-pointer">
+              <Button className="w-full border border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-lg py-5 px-4 transition-all text-xs cursor-pointer">
                 Attend Webinars
               </Button>
             </Link>

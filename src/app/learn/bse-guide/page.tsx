@@ -130,20 +130,20 @@ export default function BSEGuidePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-pink-50 via-white to-rose-50/30 py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-tr from-pink-50 via-white to-rose-50/30 py-8 px-4 sm:px-6 lg:px-8">
       {/* Decorative background blur blobs */}
       <div className="absolute top-20 right-10 w-72 h-72 bg-pink-200/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 left-10 w-72 h-72 bg-rose-200/25 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto space-y-10 relative">
+      <div className="max-w-4xl mx-auto space-y-8 relative">
 
         {/* Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-700 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 border border-pink-200 text-pink-700 text-xs font-bold ">
             <Ribbon className="h-4 w-4 text-primary" />
             Interactive Guide
           </div>
-          <h1 className="font-heading text-3xl sm:text-4xl font-black text-slate-800">
+          <h1 className="font-heading font-bold text-slate-800 text-3xl sm:text-4xl">
             Breast Self-Examination <span className="text-primary">BSE Guide</span>
           </h1>
           <p className="text-slate-600 text-xs sm:text-sm max-w-2xl mx-auto">
@@ -155,8 +155,8 @@ export default function BSEGuidePage() {
 
           {/* LEFT: Step Navigator */}
           <div className="md:col-span-1 space-y-3">
-            <div className="bg-white/80 backdrop-blur-md border border-pink-100 rounded-3xl p-5 shadow-sm space-y-4">
-              <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider">Exam Steps</h4>
+            <div className="bg-white/80 backdrop-blur-md border border-pink-100 rounded-2xl p-5 shadow-sm space-y-4">
+              <h4 className="font-bold text-slate-800 text-xs ">Exam Steps</h4>
               <div className="flex flex-col gap-2">
                 {STEPS.map((step, idx) => {
                   const isActive = activeStep === idx;
@@ -169,7 +169,7 @@ export default function BSEGuidePage() {
                         : "border-slate-100 hover:bg-pink-50/10 text-slate-600 bg-white/40"
                         }`}
                     >
-                      <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${isActive ? "bg-primary text-white" : "bg-slate-100 text-slate-400"
+                      <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[11px] font-bold ${isActive ? "bg-primary text-white" : "bg-slate-100 text-slate-400"
                         }`}>
                         {step.id}
                       </span>
@@ -181,16 +181,16 @@ export default function BSEGuidePage() {
             </div>
 
             {/* Built-in Exam Pacing Timer */}
-            <div className="bg-white/85 backdrop-blur-md border border-pink-100 rounded-3xl p-5 shadow-sm text-center space-y-4">
-              <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider flex items-center justify-center gap-1.5">
+            <div className="bg-white/85 backdrop-blur-md border border-pink-100 rounded-2xl p-5 shadow-sm text-center space-y-4">
+              <h4 className="font-bold text-slate-800 text-xs flex items-center justify-center gap-1.5">
                 <Timer className="h-4.5 w-4.5 text-primary" /> Exam Timer
               </h4>
 
-              <div className="text-3xl font-extrabold text-slate-800 font-heading tracking-tight">
+              <div className="text-3xl font-bold text-slate-800 font-heading tracking-tight">
                 {formatTime(seconds)}
               </div>
 
-              <p className="text-[10px] text-muted-foreground leading-relaxed px-2">
+              <p className="text-[11px] text-muted-foreground leading-relaxed px-2">
                 Use this timer to pace your palpation steps. Each side should be felt for at least 60 seconds.
               </p>
 
@@ -198,7 +198,7 @@ export default function BSEGuidePage() {
                 <Button
                   size="sm"
                   onClick={handleTimerToggle}
-                  className={`rounded-lg py-1.5 h-auto text-[10px] uppercase font-bold px-3 shadow-xs flex items-center gap-1 ${isTimerActive ? "bg-amber-600 hover:bg-amber-700" : "bg-primary hover:bg-primary/95"
+                  className={`rounded-lg py-1.5 h-auto text-[11px] font-bold px-3 shadow-xs flex items-center gap-1 ${isTimerActive ? "bg-amber-600 hover:bg-amber-700" : "bg-primary hover:bg-primary/95"
                     }`}
                 >
                   {isTimerActive ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
@@ -208,7 +208,7 @@ export default function BSEGuidePage() {
                   size="sm"
                   variant="outline"
                   onClick={handleTimerReset}
-                  className="border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg py-1.5 h-auto text-[10px] uppercase font-bold px-3"
+                  className="border-slate-200 text-slate-600 hover:bg-slate-50 rounded-lg py-1.5 h-auto text-[11px] font-bold px-3"
                 >
                   <RotateCcw className="h-3 w-3" /> Reset
                 </Button>
@@ -220,9 +220,9 @@ export default function BSEGuidePage() {
           <div className="md:col-span-2 space-y-6">
 
             {/* BSE Walkthrough Video Tutorial */}
-            <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-lg rounded-3xl overflow-hidden">
+            <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-lg rounded-2xl overflow-hidden">
               <CardHeader className="p-5 pb-2">
-                <CardTitle className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                <CardTitle className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
                   <Play className="h-4 w-4 text-primary fill-primary" /> BSE Video Guide
                 </CardTitle>
                 <CardDescription className="text-xs font-semibold text-slate-500">
@@ -241,19 +241,19 @@ export default function BSEGuidePage() {
               </CardContent>
             </Card>
 
-            <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-xl rounded-3xl overflow-hidden min-h-[400px] flex flex-col justify-between">
+            <Card className="bg-white/80 backdrop-blur-md border border-pink-100 shadow-md rounded-2xl overflow-hidden min-h-[400px] flex flex-col justify-between">
 
               {/* Card Header */}
               <CardHeader className="p-6 pb-0 border-b border-pink-50/50 bg-white/40">
                 <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-black uppercase text-primary tracking-widest bg-pink-100/50 px-3 py-1 rounded-full">
+                  <span className="text-[11px] font-bold text-primary bg-pink-100/50 px-3 py-1 rounded-full">
                     Step {STEPS[activeStep].id} of {STEPS.length}
                   </span>
-                  <div className="flex items-center gap-1 text-[10px] text-muted-foreground font-semibold">
+                  <div className="flex items-center gap-1 text-[11px] text-muted-foreground font-semibold">
                     <Eye className="h-3.5 w-3.5 text-primary" /> Visual Guide
                   </div>
                 </div>
-                <CardTitle className="font-heading text-2xl font-black text-slate-800 mt-3">
+                <CardTitle className="font-heading text-2xl font-bold text-slate-800 mt-3">
                   {STEPS[activeStep].title}
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-500 font-semibold mt-1">
@@ -262,7 +262,7 @@ export default function BSEGuidePage() {
               </CardHeader>
 
               {/* Instructions List */}
-              <CardContent className="p-6 sm:p-8 flex-1 space-y-6">
+              <CardContent className="p-6 flex-1 space-y-6">
                 <ul className="space-y-3.5">
                   {STEPS[activeStep].instructions.map((inst, index) => (
                     <li key={index} className="flex gap-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -274,7 +274,7 @@ export default function BSEGuidePage() {
 
                 {/* Visual / Rationale Tip */}
                 <div className="p-4 rounded-2xl bg-pink-50/15 border border-pink-100/30 text-xs text-slate-500 flex gap-2.5 items-start">
-                  <Sparkles className="h-4.5 w-4.5 text-primary shrink-0 mt-0.5 animate-pulse" />
+                  <Sparkles className="h-4.5 w-4.5 text-primary shrink-0 mt-0.5 " />
                   <p className="leading-relaxed font-medium">{STEPS[activeStep].visualTip}</p>
                 </div>
               </CardContent>
@@ -314,7 +314,7 @@ export default function BSEGuidePage() {
         </div>
 
         {/* Clinical Safety & Limitations disclaimer */}
-        <div className="bg-slate-50 border border-slate-200/50 rounded-3xl p-6 md:p-8 flex gap-4 text-xs text-slate-500 leading-relaxed max-w-4xl mx-auto">
+        <div className="bg-slate-50 border border-slate-200/50 rounded-2xl p-6 flex gap-4 text-xs text-slate-500 leading-relaxed max-w-4xl mx-auto">
           <ShieldAlert className="h-6 w-6 text-emerald-600 shrink-0" />
           <div className="space-y-1.5">
             <h5 className="font-bold text-slate-800">Critical Medical Information</h5>

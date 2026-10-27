@@ -114,7 +114,7 @@ export default function SurvivorStoryCardSection({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/70 text-emerald-700 text-xs font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/70 text-emerald-700 text-xs font-bold ">
                 <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
                 Real Survivor Journeys
               </span>
@@ -122,13 +122,13 @@ export default function SurvivorStoryCardSection({
                 • {stories.length} Stories Shared
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight mt-1">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mt-1">
               Voices of Hope &amp; Healing
             </h2>
           </div>
 
           {/* Quick story selector tabs / controls */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
+          <div className="flex items-center gap-2 overflow-x-auto pb-0 ">
             {stories.map((s, idx) => (
               <button
                 key={s.id || idx}
@@ -146,7 +146,7 @@ export default function SurvivorStoryCardSection({
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 rounded-full border-pink-300 text-pink-700 hover:bg-pink-50 text-xs font-bold px-3"
+                className="h-8 rounded-lg border-pink-300 text-pink-700 hover:bg-pink-50 text-xs font-bold px-3"
               >
                 + Share Yours
               </Button>
@@ -155,12 +155,12 @@ export default function SurvivorStoryCardSection({
         </div>
 
         {/* ============ MAIN STORY CARD (IMAGE 2 STYLE) ============ */}
-        <div className="bg-white rounded-3xl sm:rounded-[32px] p-6 sm:p-8 lg:p-10 border border-slate-200/90 shadow-[0_4px_25px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_35px_rgba(0,0,0,0.07)] transition-all duration-300">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="bg-white rounded-2xl sm:rounded-2xl p-6 border border-slate-200/90 shadow-[0_4px_25px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_35px_rgba(0,0,0,0.07)] transition-all duration-300">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
             {/* LEFT COLUMN: Modern Styled Image or Video with Badges */}
             <div className="lg:col-span-5 w-full">
-              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm aspect-[4/3] sm:aspect-[16/11] lg:h-[350px] w-full bg-slate-900 group">
+              <div className="relative rounded-2xl sm:rounded-2xl overflow-hidden shadow-sm aspect-[4/3] sm:aspect-[16/11] lg:h-[350px] w-full bg-slate-900 group">
                 {currentStory.videoUrl ? (
                   <div className="w-full h-full relative bg-black flex items-center justify-center">
                     <video
@@ -196,7 +196,7 @@ export default function SurvivorStoryCardSection({
                       </span>
 
                       {currentStory.age && (
-                        <span className="bg-black/60 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-md border border-white/10">
+                        <span className="bg-black/60 backdrop-blur-md text-white text-[11px] sm:text-xs font-bold px-2.5 py-1 rounded-md border border-white/10">
                           Age: {currentStory.age}
                         </span>
                       )}
@@ -210,7 +210,7 @@ export default function SurvivorStoryCardSection({
                       </span>
 
                       {currentStory.treatmentHospital && (
-                        <span className="bg-emerald-900/80 backdrop-blur-md text-emerald-100 text-[10px] sm:text-[11px] font-semibold px-2.5 py-1.5 rounded-lg border border-emerald-400/30 line-clamp-1 max-w-[200px]">
+                        <span className="bg-emerald-900/80 backdrop-blur-md text-emerald-100 text-[11px] sm:text-[11px] font-semibold px-2.5 py-1.5 rounded-lg border border-emerald-400/30 line-clamp-1 max-w-[200px]">
                           {currentStory.treatmentHospital}
                         </span>
                       )}
@@ -225,7 +225,7 @@ export default function SurvivorStoryCardSection({
 
               {/* Category / Kicker in Green Uppercase (Matches "WHY YOU" in reference) */}
               <div className="flex items-center justify-between">
-                <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-emerald-600 flex items-center gap-2">
+                <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-2">
                   <span>SURVIVOR STORY</span>
                   <span className="text-slate-300">•</span>
                   <span className="text-slate-500 font-semibold">{currentStory.roleType || "Patient"}</span>
@@ -256,13 +256,13 @@ export default function SurvivorStoryCardSection({
               </div>
 
               {/* Story Heading (Matches "MRIDUL KRISHNA & CO." bold headline in reference) */}
-              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 tracking-tight leading-tight">
                 {currentStory.storyTitle}
               </h3>
 
               {/* Bold Lead Introduction paragraph */}
               <p className="text-slate-700 font-semibold text-sm sm:text-base leading-relaxed">
-                <strong className="text-slate-900 font-black">{currentStory.fullName.toUpperCase()}</strong>
+                <strong className="text-slate-900 font-bold">{currentStory.fullName.toUpperCase()}</strong>
                 {currentStory.age ? `, aged ${currentStory.age}` : ""}, from {currentStory.city}{currentStory.state ? `, ${currentStory.state}` : ""}
                 {currentStory.treatmentHospital
                   ? ` successfully completed treatment at ${currentStory.treatmentHospital}.`
@@ -299,7 +299,7 @@ export default function SurvivorStoryCardSection({
       {/* ============ STORY DETAIL MODAL (WHEN USER CLICKS READMORE >) ============ */}
       {selectedStory && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-lg relative max-h-[90vh] overflow-y-auto">
             {/* Close button */}
             <button
               onClick={() => setSelectedStory(null)}
@@ -310,10 +310,10 @@ export default function SurvivorStoryCardSection({
 
             {/* Modal Header */}
             <div className="space-y-2 pr-8">
-              <span className="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider">
+              <span className="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold ">
                 {selectedStory.roleType || "Survivor"} Story
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
                 {selectedStory.storyTitle}
               </h3>
               <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-slate-500 pt-1">

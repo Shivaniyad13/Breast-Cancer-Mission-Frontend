@@ -277,7 +277,7 @@ export default function HealthcareProfessionalsClient({
       {/* ---------------------------------------------------------------------- */}
       {/* SECTION 1: HERO */}
       {/* ---------------------------------------------------------------------- */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-950 to-pink-950 text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-950 to-pink-950 text-white py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-pink-500/10 via-transparent to-transparent pointer-events-none" />
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs sm:text-sm font-medium mb-6">
@@ -285,7 +285,7 @@ export default function HealthcareProfessionalsClient({
             <span>Doctor & Clinician Knowledge Hub</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-5xl font-bold tracking-tight text-white mb-6 leading-tight">
             Share Your Research, <br className="hidden sm:inline" />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-rose-300">
               Reach Thousands of Doctors
@@ -298,7 +298,7 @@ export default function HealthcareProfessionalsClient({
             breast cancer professionals.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <button
               onClick={() => setIsArticleModalOpen(true)}
               className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-pink-600 hover:bg-pink-500 text-white font-semibold shadow-lg shadow-pink-900/30 transition-all flex items-center justify-center gap-2 text-base cursor-pointer"
@@ -336,13 +336,13 @@ export default function HealthcareProfessionalsClient({
       {/* ---------------------------------------------------------------------- */}
       {/* SECTION 2: WHY PUBLISH WITH US? */}
       {/* ---------------------------------------------------------------------- */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center max-w-3xl mx-auto mb-12">
+      <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
             Why Publish With Mission Breast Cancer?
           </h2>
           <p className="text-slate-600 text-sm sm:text-base">
-            Empower clinicians nationwide with your findings while growing your
+            Share your findings with clinicians nationwide and grow your
             professional impact.
           </p>
         </div>
@@ -405,7 +405,7 @@ export default function HealthcareProfessionalsClient({
       {/* ---------------------------------------------------------------------- */}
       {/* SECTION 3: PUBLISHED ARTICLES */}
       {/* ---------------------------------------------------------------------- */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-slate-100/60 rounded-3xl mb-16 border border-slate-200/60">
+      <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-slate-100/60 rounded-2xl mb-10 border border-slate-200/60">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 text-pink-700 text-xs font-semibold mb-2">
@@ -507,7 +507,7 @@ export default function HealthcareProfessionalsClient({
           </div>
         ) : articles.length === 0 ? (
           // Premium Empty State — No articles in DB
-          <div className="relative overflow-hidden text-center py-20 px-6 bg-gradient-to-br from-pink-50 via-white to-purple-50 rounded-3xl border-2 border-dashed border-pink-200">
+          <div className="relative overflow-hidden text-center py-12 px-6 bg-gradient-to-br from-pink-50 via-white to-purple-50 rounded-2xl border-2 border-dashed border-pink-200">
             <div className="absolute top-0 right-0 w-40 h-40 bg-pink-200/30 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-40 h-40 bg-purple-200/30 rounded-full blur-3xl" />
 
@@ -534,7 +534,7 @@ export default function HealthcareProfessionalsClient({
           </div>
         ) : (
           // No results in search/filter
-          <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300 p-8">
+          <div className="text-center py-10 bg-white rounded-2xl border border-dashed border-slate-300 p-6">
             <Search className="w-12 h-12 text-slate-400 mx-auto mb-3" />
             <h3 className="text-base font-semibold text-slate-800 mb-1">
               No articles match your search
@@ -549,7 +549,7 @@ export default function HealthcareProfessionalsClient({
       {/* ---------------------------------------------------------------------- */}
       {/* SECTION 4: CLINICAL RESOURCES */}
       {/* ---------------------------------------------------------------------- */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-16">
+      <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-10">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-semibold mb-2">
@@ -618,7 +618,7 @@ export default function HealthcareProfessionalsClient({
           </div>
         ) : (
           // Premium Empty State — No resources
-          <div className="relative overflow-hidden text-center py-16 px-6 bg-gradient-to-br from-purple-50 via-white to-pink-50 rounded-3xl border-2 border-dashed border-purple-200">
+          <div className="relative overflow-hidden text-center py-10 px-6 bg-gradient-to-br from-purple-50 via-white to-pink-50 rounded-2xl border-2 border-dashed border-purple-200">
             <div className="relative z-10 max-w-md mx-auto">
               <div className="w-16 h-16 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mx-auto mb-4">
                 <FileText className="w-8 h-8" />
@@ -645,11 +645,11 @@ export default function HealthcareProfessionalsClient({
       {/* ---------------------------------------------------------------------- */}
       {/* SECTION 5: RESEARCH PARTNERS */}
       {/* ---------------------------------------------------------------------- */}
-      <section className="bg-slate-900 text-white py-16 px-4 sm:px-6 lg:px-8 mb-16">
+      <section className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 mb-10">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
             <div>
-              <span className="text-xs font-semibold text-pink-400 uppercase tracking-wider block mb-2">
+              <span className="text-xs font-semibold text-pink-400 block mb-2">
                 Institutional Collaboration
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-white">
@@ -703,7 +703,7 @@ export default function HealthcareProfessionalsClient({
             </div>
           ) : (
             // Empty state for partners
-            <div className="text-center py-12 border-2 border-dashed border-white/20 rounded-3xl">
+            <div className="text-center py-12 border-2 border-dashed border-white/20 rounded-2xl">
               <Building2 className="w-12 h-12 text-pink-400/50 mx-auto mb-3" />
               <h3 className="text-lg font-bold text-white mb-2">
                 No Partners Yet
@@ -727,8 +727,8 @@ export default function HealthcareProfessionalsClient({
       {/* ---------------------------------------------------------------------- */}
       {/* SECTION 6: FAQ */}
       {/* ---------------------------------------------------------------------- */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto mb-16">
-        <div className="text-center mb-10">
+      <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto mb-10">
+        <div className="text-center mb-8">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200 text-slate-800 text-xs font-semibold mb-2">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Frequently Asked Questions</span>
@@ -769,11 +769,11 @@ export default function HealthcareProfessionalsClient({
       {/* ---------------------------------------------------------------------- */}
       {/* SECTION 7: FINAL CTA */}
       {/* ---------------------------------------------------------------------- */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto mb-16">
-        <div className="rounded-3xl bg-gradient-to-r from-pink-600 to-rose-700 text-white p-8 sm:p-12 text-center shadow-xl relative overflow-hidden">
+      <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto mb-10">
+        <div className="rounded-2xl bg-pink-600 text-white p-6 sm:p-8 text-center shadow-md relative overflow-hidden">
           <div className="absolute inset-0 bg-white/5 backdrop-blur-[2px]" />
           <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="text-2xl sm:text-4xl font-extrabold mb-4">
+            <h2 className="text-2xl sm:text-4xl font-bold mb-4">
               Ready to Share Your Knowledge?
             </h2>
             <p className="text-pink-100 text-sm sm:text-base mb-8 leading-relaxed">
@@ -796,7 +796,7 @@ export default function HealthcareProfessionalsClient({
       {/* ---------------------------------------------------------------------- */}
       {isArticleModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto">
-          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative my-8 border border-slate-200">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-lg relative my-8 border border-slate-200">
             <button
               onClick={() => setIsArticleModalOpen(false)}
               className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
@@ -1008,7 +1008,7 @@ export default function HealthcareProfessionalsClient({
       {/* ---------------------------------------------------------------------- */}
       {isResourceModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto">
-          <div className="bg-white rounded-2xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative my-8 border border-slate-200">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-lg relative my-8 border border-slate-200">
             <button
               onClick={() => setIsResourceModalOpen(false)}
               className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
@@ -1202,7 +1202,7 @@ export default function HealthcareProfessionalsClient({
       {/* ---------------------------------------------------------------------- */}
       {isPartnerModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto">
-          <div className="bg-white rounded-2xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative my-8 border border-slate-200">
+          <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-lg relative my-8 border border-slate-200">
             <button
               onClick={() => setIsPartnerModalOpen(false)}
               className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
@@ -1392,7 +1392,7 @@ export default function HealthcareProfessionalsClient({
       {/* ---------------------------------------------------------------------- */}
       {selectedArticleModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto">
-          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative my-8 border border-slate-200">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-lg relative my-8 border border-slate-200">
             <button
               onClick={() => setSelectedArticleModal(null)}
               className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
@@ -1431,7 +1431,7 @@ export default function HealthcareProfessionalsClient({
 
             <div className="space-y-4 mb-6">
               <div>
-                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                <h4 className="text-xs font-bold text-slate-400 mb-1">
                   Abstract
                 </h4>
                 <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">
@@ -1441,7 +1441,7 @@ export default function HealthcareProfessionalsClient({
 
               {selectedArticleModal.conclusions && (
                 <div>
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  <h4 className="text-xs font-bold text-slate-400 mb-1">
                     Conclusions
                   </h4>
                   <p className="text-sm text-slate-700 leading-relaxed bg-pink-50/50 p-3 rounded-lg border border-pink-100">

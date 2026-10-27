@@ -194,12 +194,12 @@ export default function ShareSuccessStoryPage() {
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white dark:bg-slate-900 border border-pink-100 dark:border-pink-950 rounded-3xl p-8 sm:p-12 text-center shadow-2xl space-y-6"
+            className="bg-white dark:bg-slate-900 border border-pink-100 dark:border-pink-950 rounded-2xl p-6 sm:p-8 text-center shadow-lg space-y-6"
           >
             <div className="inline-flex items-center justify-center h-20 w-20 rounded-full bg-emerald-100 text-emerald-600 mb-2">
               <CheckCircle className="h-10 w-10" />
             </div>
-            <h1 className="font-heading text-3xl font-extrabold text-slate-800 dark:text-slate-100">
+            <h1 className="font-heading font-bold text-slate-800 dark:text-slate-100 text-3xl sm:text-4xl">
               Story Submitted Successfully!
             </h1>
             <p className="text-muted-foreground max-w-lg mx-auto text-base">
@@ -223,12 +223,12 @@ export default function ShareSuccessStoryPage() {
           </motion.div>
         ) : (
           /* Form Container */
-          <div className="bg-white dark:bg-slate-900 border border-pink-100 dark:border-pink-950 rounded-3xl p-6 sm:p-10 shadow-xl space-y-8">
+          <div className="bg-white dark:bg-slate-900 border border-pink-100 dark:border-pink-950 rounded-2xl p-6 shadow-md space-y-8">
             <div className="text-center space-y-2">
               <div className="inline-flex items-center justify-center p-3 rounded-full bg-pink-100 text-pink-600 dark:bg-pink-900/30 dark:text-pink-300">
                 <Heart className="h-8 w-8 fill-pink-600" />
               </div>
-              <h1 className="font-heading text-3xl font-extrabold tracking-tight text-slate-800 dark:text-slate-100">
+              <h1 className="font-heading font-bold tracking-tight text-slate-800 dark:text-slate-100 text-3xl sm:text-4xl">
                 Share Your Success Journey
               </h1>
               <p className="text-muted-foreground max-w-md mx-auto text-sm">
@@ -390,7 +390,7 @@ export default function ShareSuccessStoryPage() {
                     <span className="text-xs font-semibold text-pink-600">
                       {isUploadingImage ? "Uploading..." : "Click to upload image files"}
                     </span>
-                    <span className="text-[10px] text-muted-foreground mt-1">PNG, JPG or JPEG format</span>
+                    <span className="text-[11px] text-muted-foreground mt-1">PNG, JPG or JPEG format</span>
                   </div>
 
                   {/* Render uploaded image files */}
@@ -432,7 +432,7 @@ export default function ShareSuccessStoryPage() {
                     <span className="text-xs font-semibold text-pink-600">
                       {isUploadingVideo ? "Uploading..." : "Click to upload testimonial video"}
                     </span>
-                    <span className="text-[10px] text-muted-foreground mt-1">MP4, WEBM or MOV format</span>
+                    <span className="text-[11px] text-muted-foreground mt-1">MP4, WEBM or MOV format</span>
                   </div>
 
                   {/* Render uploaded video file */}
@@ -479,7 +479,7 @@ export default function ShareSuccessStoryPage() {
                 <Button
                   type="submit"
                   disabled={isPending || isUploadingImage || isUploadingVideo}
-                  className="w-full bg-pink-600 hover:bg-pink-700 text-white font-extrabold rounded-xl shadow-lg hover:shadow-xl py-6 text-base cursor-pointer active:scale-95 transition-all"
+                  className="w-full bg-pink-600 hover:bg-pink-700 text-white font-bold rounded-xl shadow-lg hover:shadow-md py-5 text-base cursor-pointer transition-all"
                 >
                   {isPending ? (
                     <>
