@@ -112,8 +112,8 @@ interface FAQItem {
 // ----------------------------------------------------------------------
 
 const GALLERY_ITEMS = [
-  { name: "Dr. G K Ratnam", dept: "Medical Oncology", img: "/gkr.jpg" },
-  { name: "Dr.Anurag Srivastav", dept: "Medical Oncology", img: "/team8.jpg" },
+  { name: "Dr. G.K Rath", dept: "Medical Oncology", img: "/gkr.jpg" },
+  { name: "Dr. Anurag Srivastav", dept: "Medical Oncology", img: "/team8.jpg" },
   { name: "Dr.Navneet Kaur", dept: "Genetics Lab", img: "/photo.jpg" },
   { name: "Dr. Rahul Bhardavaj", dept: "Patient Support", img: "/photo.jpg" },
 

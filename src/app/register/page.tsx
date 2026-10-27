@@ -310,10 +310,11 @@ export default function RegisterPage() {
               }}>
                 <SelectTrigger aria-invalid={!!fieldErrors.role} aria-describedby={fieldErrors.role ? "role-error" : undefined} className="bg-background/80 w-full">
                   <SelectValue placeholder="Select account type">
-                    {role ? (role === "NGO_REP" ? "NGO" : role.replaceAll("_", " ")) : null}
+                    {role ? (role === "VISITOR" ? "Visitor" : role === "NGO_REP" ? "NGO" : role.replaceAll("_", " ")) : null}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent sideOffset={4} className="min-w-[var(--anchor-width)] max-w-none">
+                  <SelectItem value="VISITOR" className="whitespace-nowrap">Visitor</SelectItem>
                   <SelectItem value="PATIENT" className="whitespace-nowrap">Patient</SelectItem>
                   <SelectItem value="DOCTOR" className="whitespace-nowrap">Doctor</SelectItem>
                   <SelectItem value="HEALTHCARE_PROVIDER" className="whitespace-nowrap">Healthcare Provider</SelectItem>

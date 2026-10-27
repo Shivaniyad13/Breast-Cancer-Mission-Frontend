@@ -26,20 +26,32 @@ function HoverDropdown({
   label,
   items,
   width = "w-48",
+  href,
 }: {
   label: string;
   items: { label: string; href: string }[];
   width?: string;
+  href?: string;
 }) {
   return (
     <div className="relative group">
-      <button
-        type="button"
-        className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-primary cursor-pointer select-none outline-none"
-      >
-        {label}
-        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
-      </button>
+      {href ? (
+        <Link
+          href={href}
+          className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-primary cursor-pointer select-none outline-none"
+        >
+          {label}
+          <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
+        </Link>
+      ) : (
+        <button
+          type="button"
+          className="flex items-center gap-1 text-sm font-semibold text-slate-700 transition-colors hover:text-primary cursor-pointer select-none outline-none"
+        >
+          {label}
+          <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
+        </button>
+      )}
 
       {/* pt-2 creates an invisible bridge so hover doesn't break between trigger and menu */}
       <div
@@ -62,6 +74,7 @@ function HoverDropdown({
 }
 
 const campaignItems = [
+  { label: "Delhi University Event", href: "/campaigns/delhi-university" },
   { label: "Education", href: "/campaigns/education" },
   { label: "Our Activities", href: "/campaigns/awareness" },
   { label: "Membership", href: "/campaigns/membership" },
@@ -148,11 +161,10 @@ export default function Navbar() {
   };
 
   const headerClass = isCampaignPage
-    ? `fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 h-20 ${
-        isScrolled
-          ? "bg-white/95 border-b border-pink-100 shadow-md backdrop-blur supports-[backdrop-filter]:bg-white/90 text-slate-800"
-          : "bg-transparent border-b border-transparent text-slate-800"
-      }`
+    ? `fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 h-20 ${isScrolled
+      ? "bg-white/95 border-b border-pink-100 shadow-md backdrop-blur supports-[backdrop-filter]:bg-white/90 text-slate-800"
+      : "bg-transparent border-b border-transparent text-slate-800"
+    }`
     : "fixed top-0 left-0 right-0 w-full z-50 h-20 border-b border-pink-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90 text-slate-800 shadow-xs";
 
   return (
@@ -211,7 +223,7 @@ export default function Navbar() {
               <a href="#research" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Research</a>
               <a href="#events" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Events</a>
               <a href="#volunteer" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Volunteer</a>
-              <Link href="/donate" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Donate</Link>
+              <Link href="/donate" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Support</Link>
               <a href="#contact" className="text-xs font-bold uppercase tracking-wider text-slate-700 hover:text-primary transition-colors">Contact</a>
             </>
           ) : (
@@ -219,7 +231,7 @@ export default function Navbar() {
               <Link href="/" className="text-sm font-semibold text-slate-700 transition-colors hover:text-primary">Home</Link>
 
               {/* Hover dropdowns — open on hover, no click needed */}
-              <HoverDropdown label="Campaign" items={campaignItems} width="w-48" />
+              <HoverDropdown label="Campaign" href="/campaigns/delhi-university" items={campaignItems} width="w-56" />
               <HoverDropdown label="Care" items={careItems} width="w-56" />
               <HoverDropdown label="Cure" items={cureItems} width="w-48" />
 
@@ -229,7 +241,7 @@ export default function Navbar() {
                   variant="outline"
                   className="border-pink-600 text-pink-600 hover:bg-pink-600 hover:text-white font-semibold transition-all duration-300 active:scale-95 cursor-pointer rounded-lg h-9 px-4 bg-transparent"
                 >
-                  Donate Now
+                  Support Us
                 </Button>
               </Link>
 

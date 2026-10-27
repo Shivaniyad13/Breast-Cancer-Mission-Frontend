@@ -189,16 +189,28 @@ export default function MobileMenu({ user, handleSignOut, isCampaignPage = false
 
                 {/* Campaign Section */}
                 <div>
-                  <button
-                    onClick={() => toggleSection("campaign")}
-                    className="flex items-center justify-between w-full text-base font-semibold py-2.5 text-left border-b cursor-pointer"
-                    style={{ color: "#334155", borderColor: "#fce7f3" }}
-                  >
-                    <span>Campaign</span>
-                    <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${openSection === "campaign" ? "rotate-180 text-primary" : ""}`} />
-                  </button>
+                  <div className="flex items-center justify-between border-b" style={{ borderColor: "#fce7f3" }}>
+                    <Link
+                      href="/campaigns/delhi-university"
+                      onClick={closeMenu}
+                      className="block flex-1 py-2.5 text-base font-semibold"
+                      style={{ color: "#334155" }}
+                    >
+                      Campaign
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => toggleSection("campaign")}
+                      aria-label="Show campaign links"
+                      aria-expanded={openSection === "campaign"}
+                      className="p-2"
+                    >
+                      <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${openSection === "campaign" ? "rotate-180 text-primary" : ""}`} />
+                    </button>
+                  </div>
                   {openSection === "campaign" && (
                     <div className="pl-4 mt-2 space-y-2 border-l-2 animate-in fade-in duration-200" style={{ borderColor: "#f472b6" }}>
+                      <Link href="/campaigns/delhi-university" onClick={closeMenu} className="block text-sm py-2 transition-colors font-semibold text-pink-700 hover:text-pink-800">Delhi University Event</Link>
                       <Link href="/campaigns/education" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Education</Link>
                       <Link href="/campaigns/awareness" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Our Activities</Link>
                       <Link href="/campaigns/membership" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Membership</Link>

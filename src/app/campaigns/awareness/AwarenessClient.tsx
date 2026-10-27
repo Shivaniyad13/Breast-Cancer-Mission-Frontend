@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { apiClient } from "@/lib/apiClient";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -440,6 +441,47 @@ export default function AwarenessClient() {
                 </Button>
               </Link>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= UPCOMING FEATURED EVENT ================= */}
+      <section className="bg-white px-4 py-12 sm:px-6 md:py-16 lg:px-8">
+        <div className="mx-auto grid max-w-6xl overflow-hidden rounded-3xl border border-pink-200 bg-gradient-to-r from-rose-50 via-white to-pink-50 shadow-lg md:grid-cols-[0.8fr_1.2fr]">
+          <div className="relative min-h-56 sm:min-h-72">
+            <Image
+              src="/images/awareness3.png"
+              alt="Community members joining a breast cancer awareness initiative"
+              width={1024}
+              height={1024}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-rose-950/40 to-transparent" />
+            <span className="absolute bottom-4 left-4 rounded-full bg-white/95 px-3 py-1 text-xs font-bold uppercase tracking-wider text-pink-700">
+              Upcoming campaign event
+            </span>
+          </div>
+          <div className="flex flex-col items-start justify-center p-6 sm:p-9 lg:p-12">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-pink-600">
+              Saturday, 31 October 2026 · University of Delhi
+            </p>
+            <h2 className="mt-3 font-heading text-2xl font-black leading-tight text-slate-900 sm:text-3xl">
+              Cancer Mukt Delhi University Abhiyan
+            </h2>
+            <p className="mt-2 font-semibold italic text-rose-800">
+              “Leaving No Woman Behind”
+            </p>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600">
+              Khushi Centre for Rehabilitation &amp; Research, in collaboration
+              with the Department of Social Work, University of Delhi, invites
+              you to be part of this initiative. View the event details and
+              register online.
+            </p>
+            <Link href="/campaigns/delhi-university" className="mt-6">
+              <Button className="rounded-full bg-pink-600 px-6 font-bold text-white hover:bg-pink-700">
+                View event details &amp; register
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
