@@ -664,15 +664,15 @@ export default function VolunteersClient({
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className={initialEvents.length === 1 ? "grid grid-cols-1 gap-6" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"}
             >
               {initialEvents.map((event) => {
                 const isFull = event.filledSlots >= event.slots;
 
                 return (
                   <motion.div key={event.id} variants={fadeInUp}>
-                    <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md rounded-3xl p-6 flex flex-col justify-between h-full group hover:border-pink-300 transition-all hover:-translate-y-1">
-                      <div className="space-y-3">
+                    <Card className={`border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md rounded-3xl p-6 flex h-full group hover:border-pink-300 transition-all hover:-translate-y-1 ${initialEvents.length === 1 ? "flex-col md:flex-row md:items-center md:gap-8 md:p-8" : "flex-col justify-between"}`}>
+                      <div className={`space-y-3 ${initialEvents.length === 1 ? "md:flex-1" : ""}`}>
                         <h3 className="font-heading font-bold text-lg text-slate-800 group-hover:text-primary transition-colors leading-snug">
                           {event.title}
                         </h3>
@@ -697,7 +697,7 @@ export default function VolunteersClient({
                         </div>
                       </div>
 
-                      <div className="pt-6 mt-4 border-t border-pink-50">
+                      <div className={`pt-6 mt-4 border-t border-pink-50 ${initialEvents.length === 1 ? "md:w-56 md:shrink-0 md:pt-0 md:mt-0 md:border-t-0 md:border-l md:pl-8" : ""}`}>
                         {!session ? (
                           <Link href="/volunteer/login">
                             <Button
