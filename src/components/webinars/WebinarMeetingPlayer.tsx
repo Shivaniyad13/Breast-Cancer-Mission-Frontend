@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { joinWebinarAction, leaveWebinarAction } from "@/app/actions/webinars";
 import { Button } from "@/components/ui/button";
+import { getYouTubeVideoId } from "@/lib/youtube";
 import { 
   Video, VideoOff, Mic, MicOff, PhoneOff, MessageSquare, Users, 
   Settings, Award, Loader2, Sparkles, Send, ShieldCheck, ExternalLink, AlertTriangle 
@@ -14,6 +15,7 @@ interface WebinarMeetingPlayerProps {
   webinarTitle: string;
   speakerName: string;
   meetingLink: string;
+  liveLink?: string | null;
 }
 
 export default function WebinarMeetingPlayer({
@@ -21,6 +23,7 @@ export default function WebinarMeetingPlayer({
   webinarTitle,
   speakerName,
   meetingLink,
+  liveLink,
 }: WebinarMeetingPlayerProps) {
   const router = useRouter();
   
@@ -153,36 +156,11 @@ export default function WebinarMeetingPlayer({
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
-  // Helper to extract YouTube video ID
-  const getYouTubeId = (url: string) => {
-    try {
-      const parsedUrl = new URL(url);
-      const host = parsedUrl.hostname.replace(/^www\./, "");
-      let videoId: string | null = null;
-
-      if (host === "youtu.be") {
-        videoId = parsedUrl.pathname.split("/").filter(Boolean)[0] || null;
-      } else if (host === "youtube.com" || host === "m.youtube.com") {
-        if (parsedUrl.pathname === "/watch") {
-          videoId = parsedUrl.searchParams.get("v");
-        } else {
-          const pathParts = parsedUrl.pathname.split("/").filter(Boolean);
-          if (["embed", "live", "shorts", "v"].includes(pathParts[0])) {
-            videoId = pathParts[1] || null;
-          }
-        }
-      }
-
-      return videoId && /^[\w-]{11}$/.test(videoId) ? videoId : null;
-    } catch {
-      return null;
-    }
-  };
-
-  const youtubeId = getYouTubeId(meetingLink);
+  const streamLink = liveLink || meetingLink;
+  const youtubeId = getYouTubeVideoId(streamLink);
 
   const handleLaunchExternal = () => {
-    window.open(meetingLink, "_blank");
+    window.open(streamLink, "_blank", "noopener,noreferrer");
   };
 
   if (loading) {
@@ -232,13 +210,24 @@ export default function WebinarMeetingPlayer({
           <div className="w-full max-w-4xl aspect-video bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden relative shadow-lg flex items-center justify-center">
             {videoActive ? (
               youtubeId ? (
-                // YouTube embed
-                <iframe
-                  className="w-full h-full border-0"
-                  src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                <>
+                  <iframe
+                    className="w-full h-full border-0"
+                    src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=0`}
+                    title={`${webinarTitle} live stream`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                  <a
+                    href={streamLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute bottom-3 right-3 z-10 rounded-lg bg-white/95 px-3 py-2 text-xs font-bold text-primary shadow-md hover:bg-white"
+                  >
+                    Open on YouTube
+                    <ExternalLink className="ml-1 inline h-3.5 w-3.5" />
+                  </a>
+                </>
               ) : (
                 // Zoom or Google Meet landing launcher
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-6 space-y-6 text-center bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900">

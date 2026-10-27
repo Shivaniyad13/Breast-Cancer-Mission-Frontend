@@ -8,6 +8,8 @@ import {
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { getYouTubeVideoId } from "@/lib/youtube";
+import { calculateWebinarDurationMinutes, formatDurationHumanReadable } from "@/lib/webinarPricing";
 
 export const revalidate = 0; // Dynamic rendering
 
@@ -28,7 +30,8 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
   }
 
   const isRegistered = (webinar.registrations || []).some((r: any) => r.userId === userId);
-  const remainingSeats = Math.max(webinar.maxSeats - (webinar.registrations?.length || 0), 0);
+  const registrationCount = webinar.registrations?.length || 0;
+  const liveYoutubeVideoId = webinar.liveLink ? getYouTubeVideoId(webinar.liveLink) : null;
 
   // Format Dates
   const startDateTime = new Date(webinar.startTime);
@@ -47,6 +50,9 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
     hour: "2-digit",
     minute: "2-digit",
   });
+  const duration = formatDurationHumanReadable(
+    calculateWebinarDurationMinutes(startDateTime, endDateTime)
+  );
 
   const faqs = Array.isArray(webinar.faqs) ? webinar.faqs : [];
   const learningOutcomesList = webinar.learningOutcomes
@@ -98,6 +104,34 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
           </div>
         </div>
 
+        {liveYoutubeVideoId && webinar.liveLink && new Date() >= new Date(webinar.startTime) && new Date() <= new Date(webinar.endTime) && webinar.status === "PUBLISHED" && (
+          <section className="rounded-2xl border border-pink-100 bg-white p-5 shadow-sm space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="font-heading text-lg font-bold text-slate-800">Watch Live Webinar</h2>
+                <p className="mt-1 text-sm text-slate-600">{webinar.description}</p>
+              </div>
+              <a
+                href={webinar.liveLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white hover:bg-primary/90"
+              >
+                Open on YouTube <Video className="h-4 w-4" />
+              </a>
+            </div>
+            <div className="relative aspect-video overflow-hidden rounded-xl bg-slate-950">
+              <iframe
+                src={`https://www.youtube.com/embed/${liveYoutubeVideoId}?autoplay=1&mute=1`}
+                title={`${webinar.title} live stream`}
+                className="absolute inset-0 h-full w-full border-0"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </section>
+        )}
+
         {/* Content Layout Split */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
@@ -109,9 +143,14 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
               <h2 className="font-heading text-lg font-bold text-slate-800 border-b border-pink-55/60 pb-3 flex items-center gap-2">
                 <Info className="h-5 w-5 text-primary" /> Seminar Overview
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line font-medium">
-                {webinar.fullContent || webinar.description}
+              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line font-semibold">
+                {webinar.description}
               </p>
+              {webinar.fullContent && webinar.fullContent !== webinar.description && (
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed whitespace-pre-line font-medium">
+                  {webinar.fullContent}
+                </p>
+              )}
             </div>
 
             {/* Doctor Profile Section */}
@@ -240,6 +279,7 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
             <WebinarJoinWidget
               webinarId={webinar.id}
               webinarTitle={webinar.title}
+              liveLink={webinar.liveLink}
               startTimeStr={startDateTime.toISOString()}
               endTimeStr={endDateTime.toISOString()}
               isRegistered={isRegistered}
@@ -262,9 +302,7 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Duration</span>
-                  <span className="font-bold text-slate-800">
-                    {Math.max((endDateTime.getTime() - startDateTime.getTime()) / 60000, 30)} Minutes
-                  </span>
+                  <span className="font-bold text-slate-800">{duration}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Language</span>
@@ -279,8 +317,8 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
                   <span className="font-bold text-slate-800">{webinar.maxSeats} slots</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-slate-400">Seats Left</span>
-                  <span className="font-bold text-slate-800">{remainingSeats} remaining</span>
+                  <span className="text-slate-400">Portal Registrations</span>
+                  <span className="font-bold text-slate-800">{registrationCount} / {webinar.maxSeats}</span>
                 </div>
               </div>
             </div>

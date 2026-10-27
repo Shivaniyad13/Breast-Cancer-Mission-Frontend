@@ -110,6 +110,13 @@ export default function MobileMenu({ user, handleSignOut, isCampaignPage = false
                 >
                   Home
                 </a>
+                <Link
+                  href="/webinars"
+                  onClick={closeMenu}
+                  className="block rounded-xl bg-pink-600 px-4 py-3 text-center text-base font-bold text-white shadow-sm animate-pulse motion-reduce:animate-none"
+                >
+                  Join Webinar
+                </Link>
                 <a
                   href="#about"
                   onClick={closeMenu}
@@ -185,6 +192,13 @@ export default function MobileMenu({ user, handleSignOut, isCampaignPage = false
                   style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
                 >
                   Home
+                </Link>
+                <Link
+                  href="/webinars"
+                  onClick={closeMenu}
+                  className="block rounded-xl bg-pink-600 px-4 py-3 text-center text-base font-bold text-white shadow-sm animate-pulse motion-reduce:animate-none"
+                >
+                  Join Webinar
                 </Link>
 
                 {/* Campaign Section */}

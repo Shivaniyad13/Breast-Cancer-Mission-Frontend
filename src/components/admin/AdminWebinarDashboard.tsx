@@ -50,6 +50,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
   const [country, setCountry] = useState("");
   const [webinarMode, setWebinarMode] = useState("Online");
   const [meetingLink, setMeetingLink] = useState("");
+  const [liveLink, setLiveLink] = useState("");
   const [maxSeats, setMaxSeats] = useState("100");
   const [category, setCategory] = useState("General");
   const [status, setStatus] = useState("DRAFT");
@@ -153,6 +154,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
       speakerImage, speakerBio, date, startTime: `${date}T${startTime}`,
       endTime: `${date}T${endTime}`, venue, city, state, country,
       webinarMode, meetingLink, maxSeats: Number(maxSeats), category, status,
+      liveLink: liveLink || null,
       speakerQualification, speakerSpecialization, speakerHospital,
       language, meetingPlatform, learningOutcomes, eligibility
     };
@@ -207,6 +209,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
     setCountry(webinar.country || "");
     setWebinarMode(webinar.webinarMode);
     setMeetingLink(webinar.meetingLink);
+    setLiveLink(webinar.liveLink || "");
     setMaxSeats(webinar.maxSeats.toString());
     setCategory(webinar.category);
     setStatus(webinar.status);
@@ -227,6 +230,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
       speakerImage, speakerBio, date, startTime: `${date}T${startTime}`,
       endTime: `${date}T${endTime}`, venue, city, state, country,
       webinarMode, meetingLink, maxSeats: Number(maxSeats), category, status,
+      liveLink: liveLink || null,
       speakerQualification, speakerSpecialization, speakerHospital,
       language, meetingPlatform, learningOutcomes, eligibility
     };
@@ -365,6 +369,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
     setCountry("");
     setWebinarMode("Online");
     setMeetingLink("");
+    setLiveLink("");
     setMaxSeats("100");
     setCategory("General");
     setStatus("DRAFT");
@@ -828,6 +833,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                       rows={2}
                       className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3.5 py-2 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none text-slate-800"
                     />
+                    <p className="text-[11px] text-slate-500">This summary appears with the webinar details and live stream.</p>
                   </div>
 
                   <div className="space-y-1.5">
@@ -1086,6 +1092,20 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                         className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3.5 py-2 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none text-slate-800"
                       />
                     </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-600">YouTube Live Link</label>
+                    <input
+                      type="url"
+                      value={liveLink}
+                      onChange={(e) => setLiveLink(e.target.value)}
+                      placeholder="https://www.youtube.com/live/..."
+                      className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3.5 py-2 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none text-slate-800"
+                    />
+                    <p className="text-[11px] text-slate-500">
+                      Add the YouTube stream URL when it is ready. It will play on the webinar page, with a link to open YouTube.
+                    </p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

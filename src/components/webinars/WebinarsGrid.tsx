@@ -10,8 +10,9 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import WebinarRegisterButton from "./WebinarRegisterButton";
-
 import DoctorProfileModal from "@/components/doctor/DoctorProfileModal";
+import { getYouTubeVideoId } from "@/lib/youtube";
+import { calculateWebinarDurationMinutes, formatDurationHumanReadable } from "@/lib/webinarPricing";
 
 interface Webinar {
   id: string;
@@ -33,6 +34,7 @@ interface Webinar {
   country: string | null;
   webinarMode: string;
   meetingLink: string;
+  liveLink?: string | null;
   maxSeats: number;
   category: string;
   status: string;
@@ -168,9 +170,15 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
             </motion.div>
           ) : (
             currentList.map((webinar) => {
-              const isRegistered = webinar.registrations.some(r => r.userId === currentUser?.id);
-              const remainingSeats = Math.max(webinar.maxSeats - webinar.registrations.length, 0);
-              const seatsFilledPercent = Math.min((webinar.registrations.length / webinar.maxSeats) * 100, 100);
+              const registrations = webinar.registrations ?? [];
+              const registrationCount = registrations.length;
+              const isRegistered = registrations.some(r => r.userId === currentUser?.id);
+              const seatsFilledPercent = webinar.maxSeats > 0
+                ? Math.min((registrationCount / webinar.maxSeats) * 100, 100)
+                : 0;
+              const youtubeVideoId = activeTab === "live" && webinar.liveLink
+                ? getYouTubeVideoId(webinar.liveLink)
+                : null;
 
               // Date Formats
               const dateStr = new Date(webinar.date).toLocaleDateString("en-US", {
@@ -187,10 +195,8 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                 minute: "2-digit"
               });
 
-              // Duration calculation
-              const durationMin = Math.max(
-                (new Date(webinar.endTime).getTime() - new Date(webinar.startTime).getTime()) / 60000,
-                30
+              const duration = formatDurationHumanReadable(
+                calculateWebinarDurationMinutes(webinar.startTime, webinar.endTime)
               );
 
               return (
@@ -204,7 +210,25 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                     
                     {/* Header Banner */}
                     <div className="relative h-44 w-full bg-gradient-to-br from-pink-100 via-pink-50 to-rose-100 flex items-center justify-center overflow-hidden shrink-0">
-                      {webinar.bannerImage ? (
+                      {youtubeVideoId && webinar.liveLink ? (
+                        <>
+                          <iframe
+                            src={`https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&mute=1`}
+                            title={`${webinar.title} live stream`}
+                            className="absolute inset-0 h-full w-full border-0"
+                            allow="autoplay; encrypted-media; picture-in-picture"
+                            allowFullScreen
+                          />
+                          <a
+                            href={webinar.liveLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="absolute bottom-2 right-2 z-10 rounded-lg bg-white/95 px-3 py-1.5 text-[11px] font-bold text-primary shadow-md hover:bg-white"
+                          >
+                            Watch on YouTube
+                          </a>
+                        </>
+                      ) : webinar.bannerImage ? (
                         <img
                           src={webinar.bannerImage}
                           alt={webinar.title}
@@ -299,19 +323,19 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
 
                         {/* Duration & Language info */}
                         <div className="flex gap-4 text-[11px] font-bold text-slate-500 pt-0.5">
-                          <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5 text-primary shrink-0" /> {durationMin} Mins</span>
+                          <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5 text-primary shrink-0" /> {duration}</span>
                           <span className="flex items-center gap-1"><Languages className="h-3.5 w-3.5 text-primary shrink-0" /> {webinar.language || "English"}</span>
                         </div>
                       </div>
 
-                      {/* Action trigger & Seats remaining */}
+                      {/* Action trigger & portal registration count */}
                       <div className="space-y-3 pt-2">
-                        {/* Seats Capacity bar */}
+                        {/* Portal registration count; external form submissions are not available here. */}
                         {activeTab !== "completed" && (
                           <div className="space-y-1.5 text-[11px] font-bold text-slate-500">
                             <div className="flex justify-between">
-                              <span>Seats remaining: <strong className="text-slate-800">{remainingSeats}</strong> / {webinar.maxSeats}</span>
-                              <span>{seatsFilledPercent.toFixed(0)}% filled</span>
+                              <span>Portal registrations: <strong className="text-slate-800">{registrationCount}</strong> / {webinar.maxSeats}</span>
+                              <span>{seatsFilledPercent.toFixed(0)}% registered</span>
                             </div>
                             <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
                               <div 
@@ -336,6 +360,15 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                             <span className="inline-flex items-center justify-center gap-1 px-4 py-2 bg-slate-100 text-slate-500 border border-slate-200 font-bold rounded-xl text-xs select-none flex-1 text-center">
                               Ended
                             </span>
+                          ) : activeTab === "live" && webinar.liveLink ? (
+                            <a
+                              href={webinar.liveLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 inline-flex items-center justify-center bg-primary hover:bg-primary/95 text-white rounded-xl text-xs font-bold py-2.5 h-auto"
+                            >
+                              Watch Live Stream
+                            </a>
                           ) : isRegistered ? (
                             <Link href={activeTab === "live" ? `/webinars/${webinar.id}/join` : `/dashboard`} className="flex-1">
                               <Button 

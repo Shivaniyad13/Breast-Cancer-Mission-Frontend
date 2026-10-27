@@ -9,6 +9,7 @@ import { Clock, ShieldCheck, Video, AlertCircle } from "lucide-react";
 interface WebinarJoinWidgetProps {
   webinarId: string;
   webinarTitle: string;
+  liveLink?: string | null;
   startTimeStr: string;
   endTimeStr: string;
   isRegistered: boolean;
@@ -24,6 +25,7 @@ interface WebinarJoinWidgetProps {
 export default function WebinarJoinWidget({
   webinarId,
   webinarTitle,
+  liveLink,
   startTimeStr,
   endTimeStr,
   isRegistered,
@@ -37,7 +39,7 @@ export default function WebinarJoinWidget({
   const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number } | null>(null);
   const [isLive, setIsLive] = useState(false);
   const [isPast, setIsPast] = useState(false);
-  // isPending state removed since registration is managed by WebinarRegisterButton
+  const [hasCheckedTime, setHasCheckedTime] = useState(false);
 
   useEffect(() => {
     const checkTime = () => {
@@ -62,6 +64,7 @@ export default function WebinarJoinWidget({
         
         setTimeLeft({ hours: diffHours, minutes: diffMinutes, seconds: diffSeconds });
       }
+      setHasCheckedTime(true);
     };
 
     checkTime();
@@ -69,7 +72,13 @@ export default function WebinarJoinWidget({
     return () => clearInterval(interval);
   }, [startTimeStr, endTimeStr]);
 
-  // handleRegister removed (replaced by WebinarRegisterButton client component)
+  if (!hasCheckedTime) {
+    return (
+      <div className="bg-pink-50/50 border border-pink-100 rounded-2xl p-6 text-center shadow-sm">
+        <p className="text-sm font-semibold text-slate-600">Checking webinar status...</p>
+      </div>
+    );
+  }
 
   const handleJoin = () => {
     if (!isLoggedIn) {
@@ -80,6 +89,34 @@ export default function WebinarJoinWidget({
   };
 
   if (!isRegistered && !isPast) {
+    if (isLive) {
+      return (
+        <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-6 text-center space-y-4 shadow-sm">
+          <div className="flex justify-center text-emerald-500">
+            <Video className="h-10 w-10 stroke-[1.5]" />
+          </div>
+          <div>
+            <h3 className="font-heading text-lg font-bold text-emerald-800">Webinar is Live!</h3>
+            <p className="text-xs text-emerald-600 mt-1 max-w-sm mx-auto">
+              Registration is closed while this webinar is live.
+            </p>
+          </div>
+          {liveLink ? (
+            <a
+              href={liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-md transition-colors hover:bg-emerald-700"
+            >
+              Watch Live on YouTube
+            </a>
+          ) : (
+            <p className="text-xs font-semibold text-slate-500">The live stream link is not available yet.</p>
+          )}
+        </div>
+      );
+    }
+
     return (
       <div className="bg-pink-50/50 border border-pink-100 rounded-2xl p-6 text-center space-y-4 shadow-sm">
         <div className="flex justify-center text-primary">
@@ -130,12 +167,23 @@ export default function WebinarJoinWidget({
             The meeting room has opened. Click below to join the stream and track your attendance.
           </p>
         </div>
-        <Button
-          onClick={handleJoin}
-          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition-all "
-        >
-          Join Live Webinar
-        </Button>
+        {liveLink ? (
+          <a
+            href={liveLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-md transition-colors hover:bg-emerald-700"
+          >
+            Watch Live on YouTube
+          </a>
+        ) : (
+          <Button
+            onClick={handleJoin}
+            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition-all "
+          >
+            Join Live Webinar
+          </Button>
+        )}
       </div>
     );
   }

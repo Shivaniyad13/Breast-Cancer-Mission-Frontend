@@ -249,6 +249,12 @@ export default function Navbar() {
               <Link href="/contact" className="text-sm font-medium text-slate-600 transition-colors hover:text-pink-700">Contact</Link>
             </>
           )}
+          <Link
+            href="/webinars"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-pink-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-pink-700 motion-reduce:animate-none animate-pulse"
+          >
+            Join Webinar
+          </Link>
         </nav>
 
         {/* Right — Auth */}

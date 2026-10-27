@@ -14,6 +14,9 @@ import {
   ArrowRight,
   BookOpen,
   Radio,
+  Timer,
+  CheckCircle,
+  Play,
 } from "lucide-react";
 
 export const revalidate = 0; // Dynamic so newly submitted stories appear immediately
@@ -22,6 +25,16 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full min-h-screen overflow-x-hidden">
       <HomeBanner />
+      <div className="flex justify-center px-4 py-4 sm:py-5">
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdQ8wrh2SRpPUxF6GOginPFVeSPIDeIoiNq8trduB5IOPAmJw/viewform"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex h-11 items-center justify-center rounded-lg bg-pink-600 px-8 text-sm font-bold text-white shadow-sm transition-colors hover:bg-pink-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
+        >
+          Register for Delhi University Abhiyan
+        </a>
+      </div>
 
       {/* ============ HERO SECTION ============ */}
       <section className="relative overflow-hidden pt-2 sm:pt-4 md:pt-6 lg:pt-8 pb-10 md:pb-14 lg:pb-20 min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center">
@@ -92,6 +105,73 @@ export default function Home() {
             <div className="hidden md:block md:col-span-3">
               <CelebrityTestimonials />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ BREAST SELF-EXAMINATION GUIDE ============ */}
+      <section className="bg-gradient-to-b from-pink-50/60 via-white to-white py-12 sm:py-16">
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mb-8 max-w-3xl space-y-3 text-center sm:mb-10">
+            <span className="inline-flex items-center gap-2 rounded-full border border-pink-200 bg-pink-100 px-3 py-1 text-xs font-bold text-pink-700">
+              <Timer className="h-4 w-4" />
+              Cancer Mukt Bharat Abhiyan
+            </span>
+            <h2 className="font-heading text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl md:text-4xl">
+              Breast Self-Examination Guide
+            </h2>
+            <p className="text-sm leading-relaxed text-slate-600 sm:text-base">
+              Learn the basic steps of becoming familiar with your body and noticing changes. This guide is for awareness and does not replace professional medical advice or screening.
+            </p>
+          </div>
+
+          <div className="grid items-start gap-6 lg:grid-cols-5 lg:gap-8">
+            <div className="overflow-hidden rounded-2xl border border-pink-100 bg-slate-950 shadow-md lg:col-span-3">
+              <div className="flex items-center gap-2 bg-white px-4 py-3">
+                <Play className="h-4 w-4 fill-primary text-primary" />
+                <h3 className="text-sm font-bold text-slate-800">BSE Video Guide</h3>
+              </div>
+              <video
+                src="https://res.cloudinary.com/cmqbtzgw/video/upload/v1789020972/euhbbZb3sNXxgOi6g2MF_42G6uUncFHU.mp4"
+                controls
+                playsInline
+                preload="metadata"
+                className="aspect-video w-full object-contain"
+              />
+            </div>
+
+            <div className="space-y-3 lg:col-span-2">
+              {[
+                { title: "Visual inspection", detail: "Look in a mirror with your arms relaxed and notice visible changes in shape or skin." },
+                { title: "Arms-raised check", detail: "Raise your arms and look for changes in the breast or nipple area." },
+                { title: "Check while lying down", detail: "Use the pads of your fingers and a consistent pattern to feel each breast and underarm." },
+                { title: "Check while standing", detail: "Repeat a gentle, systematic check while standing or in the shower." },
+                { title: "Track changes", detail: "Note changes and contact a healthcare professional if you notice something unusual." },
+              ].map((step, index) => (
+                <div key={step.title} className="flex gap-3 rounded-xl border border-pink-100 bg-white p-3.5 shadow-sm">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-pink-100 text-xs font-bold text-primary">
+                    {index + 1}
+                  </span>
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-bold text-slate-800">{step.title}</h3>
+                    <p className="text-xs leading-relaxed text-slate-600">{step.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-7 flex flex-col items-center gap-3 text-center">
+            <p className="inline-flex items-center gap-2 text-xs font-medium text-slate-600">
+              <CheckCircle className="h-4 w-4 text-emerald-600" />
+              For step-by-step instructions and the interactive timer, open the full guide.
+            </p>
+            <Link href="/learn/bse-guide">
+              <Button className="bg-pink-600 font-semibold text-white shadow-sm hover:bg-pink-700">
+                Open Interactive BSE Guide
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -184,6 +264,15 @@ export default function Home() {
               Guided self-exam timers, interactive quizzes, and medical articles
               written by licensed oncologists.
             </p>
+            <Link href="/learn/bse-guide" className="w-full">
+              <Button
+                variant="outline"
+                className="w-full border-pink-200 text-pink-700 hover:bg-pink-50 font-semibold"
+              >
+                Learn Breast Self-Examination
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
 
           <div className="p-6 rounded-2xl border border-pink-100 bg-white shadow-sm hover:shadow-md hover:border-pink-200 transition-[box-shadow,border-color] duration-200 flex flex-col space-y-3 sm:space-y-4">
