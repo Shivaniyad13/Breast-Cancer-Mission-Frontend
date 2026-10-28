@@ -16,6 +16,7 @@ interface WebinarMeetingPlayerProps {
   speakerName: string;
   meetingLink: string;
   liveLink?: string | null;
+  meetingPlatform?: string | null;
 }
 
 export default function WebinarMeetingPlayer({
@@ -24,6 +25,7 @@ export default function WebinarMeetingPlayer({
   speakerName,
   meetingLink,
   liveLink,
+  meetingPlatform,
 }: WebinarMeetingPlayerProps) {
   const router = useRouter();
   
@@ -158,6 +160,12 @@ export default function WebinarMeetingPlayer({
 
   const streamLink = liveLink || meetingLink;
   const youtubeId = getYouTubeVideoId(streamLink);
+  const streamLinkLowerCase = streamLink.toLowerCase();
+  const streamPlatform = streamLinkLowerCase.includes("zoom")
+    ? "Zoom"
+    : streamLinkLowerCase.includes("meet.google")
+      ? "Google Meet"
+      : meetingPlatform || "external platform";
 
   const handleLaunchExternal = () => {
     window.open(streamLink, "_blank", "noopener,noreferrer");
@@ -229,7 +237,7 @@ export default function WebinarMeetingPlayer({
                   </a>
                 </>
               ) : (
-                // Zoom or Google Meet landing launcher
+                // External meeting platform launcher
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-6 space-y-6 text-center bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900">
                   <div className="relative h-20 w-20 flex items-center justify-center bg-pink-500/10 border border-pink-500/30 rounded-2xl animate-pulse">
                     <Video className="h-10 w-10 text-primary" />
@@ -238,7 +246,7 @@ export default function WebinarMeetingPlayer({
                   <div className="space-y-2.5 max-w-md">
                     <h3 className="text-xl font-bold text-white ">Launch External Stream</h3>
                     <p className="text-xs text-slate-400 leading-relaxed font-medium">
-                      This webinar meeting is conducted via <strong className="text-pink-300 ">{meetingLink.includes("zoom") ? "Zoom" : meetingLink.includes("meet.google") ? "Google Meet" : "External Platform"}</strong>. Click below to launch the video room.
+                      This webinar meeting is conducted via <strong className="text-pink-300 ">{streamPlatform}</strong>. Click below to launch the video room.
                     </p>
                   </div>
 

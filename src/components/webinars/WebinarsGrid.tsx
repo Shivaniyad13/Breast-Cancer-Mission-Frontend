@@ -360,14 +360,14 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                             <span className="inline-flex items-center justify-center gap-1 px-4 py-2 bg-slate-100 text-slate-500 border border-slate-200 font-bold rounded-xl text-xs select-none flex-1 text-center">
                               Ended
                             </span>
-                          ) : activeTab === "live" && webinar.liveLink ? (
+                          ) : activeTab === "live" && webinar.liveLink && !isRegistered ? (
                             <a
                               href={webinar.liveLink}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="flex-1 inline-flex items-center justify-center bg-primary hover:bg-primary/95 text-white rounded-xl text-xs font-bold py-2.5 h-auto"
                             >
-                              Watch Live Stream
+                              Open Live Webinar
                             </a>
                           ) : isRegistered ? (
                             <Link href={activeTab === "live" ? `/webinars/${webinar.id}/join` : `/dashboard`} className="flex-1">

@@ -108,7 +108,7 @@ export default function WebinarJoinWidget({
               rel="noopener noreferrer"
               className="inline-flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-md transition-colors hover:bg-emerald-700"
             >
-              Watch Live on YouTube
+              Open Live Webinar
             </a>
           ) : (
             <p className="text-xs font-semibold text-slate-500">The live stream link is not available yet.</p>
@@ -167,23 +167,12 @@ export default function WebinarJoinWidget({
             The meeting room has opened. Click below to join the stream and track your attendance.
           </p>
         </div>
-        {liveLink ? (
-          <a
-            href={liveLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-md transition-colors hover:bg-emerald-700"
-          >
-            Watch Live on YouTube
-          </a>
-        ) : (
-          <Button
-            onClick={handleJoin}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition-all "
-          >
-            Join Live Webinar
-          </Button>
-        )}
+        <Button
+          onClick={handleJoin}
+          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md transition-all "
+        >
+          Join Live Webinar
+        </Button>
       </div>
     );
   }

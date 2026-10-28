@@ -1077,6 +1077,8 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                         <option value="Zoom">Zoom</option>
                         <option value="Google Meet">Google Meet</option>
                         <option value="YouTube Live">YouTube Live</option>
+                        <option value="Microsoft Teams">Microsoft Teams</option>
+                        <option value="Webex">Webex</option>
                         <option value="Other">Other</option>
                       </select>
                     </div>
@@ -1095,16 +1097,16 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-600">YouTube Live Link</label>
+                    <label className="text-xs font-bold text-slate-600">Live Stream / Meeting Link</label>
                     <input
                       type="url"
                       value={liveLink}
                       onChange={(e) => setLiveLink(e.target.value)}
-                      placeholder="https://www.youtube.com/live/..."
+                      placeholder="https://..."
                       className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3.5 py-2 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none text-slate-800"
                     />
                     <p className="text-[11px] text-slate-500">
-                      Add the YouTube stream URL when it is ready. It will play on the webinar page, with a link to open YouTube.
+                      Add a public live stream or meeting URL from YouTube, Zoom, Google Meet, Teams, Webex, or another provider.
                     </p>
                   </div>
 
