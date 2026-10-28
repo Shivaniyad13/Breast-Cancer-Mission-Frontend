@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { getWebinarById } from "@/app/actions/webinars";
 import WebinarMeetingPlayer from "@/components/webinars/WebinarMeetingPlayer";
-import { getWebinarLiveLinks } from "@/lib/webinarLiveLinks";
 import { redirect, notFound } from "next/navigation";
 
 export const revalidate = 0; // Dynamic rendering
@@ -37,7 +36,7 @@ export default async function JoinWebinarPage({ params }: JoinWebinarPageProps) 
       speakerName={webinar.speakerName}
       meetingLink={webinar.meetingLink}
       liveLink={webinar.liveLink}
-      platformLiveLinks={getWebinarLiveLinks(webinar)}
+      meetingPlatform={webinar.meetingPlatform}
     />
   );
 }

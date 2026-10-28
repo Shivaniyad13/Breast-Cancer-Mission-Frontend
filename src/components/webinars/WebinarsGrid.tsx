@@ -13,8 +13,6 @@ import WebinarRegisterButton from "./WebinarRegisterButton";
 import DoctorProfileModal from "@/components/doctor/DoctorProfileModal";
 import { getYouTubeVideoId } from "@/lib/youtube";
 import { calculateWebinarDurationMinutes, formatDurationHumanReadable } from "@/lib/webinarPricing";
-import { getWebinarLiveLinks } from "@/lib/webinarLiveLinks";
-import WebinarLivePlatformLinks from "@/components/webinars/WebinarLivePlatformLinks";
 
 interface Webinar {
   id: string;
@@ -37,8 +35,6 @@ interface Webinar {
   webinarMode: string;
   meetingLink: string;
   liveLink?: string | null;
-  googleMeetLink?: string | null;
-  zoomLink?: string | null;
   maxSeats: number;
   category: string;
   status: string;
@@ -180,10 +176,8 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
               const seatsFilledPercent = webinar.maxSeats > 0
                 ? Math.min((registrationCount / webinar.maxSeats) * 100, 100)
                 : 0;
-              const platformLiveLinks = getWebinarLiveLinks(webinar);
-              const youtubeLiveLink = platformLiveLinks.find((link) => link.platform === "YouTube Live");
-              const youtubeVideoId = activeTab === "live" && youtubeLiveLink
-                ? getYouTubeVideoId(youtubeLiveLink.url)
+              const youtubeVideoId = activeTab === "live" && webinar.liveLink
+                ? getYouTubeVideoId(webinar.liveLink)
                 : null;
 
               // Date Formats
@@ -216,7 +210,7 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                     
                     {/* Header Banner */}
                     <div className="relative h-44 w-full bg-gradient-to-br from-pink-100 via-pink-50 to-rose-100 flex items-center justify-center overflow-hidden shrink-0">
-                      {youtubeVideoId && youtubeLiveLink ? (
+                      {youtubeVideoId && webinar.liveLink ? (
                         <>
                           <iframe
                             src={`https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&mute=1`}
@@ -226,7 +220,7 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                             allowFullScreen
                           />
                           <a
-                            href={youtubeLiveLink.url}
+                            href={webinar.liveLink}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="absolute bottom-2 right-2 z-10 rounded-lg bg-white/95 px-3 py-1.5 text-[11px] font-bold text-primary shadow-md hover:bg-white"
@@ -366,8 +360,15 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                             <span className="inline-flex items-center justify-center gap-1 px-4 py-2 bg-slate-100 text-slate-500 border border-slate-200 font-bold rounded-xl text-xs select-none flex-1 text-center">
                               Ended
                             </span>
-                          ) : activeTab === "live" && platformLiveLinks.length > 0 ? (
-                            <WebinarLivePlatformLinks links={platformLiveLinks} className="flex-1" compact />
+                          ) : activeTab === "live" && webinar.liveLink && !isRegistered ? (
+                            <a
+                              href={webinar.liveLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 inline-flex items-center justify-center bg-primary hover:bg-primary/95 text-white rounded-xl text-xs font-bold py-2.5 h-auto"
+                            >
+                              Open Live Webinar
+                            </a>
                           ) : isRegistered ? (
                             <Link href={activeTab === "live" ? `/webinars/${webinar.id}/join` : `/dashboard`} className="flex-1">
                               <Button 

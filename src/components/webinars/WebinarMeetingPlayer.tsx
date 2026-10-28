@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import { joinWebinarAction, leaveWebinarAction } from "@/app/actions/webinars";
 import { Button } from "@/components/ui/button";
 import { getYouTubeVideoId } from "@/lib/youtube";
-import WebinarLivePlatformLinks from "@/components/webinars/WebinarLivePlatformLinks";
-import type { WebinarLiveLink } from "@/lib/webinarLiveLinks";
 import { 
   Video, VideoOff, Mic, MicOff, PhoneOff, MessageSquare, Users, 
   Settings, Award, Loader2, Sparkles, Send, ShieldCheck, ExternalLink, AlertTriangle 
@@ -18,7 +16,7 @@ interface WebinarMeetingPlayerProps {
   speakerName: string;
   meetingLink: string;
   liveLink?: string | null;
-  platformLiveLinks: WebinarLiveLink[];
+  meetingPlatform?: string | null;
 }
 
 export default function WebinarMeetingPlayer({
@@ -27,7 +25,7 @@ export default function WebinarMeetingPlayer({
   speakerName,
   meetingLink,
   liveLink,
-  platformLiveLinks,
+  meetingPlatform,
 }: WebinarMeetingPlayerProps) {
   const router = useRouter();
   
@@ -160,8 +158,14 @@ export default function WebinarMeetingPlayer({
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const streamLink = platformLiveLinks[0]?.url || liveLink || meetingLink;
+  const streamLink = liveLink || meetingLink;
   const youtubeId = getYouTubeVideoId(streamLink);
+  const streamLinkLowerCase = streamLink.toLowerCase();
+  const streamPlatform = streamLinkLowerCase.includes("zoom")
+    ? "Zoom"
+    : streamLinkLowerCase.includes("meet.google")
+      ? "Google Meet"
+      : meetingPlatform || "external platform";
 
   const handleLaunchExternal = () => {
     window.open(streamLink, "_blank", "noopener,noreferrer");
@@ -233,7 +237,7 @@ export default function WebinarMeetingPlayer({
                   </a>
                 </>
               ) : (
-                // Zoom or Google Meet landing launcher
+                // External meeting platform launcher
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-6 space-y-6 text-center bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900">
                   <div className="relative h-20 w-20 flex items-center justify-center bg-pink-500/10 border border-pink-500/30 rounded-2xl animate-pulse">
                     <Video className="h-10 w-10 text-primary" />
@@ -242,7 +246,7 @@ export default function WebinarMeetingPlayer({
                   <div className="space-y-2.5 max-w-md">
                     <h3 className="text-xl font-bold text-white ">Launch External Stream</h3>
                     <p className="text-xs text-slate-400 leading-relaxed font-medium">
-                      This webinar meeting is conducted via <strong className="text-pink-300 ">{meetingLink.includes("zoom") ? "Zoom" : meetingLink.includes("meet.google") ? "Google Meet" : "External Platform"}</strong>. Click below to launch the video room.
+                      This webinar meeting is conducted via <strong className="text-pink-300 ">{streamPlatform}</strong>. Click below to launch the video room.
                     </p>
                   </div>
 
@@ -275,7 +279,6 @@ export default function WebinarMeetingPlayer({
               <span className="h-2 w-2 rounded-full bg-emerald-500" /> Presenter: {speakerName} (Oncologist)
             </div>
           </div>
-          <WebinarLivePlatformLinks links={platformLiveLinks} className="mt-4 w-full max-w-4xl" compact />
         </div>
 
         {/* Right Side: Live Chat Feed */}
