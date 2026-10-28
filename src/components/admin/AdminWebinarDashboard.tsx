@@ -51,6 +51,8 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
   const [webinarMode, setWebinarMode] = useState("Online");
   const [meetingLink, setMeetingLink] = useState("");
   const [liveLink, setLiveLink] = useState("");
+  const [googleMeetLink, setGoogleMeetLink] = useState("");
+  const [zoomLink, setZoomLink] = useState("");
   const [maxSeats, setMaxSeats] = useState("100");
   const [category, setCategory] = useState("General");
   const [status, setStatus] = useState("DRAFT");
@@ -58,6 +60,23 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
   const [meetingPlatform, setMeetingPlatform] = useState("Zoom");
   const [learningOutcomes, setLearningOutcomes] = useState("");
   const [eligibility, setEligibility] = useState("");
+
+  const getPrimaryMeeting = () => {
+    const selectedPlatformLink = meetingPlatform === "YouTube Live"
+      ? liveLink
+      : meetingPlatform === "Google Meet"
+        ? googleMeetLink
+        : meetingPlatform === "Zoom"
+          ? zoomLink
+          : "";
+
+    if (meetingLink.trim()) return { link: meetingLink.trim(), platform: meetingPlatform };
+    if (selectedPlatformLink.trim()) return { link: selectedPlatformLink.trim(), platform: meetingPlatform };
+    if (liveLink.trim()) return { link: liveLink.trim(), platform: "YouTube Live" };
+    if (googleMeetLink.trim()) return { link: googleMeetLink.trim(), platform: "Google Meet" };
+    if (zoomLink.trim()) return { link: zoomLink.trim(), platform: "Zoom" };
+    return { link: "", platform: meetingPlatform };
+  };
 
   // Modals / Selected Items State
   const [selectedWebinar, setSelectedWebinar] = useState<any | null>(null);
@@ -148,15 +167,22 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
       alert("Please fill in all required fields.");
       return;
     }
+    if (![meetingLink, liveLink, googleMeetLink, zoomLink].some((link) => link.trim())) {
+      alert("Please add at least one live link (YouTube, Google Meet, or Zoom).");
+      return;
+    }
+    const primaryMeeting = getPrimaryMeeting();
 
     const payload = {
       title, description, fullContent, bannerImage, speakerName,
       speakerImage, speakerBio, date, startTime: `${date}T${startTime}`,
       endTime: `${date}T${endTime}`, venue, city, state, country,
-      webinarMode, meetingLink, maxSeats: Number(maxSeats), category, status,
+      webinarMode, meetingLink: primaryMeeting.link, maxSeats: Number(maxSeats), category, status,
       liveLink: liveLink || null,
+      googleMeetLink: googleMeetLink || null,
+      zoomLink: zoomLink || null,
       speakerQualification, speakerSpecialization, speakerHospital,
-      language, meetingPlatform, learningOutcomes, eligibility
+      language, meetingPlatform: primaryMeeting.platform, learningOutcomes, eligibility
     };
 
     setIsPending(true);
@@ -210,6 +236,8 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
     setWebinarMode(webinar.webinarMode);
     setMeetingLink(webinar.meetingLink);
     setLiveLink(webinar.liveLink || "");
+    setGoogleMeetLink(webinar.googleMeetLink || "");
+    setZoomLink(webinar.zoomLink || "");
     setMaxSeats(webinar.maxSeats.toString());
     setCategory(webinar.category);
     setStatus(webinar.status);
@@ -224,15 +252,22 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedWebinar) return;
+    if (![meetingLink, liveLink, googleMeetLink, zoomLink].some((link) => link.trim())) {
+      alert("Please add at least one live link (YouTube, Google Meet, or Zoom).");
+      return;
+    }
+    const primaryMeeting = getPrimaryMeeting();
 
     const payload = {
       title, description, fullContent, bannerImage, speakerName,
       speakerImage, speakerBio, date, startTime: `${date}T${startTime}`,
       endTime: `${date}T${endTime}`, venue, city, state, country,
-      webinarMode, meetingLink, maxSeats: Number(maxSeats), category, status,
+      webinarMode, meetingLink: primaryMeeting.link, maxSeats: Number(maxSeats), category, status,
       liveLink: liveLink || null,
+      googleMeetLink: googleMeetLink || null,
+      zoomLink: zoomLink || null,
       speakerQualification, speakerSpecialization, speakerHospital,
-      language, meetingPlatform, learningOutcomes, eligibility
+      language, meetingPlatform: primaryMeeting.platform, learningOutcomes, eligibility
     };
 
     setIsPending(true);
@@ -370,6 +405,8 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
     setWebinarMode("Online");
     setMeetingLink("");
     setLiveLink("");
+    setGoogleMeetLink("");
+    setZoomLink("");
     setMaxSeats("100");
     setCategory("General");
     setStatus("DRAFT");
@@ -801,7 +838,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                     <div className="space-y-1.5">
                       <label className="text-xs font-bold text-slate-600">Webinar Title *</label>
                       <input
-                        type="text"
+                        type="url"
                         required
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
@@ -1082,10 +1119,9 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-600">Meeting Room Link *</label>
+                      <label className="text-xs font-bold text-slate-600">Primary Meeting Link (optional)</label>
                       <input
-                        type="text"
-                        required
+                        type="url"
                         value={meetingLink}
                         onChange={(e) => setMeetingLink(e.target.value)}
                         placeholder="https://zoom.us/j/meeting_id"
@@ -1103,10 +1139,33 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                       placeholder="https://www.youtube.com/live/..."
                       className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3.5 py-2 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none text-slate-800"
                     />
-                    <p className="text-[11px] text-slate-500">
-                      Add the YouTube stream URL when it is ready. It will play on the webinar page, with a link to open YouTube.
-                    </p>
                   </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-600">Google Meet Live Link</label>
+                      <input
+                        type="url"
+                        value={googleMeetLink}
+                        onChange={(e) => setGoogleMeetLink(e.target.value)}
+                        placeholder="https://meet.google.com/..."
+                        className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3.5 py-2 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none text-slate-800"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-600">Zoom Live Link</label>
+                      <input
+                        type="url"
+                        value={zoomLink}
+                        onChange={(e) => setZoomLink(e.target.value)}
+                        placeholder="https://zoom.us/j/meeting_id"
+                        className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3.5 py-2 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none text-slate-800"
+                      />
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-slate-500">
+                    Add at least one live link. Links you add here will appear on the webinar page so attendees can choose where to join.
+                  </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="space-y-1.5">

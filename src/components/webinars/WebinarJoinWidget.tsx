@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import WebinarRegisterButton from "@/components/webinars/WebinarRegisterButton";
+import WebinarLivePlatformLinks from "@/components/webinars/WebinarLivePlatformLinks";
 import { Clock, ShieldCheck, Video, AlertCircle } from "lucide-react";
+import type { WebinarLiveLink } from "@/lib/webinarLiveLinks";
 
 interface WebinarJoinWidgetProps {
   webinarId: string;
   webinarTitle: string;
-  liveLink?: string | null;
+  platformLiveLinks: WebinarLiveLink[];
   startTimeStr: string;
   endTimeStr: string;
   isRegistered: boolean;
@@ -25,7 +27,7 @@ interface WebinarJoinWidgetProps {
 export default function WebinarJoinWidget({
   webinarId,
   webinarTitle,
-  liveLink,
+  platformLiveLinks,
   startTimeStr,
   endTimeStr,
   isRegistered,
@@ -101,15 +103,8 @@ export default function WebinarJoinWidget({
               Registration is closed while this webinar is live.
             </p>
           </div>
-          {liveLink ? (
-            <a
-              href={liveLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-md transition-colors hover:bg-emerald-700"
-            >
-              Watch Live on YouTube
-            </a>
+          {platformLiveLinks.length > 0 ? (
+            <WebinarLivePlatformLinks links={platformLiveLinks} className="justify-center" compact />
           ) : (
             <p className="text-xs font-semibold text-slate-500">The live stream link is not available yet.</p>
           )}
@@ -167,15 +162,8 @@ export default function WebinarJoinWidget({
             The meeting room has opened. Click below to join the stream and track your attendance.
           </p>
         </div>
-        {liveLink ? (
-          <a
-            href={liveLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-bold text-white shadow-md transition-colors hover:bg-emerald-700"
-          >
-            Watch Live on YouTube
-          </a>
+        {platformLiveLinks.length > 0 ? (
+          <WebinarLivePlatformLinks links={platformLiveLinks} className="justify-center" compact />
         ) : (
           <Button
             onClick={handleJoin}

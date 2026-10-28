@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { joinWebinarAction, leaveWebinarAction } from "@/app/actions/webinars";
 import { Button } from "@/components/ui/button";
 import { getYouTubeVideoId } from "@/lib/youtube";
+import WebinarLivePlatformLinks from "@/components/webinars/WebinarLivePlatformLinks";
+import type { WebinarLiveLink } from "@/lib/webinarLiveLinks";
 import { 
   Video, VideoOff, Mic, MicOff, PhoneOff, MessageSquare, Users, 
   Settings, Award, Loader2, Sparkles, Send, ShieldCheck, ExternalLink, AlertTriangle 
@@ -16,6 +18,7 @@ interface WebinarMeetingPlayerProps {
   speakerName: string;
   meetingLink: string;
   liveLink?: string | null;
+  platformLiveLinks: WebinarLiveLink[];
 }
 
 export default function WebinarMeetingPlayer({
@@ -24,6 +27,7 @@ export default function WebinarMeetingPlayer({
   speakerName,
   meetingLink,
   liveLink,
+  platformLiveLinks,
 }: WebinarMeetingPlayerProps) {
   const router = useRouter();
   
@@ -156,7 +160,7 @@ export default function WebinarMeetingPlayer({
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const streamLink = liveLink || meetingLink;
+  const streamLink = platformLiveLinks[0]?.url || liveLink || meetingLink;
   const youtubeId = getYouTubeVideoId(streamLink);
 
   const handleLaunchExternal = () => {
@@ -271,6 +275,7 @@ export default function WebinarMeetingPlayer({
               <span className="h-2 w-2 rounded-full bg-emerald-500" /> Presenter: {speakerName} (Oncologist)
             </div>
           </div>
+          <WebinarLivePlatformLinks links={platformLiveLinks} className="mt-4 w-full max-w-4xl" compact />
         </div>
 
         {/* Right Side: Live Chat Feed */}

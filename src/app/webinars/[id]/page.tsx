@@ -3,13 +3,15 @@ import { getWebinarById } from "@/app/actions/webinars";
 import WebinarJoinWidget from "@/components/webinars/WebinarJoinWidget";
 import { 
   Calendar, Clock, MapPin, Users, Award, ShieldCheck, 
-  Video, Globe, ChevronRight, HelpCircle, Info, Stethoscope
+  Globe, ChevronRight, HelpCircle, Info, Stethoscope
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { getYouTubeVideoId } from "@/lib/youtube";
 import { calculateWebinarDurationMinutes, formatDurationHumanReadable } from "@/lib/webinarPricing";
+import { getWebinarLiveLinks } from "@/lib/webinarLiveLinks";
+import WebinarLivePlatformLinks from "@/components/webinars/WebinarLivePlatformLinks";
 
 export const revalidate = 0; // Dynamic rendering
 
@@ -31,7 +33,12 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
 
   const isRegistered = (webinar.registrations || []).some((r: any) => r.userId === userId);
   const registrationCount = webinar.registrations?.length || 0;
-  const liveYoutubeVideoId = webinar.liveLink ? getYouTubeVideoId(webinar.liveLink) : null;
+  const platformLiveLinks = getWebinarLiveLinks(webinar);
+  const youtubeLiveLink = platformLiveLinks.find((link) => link.platform === "YouTube Live");
+  const liveYoutubeVideoId = youtubeLiveLink ? getYouTubeVideoId(youtubeLiveLink.url) : null;
+  const isLive = new Date() >= new Date(webinar.startTime)
+    && new Date() <= new Date(webinar.endTime)
+    && webinar.status === "PUBLISHED";
 
   // Format Dates
   const startDateTime = new Date(webinar.startTime);
@@ -104,31 +111,26 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
           </div>
         </div>
 
-        {liveYoutubeVideoId && webinar.liveLink && new Date() >= new Date(webinar.startTime) && new Date() <= new Date(webinar.endTime) && webinar.status === "PUBLISHED" && (
+        {isLive && platformLiveLinks.length > 0 && (
           <section className="rounded-2xl border border-pink-100 bg-white p-5 shadow-sm space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 className="font-heading text-lg font-bold text-slate-800">Watch Live Webinar</h2>
                 <p className="mt-1 text-sm text-slate-600">{webinar.description}</p>
               </div>
-              <a
-                href={webinar.liveLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white hover:bg-primary/90"
-              >
-                Open on YouTube <Video className="h-4 w-4" />
-              </a>
+              <WebinarLivePlatformLinks links={platformLiveLinks} />
             </div>
-            <div className="relative aspect-video overflow-hidden rounded-xl bg-slate-950">
-              <iframe
-                src={`https://www.youtube.com/embed/${liveYoutubeVideoId}?autoplay=1&mute=1`}
-                title={`${webinar.title} live stream`}
-                className="absolute inset-0 h-full w-full border-0"
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
+            {liveYoutubeVideoId && (
+              <div className="relative aspect-video overflow-hidden rounded-xl bg-slate-950">
+                <iframe
+                  src={`https://www.youtube.com/embed/${liveYoutubeVideoId}?autoplay=1&mute=1`}
+                  title={`${webinar.title} live stream`}
+                  className="absolute inset-0 h-full w-full border-0"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            )}
           </section>
         )}
 
@@ -279,7 +281,7 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
             <WebinarJoinWidget
               webinarId={webinar.id}
               webinarTitle={webinar.title}
-              liveLink={webinar.liveLink}
+              platformLiveLinks={platformLiveLinks}
               startTimeStr={startDateTime.toISOString()}
               endTimeStr={endDateTime.toISOString()}
               isRegistered={isRegistered}
