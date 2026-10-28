@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { formatWebinarTime } from "@/lib/webinarDateTime";
 import { redirect } from "next/navigation";
 import { apiClient } from "@/lib/apiClient";
 import { Button } from "@/components/ui/button";
@@ -301,7 +302,7 @@ export default async function DashboardPage() {
     if (timeDiffMs > 0 && timeDiffMs < oneDayMs) {
       notifications.push({
         title: "Reminder: 24 Hours Left",
-        message: `"${r.webinar.title}" will start in less than 24 hours at ${start.toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' })}.`,
+        message: `"${r.webinar.title}" will start in less than 24 hours at ${formatWebinarTime(start)}.`,
         date: new Date(start.getTime() - oneDayMs),
         type: "WARNING"
       });

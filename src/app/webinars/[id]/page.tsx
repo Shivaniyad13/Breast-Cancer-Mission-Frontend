@@ -12,6 +12,7 @@ import { getYouTubeVideoId } from "@/lib/youtube";
 import { calculateWebinarDurationMinutes, formatDurationHumanReadable } from "@/lib/webinarPricing";
 import { getWebinarLiveLinks } from "@/lib/webinarLiveLinks";
 import WebinarLivePlatformLinks from "@/components/webinars/WebinarLivePlatformLinks";
+import { formatWebinarTime, WEBINAR_TIME_ZONE } from "@/lib/webinarDateTime";
 
 export const revalidate = 0; // Dynamic rendering
 
@@ -48,15 +49,10 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
     day: "numeric",
     month: "long",
     year: "numeric",
+    timeZone: WEBINAR_TIME_ZONE,
   });
-  const startTimeStr = startDateTime.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  const endTimeStr = endDateTime.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const startTimeStr = formatWebinarTime(startDateTime);
+  const endTimeStr = formatWebinarTime(endDateTime);
   const duration = formatDurationHumanReadable(
     calculateWebinarDurationMinutes(startDateTime, endDateTime)
   );
@@ -296,7 +292,7 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
               <div className="space-y-3.5">
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Date</span>
-                  <span className="font-bold text-slate-800">{new Date(webinar.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                  <span className="font-bold text-slate-800">{new Date(webinar.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: WEBINAR_TIME_ZONE })}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Timing</span>

@@ -13,6 +13,7 @@ import WebinarRegisterButton from "./WebinarRegisterButton";
 import DoctorProfileModal from "@/components/doctor/DoctorProfileModal";
 import { getYouTubeVideoId } from "@/lib/youtube";
 import { calculateWebinarDurationMinutes, formatDurationHumanReadable } from "@/lib/webinarPricing";
+import { formatWebinarTime, WEBINAR_TIME_ZONE } from "@/lib/webinarDateTime";
 
 interface Webinar {
   id: string;
@@ -184,16 +185,11 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
               const dateStr = new Date(webinar.date).toLocaleDateString("en-US", {
                 day: "numeric",
                 month: "short",
-                year: "numeric"
+                year: "numeric",
+                timeZone: WEBINAR_TIME_ZONE,
               });
-              const startTimeStr = new Date(webinar.startTime).toLocaleTimeString("en-US", {
-                hour: "2-digit",
-                minute: "2-digit"
-              });
-              const endTimeStr = new Date(webinar.endTime).toLocaleTimeString("en-US", {
-                hour: "2-digit",
-                minute: "2-digit"
-              });
+              const startTimeStr = formatWebinarTime(webinar.startTime);
+              const endTimeStr = formatWebinarTime(webinar.endTime);
 
               const duration = formatDurationHumanReadable(
                 calculateWebinarDurationMinutes(webinar.startTime, webinar.endTime)

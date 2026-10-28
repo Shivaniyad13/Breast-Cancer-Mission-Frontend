@@ -18,6 +18,10 @@ import { resubmitDoctorVerificationAction } from "@/app/actions/doctor";
 import { calculateWebinarDurationMinutes, calculateMinimumAllowedPrice, formatDurationHumanReadable } from "@/lib/webinarPricing";
 import Link from "next/link";
 import DoctorProfileModal from "./DoctorProfileModal";
+import {
+  getWebinarDateInputValue,
+  toWebinarDateTimeISOString,
+} from "@/lib/webinarDateTime";
 
 interface DoctorDashboardProps {
   initialData: {
@@ -87,8 +91,8 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
   });
 
   // Dynamic live pricing & duration calculation
-  const startDateTimeStr = `${webinarForm.date}T${webinarForm.startTime || "10:00"}:00`;
-  const endDateTimeStr = `${webinarForm.date}T${webinarForm.endTime || "11:00"}:00`;
+  const startDateTimeStr = toWebinarDateTimeISOString(webinarForm.date, webinarForm.startTime || "10:00");
+  const endDateTimeStr = toWebinarDateTimeISOString(webinarForm.date, webinarForm.endTime || "11:00");
   const calculatedDuration = calculateWebinarDurationMinutes(startDateTimeStr, endDateTimeStr);
   const platformMinimumPrice = calculateMinimumAllowedPrice(calculatedDuration);
   const humanDurationStr = formatDurationHumanReadable(calculatedDuration);
@@ -280,7 +284,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
   // ----------------WEBINAR HANDLERS----------------
   const openNewWebinarModal = () => {
     setEditingWebinar(null);
-    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0];
+    const tomorrow = getWebinarDateInputValue(new Date(Date.now() + 24 * 60 * 60 * 1000));
     setWebinarForm({
       title: "",
       description: "",
@@ -301,7 +305,9 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
 
   const openEditWebinarModal = (webinar: any) => {
     setEditingWebinar(webinar);
-    const dateStr = webinar.rawDate ? new Date(webinar.rawDate).toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
+    const dateStr = webinar.rawDate
+      ? getWebinarDateInputValue(webinar.rawDate)
+      : getWebinarDateInputValue(new Date());
     setWebinarForm({
       title: webinar.title,
       description: webinar.description || "",

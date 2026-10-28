@@ -9,6 +9,12 @@ import {
   approveWebinarAction, rejectWebinarAction
 } from "@/app/actions/webinars";
 import { formatDurationHumanReadable } from "@/lib/webinarPricing";
+import {
+  formatWebinarTime,
+  getWebinarDateInputValue,
+  getWebinarTimeInputValue,
+  toWebinarDateTimeISOString,
+} from "@/lib/webinarDateTime";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -151,8 +157,9 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
     const payload = {
       title, description, fullContent, bannerImage, speakerName,
-      speakerImage, speakerBio, date, startTime: `${date}T${startTime}`,
-      endTime: `${date}T${endTime}`, venue, city, state, country,
+      speakerImage, speakerBio, date,
+      startTime: toWebinarDateTimeISOString(date, startTime),
+      endTime: toWebinarDateTimeISOString(date, endTime), venue, city, state, country,
       webinarMode, meetingLink, maxSeats: Number(maxSeats), category, status,
       liveLink: liveLink || null,
       speakerQualification, speakerSpecialization, speakerHospital,
@@ -188,20 +195,9 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
     setSpeakerSpecialization(webinar.speakerSpecialization || "");
     setSpeakerHospital(webinar.speakerHospital || "");
 
-    // Format Date string: yyyy-MM-dd
-    const dateObj = new Date(webinar.date);
-    const yyyy = dateObj.getFullYear();
-    const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const dd = String(dateObj.getDate()).padStart(2, "0");
-    setDate(`${yyyy}-${mm}-${dd}`);
-
-    // Format times: HH:mm
-    const formatTime = (dStr: string) => {
-      const d = new Date(dStr);
-      return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
-    };
-    setStartTime(formatTime(webinar.startTime));
-    setEndTime(formatTime(webinar.endTime));
+    setDate(getWebinarDateInputValue(webinar.date));
+    setStartTime(getWebinarTimeInputValue(webinar.startTime));
+    setEndTime(getWebinarTimeInputValue(webinar.endTime));
 
     setVenue(webinar.venue || "");
     setCity(webinar.city || "");
@@ -227,8 +223,9 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
 
     const payload = {
       title, description, fullContent, bannerImage, speakerName,
-      speakerImage, speakerBio, date, startTime: `${date}T${startTime}`,
-      endTime: `${date}T${endTime}`, venue, city, state, country,
+      speakerImage, speakerBio, date,
+      startTime: toWebinarDateTimeISOString(date, startTime),
+      endTime: toWebinarDateTimeISOString(date, endTime), venue, city, state, country,
       webinarMode, meetingLink, maxSeats: Number(maxSeats), category, status,
       liveLink: liveLink || null,
       speakerQualification, speakerSpecialization, speakerHospital,
@@ -563,8 +560,8 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 pt-1 text-[11px] text-slate-500">
-                          <div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-primary shrink-0" /> {new Date(webinar.date).toLocaleDateString("en-US")}</div>
-                          <div className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-primary shrink-0" /> {new Date(webinar.startTime).toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' })}</div>
+                          <div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-primary shrink-0" /> {new Date(webinar.date).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })}</div>
+                          <div className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-primary shrink-0" /> {formatWebinarTime(webinar.startTime)}</div>
                           <div className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-primary shrink-0" /> {webinar.city || "Online"}</div>
                           <div className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-primary shrink-0" /> {totalRegistrations} Registered</div>
                         </div>
@@ -1287,7 +1284,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                 <div><strong className="text-slate-700">Category:</strong> {reviewingWebinar?.category}</div>
                 <div><strong className="text-slate-700">Max Attendees:</strong> {reviewingWebinar?.maxSeats} Seats</div>
                 <div><strong className="text-slate-700">Scheduled Date:</strong> {reviewingWebinar?.date ? new Date(reviewingWebinar.date).toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" }) : "N/A"}</div>
-                <div><strong className="text-slate-700">Timing:</strong> {reviewingWebinar?.startTime ? new Date(reviewingWebinar.startTime).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) : "N/A"} - {reviewingWebinar?.endTime ? new Date(reviewingWebinar.endTime).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) : "N/A"}</div>
+                <div><strong className="text-slate-700">Timing:</strong> {reviewingWebinar?.startTime ? formatWebinarTime(reviewingWebinar.startTime) : "N/A"} - {reviewingWebinar?.endTime ? formatWebinarTime(reviewingWebinar.endTime) : "N/A"}</div>
                 <div><strong className="text-slate-700">Duration:</strong> {formatDurationHumanReadable(reviewingWebinar?.durationMinutes || 60)}</div>
                 <div><strong className="text-slate-700">Platform / Link:</strong> {reviewingWebinar?.meetingPlatform || "Zoom"}</div>
               </div>

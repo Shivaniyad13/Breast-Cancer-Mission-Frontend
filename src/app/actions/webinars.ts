@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { Role } from "@/types/enums";
 import { revalidatePath } from "next/cache";
 import { calculateWebinarDurationMinutes, calculateMinimumAllowedPrice } from "@/lib/webinarPricing";
+import { formatWebinarTime } from "@/lib/webinarDateTime";
 
 // Helper for admin auth
 async function requireAdmin() {
@@ -114,7 +115,7 @@ export async function editWebinarAction(id: string, data: any) {
 
     if (isScheduleChanged || isCancelled) {
       const formattedDate = newDate.toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" });
-      const formattedTime = `${newStartTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${newEndTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+      const formattedTime = `${formatWebinarTime(newStartTime)} - ${formatWebinarTime(newEndTime)}`;
       const summary = isCancelled
         ? "This webinar session has been CANCELLED by the host."
         : "The date, time schedule, or meeting link for this webinar has been updated.";
