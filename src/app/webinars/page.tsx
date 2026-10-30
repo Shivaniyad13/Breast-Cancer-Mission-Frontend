@@ -47,7 +47,7 @@ export default async function WebinarsPage({ searchParams }: WebinarsPageProps) 
       </div>
 
       {/* Filter Control Box */}
-      <WebinarFilters cities={cities} categories={categories} />
+      {/* <WebinarFilters cities={cities} categories={categories} /> */}
 
       {/* Animated Webinars Grid */}
       <WebinarsGrid webinars={webinars as any} currentUser={session?.user} />
