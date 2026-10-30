@@ -332,7 +332,7 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
                   <p>{webinar.organizerDetails}</p>
                 </>
               )}
-              <p className="font-bold text-primary mt-1">Support Desk: admin@cmba.in</p>
+              <p className="font-bold text-primary mt-1">Support Desk: admin@cmba.in, connect@cmba.in</p>
             </div>
 
           </div>
