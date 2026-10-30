@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { ShieldCheck, ShieldAlert, Award, Calendar, User, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { formatWebinarDate } from "@/lib/webinarDateTime";
 
 export const revalidate = 0; // Dynamic rendering
 
@@ -84,11 +85,11 @@ export default async function VerifyWebinarCertificatePage({ params }: VerifyPag
                   <div className="flex items-center gap-2 mt-1">
                     <Calendar className="h-5 w-5 text-pink-500 shrink-0" />
                     <p className="text-sm font-semibold text-slate-700">
-                      {cert.date ? new Date(cert.date).toLocaleDateString("en-US", {
+                      {cert.date ? formatWebinarDate(cert.date, {
                         day: "numeric",
                         month: "long",
                         year: "numeric",
-                      }) : new Date(cert.createdAt).toLocaleDateString("en-US", {
+                      }) : formatWebinarDate(cert.createdAt, {
                         day: "numeric",
                         month: "long",
                         year: "numeric",

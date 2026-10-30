@@ -23,6 +23,7 @@ import {
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { formatWebinarDate } from "@/lib/webinarDateTime";
 
 interface AnalyticsDashboardProps {
   data: {
@@ -343,7 +344,7 @@ export default function AdminAnalyticsDashboard({ data }: AnalyticsDashboardProp
                       <td className="py-3 px-4 font-bold text-slate-800">{webinar.title}</td>
                       <td className="py-3 px-4 text-slate-500">
                         {webinar.date
-                          ? new Date(webinar.date).toLocaleDateString("en-US", {
+                          ? formatWebinarDate(webinar.date, {
                               month: "short",
                               day: "numeric",
                               year: "numeric",

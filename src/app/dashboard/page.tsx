@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { formatWebinarTime } from "@/lib/webinarDateTime";
+import { formatWebinarDate, formatWebinarTime } from "@/lib/webinarDateTime";
 import { redirect } from "next/navigation";
 import { apiClient } from "@/lib/apiClient";
 import { Button } from "@/components/ui/button";
@@ -291,7 +291,7 @@ export default async function DashboardPage() {
     // 1. Registration Successful
     notifications.push({
       title: "Registration Successful",
-      message: `You are officially registered for "${r.webinar.title}". Join details will unlock on ${start.toLocaleDateString("en-US")}.`,
+      message: `You are officially registered for "${r.webinar.title}". Join details will unlock on ${formatWebinarDate(start)}.`,
       date: new Date(r.registeredAt),
       type: "SUCCESS"
     });

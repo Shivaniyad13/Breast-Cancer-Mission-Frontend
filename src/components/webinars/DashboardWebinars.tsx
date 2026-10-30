@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import WebinarCountdown from "./WebinarCountdown";
 import WebinarFeedbackForm from "./WebinarFeedbackForm";
-import { formatWebinarTime, WEBINAR_TIME_ZONE } from "@/lib/webinarDateTime";
+import { formatWebinarDate, formatWebinarTime, isSameWebinarDay } from "@/lib/webinarDateTime";
 
 interface DashboardWebinarsProps {
   registrations: any[];
@@ -34,7 +34,7 @@ export default function DashboardWebinars({
     
     let status: "live" | "today" | "upcoming" | "completed" = "upcoming";
 
-    const isSameDay = now.toDateString() === start.toDateString();
+    const isSameDay = isSameWebinarDay(now, start);
 
     if (now >= start && now <= end && webinar.status === "PUBLISHED") {
       status = "live";
@@ -170,7 +170,7 @@ export default function DashboardWebinars({
                     <h4 className="font-heading font-bold text-slate-800 text-sm line-clamp-1 group-hover:text-primary transition-colors">{webinar.title}</h4>
 
                     <div className="text-[11px] text-slate-500 space-y-1 pt-1.5 border-t border-pink-50/50">
-                      <div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-primary shrink-0" /> {start.toLocaleDateString("en-US", { timeZone: WEBINAR_TIME_ZONE })}</div>
+                      <div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-primary shrink-0" /> {formatWebinarDate(start)}</div>
                       <div className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-primary shrink-0" /> {formatWebinarTime(start)} - {formatWebinarTime(end)}</div>
                       <div className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-primary shrink-0" /> {webinar.venue || "Online"}</div>
                     </div>

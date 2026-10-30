@@ -8,6 +8,7 @@ import {
   Calendar, CheckCircle, ExternalLink, X 
 } from "lucide-react";
 import Link from "next/link";
+import { formatWebinarDate } from "@/lib/webinarDateTime";
 
 interface DoctorProfileModalProps {
   doctorIdOrId: string | null;
@@ -152,7 +153,7 @@ export default function DoctorProfileModal({ doctorIdOrId, isOpen, onClose }: Do
                           {web.title}
                         </h4>
                         <div className="flex justify-between items-center text-[11px] text-slate-400 pt-1 border-t border-slate-50">
-                          <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {new Date(web.date).toLocaleDateString()}</span>
+                          <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {formatWebinarDate(web.date)}</span>
                           <Link href={`/webinars/${web.id}`} onClick={onClose} className="text-primary font-bold hover:underline flex items-center gap-0.5">
                             View <ExternalLink className="h-2.5 w-2.5" />
                           </Link>

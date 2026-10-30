@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Calendar, Clock, MapPin, Users, Award, ShieldCheck, 
+  Calendar, Clock, MapPin, Users, Award, 
   Video, Globe, BookOpen, Languages, Landmark 
 } from "lucide-react";
 import Link from "next/link";
@@ -13,7 +13,7 @@ import WebinarRegisterButton from "./WebinarRegisterButton";
 import DoctorProfileModal from "@/components/doctor/DoctorProfileModal";
 import { getYouTubeVideoId } from "@/lib/youtube";
 import { calculateWebinarDurationMinutes, formatDurationHumanReadable } from "@/lib/webinarPricing";
-import { formatWebinarTime, WEBINAR_TIME_ZONE } from "@/lib/webinarDateTime";
+import { formatWebinarDate, formatWebinarTime } from "@/lib/webinarDateTime";
 
 interface Webinar {
   id: string;
@@ -172,21 +172,16 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
           ) : (
             currentList.map((webinar) => {
               const registrations = webinar.registrations ?? [];
-              const registrationCount = registrations.length;
               const isRegistered = registrations.some(r => r.userId === currentUser?.id);
-              const seatsFilledPercent = webinar.maxSeats > 0
-                ? Math.min((registrationCount / webinar.maxSeats) * 100, 100)
-                : 0;
               const youtubeVideoId = activeTab === "live" && webinar.liveLink
                 ? getYouTubeVideoId(webinar.liveLink)
                 : null;
 
               // Date Formats
-              const dateStr = new Date(webinar.date).toLocaleDateString("en-US", {
+              const dateStr = formatWebinarDate(webinar.date, {
                 day: "numeric",
                 month: "short",
                 year: "numeric",
-                timeZone: WEBINAR_TIME_ZONE,
               });
               const startTimeStr = formatWebinarTime(webinar.startTime);
               const endTimeStr = formatWebinarTime(webinar.endTime);
@@ -295,9 +290,6 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                               <p className="font-bold text-slate-800 leading-tight group-hover/doc:underline">
                                 {webinar.speakerName}
                               </p>
-                              <span className="text-[11px] text-emerald-600 font-bold inline-flex items-center gap-1">
-                                <ShieldCheck className="h-3 w-3" /> Verified Person
-                              </span>
                             </div>
                           </button>
                         </div>
@@ -324,24 +316,8 @@ export default function WebinarsGrid({ webinars, currentUser }: WebinarsGridProp
                         </div>
                       </div>
 
-                      {/* Action trigger & portal registration count */}
+                      {/* Action trigger */}
                       <div className="space-y-3 pt-2">
-                        {/* Portal registration count; external form submissions are not available here. */}
-                        {activeTab !== "completed" && (
-                          <div className="space-y-1.5 text-[11px] font-bold text-slate-500">
-                            <div className="flex justify-between">
-                              <span>Portal registrations: <strong className="text-slate-800">{registrationCount}</strong> / {webinar.maxSeats}</span>
-                              <span>{seatsFilledPercent.toFixed(0)}% registered</span>
-                            </div>
-                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                              <div 
-                                style={{ width: `${seatsFilledPercent}%` }}
-                                className="h-full bg-primary rounded-full transition-all duration-500"
-                              />
-                            </div>
-                          </div>
-                        )}
-
                         <div className="flex justify-between gap-2.5 pt-1">
                           <Link href={`/webinars/${webinar.id}`} className="flex-1">
                             <Button 

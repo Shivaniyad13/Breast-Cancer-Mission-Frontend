@@ -20,8 +20,10 @@ import Link from "next/link";
 import DoctorProfileModal from "./DoctorProfileModal";
 import {
   getWebinarDateInputValue,
+  getWebinarTimeInputValue,
   toWebinarDateTimeISOString,
 } from "@/lib/webinarDateTime";
+import TimePicker12Hour from "@/components/webinars/TimePicker12Hour";
 
 interface DoctorDashboardProps {
   initialData: {
@@ -313,8 +315,8 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
       description: webinar.description || "",
       category: webinar.category || "General",
       date: dateStr,
-      startTime: webinar.startTime || "14:00",
-      endTime: webinar.endTime || "15:00",
+      startTime: webinar.startTime ? getWebinarTimeInputValue(webinar.startTime) : "14:00",
+      endTime: webinar.endTime ? getWebinarTimeInputValue(webinar.endTime) : "15:00",
       webinarMode: webinar.webinarMode || "Online",
       venue: webinar.venue || "Online Room",
       meetingLink: webinar.meetingLink || "",
@@ -327,8 +329,8 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
   };
 
   const handleSaveWebinar = async () => {
-    if (!webinarForm.title || !webinarForm.date) {
-      alert("Please specify webinar title and scheduled date.");
+    if (!webinarForm.title || !webinarForm.date || !webinarForm.startTime || !webinarForm.endTime) {
+      alert("Please specify webinar title, date, and start/end times.");
       return;
     }
 
@@ -1236,7 +1238,7 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                   {humanDurationStr}
                 </span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                 <div className="space-y-1">
                   <input
                     type="date"
@@ -1246,23 +1248,28 @@ export default function DoctorDashboard({ initialData }: DoctorDashboardProps) {
                   />
                 </div>
 
-                <div className="space-y-1">
-                  <input
-                    type="time"
-                    value={webinarForm.startTime}
-                    onChange={(e) => setWebinarForm({ ...webinarForm, startTime: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none min-h-[40px]"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <input
-                    type="time"
-                    value={webinarForm.endTime}
-                    onChange={(e) => setWebinarForm({ ...webinarForm, endTime: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 focus:border-primary focus:outline-none min-h-[40px]"
-                  />
-                </div>
+                <TimePicker12Hour
+                  label="Start Time"
+                  value={webinarForm.startTime}
+                  onChange={(startTime) => setWebinarForm({ ...webinarForm, startTime })}
+                  required
+                />
+                <TimePicker12Hour
+                  label="End Time"
+                  value={webinarForm.endTime}
+                  onChange={(endTime) => setWebinarForm({ ...webinarForm, endTime })}
+                  required
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="font-bold text-[11px] sm:text-xs text-slate-500">Timezone</label>
+                <select
+                  value="Asia/Kolkata"
+                  aria-label="Webinar timezone"
+                  className="w-full px-3.5 py-2 border border-slate-200 rounded-xl text-xs sm:text-sm bg-slate-50/50 text-slate-800 min-h-[40px]"
+                >
+                  <option value="Asia/Kolkata">India Standard Time (IST, UTC+05:30)</option>
+                </select>
               </div>
             </div>
 

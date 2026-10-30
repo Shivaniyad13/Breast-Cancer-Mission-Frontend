@@ -12,7 +12,7 @@ import { getYouTubeVideoId } from "@/lib/youtube";
 import { calculateWebinarDurationMinutes, formatDurationHumanReadable } from "@/lib/webinarPricing";
 import { getWebinarLiveLinks } from "@/lib/webinarLiveLinks";
 import WebinarLivePlatformLinks from "@/components/webinars/WebinarLivePlatformLinks";
-import { formatWebinarTime, WEBINAR_TIME_ZONE } from "@/lib/webinarDateTime";
+import { formatWebinarDate, formatWebinarTime } from "@/lib/webinarDateTime";
 
 export const revalidate = 0; // Dynamic rendering
 
@@ -33,7 +33,6 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
   }
 
   const isRegistered = (webinar.registrations || []).some((r: any) => r.userId === userId);
-  const registrationCount = webinar.registrations?.length || 0;
   const platformLiveLinks = getWebinarLiveLinks(webinar);
   const youtubeLiveLink = platformLiveLinks.find((link) => link.platform === "YouTube Live");
   const liveYoutubeVideoId = youtubeLiveLink ? getYouTubeVideoId(youtubeLiveLink.url) : null;
@@ -44,12 +43,11 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
   // Format Dates
   const startDateTime = new Date(webinar.startTime);
   const endDateTime = new Date(webinar.endTime);
-  const fullDateStr = new Date(webinar.date).toLocaleDateString("en-US", {
+  const fullDateStr = formatWebinarDate(webinar.date, {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
-    timeZone: WEBINAR_TIME_ZONE,
   });
   const startTimeStr = formatWebinarTime(startDateTime);
   const endTimeStr = formatWebinarTime(endDateTime);
@@ -157,9 +155,6 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
                 <h2 className="font-heading text-lg font-bold text-slate-800 flex items-center gap-2">
                   <Stethoscope className="h-5 w-5 text-primary" /> Speaker Profile
                 </h2>
-                <span className="bg-emerald-50 text-emerald-600 border border-emerald-200 text-[11px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1">
-                  <ShieldCheck className="h-3 w-3 text-emerald-600" /> Verified Person
-                </span>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-6 items-start">
@@ -292,7 +287,7 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
               <div className="space-y-3.5">
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Date</span>
-                  <span className="font-bold text-slate-800">{new Date(webinar.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: WEBINAR_TIME_ZONE })}</span>
+                  <span className="font-bold text-slate-800">{formatWebinarDate(webinar.date, { month: "short", day: "numeric", year: "numeric" })}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Timing</span>
@@ -309,14 +304,6 @@ export default async function WebinarDetailsPage({ params }: WebinarDetailsPageP
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Platform</span>
                   <span className="font-bold text-slate-800">{webinar.meetingPlatform || "Zoom Meeting"}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400">Seats Capacity</span>
-                  <span className="font-bold text-slate-800">{webinar.maxSeats} slots</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400">Portal Registrations</span>
-                  <span className="font-bold text-slate-800">{registrationCount} / {webinar.maxSeats}</span>
                 </div>
               </div>
             </div>

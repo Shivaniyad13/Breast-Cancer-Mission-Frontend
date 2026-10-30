@@ -10,11 +10,13 @@ import {
 } from "@/app/actions/webinars";
 import { formatDurationHumanReadable } from "@/lib/webinarPricing";
 import {
+  formatWebinarDate,
   formatWebinarTime,
   getWebinarDateInputValue,
   getWebinarTimeInputValue,
   toWebinarDateTimeISOString,
 } from "@/lib/webinarDateTime";
+import TimePicker12Hour from "@/components/webinars/TimePicker12Hour";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -560,7 +562,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 pt-1 text-[11px] text-slate-500">
-                          <div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-primary shrink-0" /> {new Date(webinar.date).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })}</div>
+                          <div className="flex items-center gap-1.5"><Calendar className="h-3.5 w-3.5 text-primary shrink-0" /> {formatWebinarDate(webinar.date)}</div>
                           <div className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 text-primary shrink-0" /> {formatWebinarTime(webinar.startTime)}</div>
                           <div className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-primary shrink-0" /> {webinar.city || "Online"}</div>
                           <div className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 text-primary shrink-0" /> {totalRegistrations} Registered</div>
@@ -1011,27 +1013,18 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                       />
                     </div>
 
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-600">Start Time *</label>
-                      <input
-                        type="time"
-                        required
-                        value={startTime}
-                        onChange={(e) => setStartTime(e.target.value)}
-                        className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3.5 py-2 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none text-slate-800"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-600">End Time *</label>
-                      <input
-                        type="time"
-                        required
-                        value={endTime}
-                        onChange={(e) => setEndTime(e.target.value)}
-                        className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3.5 py-2 focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none text-slate-800"
-                      />
-                    </div>
+                    <TimePicker12Hour label="Start Time" value={startTime} onChange={setStartTime} required />
+                    <TimePicker12Hour label="End Time" value={endTime} onChange={setEndTime} required />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-600">Timezone</label>
+                    <select
+                      value="Asia/Kolkata"
+                      aria-label="Webinar timezone"
+                      className="w-full bg-pink-50/10 border border-border/80 rounded-xl px-3.5 py-2 text-slate-800 text-sm"
+                    >
+                      <option value="Asia/Kolkata">India Standard Time (IST, UTC+05:30)</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1283,7 +1276,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
                 <div><strong className="text-slate-700">Category:</strong> {reviewingWebinar?.category}</div>
                 <div><strong className="text-slate-700">Max Attendees:</strong> {reviewingWebinar?.maxSeats} Seats</div>
-                <div><strong className="text-slate-700">Scheduled Date:</strong> {reviewingWebinar?.date ? new Date(reviewingWebinar.date).toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" }) : "N/A"}</div>
+                <div><strong className="text-slate-700">Scheduled Date:</strong> {reviewingWebinar?.date ? formatWebinarDate(reviewingWebinar.date, { day: "numeric", month: "short", year: "numeric" }) : "N/A"}</div>
                 <div><strong className="text-slate-700">Timing:</strong> {reviewingWebinar?.startTime ? formatWebinarTime(reviewingWebinar.startTime) : "N/A"} - {reviewingWebinar?.endTime ? formatWebinarTime(reviewingWebinar.endTime) : "N/A"}</div>
                 <div><strong className="text-slate-700">Duration:</strong> {formatDurationHumanReadable(reviewingWebinar?.durationMinutes || 60)}</div>
                 <div><strong className="text-slate-700">Platform / Link:</strong> {reviewingWebinar?.meetingPlatform || "Zoom"}</div>
