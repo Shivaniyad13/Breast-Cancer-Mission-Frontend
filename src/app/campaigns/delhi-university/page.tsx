@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import EventPhotoSlider from "@/components/layout/EventPhotoSlider";
 import {
-  ArrowUpRight,
   CalendarDays,
   Clock3,
   ExternalLink,
@@ -14,9 +14,6 @@ export const metadata: Metadata = {
   description:
     "Join Cancer Mukt Delhi University Abhiyan on 31 October 2026 at the University of Delhi.",
 };
-
-const registrationUrl =
-  "https://docs.google.com/forms/d/e/1FAIpQLSdQ8wrh2SRpPUxF6GOginPFVeSPIDeIoiNq8trduB5IOPAmJw/viewform";
 
 const guests = [
   {
@@ -68,7 +65,7 @@ export default function DelhiUniversityCampaignPage() {
         <div className="relative mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:px-8 lg:py-14">
           <div>
             <div className="mb-5 text-sm font-bold text-pink-700">
-              Be a part of the movement – Register now!
+              Be a part of the movement – Connect with us on Instagram!
             </div>
             <h1 className="font-heading font-bold leading-tight tracking-tight text-slate-900 text-3xl sm:text-4xl">
               Cancer Mukt Delhi University Abhiyan
@@ -88,12 +85,12 @@ export default function DelhiUniversityCampaignPage() {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <a
-                href={registrationUrl}
+                href="https://www.instagram.com/cancermuktbharatabhiyan/?hl=en"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-pink-600 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-pink-200 transition hover:bg-pink-700"
               >
-                Register now <ArrowUpRight className="h-4 w-4" />
+                Connect with us <ExternalLink className="h-4 w-4" />
               </a>
             </div>
             <p className="mt-6 max-w-2xl text-base font-semibold text-rose-800">
@@ -103,16 +100,12 @@ export default function DelhiUniversityCampaignPage() {
 
           <div className="relative">
             <div className="overflow-hidden rounded-2xl border-8 border-white shadow-lg shadow-pink-200/70">
-              <Image
-                src="/images/awareness3.png"
-                alt="Community members coming together for breast cancer awareness"
-                width={1024}
-                height={1024}
-                className="aspect-[4/3] w-full object-cover"
-                priority
+              <EventPhotoSlider
+                aspectClassName="aspect-[4/3]"
+                className="relative w-full overflow-hidden bg-slate-100"
               />
             </div>
-            <div className="absolute -bottom-5 left-4 right-4 rounded-2xl border border-pink-100 bg-white/95 p-4 shadow-md backdrop-blur sm:left-8 sm:right-8">
+            <div className="mt-4 rounded-2xl border border-pink-100 bg-white/95 p-4 shadow-md backdrop-blur">
               <p className="text-center text-sm font-bold text-rose-800 sm:text-base">
                 Healthy Women <span className="text-pink-500">•</span> Healthy
                 Families <span className="text-pink-500">•</span> Healthy Bharat

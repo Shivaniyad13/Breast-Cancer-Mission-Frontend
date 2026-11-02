@@ -27,12 +27,12 @@ export default function Home() {
       <HomeBanner />
       <div className="flex justify-center px-4 py-4 sm:py-5">
         <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSdQ8wrh2SRpPUxF6GOginPFVeSPIDeIoiNq8trduB5IOPAmJw/viewform"
+          href="https://www.instagram.com/cancermuktbharatabhiyan/?hl=en"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex h-11 items-center justify-center rounded-lg bg-pink-600 px-8 text-sm font-bold text-white shadow-sm transition-colors hover:bg-pink-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
         >
-          Register for Delhi University Abhiyan
+          Stay Connected with Us for Latest Updates
         </a>
       </div>
 
