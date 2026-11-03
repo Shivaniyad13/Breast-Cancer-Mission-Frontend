@@ -15,6 +15,7 @@ export default async function AdminVolunteersPage() {
 
   let serializableApplications: any[] = [];
   let serializableFeedbacks: any[] = [];
+  let serializableComments: any[] = [];
   let serializableGallery: any[] = [];
   let serializableEvents: any[] = [];
 
@@ -25,6 +26,7 @@ export default async function AdminVolunteersPage() {
       if (body.success && body.data) {
         serializableApplications = body.data.applications || [];
         serializableFeedbacks = body.data.feedbacks || [];
+        serializableComments = body.data.comments || [];
         serializableGallery = body.data.gallery || [];
         serializableEvents = body.data.events || [];
       }
@@ -50,6 +52,7 @@ export default async function AdminVolunteersPage() {
       <VolunteersAdminClient
         initialApplications={serializableApplications}
         initialFeedbacks={serializableFeedbacks}
+        initialComments={serializableComments}
         initialGallery={serializableGallery}
         initialEvents={serializableEvents}
       />

@@ -3,9 +3,10 @@ import { z } from "zod";
 import { auth } from "@/auth";
 import { apiClient } from "@/lib/apiClient";
 
-const statusSchema = z.object({
-  status: z.enum(["VERIFIED", "REJECTED", "APPROVED", "PENDING"]),
-});
+const updateSchema = z.object({
+  status: z.enum(["VERIFIED", "REJECTED", "APPROVED", "PENDING"]).optional(),
+  title: z.string().trim().min(1).max(120).optional(),
+}).refine((data) => data.status !== undefined || data.title !== undefined);
 
 // PATCH /api/volunteers/gallery/[id]
 export async function PATCH(
@@ -31,7 +32,7 @@ export async function PATCH(
 
     const { id } = await props.params;
     const body = await request.json();
-    const validation = statusSchema.safeParse(body);
+    const validation = updateSchema.safeParse(body);
 
     if (!validation.success) {
       return NextResponse.json(
@@ -43,15 +44,12 @@ export async function PATCH(
       );
     }
 
-    let targetStatus = validation.data.status;
-    if (targetStatus === "APPROVED") {
-      targetStatus = "VERIFIED";
-    }
+    const targetStatus = validation.data.status === "APPROVED" ? "VERIFIED" : validation.data.status;
 
     const response = await apiClient(`/volunteers/gallery/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: targetStatus }),
+      body: JSON.stringify({ ...validation.data, status: targetStatus }),
     });
 
     const resData = await response.json();

@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Star, CheckCircle, XCircle, Plus, Calendar, MapPin, Users, Loader2, Sparkles, AlertCircle } from "lucide-react";
+import { Star, CheckCircle, XCircle, Plus, Calendar, MapPin, Users, Loader2, Sparkles, AlertCircle, Trash2 } from "lucide-react";
 
 export interface ApplicationItem {
   id: string;
@@ -30,6 +30,7 @@ export interface ApplicationItem {
 export interface FeedbackItem {
   id: string;
   volunteerName: string;
+  email: string;
   city: string;
   rating: number;
   message: string;
@@ -37,11 +38,22 @@ export interface FeedbackItem {
   createdAt: string;
 }
 
+export interface FeedbackCommentItem {
+  id: string;
+  feedbackId: string;
+  feedbackName: string;
+  name: string;
+  message: string;
+  createdAt: string;
+}
+
 export interface GalleryItem {
   id: string;
   title: string;
   imageUrl: string;
+  mediaType: "image" | "video";
   submittedBy: string;
+  email: string;
   status: string;
   createdAt: string;
 }
@@ -61,6 +73,7 @@ export interface EventItem {
 interface VolunteersAdminClientProps {
   initialApplications: ApplicationItem[];
   initialFeedbacks: FeedbackItem[];
+  initialComments: FeedbackCommentItem[];
   initialGallery: GalleryItem[];
   initialEvents: EventItem[];
 }
@@ -68,6 +81,7 @@ interface VolunteersAdminClientProps {
 export default function VolunteersAdminClient({
   initialApplications,
   initialFeedbacks,
+  initialComments,
   initialGallery,
   initialEvents,
 }: VolunteersAdminClientProps) {
@@ -133,32 +147,75 @@ export default function VolunteersAdminClient({
   };
 
   // Feedback Approve/Reject
-  const handleUpdateFeedbackStatus = async (id: string, status: "VERIFIED" | "REJECTED") => {
-    setLoadingId(id);
+  const handleEditFeedback = async (item: FeedbackItem) => {
+    const message = window.prompt("Edit feedback text:", item.message);
+    if (message === null || !message.trim() || message.trim() === item.message) return;
+    setLoadingId(item.id);
     try {
-      const res = await fetch(`/api/volunteers/feedback/${id}`, {
+      const res = await fetch(`/volunteer-feedback/${item.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ message: message.trim() }),
       });
       const data = await res.json();
       if (!res.ok || !data.success) {
-        alert(data.error || "Failed to update feedback status");
+        alert(data.error || "Failed to edit feedback");
       } else {
         router.refresh();
       }
-    } catch (err: any) {
-      alert(err.message || "Failed to update feedback status");
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to edit feedback");
+    } finally {
+      setLoadingId(null);
+    }
+  };
+
+  const handleDeleteFeedback = async (item: FeedbackItem) => {
+    if (!window.confirm(`Delete feedback from ${item.volunteerName}? Its comments and likes will also be deleted.`)) return;
+    setLoadingId(item.id);
+    try {
+      const res = await fetch(`/volunteer-feedback/${item.id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        alert(data.error || "Failed to delete feedback");
+      } else {
+        router.refresh();
+      }
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to delete feedback");
+    } finally {
+      setLoadingId(null);
+    }
+  };
+
+  const handleEditFeedbackComment = async (comment: FeedbackCommentItem) => {
+    const message = window.prompt("Edit comment:", comment.message);
+    if (message === null || !message.trim() || message.trim() === comment.message) return;
+    setLoadingId(comment.id);
+    try {
+      const res = await fetch(`/api/volunteers/feedback/comments/${comment.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: message.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        alert(data.error || "Failed to edit comment");
+      } else {
+        router.refresh();
+      }
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to edit comment");
     } finally {
       setLoadingId(null);
     }
   };
 
   // Gallery Approve/Reject
-  const handleUpdateGalleryStatus = async (id: string, status: "VERIFIED" | "REJECTED") => {
+  const handleUpdateGalleryStatus = async (id: string, status: "VERIFIED" | "REJECTED" | "PENDING") => {
     setLoadingId(id);
     try {
-      const res = await fetch(`/api/volunteers/gallery/${id}`, {
+      const res = await fetch(`/volunteer-gallery/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
@@ -171,6 +228,29 @@ export default function VolunteersAdminClient({
       }
     } catch (err: any) {
       alert(err.message || "Failed to update gallery status");
+    } finally {
+      setLoadingId(null);
+    }
+  };
+
+  const handleEditGallery = async (item: GalleryItem) => {
+    const title = window.prompt("Edit media title:", item.title);
+    if (title === null || !title.trim() || title.trim() === item.title) return;
+    setLoadingId(item.id);
+    try {
+      const res = await fetch(`/volunteer-gallery/${item.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: title.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        alert(data.error || "Failed to edit gallery item");
+      } else {
+        router.refresh();
+      }
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Failed to edit gallery item");
     } finally {
       setLoadingId(null);
     }
@@ -238,12 +318,15 @@ export default function VolunteersAdminClient({
 
   return (
     <Tabs defaultValue="applications" className="space-y-6">
-      <TabsList className="bg-slate-100 p-1 rounded-xl flex border border-slate-200/60 max-w-xl">
+      <TabsList className="bg-slate-100 p-1 rounded-xl flex flex-wrap border border-slate-200/60 max-w-full h-auto">
         <TabsTrigger value="applications" className="rounded-lg font-semibold text-xs py-2">
           Applications ({initialApplications.length})
         </TabsTrigger>
         <TabsTrigger value="feedback" className="rounded-lg font-semibold text-xs py-2">
           Feedback ({initialFeedbacks.length})
+        </TabsTrigger>
+        <TabsTrigger value="comments" className="rounded-lg font-semibold text-xs py-2">
+          Comments ({initialComments.length})
         </TabsTrigger>
         <TabsTrigger value="gallery" className="rounded-lg font-semibold text-xs py-2">
           Gallery ({initialGallery.length})
@@ -273,7 +356,8 @@ export default function VolunteersAdminClient({
                     <th className="py-3 px-4">Applicant</th>
                     <th className="py-3 px-4">Contact</th>
                     <th className="py-3 px-4">City</th>
-                    <th className="py-3 px-4">Interest</th>
+                    <th className="py-3 px-4">Areas of Interest</th>
+                    <th className="py-3 px-4">Preferred Team</th>
                     <th className="py-3 px-4">Status</th>
                     <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
@@ -295,6 +379,7 @@ export default function VolunteersAdminClient({
                           {app.interest}
                         </span>
                       </td>
+                      <td className="py-3.5 px-4 text-slate-700">{app.availability}</td>
                       <td className="py-3.5 px-4">{renderStatusBadge(app.status)}</td>
                       <td className="py-3.5 px-4 text-right">
                         {app.status === "PENDING" ? (
@@ -341,7 +426,7 @@ export default function VolunteersAdminClient({
           <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
             <div>
               <h2 className="text-lg font-bold text-slate-900">Community Feedback & Testimonials</h2>
-              <p className="text-xs text-slate-500">Approve volunteer reviews to publish on the public testimonials board.</p>
+              <p className="text-xs text-slate-500">Public feedback is published immediately. Admins can edit feedback text when needed.</p>
             </div>
           </div>
 
@@ -352,18 +437,20 @@ export default function VolunteersAdminClient({
               <table className="w-full text-left text-xs text-slate-600">
                 <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[10px] border-b border-slate-200/60">
                   <tr>
-                    <th className="py-3 px-4">Volunteer</th>
+                    <th className="py-3 px-4">Submitter</th>
                     <th className="py-3 px-4">City</th>
                     <th className="py-3 px-4">Rating</th>
                     <th className="py-3 px-4">Message</th>
-                    <th className="py-3 px-4">Status</th>
                     <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-medium">
                   {initialFeedbacks.map((fb) => (
                     <tr key={fb.id} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="py-3.5 px-4 font-bold text-slate-900">{fb.volunteerName}</td>
+                      <td className="py-3.5 px-4 font-bold text-slate-900">
+                        {fb.volunteerName}
+                        {fb.email && <span className="block text-[10px] text-slate-400 font-normal">{fb.email}</span>}
+                      </td>
                       <td className="py-3.5 px-4 text-slate-700">{fb.city || "—"}</td>
                       <td className="py-3.5 px-4">
                         <div className="flex items-center gap-0.5">
@@ -378,31 +465,74 @@ export default function VolunteersAdminClient({
                         </div>
                       </td>
                       <td className="py-3.5 px-4 text-slate-700 max-w-xs truncate">{fb.message}</td>
-                      <td className="py-3.5 px-4">{renderStatusBadge(fb.status)}</td>
                       <td className="py-3.5 px-4 text-right">
-                        {fb.status === "PENDING" ? (
-                          <div className="flex items-center justify-end gap-2">
-                            <Button
-                              size="sm"
-                              disabled={loadingId === fb.id}
-                              onClick={() => handleUpdateFeedbackStatus(fb.id, "VERIFIED")}
-                              className="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold h-7 px-3 rounded-lg shadow-sm"
-                            >
-                              {loadingId === fb.id ? <Loader2 className="w-3 h-3 animate-spin" /> : "Approve"}
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              disabled={loadingId === fb.id}
-                              onClick={() => handleUpdateFeedbackStatus(fb.id, "REJECTED")}
-                              className="border-rose-200 text-rose-700 hover:bg-rose-50 text-[11px] font-semibold h-7 px-3 rounded-lg"
-                            >
-                              Reject
-                            </Button>
-                          </div>
-                        ) : (
-                          <span className="text-[11px] text-slate-400 italic">Reviewed</span>
-                        )}
+                        <div className="flex items-center justify-end gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            disabled={loadingId === fb.id}
+                            onClick={() => handleEditFeedback(fb)}
+                            className="text-[11px] font-semibold h-7 px-3 rounded-lg"
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            disabled={loadingId === fb.id}
+                            onClick={() => handleDeleteFeedback(fb)}
+                            className="h-7 rounded-lg border-rose-200 px-2 text-rose-600 hover:bg-rose-50 hover:text-rose-700"
+                            aria-label={`Delete feedback from ${fb.volunteerName}`}
+                          >
+                            {loadingId === fb.id ? <Loader2 className="h-3 w-3 animate-spin" /> : <Trash2 className="h-3.5 w-3.5" />}
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </Card>
+      </TabsContent>
+
+      {/* ================= TAB 3: COMMENTS ================= */}
+      <TabsContent value="comments">
+        <Card className="bg-white rounded-2xl border border-slate-200/60 p-6 shadow-sm overflow-hidden">
+          <div className="pb-4 mb-4 border-b border-slate-100">
+            <h2 className="text-lg font-bold text-slate-900">Community Comments</h2>
+            <p className="text-xs text-slate-500">Review comments. Authors can edit their own comments on the public page.</p>
+          </div>
+          {initialComments.length === 0 ? (
+            <div className="text-center py-12 text-slate-400 text-sm">No comments yet.</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs text-slate-600">
+                <thead className="bg-slate-50 text-slate-700 font-bold uppercase tracking-wider text-[10px] border-b border-slate-200/60">
+                  <tr>
+                    <th className="py-3 px-4">Commenter</th>
+                    <th className="py-3 px-4">On feedback by</th>
+                    <th className="py-3 px-4">Comment</th>
+                    <th className="py-3 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 font-medium">
+                  {initialComments.map((comment) => (
+                    <tr key={comment.id} className="hover:bg-slate-50/80">
+                      <td className="py-3.5 px-4 font-bold text-slate-900">{comment.name}</td>
+                      <td className="py-3.5 px-4">{comment.feedbackName}</td>
+                      <td className="py-3.5 px-4 max-w-lg whitespace-pre-wrap break-words">{comment.message}</td>
+                      <td className="py-3.5 px-4 text-right">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          disabled={loadingId === comment.id}
+                          onClick={() => handleEditFeedbackComment(comment)}
+                          className="h-7 rounded-lg px-3 text-[11px] font-semibold"
+                        >
+                          {loadingId === comment.id ? <Loader2 className="h-3 w-3 animate-spin" /> : "Edit"}
+                        </Button>
                       </td>
                     </tr>
                   ))}
@@ -419,7 +549,7 @@ export default function VolunteersAdminClient({
           <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
             <div>
               <h2 className="text-lg font-bold text-slate-900">Gallery Media Submissions</h2>
-              <p className="text-xs text-slate-500">Approve photo uploads from volunteers to display in the public archive gallery.</p>
+              <p className="text-xs text-slate-500">Edit, approve, or reject public photo and video submissions before they appear in the gallery.</p>
             </div>
           </div>
 
@@ -430,19 +560,35 @@ export default function VolunteersAdminClient({
               {initialGallery.map((item) => (
                 <Card key={item.id} className="border border-slate-200/60 rounded-xl overflow-hidden bg-white shadow-sm flex flex-col justify-between">
                   <div>
-                    <div className="h-40 w-full overflow-hidden bg-slate-100 relative">
-                      <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover" />
+                    <div className="h-40 w-full overflow-hidden bg-slate-900 relative">
+                      {item.mediaType === "video" ? (
+                        <video src={item.imageUrl} controls className="w-full h-full object-contain" />
+                      ) : (
+                        <img src={item.imageUrl} alt={item.title} className="w-full h-full object-contain" />
+                      )}
                     </div>
                     <div className="p-4 space-y-2">
                       <div className="flex items-center justify-between">
                         <h4 className="font-bold text-sm text-slate-900 line-clamp-1">{item.title}</h4>
                         {renderStatusBadge(item.status)}
                       </div>
-                      <p className="text-xs text-slate-500">Submitted by <span className="font-semibold text-slate-700">{item.submittedBy}</span></p>
+                      <p className="text-xs text-slate-500">
+                        Submitted by <span className="font-semibold text-slate-700">{item.submittedBy}</span>
+                        {item.email && <span className="block mt-1">{item.email}</span>}
+                      </p>
                     </div>
                   </div>
 
                   <div className="p-4 border-t border-slate-100 bg-slate-50/50 flex items-center justify-end gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={loadingId === item.id}
+                      onClick={() => handleEditGallery(item)}
+                      className="text-[11px] font-semibold h-8 px-3 rounded-lg"
+                    >
+                      Edit
+                    </Button>
                     {item.status === "PENDING" ? (
                       <>
                         <Button
@@ -464,7 +610,15 @@ export default function VolunteersAdminClient({
                         </Button>
                       </>
                     ) : (
-                      <span className="text-[11px] text-slate-400 italic">Reviewed</span>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={loadingId === item.id}
+                        onClick={() => handleUpdateGalleryStatus(item.id, item.status === "VERIFIED" ? "REJECTED" : "PENDING")}
+                        className="text-[11px] font-semibold h-8 px-3 rounded-lg"
+                      >
+                        {item.status === "VERIFIED" ? "Unpublish" : "Restore"}
+                      </Button>
                     )}
                   </div>
                 </Card>

@@ -46,7 +46,7 @@ export default async function VolunteersPage() {
   }
 
   try {
-    const res = await apiClient("/volunteers/feedback?status=VERIFIED&limit=6");
+    const res = await apiClient("/volunteers/feedback?status=PUBLIC&limit=6");
     if (res.ok) {
       const body = await res.json();
       if (body.success && Array.isArray(body.data)) {

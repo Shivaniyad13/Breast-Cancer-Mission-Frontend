@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,6 +24,7 @@ import {
   ChevronRight,
   HelpCircle,
   MessageSquare,
+  MessageCircle,
   Check,
   Star,
   Info,
@@ -59,6 +60,16 @@ export type VolunteerFeedback = {
   rating: number;
   review: string;
   initials: string;
+  likes: number;
+  commentCount: number;
+  comments: VolunteerFeedbackComment[];
+};
+
+export type VolunteerFeedbackComment = {
+  id: string;
+  name: string;
+  message: string;
+  createdAt: string;
 };
 
 export type VolunteerStats = {
@@ -84,6 +95,7 @@ export type GalleryItem = {
   id?: string;
   src: string;
   title: string;
+  mediaType?: "image" | "video";
   submittedBy?: string;
 };
 
@@ -120,6 +132,7 @@ const whyVolunteerList = [
 ];
 
 const interestToRole: Record<string, string> = {
+  public: "Community Member",
   outreach: "Community Outreach Volunteer",
   camps: "Health Camp Volunteer",
   events: "Campaign Coordinator",
@@ -172,6 +185,61 @@ export default function VolunteersClient({
   const formRef = useRef<HTMLDivElement>(null);
   const [session, setSession] = useState<VolunteerSession>(initialSession);
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
+  const [feedbackItems, setFeedbackItems] = useState(initialFeedback);
+  const [feedbackVisitorKey, setFeedbackVisitorKey] = useState<string | null>(null);
+  const [likedFeedbackIds, setLikedFeedbackIds] = useState<string[]>([]);
+  const [feedbackLikeCounts, setFeedbackLikeCounts] = useState<Record<string, number>>(
+    Object.fromEntries(initialFeedback.map((feedback) => [feedback.id, feedback.likes]))
+  );
+  const [feedbackCommentCounts, setFeedbackCommentCounts] = useState<Record<string, number>>(
+    Object.fromEntries(initialFeedback.map((feedback) => [feedback.id, feedback.commentCount]))
+  );
+  const [feedbackComments, setFeedbackComments] = useState<Record<string, VolunteerFeedbackComment[]>>(
+    Object.fromEntries(initialFeedback.map((feedback) => [feedback.id, feedback.comments]))
+  );
+  const [expandedFeedbackIds, setExpandedFeedbackIds] = useState<string[]>([]);
+  const [expandedCommentsIds, setExpandedCommentsIds] = useState<string[]>([]);
+  const [commentNames, setCommentNames] = useState<Record<string, string>>({});
+  const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({});
+  const [commentAuthorTokens, setCommentAuthorTokens] = useState<Record<string, string>>({});
+  const [commentSubmittingId, setCommentSubmittingId] = useState<string | null>(null);
+  const [commentErrors, setCommentErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    let visitorKey = window.localStorage.getItem("cmba-feedback-visitor-key");
+    if (!visitorKey) {
+      visitorKey = window.crypto.randomUUID();
+      window.localStorage.setItem("cmba-feedback-visitor-key", visitorKey);
+    }
+    setFeedbackVisitorKey(visitorKey);
+
+    try {
+      const savedLikes: unknown = JSON.parse(
+        window.localStorage.getItem("cmba-feedback-liked-ids") || "[]"
+      );
+      if (Array.isArray(savedLikes) && savedLikes.every((id) => typeof id === "string")) {
+        setLikedFeedbackIds(savedLikes);
+      }
+    } catch (error) {
+      console.error("Could not read saved feedback likes:", error);
+    }
+
+    try {
+      const savedTokens: unknown = JSON.parse(
+        window.localStorage.getItem("cmba-feedback-comment-tokens") || "{}"
+      );
+      if (
+        savedTokens !== null &&
+        typeof savedTokens === "object" &&
+        !Array.isArray(savedTokens) &&
+        Object.values(savedTokens).every((token) => typeof token === "string")
+      ) {
+        setCommentAuthorTokens(savedTokens as Record<string, string>);
+      }
+    } catch (error) {
+      console.error("Could not read saved comment edit tokens:", error);
+    }
+  }, []);
 
   // Gallery is now solely driven by verified backend submissions (no hardcoded fallback)
   const galleryItems = initialGallery;
@@ -184,13 +252,19 @@ export default function VolunteersClient({
 
   // Feedback form state inside modal
   const [feedbackRating, setFeedbackRating] = useState(5);
+  const [feedbackName, setFeedbackName] = useState("");
+  const [feedbackEmail, setFeedbackEmail] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [feedbackConsent, setFeedbackConsent] = useState(false);
   const [feedbackSubmitting, setFeedbackSubmitting] = useState(false);
   const [feedbackError, setFeedbackError] = useState<string | null>(null);
   const [feedbackSuccess, setFeedbackSuccess] = useState(false);
 
   // Gallery upload form state inside modal
   const [galleryTitle, setGalleryTitle] = useState("");
+  const [galleryName, setGalleryName] = useState("");
+  const [galleryEmail, setGalleryEmail] = useState("");
+  const [galleryConsent, setGalleryConsent] = useState(false);
   const [galleryFile, setGalleryFile] = useState<File | null>(null);
   const [galleryPreview, setGalleryPreview] = useState<string | null>(null);
   const [gallerySubmitting, setGallerySubmitting] = useState(false);
@@ -201,8 +275,9 @@ export default function VolunteersClient({
     const file = e.target.files?.[0] || null;
     setGalleryError(null);
     if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        setGalleryError("File size exceeds 5MB limit.");
+      const maxSize = file.type.startsWith("video/") ? 50 * 1024 * 1024 : 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        setGalleryError(file.type.startsWith("video/") ? "Video size exceeds 50MB limit." : "Photo size exceeds 5MB limit.");
         setGalleryFile(null);
         setGalleryPreview(null);
         return;
@@ -243,7 +318,7 @@ export default function VolunteersClient({
     age: "",
     occupation: "",
     interest: "outreach",
-    availability: "flexible",
+    availability: "Anchoring",
     motivation: ""
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -337,7 +412,7 @@ export default function VolunteersClient({
       age: "",
       occupation: "",
       interest: "outreach",
-      availability: "flexible",
+      availability: "Anchoring",
       motivation: ""
     });
     setFormSubmitted(false);
@@ -351,28 +426,199 @@ export default function VolunteersClient({
       setFeedbackError("Please write a message before submitting.");
       return;
     }
+    if (!feedbackName.trim() || !feedbackEmail.trim() || !feedbackConsent) {
+      setFeedbackError("Enter your name and email, and agree to public display of your feedback.");
+      return;
+    }
 
     setFeedbackSubmitting(true);
     try {
-      const res = await fetch("/api/volunteers/feedback", {
+      const res = await fetch("/volunteer-feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          name: feedbackName.trim(),
+          email: feedbackEmail.trim(),
           rating: feedbackRating,
           message: feedbackMessage.trim(),
+          consent: feedbackConsent,
         }),
       });
       const result = await res.json();
       if (result.success) {
+        const name = feedbackName.trim();
+        const id = result.data?.id;
+        if (typeof id !== "string") {
+          throw new Error("Feedback was submitted, but its public entry could not be loaded. Please refresh the page.");
+        }
+        const newFeedback: VolunteerFeedback = {
+          id,
+          name,
+          interest: "public",
+          city: "",
+          rating: feedbackRating,
+          review: feedbackMessage.trim(),
+          initials: name
+            .split(/\s+/)
+            .map((part) => part[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase(),
+          likes: 0,
+          commentCount: 0,
+          comments: [],
+        };
+        setFeedbackItems((items) => [newFeedback, ...items.filter((item) => item.id !== id)]);
+        setFeedbackLikeCounts((counts) => ({ ...counts, [id]: 0 }));
+        setFeedbackCommentCounts((counts) => ({ ...counts, [id]: 0 }));
+        setFeedbackComments((comments) => ({ ...comments, [id]: [] }));
         setFeedbackSuccess(true);
         setFeedbackMessage("");
+        router.refresh();
       } else {
         setFeedbackError(result.error || "Failed to submit feedback.");
       }
-    } catch (err: any) {
-      setFeedbackError(err.message || "Something went wrong.");
+    } catch (err) {
+      setFeedbackError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
       setFeedbackSubmitting(false);
+    }
+  };
+
+  const handleFeedbackLike = async (feedbackId: string) => {
+    if (!feedbackVisitorKey) return;
+    const liked = !likedFeedbackIds.includes(feedbackId);
+    try {
+      const response = await fetch(`/volunteer-feedback/${feedbackId}/like`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ visitorKey: feedbackVisitorKey, liked }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Could not save your like.");
+      }
+
+      setFeedbackLikeCounts((counts) => ({ ...counts, [feedbackId]: result.data.likes }));
+      const nextIds = liked
+        ? [...likedFeedbackIds, feedbackId]
+        : likedFeedbackIds.filter((id) => id !== feedbackId);
+      setLikedFeedbackIds(nextIds);
+      window.localStorage.setItem("cmba-feedback-liked-ids", JSON.stringify(nextIds));
+    } catch (error) {
+      console.error("Could not update feedback like:", error);
+      alert(error instanceof Error ? error.message : "Could not save your like.");
+    }
+  };
+
+  const handleToggleFeedbackComments = async (feedbackId: string) => {
+    if (expandedCommentsIds.includes(feedbackId)) {
+      setExpandedCommentsIds((ids) => ids.filter((id) => id !== feedbackId));
+      return;
+    }
+
+    try {
+      const response = await fetch(`/volunteer-feedback/${feedbackId}/comments`);
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Could not load comments.");
+      }
+      setFeedbackComments((comments) => ({ ...comments, [feedbackId]: result.data }));
+      setCommentErrors((errors) => ({ ...errors, [feedbackId]: "" }));
+      setExpandedCommentsIds((ids) => [...ids, feedbackId]);
+    } catch (error) {
+      console.error("Could not load feedback comments:", error);
+      setCommentErrors((errors) => ({
+        ...errors,
+        [feedbackId]: error instanceof Error ? error.message : "Could not load comments.",
+      }));
+    }
+  };
+
+  const handleFeedbackCommentSubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+    feedbackId: string
+  ) => {
+    event.preventDefault();
+    const name = commentNames[feedbackId]?.trim() || "";
+    const message = commentDrafts[feedbackId]?.trim() || "";
+    if (!name || !message) {
+      setCommentErrors((errors) => ({ ...errors, [feedbackId]: "Enter your name and comment." }));
+      return;
+    }
+
+    setCommentSubmittingId(feedbackId);
+    setCommentErrors((errors) => ({ ...errors, [feedbackId]: "" }));
+    const authorToken = window.crypto.randomUUID();
+    try {
+      const response = await fetch(`/volunteer-feedback/${feedbackId}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, message, authorToken }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Could not submit comment.");
+      }
+
+      setFeedbackComments((comments) => ({
+        ...comments,
+        [feedbackId]: [...(comments[feedbackId] || []), result.data],
+      }));
+      setFeedbackCommentCounts((counts) => ({
+        ...counts,
+        [feedbackId]: (counts[feedbackId] || 0) + 1,
+      }));
+      const nextTokens = { ...commentAuthorTokens, [result.data.id]: authorToken };
+      setCommentAuthorTokens(nextTokens);
+      window.localStorage.setItem("cmba-feedback-comment-tokens", JSON.stringify(nextTokens));
+      setCommentDrafts((drafts) => ({ ...drafts, [feedbackId]: "" }));
+    } catch (error) {
+      console.error("Could not submit feedback comment:", error);
+      setCommentErrors((errors) => ({
+        ...errors,
+        [feedbackId]: error instanceof Error ? error.message : "Could not submit comment.",
+      }));
+    } finally {
+      setCommentSubmittingId(null);
+    }
+  };
+
+  const handleEditFeedbackComment = async (
+    feedbackId: string,
+    comment: VolunteerFeedbackComment
+  ) => {
+    const authorToken = commentAuthorTokens[comment.id];
+    if (!authorToken) return;
+    const message = window.prompt("Edit your comment:", comment.message);
+    if (message === null || !message.trim() || message.trim() === comment.message) return;
+
+    try {
+      const response = await fetch(
+        `/volunteer-feedback/${feedbackId}/comments/${comment.id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message.trim(), authorToken }),
+        }
+      );
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Could not edit your comment.");
+      }
+      setFeedbackComments((comments) => ({
+        ...comments,
+        [feedbackId]: (comments[feedbackId] || []).map((item) =>
+          item.id === comment.id ? result.data : item
+        ),
+      }));
+      setCommentErrors((errors) => ({ ...errors, [feedbackId]: "" }));
+    } catch (error) {
+      console.error("Could not edit feedback comment:", error);
+      setCommentErrors((errors) => ({
+        ...errors,
+        [feedbackId]: error instanceof Error ? error.message : "Could not edit your comment.",
+      }));
     }
   };
 
@@ -380,21 +626,28 @@ export default function VolunteersClient({
     e.preventDefault();
     setGalleryError(null);
     if (!galleryTitle.trim()) {
-      setGalleryError("Photo title is required.");
+      setGalleryError("A title is required.");
+      return;
+    }
+    if (!galleryName.trim() || !galleryEmail.trim() || !galleryConsent) {
+      setGalleryError("Enter your name and email, and confirm permission to publish this media if approved.");
       return;
     }
     if (!galleryFile) {
-      setGalleryError("Please select an image file.");
+      setGalleryError("Please select a photo or video.");
       return;
     }
 
     const payload = new FormData();
     payload.append("title", galleryTitle.trim());
-    payload.append("image", galleryFile);
+    payload.append("name", galleryName.trim());
+    payload.append("email", galleryEmail.trim());
+    payload.append("consent", String(galleryConsent));
+    payload.append("media", galleryFile);
 
     setGallerySubmitting(true);
     try {
-      const res = await fetch("/api/volunteers/gallery", {
+      const res = await fetch("/volunteer-gallery", {
         method: "POST",
         body: payload,
       });
@@ -749,7 +1002,7 @@ export default function VolunteersClient({
       )}
 
       {/* ================= VOLUNTEER TESTIMONIALS / FEEDBACK ================= */}
-      <section className="py-12 md:py-16 bg-white border-t border-rose-100/20">
+      <section id="community-feedback" className="py-12 md:py-16 bg-white border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-8">
           <div className="text-center space-y-3 max-w-2xl mx-auto">
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
@@ -759,22 +1012,29 @@ export default function VolunteersClient({
               Voices of Our Volunteers
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
-              Real experiences shared by our verified volunteer champions across India.
+              Share your experience with the community. Feedback appears here as soon as you submit it.
             </p>
+            <Button
+              onClick={() => setShowFeedbackModal(true)}
+              className="mt-2 bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full px-5 py-2.5 transition-all cursor-pointer shadow-md shadow-pink-100"
+            >
+              <MessageSquare className="h-3.5 w-3.5 mr-1.5" />
+              Share Feedback
+            </Button>
           </div>
 
-          {initialFeedback.length > 0 ? (
+          {feedbackItems.length > 0 ? (
             <motion.div
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5 lg:gap-6"
             >
-              {initialFeedback.map((fb) => (
-                <motion.div key={fb.id} variants={fadeInUp}>
-                  <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl p-6 flex flex-col justify-between h-full hover:border-pink-300 group">
-                    <div className="space-y-4">
+              {feedbackItems.map((fb) => (
+                <motion.div key={fb.id} variants={fadeInUp} className="min-w-0">
+                  <Card className="h-full min-h-[230px] border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-lg p-4 sm:p-5 flex flex-col hover:border-pink-300 group">
+                    <div className="min-w-0 space-y-3">
                       <div className="flex items-center gap-1">
                         {Array.from({ length: 5 }).map((_, i) => (
                           <Star
@@ -786,20 +1046,119 @@ export default function VolunteersClient({
                           />
                         ))}
                       </div>
-                      <p className="text-slate-600 text-xs sm:text-sm italic font-medium leading-relaxed">
-                        "{fb.review}"
+                      <p className={`${expandedFeedbackIds.includes(fb.id) ? "" : "line-clamp-6"} break-words text-slate-600 text-xs sm:text-sm italic font-medium leading-relaxed`}>
+                        &ldquo;{fb.review}&rdquo;
                       </p>
+                      {fb.review.length > 240 && (
+                        <button
+                          type="button"
+                          onClick={() => setExpandedFeedbackIds((ids) =>
+                            ids.includes(fb.id) ? ids.filter((id) => id !== fb.id) : [...ids, fb.id]
+                          )}
+                          className="text-xs font-bold text-primary hover:underline"
+                        >
+                          {expandedFeedbackIds.includes(fb.id) ? "Show less" : "Read more"}
+                        </button>
+                      )}
                     </div>
-                    <div className="flex items-center gap-3 pt-6 border-t border-pink-50 mt-6">
-                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-rose-400 text-white font-bold flex items-center justify-center text-xs shrink-0 shadow-md">
-                        {fb.initials}
+                    <div className="mt-4 pt-4 border-t border-pink-50">
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-rose-400 text-white font-bold flex items-center justify-center text-xs shrink-0 shadow-md">
+                          {fb.initials}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-heading font-bold text-slate-800 text-sm truncate">{fb.name}</h4>
+                          <p className="text-[11px] text-slate-400 font-medium truncate">
+                            {getRoleLabel(fb.interest)}{fb.city ? ` · ${fb.city}` : ""}
+                          </p>
+                        </div>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <h4 className="font-heading font-bold text-slate-800 text-sm truncate">{fb.name}</h4>
-                        <p className="text-[11px] text-slate-400 font-medium truncate">
-                          {getRoleLabel(fb.interest)}{fb.city ? ` · ${fb.city}` : ""}
-                        </p>
+
+                      <div className="flex flex-wrap items-center gap-2 mt-3">
+                        <button
+                          type="button"
+                          onClick={() => handleFeedbackLike(fb.id)}
+                          disabled={!feedbackVisitorKey}
+                          aria-pressed={likedFeedbackIds.includes(fb.id)}
+                          className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors disabled:opacity-50 ${
+                            likedFeedbackIds.includes(fb.id)
+                              ? "border-rose-200 bg-rose-50 text-rose-600"
+                              : "border-slate-200 text-slate-600 hover:border-rose-200 hover:text-rose-600"
+                          }`}
+                        >
+                          <Heart className={`h-3.5 w-3.5 ${likedFeedbackIds.includes(fb.id) ? "fill-current" : ""}`} />
+                          {feedbackLikeCounts[fb.id] || 0}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleToggleFeedbackComments(fb.id)}
+                          className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600 transition-colors hover:border-primary/30 hover:text-primary"
+                        >
+                          <MessageCircle className="h-3.5 w-3.5" />
+                          {feedbackCommentCounts[fb.id] || 0} comments
+                        </button>
                       </div>
+
+                      {expandedCommentsIds.includes(fb.id) && (
+                        <div className="mt-4 space-y-3">
+                          <div className="max-h-48 space-y-3 overflow-y-auto">
+                            {(feedbackComments[fb.id] || []).length ? (
+                              feedbackComments[fb.id].map((comment) => (
+                                <div key={comment.id} className="rounded-lg bg-slate-50 p-3">
+                                  <div className="flex items-start justify-between gap-2">
+                                    <div className="min-w-0">
+                                      <p className="break-words text-xs font-bold text-slate-700">{comment.name}</p>
+                                      <p className="mt-1 break-words text-xs leading-relaxed text-slate-600">{comment.message}</p>
+                                    </div>
+                                    {commentAuthorTokens[comment.id] && (
+                                      <button
+                                        type="button"
+                                        onClick={() => handleEditFeedbackComment(fb.id, comment)}
+                                        className="shrink-0 text-[11px] font-semibold text-primary hover:underline"
+                                      >
+                                        Edit
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+                              ))
+                            ) : (
+                              <p className="text-xs text-slate-500">No comments yet. Start the conversation.</p>
+                            )}
+                          </div>
+
+                          <form onSubmit={(event) => handleFeedbackCommentSubmit(event, fb.id)} className="space-y-2">
+                            <input
+                              value={commentNames[fb.id] || ""}
+                              onChange={(event) => setCommentNames((names) => ({ ...names, [fb.id]: event.target.value }))}
+                              maxLength={100}
+                              required
+                              aria-label="Your name"
+                              placeholder="Your name"
+                              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-xs outline-none focus:border-primary"
+                            />
+                            <textarea
+                              value={commentDrafts[fb.id] || ""}
+                              onChange={(event) => setCommentDrafts((drafts) => ({ ...drafts, [fb.id]: event.target.value }))}
+                              maxLength={1000}
+                              required
+                              rows={2}
+                              aria-label="Write a comment"
+                              placeholder="Write a comment..."
+                              className="w-full resize-y rounded-lg border border-slate-200 px-3 py-2 text-xs outline-none focus:border-primary"
+                            />
+                            {commentErrors[fb.id] && (
+                              <p role="alert" className="text-xs text-rose-600">{commentErrors[fb.id]}</p>
+                            )}
+                            <Button type="submit" size="sm" disabled={commentSubmittingId === fb.id} className="h-8 text-xs">
+                              {commentSubmittingId === fb.id ? "Posting..." : "Post comment"}
+                            </Button>
+                          </form>
+                        </div>
+                      )}
+                      {commentErrors[fb.id] && !expandedCommentsIds.includes(fb.id) && (
+                        <p role="alert" className="mt-2 text-xs text-rose-600">{commentErrors[fb.id]}</p>
+                      )}
                     </div>
                   </Card>
                 </motion.div>
@@ -812,18 +1171,466 @@ export default function VolunteersClient({
               <p className="text-xs text-slate-500 max-w-sm font-medium">
                 Be the first to share your volunteer experience.
               </p>
-              {initialSession?.volunteerStatus === "VERIFIED" && (
-                <Button
-                  onClick={() => setShowFeedbackModal(true)}
-                  className="mt-2 bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full px-5 py-2.5 transition-all cursor-pointer shadow-md shadow-pink-100"
-                >
-                  Share Your Story
-                </Button>
-              )}
+              <Button
+                onClick={() => setShowFeedbackModal(true)}
+                className="mt-2 bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full px-5 py-2.5 transition-all cursor-pointer shadow-md shadow-pink-100"
+              >
+                Share Your Story
+              </Button>
             </div>
           )}
         </div>
       </section>
+
+      
+      {/* ================= VOLUNTEER GALLERY / MEDIA ARCHIVE ================= */}
+      <section className="py-12 md:py-16 bg-white border-t border-rose-100/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="space-y-3 max-w-2xl">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
+                <Video className="h-3.5 w-3.5" /> Media Archive
+              </span>
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-800">
+                Volunteer Gallery
+              </h2>
+              <p className="text-slate-500 text-sm sm:text-base font-medium">
+                Highlights from our nationwide awareness drives, screening camps, and community events.
+              </p>
+            </div>
+            <Button
+              onClick={() => setShowGalleryModal(true)}
+              className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-6 text-xs flex items-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer transition-all shadow-md shadow-pink-100"
+            >
+              <Upload className="h-4 w-4" />
+              Share Photo or Video
+            </Button>
+          </div>
+
+          {galleryItems.length > 0 ? (
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+            >
+              {galleryItems.map((item, idx) => (
+                <motion.div
+                  key={item.id || idx}
+                  variants={fadeInUp}
+                  onClick={() => setLightboxImage(item)}
+                  className="relative aspect-square min-w-0 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer border border-pink-100/60 bg-slate-900"
+                >
+                  {item.mediaType === "video" ? (
+                    <video
+                      src={item.src}
+                      muted
+                      playsInline
+                      className="h-full w-full object-contain"
+                    />
+                  ) : (
+                    <Image
+                      src={item.src}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                      className="object-contain"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end">
+                    <h4 className="text-white font-heading font-bold text-sm leading-snug">
+                      {item.title}
+                    </h4>
+                    {item.submittedBy && (
+                      <p className="text-[11px] text-pink-100 mt-1 font-medium">
+                        Submitted by {item.submittedBy}
+                      </p>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <div className="border-2 border-dashed border-pink-200 bg-pink-50/30 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-3 max-w-xl mx-auto">
+              <Video className="h-8 w-8 text-pink-400" />
+              <h3 className="font-heading font-bold text-lg text-slate-700">No media yet</h3>
+              <p className="text-xs text-slate-500 max-w-sm font-medium">
+                Anyone can share a campaign photo or video. Submissions appear here after admin approval.
+              </p>
+              <Button
+                onClick={() => setShowGalleryModal(true)}
+                className="mt-2 bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full px-5 py-2.5 transition-all cursor-pointer shadow-md shadow-pink-100"
+              >
+                <Upload className="h-3.5 w-3.5 mr-1.5" />
+                Share First Photo or Video
+              </Button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ================= FEEDBACK SUBMIT MODAL ================= */}
+      <AnimatePresence>
+        {showFeedbackModal && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-2xl p-4 sm:p-6 max-w-lg w-full max-h-[90dvh] overflow-y-auto shadow-lg relative border border-pink-100"
+            >
+              <button
+                onClick={() => {
+                  setShowFeedbackModal(false);
+                  setFeedbackSuccess(false);
+                  setFeedbackError(null);
+                }}
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-pink-50 text-slate-400 hover:text-primary transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-10 w-10 rounded-xl bg-pink-50 text-primary flex items-center justify-center border border-pink-100/40">
+                  <MessageSquare className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-heading font-bold text-lg text-slate-900">Volunteer Feedback</h3>
+                  <p className="text-xs text-slate-500 font-medium">Share your campaign experience with the community</p>
+                </div>
+              </div>
+
+              {feedbackSuccess ? (
+                <div className="text-center py-6 space-y-4">
+                  <div className="h-12 w-12 rounded-full bg-pink-50 text-primary flex items-center justify-center mx-auto border border-pink-100">
+                    <Check className="h-6 w-6" />
+                  </div>
+                  <h4 className="font-bold text-slate-800 text-base">Feedback Submitted!</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                    Thank you! Your feedback is published on the community board immediately. No admin approval is required.
+                  </p>
+                  <Button
+                    onClick={() => {
+                      setShowFeedbackModal(false);
+                      setFeedbackSuccess(false);
+                      document.getElementById("community-feedback")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-5 shadow-md shadow-pink-100"
+                  >
+                    Done
+                  </Button>
+                </div>
+              ) : (
+                <form onSubmit={handleFeedbackSubmit} className="space-y-5">
+                  {feedbackError && (
+                    <div className="p-3 rounded-xl bg-rose-50 text-rose-700 text-xs font-medium border border-rose-200">
+                      {feedbackError}
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      maxLength={100}
+                      value={feedbackName}
+                      onChange={(e) => setFeedbackName(e.target.value)}
+                      placeholder="Enter your name"
+                      className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-primary transition-all font-medium"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
+                      Email Address (not shown publicly)
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      maxLength={254}
+                      value={feedbackEmail}
+                      onChange={(e) => setFeedbackEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-primary transition-all font-medium"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
+                      Star Rating
+                    </label>
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setFeedbackRating(star)}
+                          className="p-1.5 focus:outline-none transition-transform hover:scale-110"
+                        >
+                          <Star
+                            className={`h-7 w-7 ${star <= feedbackRating
+                                ? "text-amber-400 fill-amber-400"
+                                : "text-slate-200"
+                              }`}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
+                      Your Experience Message
+                    </label>
+                    <textarea
+                      rows={4}
+                      required
+                      maxLength={2000}
+                      value={feedbackMessage}
+                      onChange={(e) => setFeedbackMessage(e.target.value)}
+                      placeholder="Share highlights from your volunteer drive or campaign work..."
+                      className="w-full border border-slate-200 rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-primary transition-all resize-none font-medium"
+                    />
+                  </div>
+                  <label className="flex items-start gap-2 text-xs text-slate-600">
+                    <input
+                      type="checkbox"
+                      required
+                      checked={feedbackConsent}
+                      onChange={(e) => setFeedbackConsent(e.target.checked)}
+                      className="mt-0.5 accent-primary"
+                    />
+                    <span>I agree that my feedback and name will be shown publicly when submitted.</span>
+                  </label>
+
+                  <Button
+                    type="submit"
+                    disabled={feedbackSubmitting}
+                    className="w-full py-5 bg-primary hover:bg-primary/95 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 shadow-md shadow-pink-100"
+                  >
+                    {feedbackSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      "Submit Feedback"
+                    )}
+                  </Button>
+                </form>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ================= GALLERY UPLOAD MODAL ================= */}
+      <AnimatePresence>
+        {showGalleryModal && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-2xl p-4 sm:p-6 max-w-lg w-full max-h-[90dvh] overflow-y-auto shadow-lg relative border border-pink-100"
+            >
+              <button
+                onClick={() => {
+                  setShowGalleryModal(false);
+                  setGallerySuccess(false);
+                  setGalleryError(null);
+                }}
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-pink-50 text-slate-400 hover:text-primary transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-10 w-10 rounded-xl bg-pink-50 text-primary flex items-center justify-center border border-pink-100/40">
+                  <Upload className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-heading font-bold text-lg text-slate-900">Upload to Gallery</h3>
+                  <p className="text-xs text-slate-500 font-medium">Share drive photos with campaign supporters</p>
+                </div>
+              </div>
+
+              {gallerySuccess ? (
+                <div className="text-center py-6 space-y-4">
+                  <div className="h-12 w-12 rounded-full bg-pink-50 text-primary flex items-center justify-center mx-auto border border-pink-100">
+                    <Check className="h-6 w-6" />
+                  </div>
+                  <h4 className="font-bold text-slate-800 text-base">Media Submitted!</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                    Your photo or video has been sent for admin review. It will be published to the gallery upon approval.
+                  </p>
+                  <Button
+                    onClick={() => {
+                      setShowGalleryModal(false);
+                      setGallerySuccess(false);
+                    }}
+                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-5 shadow-md shadow-pink-100"
+                  >
+                    Done
+                  </Button>
+                </div>
+              ) : (
+                <form onSubmit={handleGallerySubmit} className="space-y-5">
+                  {galleryError && (
+                    <div className="p-3 rounded-xl bg-rose-50 text-rose-700 text-xs font-medium border border-rose-200">
+                      {galleryError}
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      maxLength={100}
+                      value={galleryName}
+                      onChange={(e) => setGalleryName(e.target.value)}
+                      placeholder="Enter your name"
+                      className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-primary transition-all font-medium"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
+                      Email Address (not shown publicly)
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      maxLength={254}
+                      value={galleryEmail}
+                      onChange={(e) => setGalleryEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-primary transition-all font-medium"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
+                      Photo or Video Title
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      maxLength={120}
+                      value={galleryTitle}
+                      onChange={(e) => setGalleryTitle(e.target.value)}
+                      placeholder="e.g. Pune Health Camp Awareness Drive"
+                      className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-primary transition-all font-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-2">
+                      Select Photo (Max 5MB) or Video (Max 50MB)
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime"
+                      required
+                      onChange={handleGalleryFileSelect}
+                      className="block w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-pink-50 file:text-primary hover:file:bg-pink-100 transition-all cursor-pointer border border-slate-200 rounded-xl p-2"
+                    />
+                  </div>
+
+                  {galleryPreview && (
+                    <div className="rounded-lg overflow-hidden max-h-48 border border-pink-100 relative aspect-video bg-slate-900">
+                      {galleryFile?.type.startsWith("video/") ? (
+                        <video src={galleryPreview} controls className="h-full w-full object-contain" />
+                      ) : (
+                        <Image
+                          src={galleryPreview}
+                          alt="Upload Preview"
+                          fill
+                          sizes="(max-width: 640px) 90vw, 448px"
+                          className="object-contain"
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  <label className="flex items-start gap-2 text-xs text-slate-600">
+                    <input
+                      type="checkbox"
+                      required
+                      checked={galleryConsent}
+                      onChange={(e) => setGalleryConsent(e.target.checked)}
+                      className="mt-0.5 accent-primary"
+                    />
+                    <span>I confirm I have permission to share this media, and it may be shown publicly if approved by the admin.</span>
+                  </label>
+
+                  <Button
+                    type="submit"
+                    disabled={gallerySubmitting}
+                    className="w-full py-5 bg-primary hover:bg-primary/95 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 shadow-md shadow-pink-100"
+                  >
+                    {gallerySubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Uploading Photo...
+                      </>
+                    ) : (
+                      "Submit for Review"
+                    )}
+                  </Button>
+                </form>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {lightboxImage && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative max-w-3xl w-full max-h-[90dvh] bg-slate-900 rounded-xl overflow-hidden shadow-lg border border-white/10"
+            >
+              <button
+                onClick={() => setLightboxImage(null)}
+                className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+              <div className="relative aspect-video w-full bg-black">
+                {lightboxImage.mediaType === "video" ? (
+                  <video src={lightboxImage.src} controls autoPlay className="h-full w-full object-contain" />
+                ) : (
+                  <Image
+                    src={lightboxImage.src}
+                    alt={lightboxImage.title}
+                    fill
+                    className="object-contain"
+                  />
+                )}
+              </div>
+              <div className="p-6 bg-slate-900 text-white space-y-1">
+                <h3 className="font-heading font-bold text-lg text-white">
+                  {lightboxImage.title}
+                </h3>
+                {lightboxImage.submittedBy && (
+                  <p className="text-xs text-slate-400">
+                    Submitted by {lightboxImage.submittedBy}
+                  </p>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
 
       {/* ================= VOLUNTEER REGISTRATION FORM ================= */}
       <section ref={formRef} className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20 scroll-mt-6">
@@ -976,20 +1783,24 @@ export default function VolunteersClient({
                       </select>
                     </div>
 
-                    {/* Availability Selection */}
+                    {/* Preferred Volunteer Team */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold text-slate-500 ">Availability</label>
+                      <label className="text-xs font-bold text-slate-500 ">Preferred Volunteer Team</label>
                       <select
                         name="availability"
                         value={formData.availability}
                         onChange={handleInputChange}
                         className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-pink-100 bg-white"
                       >
-                        <option value="flexible">Flexible</option>
-                        <option value="weekends">Weekends only</option>
-                        <option value="weekdays">Weekdays only</option>
-                        <option value="evenings">Evenings only</option>
-                        <option value="event">Event-based only</option>
+                        <option value="Anchoring">Anchoring</option>
+                        <option value="Felicitation team">Felicitation team</option>
+                        <option value="Photography">Photography</option>
+                        <option value="Food distribution">Food distribution</option>
+                        <option value="Volunteering support">Volunteering support</option>
+                        <option value="Registration desk">Registration desk</option>
+                        <option value="Media Management & PR">Media Management &amp; PR</option>
+                        <option value="Report and Documentation">Report and Documentation</option>
+                        <option value="Stage preparation">Stage preparation</option>
                       </select>
                     </div>
                   </div>
@@ -1077,357 +1888,6 @@ export default function VolunteersClient({
         </div>
       </section>
 
-      {/* ================= VOLUNTEER GALLERY / MEDIA ARCHIVE ================= */}
-      <section className="py-12 md:py-16 bg-white border-t border-rose-100/20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div className="space-y-3 max-w-2xl">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
-                <Video className="h-3.5 w-3.5" /> Media Archive
-              </span>
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-slate-800">
-                Volunteer Gallery
-              </h2>
-              <p className="text-slate-500 text-sm sm:text-base font-medium">
-                Highlights from our nationwide awareness drives, screening camps, and community events.
-              </p>
-            </div>
-            {initialSession?.volunteerStatus === "VERIFIED" && (
-              <Button
-                onClick={() => setShowGalleryModal(true)}
-                className="bg-primary hover:bg-primary/95 text-white font-bold rounded-full px-6 py-6 text-xs flex items-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer transition-all shadow-md shadow-pink-100"
-              >
-                <Upload className="h-4 w-4" />
-                Upload Photo
-              </Button>
-            )}
-          </div>
-
-          {galleryItems.length > 0 ? (
-            <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-            >
-              {galleryItems.map((item, idx) => (
-                <motion.div
-                  key={item.id || idx}
-                  variants={fadeInUp}
-                  onClick={() => setLightboxImage(item)}
-                  className="relative aspect-square rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer border border-pink-100/60 bg-slate-100"
-                >
-                  <Image
-                    src={item.src}
-                    alt={item.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end">
-                    <h4 className="text-white font-heading font-bold text-sm leading-snug">
-                      {item.title}
-                    </h4>
-                    {item.submittedBy && (
-                      <p className="text-[11px] text-pink-100 mt-1 font-medium">
-                        Submitted by {item.submittedBy}
-                      </p>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          ) : (
-            <div className="border-2 border-dashed border-pink-200 bg-pink-50/30 rounded-2xl p-6 flex flex-col items-center justify-center text-center gap-3 max-w-xl mx-auto">
-              <Video className="h-8 w-8 text-pink-400" />
-              <h3 className="font-heading font-bold text-lg text-slate-700">No photos yet</h3>
-              <p className="text-xs text-slate-500 max-w-sm font-medium">
-                Verified volunteers can upload their campaign photos. Approved submissions will appear here.
-              </p>
-              {initialSession?.volunteerStatus === "VERIFIED" && (
-                <Button
-                  onClick={() => setShowGalleryModal(true)}
-                  className="mt-2 bg-primary hover:bg-primary/95 text-white font-bold text-xs rounded-full px-5 py-2.5 transition-all cursor-pointer shadow-md shadow-pink-100"
-                >
-                  <Upload className="h-3.5 w-3.5 mr-1.5" />
-                  Upload First Photo
-                </Button>
-              )}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* ================= FEEDBACK SUBMIT MODAL ================= */}
-      <AnimatePresence>
-        {showFeedbackModal && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-lg relative border border-pink-100"
-            >
-              <button
-                onClick={() => {
-                  setShowFeedbackModal(false);
-                  setFeedbackSuccess(false);
-                  setFeedbackError(null);
-                }}
-                className="absolute top-4 right-4 p-2 rounded-full hover:bg-pink-50 text-slate-400 hover:text-primary transition-colors"
-              >
-                <X className="h-5 w-5" />
-              </button>
-
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-10 w-10 rounded-xl bg-pink-50 text-primary flex items-center justify-center border border-pink-100/40">
-                  <MessageSquare className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-heading font-bold text-lg text-slate-900">Volunteer Feedback</h3>
-                  <p className="text-xs text-slate-500 font-medium">Share your campaign experience with the community</p>
-                </div>
-              </div>
-
-              {feedbackSuccess ? (
-                <div className="text-center py-6 space-y-4">
-                  <div className="h-12 w-12 rounded-full bg-pink-50 text-primary flex items-center justify-center mx-auto border border-pink-100">
-                    <Check className="h-6 w-6" />
-                  </div>
-                  <h4 className="font-bold text-slate-800 text-base">Feedback Submitted!</h4>
-                  <p className="text-xs text-slate-500 leading-relaxed font-medium">
-                    Thank you! Your feedback has been sent for admin review and will appear on the public board once approved.
-                  </p>
-                  <Button
-                    onClick={() => {
-                      setShowFeedbackModal(false);
-                      setFeedbackSuccess(false);
-                    }}
-                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-5 shadow-md shadow-pink-100"
-                  >
-                    Done
-                  </Button>
-                </div>
-              ) : (
-                <form onSubmit={handleFeedbackSubmit} className="space-y-5">
-                  {feedbackError && (
-                    <div className="p-3 rounded-xl bg-rose-50 text-rose-700 text-xs font-medium border border-rose-200">
-                      {feedbackError}
-                    </div>
-                  )}
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-2">
-                      Star Rating
-                    </label>
-                    <div className="flex gap-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          type="button"
-                          onClick={() => setFeedbackRating(star)}
-                          className="p-1.5 focus:outline-none transition-transform hover:scale-110"
-                        >
-                          <Star
-                            className={`h-7 w-7 ${star <= feedbackRating
-                                ? "text-amber-400 fill-amber-400"
-                                : "text-slate-200"
-                              }`}
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-2">
-                      Your Experience Message
-                    </label>
-                    <textarea
-                      rows={4}
-                      value={feedbackMessage}
-                      onChange={(e) => setFeedbackMessage(e.target.value)}
-                      placeholder="Share highlights from your volunteer drive or campaign work..."
-                      className="w-full border border-slate-200 rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-primary transition-all resize-none font-medium"
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    disabled={feedbackSubmitting}
-                    className="w-full py-5 bg-primary hover:bg-primary/95 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 shadow-md shadow-pink-100"
-                  >
-                    {feedbackSubmitting ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        Submitting...
-                      </>
-                    ) : (
-                      "Submit Feedback"
-                    )}
-                  </Button>
-                </form>
-              )}
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* ================= GALLERY UPLOAD MODAL ================= */}
-      <AnimatePresence>
-        {showGalleryModal && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-2xl p-6 max-w-lg w-full shadow-lg relative border border-pink-100"
-            >
-              <button
-                onClick={() => {
-                  setShowGalleryModal(false);
-                  setGallerySuccess(false);
-                  setGalleryError(null);
-                }}
-                className="absolute top-4 right-4 p-2 rounded-full hover:bg-pink-50 text-slate-400 hover:text-primary transition-colors"
-              >
-                <X className="h-5 w-5" />
-              </button>
-
-              <div className="flex items-center gap-3 mb-6">
-                <div className="h-10 w-10 rounded-xl bg-pink-50 text-primary flex items-center justify-center border border-pink-100/40">
-                  <Upload className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-heading font-bold text-lg text-slate-900">Upload to Gallery</h3>
-                  <p className="text-xs text-slate-500 font-medium">Share drive photos with campaign supporters</p>
-                </div>
-              </div>
-
-              {gallerySuccess ? (
-                <div className="text-center py-6 space-y-4">
-                  <div className="h-12 w-12 rounded-full bg-pink-50 text-primary flex items-center justify-center mx-auto border border-pink-100">
-                    <Check className="h-6 w-6" />
-                  </div>
-                  <h4 className="font-bold text-slate-800 text-base">Photo Uploaded!</h4>
-                  <p className="text-xs text-slate-500 leading-relaxed font-medium">
-                    Your photo has been uploaded and sent for admin review. It will be published to the gallery upon approval.
-                  </p>
-                  <Button
-                    onClick={() => {
-                      setShowGalleryModal(false);
-                      setGallerySuccess(false);
-                    }}
-                    className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-full py-5 shadow-md shadow-pink-100"
-                  >
-                    Done
-                  </Button>
-                </div>
-              ) : (
-                <form onSubmit={handleGallerySubmit} className="space-y-5">
-                  {galleryError && (
-                    <div className="p-3 rounded-xl bg-rose-50 text-rose-700 text-xs font-medium border border-rose-200">
-                      {galleryError}
-                    </div>
-                  )}
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-2">
-                      Photo Title
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={galleryTitle}
-                      onChange={(e) => setGalleryTitle(e.target.value)}
-                      placeholder="e.g. Pune Health Camp Awareness Drive"
-                      className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-primary transition-all font-medium"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-2">
-                      Select Image (Max 5MB, JPG/PNG/WEBP)
-                    </label>
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      required
-                      onChange={handleGalleryFileSelect}
-                      className="block w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-pink-50 file:text-primary hover:file:bg-pink-100 transition-all cursor-pointer border border-slate-200 rounded-xl p-2"
-                    />
-                  </div>
-
-                  {galleryPreview && (
-                    <div className="rounded-2xl overflow-hidden max-h-48 border border-pink-100 relative aspect-video">
-                      <Image
-                        src={galleryPreview}
-                        alt="Upload Preview"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-
-                  <Button
-                    type="submit"
-                    disabled={gallerySubmitting}
-                    className="w-full py-5 bg-primary hover:bg-primary/95 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 shadow-md shadow-pink-100"
-                  >
-                    {gallerySubmitting ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        Uploading Photo...
-                      </>
-                    ) : (
-                      "Submit for Review"
-                    )}
-                  </Button>
-                </form>
-              )}
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {lightboxImage && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="relative max-w-3xl w-full bg-slate-900 rounded-2xl overflow-hidden shadow-lg border border-white/10"
-            >
-              <button
-                onClick={() => setLightboxImage(null)}
-                className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
-              >
-                <X className="h-5 w-5" />
-              </button>
-              <div className="relative aspect-video w-full bg-black">
-                <Image
-                  src={lightboxImage.src}
-                  alt={lightboxImage.title}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <div className="p-6 bg-slate-900 text-white space-y-1">
-                <h3 className="font-heading font-bold text-lg text-white">
-                  {lightboxImage.title}
-                </h3>
-                {lightboxImage.submittedBy && (
-                  <p className="text-xs text-slate-400">
-                    Submitted by {lightboxImage.submittedBy}
-                  </p>
-                )}
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
 
       {/* ================= FREQUENTLY ASKED QUESTIONS ================= */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">

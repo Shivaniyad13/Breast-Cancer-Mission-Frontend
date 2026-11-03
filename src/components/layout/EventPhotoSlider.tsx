@@ -44,7 +44,7 @@ export default function EventPhotoSlider({
     <div className={className} aria-roledescription="carousel">
       <div className={`relative ${aspectClassName}`}>
         <Image
-          src={`/api/event-photos/${eventPhotoIds[currentIndex]}`}
+          src={`/event-photos/${eventPhotoIds[currentIndex]}`}
           alt={`Cancer Mukt Bharat event moment ${currentIndex + 1}`}
           width={2048}
           height={896}
