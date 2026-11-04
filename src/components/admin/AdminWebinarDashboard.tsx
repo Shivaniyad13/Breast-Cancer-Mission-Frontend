@@ -143,6 +143,12 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
   const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>, setter: (val: string) => void) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image files must be 5 MB or smaller.");
+      e.target.value = "";
+      return;
+    }
+
     const reader = new FileReader();
     reader.onloadend = () => {
       setter(reader.result as string);
@@ -870,6 +876,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                           </label>
                         </div>
                       </div>
+                      <p className="text-[11px] text-slate-500">Upload an image up to 5 MB.</p>
                     </div>
 
                     <div className="space-y-1.5">
@@ -949,6 +956,7 @@ export default function AdminWebinarDashboard({ webinars }: AdminWebinarDashboar
                           </label>
                         </div>
                       </div>
+                      <p className="text-[11px] text-slate-500">Upload an image up to 5 MB.</p>
                     </div>
                   </div>
 

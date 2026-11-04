@@ -8,6 +8,22 @@ import {
 } from "lucide-react";
 import BackToTopButton from "./BackToTopButton";
 
+const InstagramIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="3" y="3" width="18" height="18" rx="5" />
+    <circle cx="12" cy="12" r="4" />
+    <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+  </svg>
+);
+
 const FacebookIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
@@ -47,14 +63,20 @@ const quickLinks = [
 
 const socialLinks = [
   { icon: FacebookIcon, href: "https://facebook.com", label: "Facebook" },
+  {
+    icon: InstagramIcon,
+    href: "https://www.instagram.com/cancermuktbharatabhiyan/?hl=en",
+    label: "Instagram",
+  },
   { icon: TwitterXIcon, href: "https://twitter.com", label: "Twitter" },
   { icon: LinkedinIcon, href: "https://linkedin.com", label: "LinkedIn" },
   { icon: YoutubeIcon, href: "https://youtube.com", label: "YouTube" },
 ];
 
-const HEAD_OFFICE_ADDRESS = "B-14 Sector 64, Noida, Uttar Pradesh, India – 201309";
+const HEAD_OFFICE_ADDRESS = "40, Hanuman Lane, 1st Floor, Near Hanuman Mandir, Connaught Place, New Delhi – 110001";
 const MAP_EMBED_SRC =
-  "https://www.google.com/maps?q=Sector%2064%2C%20Noida%2C%20Uttar%20Pradesh%20201309&output=embed";
+  "https://www.google.com/maps?q=40%2C%20Hanuman%20Lane%2C%201st%20Floor%2C%20Near%20Hanuman%20Mandir%2C%20Connaught%20Place%2C%20New%20Delhi%20–%20110001&output=embed";
+  
 
 export default function Footer() {
   return (

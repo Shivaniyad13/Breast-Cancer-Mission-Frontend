@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import EventPhotoSlider from "@/components/layout/EventPhotoSlider";
+import EventPhotoGallery from "@/components/layout/EventPhotoGallery";
 import {
   CalendarDays,
   Clock3,
@@ -114,6 +115,8 @@ export default function DelhiUniversityCampaignPage() {
           </div>
         </div>
       </section>
+
+      <EventPhotoGallery />
 
       {/* ─────────────── SECTION 2 : GUESTS & PATRONS ─────────────── */}
       <section className="border-b border-pink-100 bg-gradient-to-b from-white to-pink-50/70 py-10 sm:py-14">

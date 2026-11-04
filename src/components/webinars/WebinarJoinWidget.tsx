@@ -203,8 +203,10 @@ export default function WebinarJoinWidget({
 
   // Past webinar
   if (isPast) {
+    const youtubeLink = availableLinks.find((link) => link.platform === "YouTube Live");
+
     return (
-      <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center space-y-3 shadow-sm">
+      <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center space-y-4 shadow-sm">
         <div className="flex justify-center text-slate-400">
           <AlertCircle className="h-10 w-10 stroke-[1.5]" />
         </div>
@@ -215,10 +217,35 @@ export default function WebinarJoinWidget({
           </h3>
 
           <p className="text-xs text-muted-foreground mt-1 max-w-sm mx-auto">
-            This webinar has already ended. Past webinars materials and
-            recording links are available inside your dashboard.
+            This webinar has ended, but registration is still open. Register
+            below, or watch the event on YouTube.
           </p>
         </div>
+
+        <WebinarRegisterButton
+          webinarId={webinarId}
+          webinarTitle={webinarTitle}
+          currentUser={currentUser}
+          buttonText="Register Now"
+          className="w-full bg-primary hover:bg-primary/95 text-white font-bold rounded-xl transition-all shadow-sm py-2.5 h-auto text-xs"
+        />
+
+        {youtubeLink ? (
+          <a
+            href={youtubeLink.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-white px-4 py-2.5 text-xs font-bold text-red-700 transition-colors hover:bg-red-50"
+          >
+            <Video className="h-4 w-4" />
+            Watch on YouTube
+            <ExternalLink className="h-3 w-3" />
+          </a>
+        ) : (
+          <p className="text-xs font-medium text-slate-500">
+            A YouTube recording link is not available yet.
+          </p>
+        )}
       </div>
     );
   }
