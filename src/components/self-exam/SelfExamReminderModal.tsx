@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   X,
@@ -112,26 +113,38 @@ export default function SelfExamReminderModal() {
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.9, y: 25, opacity: 0 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-pink-200/90 dark:border-pink-900/60 shadow-lg shadow-pink-500/20 outline-none"
+            className="relative h-[min(90vh,800px)] w-full max-w-5xl overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-pink-200/90 dark:border-pink-900/60 shadow-lg shadow-pink-500/20 outline-none"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top Accent Gradient Line */}
             <div className="h-2 w-full bg-pink-600" />
 
-            {/* Decorative Ambient Radial Glow */}
-            <div className="pointer-events-none absolute -top-12 -right-12 h-44 w-44 rounded-full bg-pink-400/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-12 -left-12 h-44 w-44 rounded-full bg-rose-400/15 blur-3xl" />
+            <div className="grid h-[calc(100%-0.5rem)] min-w-0 grid-rows-[auto_minmax(0,1fr)] overflow-hidden md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:grid-rows-1">
+              <div className="relative aspect-video w-full min-w-0 bg-[#fff9f3] md:aspect-auto md:min-h-0">
+                <Image
+                  src="/images/cancer-mukt-diwali-banner.png"
+                  alt="Cancer Mukt Bharat Abhiyan wishing you a joyful Dhanteras and Diwali"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  className="object-contain"
+                />
+              </div>
 
-            {/* Top Right Close Button */}
-            <button
-              onClick={handleClose}
-              aria-label="Close self examination reminder"
-              className="absolute top-4 right-4 z-10 p-2 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-pink-100/60 dark:hover:bg-slate-800 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-pink-500"
-            >
-              <X className="h-5 w-5" />
-            </button>
+              <div className="relative min-h-0 min-w-0 overflow-y-auto overflow-x-hidden p-5 sm:p-6">
+                {/* Decorative Ambient Radial Glow */}
+                <div className="pointer-events-none absolute -top-12 -right-12 h-44 w-44 rounded-full bg-pink-400/20 blur-3xl" />
+                <div className="pointer-events-none absolute -bottom-12 -left-12 h-44 w-44 rounded-full bg-rose-400/15 blur-3xl" />
 
-            <div className="p-6 space-y-6">
+                {/* Top Right Close Button */}
+                <button
+                  onClick={handleClose}
+                  aria-label="Close self examination reminder"
+                  className="absolute top-4 right-4 z-10 p-2 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-pink-100/60 dark:hover:bg-slate-800 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-pink-500"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+
+                <div className="relative z-[1] space-y-5 sm:space-y-6">
               {/* Header Icon & Title */}
               <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-3">
                 <div className="flex items-center justify-center sm:justify-start gap-3">
@@ -203,6 +216,8 @@ export default function SelfExamReminderModal() {
                 >
                   Maybe Later
                 </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
