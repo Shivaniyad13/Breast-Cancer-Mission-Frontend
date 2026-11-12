@@ -1289,3 +1289,4 @@ export default function EducationClient() {
     </div>
   );
 }
+
