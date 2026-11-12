@@ -68,9 +68,9 @@ const socialLinks = [
     href: "https://www.instagram.com/cancermuktbharatabhiyan/?hl=en",
     label: "Instagram",
   },
-  { icon: TwitterXIcon, href: "https://twitter.com", label: "Twitter" },
+  // { icon: TwitterXIcon, href: "https://twitter.com", label: "Twitter" },
   { icon: LinkedinIcon, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: YoutubeIcon, href: "https://youtube.com", label: "YouTube" },
+  // { icon: YoutubeIcon, href: "https://youtube.com", label: "YouTube" },
 ];
 
 const HEAD_OFFICE_ADDRESS = "40, Hanuman Lane, 1st Floor, Near Hanuman Mandir, Connaught Place, New Delhi – 110001";
