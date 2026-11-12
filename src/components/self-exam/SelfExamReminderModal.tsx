@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   X,
+  ChevronLeft,
+  ChevronRight,
   Ribbon,
   Sparkles,
   ArrowRight,
@@ -16,10 +18,34 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+type PopupImage = {
+  src: string
+  alt: string
+}
+
+function isPopupImageList(value: unknown): value is { images: PopupImage[] } {
+  if (!value || typeof value !== 'object' || !('images' in value)) return false
+  const images = value.images
+  return (
+    Array.isArray(images) &&
+    images.every(
+      (image) =>
+        image &&
+        typeof image === 'object' &&
+        'src' in image &&
+        typeof image.src === 'string' &&
+        'alt' in image &&
+        typeof image.alt === 'string'
+    )
+  )
+}
+
 export default function SelfExamReminderModal() {
   const pathname = usePathname()
   const router = useRouter()
   const [isVisible, setIsVisible] = useState(false)
+  const [popupImages, setPopupImages] = useState<PopupImage[]>([])
+  const [activeImageIndex, setActiveImageIndex] = useState(0)
   const modalRef = useRef<HTMLDivElement>(null)
 
   // 1. Check Route Exclusions
@@ -56,6 +82,48 @@ export default function SelfExamReminderModal() {
 
     return () => clearTimeout(timer)
   }, [isExcludedPage])
+
+  useEffect(() => {
+    if (isExcludedPage) return
+
+    const controller = new AbortController()
+
+    const loadPopupImages = async () => {
+      try {
+        const response = await fetch('/api/popup-images', {
+          cache: 'no-store',
+          signal: controller.signal,
+        })
+        if (!response.ok) {
+          throw new Error(`Popup image request failed with status ${response.status}`)
+        }
+
+        const data: unknown = await response.json()
+        if (!isPopupImageList(data)) {
+          throw new Error('Popup image response has an invalid format')
+        }
+
+        setPopupImages(data.images)
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.error('Failed to load self-examination popup images:', error)
+        }
+      }
+    }
+
+    void loadPopupImages()
+    return () => controller.abort()
+  }, [isExcludedPage])
+
+  useEffect(() => {
+    if (!isVisible || popupImages.length < 2) return
+
+    const timer = setInterval(() => {
+      setActiveImageIndex((index) => (index + 1) % popupImages.length)
+    }, 5000)
+
+    return () => clearInterval(timer)
+  }, [isVisible, popupImages.length])
 
   // 3. Mark session as seen & close modal
   const handleClose = () => {
@@ -119,16 +187,51 @@ export default function SelfExamReminderModal() {
             {/* Top Accent Gradient Line */}
             <div className="h-2 w-full bg-pink-600" />
 
-            <div className="grid h-[calc(100%-0.5rem)] min-w-0 grid-rows-[auto_minmax(0,1fr)] overflow-hidden md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:grid-rows-1">
-              <div className="relative aspect-video w-full min-w-0 bg-[#fff9f3] md:aspect-auto md:min-h-0">
-                <Image
-                  src="/images/cancer-mukt-diwali-banner.png"
-                  alt="Cancer Mukt Bharat Abhiyan wishing you a joyful Dhanteras and Diwali"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 40vw"
-                  className="object-contain"
-                />
-              </div>
+            <div
+              className={`grid h-[calc(100%-0.5rem)] min-w-0 grid-rows-[auto_minmax(0,1fr)] overflow-hidden ${
+                popupImages.length
+                  ? 'md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:grid-rows-1'
+                  : 'md:grid-cols-1 md:grid-rows-1'
+              }`}
+            >
+              {popupImages.length > 0 && (
+                <div className="relative aspect-video w-full min-w-0 bg-[#fff9f3] md:aspect-auto md:min-h-0">
+                  <Image
+                    key={popupImages[activeImageIndex].src}
+                    src={popupImages[activeImageIndex].src}
+                    alt={popupImages[activeImageIndex].alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                    className="object-contain"
+                  />
+                  {popupImages.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        aria-label="Previous popup image"
+                        onClick={() =>
+                          setActiveImageIndex(
+                            (index) => (index - 1 + popupImages.length) % popupImages.length
+                          )
+                        }
+                        className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-slate-800 shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      >
+                        <ChevronLeft className="h-5 w-5" />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label="Next popup image"
+                        onClick={() =>
+                          setActiveImageIndex((index) => (index + 1) % popupImages.length)
+                        }
+                        className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-slate-800 shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      >
+                        <ChevronRight className="h-5 w-5" />
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
 
               <div className="relative min-h-0 min-w-0 overflow-y-auto overflow-x-hidden p-5 sm:p-6">
                 {/* Decorative Ambient Radial Glow */}
