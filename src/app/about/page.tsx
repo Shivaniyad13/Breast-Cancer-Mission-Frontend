@@ -72,7 +72,7 @@ export default function AboutPage() {
           aria-label="Vision and Mission"
         >
           {/* Card 1: Vision */}
-          <Card className="group bg-white/70 backdrop-blur-md border border-pink-100 hover:border-pink-200 hover:shadow-md rounded-2xl overflow-hidden flex flex-col justify-between">
+          <Card className="group bg-white/70 backdrop-blur-md border border-pink-100 hover:border-pink-200 hover:shadow-md rounded-2xl overflow-hidden flex flex-col">
             <CardHeader className="p-6 pb-2">
               <div className="h-12 w-12 rounded-2xl bg-pink-50 text-primary flex items-center justify-center border border-pink-100">
                 <Eye className="h-6 w-6" />
@@ -96,7 +96,7 @@ export default function AboutPage() {
           </Card>
 
           {/* Card 2: Mission */}
-          <Card className="group bg-white/70 backdrop-blur-md border border-pink-200 hover:border-pink-300 hover:shadow-md rounded-2xl overflow-hidden flex flex-col justify-between ring-1 ring-pink-100/50">
+          <Card className="group bg-white/70 backdrop-blur-md border border-pink-200 hover:border-pink-300 hover:shadow-md rounded-2xl overflow-hidden flex flex-col ring-1 ring-pink-100/50">
             <CardHeader className="p-6 pb-2">
               <div className="h-12 w-12 rounded-2xl bg-pink-100 text-primary flex items-center justify-center border border-pink-200">
                 <Target className="h-6 w-6" />

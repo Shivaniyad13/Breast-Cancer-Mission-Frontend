@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import React from "react";
 import dynamic from "next/dynamic";
 
@@ -18,17 +17,11 @@ export default function LayoutWrapper({
   navbar: React.ReactNode;
   footer: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  // Safely check if we are on the campaign detail page
-  const isCampaignPage = pathname?.startsWith("/campaigns/breast-cancer");
-
   return (
     <>
       {navbar}
-      <main className={`flex-1 flex flex-col ${isCampaignPage ? "pt-0" : "pt-20"}`}>
-        {children}
-      </main>
-      {!isCampaignPage && footer}
+      <main className="flex-1 flex flex-col pt-20">{children}</main>
+      {footer}
       <SelfExamReminderModal />
     </>
   );

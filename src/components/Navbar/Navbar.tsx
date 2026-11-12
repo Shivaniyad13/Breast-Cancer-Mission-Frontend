@@ -94,8 +94,6 @@ const cureItems = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const isCampaignPage = pathname?.startsWith("/campaigns/breast-cancer");
-  const [isScrolled, setIsScrolled] = useState(false);
 
   const [user, setUser] = useState<{
     name?: string | null;
@@ -105,13 +103,6 @@ export default function Navbar() {
 
   // Loading state — isse LOGIN / Get Started ka flash nahi hoga
   const [authLoading, setAuthLoading] = useState(true);
-
-  // Scroll effect
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // Auth fetch — pathname change pe bhi refetch hoga
   useEffect(() => {
@@ -160,95 +151,51 @@ export default function Navbar() {
     window.location.replace("/");
   };
 
-  const headerClass = isCampaignPage
-    ? `fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 h-20 ${isScrolled
-      ? "bg-white/90 border-b border-pink-100 shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-white/80 text-slate-800"
-      : "bg-transparent border-b border-transparent text-slate-800"
-    }`
-    : "fixed top-0 left-0 right-0 w-full z-50 h-20 border-b border-pink-100 bg-white/90 backdrop-blur-md supports-[backdrop-filter]:bg-white/80 text-slate-800";
+  const headerClass =
+    "fixed top-0 left-0 right-0 w-full z-50 h-20 border-b border-pink-100 bg-white/90 backdrop-blur-md supports-[backdrop-filter]:bg-white/80 text-slate-800";
 
   return (
     <header className={headerClass}>
       <div className="container mx-auto relative flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Branding */}
         <div className="flex items-center gap-2 z-10">
-          {isCampaignPage ? (
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="flex items-center gap-1 bg-pink-50 px-2 sm:px-3 py-1.5 rounded-xl border border-pink-200 shadow-xs">
-                <Image
-                  src="/logo.png"
-                  alt="Khushi Centre Logo"
-                  width={80}
-                  height={80}
-                  className="h-5 w-5 sm:h-6 sm:w-6 object-contain shrink-0"
-                  priority
-                />
-                <span className="font-heading text-xs sm:text-sm font-bold tracking-tight text-slate-900">
-                  Khushi <span className="text-primary">Centre</span>
-                </span>
-                <span className="text-pink-600 text-[11px] sm:text-xs font-semibold px-1.5 border-l border-pink-200 hidden min-[360px]:inline-block">
-                  Campaign
-                </span>
-              </div>
-              <span className="hidden xl:inline-block text-[11px] text-pink-700 font-bold bg-pink-100/60 px-2 py-1 rounded-md">
-                An Initiative by Khushi Centre
-              </span>
-            </Link>
-          ) : (
-            <Link href="/" className="flex items-center gap-1.5">
-              <Image
-                src="/logo.png"
-                alt="Cancer Mukt Bharat Abhiyan Logo"
-                width={80}
-                height={80}
-                className="h-8 w-auto sm:h-10 md:h-12 object-contain shrink-0"
-                priority
-              />
-              <span className="font-heading flex flex-col leading-[1.1] tracking-tight whitespace-nowrap text-sm sm:text-base md:text-lg font-bold">
-                <span className="text-primary">Cancer Mukt</span>
-                <span className="text-slate-900">Bharat Abhiyan</span>
-              </span>
-            </Link>
-          )}
+          <Link href="/" className="flex items-center gap-1.5">
+            <Image
+              src="/logo.png"
+              alt="Cancer Mukt Bharat Abhiyan Logo"
+              width={80}
+              height={80}
+              className="h-8 w-auto sm:h-10 md:h-12 object-contain shrink-0"
+              priority
+            />
+            <span className="font-heading flex flex-col leading-[1.1] tracking-tight whitespace-nowrap text-sm sm:text-base md:text-lg font-bold">
+              <span className="text-primary">Cancer Mukt</span>
+              <span className="text-slate-900">Bharat Abhiyan</span>
+            </span>
+          </Link>
         </div>
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-3 lg:gap-5 xl:gap-7 absolute left-1/2 -translate-x-1/2 z-0">
-          {isCampaignPage ? (
-            <>
-              <a href="#hero" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Home</a>
-              <a href="#about" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">About</a>
-              <a href="#breast-cancer-info" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Breast Cancer</a>
-              <a href="#doctors" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Doctors</a>
-              <a href="#research" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Research</a>
-              <a href="#events" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Events</a>
-              <a href="#volunteer" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Volunteer</a>
-              <Link href="/donate" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Support</Link>
-              <a href="#contact" className="text-[13px] font-medium text-slate-600 hover:text-pink-700 transition-colors">Contact</a>
-            </>
-          ) : (
-            <>
-              <Link href="/" className="text-sm font-medium text-slate-600 transition-colors hover:text-pink-700">Home</Link>
+          <Link href="/" className="text-sm font-medium text-slate-600 transition-colors hover:text-pink-700">Home</Link>
 
-              {/* Hover dropdowns — open on hover, no click needed */}
-              <HoverDropdown label="Campaign" href="/campaigns/delhi-university" items={campaignItems} width="w-56" />
-              <HoverDropdown label="Care" items={careItems} width="w-56" />
-              <HoverDropdown label="Cure" items={cureItems} width="w-48" />
+          {/* Hover dropdowns — open on hover, no click needed */}
+          <HoverDropdown label="Campaign" href="/campaigns/delhi-university" items={campaignItems} width="w-56" />
+          <HoverDropdown label="Care" items={careItems} width="w-56" />
+          <HoverDropdown label="Cure" items={cureItems} width="w-48" />
 
-              <Link href="/donate" className="flex items-center">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="border-pink-300 text-pink-700 bg-pink-50/60 hover:bg-pink-100 hover:text-pink-800 font-medium transition-colors cursor-pointer rounded-lg h-9 px-4"
-                >
-                  Support Us
-                </Button>
-              </Link>
+          <Link href="/donate" className="flex items-center">
+            <Button
+              size="sm"
+              variant="outline"
+              className="border-pink-300 text-pink-700 bg-pink-50/60 hover:bg-pink-100 hover:text-pink-800 font-medium transition-colors cursor-pointer rounded-lg h-9 px-4"
+            >
+              Support Us
+            </Button>
+          </Link>
 
-              <Link href="/about" className="text-sm font-medium text-slate-600 transition-colors hover:text-pink-700">About</Link>
-              <Link href="/contact" className="text-sm font-medium text-slate-600 transition-colors hover:text-pink-700">Contact</Link>
-            </>
-          )}
+          <Link href="/about" className="text-sm font-medium text-slate-600 transition-colors hover:text-pink-700">About</Link>
+          <Link href="/contact" className="text-sm font-medium text-slate-600 transition-colors hover:text-pink-700">Contact</Link>
           <Link
             href="/webinars"
             className="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-pink-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition-colors hover:bg-pink-700 motion-reduce:animate-none animate-pulse"
@@ -314,42 +261,21 @@ export default function Navbar() {
                     Login
                   </Button>
                 </Link>
-                {isCampaignPage ? (
-                  <Link href="/register">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-pink-200 text-pink-700 hover:bg-pink-50 h-10 px-4 font-medium text-sm bg-white"
-                    >
-                      Register
-                    </Button>
-                  </Link>
-                ) : (
-                  <Link href="/register">
-                    <Button
-                      size="sm"
-                      className="bg-primary hover:bg-pink-700 text-white font-medium shadow-sm h-10 px-5"
-                    >
-                      Sign Up
-                    </Button>
-                  </Link>
-                )}
+                <Link href="/register">
+                  <Button
+                    size="sm"
+                    className="bg-primary hover:bg-pink-700 text-white font-medium shadow-sm h-10 px-5"
+                  >
+                    Sign Up
+                  </Button>
+                </Link>
               </>
-            )}
-
-            {isCampaignPage && !authLoading && (
-              <Link href="/donate">
-                <Button className="bg-pink-600 hover:bg-pink-700 text-white font-medium text-sm px-5 py-2 h-10 shadow-sm">
-                  Donate Now
-                </Button>
-              </Link>
             )}
           </div>
 
           <MobileMenu
             user={user ? { name: user.name, email: user.email, role: user.role } : undefined}
             handleSignOut={handleSignOut}
-            isCampaignPage={isCampaignPage}
           />
         </div>
       </div>

@@ -31,23 +31,18 @@ import {
 // Reusable data structure for Videos
 const educationalVideos = [
   {
+    title: "Breast & Cervical Cancer Awareness Campaign",
+    duration: null,
+    description: "Campaign awareness video about breast and cervical cancer. It starts automatically, plays muted, and loops continuously.",
+    src: "https://res.cloudinary.com/cmqbtzgw/video/upload/q_auto,w_1280/v1794464668/WhatsApp_Video_2026-10-29_at_12.28.56_PM_1.mp4",
+  },
+  {
     title: "Breast Self-Examination (BSE) Walkthrough",
     duration: "3:45",
     description: "Detailed medical walkthrough demonstrating correct examination motions, finger pressure, and inspection zones.",
     src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789020972/euhbbZb3sNXxgOi6g2MF_42G6uUncFHU.mp4",
   },
-  {
-    title: "Khushi Tactile Care Kit Instructions",
-    duration: "5:12",
-    description: "Learn how to use the checkup cards, timeline planners, and tactile exam aids included in the Khushi Care Kit.",
-    src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789022133/vid-20260715-wa0006-qir1ytvw_lQPH3Tjn.mp4",
-  },
-  {
-    title: "Understanding Early Breast Cancer Screening",
-    duration: "4:15",
-    description: "A patient-centric guide to understanding what to expect during a mammogram, clinical breast exam, or ultrasound.",
-    src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789021760/yPVvi64woY74YzOBqwhF_MmgUBXyBdEg.mp4",
-  }
+
 ];
 
 // Reusable data structure for FAQs
@@ -256,9 +251,9 @@ export default function EducationClient() {
               transition={{ delay: 0.1, duration: 0.6 }}
               className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-800 leading-[1.1]"
             >
-              Breast Cancer <br />
+              Understand Breast & Cervical Cancer <br />
               <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
-                Education
+
               </span>
             </motion.h1>
 
@@ -268,7 +263,7 @@ export default function EducationClient() {
               transition={{ delay: 0.2, duration: 0.7 }}
               className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto font-medium"
             >
-              Knowledge is the first step toward prevention and early detection. Learn about breast anatomy, cancer development, risk management, and screening paths.
+              Learn the basics of breast and cervical cancer, recognize possible warning signs, and understand prevention and early-detection options.
             </motion.p>
 
             <motion.div
@@ -292,30 +287,56 @@ export default function EducationClient() {
         </div>
       </section>
 
-      {/* ================= WHAT IS BREAST CANCER? ================= */}
+      {/* ================= BREAST & CERVICAL CANCER BASICS ================= */}
       <section id="what-is-breast-cancer" className="py-12 md:py-16 bg-white scroll-mt-6">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-          <div className="space-y-6">
-
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold ">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-8">
+          <div className="space-y-3 text-center">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold">
               <Info className="h-3.5 w-3.5" /> Core Overview
             </div>
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 leading-tight tracking-tight">
-              What is Breast Cancer?
+              Breast & Cervical Cancer Basics
             </h2>
-            <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
-              <p>
-                Breast cancer is a clinical disease in which normal cells in the breast mutate and divide in an uncontrolled, rapid fashion. This aberrant growth forms a dense mass of cells known as a <strong className="text-slate-800">tumor</strong>.
-              </p>
-              <p>
-                <strong className="text-slate-800">How it develops:</strong> The breast is composed of three main parts: lobules (glands that produce milk), ducts (tubes that carry milk to the nipple), and connective tissue. Most breast cancers begin in the ducts (ductal carcinoma) or the lobules (lobular carcinoma). The cancer can spread outside the breast through blood vessels and lymph channels, a process known as metastasis.
-              </p>
-              <p>
-                <strong className="text-slate-800">Importance of Awareness:</strong> Breast cancer is highly treatable if detected in its localized, early stages (Stage I), showing a five-year survival rate of over <strong className="text-primary">98%</strong>. Being aware of how your breasts normally look and feel is essential for identifying warning signs early.
-              </p>
-            </div>
-
+            <p className="mx-auto max-w-2xl text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
+              Learn where each cancer develops, possible warning signs, and ways to reduce risk and seek early care.
+            </p>
           </div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <article className="space-y-4 rounded-2xl border border-pink-100 bg-white p-6 shadow-sm">
+              <h3 className="font-heading text-2xl font-bold text-slate-800">Breast Cancer</h3>
+              <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+                <p>
+                  Breast cancer develops when cells in the breast grow abnormally and may form a tumor. It often begins in the milk ducts or lobules and can spread to nearby tissue or other parts of the body.
+                </p>
+                <p>
+                  <strong className="text-slate-800">Possible signs:</strong> a new lump or thickening, a change in breast size or shape, skin dimpling, nipple changes, or unusual discharge. Some changes are not cancer, but should be checked by a healthcare professional.
+                </p>
+                <p>
+                  <strong className="text-slate-800">Early care:</strong> notice changes in how your breasts normally look and feel, and ask a clinician about screening based on your age and risk. Self-examination does not replace professional screening or diagnosis.
+                </p>
+              </div>
+            </article>
+
+            <article id="what-is-cervical-cancer" className="space-y-4 rounded-2xl border border-rose-100 bg-white p-6 shadow-sm scroll-mt-6">
+              <h3 className="font-heading text-2xl font-bold text-slate-800">Cervical Cancer</h3>
+              <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+                <p>
+                  Cervical cancer starts in the cervix, the lower part of the uterus that connects to the vagina. Most cases are linked to a persistent infection with a high-risk type of human papillomavirus (HPV).
+                </p>
+                <p>
+                  <strong className="text-slate-800">Possible signs:</strong> early cervical cancer may cause no symptoms. Later signs can include bleeding after sex, between periods or after menopause, unusual vaginal discharge, or persistent pelvic pain.
+                </p>
+                <p>
+                  <strong className="text-slate-800">Prevention and early care:</strong> HPV vaccination can lower the risk. HPV tests and Pap tests can find infection or precancerous changes; ask a healthcare professional which screening schedule is right for you.
+                </p>
+              </div>
+            </article>
+          </div>
+
+          <p className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-900">
+            These signs can have causes other than cancer, and some cancers have no early symptoms. This information is for awareness only; seek advice from a qualified healthcare professional for concerns or screening.
+          </p>
         </div>
       </section>
 
@@ -367,10 +388,10 @@ export default function EducationClient() {
                 >
                   <motion.div
                     className={`w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${isActive
-                        ? "bg-white border-primary shadow-[0_0_15px_rgba(219,39,119,0.3)] text-primary scale-110"
-                        : isCompleted
-                          ? "bg-primary border-primary text-white"
-                          : "bg-white border-slate-200 text-slate-400 hover:border-pink-300 hover:text-pink-500"
+                      ? "bg-white border-primary shadow-[0_0_15px_rgba(219,39,119,0.3)] text-primary scale-110"
+                      : isCompleted
+                        ? "bg-primary border-primary text-white"
+                        : "bg-white border-slate-200 text-slate-400 hover:border-pink-300 hover:text-pink-500"
                       }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -407,8 +428,8 @@ export default function EducationClient() {
                   key={step.id}
                   onClick={() => setActiveStep(idx)}
                   className={`flex items-center gap-4 p-3 rounded-2xl border text-left transition-all cursor-pointer ${isActive
-                      ? "bg-pink-50/50 border-primary/50 shadow-xs"
-                      : "bg-white border-slate-100"
+                    ? "bg-pink-50/50 border-primary/50 shadow-xs"
+                    : "bg-white border-slate-100"
                     }`}
                 >
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 border-2 ${isActive ? "bg-white border-primary text-primary" : "bg-slate-50 border-slate-200 text-slate-400"
@@ -545,8 +566,8 @@ export default function EducationClient() {
                               <label
                                 key={item.id}
                                 className={`flex items-start gap-3 p-3 rounded-2xl border transition-all cursor-pointer select-none ${isChecked
-                                    ? "bg-pink-50/20 border-primary/30 shadow-xs"
-                                    : "bg-slate-50/50 border-slate-100 hover:border-pink-200"
+                                  ? "bg-pink-50/20 border-primary/30 shadow-xs"
+                                  : "bg-slate-50/50 border-slate-100 hover:border-pink-200"
                                   }`}
                               >
                                 <input
@@ -656,8 +677,8 @@ export default function EducationClient() {
                             key={idx}
                             onClick={() => setSelectedSymptomIdx(selectedSymptomIdx === idx ? null : idx)}
                             className={`border p-4 rounded-2xl transition-all cursor-pointer group flex flex-col justify-between min-h-[140px] relative overflow-hidden select-none ${isSelected
-                                ? "bg-rose-50/30 border-rose-300 shadow-sm"
-                                : "bg-white border-slate-100 hover:border-pink-200 hover:shadow-sm"
+                              ? "bg-rose-50/30 border-rose-300 shadow-sm"
+                              : "bg-white border-slate-100 hover:border-pink-200 hover:shadow-sm"
                               }`}
                           >
                             <div className="space-y-2">
@@ -735,8 +756,8 @@ export default function EducationClient() {
                             key={type.id}
                             onClick={() => setActiveTypeTab(type.id)}
                             className={`py-2 px-3 text-center rounded-xl font-bold text-xs transition-all cursor-pointer ${isSelected
-                                ? "bg-primary text-white shadow-sm"
-                                : "bg-slate-50 text-slate-500 border border-slate-100 hover:bg-slate-100"
+                              ? "bg-primary text-white shadow-sm"
+                              : "bg-slate-50 text-slate-500 border border-slate-100 hover:bg-slate-100"
                               }`}
                           >
                             <span className="block text-sm">{type.abbrev}</span>
@@ -1094,10 +1115,17 @@ export default function EducationClient() {
                   <span className="inline-flex items-center gap-1 text-[11px] font-bold text-primary bg-pink-50 px-2.5 py-1 rounded-md border border-pink-100/40">
                     Now Playing
                   </span>
-                  <span className="text-xs text-slate-500 flex items-center gap-1 font-semibold">
-                    <Clock className="h-3.5 w-3.5" />
-                    Duration: {educationalVideos[activeVideoIdx].duration}
-                  </span>
+                  {educationalVideos[activeVideoIdx].duration ? (
+                    <span className="text-xs text-slate-500 flex items-center gap-1 font-semibold">
+                      <Clock className="h-3.5 w-3.5" />
+                      Duration: {educationalVideos[activeVideoIdx].duration}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-slate-500 flex items-center gap-1 font-semibold">
+                      <Play className="h-3.5 w-3.5" />
+                      Autoplay · Loop
+                    </span>
+                  )}
                 </div>
                 <h4 className="text-lg font-bold text-slate-800">
                   {educationalVideos[activeVideoIdx].title}
@@ -1125,22 +1153,28 @@ export default function EducationClient() {
                       key={idx}
                       onClick={() => handleVideoSelect(idx)}
                       className={`w-full text-left flex items-start gap-3 p-3 rounded-2xl border transition-all duration-300 cursor-pointer ${isActive
-                          ? "bg-pink-50/40 border-primary/50 shadow-sm"
-                          : "bg-white border-slate-100 hover:border-pink-200/50 hover:bg-pink-50/10"
+                        ? "bg-pink-50/40 border-primary/50 shadow-sm"
+                        : "bg-white border-slate-100 hover:border-pink-200/50 hover:bg-pink-50/10"
                         }`}
                     >
                       <div className={`relative h-16 w-24 rounded-lg overflow-hidden shrink-0 flex items-center justify-center border ${isActive
-                          ? "bg-gradient-to-br from-pink-100 to-rose-100 border-pink-200"
-                          : "bg-gradient-to-br from-slate-100 to-slate-50 border-slate-100"
+                        ? "bg-gradient-to-br from-pink-100 to-rose-100 border-pink-200"
+                        : "bg-gradient-to-br from-slate-100 to-slate-50 border-slate-100"
                         }`}>
                         <Play className={`h-6 w-6 ${isActive ? "text-primary fill-primary scale-110" : "text-slate-400"} transition-transform`} />
                       </div>
                       <div className="space-y-1 flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-1">
-                          <span className="text-[11px] font-semibold text-slate-400 flex items-center gap-0.5">
-                            <Clock className="h-2.5 w-2.5" />
-                            {video.duration}
-                          </span>
+                          {video.duration ? (
+                            <span className="text-[11px] font-semibold text-slate-400 flex items-center gap-0.5">
+                              <Clock className="h-2.5 w-2.5" />
+                              {video.duration}
+                            </span>
+                          ) : (
+                            <span className="text-[11px] font-semibold text-slate-400">
+                              Auto-loop
+                            </span>
+                          )}
                           {isActive && (
                             <span className="inline-flex h-1.5 w-1.5 rounded-full bg-primary animate-ping" />
                           )}
@@ -1242,11 +1276,7 @@ export default function EducationClient() {
                 Learn About Diagnosis
               </Button>
             </Link>
-            <Link href="/campaigns/breast-cancer">
-              <Button variant="outline" className="w-full border-white/40 bg-white/10 hover:bg-white/20 text-white font-bold rounded-lg py-5 px-4 transition-all text-xs cursor-pointer">
-                Join Awareness Campaign
-              </Button>
-            </Link>
+
             <Link href="/webinars">
               <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-lg py-5 px-4 shadow-lg transition-all text-xs cursor-pointer">
                 Register for Webinar

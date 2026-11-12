@@ -19,10 +19,9 @@ interface MobileMenuProps {
     role?: string;
   };
   handleSignOut: () => Promise<void>;
-  isCampaignPage?: boolean;
 }
 
-export default function MobileMenu({ user, handleSignOut, isCampaignPage = false }: MobileMenuProps) {
+export default function MobileMenu({ user, handleSignOut }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [openSection, setOpenSection] = useState<string | null>(null);
 
@@ -69,24 +68,12 @@ export default function MobileMenu({ user, handleSignOut, isCampaignPage = false
           
           {/* Header */}
           <div className="flex items-center justify-between pb-6 border-b shrink-0" style={{ borderColor: "var(--color-pink-100)" }}>
-            {isCampaignPage ? (
-              <Link href="/" onClick={closeMenu} className="flex items-center gap-1.5">
-                <Ribbon className="h-5 w-5 text-primary" />
-                <span className="font-heading text-base font-bold tracking-tight text-slate-900">
-                  Khushi <span className="text-primary">Centre</span>
-                </span>
-                <span className="text-pink-600 text-xs font-semibold px-1 border-l border-pink-200">
-                  Campaign
-                </span>
-              </Link>
-            ) : (
-              <Link href="/" onClick={closeMenu} className="flex items-center gap-1.5">
-                <Ribbon className="h-5 w-5 text-primary" />
-                <span className="font-heading text-base font-bold tracking-tight text-slate-900">
-                  Cancer <span className="text-primary">Mission</span>
-                </span>
-              </Link>
-            )}
+            <Link href="/" onClick={closeMenu} className="flex items-center gap-1.5">
+              <Ribbon className="h-5 w-5 text-primary" />
+              <span className="font-heading text-base font-bold tracking-tight text-slate-900">
+                Cancer <span className="text-primary">Mission</span>
+              </span>
+            </Link>
             
             {/* Close Button - fixed/absolute top-right with 44px+ touch-friendly target */}
             <button
@@ -100,91 +87,7 @@ export default function MobileMenu({ user, handleSignOut, isCampaignPage = false
 
           {/* Navigation Links Scroll Container */}
           <nav className="flex-1 overflow-y-auto py-6 pr-1 space-y-5 my-2 no-scrollbar">
-            {isCampaignPage ? (
-              <>
-                <a
-                  href="#hero"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  Home
-                </a>
-                <Link
-                  href="/webinars"
-                  onClick={closeMenu}
-                  className="block rounded-xl bg-pink-600 px-4 py-3 text-center text-base font-bold text-white shadow-sm animate-pulse motion-reduce:animate-none"
-                >
-                  Join Webinar
-                </Link>
-                <a
-                  href="#about"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  About
-                </a>
-                <a
-                  href="#breast-cancer-info"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  Breast Cancer
-                </a>
-                <a
-                  href="#doctors"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  Doctors
-                </a>
-                <a
-                  href="#research"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  Research
-                </a>
-                <a
-                  href="#events"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  Events
-                </a>
-                <a
-                  href="#volunteer"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  Volunteer
-                </a>
-                <Link
-                  href="/donate"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  Donate
-                </Link>
-                <a
-                  href="#contact"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  Contact
-                </a>
-              </>
-            ) : (
-              <>
-                {/* Home */}
+              {/* Home */}
                 <Link
                   href="/"
                   onClick={closeMenu}
@@ -289,8 +192,6 @@ export default function MobileMenu({ user, handleSignOut, isCampaignPage = false
                 >
                   Contact Us
                 </Link>
-              </>
-            )}
           </nav>
 
           {/* Footer Actions / User Session Info - shrink-0 */}
