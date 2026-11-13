@@ -9,9 +9,6 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  outputFileTracingIncludes: {
-    "/api/popup-images": ["./public/popup/**/*"],
-  },
   turbopack: {
     root: process.cwd(),
   },
