@@ -9,8 +9,10 @@ const imageExtensions = new Set([".avif", ".gif", ".jpeg", ".jpg", ".png", ".web
 
 export async function GET() {
   try {
-    const popupDirectory = join(process.cwd(), "public", "popup");
+    // Path update kiya gaya hai: public/images/popup
+    const popupDirectory = join(process.cwd(), "public", "images", "popup");
     const entries = await readdir(popupDirectory, { withFileTypes: true });
+
     const images = entries
       .filter(
         (entry) =>
@@ -19,7 +21,8 @@ export async function GET() {
       )
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((entry) => ({
-        src: `/popup/${encodeURIComponent(entry.name)}`,
+        // URL path update kiya gaya hai: /images/popup/
+        src: `/images/popup/${encodeURIComponent(entry.name)}`,
         alt: entry.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "),
       }));
 
@@ -28,7 +31,8 @@ export async function GET() {
       { headers: { "Cache-Control": "no-store" } }
     );
   } catch (error) {
-    console.error("Failed to read public/popup images:", error);
+    // Console error message bhi update kiya gaya hai
+    console.error("Failed to read public/images/popup images:", error);
     return NextResponse.json(
       { error: "Failed to load popup images" },
       { status: 500, headers: { "Cache-Control": "no-store" } }

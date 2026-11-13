@@ -74,9 +74,9 @@ function HoverDropdown({
 }
 
 const campaignItems = [
-  { label: "Delhi University Event", href: "/campaigns/delhi-university" },
+  // { label: "Delhi University Event", href: "/campaigns/delhi-university" },
   { label: "Education", href: "/campaigns/education" },
-  { label: "Our Activities", href: "/campaigns/awareness" },
+    { label: "Our Activities", href: "/campaigns/our-activities" },
   { label: "Membership", href: "/campaigns/membership" },
   { label: "Volunteers", href: "/campaigns/volunteers" },
 ];
@@ -184,7 +184,7 @@ export default function Navbar() {
           <HoverDropdown label="Care" items={careItems} width="w-56" />
           <HoverDropdown label="Cure" items={cureItems} width="w-48" />
 
-          <Link href="/donate" className="flex items-center">
+          <Link href="https://support.khushicentre.in" className="flex items-center">
             <Button
               size="sm"
               variant="outline"
