@@ -4,10 +4,9 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    // Direct single image path
     const images = [
       {
-        src: "/images/Chhath Puja Greetings by Cancer Mukt Bharat.png",
+        src: "/images/chhath-puja.png",
         alt: "Chhath Puja Greetings",
       },
     ];
