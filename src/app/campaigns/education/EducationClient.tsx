@@ -25,311 +25,269 @@ import {
   Activity,
   Layers,
   Plus,
-  Minus
+  Minus,
+  Syringe,
+  Microscope,
+  Droplets,
 } from "lucide-react";
 
-// Reusable data structure for Videos
+// ═══════════════════════════════════════════════════════════
+// EDUCATIONAL VIDEOS
+// ═══════════════════════════════════════════════════════════
 const educationalVideos = [
   {
-    title: "Breast & Cervical Cancer Awareness Campaign",
+    title: "Cervical Cancer Awareness Campaign",
     duration: null,
-    description: "Campaign awareness video about breast and cervical cancer. It starts automatically, plays muted, and loops continuously.",
+    description: "",
     src: "https://res.cloudinary.com/cmqbtzgw/video/upload/q_auto,w_1280/v1794464668/WhatsApp_Video_2026-10-29_at_12.28.56_PM_1.mp4",
   },
   {
     title: "Breast Self-Examination (BSE) Walkthrough",
     duration: "3:45",
-    description: "Detailed medical walkthrough demonstrating correct examination motions, finger pressure, and inspection zones.",
+    description: "",
     src: "https://res.cloudinary.com/cmqbtzgw/video/upload/v1789020972/euhbbZb3sNXxgOi6g2MF_42G6uUncFHU.mp4",
   },
-
 ];
 
-// Reusable data structure for FAQs
-const faqsList = [
+// ═══════════════════════════════════════════════════════════
+// FAQS
+// ═══════════════════════════════════════════════════════════
+const breastFaqs = [
   {
     q: "What is breast cancer?",
-    a: "Breast cancer is a disease in which cells in the breast grow out of control. It usually starts in the lobules (the glands that produce milk) or the ducts (the passages that carry milk from the glands to the nipple). These mutated cells can form a tumor that can often be seen on an X-ray or felt as a lump. If left untreated, cancerous cells can invade surrounding healthy tissue or spread to other parts of the body (metastasis)."
+    a: "Breast cancer is a disease in which cells in the breast grow out of control. It usually starts in the lobules (the glands that produce milk) or the ducts (the passages that carry milk from the glands to the nipple). These mutated cells can form a tumor that can often be seen on an X-ray or felt as a lump. If left untreated, cancerous cells can invade surrounding healthy tissue or spread to other parts of the body (metastasis).",
   },
   {
     q: "Can breast cancer be prevented?",
-    a: "While breast cancer cannot be completely prevented, you can significantly reduce your risk by adopting a healthy lifestyle. This includes maintaining a healthy weight, staying physically active, limiting alcohol intake, avoiding smoking, and breastfeeding if possible. Regular clinical screenings and monthly self-examinations are vital, as detecting cancer at Stage I yields a survival rate of over 98%."
+    a: "While breast cancer cannot be completely prevented, you can significantly reduce your risk by adopting a healthy lifestyle. This includes maintaining a healthy weight, staying physically active, limiting alcohol intake, avoiding smoking, and breastfeeding if possible. Regular clinical screenings and monthly self-examinations are vital, as detecting cancer at Stage I yields a survival rate of over 98%.",
   },
   {
-    q: "Who is at higher risk?",
-    a: "Risk factors include being female, aging (particularly over 40), personal or family history of breast cancer, dense breast tissue, genetic mutations (such as BRCA1 and BRCA2 genes), early onset of menstruation (before age 12), late menopause, and lifestyle factors. Having risk factors does not mean you will get cancer, but it increases the importance of early and regular screenings."
+    q: "Who is at higher risk of breast cancer?",
+    a: "Risk factors include being female, aging (particularly over 40), personal or family history of breast cancer, dense breast tissue, genetic mutations (such as BRCA1 and BRCA2 genes), early onset of menstruation (before age 12), late menopause, and lifestyle factors. Having risk factors does not mean you will get cancer, but it increases the importance of early and regular screenings.",
   },
   {
-    q: "How often should screening be done?",
-    a: "It is recommended that women over 20 perform a Breast Self-Examination (BSE) monthly. A Clinical Breast Examination (CBE) should be performed by a healthcare professional every 1 to 3 years for women aged 20-39, and annually for women 40 and older. Mammography screening is recommended annually or biennially for women starting at age 40, or earlier if they have high-risk factors."
-  }
+    q: "How often should breast cancer screening be done?",
+    a: "It is recommended that women over 20 perform a Breast Self-Examination (BSE) monthly. A Clinical Breast Examination (CBE) should be performed by a healthcare professional every 1 to 3 years for women aged 20-39, and annually for women 40 and older. Mammography screening is recommended annually or biennially for women starting at age 40, or earlier if they have high-risk factors.",
+  },
 ];
 
-const preventionItems = [
+const cervicalFaqs = [
+  {
+    q: "What is cervical cancer?",
+    a: "Cervical cancer begins in the cervix, the lower, narrow part of the uterus that opens into the vagina. Nearly all cases are caused by persistent infection with high-risk types of the human papillomavirus (HPV), a very common virus spread through skin-to-skin intimate contact. Before cancer develops, the cells of the cervix usually go through pre-cancerous changes that can be detected and treated early.",
+  },
+  {
+    q: "Can cervical cancer be prevented?",
+    a: "Yes — cervical cancer is one of the most preventable cancers. Two powerful tools are available: (1) HPV vaccination, which protects against the high-risk HPV types responsible for most cases, ideally given before exposure (ages 9–14); and (2) regular screening (Pap test and/or HPV test), which detects pre-cancerous changes before they become cancer. Safe sexual practices and avoiding smoking further reduce risk.",
+  },
+  {
+    q: "Who is at higher risk of cervical cancer?",
+    a: "Risk factors include persistent infection with high-risk HPV types, early onset of sexual activity, multiple sexual partners, smoking, a weakened immune system (including HIV), long-term use of oral contraceptives, having multiple full-term pregnancies, and lack of regular cervical screening or HPV vaccination. Having risk factors does not mean you will develop cancer, but it raises the importance of screening.",
+  },
+  {
+    q: "How often should cervical cancer screening be done?",
+    a: "Screening generally begins at age 21 (or within 3 years of becoming sexually active). A Pap test alone is typically done every 3 years; an HPV test alone every 5 years; or a co-test (Pap + HPV) every 5 years for women aged 30–65. Women with abnormal results or higher risk may need more frequent testing. Screening can often stop after age 65 if prior results have been normal — always confirm the schedule with your clinician.",
+  },
+];
+
+// ═══════════════════════════════════════════════════════════
+// PREVENTION
+// ═══════════════════════════════════════════════════════════
+const breastPreventionItems = [
   { id: "weight", text: "Maintain a healthy body weight for your height & frame.", desc: "Reduces fat tissues that can produce excess estrogen levels." },
   { id: "exercise", text: "Incorporate at least 150 minutes of moderate exercise weekly.", desc: "Regular physical activity strengthens the immune system and regulates hormone levels." },
   { id: "alcohol", text: "Limit or avoid alcohol consumption entirely.", desc: "Alcohol can increase estrogen levels and damage cell DNA." },
   { id: "breastfeed", text: "Breastfeed if possible for protective benefits.", desc: "Lowers total lifetime menstrual cycles, reducing estrogen exposure." },
   { id: "bse", text: "Perform monthly breast self-examinations (BSE).", desc: "Builds breast tissue familiarity to catch subtle anomalies early." },
-  { id: "screening", text: "Consult an oncologist for clinical screenings.", desc: "Enables early professional diagnosis (mammograms, clinical exams)." }
+  { id: "screening", text: "Consult an oncologist for clinical breast screenings.", desc: "Enables early professional diagnosis (mammograms, clinical exams)." },
 ];
 
-const riskFactors = {
+const cervicalPreventionItems = [
+  { id: "hpv-vaccine", text: "Get the HPV vaccine (ideally before age 15).", desc: "Protects against high-risk HPV types responsible for most cervical cancers." },
+  { id: "pap", text: "Go for regular Pap tests / HPV tests as advised.", desc: "Detects pre-cancerous changes years before they become cancer." },
+  { id: "smoking", text: "Avoid smoking and tobacco use.", desc: "Smoking weakens cervical immunity and doubles the risk of cervical cancer." },
+  { id: "safe-sex", text: "Practice safe sexual habits and limit partner exposure.", desc: "Reduces the risk of persistent high-risk HPV infection." },
+  { id: "immune", text: "Maintain a strong immune system.", desc: "A healthy immune system can clear HPV infections more effectively." },
+  { id: "followup", text: "Follow up promptly on abnormal Pap/HPV results.", desc: "Early treatment of pre-cancer prevents progression to cancer." },
+];
+
+// ═══════════════════════════════════════════════════════════
+// RISK FACTORS
+// ═══════════════════════════════════════════════════════════
+const breastRiskFactors = {
   uncontrollable: [
     { title: "Age & Gender", desc: "Being female and over 40 carries higher statistically documented risk.", icon: ShieldCheck },
     { title: "Genetic Mutations", desc: "Inherited mutations in BRCA1 and BRCA2 genes significantly increase lifetime risk.", icon: AlertCircle },
     { title: "Family History", desc: "First-degree relatives (mother, sister, daughter) diagnosed with breast cancer increases risk.", icon: Info },
-    { title: "Dense Breast Tissue", desc: "More connective tissue than fatty tissue makes it harder to spot lumps on mammograms.", icon: Layers }
+    { title: "Dense Breast Tissue", desc: "More connective tissue than fatty tissue makes it harder to spot lumps on mammograms.", icon: Layers },
   ],
   controllable: [
     { title: "Physical Inactivity", desc: "A sedentary lifestyle increases overall metabolic and estrogen risks.", icon: Activity },
     { title: "Body Weight", desc: "Being overweight or obese after menopause increases risk as fat tissue produces estrogen.", icon: Activity },
     { title: "Alcohol Intake", desc: "Regular alcohol consumption is directly linked to an increased risk of breast cancer.", icon: HeartCrack },
-    { title: "Hormone Therapy", desc: "Certain hormone replacement therapies (HRT) taken during menopause can elevate risk.", icon: HelpCircle }
-  ]
+    { title: "Hormone Therapy", desc: "Certain hormone replacement therapies (HRT) taken during menopause can elevate risk.", icon: HelpCircle },
+  ],
 };
 
-const symptomsData = [
-  {
-    title: "Hard Lump",
-    desc: "A new, painless, firm, or hard lump with irregular edges is the most common warning sign.",
-    tip: "Though some lumps are soft or round, any new mass should be immediately checked by a medical expert."
-  },
-  {
-    title: "Tissue Swelling",
-    desc: "Swelling of all or part of a breast, even if no distinct lump is felt.",
-    tip: "It may cause a feeling of tightness or visible size difference between breasts."
-  },
-  {
-    title: "Skin Dimpling",
-    desc: "Skin dimpling, puckering, or texture changes resembling an orange peel (peau d'orange).",
-    tip: "This is caused by cancer cells blocking lymph vessels in the skin."
-  },
-  {
-    title: "Nipple Retraction",
-    desc: "The nipple turning inward (inversion) or experiencing persistent nipple pain.",
-    tip: "If a previously normal nipple suddenly retracts, it requires swift clinical evaluation."
-  },
-  {
-    title: "Redness & Flaking",
-    desc: "Redness, scaling, flaking, or thickening of the nipple or breast skin.",
-    tip: "Often mimics skin infections or eczema, but should be properly diagnosed."
-  },
-  {
-    title: "Unusual Discharge",
-    desc: "Nipple discharge other than breast milk, particularly if it is bloody or sudden.",
-    tip: "Discharge from only one breast or that occurs spontaneously needs immediate investigation."
-  }
+const cervicalRiskFactors = {
+  uncontrollable: [
+    { title: "HPV Infection", desc: "Persistent infection with high-risk HPV types (16, 18) causes ~95% of cervical cancers.", icon: Microscope },
+    { title: "Age", desc: "Risk increases with age, especially between 30 and 55 years.", icon: ShieldCheck },
+    { title: "Weakened Immunity", desc: "Conditions like HIV or immunosuppressant use reduce the body's ability to clear HPV.", icon: AlertCircle },
+    { title: "Multiple Pregnancies", desc: "Having 3+ full-term pregnancies is associated with a higher risk.", icon: Info },
+  ],
+  controllable: [
+    { title: "Missed Screening", desc: "Not getting regular Pap/HPV tests allows pre-cancer to go undetected.", icon: FileText },
+    { title: "Smoking", desc: "Tobacco use weakens cervical cells and doubles cervical cancer risk.", icon: HeartCrack },
+    { title: "Unprotected Intimacy", desc: "Early sexual activity and multiple partners increase HPV exposure.", icon: Droplets },
+    { title: "No HPV Vaccine", desc: "Skipping HPV vaccination leaves the most common high-risk types unblocked.", icon: Syringe },
+  ],
+};
+
+// ═══════════════════════════════════════════════════════════
+// SYMPTOMS
+// ═══════════════════════════════════════════════════════════
+const breastSymptomsData = [
+  { title: "Hard Lump", desc: "A new, painless, firm, or hard lump with irregular edges is the most common warning sign.", tip: "Though some lumps are soft or round, any new mass should be immediately checked by a medical expert." },
+  { title: "Tissue Swelling", desc: "Swelling of all or part of a breast, even if no distinct lump is felt.", tip: "It may cause a feeling of tightness or visible size difference between breasts." },
+  { title: "Skin Dimpling", desc: "Skin dimpling, puckering, or texture changes resembling an orange peel (peau d'orange).", tip: "This is caused by cancer cells blocking lymph vessels in the skin." },
+  { title: "Nipple Retraction", desc: "The nipple turning inward (inversion) or experiencing persistent nipple pain.", tip: "If a previously normal nipple suddenly retracts, it requires swift clinical evaluation." },
+  { title: "Redness & Flaking", desc: "Redness, scaling, flaking, or thickening of the nipple or breast skin.", tip: "Often mimics skin infections or eczema, but should be properly diagnosed." },
+  { title: "Unusual Discharge", desc: "Nipple discharge other than breast milk, particularly if it is bloody or sudden.", tip: "Discharge from only one breast or that occurs spontaneously needs immediate investigation." },
 ];
 
-const cancerTypesData = [
-  {
-    id: "dcis",
-    name: "Ductal Carcinoma In Situ",
-    abbrev: "DCIS",
-    category: "Non-Invasive (Stage 0)",
-    desc: "DCIS is the earliest stage of breast cancer. The abnormal cells are confined entirely inside the milk ducts and have not invaded surrounding breast tissue.",
-    outlook: "Highly treatable and curable with standard localized therapies.",
-    badgeColor: "bg-pink-100 text-pink-800 border-pink-200"
-  },
-  {
-    id: "idc",
-    name: "Invasive Ductal Carcinoma",
-    abbrev: "IDC",
-    category: "Invasive (Most Common)",
-    desc: "IDC starts in the milk ducts, breaks through the duct walls, and grows into surrounding breast tissues. From there, it may metastasize through the lymphatic system.",
-    outlook: "Accounts for about 80% of all invasive breast cancers.",
-    badgeColor: "bg-rose-100 text-rose-800 border-rose-200"
-  },
-  {
-    id: "ilc",
-    name: "Invasive Lobular Carcinoma",
-    abbrev: "ILC",
-    category: "Invasive (Second Common)",
-    desc: "ILC begins in the milk-producing glands (lobules) and spreads to surrounding breast tissues. It can be harder to detect via mammogram than IDC.",
-    outlook: "Often presents as a thickening of tissue rather than a distinct lump.",
-    badgeColor: "bg-pink-100 text-pink-800 border-pink-200"
-  },
-  {
-    id: "tnbc",
-    name: "Triple-Negative Breast Cancer",
-    abbrev: "TNBC",
-    category: "Invasive (Aggressive)",
-    desc: "TNBC lacks estrogen, progesterone, and HER2 receptors. Because of this, hormone therapy and targeted drugs are not effective against it.",
-    outlook: "Requires chemotherapy or immunotherapy. Tends to grow and spread faster.",
-    badgeColor: "bg-rose-100 text-rose-800 border-rose-200"
-  }
+const cervicalSymptomsData = [
+  { title: "Irregular Bleeding", desc: "Bleeding between periods, after sex, or after menopause is the most common warning sign.", tip: "Any unexplained vaginal bleeding should be evaluated by a gynecologist promptly." },
+  { title: "Unusual Discharge", desc: "Watery, bloody, or foul-smelling vaginal discharge that is persistent.", tip: "While discharge can be normal, a sudden change in color, odor, or amount needs a check." },
+  { title: "Pain During Intercourse", desc: "Persistent pelvic pain or pain during sexual intercourse.", tip: "This is often a later sign — do not wait for pain to begin screening." },
+  { title: "Pelvic Pain", desc: "Ongoing pain in the lower belly or pelvis that does not resolve.", tip: "Pelvic pain has many causes; persistent pain should always be investigated." },
+  { title: "Painful Urination", desc: "Burning or discomfort while urinating, sometimes with blood.", tip: "Could indicate spread or a concurrent infection — needs clinical review." },
+  { title: "Leg / Back Swelling", desc: "Swelling in one leg or lower back pain in advanced cases.", tip: "Advanced cervical cancer can block lymph or press on nerves — urgent evaluation needed." },
+];
+
+// ═══════════════════════════════════════════════════════════
+// CANCER TYPES
+// ═══════════════════════════════════════════════════════════
+const breastCancerTypesData = [
+  { id: "dcis", name: "Ductal Carcinoma In Situ", abbrev: "DCIS", category: "Non-Invasive (Stage 0)", desc: "DCIS is the earliest stage of breast cancer. The abnormal cells are confined entirely inside the milk ducts and have not invaded surrounding breast tissue.", outlook: "Highly treatable and curable with standard localized therapies.", badgeColor: "bg-pink-100 text-pink-800 border-pink-200" },
+  { id: "idc", name: "Invasive Ductal Carcinoma", abbrev: "IDC", category: "Invasive (Most Common)", desc: "IDC starts in the milk ducts, breaks through the duct walls, and grows into surrounding breast tissues. From there, it may metastasize through the lymphatic system.", outlook: "Accounts for about 80% of all invasive breast cancers.", badgeColor: "bg-rose-100 text-rose-800 border-rose-200" },
+  { id: "ilc", name: "Invasive Lobular Carcinoma", abbrev: "ILC", category: "Invasive (Second Common)", desc: "ILC begins in the milk-producing glands (lobules) and spreads to surrounding breast tissues. It can be harder to detect via mammogram than IDC.", outlook: "Often presents as a thickening of tissue rather than a distinct lump.", badgeColor: "bg-pink-100 text-pink-800 border-pink-200" },
+  { id: "tnbc", name: "Triple-Negative Breast Cancer", abbrev: "TNBC", category: "Invasive (Aggressive)", desc: "TNBC lacks estrogen, progesterone, and HER2 receptors. Because of this, hormone therapy and targeted drugs are not effective against it.", outlook: "Requires chemotherapy or immunotherapy. Tends to grow and spread faster.", badgeColor: "bg-rose-100 text-rose-800 border-rose-200" },
+];
+
+const cervicalCancerTypesData = [
+  { id: "scc", name: "Squamous Cell Carcinoma", abbrev: "SCC", category: "Most Common (~80%)", desc: "SCC arises from the flat, thin squamous cells lining the outer part of the cervix (ectocervix). It is strongly linked to high-risk HPV infection.", outlook: "Highly curable when caught at an early stage via Pap/HPV screening.", badgeColor: "bg-pink-100 text-pink-800 border-pink-200" },
+  { id: "adeno", name: "Adenocarcinoma", abbrev: "AC", category: "Glandular (~15–20%)", desc: "Adenocarcinoma develops from the mucus-producing glandular cells in the inner cervical canal (endocervix). It can be harder to detect on Pap smears.", outlook: "Often found higher in the canal; may need deeper sampling or colposcopy.", badgeColor: "bg-rose-100 text-rose-800 border-rose-200" },
+  { id: "adenosquamous", name: "Adenosquamous Carcinoma", abbrev: "ASC", category: "Mixed Type (Rare)", desc: "A mix of squamous and glandular cells. Because it has both features, it may behave more aggressively than either type alone.", outlook: "Treatment follows both squamous and glandular protocols; close staging needed.", badgeColor: "bg-pink-100 text-pink-800 border-pink-200" },
+  { id: "smallcell", name: "Small Cell Carcinoma", abbrev: "SCCC", category: "Neuroendocrine (Rare)", desc: "A rare, aggressive cervical cancer of neuroendocrine origin. It tends to grow and spread quickly and is often diagnosed at a later stage.", outlook: "Requires systemic chemotherapy, often combined with radiation.", badgeColor: "bg-rose-100 text-rose-800 border-rose-200" },
 ];
 
 const flowchartSteps = [
-  {
-    id: 0,
-    title: "Assess Risk Factors",
-    subtitle: "Identify Predisposition",
-    icon: Stethoscope,
-    color: "rose"
-  },
-  {
-    id: 1,
-    title: "Practice Prevention",
-    subtitle: "Adopt Proactive Habits",
-    icon: ShieldCheck,
-    color: "pink"
-  },
-  {
-    id: 2,
-    title: "Monitor Symptoms",
-    subtitle: "Watch for Warning Signs",
-    icon: AlertCircle,
-    color: "rose"
-  },
-  {
-    id: 3,
-    title: "Understand Types",
-    subtitle: "Pathology & Staging",
-    icon: BookOpen,
-    color: "pink"
-  }
+  { id: 0, title: "Assess Risk Factors", subtitle: "Identify Predisposition", icon: Stethoscope, color: "rose" },
+  { id: 1, title: "Practice Prevention", subtitle: "Adopt Proactive Habits", icon: ShieldCheck, color: "pink" },
+  { id: 2, title: "Monitor Symptoms", subtitle: "Watch for Warning Signs", icon: AlertCircle, color: "rose" },
+  { id: 3, title: "Understand Types", subtitle: "Pathology & Staging", icon: BookOpen, color: "pink" },
 ];
 
 export default function EducationClient() {
-  const [activeVideoIdx, setActiveVideoIdx] = useState(0);
+  const [activeVideoIdx, setActiveVideoIdx] = useState<number>(0);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
-  const [activeStep, setActiveStep] = useState(0);
+  const [openBreastFaqIdx, setOpenBreastFaqIdx] = useState<number | null>(null);
+  const [openCervicalFaqIdx, setOpenCervicalFaqIdx] = useState<number | null>(null);
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const [journeyCancer, setJourneyCancer] = useState<"breast" | "cervical">("breast");
   const [selectedSymptomIdx, setSelectedSymptomIdx] = useState<number | null>(null);
-  const [activeTypeTab, setActiveTypeTab] = useState("dcis");
-  const [preventionChecklist, setPreventionChecklist] = useState({
-    weight: false,
-    exercise: false,
-    alcohol: false,
-    breastfeed: false,
-    bse: false,
-    screening: false,
+  const [activeTypeTab, setActiveTypeTab] = useState<string>("dcis");
+
+  const [breastChecklist, setBreastChecklist] = useState<Record<string, boolean>>({
+    weight: false, exercise: false, alcohol: false,
+    breastfeed: false, bse: false, screening: false,
   });
+  const [cervicalChecklist, setCervicalChecklist] = useState<Record<string, boolean>>({
+    "hpv-vaccine": false, pap: false, smoking: false,
+    "safe-sex": false, immune: false, followup: false,
+  });
+
+  const activeRiskFactors = journeyCancer === "breast" ? breastRiskFactors : cervicalRiskFactors;
+  const activePrevention = journeyCancer === "breast" ? breastPreventionItems : cervicalPreventionItems;
+  const activeChecklist = journeyCancer === "breast" ? breastChecklist : cervicalChecklist;
+  const setActiveChecklist = journeyCancer === "breast" ? setBreastChecklist : setCervicalChecklist;
+  const activeSymptoms = journeyCancer === "breast" ? breastSymptomsData : cervicalSymptomsData;
+  const activeTypes = journeyCancer === "breast" ? breastCancerTypesData : cervicalCancerTypesData;
 
   const handleVideoSelect = (idx: number) => {
     setActiveVideoIdx(idx);
     if (videoRef.current) {
       videoRef.current.load();
-      videoRef.current.play().catch((err) => {
-        console.log("Video auto-play blocked or failed:", err);
-      });
+      videoRef.current.play().catch((err) => console.log("Video autoplay blocked:", err));
     }
   };
 
-  const toggleFaq = (idx: number) => {
-    setOpenFaqIdx(openFaqIdx === idx ? null : idx);
-  };
+  const toggleBreastFaq = (idx: number) => setOpenBreastFaqIdx(openBreastFaqIdx === idx ? null : idx);
+  const toggleCervicalFaq = (idx: number) => setOpenCervicalFaqIdx(openCervicalFaqIdx === idx ? null : idx);
 
   return (
     <div className="flex-1 w-full bg-white text-slate-800 font-sans selection:bg-pink-100 selection:text-pink-700 overflow-x-hidden relative">
 
-      {/* Decorative background blur blobs */}
       <div className="absolute top-20 right-10 w-96 h-96 bg-pink-100/40 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse duration-[8000ms]" />
       <div className="absolute top-1/3 left-5 w-80 h-80 bg-rose-50/50 rounded-full blur-3xl pointer-events-none -z-10" />
       <div className="absolute bottom-1/4 right-5 w-96 h-96 bg-pink-50/40 rounded-full blur-3xl pointer-events-none -z-10" />
 
-      {/* ================= HERO SECTION ================= */}
+      {/* HERO */}
       <section className="relative min-h-[50vh] flex items-center bg-gradient-to-b from-rose-50/50 via-white to-white py-10 md:py-14 overflow-hidden border-b border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl relative z-10">
           <div className="space-y-6 text-center">
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold shadow-sm"
-            >
-              <Ribbon className="h-3.5 w-3.5 text-primary " />
-              Educational Resources
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-100/60 border border-pink-200/50 text-pink-700 text-xs font-bold shadow-sm">
+              <Ribbon className="h-3.5 w-3.5 text-primary" /> Educational Resources
             </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.6 }}
-              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-800 leading-[1.1]"
-            >
-              Understand Breast & Cervical Cancer <br />
-              <span className="bg-gradient-to-r from-primary via-rose-500 to-pink-600 bg-clip-text text-transparent">
-
-              </span>
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.6 }}
+              className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-800 leading-[1.1]">
+              Understand Breast &amp; Cervical Cancer
             </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.7 }}
-              className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto font-medium"
-            >
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.7 }}
+              className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl mx-auto font-medium">
               Learn the basics of breast and cervical cancer, recognize possible warning signs, and understand prevention and early-detection options.
             </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="pt-4 flex flex-wrap justify-center gap-4"
-            >
+            <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.5 }}
+              className="pt-4 flex flex-wrap justify-center gap-4">
               <a href="#what-is-breast-cancer">
-                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-6 py-5 transition-all text-sm tracking-wide cursor-pointer">
-                  Start Learning
-                </Button>
+                <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg shadow-md shadow-pink-100 hover:shadow-lg hover:shadow-pink-200/50 px-6 py-5 transition-all text-sm tracking-wide cursor-pointer">Start Learning</Button>
               </a>
               <a href="#video-library">
-                <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-lg px-6 py-5 transition-all text-sm tracking-wide cursor-pointer">
-                  Watch Videos
-                </Button>
+                <Button variant="outline" className="border-pink-200 text-primary hover:bg-pink-50/60 font-bold rounded-lg px-6 py-5 transition-all text-sm tracking-wide cursor-pointer">Watch Videos</Button>
               </a>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ================= BREAST & CERVICAL CANCER BASICS ================= */}
+      {/* BASICS */}
       <section id="what-is-breast-cancer" className="py-12 md:py-16 bg-white scroll-mt-6">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-8">
           <div className="space-y-3 text-center">
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-700 text-xs font-bold">
               <Info className="h-3.5 w-3.5" /> Core Overview
             </div>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 leading-tight tracking-tight">
-              Breast & Cervical Cancer Basics
-            </h2>
-            <p className="mx-auto max-w-2xl text-sm sm:text-base text-slate-600 leading-relaxed font-medium">
-              Learn where each cancer develops, possible warning signs, and ways to reduce risk and seek early care.
-            </p>
+          
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <article className="space-y-4 rounded-2xl border border-pink-100 bg-white p-6 shadow-sm">
               <h3 className="font-heading text-2xl font-bold text-slate-800">Breast Cancer</h3>
               <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
-                <p>
-                  Breast cancer develops when cells in the breast grow abnormally and may form a tumor. It often begins in the milk ducts or lobules and can spread to nearby tissue or other parts of the body.
-                </p>
-                <p>
-                  <strong className="text-slate-800">Possible signs:</strong> a new lump or thickening, a change in breast size or shape, skin dimpling, nipple changes, or unusual discharge. Some changes are not cancer, but should be checked by a healthcare professional.
-                </p>
-                <p>
-                  <strong className="text-slate-800">Early care:</strong> notice changes in how your breasts normally look and feel, and ask a clinician about screening based on your age and risk. Self-examination does not replace professional screening or diagnosis.
-                </p>
+                <p>Breast cancer develops when cells in the breast grow abnormally and may form a tumor. It often begins in the milk ducts or lobules and can spread to nearby tissue or other parts of the body.</p>
+                <p><strong className="text-slate-800">Possible signs:</strong> a new lump or thickening, a change in breast size or shape, skin dimpling, nipple changes, or unusual discharge. Some changes are not cancer, but should be checked by a healthcare professional.</p>
+                <p><strong className="text-slate-800">Early care:</strong> notice changes in how your breasts normally look and feel, and ask a clinician about screening based on your age and risk. Self-examination does not replace professional screening or diagnosis.</p>
               </div>
             </article>
 
             <article id="what-is-cervical-cancer" className="space-y-4 rounded-2xl border border-rose-100 bg-white p-6 shadow-sm scroll-mt-6">
               <h3 className="font-heading text-2xl font-bold text-slate-800">Cervical Cancer</h3>
               <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
-                <p>
-                  Cervical cancer starts in the cervix, the lower part of the uterus that connects to the vagina. Most cases are linked to a persistent infection with a high-risk type of human papillomavirus (HPV).
-                </p>
-                <p>
-                  <strong className="text-slate-800">Possible signs:</strong> early cervical cancer may cause no symptoms. Later signs can include bleeding after sex, between periods or after menopause, unusual vaginal discharge, or persistent pelvic pain.
-                </p>
-                <p>
-                  <strong className="text-slate-800">Prevention and early care:</strong> HPV vaccination can lower the risk. HPV tests and Pap tests can find infection or precancerous changes; ask a healthcare professional which screening schedule is right for you.
-                </p>
+                <p>Cervical cancer starts in the cervix, the lower part of the uterus that connects to the vagina. Most cases are linked to a persistent infection with a high-risk type of human papillomavirus (HPV).</p>
+                <p><strong className="text-slate-800">Possible signs:</strong> early cervical cancer may cause no symptoms. Later signs can include bleeding after sex, between periods or after menopause, unusual vaginal discharge, or persistent pelvic pain.</p>
+                <p><strong className="text-slate-800">Prevention and early care:</strong> HPV vaccination can lower the risk. HPV tests and Pap tests can find infection or precancerous changes; ask a healthcare professional which screening schedule is right for you.</p>
               </div>
             </article>
           </div>
@@ -340,106 +298,69 @@ export default function EducationClient() {
         </div>
       </section>
 
-      {/* ================= INTERACTIVE EDUCATION JOURNEY FLOWCHART ================= */}
+      {/* INTERACTIVE JOURNEY */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-8">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold">
               <Sparkles className="h-3.5 w-3.5" /> Clinical Pillars
             </span>
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
-              Breast Cancer Education Journey
+              Cancer Education Journey
             </h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
-              An interactive clinical flowchart guiding you from risk assessment and prevention to early symptoms and staging.
+              Toggle between breast and cervical cancer, then follow each pillar — risk, prevention, symptoms, and types.
             </p>
+
+            <div className="inline-flex p-1 rounded-full bg-slate-100 border border-slate-200 mt-2">
+              <button onClick={() => { setJourneyCancer("breast"); setActiveStep(0); setActiveTypeTab("dcis"); setSelectedSymptomIdx(null); }}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${journeyCancer === "breast" ? "bg-primary text-white shadow-sm" : "text-slate-500"}`}>Breast Cancer</button>
+              <button onClick={() => { setJourneyCancer("cervical"); setActiveStep(0); setActiveTypeTab("scc"); setSelectedSymptomIdx(null); }}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${journeyCancer === "cervical" ? "bg-primary text-white shadow-sm" : "text-slate-500"}`}>Cervical Cancer</button>
+            </div>
           </div>
 
-          {/* Desktop Flowchart Diagram */}
           <div className="relative hidden md:flex items-center justify-between w-full max-w-4xl mx-auto px-8 py-4 mb-8">
             <svg className="absolute top-1/2 left-0 w-full h-1 -translate-y-1/2 -z-10" pointerEvents="none">
               <line x1="5%" y1="50%" x2="95%" y2="50%" stroke="#F1F5F9" strokeWidth="4" strokeLinecap="round" />
-
-              <motion.line
-                x1="5%"
-                y1="50%"
-                x2={`${5 + activeStep * 30}%`}
-                y2="50%"
-                stroke="var(--color-primary, oklch(0.6 0.22 350))"
-                strokeWidth="4"
-                strokeLinecap="round"
-                initial={{ x2: "5%" }}
-                animate={{ x2: `${5 + activeStep * 30}%` }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-              />
+              <motion.line x1="5%" y1="50%" x2={`${5 + activeStep * 30}%`} y2="50%" stroke="var(--color-primary, oklch(0.6 0.22 350))" strokeWidth="4" strokeLinecap="round"
+                initial={{ x2: "5%" }} animate={{ x2: `${5 + activeStep * 30}%` }} transition={{ duration: 0.4, ease: "easeInOut" }} />
             </svg>
 
             {flowchartSteps.map((step, idx) => {
               const Icon = step.icon;
               const isActive = idx === activeStep;
               const isCompleted = idx < activeStep;
-
               return (
-                <button
-                  key={step.id}
-                  onClick={() => setActiveStep(idx)}
-                  className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-none"
-                >
+                <button key={step.id} onClick={() => setActiveStep(idx)} className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-none">
                   <motion.div
-                    className={`w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${isActive
-                      ? "bg-white border-primary shadow-[0_0_15px_rgba(219,39,119,0.3)] text-primary scale-110"
-                      : isCompleted
-                        ? "bg-primary border-primary text-white"
-                        : "bg-white border-slate-200 text-slate-400 hover:border-pink-300 hover:text-pink-500"
-                      }`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
+                    className={`w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${isActive ? "bg-white border-primary shadow-[0_0_15px_rgba(219,39,119,0.3)] text-primary scale-110" : isCompleted ? "bg-primary border-primary text-white" : "bg-white border-slate-200 text-slate-400 hover:border-pink-300 hover:text-pink-500"}`}
+                    whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                     <Icon className="h-6 w-6" />
-
-                    <span className={`absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full text-[11px] font-bold flex items-center justify-center ${isActive || isCompleted ? "bg-primary text-white" : "bg-slate-100 text-slate-500 border border-slate-200"
-                      }`}>
-                      {idx + 1}
-                    </span>
+                    <span className={`absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full text-[11px] font-bold flex items-center justify-center ${isActive || isCompleted ? "bg-primary text-white" : "bg-slate-100 text-slate-500 border border-slate-200"}`}>{idx + 1}</span>
                   </motion.div>
-
                   <div className="text-center mt-3 max-w-[120px]">
-                    <p className={`text-xs font-bold transition-colors ${isActive ? "text-primary font-bold" : "text-slate-700 group-hover:text-slate-900"}`}>
-                      {step.title}
-                    </p>
-                    <p className="text-[11px] font-semibold text-slate-400 mt-0.5">
-                      {step.subtitle}
-                    </p>
+                    <p className={`text-xs font-bold transition-colors ${isActive ? "text-primary font-bold" : "text-slate-700 group-hover:text-slate-900"}`}>{step.title}</p>
+                    <p className="text-[11px] font-semibold text-slate-400 mt-0.5">{step.subtitle}</p>
                   </div>
                 </button>
               );
             })}
           </div>
 
-          {/* Mobile Flowchart Selectors */}
           <div className="flex md:hidden flex-col gap-3 max-w-sm mx-auto mb-6">
             {flowchartSteps.map((step, idx) => {
               const Icon = step.icon;
               const isActive = idx === activeStep;
-
               return (
-                <button
-                  key={step.id}
-                  onClick={() => setActiveStep(idx)}
-                  className={`flex items-center gap-4 p-3 rounded-2xl border text-left transition-all cursor-pointer ${isActive
-                    ? "bg-pink-50/50 border-primary/50 shadow-xs"
-                    : "bg-white border-slate-100"
-                    }`}
-                >
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 border-2 ${isActive ? "bg-white border-primary text-primary" : "bg-slate-50 border-slate-200 text-slate-400"
-                    }`}>
+                <button key={step.id} onClick={() => setActiveStep(idx)}
+                  className={`flex items-center gap-4 p-3 rounded-2xl border text-left transition-all cursor-pointer ${isActive ? "bg-pink-50/50 border-primary/50 shadow-xs" : "bg-white border-slate-100"}`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 border-2 ${isActive ? "bg-white border-primary text-primary" : "bg-slate-50 border-slate-200 text-slate-400"}`}>
                     <Icon className="h-5 w-5" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={`text-xs font-bold ${isActive ? "text-primary" : "text-slate-700"}`}>
-                      Step {idx + 1}: {step.title}
-                    </p>
+                    <p className={`text-xs font-bold ${isActive ? "text-primary" : "text-slate-700"}`}>Step {idx + 1}: {step.title}</p>
                     <p className="text-[11px] text-slate-400 font-semibold">{step.subtitle}</p>
                   </div>
                   <ChevronRight className={`h-4 w-4 text-slate-400 transition-transform ${isActive ? "rotate-90 text-primary" : ""}`} />
@@ -448,46 +369,36 @@ export default function EducationClient() {
             })}
           </div>
 
-          {/* Interactive Step Content Display */}
           <div className="relative mt-8 min-h-[400px]">
             <AnimatePresence mode="wait">
-              <motion.div
-                key={activeStep}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white border border-pink-100/50 rounded-2xl p-6 shadow-sm relative overflow-hidden"
-              >
+              <motion.div key={`${journeyCancer}-${activeStep}`}
+                initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.3 }}
+                className="bg-white border border-pink-100/50 rounded-2xl p-6 shadow-sm relative overflow-hidden">
+
+                {/* STEP 0 */}
                 {activeStep === 0 && (
                   <div className="space-y-6">
                     <div className="flex items-center gap-3 border-b border-pink-50 pb-4">
-                      <div className="h-10 w-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100/40">
-                        <Stethoscope className="h-5 w-5" />
-                      </div>
+                      <div className="h-10 w-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100/40"><Stethoscope className="h-5 w-5" /></div>
                       <div>
-                        <h3 className="font-heading text-lg font-bold text-slate-800">Assess Your Risk Factors</h3>
+                        <h3 className="font-heading text-lg font-bold text-slate-800">Assess {journeyCancer === "breast" ? "Breast" : "Cervical"} Cancer Risk Factors</h3>
                         <p className="text-xs text-slate-500 font-medium">Understanding what increases statistical likelihood helps with proactive planning.</p>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                      {/* Uncontrollable Group */}
                       <div className="space-y-4">
                         <div className="flex items-center gap-2 text-rose-700 font-bold text-sm bg-rose-50/50 px-3 py-1.5 rounded-lg w-fit border border-rose-100/40">
-                          <AlertCircle className="h-4 w-4" />
-                          <span>Uncontrollable Risk Factors</span>
+                          <AlertCircle className="h-4 w-4" /><span>Uncontrollable Risk Factors</span>
                         </div>
-                        <p className="text-xs text-slate-500 font-medium">These are biological or genetic aspects that cannot be altered, necessitating closer clinical screening schedules.</p>
+                        <p className="text-xs text-slate-500 font-medium">These biological or genetic aspects cannot be altered, necessitating closer clinical screening schedules.</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          {riskFactors.uncontrollable.map((item, idx) => {
+                          {activeRiskFactors.uncontrollable.map((item, idx) => {
                             const ItemIcon = item.icon;
                             return (
                               <div key={idx} className="bg-slate-50/50 border border-slate-100 rounded-2xl p-4 space-y-2 hover:border-rose-200 transition-all">
                                 <div className="flex items-center gap-2">
-                                  <div className="h-7 w-7 rounded-lg bg-white shadow-xs text-rose-500 flex items-center justify-center">
-                                    <ItemIcon className="h-4 w-4" />
-                                  </div>
+                                  <div className="h-7 w-7 rounded-lg bg-white shadow-xs text-rose-500 flex items-center justify-center"><ItemIcon className="h-4 w-4" /></div>
                                   <span className="text-xs font-bold text-slate-800">{item.title}</span>
                                 </div>
                                 <p className="text-[11px] text-slate-500 leading-relaxed font-medium">{item.desc}</p>
@@ -497,22 +408,18 @@ export default function EducationClient() {
                         </div>
                       </div>
 
-                      {/* Controllable Group */}
                       <div className="space-y-4">
                         <div className="flex items-center gap-2 text-pink-700 font-bold text-sm bg-pink-50 px-3 py-1.5 rounded-lg w-fit border border-pink-100/40">
-                          <ShieldCheck className="h-4 w-4" />
-                          <span>Modifiable Lifestyle Factors</span>
+                          <ShieldCheck className="h-4 w-4" /><span>Modifiable Lifestyle Factors</span>
                         </div>
-                        <p className="text-xs text-slate-500 font-medium">These are behaviors or lifestyle choices that you can actively modify to reduce your overall risk index.</p>
+                        <p className="text-xs text-slate-500 font-medium">These behaviors or lifestyle choices can be actively modified to reduce your overall risk index.</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          {riskFactors.controllable.map((item, idx) => {
+                          {activeRiskFactors.controllable.map((item, idx) => {
                             const ItemIcon = item.icon;
                             return (
                               <div key={idx} className="bg-slate-50/50 border border-slate-100 rounded-2xl p-4 space-y-2 hover:border-pink-200 transition-all">
                                 <div className="flex items-center gap-2">
-                                  <div className="h-7 w-7 rounded-lg bg-white shadow-xs text-pink-500 flex items-center justify-center">
-                                    <ItemIcon className="h-4 w-4" />
-                                  </div>
+                                  <div className="h-7 w-7 rounded-lg bg-white shadow-xs text-pink-500 flex items-center justify-center"><ItemIcon className="h-4 w-4" /></div>
                                   <span className="text-xs font-bold text-slate-800">{item.title}</span>
                                 </div>
                                 <p className="text-[11px] text-slate-500 leading-relaxed font-medium">{item.desc}</p>
@@ -526,65 +433,49 @@ export default function EducationClient() {
                     <div className="bg-pink-50/40 border border-pink-100/50 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 items-center justify-between mt-4">
                       <div className="space-y-1 text-center sm:text-left">
                         <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5 justify-center sm:justify-start">
-                          <Ribbon className="h-4 w-4 text-primary " />
-                          Have family history or concerns?
+                          <Ribbon className="h-4 w-4 text-primary" /> {journeyCancer === "breast" ? "Have family history or concerns?" : "Concerned about HPV exposure?"}
                         </h4>
-                        <p className="text-[11px] text-slate-500 font-medium">Consult with certified genetic counselors to evaluate BRCA1 or BRCA2 mutations.</p>
+                        <p className="text-[11px] text-slate-500 font-medium">
+                          {journeyCancer === "breast"
+                            ? "Consult certified genetic counselors to evaluate BRCA1 or BRCA2 mutations."
+                            : "Ask your clinician about HPV vaccination and cervical screening schedules."}
+                        </p>
                       </div>
-                      <button
-                        onClick={() => setActiveStep(1)}
-                        className="bg-primary hover:bg-primary/95 text-white font-bold text-[11px] py-2 px-4 rounded-full shadow-sm transition-all flex items-center gap-1 cursor-pointer shrink-0"
-                      >
+                      <button onClick={() => setActiveStep(1)}
+                        className="bg-primary hover:bg-primary/95 text-white font-bold text-[11px] py-2 px-4 rounded-full shadow-sm transition-all flex items-center gap-1 cursor-pointer shrink-0">
                         See Prevention Steps <ChevronRight className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   </div>
                 )}
 
+                {/* STEP 1 */}
                 {activeStep === 1 && (
                   <div className="space-y-6">
                     <div className="flex items-center gap-3 border-b border-pink-50 pb-4">
-                      <div className="h-10 w-10 rounded-xl bg-pink-50 text-primary flex items-center justify-center shrink-0 border border-pink-100/40">
-                        <ShieldCheck className="h-5 w-5" />
-                      </div>
+                      <div className="h-10 w-10 rounded-xl bg-pink-50 text-primary flex items-center justify-center shrink-0 border border-pink-100/40"><ShieldCheck className="h-5 w-5" /></div>
                       <div>
-                        <h3 className="font-heading text-lg font-bold text-slate-800">Practice Preventive Action</h3>
+                        <h3 className="font-heading text-lg font-bold text-slate-800">Practice {journeyCancer === "breast" ? "Breast" : "Cervical"} Cancer Prevention</h3>
                         <p className="text-xs text-slate-500 font-medium">Adopt protective habits and take charge of modifiable risks.</p>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                      {/* Checklist */}
                       <div className="lg:col-span-7 space-y-4">
-                        <h4 className="text-xs font-bold text-slate-700 ">Daily Wellness Checklist</h4>
-                        <p className="text-xs text-slate-500 font-medium">Tick off the protective actions you are actively incorporating into your routine to track your preventive alignment.</p>
+                        <h4 className="text-xs font-bold text-slate-700">Daily Wellness Checklist</h4>
+                        <p className="text-xs text-slate-500 font-medium">Tick off the protective actions you are actively incorporating into your routine.</p>
 
                         <div className="space-y-2.5">
-                          {preventionItems.map((item) => {
-                            const isChecked = preventionChecklist[item.id as keyof typeof preventionChecklist];
+                          {activePrevention.map((item) => {
+                            const isChecked = activeChecklist[item.id];
                             return (
-                              <label
-                                key={item.id}
-                                className={`flex items-start gap-3 p-3 rounded-2xl border transition-all cursor-pointer select-none ${isChecked
-                                  ? "bg-pink-50/20 border-primary/30 shadow-xs"
-                                  : "bg-slate-50/50 border-slate-100 hover:border-pink-200"
-                                  }`}
-                              >
-                                <input
-                                  type="checkbox"
-                                  checked={isChecked}
-                                  onChange={(e) => {
-                                    setPreventionChecklist({
-                                      ...preventionChecklist,
-                                      [item.id]: e.target.checked
-                                    });
-                                  }}
-                                  className="mt-0.5 rounded text-primary focus:ring-primary h-4.5 w-4.5 border-slate-300 cursor-pointer accent-primary"
-                                />
+                              <label key={item.id}
+                                className={`flex items-start gap-3 p-3 rounded-2xl border transition-all cursor-pointer select-none ${isChecked ? "bg-pink-50/20 border-primary/30 shadow-xs" : "bg-slate-50/50 border-slate-100 hover:border-pink-200"}`}>
+                                <input type="checkbox" checked={isChecked}
+                                  onChange={(e) => setActiveChecklist({ ...activeChecklist, [item.id]: e.target.checked })}
+                                  className="mt-0.5 rounded text-primary focus:ring-primary h-4.5 w-4.5 border-slate-300 cursor-pointer accent-primary" />
                                 <div className="min-w-0 ml-1">
-                                  <p className={`text-xs font-bold ${isChecked ? "text-primary" : "text-slate-700"}`}>
-                                    {item.text}
-                                  </p>
+                                  <p className={`text-xs font-bold ${isChecked ? "text-primary" : "text-slate-700"}`}>{item.text}</p>
                                   <p className="text-[11px] text-slate-400 mt-0.5 leading-relaxed font-medium">{item.desc}</p>
                                 </div>
                               </label>
@@ -593,29 +484,23 @@ export default function EducationClient() {
                         </div>
                       </div>
 
-                      {/* Progress Tracker Card */}
                       <div className="lg:col-span-5 bg-gradient-to-tr from-pink-500/5 via-rose-500/[0.01] to-transparent border border-pink-100 p-6 rounded-2xl text-center space-y-5">
                         <div className="mx-auto w-16 h-16 rounded-full bg-pink-100 flex items-center justify-center text-primary relative border border-pink-100/60">
-                          <Sparkles className="h-8 w-8 " />
-                          {Object.values(preventionChecklist).every(Boolean) && (
-                            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-white text-[11px] font-bold flex items-center justify-center ">
-                              ✓
-                            </span>
+                          <Sparkles className="h-8 w-8" />
+                          {Object.values(activeChecklist).every(Boolean) && (
+                            <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-white text-[11px] font-bold flex items-center justify-center">✓</span>
                           )}
                         </div>
 
                         <div className="space-y-1">
                           <h4 className="font-heading text-base font-bold text-slate-800">Your Wellness Alignment</h4>
-                          <p className="text-[11px] text-slate-500 px-4 font-medium">
-                            Building healthy habits incrementally creates substantial long-term preventive barriers.
-                          </p>
+                          <p className="text-[11px] text-slate-500 px-4 font-medium">Building healthy habits incrementally creates substantial long-term preventive barriers.</p>
                         </div>
 
-                        {/* Progress Bar */}
                         <div className="space-y-2">
                           {(() => {
-                            const checkedCount = Object.values(preventionChecklist).filter(Boolean).length;
-                            const checkedPercent = Math.round((checkedCount / preventionItems.length) * 100);
+                            const checkedCount = Object.values(activeChecklist).filter(Boolean).length;
+                            const checkedPercent = Math.round((checkedCount / activePrevention.length) * 100);
                             return (
                               <>
                                 <div className="flex items-center justify-between text-xs font-bold px-1">
@@ -623,33 +508,21 @@ export default function EducationClient() {
                                   <span className="text-primary">{checkedPercent}%</span>
                                 </div>
                                 <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-                                  <motion.div
-                                    className="bg-gradient-to-r from-primary to-rose-500 h-full rounded-full"
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${checkedPercent}%` }}
-                                    transition={{ duration: 0.3 }}
-                                  />
+                                  <motion.div className="bg-gradient-to-r from-primary to-rose-500 h-full rounded-full"
+                                    initial={{ width: 0 }} animate={{ width: `${checkedPercent}%` }} transition={{ duration: 0.3 }} />
                                 </div>
                                 <div className="pt-2 text-xs font-semibold text-slate-500">
-                                  {checkedCount === 0 ? (
-                                    <span className="text-slate-400 font-medium">Select habits to begin tracking!</span>
-                                  ) : checkedCount < preventionItems.length ? (
-                                    <span className="text-pink-600 font-medium">Great job! {preventionItems.length - checkedCount} more healthy habits to add.</span>
-                                  ) : (
-                                    <span className="text-primary font-bold flex items-center gap-1 justify-center">
-                                      <CheckCircle className="h-4 w-4" /> Perfect alignment! Maintain these habits!
-                                    </span>
-                                  )}
+                                  {checkedCount === 0 ? <span className="text-slate-400 font-medium">Select habits to begin tracking!</span>
+                                    : checkedCount < activePrevention.length ? <span className="text-pink-600 font-medium">Great job! {activePrevention.length - checkedCount} more healthy habits to add.</span>
+                                      : <span className="text-primary font-bold flex items-center gap-1 justify-center"><CheckCircle className="h-4 w-4" /> Perfect alignment! Maintain these habits!</span>}
                                 </div>
                               </>
                             );
                           })()}
                         </div>
 
-                        <button
-                          onClick={() => setActiveStep(2)}
-                          className="w-full bg-primary hover:bg-primary/95 text-white font-bold text-xs py-2.5 rounded-full shadow-sm transition-all flex items-center justify-center gap-1 cursor-pointer"
-                        >
+                        <button onClick={() => setActiveStep(2)}
+                          className="w-full bg-primary hover:bg-primary/95 text-white font-bold text-xs py-2.5 rounded-full shadow-sm transition-all flex items-center justify-center gap-1 cursor-pointer">
                           Learn to Spot Symptoms <ChevronRight className="h-4 w-4" />
                         </button>
                       </div>
@@ -657,54 +530,37 @@ export default function EducationClient() {
                   </div>
                 )}
 
+                {/* STEP 2 */}
                 {activeStep === 2 && (
                   <div className="space-y-6">
                     <div className="flex items-center gap-3 border-b border-pink-50 pb-4">
-                      <div className="h-10 w-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100/40">
-                        <AlertCircle className="h-5 w-5" />
-                      </div>
+                      <div className="h-10 w-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100/40"><AlertCircle className="h-5 w-5" /></div>
                       <div>
-                        <h3 className="font-heading text-lg font-bold text-slate-800">Identify Common Symptoms</h3>
+                        <h3 className="font-heading text-lg font-bold text-slate-800">Identify {journeyCancer === "breast" ? "Breast" : "Cervical"} Cancer Symptoms</h3>
                         <p className="text-xs text-slate-500 font-medium">Regular observation allows you to recognize early physical abnormalities.</p>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {symptomsData.map((symptom, idx) => {
+                      {activeSymptoms.map((symptom, idx) => {
                         const isSelected = selectedSymptomIdx === idx;
                         return (
-                          <div
-                            key={idx}
-                            onClick={() => setSelectedSymptomIdx(selectedSymptomIdx === idx ? null : idx)}
-                            className={`border p-4 rounded-2xl transition-all cursor-pointer group flex flex-col justify-between min-h-[140px] relative overflow-hidden select-none ${isSelected
-                              ? "bg-rose-50/30 border-rose-300 shadow-sm"
-                              : "bg-white border-slate-100 hover:border-pink-200 hover:shadow-sm"
-                              }`}
-                          >
+                          <div key={idx} onClick={() => setSelectedSymptomIdx(selectedSymptomIdx === idx ? null : idx)}
+                            className={`border p-4 rounded-2xl transition-all cursor-pointer group flex flex-col justify-between min-h-[140px] relative overflow-hidden select-none ${isSelected ? "bg-rose-50/30 border-rose-300 shadow-sm" : "bg-white border-slate-100 hover:border-pink-200 hover:shadow-sm"}`}>
                             <div className="space-y-2">
                               <div className="flex items-center justify-between">
-                                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${isSelected ? "bg-rose-100 text-rose-800" : "bg-pink-50 text-primary group-hover:bg-pink-100"
-                                  }`}>
-                                  Symptom 0{idx + 1}
-                                </span>
-                                <span className="text-[11px] font-semibold text-primary underline opacity-0 group-hover:opacity-100 transition-opacity">
-                                  {isSelected ? "Hide Tip" : "View Tip"}
-                                </span>
+                                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${isSelected ? "bg-rose-100 text-rose-800" : "bg-pink-50 text-primary group-hover:bg-pink-100"}`}>Symptom 0{idx + 1}</span>
+                                <span className="text-[11px] font-semibold text-primary underline opacity-0 group-hover:opacity-100 transition-opacity">{isSelected ? "Hide Tip" : "View Tip"}</span>
                               </div>
                               <h4 className="text-xs sm:text-sm font-bold text-slate-800">{symptom.title}</h4>
                               <p className="text-[11px] text-slate-500 leading-relaxed font-medium">{symptom.desc}</p>
                             </div>
-
                             <AnimatePresence>
                               {isSelected && (
-                                <motion.div
-                                  initial={{ height: 0, opacity: 0 }}
-                                  animate={{ height: "auto", opacity: 1 }}
-                                  exit={{ height: 0, opacity: 0 }}
-                                  className="overflow-hidden border-t border-rose-100 mt-3 pt-2"
-                                >
+                                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+                                  className="overflow-hidden border-t border-rose-100 mt-3 pt-2">
                                   <p className="text-[11px] text-rose-800 leading-relaxed font-medium bg-rose-50/50 p-2 rounded-lg">
-                                    <strong>Oncology Tip:</strong> {symptom.tip}
+                                    <strong>Clinical Tip:</strong> {symptom.tip}
                                   </p>
                                 </motion.div>
                               )}
@@ -715,51 +571,43 @@ export default function EducationClient() {
                     </div>
 
                     <div className="bg-rose-50 border border-rose-100 rounded-2xl p-4 flex gap-3 items-start mt-4">
-                      <AlertCircle className="h-5 w-5 text-rose-600 shrink-0 mt-0.5 " />
+                      <AlertCircle className="h-5 w-5 text-rose-600 shrink-0 mt-0.5" />
                       <div className="space-y-1">
                         <h4 className="text-xs font-bold text-rose-800">Critical Warning Guidelines</h4>
                         <p className="text-[11px] text-rose-700 leading-relaxed font-medium">
-                          A lump is often firm, painless, and has irregular borders. However, some can be soft, tender, and round. If you notice <strong>any</strong> persistent visual or texture anomaly, please consult an oncologist right away. Do not wait for symptoms to worsen.
+                          {journeyCancer === "breast"
+                            ? "A lump is often firm, painless, and has irregular borders. However, some can be soft, tender, and round. If you notice any persistent visual or texture anomaly, please consult an oncologist right away. Do not wait for symptoms to worsen."
+                            : "Early cervical cancer often has no symptoms. Any bleeding between periods, after sex, or after menopause, along with persistent unusual discharge or pelvic pain, should be evaluated by a gynecologist promptly. Do not wait for symptoms to worsen."}
                         </p>
                       </div>
                     </div>
 
                     <div className="flex justify-end pt-2">
-                      <button
-                        onClick={() => setActiveStep(3)}
-                        className="bg-primary hover:bg-primary/95 text-white font-bold text-xs py-2 px-5 rounded-full shadow-sm transition-all flex items-center gap-1 cursor-pointer"
-                      >
+                      <button onClick={() => setActiveStep(3)}
+                        className="bg-primary hover:bg-primary/95 text-white font-bold text-xs py-2 px-5 rounded-full shadow-sm transition-all flex items-center gap-1 cursor-pointer">
                         Study Pathological Types <ChevronRight className="h-4 w-4" />
                       </button>
                     </div>
                   </div>
                 )}
 
+                {/* STEP 3 */}
                 {activeStep === 3 && (
                   <div className="space-y-6">
                     <div className="flex items-center gap-3 border-b border-pink-50 pb-4">
-                      <div className="h-10 w-10 rounded-xl bg-pink-50 text-primary flex items-center justify-center shrink-0 border border-pink-100/40">
-                        <BookOpen className="h-5 w-5" />
-                      </div>
+                      <div className="h-10 w-10 rounded-xl bg-pink-50 text-primary flex items-center justify-center shrink-0 border border-pink-100/40"><BookOpen className="h-5 w-5" /></div>
                       <div>
-                        <h3 className="font-heading text-lg font-bold text-slate-800">Understand Pathological Types</h3>
-                        <p className="text-xs text-slate-500 font-medium">Breast cancer is classified based on site of origin and invasiveness markers.</p>
+                        <h3 className="font-heading text-lg font-bold text-slate-800">Understand {journeyCancer === "breast" ? "Breast" : "Cervical"} Cancer Types</h3>
+                        <p className="text-xs text-slate-500 font-medium">Cancer is classified based on site of origin and invasiveness markers.</p>
                       </div>
                     </div>
 
-                    {/* Tab Selectors */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 border-b border-slate-100 pb-4">
-                      {cancerTypesData.map((type) => {
+                      {activeTypes.map((type) => {
                         const isSelected = activeTypeTab === type.id;
                         return (
-                          <button
-                            key={type.id}
-                            onClick={() => setActiveTypeTab(type.id)}
-                            className={`py-2 px-3 text-center rounded-xl font-bold text-xs transition-all cursor-pointer ${isSelected
-                              ? "bg-primary text-white shadow-sm"
-                              : "bg-slate-50 text-slate-500 border border-slate-100 hover:bg-slate-100"
-                              }`}
-                          >
+                          <button key={type.id} onClick={() => setActiveTypeTab(type.id)}
+                            className={`py-2 px-3 text-center rounded-xl font-bold text-xs transition-all cursor-pointer ${isSelected ? "bg-primary text-white shadow-sm" : "bg-slate-50 text-slate-500 border border-slate-100 hover:bg-slate-100"}`}>
                             <span className="block text-sm">{type.abbrev}</span>
                             <span className="text-[8px] opacity-75 block mt-0.5 truncate">{type.category}</span>
                           </button>
@@ -767,19 +615,15 @@ export default function EducationClient() {
                       })}
                     </div>
 
-                    {/* Type Detail Card */}
                     {(() => {
-                      const currentType = cancerTypesData.find((t) => t.id === activeTypeTab) || cancerTypesData[0];
+                      const currentType = activeTypes.find((t) => t.id === activeTypeTab) || activeTypes[0];
                       return (
                         <div className="bg-slate-50/50 border border-slate-100 rounded-2xl p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
                           <div className="lg:col-span-2 space-y-4">
-                            <div className="flex items-center gap-2.5">
+                            <div className="flex items-center gap-2.5 flex-wrap">
                               <h4 className="font-heading text-base font-bold text-slate-800">{currentType.name}</h4>
-                              <span className={`text-[11px] font-bold border px-2 py-0.5 rounded-full shrink-0 ${currentType.badgeColor}`}>
-                                {currentType.category}
-                              </span>
+                              <span className={`text-[11px] font-bold border px-2 py-0.5 rounded-full shrink-0 ${currentType.badgeColor}`}>{currentType.category}</span>
                             </div>
-
                             <div className="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
                               <p>{currentType.desc}</p>
                               <div className="bg-white border border-slate-100 rounded-2xl p-4 space-y-1.5 shadow-sm">
@@ -789,27 +633,51 @@ export default function EducationClient() {
                             </div>
                           </div>
 
-                          {/* Diagnostic Journey Sidebar */}
                           <div className="bg-white border border-pink-100/50 rounded-2xl p-5 shadow-sm space-y-4">
-                            <h5 className="text-[11px] font-bold text-slate-400 ">Diagnostic Pathway</h5>
-                            <p className="text-[11px] text-slate-500 leading-relaxed font-medium">If cells show suspicious characteristics, oncologists use a standardized workflow to diagnose:</p>
-
+                            <h5 className="text-[11px] font-bold text-slate-400">Diagnostic Pathway</h5>
+                            <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
+                              {journeyCancer === "breast"
+                                ? "If cells show suspicious characteristics, oncologists use a standardized workflow to diagnose:"
+                                : "If screening suggests abnormal cervical cells, gynecologists follow a stepwise pathway:"}
+                            </p>
                             <div className="relative pl-6 space-y-3.5 border-l-2 border-pink-100 text-[11px]">
-                              <div className="relative">
-                                <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-primary border-2 border-white shadow-sm" />
-                                <span className="font-bold text-slate-800 block">1. Self-Exam / CBE</span>
-                                <span className="text-slate-400 font-semibold block text-[11px]">Initial tactile detection</span>
-                              </div>
-                              <div className="relative">
-                                <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-pink-200 border-2 border-white shadow-sm" />
-                                <span className="font-bold text-slate-800 block">2. Imaging (Mammogram/US)</span>
-                                <span className="text-slate-400 font-semibold block text-[11px]">Internal structural confirmation</span>
-                              </div>
-                              <div className="relative">
-                                <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-pink-200 border-2 border-white shadow-sm" />
-                                <span className="font-bold text-slate-800 block">3. Biopsy Test</span>
-                                <span className="text-slate-400 font-semibold block text-[11px]">Definitive cellular pathology check</span>
-                              </div>
+                              {journeyCancer === "breast" ? (
+                                <>
+                                  <div className="relative">
+                                    <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-primary border-2 border-white shadow-sm" />
+                                    <span className="font-bold text-slate-800 block">1. Self-Exam / CBE</span>
+                                    <span className="text-slate-400 font-semibold block text-[11px]">Initial tactile detection</span>
+                                  </div>
+                                  <div className="relative">
+                                    <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-pink-200 border-2 border-white shadow-sm" />
+                                    <span className="font-bold text-slate-800 block">2. Imaging (Mammogram/US)</span>
+                                    <span className="text-slate-400 font-semibold block text-[11px]">Internal structural confirmation</span>
+                                  </div>
+                                  <div className="relative">
+                                    <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-pink-200 border-2 border-white shadow-sm" />
+                                    <span className="font-bold text-slate-800 block">3. Biopsy Test</span>
+                                    <span className="text-slate-400 font-semibold block text-[11px]">Definitive cellular pathology check</span>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="relative">
+                                    <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-primary border-2 border-white shadow-sm" />
+                                    <span className="font-bold text-slate-800 block">1. Pap / HPV Test</span>
+                                    <span className="text-slate-400 font-semibold block text-[11px]">Initial screening for abnormal cells</span>
+                                  </div>
+                                  <div className="relative">
+                                    <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-pink-200 border-2 border-white shadow-sm" />
+                                    <span className="font-bold text-slate-800 block">2. Colposcopy</span>
+                                    <span className="text-slate-400 font-semibold block text-[11px]">Magnified cervical examination</span>
+                                  </div>
+                                  <div className="relative">
+                                    <div className="absolute -left-[30px] top-0.5 w-3 h-3 rounded-full bg-pink-200 border-2 border-white shadow-sm" />
+                                    <span className="font-bold text-slate-800 block">3. Cervical Biopsy</span>
+                                    <span className="text-slate-400 font-semibold block text-[11px]">Definitive tissue pathology check</span>
+                                  </div>
+                                </>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -817,10 +685,8 @@ export default function EducationClient() {
                     })()}
 
                     <div className="flex justify-between items-center pt-2">
-                      <button
-                        onClick={() => setActiveStep(0)}
-                        className="border border-pink-200 hover:bg-pink-50/60 text-primary font-bold text-xs py-2.5 px-4 rounded-full shadow-sm transition-all flex items-center gap-1 cursor-pointer"
-                      >
+                      <button onClick={() => setActiveStep(0)}
+                        className="border border-pink-200 hover:bg-pink-50/60 text-primary font-bold text-xs py-2.5 px-4 rounded-full shadow-sm transition-all flex items-center gap-1 cursor-pointer">
                         Back to Start
                       </button>
                       <Link href="/diagnosis">
@@ -831,6 +697,7 @@ export default function EducationClient() {
                     </div>
                   </div>
                 )}
+
               </motion.div>
             </AnimatePresence>
           </div>
@@ -838,30 +705,22 @@ export default function EducationClient() {
         </div>
       </section>
 
-      {/* ================= BREAST SELF-EXAMINATION (BSE) ================= */}
+      {/* BSE Block */}
       <section className="py-12 md:py-16 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-6">
           <div className="bg-gradient-to-tr from-pink-500/5 via-rose-500/[0.02] to-transparent border border-pink-100 rounded-2xl p-6 shadow-sm relative overflow-hidden group">
-
             <div className="absolute top-0 right-0 w-80 h-80 bg-primary/5 rounded-full filter blur-3xl -z-10 group-hover:scale-105 transition-transform duration-500" />
-
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-
               <div className="lg:col-span-8 space-y-6">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
-                  <Clock className="h-3.5 w-3.5" />
-                  Paced Self-Screening
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold">
+                  <Clock className="h-3.5 w-3.5" /> Paced Self-Screening
                 </span>
-
                 <div className="space-y-3">
-                  <h2 className="font-heading text-3xl font-bold text-slate-800 tracking-tight">
-                    Breast Self-Examination (BSE)
-                  </h2>
+                  <h2 className="font-heading text-3xl font-bold text-slate-800 tracking-tight">Breast Self-Examination (BSE)</h2>
                   <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
                     Performing a regular Breast Self-Examination (BSE) helps you build body familiarity. It is a critical habit that allows you to notice any sudden deviations, texture changes, or surface anomalies quickly.
                   </p>
                 </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs text-slate-600 font-medium">
                   <div className="flex gap-2">
                     <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
@@ -878,12 +737,10 @@ export default function EducationClient() {
                     </div>
                   </div>
                 </div>
-
                 <div className="pt-4 flex flex-wrap gap-3">
                   <Link href="/learn/bse-guide">
                     <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg shadow-md shadow-pink-100 text-xs py-5 h-auto px-6 flex items-center gap-1.5 transition-all">
-                      Launch Interactive Guide
-                      <ChevronRight className="h-4 w-4" />
+                      Launch Interactive Guide <ChevronRight className="h-4 w-4" />
                     </Button>
                   </Link>
                   <Link href="/learn/quiz">
@@ -893,8 +750,6 @@ export default function EducationClient() {
                   </Link>
                 </div>
               </div>
-
-              {/* Graphical Visual */}
               <div className="lg:col-span-4 flex items-center justify-center p-4">
                 <div className="relative p-6 rounded-2xl bg-white border border-pink-100/60 shadow-sm w-full max-w-xs text-center space-y-4">
                   <div className="h-14 w-14 rounded-full bg-pink-50 flex items-center justify-center text-primary mx-auto animate-pulse border border-pink-100/40">
@@ -902,149 +757,191 @@ export default function EducationClient() {
                   </div>
                   <div className="space-y-1">
                     <p className="font-bold text-slate-800">Interactive Walkthrough</p>
-                    <p className="text-[11px] text-slate-400 font-semibold ">Self-Exam Timers Included</p>
+                    <p className="text-[11px] text-slate-400 font-semibold">Self-Exam Timers Included</p>
                   </div>
-                  <p className="text-xs text-slate-500 leading-relaxed px-2 font-medium">
-                    Features visual instruction segments and a pacing timer for each side.
-                  </p>
+                  <p className="text-xs text-slate-500 leading-relaxed px-2 font-medium">Features visual instruction segments and a pacing timer for each side.</p>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= EARLY DETECTION ================= */}
+      {/* EARLY DETECTION */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-8">
 
           <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold">
               <Stethoscope className="h-3.5 w-3.5" /> Screening Guidelines
             </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
-              Early Detection Methods
-            </h2>
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">Early Detection Methods</h2>
             <p className="text-slate-500 text-sm sm:text-base font-medium">
-              Learn about early clinical screening tools used to confirm or rule out cancer cells.
+              Learn the early clinical screening tools used to detect breast and cervical cancer.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
-            {/* Mammography Card */}
+            {/* Breast Cancer Screening Cards */}
             <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-pink-300">
-              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-2xl">
-                <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40">
-                  <Layers className="h-5 w-5" />
-                </div>
-                <span className="text-[11px] text-pink-400 font-bold ">Imaging Scan</span>
+              <div className="h-14 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 px-3 flex items-center justify-between rounded-t-2xl">
+                <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40"><Layers className="h-3.5 w-3.5" /></div>
+                <span className="text-[9px] text-pink-500 font-bold bg-white/60 px-2 py-0.5 rounded-md">Breast</span>
               </div>
-              <CardHeader className="space-y-1.5 p-5">
-                <CardTitle className="font-heading text-lg font-bold text-slate-800">Mammography</CardTitle>
-                <CardDescription className="text-xs text-slate-500 font-medium leading-relaxed">
-                  Low-dose breast X-ray panels designed to capture detailed internal structures, uncovering micro-calcifications long before they are palpable.
+              <CardHeader className="space-y-1 p-3">
+                <CardTitle className="font-heading text-sm font-bold text-slate-800">Mammography</CardTitle>
+                <CardDescription className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                  Low-dose breast X-ray panels to capture internal structures and uncover micro-calcifications.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="pt-0 p-5">
-                <Link href="/diagnosis">
-                  <Button variant="ghost" size="sm" className="text-primary hover:bg-pink-50 text-xs font-semibold p-0 flex items-center gap-1">
-                    Learn Details <ChevronRight className="h-3.5 w-3.5" />
-                  </Button>
-                </Link>
+              <CardContent className="pt-0 px-3 pb-3">
+                <Link href="/diagnosis"><Button variant="ghost" size="sm" className="text-primary hover:bg-pink-50 text-[11px] font-semibold p-0 h-auto flex items-center gap-1">Learn Details <ChevronRight className="h-3 w-3" /></Button></Link>
               </CardContent>
             </Card>
 
-            {/* CBE Card */}
             <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-pink-300">
-              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-2xl">
-                <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40">
-                  <Stethoscope className="h-5 w-5" />
-                </div>
-                <span className="text-[11px] text-pink-400 font-bold ">Physical Exam</span>
+              <div className="h-14 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 px-3 flex items-center justify-between rounded-t-2xl">
+                <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40"><Stethoscope className="h-3.5 w-3.5" /></div>
+                <span className="text-[9px] text-pink-500 font-bold bg-white/60 px-2 py-0.5 rounded-md">Breast</span>
               </div>
-              <CardHeader className="space-y-1.5 p-5">
-                <CardTitle className="font-heading text-lg font-bold text-slate-800">Clinical Breast Exam</CardTitle>
-                <CardDescription className="text-xs text-slate-500 font-medium leading-relaxed">
-                  A physical palpation exam conducted by a physician or trained healthcare worker during routine physical health checkups.
+              <CardHeader className="space-y-1 p-3">
+                <CardTitle className="font-heading text-sm font-bold text-slate-800">Clinical Breast Exam</CardTitle>
+                <CardDescription className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                  A physical palpation exam conducted by a physician or trained healthcare worker.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="pt-0 p-5">
-                <Link href="/diagnosis">
-                  <Button variant="ghost" size="sm" className="text-primary hover:bg-pink-50 text-xs font-semibold p-0 flex items-center gap-1">
-                    Learn Details <ChevronRight className="h-3.5 w-3.5" />
-                  </Button>
-                </Link>
+              <CardContent className="pt-0 px-3 pb-3">
+                <Link href="/diagnosis"><Button variant="ghost" size="sm" className="text-primary hover:bg-pink-50 text-[11px] font-semibold p-0 h-auto flex items-center gap-1">Learn Details <ChevronRight className="h-3 w-3" /></Button></Link>
               </CardContent>
             </Card>
 
-            {/* Ultrasound Card */}
             <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-pink-300">
-              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-2xl">
-                <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40">
-                  <Activity className="h-5 w-5" />
-                </div>
-                <span className="text-[11px] text-pink-400 font-bold ">Sonic Imaging</span>
+              <div className="h-14 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 px-3 flex items-center justify-between rounded-t-2xl">
+                <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40"><Activity className="h-3.5 w-3.5" /></div>
+                <span className="text-[9px] text-pink-500 font-bold bg-white/60 px-2 py-0.5 rounded-md">Breast</span>
               </div>
-              <CardHeader className="space-y-1.5 p-5">
-                <CardTitle className="font-heading text-lg font-bold text-slate-800">Ultrasound</CardTitle>
-                <CardDescription className="text-xs text-slate-500 font-medium leading-relaxed">
-                  Uses safe, radiation-free high frequency sound waves to examine tissue, helpful for younger patients or for telling dense cysts from solid tumors.
+              <CardHeader className="space-y-1 p-3">
+                <CardTitle className="font-heading text-sm font-bold text-slate-800">Ultrasound</CardTitle>
+                <CardDescription className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                  Uses safe, radiation-free sound waves to examine tissue and tell dense cysts from solid tumors.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="pt-0 p-5">
-                <Link href="/diagnosis">
-                  <Button variant="ghost" size="sm" className="text-primary hover:bg-pink-50 text-xs font-semibold p-0 flex items-center gap-1">
-                    Learn Details <ChevronRight className="h-3.5 w-3.5" />
-                  </Button>
-                </Link>
+              <CardContent className="pt-0 px-3 pb-3">
+                <Link href="/diagnosis"><Button variant="ghost" size="sm" className="text-primary hover:bg-pink-50 text-[11px] font-semibold p-0 h-auto flex items-center gap-1">Learn Details <ChevronRight className="h-3 w-3" /></Button></Link>
               </CardContent>
             </Card>
 
-            {/* MRI Card */}
             <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-pink-300">
-              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-2xl">
-                <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40">
-                  <ShieldCheck className="h-5 w-5" />
-                </div>
-                <span className="text-[11px] text-pink-400 font-bold ">Magnetic Resonance</span>
+              <div className="h-14 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 px-3 flex items-center justify-between rounded-t-2xl">
+                <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40"><ShieldCheck className="h-3.5 w-3.5" /></div>
+                <span className="text-[9px] text-pink-500 font-bold bg-white/60 px-2 py-0.5 rounded-md">Breast</span>
               </div>
-              <CardHeader className="space-y-1.5 p-5">
-                <CardTitle className="font-heading text-lg font-bold text-slate-800">MRI Scan</CardTitle>
-                <CardDescription className="text-xs text-slate-500 font-medium leading-relaxed">
-                  Advanced 3D magnetic wave mapping. Reserved for staging confirmed cancer cases, screening high-risk patients, or evaluating breast implants.
+              <CardHeader className="space-y-1 p-3">
+                <CardTitle className="font-heading text-sm font-bold text-slate-800">MRI Scan</CardTitle>
+                <CardDescription className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                  Advanced 3D mapping reserved for staging confirmed cancer or screening high-risk patients.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="pt-0 p-5">
-                <Link href="/diagnosis">
-                  <Button variant="ghost" size="sm" className="text-primary hover:bg-pink-50 text-xs font-semibold p-0 flex items-center gap-1">
-                    Learn Details <ChevronRight className="h-3.5 w-3.5" />
-                  </Button>
-                </Link>
+              <CardContent className="pt-0 px-3 pb-3">
+                <Link href="/diagnosis"><Button variant="ghost" size="sm" className="text-primary hover:bg-pink-50 text-[11px] font-semibold p-0 h-auto flex items-center gap-1">Learn Details <ChevronRight className="h-3 w-3" /></Button></Link>
               </CardContent>
             </Card>
 
-            {/* Biopsy Card */}
             <Card className="border-pink-100/60 bg-gradient-to-br from-white to-pink-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-pink-300">
-              <div className="h-24 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 p-4 flex items-end justify-between rounded-t-2xl">
-                <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40">
-                  <FileText className="h-5 w-5" />
-                </div>
-                <span className="text-[11px] text-pink-400 font-bold ">Pathology test</span>
+              <div className="h-14 bg-gradient-to-br from-pink-500/10 to-rose-500/5 border-b border-pink-50/50 px-3 flex items-center justify-between rounded-t-2xl">
+                <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center text-primary shadow-sm border border-pink-100/40"><FileText className="h-3.5 w-3.5" /></div>
+                <span className="text-[9px] text-pink-500 font-bold bg-white/60 px-2 py-0.5 rounded-md">Breast</span>
               </div>
-              <CardHeader className="space-y-1.5 p-5">
-                <CardTitle className="font-heading text-lg font-bold text-slate-800">Biopsy</CardTitle>
-                <CardDescription className="text-xs text-slate-500 font-medium leading-relaxed">
-                  The definitive confirmatory check. A hollow core needle extracts minor cell tissue from a lump to be analyzed under a microscope in a pathology lab.
+              <CardHeader className="space-y-1 p-3">
+                <CardTitle className="font-heading text-sm font-bold text-slate-800">Breast Biopsy</CardTitle>
+                <CardDescription className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                  A hollow core needle extracts minor cell tissue from a lump for definitive pathology analysis.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="pt-0 p-5">
-                <Link href="/diagnosis">
-                  <Button variant="ghost" size="sm" className="text-primary hover:bg-pink-50 text-xs font-semibold p-0 flex items-center gap-1">
-                    Learn Details <ChevronRight className="h-3.5 w-3.5" />
-                  </Button>
-                </Link>
+              <CardContent className="pt-0 px-3 pb-3">
+                <Link href="/diagnosis"><Button variant="ghost" size="sm" className="text-primary hover:bg-pink-50 text-[11px] font-semibold p-0 h-auto flex items-center gap-1">Learn Details <ChevronRight className="h-3 w-3" /></Button></Link>
+              </CardContent>
+            </Card>
+
+            {/* Cervical Cancer Screening Cards */}
+            <Card className="border-rose-100/60 bg-gradient-to-br from-white to-rose-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-rose-300">
+              <div className="h-14 bg-gradient-to-br from-rose-500/10 to-pink-500/5 border-b border-rose-50/50 px-3 flex items-center justify-between rounded-t-2xl">
+                <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center text-rose-600 shadow-sm border border-rose-100/40"><Microscope className="h-3.5 w-3.5" /></div>
+                <span className="text-[9px] text-rose-600 font-bold bg-white/60 px-2 py-0.5 rounded-md">Cervical</span>
+              </div>
+              <CardHeader className="space-y-1 p-3">
+                <CardTitle className="font-heading text-sm font-bold text-slate-800">Pap Test (Smear)</CardTitle>
+                <CardDescription className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                  Collects cervical cells to check for pre-cancerous or cancerous changes. Repeated every 3 years.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0 px-3 pb-3">
+                <Link href="/diagnosis"><Button variant="ghost" size="sm" className="text-rose-600 hover:bg-rose-50 text-[11px] font-semibold p-0 h-auto flex items-center gap-1">Learn Details <ChevronRight className="h-3 w-3" /></Button></Link>
+              </CardContent>
+            </Card>
+
+            <Card className="border-rose-100/60 bg-gradient-to-br from-white to-rose-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-rose-300">
+              <div className="h-14 bg-gradient-to-br from-rose-500/10 to-pink-500/5 border-b border-rose-50/50 px-3 flex items-center justify-between rounded-t-2xl">
+                <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center text-rose-600 shadow-sm border border-rose-100/40"><Droplets className="h-3.5 w-3.5" /></div>
+                <span className="text-[9px] text-rose-600 font-bold bg-white/60 px-2 py-0.5 rounded-md">Cervical</span>
+              </div>
+              <CardHeader className="space-y-1 p-3">
+                <CardTitle className="font-heading text-sm font-bold text-slate-800">HPV DNA Test</CardTitle>
+                <CardDescription className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                  Detects high-risk HPV types (e.g., 16, 18). Typically repeated every 5 years.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0 px-3 pb-3">
+                <Link href="/diagnosis"><Button variant="ghost" size="sm" className="text-rose-600 hover:bg-rose-50 text-[11px] font-semibold p-0 h-auto flex items-center gap-1">Learn Details <ChevronRight className="h-3 w-3" /></Button></Link>
+              </CardContent>
+            </Card>
+
+            <Card className="border-rose-100/60 bg-gradient-to-br from-white to-rose-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-rose-300">
+              <div className="h-14 bg-gradient-to-br from-rose-500/10 to-pink-500/5 border-b border-rose-50/50 px-3 flex items-center justify-between rounded-t-2xl">
+                <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center text-rose-600 shadow-sm border border-rose-100/40"><Activity className="h-3.5 w-3.5" /></div>
+                <span className="text-[9px] text-rose-600 font-bold bg-white/60 px-2 py-0.5 rounded-md">Cervical</span>
+              </div>
+              <CardHeader className="space-y-1 p-3">
+                <CardTitle className="font-heading text-sm font-bold text-slate-800">VIA Inspection</CardTitle>
+                <CardDescription className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                  Low-cost visual inspection of the cervix after applying dilute acetic acid.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0 px-3 pb-3">
+                <Link href="/diagnosis"><Button variant="ghost" size="sm" className="text-rose-600 hover:bg-rose-50 text-[11px] font-semibold p-0 h-auto flex items-center gap-1">Learn Details <ChevronRight className="h-3 w-3" /></Button></Link>
+              </CardContent>
+            </Card>
+
+            <Card className="border-rose-100/60 bg-gradient-to-br from-white to-rose-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-rose-300">
+              <div className="h-14 bg-gradient-to-br from-rose-500/10 to-pink-500/5 border-b border-rose-50/50 px-3 flex items-center justify-between rounded-t-2xl">
+                <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center text-rose-600 shadow-sm border border-rose-100/40"><ShieldCheck className="h-3.5 w-3.5" /></div>
+                <span className="text-[9px] text-rose-600 font-bold bg-white/60 px-2 py-0.5 rounded-md">Cervical</span>
+              </div>
+              <CardHeader className="space-y-1 p-3">
+                <CardTitle className="font-heading text-sm font-bold text-slate-800">Colposcopy</CardTitle>
+                <CardDescription className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                  Magnified examination of the cervix to locate and biopsy suspicious areas.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0 px-3 pb-3">
+                <Link href="/diagnosis"><Button variant="ghost" size="sm" className="text-rose-600 hover:bg-rose-50 text-[11px] font-semibold p-0 h-auto flex items-center gap-1">Learn Details <ChevronRight className="h-3 w-3" /></Button></Link>
+              </CardContent>
+            </Card>
+
+            <Card className="border-rose-100/60 bg-gradient-to-br from-white to-rose-50/[0.03] shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl flex flex-col justify-between hover:border-rose-300">
+              <div className="h-14 bg-gradient-to-br from-rose-500/10 to-pink-500/5 border-b border-rose-50/50 px-3 flex items-center justify-between rounded-t-2xl">
+                <div className="h-7 w-7 rounded-lg bg-white flex items-center justify-center text-rose-600 shadow-sm border border-rose-100/40"><FileText className="h-3.5 w-3.5" /></div>
+                <span className="text-[9px] text-rose-600 font-bold bg-white/60 px-2 py-0.5 rounded-md">Cervical</span>
+              </div>
+              <CardHeader className="space-y-1 p-3">
+                <CardTitle className="font-heading text-sm font-bold text-slate-800">Cervical Biopsy</CardTitle>
+                <CardDescription className="text-[11px] text-slate-500 font-medium leading-relaxed">
+                  A small tissue sample taken from the cervix for definitive pathology confirmation.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0 px-3 pb-3">
+                <Link href="/diagnosis"><Button variant="ghost" size="sm" className="text-rose-600 hover:bg-rose-50 text-[11px] font-semibold p-0 h-auto flex items-center gap-1">Learn Details <ChevronRight className="h-3 w-3" /></Button></Link>
               </CardContent>
             </Card>
 
@@ -1052,57 +949,39 @@ export default function EducationClient() {
 
           <div className="text-center pt-2">
             <Link href="/diagnosis">
-              <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg text-xs py-5 h-auto px-6 shadow-md shadow-pink-100 flex items-center gap-1.5 mx-auto transition-all cursor-pointer">
-                View Comprehensive Diagnosis Roadmap
-                <ArrowRight className="h-4 w-4" />
+              <Button className="bg-primary hover:bg-primary/95 text-white font-bold rounded-lg text-xs py-4 h-auto px-6 shadow-md shadow-pink-100 flex items-center gap-1.5 mx-auto transition-all cursor-pointer">
+                View Comprehensive Diagnosis Roadmap <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
           </div>
-
         </div>
       </section>
-
-      {/* ================= EDUCATIONAL VIDEO PLAYLIST ================= */}
+      
+      {/* VIDEO LIBRARY */}
       <section id="video-library" className="py-12 md:py-16 bg-white border-b border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl space-y-10">
-
           <div className="space-y-3 text-center">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
-              <Video className="h-3.5 w-3.5" />
-              Educational Video Library
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold">
+              <Video className="h-3.5 w-3.5" /> Educational Video Library
             </span>
-            <h3 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
-              Interactive Video Guides
-            </h3>
+            <h3 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">Interactive Video Guides</h3>
             <p className="text-slate-500 text-sm sm:text-base font-medium max-w-2xl mx-auto">
-              Watch self-examination demonstrations and oncologist briefings to familiarize yourself with breast wellness.
+              Watch self-examination demonstrations and oncologist briefings to familiarize yourself with breast &amp; cervical wellness.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-
-            {/* Video Player */}
             <div className="lg:col-span-8 bg-white border border-pink-100/60 rounded-2xl overflow-hidden shadow-sm flex flex-col">
               <div className="relative aspect-video bg-black w-full overflow-hidden">
                 {educationalVideos[activeVideoIdx].src ? (
-                  <video
-                    ref={videoRef}
-                    key={educationalVideos[activeVideoIdx].src}
-                    className="w-full h-full object-cover"
-                    controls
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="auto"
-                  >
+                  <video ref={videoRef} key={educationalVideos[activeVideoIdx].src} className="w-full h-full object-cover" controls autoPlay muted loop playsInline preload="auto">
                     <source src={educationalVideos[activeVideoIdx].src} type="video/mp4" />
                     <source src={educationalVideos[activeVideoIdx].src} type="video/webm" />
                     Your browser does not support the video tag.
                   </video>
                 ) : (
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-950 p-6 text-center text-zinc-400 space-y-4">
-                    <Video className="h-16 w-16 text-pink-500/80 " />
+                    <Video className="h-16 w-16 text-pink-500/80" />
                     <div className="space-y-2">
                       <p className="text-white font-semibold text-lg">Insight Video Unavailable</p>
                       <p className="text-xs text-zinc-500 max-w-sm font-medium">This video is currently being prepared for streaming. Check back soon for clinical expert details.</p>
@@ -1112,36 +991,23 @@ export default function EducationClient() {
               </div>
               <div className="p-6 space-y-3">
                 <div className="flex flex-wrap gap-2 items-center justify-between">
-                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-primary bg-pink-50 px-2.5 py-1 rounded-md border border-pink-100/40">
-                    Now Playing
-                  </span>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-primary bg-pink-50 px-2.5 py-1 rounded-md border border-pink-100/40">Now Playing</span>
                   {educationalVideos[activeVideoIdx].duration ? (
-                    <span className="text-xs text-slate-500 flex items-center gap-1 font-semibold">
-                      <Clock className="h-3.5 w-3.5" />
-                      Duration: {educationalVideos[activeVideoIdx].duration}
-                    </span>
+                    <span className="text-xs text-slate-500 flex items-center gap-1 font-semibold"><Clock className="h-3.5 w-3.5" /> Duration: {educationalVideos[activeVideoIdx].duration}</span>
                   ) : (
-                    <span className="text-xs text-slate-500 flex items-center gap-1 font-semibold">
-                      <Play className="h-3.5 w-3.5" />
-                      Autoplay · Loop
-                    </span>
+                    <span className="text-xs text-slate-500 flex items-center gap-1 font-semibold"><Play className="h-3.5 w-3.5" /> Autoplay · Loop</span>
                   )}
                 </div>
-                <h4 className="text-lg font-bold text-slate-800">
-                  {educationalVideos[activeVideoIdx].title}
-                </h4>
-                <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">
-                  {educationalVideos[activeVideoIdx].description}
-                </p>
+                <h4 className="text-lg font-bold text-slate-800">{educationalVideos[activeVideoIdx].title}</h4>
+                {educationalVideos[activeVideoIdx].description && (
+                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed font-medium">{educationalVideos[activeVideoIdx].description}</p>
+                )}
               </div>
             </div>
 
-            {/* Playlist Sidebar */}
             <div className="lg:col-span-4 space-y-3">
               <div className="p-4 bg-pink-50/30 rounded-2xl border border-pink-100/40">
-                <span className="text-xs font-bold text-slate-600 block mb-1">
-                  Playlist Walkthroughs
-                </span>
+                <span className="text-xs font-bold text-slate-600 block mb-1">Playlist Walkthroughs</span>
                 <span className="text-[11px] text-slate-400 font-semibold">Select a video below to start playing</span>
               </div>
 
@@ -1149,118 +1015,105 @@ export default function EducationClient() {
                 {educationalVideos.map((video, idx) => {
                   const isActive = idx === activeVideoIdx;
                   return (
-                    <button
-                      key={idx}
-                      onClick={() => handleVideoSelect(idx)}
-                      className={`w-full text-left flex items-start gap-3 p-3 rounded-2xl border transition-all duration-300 cursor-pointer ${isActive
-                        ? "bg-pink-50/40 border-primary/50 shadow-sm"
-                        : "bg-white border-slate-100 hover:border-pink-200/50 hover:bg-pink-50/10"
-                        }`}
-                    >
-                      <div className={`relative h-16 w-24 rounded-lg overflow-hidden shrink-0 flex items-center justify-center border ${isActive
-                        ? "bg-gradient-to-br from-pink-100 to-rose-100 border-pink-200"
-                        : "bg-gradient-to-br from-slate-100 to-slate-50 border-slate-100"
-                        }`}>
+                    <button key={idx} onClick={() => handleVideoSelect(idx)}
+                      className={`w-full text-left flex items-start gap-3 p-3 rounded-2xl border transition-all duration-300 cursor-pointer ${isActive ? "bg-pink-50/40 border-primary/50 shadow-sm" : "bg-white border-slate-100 hover:border-pink-200/50 hover:bg-pink-50/10"}`}>
+                      <div className={`relative h-16 w-24 rounded-lg overflow-hidden shrink-0 flex items-center justify-center border ${isActive ? "bg-gradient-to-br from-pink-100 to-rose-100 border-pink-200" : "bg-gradient-to-br from-slate-100 to-slate-50 border-slate-100"}`}>
                         <Play className={`h-6 w-6 ${isActive ? "text-primary fill-primary scale-110" : "text-slate-400"} transition-transform`} />
                       </div>
                       <div className="space-y-1 flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-1">
                           {video.duration ? (
-                            <span className="text-[11px] font-semibold text-slate-400 flex items-center gap-0.5">
-                              <Clock className="h-2.5 w-2.5" />
-                              {video.duration}
-                            </span>
+                            <span className="text-[11px] font-semibold text-slate-400 flex items-center gap-0.5"><Clock className="h-2.5 w-2.5" />{video.duration}</span>
                           ) : (
-                            <span className="text-[11px] font-semibold text-slate-400">
-                              Auto-loop
-                            </span>
+                            <span className="text-[11px] font-semibold text-slate-400">Auto-loop</span>
                           )}
-                          {isActive && (
-                            <span className="inline-flex h-1.5 w-1.5 rounded-full bg-primary animate-ping" />
-                          )}
+                          {isActive && <span className="inline-flex h-1.5 w-1.5 rounded-full bg-primary animate-ping" />}
                         </div>
-                        <p className={`text-xs font-bold truncate ${isActive ? "text-primary" : "text-slate-800"}`}>
-                          {video.title}
-                        </p>
-                        <p className="text-[11px] text-slate-400 line-clamp-2 font-medium">
-                          {video.description}
-                        </p>
+                        <p className={`text-xs font-bold truncate ${isActive ? "text-primary" : "text-slate-800"}`}>{video.title}</p>
+                        {video.description && <p className="text-[11px] text-slate-400 line-clamp-2 font-medium">{video.description}</p>}
                       </div>
                     </button>
                   );
                 })}
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* ================= FREQUENTLY ASKED QUESTIONS ================= */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl space-y-8">
+      {/* FAQ (SIDE-BY-SIDE) */}
+      <section className="py-10 md:py-14 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Breast FAQs */}
+            <div className="space-y-3">
+              <h3 className="font-heading text-xl font-bold text-slate-800 flex items-center gap-2">
+                <Ribbon className="h-5 w-5 text-primary" /> Breast Cancer
+              </h3>
+              <div className="bg-white/80 border border-pink-100/60 rounded-xl p-3 sm:p-4 shadow-sm space-y-0">
+                {breastFaqs.map((faq, idx) => {
+                  const isOpen = openBreastFaqIdx === idx;
+                  return (
+                    <div key={`b-${idx}`} className="border-b border-slate-100 last:border-0 py-1">
+                      <button onClick={() => toggleBreastFaq(idx)}
+                        className="w-full flex justify-between items-center text-left py-3 font-heading font-bold text-sm text-slate-800 hover:text-primary transition-colors cursor-pointer select-none outline-none">
+                        <span>{faq.q}</span>
+                        <span className="text-slate-400 shrink-0 ml-4">{isOpen ? <Minus className="h-4 w-4 text-primary" /> : <Plus className="h-4 w-4" />}</span>
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
+                            <p className="text-xs text-slate-500 leading-relaxed pb-3 pr-6 font-medium">{faq.a}</p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
-          <div className="text-center space-y-3 max-w-2xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
-              <HelpCircle className="h-3.5 w-3.5" /> FAQ Accordion
-            </span>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-slate-500 text-sm sm:text-base font-medium">
-              Browse quick oncology-verified responses to common screening questions.
-            </p>
+            {/* Cervical FAQs */}
+            <div className="space-y-3">
+              <h3 className="font-heading text-xl font-bold text-slate-800 flex items-center gap-2">
+                <Syringe className="h-5 w-5 text-rose-600" /> Cervical Cancer
+              </h3>
+              <div className="bg-white/80 border border-rose-100/60 rounded-xl p-3 sm:p-4 shadow-sm space-y-0">
+                {cervicalFaqs.map((faq, idx) => {
+                  const isOpen = openCervicalFaqIdx === idx;
+                  return (
+                    <div key={`c-${idx}`} className="border-b border-slate-100 last:border-0 py-1">
+                      <button onClick={() => toggleCervicalFaq(idx)}
+                        className="w-full flex justify-between items-center text-left py-3 font-heading font-bold text-sm text-slate-800 hover:text-rose-600 transition-colors cursor-pointer select-none outline-none">
+                        <span>{faq.q}</span>
+                        <span className="text-slate-400 shrink-0 ml-4">{isOpen ? <Minus className="h-4 w-4 text-rose-600" /> : <Plus className="h-4 w-4" />}</span>
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
+                            <p className="text-xs text-slate-500 leading-relaxed pb-3 pr-6 font-medium">{faq.a}</p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-
-          <div className="bg-white/80 border border-pink-100/60 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
-            {faqsList.map((faq, idx) => {
-              const isOpen = openFaqIdx === idx;
-              return (
-                <div key={idx} className="border-b border-slate-100 last:border-0 pb-4 last:pb-0 pt-3 first:pt-0">
-                  <button
-                    onClick={() => toggleFaq(idx)}
-                    className="w-full flex justify-between items-center text-left py-2 font-heading font-bold text-sm sm:text-base text-slate-800 hover:text-primary transition-colors cursor-pointer select-none outline-none"
-                  >
-                    <span>{faq.q}</span>
-                    <span className="text-slate-400 shrink-0 ml-4">
-                      {isOpen ? <Minus className="h-4.5 w-4.5 text-primary" /> : <Plus className="h-4.5 w-4.5" />}
-                    </span>
-                  </button>
-
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
-                        <p className="text-xs sm:text-sm text-slate-500 leading-relaxed pt-2.5 pr-6 font-medium">
-                          {faq.a}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-          </div>
-
         </div>
       </section>
 
-      {/* ================= CALL TO ACTION ================= */}
+      {/* CTA */}
       <section className="py-10 md:py-14 bg-pink-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[5%] w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-
+        
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center space-y-8 relative z-10">
-          <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/20 text-white text-xs font-bold ">
-            <Ribbon className="h-3.5 w-3.5 fill-white text-pink-600 " />
-            Education Initiative
+          <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white/20 text-white text-xs font-bold">
+            <Ribbon className="h-3.5 w-3.5 fill-white text-pink-600" /> Education Initiative
           </span>
-
+          
           <div className="space-y-4">
             <h2 className="font-heading text-3xl sm:text-4xl lg:text-4xl font-bold tracking-tight leading-tight text-pink-500">
               Early Education Saves Lives
@@ -1270,15 +1123,15 @@ export default function EducationClient() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto pt-2">
-            <Link href="/diagnosis">
-              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-lg py-5 px-4 shadow-lg transition-all text-xs cursor-pointer">
+          {/* Centered Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 max-w-md mx-auto">
+            <Link href="/diagnosis" className="w-full sm:w-auto">
+              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-lg py-5 px-8 shadow-lg transition-all text-xs cursor-pointer">
                 Learn About Diagnosis
               </Button>
             </Link>
-
-            <Link href="/webinars">
-              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-lg py-5 px-4 shadow-lg transition-all text-xs cursor-pointer">
+            <Link href="/webinars" className="w-full sm:w-auto">
+              <Button className="w-full bg-white hover:bg-slate-50 text-primary font-bold rounded-lg py-5 px-8 shadow-lg transition-all text-xs cursor-pointer">
                 Register for Webinar
               </Button>
             </Link>
@@ -1289,4 +1142,3 @@ export default function EducationClient() {
     </div>
   );
 }
-
