@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { 
-  Menu, 
-  X, 
-  ChevronDown, 
-  Ribbon, 
-  LogOut, 
-  LayoutDashboard 
+import {
+  Menu,
+  X,
+  ChevronDown,
+  Ribbon,
+  LogOut,
+  LayoutDashboard
 } from "lucide-react";
 
 interface MobileMenuProps {
@@ -59,13 +59,12 @@ export default function MobileMenu({ user, handleSignOut }: MobileMenuProps) {
 
       {/* Redesigned Full-screen Mobile Menu Drawer */}
       <div
-        className={`fixed inset-x-0 top-0 bottom-0 z-[100] w-full h-[100dvh] border-0 p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-lg transition-all duration-300 flex flex-col justify-between ${
-          isOpen ? "translate-x-0 opacity-100 visible" : "translate-x-full opacity-0 invisible"
-        }`}
+        className={`fixed inset-x-0 top-0 bottom-0 z-[100] w-full h-[100dvh] border-0 p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-lg transition-all duration-300 flex flex-col justify-between ${isOpen ? "translate-x-0 opacity-100 visible" : "translate-x-full opacity-0 invisible"
+          }`}
         style={{ backgroundColor: "#ffffff", color: "#1e191c" }}
       >
         <div className="flex flex-col h-full justify-between">
-          
+
           {/* Header */}
           <div className="flex items-center justify-between pb-6 border-b shrink-0" style={{ borderColor: "var(--color-pink-100)" }}>
             <Link href="/" onClick={closeMenu} className="flex items-center gap-1.5">
@@ -74,7 +73,7 @@ export default function MobileMenu({ user, handleSignOut }: MobileMenuProps) {
                 Cancer <span className="text-primary">Mission</span>
               </span>
             </Link>
-            
+
             {/* Close Button - fixed/absolute top-right with 44px+ touch-friendly target */}
             <button
               onClick={closeMenu}
@@ -87,111 +86,110 @@ export default function MobileMenu({ user, handleSignOut }: MobileMenuProps) {
 
           {/* Navigation Links Scroll Container */}
           <nav className="flex-1 overflow-y-auto py-6 pr-1 space-y-5 my-2 no-scrollbar">
-              {/* Home */}
-                <Link
-                  href="/"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  Home
-                </Link>
-                <Link
-                  href="/webinars"
-                  onClick={closeMenu}
-                  className="block rounded-xl bg-pink-600 px-4 py-3 text-center text-base font-bold text-white shadow-sm animate-pulse motion-reduce:animate-none"
-                >
-                  Join Webinar
-                </Link>
+            {/* Home */}
+            <Link
+              href="/"
+              onClick={closeMenu}
+              className="block text-base font-medium py-2.5 transition-colors border-b"
+              style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
+            >
+              Home
+            </Link>
+            <Link
+              href="/webinars"
+              onClick={closeMenu}
+              className="block rounded-xl bg-pink-600 px-4 py-3 text-center text-base font-bold text-white shadow-sm animate-pulse motion-reduce:animate-none"
+            >
+              Join Webinar
+            </Link>
 
-                {/* Campaign Section */}
-                <div>
-                  <div className="flex items-center justify-between border-b" style={{ borderColor: "var(--color-pink-100)" }}>
-                    <Link
-                      href="/campaigns/delhi-university"
-                      onClick={closeMenu}
-                      className="block flex-1 py-2.5 text-base font-medium"
-                      style={{ color: "#334155" }}
-                    >
-                      Campaign
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => toggleSection("campaign")}
-                      aria-label="Show campaign links"
-                      aria-expanded={openSection === "campaign"}
-                      className="p-2"
-                    >
-                      <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${openSection === "campaign" ? "rotate-180 text-primary" : ""}`} />
-                    </button>
-                  </div>
-                  {openSection === "campaign" && (
-                    <div className="pl-4 mt-2 space-y-2 border-l-2 animate-in fade-in duration-200" style={{ borderColor: "var(--color-pink-300)" }}>
-                      <Link href="/campaigns/delhi-university" onClick={closeMenu} className="block text-sm py-2 transition-colors font-semibold text-pink-700 hover:text-pink-800">Delhi University Event</Link>
-                      <Link href="/campaigns/education" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Education</Link>
-                      <Link href="/campaigns/awareness" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Our Activities</Link>
-                      <Link href="/campaigns/membership" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Membership</Link>
-                      <Link href="/campaigns/volunteers" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Volunteers</Link>
-                    </div>
-                  )}
+            {/* Campaign Section */}
+            <div>
+              <div className="flex items-center justify-between border-b" style={{ borderColor: "var(--color-pink-100)" }}>
+                <button
+                  type="button"
+                  onClick={() => toggleSection("campaign")}
+                  className="block flex-1 py-2.5 text-base font-medium text-left"
+                  style={{ color: "#334155" }}
+                >
+                  Campaign
+                </button>
+                <button
+                  type="button"
+                  onClick={() => toggleSection("campaign")}
+                  aria-label="Show campaign links"
+                  aria-expanded={openSection === "campaign"}
+                  className="p-2"
+                >
+                  <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${openSection === "campaign" ? "rotate-180 text-primary" : ""}`} />
+                </button>
+              </div>
+              {openSection === "campaign" && (
+                <div className="pl-4 mt-2 space-y-2 border-l-2 animate-in fade-in duration-200" style={{ borderColor: "var(--color-pink-300)" }}>
+                  <Link href="/campaigns/education" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Education</Link>
+                  <Link href="/campaigns/our-activities" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Our Activities</Link>
+                  <Link href="/campaigns/membership" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Membership</Link>
+                  <Link href="/campaigns/volunteers" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Volunteers</Link>
                 </div>
+              )}
+            </div>
 
-                {/* Care Section */}
-                <div>
-                  <button
-                    onClick={() => toggleSection("care")}
-                    className="flex items-center justify-between w-full text-base font-medium py-2.5 text-left border-b cursor-pointer"
-                    style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                  >
-                    <span>Care</span>
-                    <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${openSection === "care" ? "rotate-180 text-primary" : ""}`} />
-                  </button>
-                  {openSection === "care" && (
-                    <div className="pl-4 mt-2 space-y-2 border-l-2 animate-in fade-in duration-200" style={{ borderColor: "var(--color-pink-300)" }}>
-                      <Link href="/care/care-providers" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Care Providers</Link>
-                      <Link href="/care/healthcare-professionals" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Healthcare Professionals</Link>
-                      <Link href="/care/partner-organizations" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Partner Organizations</Link>
-                    </div>
-                  )}
+            {/* Care Section */}
+            <div>
+              <button
+                onClick={() => toggleSection("care")}
+                className="flex items-center justify-between w-full text-base font-medium py-2.5 text-left border-b cursor-pointer"
+                style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
+              >
+                <span>Care</span>
+                <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${openSection === "care" ? "rotate-180 text-primary" : ""}`} />
+              </button>
+              {openSection === "care" && (
+                <div className="pl-4 mt-2 space-y-2 border-l-2 animate-in fade-in duration-200" style={{ borderColor: "var(--color-pink-300)" }}>
+                  <Link href="/care/care-providers" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Care Providers</Link>
+                  <Link href="/care/healthcare-professionals" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Healthcare Professionals</Link>
+                  <Link href="/care/partner-organizations" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Partner Organizations</Link>
                 </div>
+              )}
+            </div>
 
-                {/* Cure Section */}
-                <div>
-                  <button
-                    onClick={() => toggleSection("cure")}
-                    className="flex items-center justify-between w-full text-base font-medium py-2.5 text-left border-b cursor-pointer"
-                    style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                  >
-                    <span>Cure</span>
-                    <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${openSection === "cure" ? "rotate-180 text-primary" : ""}`} />
-                  </button>
-                  {openSection === "cure" && (
-                    <div className="pl-4 mt-2 space-y-2 border-l-2 animate-in fade-in duration-200" style={{ borderColor: "var(--color-pink-300)" }}>
-                      <Link href="/diagnosis" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Diagnosis</Link>
-                      <Link href="/treatment" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Treatment</Link>
-                    </div>
-                  )}
+            {/* Cure Section */}
+            <div>
+              <button
+                onClick={() => toggleSection("cure")}
+                className="flex items-center justify-between w-full text-base font-medium py-2.5 text-left border-b cursor-pointer"
+                style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
+              >
+                <span>Cure</span>
+                <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${openSection === "cure" ? "rotate-180 text-primary" : ""}`} />
+              </button>
+              {openSection === "cure" && (
+                <div className="pl-4 mt-2 space-y-2 border-l-2 animate-in fade-in duration-200" style={{ borderColor: "var(--color-pink-300)" }}>
+                  <Link href="/diagnosis" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Diagnosis</Link>
+                  <Link href="/treatment" onClick={closeMenu} className="block text-sm py-2 transition-colors font-medium text-slate-600 hover:text-pink-600">Treatment</Link>
                 </div>
+              )}
+            </div>
 
-                {/* About Us */}
-                <Link
-                  href="/about"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  About Us
-                </Link>
+            {/* About Us */}
+            <Link
+              href="/about"
+              onClick={closeMenu}
+              className="block text-base font-medium py-2.5 transition-colors border-b"
+              style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
+            >
+              About Us
+            </Link>
 
-                {/* Contact Us */}
-                <Link
-                  href="/contact"
-                  onClick={closeMenu}
-                  className="block text-base font-medium py-2.5 transition-colors border-b"
-                  style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
-                >
-                  Contact Us
-                </Link>
+            {/* Contact Us */}
+            <Link
+              href="/contact"
+              onClick={closeMenu}
+              className="block text-base font-medium py-2.5 transition-colors border-b"
+              style={{ color: "#334155", borderColor: "var(--color-pink-100)" }}
+            >
+              Contact Us
+            </Link>
           </nav>
 
           {/* Footer Actions / User Session Info - shrink-0 */}

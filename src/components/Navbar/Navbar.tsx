@@ -26,32 +26,20 @@ function HoverDropdown({
   label,
   items,
   width = "w-48",
-  href,
 }: {
   label: string;
   items: { label: string; href: string }[];
   width?: string;
-  href?: string;
 }) {
   return (
     <div className="relative group">
-      {href ? (
-        <Link
-          href={href}
-          className="flex items-center gap-1 text-sm font-medium text-slate-600 transition-colors hover:text-pink-700 cursor-pointer select-none outline-none"
-        >
-          {label}
-          <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
-        </Link>
-      ) : (
-        <button
-          type="button"
-          className="flex items-center gap-1 text-sm font-medium text-slate-600 transition-colors hover:text-pink-700 cursor-pointer select-none outline-none"
-        >
-          {label}
-          <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
-        </button>
-      )}
+      <button
+        type="button"
+        className="flex items-center gap-1 text-sm font-medium text-slate-600 transition-colors hover:text-pink-700 cursor-pointer select-none outline-none"
+      >
+        {label}
+        <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
+      </button>
 
       {/* pt-2 creates an invisible bridge so hover doesn't break between trigger and menu */}
       <div
@@ -76,7 +64,7 @@ function HoverDropdown({
 const campaignItems = [
   // { label: "Delhi University Event", href: "/campaigns/delhi-university" },
   { label: "Education", href: "/campaigns/education" },
-    { label: "Our Activities", href: "/campaigns/our-activities" },
+  { label: "Our Activities", href: "/campaigns/our-activities" },
   { label: "Membership", href: "/campaigns/membership" },
   { label: "Volunteers", href: "/campaigns/volunteers" },
 ];
@@ -180,7 +168,7 @@ export default function Navbar() {
           <Link href="/" className="text-sm font-medium text-slate-600 transition-colors hover:text-pink-700">Home</Link>
 
           {/* Hover dropdowns — open on hover, no click needed */}
-          <HoverDropdown label="Campaign" href="/campaigns/delhi-university" items={campaignItems} width="w-56" />
+          <HoverDropdown label="Campaign" items={campaignItems} width="w-56" />
           <HoverDropdown label="Care" items={careItems} width="w-56" />
           <HoverDropdown label="Cure" items={cureItems} width="w-48" />
 
