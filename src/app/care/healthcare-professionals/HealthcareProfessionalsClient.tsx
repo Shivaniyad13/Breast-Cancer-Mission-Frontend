@@ -50,6 +50,9 @@ export default function HealthcareProfessionalsClient({
     null
   );
 
+  // Partner Detail Modal State
+  const [expandedPartner, setExpandedPartner] = useState<any | null>(null);
+
   // Modal Open States
   const [isArticleModalOpen, setIsArticleModalOpen] = useState(false);
   const [isResourceModalOpen, setIsResourceModalOpen] = useState(false);
@@ -687,17 +690,28 @@ export default function HealthcareProfessionalsClient({
                         "Leading institutional collaborator advancing clinical trials and oncology research."}
                     </p>
                   </div>
-                  {p.website && (
-                    <a
-                      href={p.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors pt-3 border-t border-white/10"
+
+                  <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                    <button
+                      onClick={() => setExpandedPartner(p)}
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-pink-400 hover:text-pink-300 transition-colors cursor-pointer"
                     >
-                      <span>Visit Portal</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  )}
+                      <span>Read More</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+
+                    {p.website && (
+                      <a
+                        href={p.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+                      >
+                        <span>Visit Portal</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -1282,6 +1296,26 @@ export default function HealthcareProfessionalsClient({
                   </div>
                 </div>
 
+                {/* Phone Number */}
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 98765 43210"
+                    value={partnerForm.phone}
+                    onChange={(e) =>
+                      setPartnerForm({
+                        ...partnerForm,
+                        phone: e.target.value,
+                      })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-pink-500 focus:outline-none"
+                  />
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1">
@@ -1470,6 +1504,92 @@ export default function HealthcareProfessionalsClient({
 
               <button
                 onClick={() => setSelectedArticleModal(null)}
+                className="px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-100 cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ---------------------------------------------------------------------- */}
+      {/* PARTNER DETAIL MODAL */}
+      {/* ---------------------------------------------------------------------- */}
+      {expandedPartner && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-lg relative my-8 border border-slate-200">
+            <button
+              onClick={() => setExpandedPartner(null)}
+              className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center shrink-0">
+                <Building2 className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
+                  {expandedPartner.name}
+                </h3>
+                <p className="text-xs text-pink-600 font-medium">
+                  {expandedPartner.institution || expandedPartner.researchArea}
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-4 mb-6">
+              <div>
+                <h4 className="text-xs font-bold text-slate-400 mb-1">
+                  Institution
+                </h4>
+                <p className="text-sm text-slate-700">
+                  {expandedPartner.institution || "Not specified"}
+                </p>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-bold text-slate-400 mb-1">
+                  Research Area
+                </h4>
+                <p className="text-sm text-slate-700">
+                  {expandedPartner.researchArea || "Not specified"}
+                </p>
+              </div>
+
+              <div>
+                <h4 className="text-xs font-bold text-slate-400 mb-1">
+                  About / Description
+                </h4>
+                <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line">
+                  {expandedPartner.description ||
+                    "Leading institutional collaborator advancing clinical trials and oncology research."}
+                </p>
+              </div>
+
+              {expandedPartner.website && (
+                <div>
+                  <h4 className="text-xs font-bold text-slate-400 mb-1">
+                    Website
+                  </h4>
+                  <a
+                    href={expandedPartner.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-pink-600 hover:text-pink-500 font-medium inline-flex items-center gap-1.5"
+                  >
+                    {expandedPartner.website}
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <div className="pt-4 border-t border-slate-100 flex justify-end">
+              <button
+                onClick={() => setExpandedPartner(null)}
                 className="px-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-semibold text-slate-700 hover:bg-slate-100 cursor-pointer"
               >
                 Close

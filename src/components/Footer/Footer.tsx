@@ -69,14 +69,18 @@ const socialLinks = [
     label: "Instagram",
   },
   // { icon: TwitterXIcon, href: "https://twitter.com", label: "Twitter" },
-  { icon: LinkedinIcon, href: "https://linkedin.com", label: "LinkedIn" },
+  {
+    icon: LinkedinIcon,
+    href: "https://www.linkedin.com/company/144126164",
+    label: "LinkedIn",
+  },
   // { icon: YoutubeIcon, href: "https://youtube.com", label: "YouTube" },
 ];
 
-const HEAD_OFFICE_ADDRESS = "40, Hanuman Lane, 1st Floor, Near Hanuman Mandir, Connaught Place, New Delhi – 110001";
+const HEAD_OFFICE_ADDRESS =
+  "T2 & S2/886, Sector 5, Kalinga Road, Vaishali, Ghaziabad, Uttar Pradesh - 201010";
 const MAP_EMBED_SRC =
-  "https://www.google.com/maps?q=40%2C%20Hanuman%20Lane%2C%201st%20Floor%2C%20Near%20Hanuman%20Mandir%2C%20Connaught%20Place%2C%20New%20Delhi%20–%20110001&output=embed";
-  
+  "https://www.google.com/maps?q=T2%20%26%20S2%2F886%2C%20Sector%205%2C%20Kalinga%20Road%2C%20Vaishali%2C%20Ghaziabad%2C%20Uttar%20Pradesh%20201010&output=embed";
 
 export default function Footer() {
   return (

@@ -83,8 +83,7 @@ export default function ContactPage() {
                   <div>
                     <p className="text-xs text-slate-500 mb-0.5">Head Office</p>
                     <p className="text-slate-900 font-semibold leading-relaxed">
-                      40, Hanuman Lane, 1st Floor, Near Hanuman
-                      Mandir Connaught Place, New Delhi--110001
+                      T2 & S2/886, sector 5, Kalinga Road, Vaishali Ghaziabad, Uttar Pradesh - 201010.
                     </p>
                   </div>
                 </div>

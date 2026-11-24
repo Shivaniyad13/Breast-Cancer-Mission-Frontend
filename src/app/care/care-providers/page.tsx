@@ -112,12 +112,12 @@ interface FAQItem {
 // ----------------------------------------------------------------------
 
 const GALLERY_ITEMS = [
-  { name: "Dr. G.K Rath", dept: "Medical Oncology", img: "/gkr.jpg" },
-  { name: "Dr. Anurag Srivastav", dept: "Medical Oncology", img: "/team8.jpg" },
+  { name: "Dr. G.K Rath", dept: "Medical Oncology", img: "/images/GK.png" },
+  { name: "Dr. Anurag Srivastav", dept: "Medical Oncology", img: "/images/Anurag Sir.jpg" },
+  { name: "Dr. Meena Mishra, M.D.", dept: "Radiation Oncology", img: "/images/Dr. Meena.jpeg" },
+  { name: "Dr. Nandani Bhojraj", dept: "Operations & HR", img: "/images/16.png" },
   { name: "Dr.Navneet Kaur", dept: "Genetics Lab", img: "/photo.jpg" },
   { name: "Dr. Rahul Bhardavaj", dept: "Patient Support", img: "/photo.jpg" },
-
-  { name: "Dr. Nandani Bhojraj", dept: "Operations & HR", img: "/photo.jpg" },
   { name: "Dr. U.P Sahi", dept: "Diagnostic Imaging", img: "/photo.jpg" },
   { name: "Dr. Ashok Ved", dept: "Public Advocacy", img: "/photo.jpg" },
   { name: "Dr. Ashok Sharma ", dept: "Community Outreach", img: "/photo.jpg" },
@@ -521,102 +521,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ==================== 2. WHY CHOICE MATTERS ==================== */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-pink-100/60 text-primary text-xs font-bold ">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              Why Choice Matters
-            </span>
-
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-slate-800 leading-tight tracking-tight">
-              Coordinated Care Improves Survival Outcomes
-            </h2>
-
-            <p className="text-slate-500 text-sm sm:text-base font-medium">
-              Breast cancer treatment is highly specialized. A coordinated, multidisciplinary medical team ensures custom chemotherapy, precise radiation, and surgical accuracy.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-2xl bg-gradient-to-br from-pink-500/5 to-rose-500/5 border border-pink-100/60 shadow-sm flex flex-col justify-between">
-                <div className="h-12 w-12 rounded-2xl bg-white border border-pink-100/60 flex items-center justify-center shadow-sm">
-                  <Activity className="h-6 w-6 text-pink-600" />
-                </div>
-                <div className="mt-8">
-                  <h4 className="text-4xl font-bold text-slate-800 tracking-tight">90%+</h4>
-                  <p className="text-xs font-bold text-pink-600 mt-1">Survival Rate</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">With early stage clinical diagnostics and local screenings.</p>
-                </div>
-              </motion.div>
-
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-2xl bg-gradient-to-br from-purple-500/5 to-indigo-500/5 border border-purple-100/60 shadow-sm flex flex-col justify-between">
-                <div className="h-12 w-12 rounded-2xl bg-white border border-purple-100/60 flex items-center justify-center shadow-sm">
-                  <Users2 className="h-6 w-6 text-purple-600" />
-                </div>
-                <div className="mt-8">
-                  <h4 className="text-4xl font-bold text-slate-800 tracking-tight">30%</h4>
-                  <p className="text-xs font-bold text-purple-600 mt-1">Better Outcome</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">Observed in patients treated under formal multidisciplinary tumor boards.</p>
-                </div>
-              </motion.div>
-
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-2xl bg-gradient-to-br from-blue-500/5 to-sky-500/5 border border-blue-100/60 shadow-sm flex flex-col justify-between">
-                <div className="h-12 w-12 rounded-2xl bg-white border border-blue-100/60 flex items-center justify-center shadow-sm">
-                  <HeartHandshake className="h-6 w-6 text-blue-600" />
-                </div>
-                <div className="mt-8">
-                  <h4 className="text-4xl font-bold text-slate-800 tracking-tight">24/7</h4>
-                  <p className="text-xs font-bold text-blue-600 mt-1">Patient Support</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">Continuous navigation mapping support from diagnosis to survivorship.</p>
-                </div>
-              </motion.div>
-
-              <motion.div whileHover={{ y: -5 }} className="p-6 rounded-2xl bg-gradient-to-br from-cyan-500/5 to-teal-500/5 border border-cyan-100/60 shadow-sm flex flex-col justify-between">
-                <div className="h-12 w-12 rounded-2xl bg-white border border-cyan-100/60 flex items-center justify-center shadow-sm">
-                  <ShieldAlert className="h-6 w-6 text-cyan-600" />
-                </div>
-                <div className="mt-8">
-                  <h4 className="text-4xl font-bold text-slate-800 tracking-tight">Zero</h4>
-                  <p className="text-xs font-bold text-cyan-600 mt-1">Stigma Care</p>
-                  <p className="text-slate-500 text-xs mt-2 leading-relaxed font-medium">Compassionate mental counseling focusing strictly on patient comfort.</p>
-                </div>
-              </motion.div>
-            </div>
-
-            <div className="lg:col-span-7 space-y-6">
-              <h3 className="font-heading text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">
-                A Unified Front Against Breast Cancer
-              </h3>
-              <p className="text-slate-600 leading-relaxed text-sm sm:text-base font-medium">
-                Fighting cancer requires more than just a single physician. It calls for an integrated alliance of medical, surgical, and supportive care providers. In modern breast oncology, the key to successful treatment lies in the custom synergy of these specialists.
-              </p>
-
-              <div className="space-y-4 pt-2">
-                {[
-                  { title: "Early Diagnosis and Accurate Staging", desc: "Mammography screening clinics and pathologists work together to recognize cancerous anomalies before they advance." },
-                  { title: "Subtle Surgical & Reconstructive Work", desc: "Breast surgeons remove cancer cell margins, while reconstructive surgeons restore alignment, physical form, and self-confidence." },
-                  { title: "Holistic Counseling and Rehabilitation", desc: "Mental health therapists and lymphedema physiotherapists help restore functional mobility and clear internal emotional strain." }
-                ].map((item, idx) => (
-                  <div key={idx} className="flex gap-4 p-4 rounded-2xl bg-slate-50/50 border border-slate-100">
-                    <div className="h-6 w-6 rounded-full bg-pink-100 flex items-center justify-center shrink-0 mt-0.5">
-                      <Check className="h-3.5 w-3.5 text-pink-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-slate-800 text-sm font-heading">{item.title}</h4>
-                      <p className="text-xs text-slate-500 mt-1 leading-relaxed font-medium">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ==================== 3. MULTIDISCIPLINARY CARE TEAM ==================== */}
+      {/* ==================== 2. MULTIDISCIPLINARY CARE TEAM ==================== */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
@@ -700,7 +605,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ==================== 4. MEET OUR EXPERT TEAM (GALLERY) ==================== */}
+      {/* ==================== 3. MEET OUR EXPERT TEAM (GALLERY) ==================== */}
       <section id="expert-team-gallery" className="py-12 md:py-16 bg-white border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
@@ -746,8 +651,9 @@ export default function CareProvidersPage() {
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 flex items-center justify-center">
-                        <div className="h-24 w-24 rounded-full bg-white/80 border-2 border-pink-200 flex items-center justify-center shadow-sm">
+                      /* ---- Placeholder: image na ho to pink gradient + profile symbol ---- */
+                      <div className="w-full h-full bg-gradient-to-br from-pink-50 via-rose-100 to-pink-200 flex items-center justify-center">
+                        <div className="h-24 w-24 rounded-full bg-white/70 border-2 border-pink-300 flex items-center justify-center shadow-sm">
                           <User className="h-12 w-12 text-pink-500" strokeWidth={1.8} />
                         </div>
                       </div>
@@ -795,7 +701,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ==================== 5. CARE SERVICES DIRECTORY ==================== */}
+      {/* ==================== 4. CARE SERVICES DIRECTORY ==================== */}
       <section id="care-services-directory" className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-t border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
@@ -971,7 +877,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ==================== 6. TREATMENT JOURNEY TIMELINE ==================== */}
+      {/* ==================== 5. TREATMENT JOURNEY TIMELINE ==================== */}
       <section className="py-12 md:py-16 bg-gradient-to-b from-slate-900 to-purple-950 text-white overflow-hidden relative">
         <div className="absolute top-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-black/10 rounded-full blur-3xl pointer-events-none" />
@@ -1073,7 +979,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ==================== 7. SUPPORT SERVICES ==================== */}
+      {/* ==================== 6. SUPPORT SERVICES ==================== */}
       <section id="support-services-section" className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
@@ -1123,7 +1029,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ==================== 8. DOCTOR ARTICLES & RESOURCES ==================== */}
+      {/* ==================== 7. DOCTOR ARTICLES & RESOURCES ==================== */}
       <section id="doctor-articles-section" className="py-12 md:py-16 bg-gradient-to-b from-white to-rose-50/30 border-y border-rose-100/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div className="text-center space-y-3 max-w-3xl mx-auto mb-10">
@@ -1250,7 +1156,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ==================== 9. FAQ ==================== */}
+      {/* ==================== 8. FAQ ==================== */}
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           <div className="text-center space-y-3 max-w-2xl mx-auto mb-10">
@@ -1311,7 +1217,7 @@ export default function CareProvidersPage() {
         </div>
       </section>
 
-      {/* ==================== 10. EMERGENCY & HELPLINE ==================== */}
+      {/* ==================== 9. EMERGENCY & HELPLINE ==================== */}
       <section id="emergency-helpline-section" className="py-10 md:py-14 bg-pink-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent)] pointer-events-none" />
         <div className="absolute bottom-[-10%] left-[5%] w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
@@ -1608,6 +1514,7 @@ export default function CareProvidersPage() {
                     Done
                   </Button>
                 </div>
+
               )}
             </motion.div>
           </div>
